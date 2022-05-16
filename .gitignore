@@ -1,0 +1,6 @@
+SLR_ReplayDB.VC.db
+*.pmv
+.vs/
+*.log
+*.png
+SLR_ReplayDB/Release/
