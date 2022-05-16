@@ -49,7 +49,8 @@ struct Action {
 	unsigned short Upgrade;
 	unsigned long CardFull;
 
-	unsigned long Player;
+	unsigned long ActionPlayer;
+	unsigned long long PlayerID;
 	unsigned char Charges;
 	
 
@@ -116,6 +117,8 @@ private:
 	bool ConnectActionToPlayer();
 	bool AddFirstOrb();
 	bool SetMinLeaveTime();
+	bool SetCharges();
+	bool FillPlayerIDInAction();
 	string get_file_name(string pfad);
 	string sTime(unsigned long ulTime);
 

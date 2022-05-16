@@ -25,6 +25,7 @@ protected:
 	bool NewMasterData();
 	string UploadHead();
 	bool DublettenCheck();
+	bool UploadActions(string iNewHeadID);
 	bool UploadPlayers(string iNewHeadID);
 
 private:

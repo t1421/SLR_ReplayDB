@@ -4,3 +4,7 @@ SLR_ReplayDB.VC.db
 *.log
 *.png
 SLR_ReplayDB/Release/
+Release/SLR_ReplayDB.iobj
+SLR_ReplayDB.VC.VC.opendb
+Release/SLR_ReplayDB.ipdb
+Release/SLR_ReplayDB.pdb

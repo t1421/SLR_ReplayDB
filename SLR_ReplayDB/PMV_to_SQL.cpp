@@ -56,6 +56,12 @@ bool PMV_to_SQL::UseThisPMV(Replay * inReplay)
 		return false;
 	}
 
+	if (!UploadActions(iNewHeadID))
+	{
+		MISEA("ERROR while Uploading Actions");
+		return false;
+	}
+
 
 	MISE;
 	return true;
@@ -197,6 +203,39 @@ bool PMV_to_SQL::DublettenCheck()
 	//PLAYER!!! Sicher ist sicher ?
 	
 	
+
+	MISE;
+	return true;
+}
+
+
+bool PMV_to_SQL::UploadActions(string iNewHeadID)
+{
+	MISS;
+
+	int findTeam;
+
+	for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
+	{
+		NN->ssSQL << "INSERT INTO action (";
+		NN->ssSQL << "  gameID , ";
+		NN->ssSQL << "  Time  , ";
+		NN->ssSQL << "  ActionTypeID , ";
+		NN->ssSQL << "  CardID , ";
+		NN->ssSQL << "  Charges , ";
+		NN->ssSQL << "  Upgrade , ";
+		NN->ssSQL << "  playerID) ";
+		NN->ssSQL << "VALUES(";
+		NN->ssSQL << iNewHeadID << " , ";
+		NN->ssSQL << RR->ActionMatrix[i]->Time << " , ";
+		NN->ssSQL << RR->ActionMatrix[i]->Type << " , ";
+		NN->ssSQL << RR->ActionMatrix[i]->Card << " , ";
+		NN->ssSQL << int(RR->ActionMatrix[i]->Charges) << " , ";
+		NN->ssSQL << RR->ActionMatrix[i]->Upgrade << " , ";
+		NN->ssSQL << RR->ActionMatrix[i]->PlayerID <<" ) ";
+		NN->send();
+	}
+
 
 	MISE;
 	return true;

@@ -62,6 +62,20 @@ bool Replay::LoadPMV(string sFile)
 		return false;
 	}
 
+	if (SetCharges() == false)
+	{
+		MISERROR("<-- SetCharges faild");
+		return false;
+	}
+
+	if (FillPlayerIDInAction() == false)
+	{
+		MISERROR("<-- FillPlayerIDInAction faild");
+		return false;
+	}
+
+	
+
 	OK = true;
 
 
@@ -266,7 +280,7 @@ bool Replay::ReadActions()
 				" ???");
 			break;
 		case 4002: //leave game		
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )
 			/*
@@ -294,7 +308,7 @@ bool Replay::ReadActions()
 			Action_TEMP->CardFull = readUnsignedLong();
 			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
 			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			/*Action_TEMP->Unknow8 =*/ readUnsignedChar();
 			/*Action_TEMP->Cardy =*/ readUnsignedShort();
 			/*Action_TEMP->Cardz =*/ readUnsignedShort();
@@ -304,7 +318,7 @@ bool Replay::ReadActions()
 			Action_TEMP->CardFull = readUnsignedLong();
 			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
 			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			/*Action_TEMP->Unknow8 =*/ readUnsignedChar();
 			/*Action_TEMP->Cardy =*/ readUnsignedShort();
 			/*Action_TEMP->Cardz =*/ readUnsignedShort();
@@ -316,12 +330,12 @@ bool Replay::ReadActions()
 			Action_TEMP->CardFull = readUnsignedLong();
 			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
 			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;			
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			/*Action_TEMP->Unknow8 =*/ readUnsignedChar();
 			/*Action_TEMP->Cardy =*/ readUnsignedShort();
 			/*Action_TEMP->Cardz =*/ readUnsignedShort();
 			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen
-
+			/*
 			MISERROR(sTime(Action_TEMP->Time) + "#" +
 				to_string(Action_TEMP->Type) + "#" +
 				to_string(PMVPosition) + " # " +
@@ -329,13 +343,13 @@ bool Replay::ReadActions()
 				to_string(Action_TEMP->Size) + " # " +
 				to_string(Action_TEMP->Card) + " # " +
 				to_string(Action_TEMP->Upgrade) + " # " +
-				to_string(Action_TEMP->Charges));
+				to_string(Action_TEMP->Charges)); */
 			break;
 		case 4012: //cast building
 			Action_TEMP->CardFull = readUnsignedLong();
 			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
 			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			/*Action_TEMP->Cardy =*/ readUnsignedShort();
 			/*Action_TEMP->Cardz =*/ readUnsignedShort();
 			/*Action_TEMP->X =*/ readUnsignedLong();
@@ -355,49 +369,49 @@ bool Replay::ReadActions()
 				*/
 			break;
 		case 4013: //move unit
-			Action_TEMP->Player = readUnsignedLong();			
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4014: //use unit ability
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4015: //attack			
-			Action_TEMP->Player = readUnsignedLong();			
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4019: //stop unit
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4020: //hold unit position
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4027: // PING (Meet / Help / ...)
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4028: //toggle wall gate
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4029: //build wall
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4030: //create mana
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4031: //create orb
 			// 1 = Shadow
 			// 2 = Green
 			// 3 = Frost
 			// 4 = Red
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			/*Action_TEMP->Unit =*/ readUnsignedLong();
 			Action_TEMP->Color = readUnsignedChar();			
 			break;
 		case 4033: //Unit move on Wall			
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4034: //Switch Abbility (Stone Tempest)
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4035: //Trigger Reparier
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4036: //???
 			//Action_TEMP->Player = readUnsignedLong();
@@ -409,10 +423,10 @@ bool Replay::ReadActions()
 				" ???");
 			break;
 		case 4041: //Killed own Unit
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4043: // go to Gold but not able to collect
-			Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		
 		default:
@@ -460,7 +474,7 @@ bool Replay::ConnectActionToPlayer()
 	MISS;
 	unsigned long minActionPlayer = 4294967295 - 1;
 
-	for (unsigned int i = 0; i < ActionMatrix.size(); i++)if (ActionMatrix[i]->Player != 0 && ActionMatrix[i]->Player < minActionPlayer)minActionPlayer = ActionMatrix[i]->Player;
+	for (unsigned int i = 0; i < ActionMatrix.size(); i++)if (ActionMatrix[i]->ActionPlayer != 0 && ActionMatrix[i]->ActionPlayer < minActionPlayer)minActionPlayer = ActionMatrix[i]->ActionPlayer;
 
 	MISD("minActionPlayer:" + to_string(minActionPlayer));
 	if (minActionPlayer == 4294967295 - 1) 
@@ -471,6 +485,21 @@ bool Replay::ConnectActionToPlayer()
 
 	for (unsigned int i = 0; i < PlayerMatrix.size(); i++)PlayerMatrix[i]->ActionPlayer = minActionPlayer + i;	
 
+	MISE;
+	return true;
+}
+
+bool Replay::FillPlayerIDInAction()
+{
+	MISS;
+	for (unsigned int i = 0; i < PlayerMatrix.size(); i++)
+	{
+		for (unsigned int j = 0; j < ActionMatrix.size(); j++)
+			if (ActionMatrix[j]->ActionPlayer == PlayerMatrix[i]->ActionPlayer)
+			{
+				ActionMatrix[j]->PlayerID = PlayerMatrix[i]->PlayerID;
+			}
+	}
 	MISE;
 	return true;
 }
@@ -486,7 +515,7 @@ bool Replay::AddFirstOrb()
 	{
 		for ( iPosOfUnit = 0; iPosOfUnit < ActionMatrix.size(); iPosOfUnit++)
 		{
-			if (PlayerMatrix[i]->ActionPlayer == ActionMatrix[iPosOfUnit]->Player &&
+			if (PlayerMatrix[i]->ActionPlayer == ActionMatrix[iPosOfUnit]->ActionPlayer &&
 				(ActionMatrix[iPosOfUnit]->Type == 4012 //Building
 					|| ActionMatrix[iPosOfUnit]->Type == 4011 //Spell 2
 					|| ActionMatrix[iPosOfUnit]->Type == 4010 //Spell 1
@@ -503,7 +532,7 @@ bool Replay::AddFirstOrb()
 		Action_TEMP->Time = ActionMatrix[iPosOfUnit]->Time;
 		Action_TEMP->Size = 13;
 		Action_TEMP->Type = 4031;
-		Action_TEMP->Player = ActionMatrix[iPosOfUnit]->Player;
+		Action_TEMP->ActionPlayer = ActionMatrix[iPosOfUnit]->ActionPlayer;
 		Action_TEMP->Color = Bro->C_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card);
 		//MISD(sTime(Action_TEMP->Time) + "#" + to_string(Action_TEMP->Type) + " Player:" + to_string(Action_TEMP->Player) + " Color:" + to_string(Action_TEMP->Color));
 		ActionMatrix.insert(ActionMatrix.begin() + iPosOfUnit, Action_TEMP);				
@@ -523,6 +552,36 @@ bool Replay::SetMinLeaveTime()
 	MISE;
 	return true;
 }
+
+
+bool Replay::SetCharges()
+{
+	MISS;
+
+	for (unsigned iActionMain = 0; iActionMain < ActionMatrix.size(); iActionMain++)
+	{
+		if ( (     ActionMatrix[iActionMain]->Type == 4012 //Building
+			    || ActionMatrix[iActionMain]->Type == 4011 //Spell 2
+				|| ActionMatrix[iActionMain]->Type == 4010 //Spell 1
+				|| ActionMatrix[iActionMain]->Type == 4009 //Unit
+			  ) && ActionMatrix[iActionMain]->Charges == 255)
+		{
+			for (unsigned iActionSub = 0; iActionSub < iActionMain; iActionSub++)
+			{
+				if (ActionMatrix[iActionMain]->Card == ActionMatrix[iActionSub]->Card
+					&& ActionMatrix[iActionMain]->ActionPlayer == ActionMatrix[iActionSub]->ActionPlayer)
+				{
+					ActionMatrix[iActionMain]->Charges = ActionMatrix[iActionSub]->Charges;
+					break;
+				}
+			}
+		}		
+	}
+
+	MISE;
+	return true;
+}
+
 
 void Replay::ECHO()
 {
