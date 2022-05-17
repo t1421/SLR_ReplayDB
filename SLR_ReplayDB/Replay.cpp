@@ -111,7 +111,7 @@ bool Replay::ReadHeader()
 	MapID = readUnsignedLong(); // PVR = 101 / Titans = 29 /// MAPID
 	DifficultyID = readUnsignedChar(); // Std=1,Adv=2,Exp=3,PVR1=5 ...
 	PlayModeID = readUnsignedShort(); // PvE = 1 / PvP = 2
-	HostID = readUsignedLongLong();
+	PMVPlayerID = readUsignedLongLong();
 	GroupCount = readUnsignedChar();
 
 	MISD("Matrix");
@@ -176,12 +176,12 @@ bool Replay::ReadHeader()
 	MISD("PlayMode:   " + to_string(PlayModeKEY));
 	*/
 	
-	/*
+	
 	MISD("ActionBlock:" + to_string(ActionBlock));
 	
-	MISD("HostID:     " + to_string(HostID));
+	MISD("PMVFromPlay:" + to_string(PMVPlayerID));
 	MISD("GroupCount: " + to_string(GroupCount));
-
+	/*
 	MISD("MatrixCount:" + to_string(MatrixCount));
 	for (unsigned int i = 0; i < MatrixCount; i++)
 	{
@@ -191,6 +191,7 @@ bool Replay::ReadHeader()
 			+ to_string(AlliedMatrix[i]->v));
 	}
 		*/
+
 	MISD("###");
 	MISD("TeamCount:" + to_string(TeamCount));
 	for (unsigned int i = 0; i < TeamCount; i++)
@@ -214,7 +215,7 @@ bool Replay::ReadHeader()
 			+ to_string(PlayerMatrix[i]->Type) + "#"
 			+ to_string(PlayerMatrix[i]->Cards) + "#"
 			+ to_string(PlayerMatrix[i]->CardsTotal));
-		/*
+	
 		for (unsigned int j = 0; j < PlayerMatrix[i]->Deck.size(); j++)
 		{
 			MISD(to_string(i) + "#"
@@ -224,7 +225,7 @@ bool Replay::ReadHeader()
 				+ to_string(PlayerMatrix[i]->Deck[j]->Upgrade) + "#"
 				+ to_string(PlayerMatrix[i]->Deck[j]->Charges));
 		}
-		*/
+		
 	}
 	
 	/*
@@ -262,12 +263,19 @@ bool Replay::ReadActions()
 		Action_TEMP = new Action;
 		Action_TEMP->Time = readUnsignedLong();
 		Action_TEMP->Size = readUnsignedLong();
+		
 		SollPos = PMVPosition + Action_TEMP->Size;
 
-		Action_TEMP->Type = readUnsignedLong();
-		
-		//MISD(to_string(Action_TEMP->Time) + " +++");
-
+		Action_TEMP->Type = readUnsignedLong();		
+		/*
+		Action_TEMP->Card = 0;
+		Action_TEMP->Upgrade = 0;
+		Action_TEMP->CardFull = 0;
+		Action_TEMP->ActionPlayer = 0;
+		Action_TEMP->PlayerID = 0;
+		Action_TEMP->Charges = 0;
+		Action_TEMP->Charges = 0;
+		*/
 		switch(Action_TEMP->Type)
 		{
 		case 4001: //REALLY_UNKNOWN_A1						

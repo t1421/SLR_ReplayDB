@@ -56,6 +56,9 @@ struct Action {
 
 	unsigned char Color;
 
+	Action():Time(0), Size(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), Color(0)
+	{}
+
 	//unsigned long Unit;
 	//unsigned short UnitCount;
 
@@ -101,7 +104,7 @@ public:
 	unsigned short PlayModeID; // PvE = 1 / PvP = 2		
 	unsigned short MatrixCount;
 	unsigned short TeamCount;
-	unsigned long long HostID;
+	unsigned long long PMVPlayerID;
 	unsigned long MinLeaveGame;
 	vector<Allied*> AlliedMatrix;
 	vector<Team*> TeamMatrix;

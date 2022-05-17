@@ -26,6 +26,8 @@ bool PMV_to_SQL::UseThisPMV(Replay * inReplay)
 {
 	MISS;
 	
+	string HeadID = "";
+
 	RR = inReplay;
 	if (!RR->OK) 
 	{
@@ -33,33 +35,47 @@ bool PMV_to_SQL::UseThisPMV(Replay * inReplay)
 		return false;
 	}
 
-	if(!DublettenCheck())
+	HeadID = DublettenCheck();
+	if (HeadID != "0")
 	{
 		MISEA("Dublette");
+		if (UploadPMVPlayerDeck(HeadID))
+		{
+			MISEA("NEW Deck added");
+		}
 		return false;
 	}
+
+
+
+
 
 	if(NewMasterData())
 		MISD("New Master Stuff");
 
-	string iNewHeadID = UploadHead();
+	HeadID = UploadHead();
 
-	if (iNewHeadID == "0") 
+	if (HeadID == "0")
 	{
 		MISEA("ERROR while Uploading Head");
 		return false;
 	}
 
-	if (!UploadPlayers(iNewHeadID))
+	if (!UploadPlayers(HeadID))
 	{
 		MISEA("ERROR while Uploading Players");
 		return false;
 	}
 
-	if (!UploadActions(iNewHeadID))
+	if (!UploadActions(HeadID))
 	{
 		MISEA("ERROR while Uploading Actions");
 		return false;
+	}
+
+	if (UploadPMVPlayerDeck(HeadID))
+	{
+		MISEA("NEW Deck added");
 	}
 
 
@@ -132,7 +148,7 @@ string PMV_to_SQL::UploadHead()
 	NN->ssSQL << "                  Seed, ";
 	NN->ssSQL << "                  mapID, ";
 	NN->ssSQL << "                  playmodeID, ";
-	NN->ssSQL << "                  HostPlayerID, ";
+	//NN->ssSQL << "                  PMVPlayerID, ";
 	NN->ssSQL << "                  MinLeaveGame, ";
 	NN->ssSQL << "                  FileName) ";
 	NN->ssSQL << "VALUES(" << int(RR->DifficultyID) << ", ";
@@ -142,7 +158,7 @@ string PMV_to_SQL::UploadHead()
 	NN->ssSQL << RR->Seed << ", ";
 	NN->ssSQL << RR->MapID << ", ";
 	NN->ssSQL << RR->PlayModeID << ", ";
-	NN->ssSQL << RR->HostID << ", ";
+	//NN->ssSQL << RR->PMVPlayerID << ", ";
 	NN->ssSQL << RR->MinLeaveGame << ", ";
 	NN->ssSQL << "'" << RR->FileName << "')";
 	NN->send();	
@@ -184,7 +200,7 @@ bool PMV_to_SQL::UploadPlayers(string iNewHeadID)
 }
 
 
-bool PMV_to_SQL::DublettenCheck()
+string PMV_to_SQL::DublettenCheck()
 {
 	MISS;
 	
@@ -196,16 +212,20 @@ bool PMV_to_SQL::DublettenCheck()
 	NN->ssSQL << "  AND Seed =         " << RR->Seed;
 	NN->ssSQL << "  AND mapID =        " << RR->MapID;
 	NN->ssSQL << "  AND playmodeID =   " << RR->PlayModeID;
-	NN->ssSQL << "  AND HostPlayerID = " << RR->HostID;
+	//NN->ssSQL << "  AND PMVPlayerID =  " << RR->PMVPlayerID;
 	NN->ssSQL << "  AND playmodeID   = " << RR->PlayModeID;
 	NN->ssSQL << "  AND MinLeaveGame = " << RR->MinLeaveGame;
-	if (NN->send() > 0)return false;
+	if (NN->send() > 0)
+	{
+		MISEA("Already Here");
+		return NN->res->getString(1);
+	}
 	//PLAYER!!! Sicher ist sicher ?
 	
 	
 
-	MISE;
-	return true;
+	MISEA("NEW");
+	return "0";
 }
 
 
@@ -233,6 +253,44 @@ bool PMV_to_SQL::UploadActions(string iNewHeadID)
 		NN->ssSQL << int(RR->ActionMatrix[i]->Charges) << " , ";
 		NN->ssSQL << RR->ActionMatrix[i]->Upgrade << " , ";
 		NN->ssSQL << RR->ActionMatrix[i]->PlayerID <<" ) ";
+		NN->send();
+	}
+
+
+	MISE;
+	return true;
+}
+
+bool PMV_to_SQL::UploadPMVPlayerDeck(string iNewHeadID)
+{
+	MISS;
+
+	NN->ssSQL << "SELECT gameID ";
+	NN->ssSQL << "  FROM pmvdeck ";
+	NN->ssSQL << " WHERE gameID = " << iNewHeadID;
+	NN->ssSQL << "   AND playerID = " << RR->PMVPlayerID;
+
+	if (NN->send() > 0)
+	{
+		MISEA("Deck already in DB");
+		return false;
+	}
+
+	//Bei allen Spielern steht das gleiche Deck drinnen und zwar von dem der das PMV aufnimt
+	for (unsigned int i = 0; i < RR->PlayerMatrix[0]->Deck.size(); i++)
+	{
+		NN->ssSQL << "INSERT INTO pmvdeck (";
+		NN->ssSQL << "  gameID , ";
+		NN->ssSQL << "  CardID , ";
+		NN->ssSQL << "  Charges , ";
+		NN->ssSQL << "  Upgrade , ";
+		NN->ssSQL << "  playerID) ";
+		NN->ssSQL << "VALUES(";
+		NN->ssSQL << iNewHeadID << " , ";		
+		NN->ssSQL << RR->PlayerMatrix[0]->Deck[i]->CardID << " , ";
+		NN->ssSQL << int(RR->PlayerMatrix[0]->Deck[i]->Charges) << " , ";
+		NN->ssSQL << RR->PlayerMatrix[0]->Deck[i]->Upgrade << " , ";
+		NN->ssSQL << RR->PMVPlayerID << " ) ";
 		NN->send();
 	}
 

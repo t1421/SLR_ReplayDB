@@ -96,13 +96,13 @@ bool CardBase::WEBtoSQL(bool bUpdate)
 	for (Json::ArrayIndex i = 0; i < AllCards.size(); i++)
 	{		
 		Card = AllCards[i];
-		Bro->N->ssSQL << "SELECT cardId FROM cards WHERE cardId = " << Card["cardId"].asInt();
+		Bro->N->ssSQL << "SELECT ID FROM cards WHERE ID = " << Card["cardId"].asInt();
 
 		// Nicht vorhanden also Anlegen
 		if (Bro->N->send() <= 0)
 		{
 			MISD("New Card:" + Card["cardId"].asString() + "#" + Card["cardName"].asString());
-			Bro->N->ssSQL << "INSERT INTO cards (	cardId ) VALUES('" << Card["cardId"].asInt() << "')";
+			Bro->N->ssSQL << "INSERT INTO cards (	ID ) VALUES('" << Card["cardId"].asInt() << "')";
 			Bro->N->send();
 			bNewCard = true;
 		}
@@ -128,7 +128,7 @@ bool CardBase::WEBtoSQL(bool bUpdate)
 			Bro->N->ssSQL << " shadowOrbs = " << Card["shadowOrbs"].asInt() << ", ";
 			Bro->N->ssSQL << " neutralOrbs = " << Card["neutralOrbs"].asInt() << " ";
 
-			Bro->N->ssSQL << " WHERE cardId = " << Card["cardId"].asInt();
+			Bro->N->ssSQL << " WHERE ID = " << Card["cardId"].asInt();
 
 			Bro->N->send();
 		}
@@ -286,8 +286,8 @@ bool CardBase::Imager(int iCardID)
 	string sCardName;
 	string sPath;
 
-	Bro->N->ssSQL << "SELECT CardName, cardId, promo FROM cards ";
-	if(iCardID!=0)Bro->N->ssSQL << " WHERE cardId = " << iCardID;
+	Bro->N->ssSQL << "SELECT CardName, ID, promo FROM cards ";
+	if(iCardID!=0)Bro->N->ssSQL << " WHERE ID = " << iCardID;
 	
 	if (Bro->N->send() <= 0)
 	{
@@ -319,7 +319,7 @@ bool CardBase::LoadCardsFromSQL()
 		return true;
 	}
 
-	Bro->N->ssSQL << "SELECT cardId, fireOrbs, frostOrbs, natureOrbs, shadowOrbs, neutralOrbs FROM cards ";
+	Bro->N->ssSQL << "SELECT ID, fireOrbs, frostOrbs, natureOrbs, shadowOrbs, neutralOrbs FROM cards ";
 	if (Bro->N->send() <= 0)
 	{
 		MISEA("V2 No Cards in DB?");

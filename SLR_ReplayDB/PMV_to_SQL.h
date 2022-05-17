@@ -24,9 +24,10 @@ public:
 protected:
 	bool NewMasterData();
 	string UploadHead();
-	bool DublettenCheck();
+	string DublettenCheck();
 	bool UploadActions(string iNewHeadID);
 	bool UploadPlayers(string iNewHeadID);
+	bool UploadPMVPlayerDeck(string iNewHeadID);
 
 private:
 	SQL_MIS_New * NN;
