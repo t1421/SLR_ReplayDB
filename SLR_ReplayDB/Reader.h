@@ -29,7 +29,7 @@ public:
 	unsigned int PMVPosition;
 	size_t length;
 protected:
-
+	string sAddDoubleBackslash(string changeString);
 
 private:
 	UnsignedLongLongUnion ULLU;

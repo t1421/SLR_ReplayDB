@@ -11,7 +11,7 @@ broker *(PMV_to_SQL::Bro) = NULL;
 PMV_to_SQL::PMV_to_SQL()
 {
 	MISS;
-	NN = new SQL_MIS_New("PMV_to_SQL");
+
 	MISE;
 }
 
@@ -36,13 +36,15 @@ bool PMV_to_SQL::UseThisPMV(Replay * inReplay)
 	}
 
 	HeadID = DublettenCheck();
+	MISD("X" + HeadID + "X");
 	if (HeadID != "0")
 	{
-		MISEA("Dublette");
+		MISD("Dublette");
 		if (UploadPMVPlayerDeck(HeadID))
 		{
-			MISEA("NEW Deck added");
+			MISD("NEW Deck added");
 		}
+		MISEA("V1")
 		return false;
 	}
 
@@ -217,6 +219,7 @@ string PMV_to_SQL::DublettenCheck()
 	NN->ssSQL << "  AND MinLeaveGame = " << RR->MinLeaveGame;
 	if (NN->send() > 0)
 	{
+		//Bro->N->res->next();
 		MISEA("Already Here");
 		return NN->res->getString(1);
 	}
@@ -297,4 +300,12 @@ bool PMV_to_SQL::UploadPMVPlayerDeck(string iNewHeadID)
 
 	MISE;
 	return true;
+}
+
+
+void PMV_to_SQL::UseThisSQL(SQL_MIS_New * inSQL)
+{
+	MISS;
+	NN = inSQL;
+	MISE;
 }

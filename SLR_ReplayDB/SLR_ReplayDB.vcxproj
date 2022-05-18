@@ -155,6 +155,8 @@
     <ClInclude Include="Broker.h" />
     <ClInclude Include="CardBase.h" />
     <ClInclude Include="DEBUG.h" />
+    <ClInclude Include="LOAD.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="PMV_to_SQL.h" />
     <ClInclude Include="prototypes.h" />
     <ClInclude Include="Reader.h" />
@@ -162,17 +164,21 @@
     <ClInclude Include="SQL_MIS_New.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
+    <ClInclude Include="Thread_MIS.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Broker.cpp" />
     <ClCompile Include="CardBase.cpp" />
     <ClCompile Include="DEBUG.cpp" />
+    <ClCompile Include="LOAD.cpp" />
+    <ClCompile Include="Manager.cpp" />
     <ClCompile Include="PMV_to_SQL.cpp" />
     <ClCompile Include="Reader.cpp" />
     <ClCompile Include="Replay.cpp" />
     <ClCompile Include="SLR_ReplayDB.cpp" />
     <ClCompile Include="SQL_MIS_New.cpp" />
     <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="Thread_MIS.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

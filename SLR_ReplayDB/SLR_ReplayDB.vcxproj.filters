@@ -48,6 +48,15 @@
     <ClInclude Include="PMV_to_SQL.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="Thread_MIS.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="LOAD.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="Manager.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -75,6 +84,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="PMV_to_SQL.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Thread_MIS.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="LOAD.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="Manager.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

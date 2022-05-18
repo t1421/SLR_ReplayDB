@@ -25,7 +25,7 @@ bool Replay::LoadPMV(string sFile)
 {
 	MISS;
 
-	if (!Open(PMV_path + sFile))
+	if (!Open(sFile))
 	{
 		MISERROR("<-- error opening PMV");
 		return false;

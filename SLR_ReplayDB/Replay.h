@@ -87,7 +87,7 @@ public:
 
 	//BROKER
 	static broker* Bro;
-	void teachR() { Bro->R = this; }
+	//void teachR() { Bro->R = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 

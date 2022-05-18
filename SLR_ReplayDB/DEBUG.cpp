@@ -33,6 +33,11 @@ DEBUG::DEBUG(string sLogName)
 		
 		Fill_DBArray("PMV_to_SQL", "*", "*", "true");
 
+		Fill_DBArray("LOAD", "INI_Value_Check", "*", "false");
+		Fill_DBArray("LOAD", "*", "*", "true");
+		Fill_DBArray("Thread_MIS", "*", "*", "true");
+		Fill_DBArray("Manager", "*", "*", "true");
+
 		Fill_DBArray("SQL_MIS_New", "*", "*", "true");
 		Fill_DBArray("SQL_MIS_New", "send", "*", "false");
 		Fill_DBArray("SQL_MIS_New", "clearString", "*", "false");

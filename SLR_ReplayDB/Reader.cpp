@@ -94,10 +94,12 @@ bool Reader::Open(string sFile)
 {
 	MISS;
 
+	sFile = sAddDoubleBackslash(sFile);
+
 	PMVFile.open(sFile,ios_base::binary);
 	if (!PMVFile) 
 	{
-		MISEA("V1")
+		MISEA("V1 " + sFile)
 		return false;
 	}
 
@@ -122,4 +124,16 @@ bool Reader::Open(string sFile)
 	return true;
 
 	MISE;
+}
+
+string Reader::sAddDoubleBackslash(string changeString)
+{
+	MISS;
+	for (unsigned int start_pos = 0; start_pos <= changeString.length(); start_pos++)if (changeString[start_pos] == char(92))
+	{
+		changeString.insert(start_pos, "\\");
+		start_pos++;
+	}
+	MISE;
+	return changeString;
 }

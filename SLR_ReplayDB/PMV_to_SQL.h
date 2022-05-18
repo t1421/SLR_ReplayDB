@@ -10,6 +10,7 @@ public:
 	~PMV_to_SQL();
 
 	bool UseThisPMV(Replay * inReplay);
+	void UseThisSQL(SQL_MIS_New * inSQL);
 	
 
 	//Decks??? mit charges und Upgrads aus Acrion

@@ -9,18 +9,28 @@ broker *(SQL_MIS_New::Bro) = NULL;
 SQL_MIS_New::SQL_MIS_New(string _Name) :sName(_Name)
 {
 	MISD("--> " + _Name);
-
+	
 	ConnectOptionsMap connection_properties;
-	connection_properties["hostName"] = sql::SQLString(SQL_Server);
-	connection_properties["userName"] = sql::SQLString(SQL_User);
-	connection_properties["password"] = sql::SQLString(SQL_PW);
+	connection_properties["hostName"] = sql::SQLString(Bro->L_getSQL_Server());
+	connection_properties["userName"] = sql::SQLString(Bro->L_getSQL_User());
+	connection_properties["password"] = sql::SQLString(Bro->L_getSQL_PW());
 	connection_properties["CLIENT_MULTI_STATEMENTS"] = (true);
 
-	driver = get_driver_instance();	
-	con = driver->connect(connection_properties);		
+	try
+	{
+		driver = get_driver_instance();
+		con = driver->connect(connection_properties);
 
-	con->setSchema(SQL_DB);
-
+		con->setSchema(Bro->L_getSQL_DB());
+	}
+	catch (sql::SQLException &e)
+	{
+		Bro->B->StatusE("E", "0SQL_ERROR: ", sName);
+		Bro->B->StatusE("E", "1SQL_ERROR: ", e.what());
+		Bro->B->StatusE("E", "2SQL_ERROR: ", to_string(e.getErrorCode()));
+		Bro->B->StatusE("E", "3SQL_ERROR: ", e.getSQLState());
+		Bro->B->StatusE("E", "4SQL_ERROR: ", "While connecting");
+	}
 	MISE;
 }
 
