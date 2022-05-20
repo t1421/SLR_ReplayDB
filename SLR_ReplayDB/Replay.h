@@ -53,7 +53,6 @@ struct Action {
 	unsigned long long PlayerID;
 	unsigned char Charges;
 	
-
 	unsigned char Color;
 
 	Action():Time(0), Size(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), Color(0)
@@ -83,7 +82,11 @@ public:
 	bool OK;	
 
 	bool LoadPMV(string sFile);
-	void ECHO();	
+	void EchoHead();
+	void EchoAllied();
+	void EchoTeam();
+	void EchoPlayer();
+	void EchoPlayerDecks();
 
 	//BROKER
 	static broker* Bro;

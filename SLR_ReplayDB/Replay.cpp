@@ -30,7 +30,7 @@ bool Replay::LoadPMV(string sFile)
 		MISERROR("<-- error opening PMV");
 		return false;
 	}
-	FileName = sFile;
+	FileName = get_file_name(sFile);
 
 	if (ReadHeader() == false)
 	{
@@ -104,7 +104,7 @@ bool Replay::ReadHeader()
 		return false;
 	}
 
-	MISD("Vars");
+	//MISD("Vars");
 	ActionBlock = readUnsignedLong() + PMVPosition;
 	Unknow3 = readUnsignedChar();
 	Unknow4 = readUnsignedChar();
@@ -114,7 +114,7 @@ bool Replay::ReadHeader()
 	PMVPlayerID = readUsignedLongLong();
 	GroupCount = readUnsignedChar();
 
-	MISD("Matrix");
+	//MISD("Matrix");
 	MatrixCount = readUnsignedShort();	
 	for (int i = 0; i < MatrixCount; i++)
 	{		
@@ -125,7 +125,7 @@ bool Replay::ReadHeader()
 		AlliedMatrix.push_back(Allied_TEMP);
 	}
 
-	MISD("Team");
+	//MISD("Team");
 	TeamCount = readUnsignedShort();
 	for (int i = 0; i < TeamCount; i++)
 	{
@@ -136,7 +136,7 @@ bool Replay::ReadHeader()
 		TeamMatrix.push_back(Team_TEMP);
 	}
 	
-	MISD("Player");
+	//MISD("Player");
 	while (PMVPosition < ActionBlock)
 	{
 		Player_TEMP = new Player;
@@ -166,8 +166,8 @@ bool Replay::ReadHeader()
 	//MISD("FileVersion:" + to_string(FileVersion));
 	//MISD("GameVersion:" + to_string(GameVersion));
 	//MISD("Playtime:   " + to_string(Playtime));
-	MISD("Unknow3:    " + to_string(Unknow3));
-	MISD("Unknow4:    " + to_string(Unknow4));
+	//MISD("Unknow3:    " + to_string(Unknow3));
+	//MISD("Unknow4:    " + to_string(Unknow4));
 	/*
 	MISD("MapName:    " + MapName);
 	MISD("Seed:       " + to_string(Seed));
@@ -177,10 +177,10 @@ bool Replay::ReadHeader()
 	*/
 	
 	
-	MISD("ActionBlock:" + to_string(ActionBlock));
+	//MISD("ActionBlock:" + to_string(ActionBlock));
 	
-	MISD("PMVFromPlay:" + to_string(PMVPlayerID));
-	MISD("GroupCount: " + to_string(GroupCount));
+	//MISD("PMVFromPlay:" + to_string(PMVPlayerID));
+	//MISD("GroupCount: " + to_string(GroupCount));
 	/*
 	MISD("MatrixCount:" + to_string(MatrixCount));
 	for (unsigned int i = 0; i < MatrixCount; i++)
@@ -191,7 +191,7 @@ bool Replay::ReadHeader()
 			+ to_string(AlliedMatrix[i]->v));
 	}
 		*/
-
+	/*
 	MISD("###");
 	MISD("TeamCount:" + to_string(TeamCount));
 	for (unsigned int i = 0; i < TeamCount; i++)
@@ -201,9 +201,9 @@ bool Replay::ReadHeader()
 			+ to_string(TeamMatrix[i]->GroupID) + "#" 
 			+ to_string(TeamMatrix[i]->Value));
 	}
-	
+	*/
 
-	
+	/*
 	MISD("###");
 	for (unsigned int i = 0; i < PlayerMatrix.size() ; i++)
 	{
@@ -227,7 +227,7 @@ bool Replay::ReadHeader()
 		}
 		
 	}
-	
+	*/
 	/*
 	MISD("ActionBlock:" + to_string(ActionBlock));
 	MISD("NOW        :" + to_string(PMVPosition));
@@ -251,6 +251,7 @@ bool Replay::ReadActions()
 
 	Action * Action_TEMP;
 	unsigned long SollPos = 0;
+	unsigned short tempUnitCount;
 
 	if (ActionBlock== 0)
 	{
@@ -262,20 +263,10 @@ bool Replay::ReadActions()
 	{
 		Action_TEMP = new Action;
 		Action_TEMP->Time = readUnsignedLong();
-		Action_TEMP->Size = readUnsignedLong();
-		
+		Action_TEMP->Size = readUnsignedLong();		
 		SollPos = PMVPosition + Action_TEMP->Size;
-
 		Action_TEMP->Type = readUnsignedLong();		
-		/*
-		Action_TEMP->Card = 0;
-		Action_TEMP->Upgrade = 0;
-		Action_TEMP->CardFull = 0;
-		Action_TEMP->ActionPlayer = 0;
-		Action_TEMP->PlayerID = 0;
-		Action_TEMP->Charges = 0;
-		Action_TEMP->Charges = 0;
-		*/
+
 		switch(Action_TEMP->Type)
 		{
 		case 4001: //REALLY_UNKNOWN_A1						
@@ -290,15 +281,13 @@ bool Replay::ReadActions()
 		case 4002: //leave game		
 			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
-		case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )
-			/*
+		case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )			
 			MISERROR(FileName);
 			MISERROR(sTime(Action_TEMP->Time) + "#" +
 				to_string(Action_TEMP->Type) + "#" +
 				to_string(PMVPosition) + " # " +
 				to_string(Action_TEMP->Size) +
-				" ???");
-			*/
+				" ???");			
 			break;
 		case 4006: //GOLD	
 			break;
@@ -330,9 +319,7 @@ bool Replay::ReadActions()
 			/*Action_TEMP->Unknow8 =*/ readUnsignedChar();
 			/*Action_TEMP->Cardy =*/ readUnsignedShort();
 			/*Action_TEMP->Cardz =*/ readUnsignedShort();
-			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen
-			
-
+			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen			
 			break;
 		case 4011: //cast line spell
 			Action_TEMP->CardFull = readUnsignedLong();
@@ -343,15 +330,6 @@ bool Replay::ReadActions()
 			/*Action_TEMP->Cardy =*/ readUnsignedShort();
 			/*Action_TEMP->Cardz =*/ readUnsignedShort();
 			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen
-			/*
-			MISERROR(sTime(Action_TEMP->Time) + "#" +
-				to_string(Action_TEMP->Type) + "#" +
-				to_string(PMVPosition) + " # " +
-				to_string(Action_TEMP->CardFull) + " # " +
-				to_string(Action_TEMP->Size) + " # " +
-				to_string(Action_TEMP->Card) + " # " +
-				to_string(Action_TEMP->Upgrade) + " # " +
-				to_string(Action_TEMP->Charges)); */
 			break;
 		case 4012: //cast building
 			Action_TEMP->CardFull = readUnsignedLong();
@@ -366,15 +344,6 @@ bool Replay::ReadActions()
 			/*Action_TEMP->Cardz =*/ readUnsignedShort();
 			/*Action_TEMP->CardA =*/ readUnsignedShort();
 			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen	
-			/*
-			MISERROR(sTime(Action_TEMP->Time) + "#" +
-				to_string(Action_TEMP->Type) + "#" +
-				to_string(PMVPosition) + " # " +
-				to_string(Action_TEMP->Size) + " # " +
-				to_string(Action_TEMP->Card) + " # " +
-				to_string(Action_TEMP->Upgrade) + " # " +
-				to_string(Action_TEMP->Charges) );
-				*/
 			break;
 		case 4013: //move unit
 			Action_TEMP->ActionPlayer = readUnsignedLong();
@@ -421,19 +390,28 @@ bool Replay::ReadActions()
 		case 4035: //Trigger Reparier
 			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
-		case 4036: //???
-			//Action_TEMP->Player = readUnsignedLong();
-			MISERROR(FileName);
-			MISERROR(sTime(Action_TEMP->Time) + "#" +
-				to_string(Action_TEMP->Type) + "#" +
-				to_string(PMVPosition) + " # " +
-				to_string(Action_TEMP->Size) +
-				" ???");
+		case 4036: //Move unit in decomposer // TESTEN ander key wenn man die abbiliti nutzt?
+			tempUnitCount = readUnsignedShort();
+			for (unsigned int i = 0; i < tempUnitCount; i++) readUnsignedLong(); // Units
+			readUnsignedLong(); // Decomposer
+			Action_TEMP->ActionPlayer = readUnsignedLong();			
+			break;
+		case 4037: //Place Nexus Exit (oder generell Bulding?) // TESTEN T4 Schatten
+			Action_TEMP->ActionPlayer = readUnsignedLong();
+			break;
+		case 4038: //Go in Nexus
+			Action_TEMP->ActionPlayer = readUnsignedLong();
+			break;
+		case 4040: // Switch Nexusportal Back
+			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4041: //Killed own Unit
 			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		case 4043: // go to Gold but not able to collect
+			Action_TEMP->ActionPlayer = readUnsignedLong();
+			break;
+		case 4044: // TW Unit Switch
 			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
 		
@@ -446,6 +424,11 @@ bool Replay::ReadActions()
 				" SUPER UNKNOW!!!!");
 		}
 		PMVPosition = SollPos;		
+
+		// Betreten von gebäude mit Bandit Sorceres + Verlassen
+		// Schild erzeugen vom LOst Wanderer)
+		//Tunellen, betreten , switchen
+			
 		
 		/*
 		MISD(to_string(Action_TEMP->Time) + "#" + 
@@ -591,24 +574,103 @@ bool Replay::SetCharges()
 }
 
 
-void Replay::ECHO()
-{
-	//MISS;
-	MISERROR(MapName);
-	
-	MISERROR("Unknow3  :" + to_string(Unknow3));
-	MISERROR("Unknow4  :" + to_string(Unknow4));
-	MISERROR("SEED     :" + to_string(Seed));
-	MISERROR("MapID    :" + to_string(MapID));
-	MISERROR("difficu  :" + to_string(DifficultyID));
-	MISERROR("PlayMode :" + to_string(PlayModeID));
-	//MISE;
-}
-
 
 string Replay::get_file_name(string pfad)
 {
 	pfad = pfad.substr(pfad.find("\\") + 1, pfad.length() - pfad.find("\\") + 1);
 	if (pfad.find("\\") != pfad.npos) pfad = get_file_name(pfad);
 	return pfad;
+}
+
+
+
+void Replay::EchoHead()
+{
+	MISS;
+	MISD("Playtime:   " + to_string(Playtime));
+	MISD("FileVersion:" + to_string(FileVersion));
+	MISD("GameVersion:" + to_string(GameVersion));
+	MISD("Playtime:   " + to_string(Playtime));
+	MISD("Unknow3:    " + to_string(Unknow3));
+	MISD("Unknow4:    " + to_string(Unknow4));
+	MISD("MapName:    " + MapName);
+	MISD("Seed:       " + to_string(Seed));
+	MISD("MapID:      " + to_string(MapID));
+	MISD("difficulty: " + to_string(DifficultyID));
+	MISD("PlayMode:   " + to_string(PlayModeID));
+	MISD("ActionBlock:" + to_string(ActionBlock));
+	MISD("PMVFromPlay:" + to_string(PMVPlayerID));
+	MISD("GroupCount: " + to_string(GroupCount));
+	MISE;
+}
+
+void Replay::EchoAllied()
+{
+	MISS;
+	MISD("MatrixCount:" + to_string(MatrixCount));
+	MISD("count # i # j # v");
+	for (unsigned int i = 0; i < MatrixCount; i++)
+	{		
+		MISD(to_string(i) + "#"
+			+ to_string(AlliedMatrix[i]->i) + "#"
+			+ to_string(AlliedMatrix[i]->j) + "#"
+			+ to_string(AlliedMatrix[i]->v));
+	}
+	MISE;
+}
+
+void Replay::EchoTeam()
+{
+	MISS;
+	MISD("TeamCount:" + to_string(TeamCount));
+	MISD("Count # Name # GroupID # Value");
+	for (unsigned int i = 0; i < TeamCount; i++)
+	{
+		MISD(to_string(i) + "#"
+			+ TeamMatrix[i]->Name + "#"
+			+ to_string(TeamMatrix[i]->GroupID) + "#"
+			+ to_string(TeamMatrix[i]->Value));
+	}
+	MISE
+}
+	
+void Replay::EchoPlayer()
+{
+	MISS;
+	MISD("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal")
+		for (unsigned int i = 0; i < PlayerMatrix.size(); i++)
+		{
+			MISD(to_string(i) + "#"
+				+ PlayerMatrix[i]->Name + "#"
+				+ to_string(PlayerMatrix[i]->PlayerID) + "#"
+				+ to_string(PlayerMatrix[i]->ActionPlayer) + "#"
+				+ to_string(PlayerMatrix[i]->GroupID) + "#"
+				+ to_string(PlayerMatrix[i]->IDinGroup) + "#"
+				+ to_string(PlayerMatrix[i]->Type) + "#"
+				+ to_string(PlayerMatrix[i]->Cards) + "#"
+				+ to_string(PlayerMatrix[i]->CardsTotal));
+		}
+	MISE;
+}
+	
+void Replay::EchoPlayerDecks()
+{
+	MISS;
+	MISD("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal")
+		for (unsigned int i = 0; i < PlayerMatrix.size(); i++)
+		{
+			MISD(to_string(i) + "#"	+ PlayerMatrix[i]->Name );
+
+			MISD("Count # DeckCardID # CardID # Upgrade # Charges")
+				for (unsigned int j = 0; j < PlayerMatrix[i]->Deck.size(); j++)
+				{
+					MISD(to_string(j) + "#"
+						+ to_string(PlayerMatrix[i]->Deck[j]->DeckCardID) + "#"
+						+ to_string(PlayerMatrix[i]->Deck[j]->CardID) + "#"
+						+ to_string(PlayerMatrix[i]->Deck[j]->Upgrade) + "#"
+						+ to_string(PlayerMatrix[i]->Deck[j]->Charges));
+				}
+
+		}
+	MISE;
 }

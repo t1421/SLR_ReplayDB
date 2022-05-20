@@ -205,27 +205,31 @@ bool PMV_to_SQL::UploadPlayers(string iNewHeadID)
 string PMV_to_SQL::DublettenCheck()
 {
 	MISS;
-	
-	NN->ssSQL << "SELECT ID ";
-	NN->ssSQL << "FROM game ";
-	NN->ssSQL << "WHERE difficultyID = " << int(RR->DifficultyID);
-	NN->ssSQL << "  AND FileVersion =  " << RR->FileVersion;
-	NN->ssSQL << "  AND GameVersion =  " << RR->GameVersion;
-	NN->ssSQL << "  AND Seed =         " << RR->Seed;
-	NN->ssSQL << "  AND mapID =        " << RR->MapID;
-	NN->ssSQL << "  AND playmodeID =   " << RR->PlayModeID;
-	//NN->ssSQL << "  AND PMVPlayerID =  " << RR->PMVPlayerID;
-	NN->ssSQL << "  AND playmodeID   = " << RR->PlayModeID;
-	NN->ssSQL << "  AND MinLeaveGame = " << RR->MinLeaveGame;
+
+	unsigned int iPlayerIDSUM = 0;
+	for (unsigned int i = 0; i < RR->PlayerMatrix.size(); i++)
+		if (RR->PlayerMatrix[i]->Type == 1)iPlayerIDSUM += RR->PlayerMatrix[i]->PlayerID;
+		
+	NN->ssSQL << " SELECT ID ";
+	NN->ssSQL << "   FROM game ";
+	NN->ssSQL << "   LEFT JOIN gameplayers ";
+	NN->ssSQL << "     ON gameplayers.gameID = game.ID ";
+	NN->ssSQL << "  WHERE difficultyID = " << int(RR->DifficultyID);	
+	NN->ssSQL << "    AND FileVersion =  " << RR->FileVersion;
+	NN->ssSQL << "    AND GameVersion =  " << RR->GameVersion;
+	NN->ssSQL << "    AND Seed =         " << RR->Seed;
+	NN->ssSQL << "    AND mapID =        " << RR->MapID;
+	NN->ssSQL << "    AND playmodeID =   " << RR->PlayModeID;
+	NN->ssSQL << "    AND MinLeaveGame = " << RR->MinLeaveGame;	
+	NN->ssSQL << " HAVING SUM(gameplayers.playerID) = " << iPlayerIDSUM;
+
 	if (NN->send() > 0)
 	{
-		//Bro->N->res->next();
+		NN->res->next();
+		
 		MISEA("Already Here");
 		return NN->res->getString(1);
 	}
-	//PLAYER!!! Sicher ist sicher ?
-	
-	
 
 	MISEA("NEW");
 	return "0";

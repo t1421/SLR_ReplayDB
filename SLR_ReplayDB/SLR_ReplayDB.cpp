@@ -7,14 +7,17 @@
 #include "CardBase.h" 
 #include "LOAD.h" 
 #include "Manager.h" 
-//#include "Replay.h" 
-//#include "PMV_to_SQL.h" 
+#include "Replay.h" 
+#include "PMV_to_SQL.h" 
 
 
+
+bool Checker(string &check, string name);
 
 int main(int argc, char **argv)
 {
 	char buf[1024] = { '0' };
+	string sbuf;
 
 	broker* Bro = new broker;
 
@@ -34,13 +37,10 @@ int main(int argc, char **argv)
 	Manager* M = new Manager();
 	M->teachM();
 	M->Start_Thread();
-	/*
-	Replay* R = new Replay();
-	R->teachR();
-
-	*/
-	//PMV_to_SQL* P = new PMV_to_SQL();
-	//P->teachP();
+	
+	Replay* R = new Replay();	
+	PMV_to_SQL* P = new PMV_to_SQL();
+	
 
 	MISD("--> MAINSCHEIFE");
 	
@@ -49,6 +49,8 @@ int main(int argc, char **argv)
 //		std::cout << "Message: ";
 		std::cin >> buf;
 		
+		sbuf = buf;
+
 		if (string(buf) == "x")Bro->bAktive = false;
 		if (string(buf) == "1")Bro->C->WEBtoSQL(false);
 		if (string(buf) == "2")Bro->C->WEBtoSQL(true);				
@@ -75,8 +77,28 @@ int main(int argc, char **argv)
 		Bro->C->Imager(1275);
 		*/
 
+		if (Checker(sbuf, "R"))
+		{
+			if (Checker(sbuf, "new"))R = new Replay();
+			
+			if (Checker(sbuf, "open"))
+			{
+				if (R->LoadPMV(Bro->L_getPMV_PATH() + sbuf + ".pmv"))MISD("All fine");
+			}
+
+			if (Checker(sbuf, "echo"))
+			{
+				if (Checker(sbuf, "head"))R->EchoHead();
+				if (Checker(sbuf, "allied"))R->EchoAllied();
+				if (Checker(sbuf, "team"))R->EchoTeam();
+				if (Checker(sbuf, "player"))R->EchoPlayer();
+				if (Checker(sbuf, "deck"))R->EchoPlayerDecks();
+			}
+		}
+
+		
+
 		/*
-		R = new Replay();
 		if (R->LoadPMV(string(buf) +  ".pmv"))
 			if (P->UseThisPMV(R))
 				//if (P->NewMasterData())
@@ -91,3 +113,17 @@ int main(int argc, char **argv)
     return 0;
 }
 
+
+
+bool Checker(string &check, string name)
+{
+	if (check.substr(0, check.find(";")) == name)
+	{
+		check.erase(0, check.find(";") + 1);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}

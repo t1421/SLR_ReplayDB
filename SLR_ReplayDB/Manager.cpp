@@ -43,15 +43,17 @@ void Manager::Thread_Function()
 			RR = new Replay();
 			if (RR->LoadPMV(it->path().string()))
 			{
+				
 				PP = new PMV_to_SQL();
 				PP->UseThisSQL(NN);
-
+				
 				if (PP->UseThisPMV(RR))
 					MISD("DONE");
-
+				
 				ssCMD.str("");
-				ssCMD << "move \"" << it->path().string() << "\" \"" << Bro->L_getPMV_ARCH_PATH() << it->path().filename().string() << "\"";
+				ssCMD << "move \"" << it->path().string() << "\" \"" << Bro->L_getPMV_ARCH_PATH() << "\\" << it->path().filename().string() << "\"";
 				system(ssCMD.str().c_str());
+				
 			}
 			
 			it++;
