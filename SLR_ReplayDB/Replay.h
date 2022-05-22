@@ -42,7 +42,7 @@ struct Player {
 
 struct Action {
 	unsigned long Time;
-	unsigned long Size;
+	//unsigned long Size;
 
 	unsigned long Type;
 	unsigned short Card; 
@@ -55,7 +55,9 @@ struct Action {
 	
 	unsigned char Color;
 
-	Action():Time(0), Size(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), Color(0)
+	unsigned int Position;
+
+	Action():Time(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), Color(0)
 	{}
 
 	//unsigned long Unit;

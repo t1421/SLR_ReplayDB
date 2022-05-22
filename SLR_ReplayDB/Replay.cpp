@@ -177,7 +177,18 @@ bool Replay::ReadActions()
 	
 	Action * Action_TEMP;
 	unsigned long SollPos = 0;
-	unsigned short tempUnitCount;
+	unsigned long tempCount;
+	unsigned long MainTime;
+	unsigned long MainSize;
+
+
+	unsigned long ul1;
+	unsigned long ul2;
+	unsigned long uc;
+	unsigned long ul3;
+	unsigned long ul4;
+	unsigned long ul5;
+	unsigned long ul6;
 
 	if (ActionBlock== 0)
 	{
@@ -187,226 +198,290 @@ bool Replay::ReadActions()
 
 	while (PMVPosition < length)
 	{
-		Action_TEMP = new Action;
-		Action_TEMP->Time = readUnsignedLong();
-		Action_TEMP->Size = readUnsignedLong();		
-		SollPos = PMVPosition + Action_TEMP->Size;
-		
-	AGAIN:
-		Action_TEMP->Type = readUnsignedLong();				
+		MainTime = readUnsignedLong();
+		MainSize = readUnsignedLong();
+		SollPos = PMVPosition + MainSize;
 
-		switch(Action_TEMP->Type)
+		while (PMVPosition < SollPos)
 		{
-///###
-		case 4001: //REALLY_UNKNOWN_A1						
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			readUnsignedLong(); //zero
-			MISERROR(FileName);
-			MISERROR(sTime(Action_TEMP->Time) + "#" + 
-				to_string(Action_TEMP->Type) + "#" + 
-				to_string(PMVPosition) + " # " +
-				to_string(Action_TEMP->Size) +
-				" ???");
-			break;
-///###
-		case 4002: //leave game		
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-///###
-		case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )		// Anzahl von Gegnern auf der Map?					
-			readUnsignedLong(); //Unit
-			readUnsignedChar(); // ??? number between 0 and 16?				
-			break;
-///###
-		case 4006: //GOLD	
-			Action_TEMP->PlayerID = readUnsignedLongLong(); // wer hat eingesammelt
-			readUnsignedLong(); // Unit
-			tempUnitCount = readUnsignedLong();
-			for (unsigned int i = 0; i < tempUnitCount; i++)
+			Action_TEMP = new Action;
+			Action_TEMP->Time = MainTime;
+			Action_TEMP->Position = PMVPosition;
+			Action_TEMP->Type = readUnsignedLong();
+
+			switch (Action_TEMP->Type)
 			{
-				readUnsignedLongLong(); // wer erhält gold
-				 readUnsignedLong(); // menge gold
-			}
-			break;
-///###
-		case 4007: //Objective OK 
-			readUnsignedLong(); // ObjectiveID ?
-			break;
+			case 4001: //REALLY_UNKNOWN_A1						
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				readUnsignedLong(); //zero
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				break;
+				///###
+			case 4002: //leave game		
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+				///###
+			case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )		// Anzahl von Gegnern auf der Map?					
+				readUnsignedLong(); //Unit
+				readUnsignedChar(); // ??? number between 0 and 16?				
+				break;
+				///###
+			case 4006: //GOLD	
+				Action_TEMP->PlayerID = readUnsignedLongLong(); // wer hat eingesammelt
+				readUnsignedLong(); // Unit
+				tempCount = readUnsignedLong();
+				for (unsigned int i = 0; i < tempCount; i++)
+				{
+					readUnsignedLongLong(); // wer erhält gold
+					readUnsignedLong(); // menge gold
+				}
+				break;
+				///###
+			case 4007: //Objective OK 
+				readUnsignedLong(); // ObjectiveID ?
+				break;
 
-		case 4008: //PVE_UNKNOWN_A8	
-			MISERROR(FileName);
-			MISERROR(sTime(Action_TEMP->Time) + "#" +
-				to_string(Action_TEMP->Type) + "#" +
-				to_string(PMVPosition) + " # " +
-				to_string(Action_TEMP->Size) +
-				" ???");
-			PMVPosition = SollPos;
-			break;
-///###
-		case 4009: //summon unit
-			Action_TEMP->CardFull = readUnsignedLong();
-			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
-			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			readUnsignedChar(); //Unknow8
-			readUnsignedShort(); //Cardy
-			readUnsignedShort(); //Cardz
-			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen
-			readUnsignedLong(); //X
-			readUnsignedLong(); //Y
-			readUnsignedLong(); //Zero
-			break;		
-///###
-		case 4010: //cast spell
-			Action_TEMP->CardFull = readUnsignedLong();
-			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
-			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			readUnsignedChar(); //Unknow8
-			readUnsignedShort(); //Cardy
-			readUnsignedShort(); //Cardz
-			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen			
-			readUnsignedLong(); //???
-			readUnsignedChar(); //???
-			readUnsignedLong(); //Value
-			readUnsignedLong(); //Zero
-			readUnsignedLong(); //Traget
-			readUnsignedLong(); //X
-			readUnsignedLong(); //Y
-			break;
-///###
-		case 4011: //cast line spell
-			Action_TEMP->CardFull = readUnsignedLong();
-			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
-			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;			
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			readUnsignedChar(); //Unknow8
-			readUnsignedShort(); //Cardy
-			readUnsignedShort(); //Cardz
-			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen
-			readUnsignedLongLong(); //???
-			readUnsignedLongLong(); //???
-			readUnsignedShort(); //???
-			readUnsignedLong(); //X
-			readUnsignedLong(); //Y
-			readUnsignedLongLong(); //???
-			readUnsignedShort(); //???
-			readUnsignedLong(); //X
-			readUnsignedLong(); //Y
-			break;
-///###
-		case 4012: //cast building
-			Action_TEMP->CardFull = readUnsignedLong();
-			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
-			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			readUnsignedShort(); //Cardy
-			readUnsignedShort(); //Cardz
-			readUnsignedLong(); //X
-			readUnsignedLong(); //Y
-			readUnsignedLong(); //Z
-			readUnsignedLong(); //Zero
-			readUnsignedShort(); //Carda
-			readUnsignedShort(); //Cardb	
-			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen	
-			break;
+			case 4008: //PVE_UNKNOWN_A8	
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
 
-/*
-		case 4013: //move unit
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4014: //use unit ability
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4015: //attack			
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4019: //stop unit
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4020: //hold unit position
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4027: // PING (Meet / Help / ...)
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4028: //toggle wall gate
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4029: //build wall
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4030: //create mana
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4031: //create orb
-			// 1 = Shadow
-			// 2 = Green
-			// 3 = Frost
-			// 4 = Red
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			readUnsignedLong(); //Unit
-			Action_TEMP->Color = readUnsignedChar();			
-			break;
-		case 4033: //Unit move on Wall			
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4034: //Switch Abbility (Stone Tempest)
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4035: //Trigger Reparier
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4036: //Move unit in decomposer // TESTEN ander key wenn man die abbiliti nutzt?
-			tempUnitCount = readUnsignedShort();
-			for (unsigned int i = 0; i < tempUnitCount; i++) readUnsignedLong(); // Units
-			readUnsignedLong(); // Decomposer
-			Action_TEMP->ActionPlayer = readUnsignedLong();			
-			break;
-		case 4037: //Place Nexus Exit (oder generell Bulding?) // TESTEN T4 Schatten
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4038: //Go in Nexus
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4040: // Switch Nexusportal Back
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4041: //Killed own Unit
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4043: // go to Gold but not able to collect
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
-		case 4044: // TW Unit Switch
-			Action_TEMP->ActionPlayer = readUnsignedLong();
-			break;
+				break;
+				///###
+			case 4009: //summon unit
+				Action_TEMP->CardFull = readUnsignedLong();
+				Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
+				Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				readUnsignedChar(); //Unknow8
+				readUnsignedShort(); //Cardy
+				readUnsignedShort(); //Cardz
+				Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen
+				readUnsignedLong(); //X
+				readUnsignedLong(); //Y
+				readUnsignedLong(); //Zero
+				break;
+				///###
+			case 4010: //cast spell
+				Action_TEMP->CardFull = readUnsignedLong();
+				Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
+				Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				readUnsignedChar(); //Unknow8
+				readUnsignedShort(); //Cardy
+				readUnsignedShort(); //Cardz
+				Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen			
+				readUnsignedLong(); //???
+				readUnsignedChar(); //???
+				readUnsignedLong(); //Value
+				readUnsignedLong(); //Zero
+				readUnsignedLong(); //Traget
+				readUnsignedLong(); //X
+				readUnsignedLong(); //Y
+				break;
+				///###
+			case 4011: //cast line spell
+				Action_TEMP->CardFull = readUnsignedLong();
+				Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
+				Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				readUnsignedChar(); //Unknow8
+				readUnsignedShort(); //Cardy
+				readUnsignedShort(); //Cardz
+				Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen
+				readUnsignedLongLong(); //???
+				readUnsignedLongLong(); //???
+				readUnsignedShort(); //???
+				readUnsignedLong(); //X
+				readUnsignedLong(); //Y
+				readUnsignedLongLong(); //???
+				readUnsignedShort(); //???
+				readUnsignedLong(); //X
+				readUnsignedLong(); //Y
+				break;
+				///###
+			case 4012: //cast building
+				Action_TEMP->CardFull = readUnsignedLong();
+				Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
+				Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				readUnsignedShort(); //Cardy
+				readUnsignedShort(); //Cardz
+				readUnsignedLong(); //X
+				readUnsignedLong(); //Y
+				readUnsignedLong(); //Z
+				readUnsignedLong(); //Zero
+				readUnsignedShort(); //Carda
+				readUnsignedShort(); //Cardb	
+				Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen	
+				break;
 
-			*/
-			
-		default:
+				///X###X GGF. andere Movment Types analysieren?
+			case 4013: //move unit
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				
+				tempCount = readUnsignedShort(); // Unit Count
+				for (unsigned int i = 0; i < tempCount; i++)
+				{
+					readUnsignedLong(); // Unit
+				}
 
-			if(Action_TEMP->Type<=4012)
-			{ 
-			
-			MISERROR(sTime(Action_TEMP->Time) + "#" +
-				to_string(Action_TEMP->Type) + "#" +
-				to_string(PMVPosition) + " # " +
-				to_string(Action_TEMP->Size) +
-				"falsche berechnet");				
-			}
-			PMVPosition = SollPos;
-			/*
-			MISERROR(FileName);
-			MISERROR(sTime(Action_TEMP->Time) + "#" +
-				to_string(Action_TEMP->Type) + "#" +
-				to_string(PMVPosition) + " # " +
-				to_string(Action_TEMP->Size) +
-				" SUPER UNKNOW!!!!");
+				tempCount = readUnsignedShort(); // Position Count
+				for (unsigned int i = 0; i < tempCount; i++)
+				{
+					readUnsignedLong(); // X
+					readUnsignedLong(); // Y
+				}
+				readUnsignedChar(); //Move Type 2=Nomarl Move; 6=waypoint; 7=patrulie
+				readUnsignedChar(); // Alwayse 1 ?
+				readUnsignedLong(); // 0, 0, 0, ,0?
+				break;
+				
+				///X###X GGF. Abbility Type analysieren?
+			case 4014: //use unit ability
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				readUnsignedLong(); // Unit
+				readUnsignedLong(); // Abbility ID
+				int(readUnsignedChar()); // immer 1
+				readUnsignedLong(); // immer 1
+				readUnsignedLong(); // Abbility Type - 2=Buldig Global Efffect / 6=Fier on the Ground / 8=Comet Catcher
+				readUnsignedLong(); // Zero
+				readUnsignedLong(); // Traget
+				readUnsignedLong(); // X
+				readUnsignedLong(); // Y				
+				break;
+				
+				///X###X GGF. attac Type analysieren?
+			case 4015: //attack
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				tempCount = readUnsignedShort(); // Unit Count
+				for (unsigned int i = 0; i < tempCount; i++)
+				{
+					readUnsignedLong(); // Unit
+				}
+				int(readUnsignedChar()); // immer 1
+				readUnsignedLong(); // immer 1
+				readUnsignedLong(); // attac Type? Type - 1=normal / 6 Building?
+				readUnsignedLong(); // Zero
+				readUnsignedLong(); // Traget
+				readUnsignedLong(); // X
+				readUnsignedLong(); // Y				
+
+				break;
+				
+			case 4019: //stop unit
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				tempCount = readUnsignedShort(); // Unit Count
+				for (unsigned int i = 0; i < tempCount; i++)
+				{
+					readUnsignedLong(); // Unit
+				}
+				break;
+			case 4020: //hold unit position
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				tempCount = readUnsignedShort(); // Unit Count
+				for (unsigned int i = 0; i < tempCount; i++)
+				{
+					readUnsignedLong(); // Unit
+				}
+				break;
+				/*
+			case 4027: // PING (Meet / Help / ...)
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4028: //toggle wall gate
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4029: //build wall
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4030: //create mana
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4031: //create orb
+				// 1 = Shadow
+				// 2 = Green
+				// 3 = Frost
+				// 4 = Red
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				readUnsignedLong(); //Unit
+				Action_TEMP->Color = readUnsignedChar();
+				break;
+			case 4033: //Unit move on Wall
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4034: //Switch Abbility (Stone Tempest)
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4035: //Trigger Reparier
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4036: //Move unit in decomposer // TESTEN ander key wenn man die abbiliti nutzt?
+				tempUnitCount = readUnsignedShort();
+				for (unsigned int i = 0; i < tempUnitCount; i++) readUnsignedLong(); // Units
+				readUnsignedLong(); // Decomposer
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4037: //Place Nexus Exit (oder generell Bulding?) // TESTEN T4 Schatten
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4038: //Go in Nexus
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4040: // Switch Nexusportal Back
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4041: //Killed own Unit
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4043: // go to Gold but not able to collect
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+			case 4044: // TW Unit Switch
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				break;
+
 				*/
-		}
-		
+
+			default:
+
+				if (Action_TEMP->Type <= 4020)
+				{
+
+					MISERROR(sTime(Action_TEMP->Time) + "#" +
+						to_string(Action_TEMP->Type) + "#" +
+						to_string(PMVPosition) + " # " +
+						to_string(MainSize) +
+						"falsche berechnet");
+				}
+				PMVPosition = SollPos;
+				/*
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(PMVPosition) + " # " +
+					to_string(Action_TEMP->Size) +
+					" SUPER UNKNOW!!!!");
+					*/
+			}
+			/*
+			if (Action_TEMP->Type <= 4012)
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(PMVPosition) + " # " +
+					" ALL OK");
+					*/
 			ActionMatrix.push_back(Action_TEMP);
+		}
 			/*
 			MISERROR(sTime(Action_TEMP->Time) + "#" +
 				to_string(Action_TEMP->Type) + "#" +
@@ -415,13 +490,6 @@ bool Replay::ReadActions()
 				to_string(Action_TEMP->Size));
 				*/
 
-		if (PMVPosition < SollPos)
-		{
-			Action_TEMP = new Action;
-			Action_TEMP->Time = ActionMatrix[ActionMatrix.size() - 1]->Time;
-			Action_TEMP->Size = SollPos - PMVPosition;
-			goto AGAIN;
-		}
 
 		//PMVPosition = SollPos;		
 
@@ -519,7 +587,7 @@ bool Replay::AddFirstOrb()
 
 		Action_TEMP = new Action;
 		Action_TEMP->Time = ActionMatrix[iPosOfUnit]->Time;
-		Action_TEMP->Size = 13;
+		//Action_TEMP->Size = 13;
 		Action_TEMP->Type = 4031;
 		Action_TEMP->ActionPlayer = ActionMatrix[iPosOfUnit]->ActionPlayer;
 		Action_TEMP->Color = Bro->C_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card);
