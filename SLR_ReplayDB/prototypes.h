@@ -41,11 +41,8 @@ using namespace std;
 //#define SQL_DB        "replaydb"
 
 ///Pfad Constanten
-//static string Save_path         = "K:\\c++\\SLR_ReplayDB\\Release\\SAVE\\";
 static string Log_path			= "K:\\c++\\SLR_ReplayDB\\Release\\LOG\\";
 static string Tmp_path          = "K:\\c++\\SLR_ReplayDB\\Release\\TMP\\";
-//static string PMV_path          = "K:\\c++\\SLR_ReplayDB\\Release\\REPLAY\\";
-//static string PMV_Arch          = "K:\\c++\\SLR_ReplayDB\\Release\\REPLAY_ARCH\\";
 static string CardWebURL    	= "https://hub.backend.skylords.eu/api/auctions/cards?id=all";
 static string WikiPre           = "https://skylords-reborn.fandom.com/wiki/";
 static string WikiPos           = "_Card_Artwork.png";

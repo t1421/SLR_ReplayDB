@@ -23,6 +23,7 @@ int main(int argc, char **argv)
 
 	DEBUG* B = new DEBUG("SLR_ReplayDB");
 	B->teachB();
+	B->bFilter = true;
 
 	LOAD* L = new LOAD();
 	L->teachL();
@@ -93,6 +94,22 @@ int main(int argc, char **argv)
 				if (Checker(sbuf, "team"))R->EchoTeam();
 				if (Checker(sbuf, "player"))R->EchoPlayer();
 				if (Checker(sbuf, "deck"))R->EchoPlayerDecks();
+			}
+		}
+
+		if (Checker(sbuf, "P"))
+		{
+			if (Checker(sbuf, "new"))P = new PMV_to_SQL();
+
+			if (Checker(sbuf, "open"))
+			{
+				P->UseThisSQL(N);
+				P->UseThisPMV(R);
+			}
+
+			if (Checker(sbuf, "dublette"))
+			{
+				MISD("Return: " + P->DublettenCheck());
 			}
 		}
 

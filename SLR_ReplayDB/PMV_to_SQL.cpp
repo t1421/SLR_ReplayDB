@@ -25,15 +25,22 @@ PMV_to_SQL::~PMV_to_SQL()
 bool PMV_to_SQL::UseThisPMV(Replay * inReplay)
 {
 	MISS;
-	
-	string HeadID = "";
 
 	RR = inReplay;
-	if (!RR->OK) 
+	if (!RR->OK)
 	{
 		MISEA("Replay not OK");
 		return false;
 	}
+	MISE;
+	return true;
+}
+
+bool PMV_to_SQL::Upload()
+{
+	MISS;
+
+	string HeadID = "";
 
 	HeadID = DublettenCheck();
 	MISD("X" + HeadID + "X");
@@ -175,7 +182,7 @@ bool PMV_to_SQL::UploadPlayers(string iNewHeadID)
 {
 	MISS;
 
-	int findTeam;
+	unsigned int findTeam;
 	
 	for (unsigned int i = 0; i < RR->PlayerMatrix.size(); i++)
 	{
@@ -206,7 +213,7 @@ string PMV_to_SQL::DublettenCheck()
 {
 	MISS;
 
-	unsigned int iPlayerIDSUM = 0;
+	unsigned long long iPlayerIDSUM = 0;
 	for (unsigned int i = 0; i < RR->PlayerMatrix.size(); i++)
 		if (RR->PlayerMatrix[i]->Type == 1)iPlayerIDSUM += RR->PlayerMatrix[i]->PlayerID;
 		
@@ -221,6 +228,7 @@ string PMV_to_SQL::DublettenCheck()
 	NN->ssSQL << "    AND mapID =        " << RR->MapID;
 	NN->ssSQL << "    AND playmodeID =   " << RR->PlayModeID;
 	NN->ssSQL << "    AND MinLeaveGame = " << RR->MinLeaveGame;	
+	NN->ssSQL << "  GROUP BY ID " ;
 	NN->ssSQL << " HAVING SUM(gameplayers.playerID) = " << iPlayerIDSUM;
 
 	if (NN->send() > 0)
@@ -239,8 +247,6 @@ string PMV_to_SQL::DublettenCheck()
 bool PMV_to_SQL::UploadActions(string iNewHeadID)
 {
 	MISS;
-
-	int findTeam;
 
 	for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
 	{

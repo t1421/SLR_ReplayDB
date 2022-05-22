@@ -12,7 +12,7 @@ using namespace boost::filesystem;
 
 broker *(Manager::Bro) = NULL;
 
-Manager::Manager() :Thread_MIS("M")
+Manager::Manager() :Thread_MIS("Manager")
 {
 	MISS;
 	NN = new SQL_MIS_New("Manager");	
@@ -48,7 +48,10 @@ void Manager::Thread_Function()
 				PP->UseThisSQL(NN);
 				
 				if (PP->UseThisPMV(RR))
-					MISD("DONE");
+				{
+					if(PP->Upload())MISD("DONE");										
+				} else MISD("Error using Replay Object ");
+					
 				
 				ssCMD.str("");
 				ssCMD << "move \"" << it->path().string() << "\" \"" << Bro->L_getPMV_ARCH_PATH() << "\\" << it->path().filename().string() << "\"";

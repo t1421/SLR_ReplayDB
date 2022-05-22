@@ -26,7 +26,7 @@ Reader::~Reader()
 //unsigned short		///16
 //unsigned long			///32
 //unsigned long long	///62
-unsigned long long Reader::readUsignedLongLong()
+unsigned long long Reader::readUnsignedLongLong()
 {
 	ULLU.b[0] = PMVbuffer[PMVPosition++];
 	ULLU.b[1] = PMVbuffer[PMVPosition++];

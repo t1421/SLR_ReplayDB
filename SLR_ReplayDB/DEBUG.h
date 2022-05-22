@@ -6,6 +6,9 @@ class SQL_MIS_New;
 class DEBUG
 {
 public:
+	bool bGUI;
+	bool bFile;
+	bool bFilter;
 
 	DEBUG(string sLogName);
 	
@@ -29,9 +32,7 @@ public:
 	static void learnBro(broker *_Bro) { Bro = _Bro; }	
 
 protected:
-	bool bGUI;
-	bool bFile;
-	bool bFilter;
+
 	
 private:
 

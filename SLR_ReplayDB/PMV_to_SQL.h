@@ -11,6 +11,9 @@ public:
 
 	bool UseThisPMV(Replay * inReplay);
 	void UseThisSQL(SQL_MIS_New * inSQL);
+
+	bool Upload();
+	string DublettenCheck();
 	
 
 	//Decks??? mit charges und Upgrads aus Acrion
@@ -25,7 +28,7 @@ public:
 protected:
 	bool NewMasterData();
 	string UploadHead();
-	string DublettenCheck();
+	
 	bool UploadActions(string iNewHeadID);
 	bool UploadPlayers(string iNewHeadID);
 	bool UploadPMVPlayerDeck(string iNewHeadID);

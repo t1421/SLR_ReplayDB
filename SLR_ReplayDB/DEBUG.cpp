@@ -23,7 +23,7 @@ DEBUG::DEBUG(string sLogName)
 
 		Fill_DBArray("", "*", "*", "true"); // MAIN
 
-		Fill_DBArray("CardBase", "*", "*", "true");
+		Fill_DBArray("CardBase", "*", "*", "false");
 
 		Fill_DBArray("Replay", "*", "*", "true");
 		Fill_DBArray("Replay", "sTime", "*", "false");
@@ -33,9 +33,11 @@ DEBUG::DEBUG(string sLogName)
 		
 		Fill_DBArray("PMV_to_SQL", "*", "*", "true");
 
-		Fill_DBArray("LOAD", "INI_Value_Check", "*", "false");
 		Fill_DBArray("LOAD", "*", "*", "true");
+		Fill_DBArray("LOAD", "INI_Value_Check", "*", "false");
+
 		Fill_DBArray("Thread_MIS", "*", "*", "true");
+
 		Fill_DBArray("Manager", "*", "*", "true");
 
 		Fill_DBArray("SQL_MIS_New", "*", "*", "true");

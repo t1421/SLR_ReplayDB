@@ -6,7 +6,7 @@
 //unsigned char			/// 8
 //unsigned short		///16
 //unsigned long			///32
-//unsigned long long	///62
+//unsigned long long	///64
 
 struct Allied {
 	unsigned char i;

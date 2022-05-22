@@ -111,7 +111,7 @@ bool Replay::ReadHeader()
 	MapID = readUnsignedLong(); // PVR = 101 / Titans = 29 /// MAPID
 	DifficultyID = readUnsignedChar(); // Std=1,Adv=2,Exp=3,PVR1=5 ...
 	PlayModeID = readUnsignedShort(); // PvE = 1 / PvP = 2
-	PMVPlayerID = readUsignedLongLong();
+	PMVPlayerID = readUnsignedLongLong();
 	GroupCount = readUnsignedChar();
 
 	//MISD("Matrix");
@@ -141,7 +141,7 @@ bool Replay::ReadHeader()
 	{
 		Player_TEMP = new Player;
 		Player_TEMP->Name = readWString();
-		Player_TEMP->PlayerID = readUsignedLongLong();
+		Player_TEMP->PlayerID = readUnsignedLongLong();
 		Player_TEMP->GroupID = readUnsignedChar();
 		Player_TEMP->IDinGroup = readUnsignedChar();
 		Player_TEMP->Type = readUnsignedChar();
@@ -161,77 +161,6 @@ bool Replay::ReadHeader()
 		}		
 	}
 
-	
-	//MISD("Playtime:   " + to_string(Playtime));	
-	//MISD("FileVersion:" + to_string(FileVersion));
-	//MISD("GameVersion:" + to_string(GameVersion));
-	//MISD("Playtime:   " + to_string(Playtime));
-	//MISD("Unknow3:    " + to_string(Unknow3));
-	//MISD("Unknow4:    " + to_string(Unknow4));
-	/*
-	MISD("MapName:    " + MapName);
-	MISD("Seed:       " + to_string(Seed));
-	MISD("MapID:      " + to_string(MapID));
-	MISD("difficulty: " + to_string(DifficultyKEY));
-	MISD("PlayMode:   " + to_string(PlayModeKEY));
-	*/
-	
-	
-	//MISD("ActionBlock:" + to_string(ActionBlock));
-	
-	//MISD("PMVFromPlay:" + to_string(PMVPlayerID));
-	//MISD("GroupCount: " + to_string(GroupCount));
-	/*
-	MISD("MatrixCount:" + to_string(MatrixCount));
-	for (unsigned int i = 0; i < MatrixCount; i++)
-	{
-		MISD(to_string(i) + "#" 
-			+ to_string(AlliedMatrix[i]->i) + "#" 
-			+ to_string(AlliedMatrix[i]->j) + "#" 
-			+ to_string(AlliedMatrix[i]->v));
-	}
-		*/
-	/*
-	MISD("###");
-	MISD("TeamCount:" + to_string(TeamCount));
-	for (unsigned int i = 0; i < TeamCount; i++)
-	{
-		MISD(to_string(i) + "#" 
-			+ TeamMatrix[i]->Name + "#" 
-			+ to_string(TeamMatrix[i]->GroupID) + "#" 
-			+ to_string(TeamMatrix[i]->Value));
-	}
-	*/
-
-	/*
-	MISD("###");
-	for (unsigned int i = 0; i < PlayerMatrix.size() ; i++)
-	{
-		MISD(to_string(i) + "#" 
-			+ PlayerMatrix[i]->Name + "#"
-			+ to_string(PlayerMatrix[i]->PlayerID) + "#"
-			+ to_string(PlayerMatrix[i]->GroupID) + "#"
-			+ to_string(PlayerMatrix[i]->IDinGroup) + "#"
-			+ to_string(PlayerMatrix[i]->Type) + "#"
-			+ to_string(PlayerMatrix[i]->Cards) + "#"
-			+ to_string(PlayerMatrix[i]->CardsTotal));
-	
-		for (unsigned int j = 0; j < PlayerMatrix[i]->Deck.size(); j++)
-		{
-			MISD(to_string(i) + "#"
-				+ to_string(j) + "#"
-				+ to_string(PlayerMatrix[i]->Deck[j]->DeckCardID) + "#"
-				+ to_string(PlayerMatrix[i]->Deck[j]->CardID) + "#"
-				+ to_string(PlayerMatrix[i]->Deck[j]->Upgrade) + "#"
-				+ to_string(PlayerMatrix[i]->Deck[j]->Charges));
-		}
-		
-	}
-	*/
-	/*
-	MISD("ActionBlock:" + to_string(ActionBlock));
-	MISD("NOW        :" + to_string(PMVPosition));
-	*/
 	if (ActionBlock != PMVPosition)
 	{
 		MISERROR("<-- ActionBlockOffsetError soll:" + to_string(ActionBlock) + " ist:" + to_string(PMVPosition));
@@ -245,10 +174,7 @@ bool Replay::ReadHeader()
 bool Replay::ReadActions()
 {
 	MISS;
-	MISD("ActionBlock:" + to_string(ActionBlock));
-	MISD("NOW        :" + to_string(PMVPosition));
-	MISD("length     :" + to_string(length));
-
+	
 	Action * Action_TEMP;
 	unsigned long SollPos = 0;
 	unsigned short tempUnitCount;
@@ -265,12 +191,16 @@ bool Replay::ReadActions()
 		Action_TEMP->Time = readUnsignedLong();
 		Action_TEMP->Size = readUnsignedLong();		
 		SollPos = PMVPosition + Action_TEMP->Size;
-		Action_TEMP->Type = readUnsignedLong();		
+		
+	AGAIN:
+		Action_TEMP->Type = readUnsignedLong();				
 
 		switch(Action_TEMP->Type)
 		{
+///###
 		case 4001: //REALLY_UNKNOWN_A1						
-			//Action_TEMP->Player = readUnsignedLong();
+			Action_TEMP->ActionPlayer = readUnsignedLong();
+			readUnsignedLong(); //zero
 			MISERROR(FileName);
 			MISERROR(sTime(Action_TEMP->Time) + "#" + 
 				to_string(Action_TEMP->Type) + "#" + 
@@ -278,21 +208,31 @@ bool Replay::ReadActions()
 				to_string(Action_TEMP->Size) +
 				" ???");
 			break;
+///###
 		case 4002: //leave game		
 			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
-		case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )			
-			MISERROR(FileName);
-			MISERROR(sTime(Action_TEMP->Time) + "#" +
-				to_string(Action_TEMP->Type) + "#" +
-				to_string(PMVPosition) + " # " +
-				to_string(Action_TEMP->Size) +
-				" ???");			
+///###
+		case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )		// Anzahl von Gegnern auf der Map?					
+			readUnsignedLong(); //Unit
+			readUnsignedChar(); // ??? number between 0 and 16?				
 			break;
+///###
 		case 4006: //GOLD	
+			Action_TEMP->PlayerID = readUnsignedLongLong(); // wer hat eingesammelt
+			readUnsignedLong(); // Unit
+			tempUnitCount = readUnsignedLong();
+			for (unsigned int i = 0; i < tempUnitCount; i++)
+			{
+				readUnsignedLongLong(); // wer erhält gold
+				 readUnsignedLong(); // menge gold
+			}
 			break;
+///###
 		case 4007: //Objective OK 
+			readUnsignedLong(); // ObjectiveID ?
 			break;
+
 		case 4008: //PVE_UNKNOWN_A8	
 			MISERROR(FileName);
 			MISERROR(sTime(Action_TEMP->Time) + "#" +
@@ -300,51 +240,78 @@ bool Replay::ReadActions()
 				to_string(PMVPosition) + " # " +
 				to_string(Action_TEMP->Size) +
 				" ???");
+			PMVPosition = SollPos;
 			break;
+///###
 		case 4009: //summon unit
 			Action_TEMP->CardFull = readUnsignedLong();
 			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
 			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
 			Action_TEMP->ActionPlayer = readUnsignedLong();
-			/*Action_TEMP->Unknow8 =*/ readUnsignedChar();
-			/*Action_TEMP->Cardy =*/ readUnsignedShort();
-			/*Action_TEMP->Cardz =*/ readUnsignedShort();
+			readUnsignedChar(); //Unknow8
+			readUnsignedShort(); //Cardy
+			readUnsignedShort(); //Cardz
 			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen
-			break;
+			readUnsignedLong(); //X
+			readUnsignedLong(); //Y
+			readUnsignedLong(); //Zero
+			break;		
+///###
 		case 4010: //cast spell
 			Action_TEMP->CardFull = readUnsignedLong();
 			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
 			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
 			Action_TEMP->ActionPlayer = readUnsignedLong();
-			/*Action_TEMP->Unknow8 =*/ readUnsignedChar();
-			/*Action_TEMP->Cardy =*/ readUnsignedShort();
-			/*Action_TEMP->Cardz =*/ readUnsignedShort();
+			readUnsignedChar(); //Unknow8
+			readUnsignedShort(); //Cardy
+			readUnsignedShort(); //Cardz
 			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen			
+			readUnsignedLong(); //???
+			readUnsignedChar(); //???
+			readUnsignedLong(); //Value
+			readUnsignedLong(); //Zero
+			readUnsignedLong(); //Traget
+			readUnsignedLong(); //X
+			readUnsignedLong(); //Y
 			break;
+///###
 		case 4011: //cast line spell
 			Action_TEMP->CardFull = readUnsignedLong();
 			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
 			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;			
 			Action_TEMP->ActionPlayer = readUnsignedLong();
-			/*Action_TEMP->Unknow8 =*/ readUnsignedChar();
-			/*Action_TEMP->Cardy =*/ readUnsignedShort();
-			/*Action_TEMP->Cardz =*/ readUnsignedShort();
+			readUnsignedChar(); //Unknow8
+			readUnsignedShort(); //Cardy
+			readUnsignedShort(); //Cardz
 			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen
+			readUnsignedLongLong(); //???
+			readUnsignedLongLong(); //???
+			readUnsignedShort(); //???
+			readUnsignedLong(); //X
+			readUnsignedLong(); //Y
+			readUnsignedLongLong(); //???
+			readUnsignedShort(); //???
+			readUnsignedLong(); //X
+			readUnsignedLong(); //Y
 			break;
+///###
 		case 4012: //cast building
 			Action_TEMP->CardFull = readUnsignedLong();
 			Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
 			Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
 			Action_TEMP->ActionPlayer = readUnsignedLong();
-			/*Action_TEMP->Cardy =*/ readUnsignedShort();
-			/*Action_TEMP->Cardz =*/ readUnsignedShort();
-			/*Action_TEMP->X =*/ readUnsignedLong();
-			/*Action_TEMP->Z =*/ readUnsignedLong();
-			/*Action_TEMP->Y =*/ readUnsignedLong();
-			/*Action_TEMP->Cardz =*/ readUnsignedShort();
-			/*Action_TEMP->CardA =*/ readUnsignedShort();
+			readUnsignedShort(); //Cardy
+			readUnsignedShort(); //Cardz
+			readUnsignedLong(); //X
+			readUnsignedLong(); //Y
+			readUnsignedLong(); //Z
+			readUnsignedLong(); //Zero
+			readUnsignedShort(); //Carda
+			readUnsignedShort(); //Cardb	
 			Action_TEMP->Charges = readUnsignedChar(); // Nur beim erstenmal rufen	
 			break;
+
+/*
 		case 4013: //move unit
 			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
@@ -378,7 +345,7 @@ bool Replay::ReadActions()
 			// 3 = Frost
 			// 4 = Red
 			Action_TEMP->ActionPlayer = readUnsignedLong();
-			/*Action_TEMP->Unit =*/ readUnsignedLong();
+			readUnsignedLong(); //Unit
 			Action_TEMP->Color = readUnsignedChar();			
 			break;
 		case 4033: //Unit move on Wall			
@@ -414,16 +381,49 @@ bool Replay::ReadActions()
 		case 4044: // TW Unit Switch
 			Action_TEMP->ActionPlayer = readUnsignedLong();
 			break;
-		
+
+			*/
+			
 		default:
+
+			if(Action_TEMP->Type<=4012)
+			{ 
+			
+			MISERROR(sTime(Action_TEMP->Time) + "#" +
+				to_string(Action_TEMP->Type) + "#" +
+				to_string(PMVPosition) + " # " +
+				to_string(Action_TEMP->Size) +
+				"falsche berechnet");				
+			}
+			PMVPosition = SollPos;
+			/*
 			MISERROR(FileName);
 			MISERROR(sTime(Action_TEMP->Time) + "#" +
 				to_string(Action_TEMP->Type) + "#" +
 				to_string(PMVPosition) + " # " +
 				to_string(Action_TEMP->Size) +
 				" SUPER UNKNOW!!!!");
+				*/
 		}
-		PMVPosition = SollPos;		
+		
+			ActionMatrix.push_back(Action_TEMP);
+			/*
+			MISERROR(sTime(Action_TEMP->Time) + "#" +
+				to_string(Action_TEMP->Type) + "#" +
+				to_string(PMVPosition) + " # " +
+				to_string(SollPos) + " # " +
+				to_string(Action_TEMP->Size));
+				*/
+
+		if (PMVPosition < SollPos)
+		{
+			Action_TEMP = new Action;
+			Action_TEMP->Time = ActionMatrix[ActionMatrix.size() - 1]->Time;
+			Action_TEMP->Size = SollPos - PMVPosition;
+			goto AGAIN;
+		}
+
+		//PMVPosition = SollPos;		
 
 		// Betreten von gebäude mit Bandit Sorceres + Verlassen
 		// Schild erzeugen vom LOst Wanderer)
@@ -442,11 +442,9 @@ bool Replay::ReadActions()
 			MISERROR("wir sind off, soll:" + to_string(SollPos) + " ist:" + to_string(PMVPosition));
 			PMVPosition = SollPos;
 		}
-		ActionMatrix.push_back(Action_TEMP);
+		
 
 	}
-
-	MISD("NOW        :" + to_string(PMVPosition));
 
 	MISE;
 }
@@ -515,7 +513,7 @@ bool Replay::AddFirstOrb()
 		}
 		if (iPosOfUnit == ActionMatrix.size())
 		{
-			MISD("No Unit Played " + PlayerMatrix[i]->Name);
+			//MISD("No Unit Played " + PlayerMatrix[i]->Name);
 			continue;
 		}
 
@@ -525,7 +523,6 @@ bool Replay::AddFirstOrb()
 		Action_TEMP->Type = 4031;
 		Action_TEMP->ActionPlayer = ActionMatrix[iPosOfUnit]->ActionPlayer;
 		Action_TEMP->Color = Bro->C_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card);
-		//MISD(sTime(Action_TEMP->Time) + "#" + to_string(Action_TEMP->Type) + " Player:" + to_string(Action_TEMP->Player) + " Color:" + to_string(Action_TEMP->Color));
 		ActionMatrix.insert(ActionMatrix.begin() + iPosOfUnit, Action_TEMP);				
 	}
 

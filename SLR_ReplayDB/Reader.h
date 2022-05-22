@@ -17,7 +17,7 @@ public:
 	unsigned long readUnsignedLong();
 	unsigned char readUnsignedChar();
 	unsigned short readUnsignedShort();
-	unsigned long long readUsignedLongLong();
+	unsigned long long readUnsignedLongLong();
 	string readString();
 	string readWString();
 
