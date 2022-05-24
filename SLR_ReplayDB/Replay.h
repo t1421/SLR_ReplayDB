@@ -22,10 +22,10 @@ struct Team {
 
 struct Card {
 	unsigned short DeckCardID;
+	unsigned long  CardFull;
 	unsigned short CardID;
 	unsigned short Upgrade;
 	unsigned char  Charges;
-
 };
 
 struct Player {
@@ -45,8 +45,8 @@ struct Action {
 	//unsigned long Size;
 
 	unsigned long Type;
-	unsigned short Card; 
-	unsigned short Upgrade;
+	unsigned long Card;
+	unsigned long Upgrade;
 	unsigned long CardFull;
 
 	unsigned long ActionPlayer;

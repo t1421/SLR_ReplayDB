@@ -15,7 +15,7 @@ public:
 
 	bool Open(string sFile);
 	unsigned long readUnsignedLong();
-	unsigned char readUnsignedChar();
+	unsigned char readUnsignedChar();	
 	unsigned short readUnsignedShort();
 	unsigned long long readUnsignedLongLong();
 	string readString();

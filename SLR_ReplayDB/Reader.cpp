@@ -57,7 +57,7 @@ unsigned short Reader::readUnsignedShort()
 
 unsigned char Reader::readUnsignedChar()
 {
-	return (unsigned char)PMVbuffer[PMVPosition++];
+	return (unsigned short)PMVbuffer[PMVPosition++];
 }
 
 
