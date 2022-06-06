@@ -23,7 +23,7 @@ int main(int argc, char **argv)
 
 	DEBUG* B = new DEBUG("SLR_ReplayDB");
 	B->teachB();
-	B->bFilter = true;
+	//B->bFilter = true;
 
 	LOAD* L = new LOAD();
 	L->teachL();
@@ -94,6 +94,11 @@ int main(int argc, char **argv)
 				if (Checker(sbuf, "team"))R->EchoTeam();
 				if (Checker(sbuf, "player"))R->EchoPlayer();
 				if (Checker(sbuf, "deck"))R->EchoPlayerDecks();
+
+				if (Checker(sbuf, "action"))
+				{
+					R->EchoAction(sbuf);
+				}
 			}
 		}
 

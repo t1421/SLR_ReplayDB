@@ -43,13 +43,13 @@ bool PMV_to_SQL::Upload()
 	string HeadID = "";
 
 	HeadID = DublettenCheck();
-	MISD("X" + HeadID + "X");
+	//MISD("X" + HeadID + "X");
 	if (HeadID != "0")
 	{
 		MISD("Dublette");
 		if (UploadPMVPlayerDeck(HeadID))
 		{
-			MISD("NEW Deck added");
+			MISD("NEW Deck Old Head");
 		}
 		MISEA("V1")
 		return false;
@@ -82,9 +82,10 @@ bool PMV_to_SQL::Upload()
 		return false;
 	}
 
-	if (UploadPMVPlayerDeck(HeadID))
+	if (!UploadPMVPlayerDeck(HeadID))
 	{
-		MISEA("NEW Deck added");
+		MISEA("ERROR while UploadPMVPlayerDeck");
+		return false;
 	}
 
 
@@ -159,6 +160,7 @@ string PMV_to_SQL::UploadHead()
 	NN->ssSQL << "                  playmodeID, ";
 	//NN->ssSQL << "                  PMVPlayerID, ";
 	NN->ssSQL << "                  MinLeaveGame, ";
+	NN->ssSQL << "                  WinningTeam, ";
 	NN->ssSQL << "                  FileName) ";
 	NN->ssSQL << "VALUES(" << int(RR->DifficultyID) << ", ";
 	NN->ssSQL << RR->FileVersion << ", ";
@@ -169,6 +171,7 @@ string PMV_to_SQL::UploadHead()
 	NN->ssSQL << RR->PlayModeID << ", ";
 	//NN->ssSQL << RR->PMVPlayerID << ", ";
 	NN->ssSQL << RR->MinLeaveGame << ", ";
+	NN->ssSQL << "'" << RR->WinningTeam << "', ";
 	NN->ssSQL << "'" << RR->FileName << "')";
 	NN->send();	
 	
@@ -239,7 +242,7 @@ string PMV_to_SQL::DublettenCheck()
 		return NN->res->getString(1);
 	}
 
-	MISEA("NEW");
+	MISE;
 	return "0";
 }
 

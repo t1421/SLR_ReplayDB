@@ -9,7 +9,7 @@ broker *(Replay::Bro) = NULL;
 Replay::Replay()
 {
 	MISS;
-	OK = false;
+	OK = true;
 	MISE;
 }
 
@@ -27,6 +27,7 @@ bool Replay::LoadPMV(string sFile)
 	if (!Open(sFile))
 	{
 		MISERROR("<-- error opening PMV");
+		OK = false;
 		return false;
 	}
 	FileName = get_file_name(sFile);
@@ -34,52 +35,56 @@ bool Replay::LoadPMV(string sFile)
 	if (ReadHeader() == false)
 	{
 		MISERROR("<-- ReadHeader faild");
+		OK = false;
 		return false;
 	}
 
 	if (ReadActions() == false)
 	{
 		MISERROR("<-- ReadActions faild");
+		OK = false;
 		return false;
 	}
 
 	if (ConnectActionToPlayer() == false)
 	{
 		MISERROR("<-- ConnectActionToPlayer faild");
+		OK = false;
 		return false;
 	}
 
 	if (AddFirstOrb() == false)
 	{
 		MISERROR("<-- AddFirstOrb faild");
+		OK = false;
 		return false;
 	}
 
 	if (SetMinLeaveTime() == false)
 	{
 		MISERROR("<-- SetMinLeaveTime faild");
+		OK = false;
 		return false;
 	}
 
 	if (SetCharges() == false)
 	{
 		MISERROR("<-- SetCharges faild");
+		OK = false;
 		return false;
 	}
 
 	if (FillPlayerIDInAction() == false)
 	{
 		MISERROR("<-- FillPlayerIDInAction faild");
+		OK = false;
 		return false;
 	}
 
-	
-
-	OK = true;
-
+	WinningTeam = FindWinningTeam();
 
 	MISE;
-	return true;
+	return OK;
 }
 
 bool Replay::ReadHeader()
@@ -214,6 +219,7 @@ bool Replay::ReadActions()
 					to_string(Action_TEMP->Position) + " # " +
 					to_string(MainSize) +
 					" ???");
+				OK = false;
 				break;
 				///###
 			case 4002: //leave game		
@@ -225,6 +231,18 @@ bool Replay::ReadActions()
 				this->readUnsignedChar(); // ??? number between 0 and 16?				
 				break;
 				///###
+			case 4005: //REALLY_UNKNOWN - Sige of Hoee ?						
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				readUnsignedLong(); //zero?
+				readUnsignedLong(); //Unit?
+				readUnsignedLong(); //zero?
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				OK = false;
 			case 4006: //GOLD	
 				Action_TEMP->PlayerID = readUnsignedLongLong(); // wer hat eingesammelt
 				readUnsignedLong(); // Unit
@@ -247,6 +265,7 @@ bool Replay::ReadActions()
 					to_string(Action_TEMP->Position) + " # " +
 					to_string(MainSize) +
 					" ???");
+				OK = false;
 				PMVPosition = SollPos;
 
 				break;
@@ -488,8 +507,12 @@ bool Replay::ReadActions()
 					readUnsignedLong(); // Unit
 				}
 				readUnsignedLong(); // Nexus				
+				break;				
+				///###
+			case 4039: // Switch Tunnel
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				readUnsignedLong(); // Unit
 				break;
-				
 				///###
 			case 4040: // Switch Nexusportal Back
 				Action_TEMP->ActionPlayer = readUnsignedLong();
@@ -504,6 +527,13 @@ bool Replay::ReadActions()
 				{
 					readUnsignedLong(); // Unit
 				}
+				break;
+				///###
+			case 4042: // Placing Altar Of Chaos Totem
+				Action_TEMP->ActionPlayer = readUnsignedLong();
+				readUnsignedLong(); // Unit		
+				readUnsignedLong(); // X
+				readUnsignedLong(); // Y	
 				break;
 
 				///###
@@ -535,14 +565,12 @@ bool Replay::ReadActions()
 			
 			default:
 				MISERROR(FileName);
-					MISERROR(sTime(Action_TEMP->Time) + "#" +
-						to_string(Action_TEMP->Type) + "#" +
-						to_string(PMVPosition) + " # " +
-						to_string(MainSize) +
-						"Unknow");
-				
-				//PMVPosition = SollPos;
-				
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(PMVPosition) + " # " +
+					to_string(MainSize) +
+					"Unknow");
+				OK = false;								
 			}			
 			ActionMatrix.push_back(Action_TEMP);
 		}			
@@ -707,7 +735,8 @@ void Replay::EchoHead()
 	MISD("PlayMode:   " + to_string(PlayModeID));
 	MISD("ActionBlock:" + to_string(ActionBlock));
 	MISD("PMVFromPlay:" + to_string(PMVPlayerID));
-	MISD("GroupCount: " + to_string(GroupCount));
+	MISD("GroupCount :" + to_string(GroupCount));
+	MISD("WinningTeam:" + WinningTeam);
 	MISE;
 }
 
@@ -763,7 +792,7 @@ void Replay::EchoPlayer()
 void Replay::EchoPlayerDecks()
 {
 	MISS;
-	MISD("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal")
+	MISD("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal");
 		for (unsigned int i = 0; i < PlayerMatrix.size(); i++)
 		{
 			MISD(to_string(i) + "#"	+ PlayerMatrix[i]->Name );
@@ -777,7 +806,116 @@ void Replay::EchoPlayerDecks()
 						+ to_string(PlayerMatrix[i]->Deck[j]->Upgrade) + "#"
 						+ to_string(PlayerMatrix[i]->Deck[j]->Charges));
 				}
-
 		}
 	MISE;
+}
+
+void Replay::EchoAction(string sAction)
+{
+	MISS;
+	MISD("count # Name # Time # Position # Type # ActionPlayer # PlayerID # Card ");
+	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
+	{
+		if (to_string(ActionMatrix[i]->Type) == sAction || sAction == "*")
+		MISD(to_string(i) + " # " + 
+			sTime(ActionMatrix[i]->Time) + " # " +
+			to_string(ActionMatrix[i]->Position) + " # " +		
+			to_string(ActionMatrix[i]->Type) + " # " +
+			to_string(ActionMatrix[i]->ActionPlayer) + " # " +
+			to_string(ActionMatrix[i]->PlayerID) + " # " +
+			to_string(ActionMatrix[i]->Card) );
+	}
+	MISE;
+}
+
+
+string Replay::FindWinningTeam()
+{
+	MISS;
+	unsigned int iCountTeam1 = 0;
+	unsigned int iCountLeft1 = 0;
+	unsigned int iCountTeam2 = 0;
+	unsigned int iCountLeft2 = 0;
+
+	for (unsigned int i = 0; i < TeamMatrix.size(); i++)
+	{
+		//MISD(TeamMatrix[i]->Name);
+		if (TeamMatrix[i]->Name == "TM_TEAM1") iCountTeam1++;
+		if (TeamMatrix[i]->Name == "TM_TEAM2") iCountTeam2++;
+	}
+
+	if (iCountTeam1 == 0)
+	{
+		MISEA("#10");
+		return "TM_TEAM2";
+	}
+	if (iCountTeam2 == 0)
+	{
+		MISEA("#11");
+		return "TM_TEAM1";
+	}
+
+	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
+	{
+		if (to_string(ActionMatrix[i]->Type) == "4002") //Leave game
+		{
+			for (unsigned int j = 0; j < PlayerMatrix.size(); j++)
+			{
+				if (PlayerMatrix[j]->ActionPlayer == ActionMatrix[i]->ActionPlayer)
+				{
+					for (unsigned int k = 0; k < TeamMatrix.size(); k++)
+					{
+						if (TeamMatrix[k]->GroupID == PlayerMatrix[j]->GroupID &&
+							TeamMatrix[k]->Name == "TM_TEAM1")iCountLeft1++;
+						if (TeamMatrix[k]->GroupID == PlayerMatrix[j]->GroupID &&
+							TeamMatrix[k]->Name == "TM_TEAM2")iCountLeft2++;
+					}
+				}
+			}
+		}
+	}
+
+	if (iCountTeam1 == iCountLeft1)
+	{
+		MISEA("#20");
+		return "TM_TEAM2";
+	}
+	if (iCountTeam2 == iCountLeft2)
+	{
+		MISEA("#21");
+		return "TM_TEAM1";
+	}
+
+
+	for (unsigned int i = ActionMatrix.size() - 1; i > 0; i--)
+	{
+		if (ActionMatrix[i]->ActionPlayer != 0)
+		{
+			for (unsigned int j = 0; j < PlayerMatrix.size(); j++)
+			{
+				if (PlayerMatrix[j]->ActionPlayer == ActionMatrix[i]->ActionPlayer)
+				{
+					for (unsigned int k = 0; k < TeamMatrix.size(); k++)
+					{
+						if (TeamMatrix[k]->GroupID == PlayerMatrix[j]->GroupID &&
+							TeamMatrix[k]->Name == "TM_TEAM1")
+						{
+							MISEA("#30");
+							return "TM_TEAM1";
+						}
+						if (TeamMatrix[k]->GroupID == PlayerMatrix[j]->GroupID &&
+							TeamMatrix[k]->Name == "TM_TEAM2")
+						{
+							MISEA("#31");
+							return "TM_TEAM2";
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+	MISERROR("<-- NO WINNER!!!");
+	return "";
 }

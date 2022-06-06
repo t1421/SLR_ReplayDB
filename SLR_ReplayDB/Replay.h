@@ -89,6 +89,7 @@ public:
 	void EchoTeam();
 	void EchoPlayer();
 	void EchoPlayerDecks();
+	void EchoAction(string sAction);
 
 	//BROKER
 	static broker* Bro;
@@ -117,6 +118,7 @@ public:
 	vector<Action*> ActionMatrix;
 	string MapName;
 	string FileName;
+	string WinningTeam;
 protected:
 
 private:
@@ -127,6 +129,7 @@ private:
 	bool SetMinLeaveTime();
 	bool SetCharges();
 	bool FillPlayerIDInAction();
+	string FindWinningTeam();
 	string get_file_name(string pfad);
 	string sTime(unsigned long ulTime);
 

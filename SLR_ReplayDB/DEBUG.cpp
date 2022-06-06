@@ -8,7 +8,7 @@ DEBUG::DEBUG(string sLogName)
 {
 	bGUI = true;
 	bFile = true;
-	bFilter = false;
+	bFilter = true;
 
 
 		printf("DEBUG WIRD GESTARTET -->\n");
@@ -27,6 +27,7 @@ DEBUG::DEBUG(string sLogName)
 
 		Fill_DBArray("Replay", "*", "*", "true");
 		Fill_DBArray("Replay", "sTime", "*", "false");
+		Fill_DBArray("Replay", "FindWinningTeam", "*", "false");
 		
 		Fill_DBArray("Reader", "*", "*", "true");
 		//Fill_DBArray("Reader", "readString", "*", "false");
