@@ -58,25 +58,39 @@ int main(int argc, char **argv)
 		if (string(buf) == "3")Bro->C->Imager(1394);
 		if (string(buf) == "3")Bro->C->Imager(1395);
 		if (string(buf) == "9")Bro->C->Imager(0);
-		
-		/*
-		Bro->C->Imager(1033);
-		Bro->C->Imager(1585);
-		Bro->C->Imager(1034);
-		Bro->C->Imager(1021);
-		Bro->C->Imager(1607);
-		Bro->C->Imager(1035);
-		Bro->C->Imager(1029);
-		Bro->C->Imager(1032);
-		Bro->C->Imager(1274);
-		Bro->C->Imager(1277);
-		Bro->C->Imager(1030);
-		Bro->C->Imager(1276);
-		Bro->C->Imager(1639);
-		Bro->C->Imager(1642);
-		Bro->C->Imager(1031);
-		Bro->C->Imager(1275);
-		*/
+
+		if (Checker(sbuf, "?"))
+		{
+			printf("####################|###########################################\n");
+			printf("C;full              | Updates all cards in MYSQL\n");
+			printf("C;update            | Adds neu cards to MYSQL\n");
+			printf("C;imager;0          | Loads all images from WIKI in MYSQL\n");
+			printf("C;imager;[ID]       | Loads images for CARDID from WIKI in MYSQL\n");
+			printf("####################|###########################################\n\n");
+			printf("####################|###########################################\n");
+			printf("R;new               | new Replay object\n");
+			printf("R;open;[FILE]       | Opens FILE from Replay dir\n");
+			printf("R;echo;head         | Outputs Headerdata\n");
+			printf("R;echo;allied       | Outputs Allied Table\n");
+			printf("R;echo;team         | Outputs Team Table\n");
+			printf("R;echo;player       | Outputs Players\n");
+			printf("R;echo;deck         | Outputs Deck of Replay recorder\n");
+			printf("R;echo;action;*     | Outputs all Actions\n");
+			printf("R;echo;action;[ID]  | Outputs Actions with ID\n");
+			printf("####################|###########################################\n\n");
+			printf("####################|###########################################\n");
+			printf("P;new               | new MYSQL Uploard object\n");
+			printf("P;open              | loads R into P\n");
+			printf("P;dublette          | Checks if Games is alreade in MYSQL\n");
+			printf("####################|###########################################\n\n");
+		}
+
+		if (Checker(sbuf, "C"))
+		{
+			if (Checker(sbuf, "update"))Bro->C->WEBtoSQL(false);
+			if (Checker(sbuf, "full"))Bro->C->WEBtoSQL(true);
+			if (Checker(sbuf, "imager"))Bro->C->Imager(atoi(sbuf.c_str()));
+		}		
 
 		if (Checker(sbuf, "R"))
 		{
@@ -118,15 +132,6 @@ int main(int argc, char **argv)
 			}
 		}
 
-		
-
-		/*
-		if (R->LoadPMV(string(buf) +  ".pmv"))
-			if (P->UseThisPMV(R))
-				//if (P->NewMasterData())
-					MISD("DONE");
-*/
-		
 	}
 
 	M->Stop_Thread();

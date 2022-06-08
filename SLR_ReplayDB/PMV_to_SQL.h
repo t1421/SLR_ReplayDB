@@ -15,12 +15,8 @@ public:
 	bool Upload();
 	string DublettenCheck();
 	
-
-	//Decks??? mit charges und Upgrads aus Acrion
-	// Actions
-	/// UNKNOWS uploaden
-
-
+	string sEvent;
+	
 	static broker* Bro;
 	//void teachP() { Bro->P = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

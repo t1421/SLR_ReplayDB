@@ -49,6 +49,8 @@ void Manager::Thread_Function()
 				
 				if (PP->UseThisPMV(RR))
 				{
+					path dir(it->path());
+					if (dir.parent_path().string() != "REPLAY_AUTO")PP->sEvent = dir.parent_path().filename().string();
 					if(PP->Upload())MISD("DONE");										
 				} else MISD("Error using Replay Object ");
 					

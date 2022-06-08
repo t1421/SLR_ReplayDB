@@ -11,7 +11,7 @@ broker *(PMV_to_SQL::Bro) = NULL;
 PMV_to_SQL::PMV_to_SQL()
 {
 	MISS;
-
+	sEvent = "";
 	MISE;
 }
 
@@ -161,6 +161,7 @@ string PMV_to_SQL::UploadHead()
 	//NN->ssSQL << "                  PMVPlayerID, ";
 	NN->ssSQL << "                  MinLeaveGame, ";
 	NN->ssSQL << "                  WinningTeam, ";
+	NN->ssSQL << "                  Event, ";
 	NN->ssSQL << "                  FileName) ";
 	NN->ssSQL << "VALUES(" << int(RR->DifficultyID) << ", ";
 	NN->ssSQL << RR->FileVersion << ", ";
@@ -172,6 +173,7 @@ string PMV_to_SQL::UploadHead()
 	//NN->ssSQL << RR->PMVPlayerID << ", ";
 	NN->ssSQL << RR->MinLeaveGame << ", ";
 	NN->ssSQL << "'" << RR->WinningTeam << "', ";
+	NN->ssSQL << "'" << sEvent << "', ";
 	NN->ssSQL << "'" << RR->FileName << "')";
 	NN->send();	
 	
