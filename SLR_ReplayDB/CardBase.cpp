@@ -271,7 +271,7 @@ bool CardBase::IMGtoQSL(int iCardID, string sFile)
 	else Bro->B->StatusE("E", "IMGtoQSL", "Error opening File");
 	
 	Bro->N->ssSQL << " UPDATE cards SET IMG = ?";
-	Bro->N->ssSQL << " WHERE cardId = " << iCardID;
+	Bro->N->ssSQL << " WHERE ID = " << iCardID;
 	Bro->N->SendBLOB(ss.str());
 	
 	

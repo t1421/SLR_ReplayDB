@@ -56,7 +56,9 @@ void Manager::Thread_Function()
 					
 				
 				ssCMD.str("");
-				ssCMD << "move \"" << it->path().string() << "\" \"" << Bro->L_getPMV_ARCH_PATH() << "\\" << it->path().filename().string() << "\"";
+				ssCMD << "move \"" << it->path().string() << "\" \"" << Bro->L_getPMV_ARCH_PATH();
+				if (PP->sEvent != "") ssCMD << "\\" << PP->sEvent;
+				ssCMD << "\\" << it->path().filename().string() << "\"";
 				system(ssCMD.str().c_str());
 				
 			}

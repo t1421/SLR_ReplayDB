@@ -46,7 +46,7 @@ bool PMV_to_SQL::Upload()
 	//MISD("X" + HeadID + "X");
 	if (HeadID != "0")
 	{
-		MISD("Dublette");
+		MISD("Dublette: " + HeadID);
 		if (UploadPMVPlayerDeck(HeadID))
 		{
 			MISD("NEW Deck Old Head");
@@ -261,6 +261,7 @@ bool PMV_to_SQL::UploadActions(string iNewHeadID)
 		NN->ssSQL << "  ActionTypeID , ";
 		NN->ssSQL << "  CardID , ";
 		NN->ssSQL << "  Charges , ";
+		NN->ssSQL << "  Color , ";
 		NN->ssSQL << "  Upgrade , ";
 		NN->ssSQL << "  playerID) ";
 		NN->ssSQL << "VALUES(";
@@ -269,6 +270,7 @@ bool PMV_to_SQL::UploadActions(string iNewHeadID)
 		NN->ssSQL << RR->ActionMatrix[i]->Type << " , ";
 		NN->ssSQL << RR->ActionMatrix[i]->Card << " , ";
 		NN->ssSQL << int(RR->ActionMatrix[i]->Charges) << " , ";
+		NN->ssSQL << int(RR->ActionMatrix[i]->Color) << " , ";
 		NN->ssSQL << RR->ActionMatrix[i]->Upgrade << " , ";
 		NN->ssSQL << RR->ActionMatrix[i]->PlayerID <<" ) ";
 		NN->send();
