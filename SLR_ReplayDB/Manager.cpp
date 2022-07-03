@@ -57,8 +57,11 @@ void Manager::Thread_Function()
 				
 				ssCMD.str("");
 				ssCMD << "move \"" << it->path().string() << "\" \"" << Bro->L_getPMV_ARCH_PATH();
-				if (PP->sEvent != "") ssCMD << "\\" << PP->sEvent;
+				//MISD(ssCMD.str());
+				if (PP->sEvent != "" && PP->sEvent != "REPLAY_AUTO") ssCMD << "\\" << PP->sEvent;
+				//MISD(ssCMD.str());
 				ssCMD << "\\" << it->path().filename().string() << "\"";
+				//MISD(ssCMD.str());
 				system(ssCMD.str().c_str());
 				
 			}

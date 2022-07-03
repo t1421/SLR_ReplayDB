@@ -9,6 +9,7 @@
 #include "Manager.h" 
 #include "Replay.h" 
 #include "PMV_to_SQL.h" 
+#include "Imager.h" 
 
 
 
@@ -35,12 +36,16 @@ int main(int argc, char **argv)
 	CardBase* C = new CardBase();
 	C->teachC();
 
+	
+	
+
 	Manager* M = new Manager();
 	M->teachM();
 	M->Start_Thread();
 	
 	Replay* R = new Replay();	
 	PMV_to_SQL* P = new PMV_to_SQL();
+	Imager* I = new Imager();
 	
 
 	MISD("--> MAINSCHEIFE");
@@ -81,7 +86,12 @@ int main(int argc, char **argv)
 			printf("####################|###########################################\n");
 			printf("P;new               | new MYSQL Uploard object\n");
 			printf("P;open              | loads R into P\n");
+			printf("P;download;[GameID] | loads R from SQL\n");
 			printf("P;dublette          | Checks if Games is alreade in MYSQL\n");
+			printf("####################|###########################################\n\n");
+			printf("####################|###########################################\n");
+			printf("I;new               | new Imager Object\n");
+			printf("I;test              | test\n");
 			printf("####################|###########################################\n\n");
 		}
 
@@ -121,9 +131,17 @@ int main(int argc, char **argv)
 			if (Checker(sbuf, "new"))P = new PMV_to_SQL();
 
 			if (Checker(sbuf, "open"))
+			{				
+				P->UseThisSQL(N);				
+				P->UseThisPMV(R);
+			}
+
+			if (Checker(sbuf, "download"))
 			{
+				R = new Replay();
 				P->UseThisSQL(N);
 				P->UseThisPMV(R);
+				P->Download(sbuf.c_str());
 			}
 
 			if (Checker(sbuf, "dublette"))
@@ -132,6 +150,11 @@ int main(int argc, char **argv)
 			}
 		}
 
+		if (Checker(sbuf, "I"))
+		{
+			if (Checker(sbuf, "new"))I = new Imager();
+			if (Checker(sbuf, "test"))I->test();
+		}
 	}
 
 	M->Stop_Thread();

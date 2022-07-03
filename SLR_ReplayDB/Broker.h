@@ -7,6 +7,7 @@ class CardBase;
 class Replay;
 class LOAD;
 class Manager;
+class Imager;
 
 class broker
 {
@@ -19,6 +20,7 @@ public:
 	CardBase* C;	
 	LOAD* L;
 	Manager* M;
+	Imager* I;
 	
 	broker* Bro;
 

@@ -813,7 +813,7 @@ void Replay::EchoPlayerDecks()
 void Replay::EchoAction(string sAction)
 {
 	MISS;
-	MISD("count # Name # Time # Position # Type # ActionPlayer # PlayerID # Card ");
+	MISD("count # Time # Position # Type # ActionPlayer # PlayerID # Card ");
 	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
 	{
 		if (to_string(ActionMatrix[i]->Type) == sAction || sAction == "*")
@@ -900,12 +900,22 @@ string Replay::FindWinningTeam()
 						if (TeamMatrix[k]->GroupID == PlayerMatrix[j]->GroupID &&
 							TeamMatrix[k]->Name == "TM_TEAM1")
 						{
+							if (ActionMatrix[i]->Type == 4041) // Kill Own Unit
+							{
+								MISEA("#40");
+								return "TM_TEAM2";
+							}
 							MISEA("#30");
 							return "TM_TEAM1";
 						}
 						if (TeamMatrix[k]->GroupID == PlayerMatrix[j]->GroupID &&
 							TeamMatrix[k]->Name == "TM_TEAM2")
 						{
+							if (ActionMatrix[i]->Type == 4041) // Kill Own Unit
+							{
+								MISEA("#41");
+								return "TM_TEAM1";
+							}
 							MISEA("#31");
 							return "TM_TEAM2";
 						}

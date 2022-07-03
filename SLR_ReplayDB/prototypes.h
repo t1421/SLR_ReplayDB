@@ -34,12 +34,6 @@
 ///Names Spaces
 using namespace std;
 
-///Settings für Speek
-//#define SQL_Server    "192.168.0.4"
-//#define SQL_User      "SLR"
-//#define SQL_PW        "SkyLordsReBorn"
-//#define SQL_DB        "replaydb"
-
 ///Pfad Constanten
 static string Log_path			= "K:\\c++\\SLR_ReplayDB\\Release\\LOG\\";
 static string Tmp_path          = "K:\\c++\\SLR_ReplayDB\\Release\\TMP\\";

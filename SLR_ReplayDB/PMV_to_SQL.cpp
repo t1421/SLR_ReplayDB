@@ -326,3 +326,102 @@ void PMV_to_SQL::UseThisSQL(SQL_MIS_New * inSQL)
 	NN = inSQL;
 	MISE;
 }
+
+bool PMV_to_SQL::Download(string sGameID)
+{
+	MISS;
+
+	Player* Player_TEMP;
+	Action * Action_TEMP;
+
+	NN->ssSQL << "SELECT difficultyID, ";
+	NN->ssSQL << "       FileVersion, ";
+	NN->ssSQL << "       GameVersion, ";
+	NN->ssSQL << "       Playtime, ";
+	NN->ssSQL << "       Seed, ";
+	NN->ssSQL << "       mapID , ";
+	NN->ssSQL << "       playmodeID , ";
+	NN->ssSQL << "       MinLeaveGame, ";
+	NN->ssSQL << "       FileName, ";
+	NN->ssSQL << "       WinningTeam, ";
+	NN->ssSQL << "       map.Name ";
+	NN->ssSQL << " FROM game ";
+	NN->ssSQL << " left join map on map.ID = game.mapID";
+	NN->ssSQL << " WHERE game.ID = " << sGameID;
+	if (NN->send() <= 0)
+	{		
+		MISEA("GAME ID invalide: " + sGameID);
+		return false;
+	}
+	Bro->N->res->next();
+
+	RR->DifficultyID = NN->res->getInt(1);
+	RR->FileVersion = NN->res->getInt(2);
+	RR->GameVersion = NN->res->getInt(3);
+	RR->Playtime = NN->res->getInt(4);
+	RR->Seed = NN->res->getInt(5);
+	RR->MapID = NN->res->getInt(6);
+	RR->PlayModeID = NN->res->getInt(7);
+	RR->MinLeaveGame = NN->res->getInt(8);
+	RR->FileName = NN->res->getString(9);
+	RR->WinningTeam = NN->res->getString(10);
+	RR->MapName = NN->res->getString(11);
+
+
+
+
+	NN->ssSQL << "SELECT playerID, ";
+	//NN->ssSQL << "       Team, ";
+	NN->ssSQL << "       PosInTeam, ";
+	NN->ssSQL << "       player.Name ";	
+	NN->ssSQL << " FROM gameplayers ";
+	NN->ssSQL << " left join player on player.ID = gameplayers.playerID";
+	NN->ssSQL << " WHERE gameplayers.gameID = " << sGameID;
+	if (NN->send() <= 0)
+	{
+		MISEA("No Players: " + sGameID);
+		return false;
+	}
+
+	while (Bro->N->res->next())
+	{
+		Player_TEMP = new Player;
+		
+		Player_TEMP->PlayerID = NN->res->getInt(1);
+		//Player_TEMP->GroupID = readUnsignedChar();
+		Player_TEMP->IDinGroup = NN->res->getInt(2);
+		Player_TEMP->Name = NN->res->getString(3);		
+		RR->PlayerMatrix.push_back(Player_TEMP);
+	}
+
+
+	NN->ssSQL << " SELECT	Time, ";
+	NN->ssSQL << "			ActionTypeID , ";
+	NN->ssSQL << "			CardID , ";
+	NN->ssSQL << "			Charges , ";
+	NN->ssSQL << "			Color , ";
+	NN->ssSQL << "			Upgrade , ";
+	NN->ssSQL << "			playerID ";
+	NN->ssSQL << " FROM action ";
+	NN->ssSQL << " WHERE action.gameID = " << sGameID;
+	if (NN->send() <= 0)
+	{
+		MISEA("No action: " + sGameID);
+		return false;
+	}
+	while (Bro->N->res->next())
+	{
+		Action_TEMP = new Action;
+		Action_TEMP->Time = NN->res->getInt(1);
+		Action_TEMP->Type = NN->res->getInt(2);
+		Action_TEMP->Card = NN->res->getInt(3);
+		Action_TEMP->Charges = NN->res->getInt(4);
+		Action_TEMP->Color = NN->res->getInt(5);
+		Action_TEMP->Upgrade = NN->res->getInt(6);
+		Action_TEMP->PlayerID = NN->res->getInt(7);
+		RR->ActionMatrix.push_back(Action_TEMP);
+	}
+
+	MISE;
+	return true;
+}

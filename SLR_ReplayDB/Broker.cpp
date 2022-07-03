@@ -7,6 +7,7 @@
 #include "CardBase.h" 
 #include "Replay.h" 
 #include "Reader.h" 
+#include "Imager.h"
 #include "PMV_to_SQL.h"
 #include "LOAD.h"
 #include "Manager.h"
@@ -23,6 +24,7 @@ broker::broker()
 	Replay::learnBro(this);
 	Reader::learnBro(this);
 	PMV_to_SQL::learnBro(this);
+	Imager::learnBro(this);
 	LOAD::learnBro(this);
 	Manager::learnBro(this);
 	Thread_MIS::learnBro(this);
@@ -34,6 +36,7 @@ broker::broker()
 	C = NULL;	
 	M = NULL;
 	L = NULL;
+	I = NULL;
 
 }
 

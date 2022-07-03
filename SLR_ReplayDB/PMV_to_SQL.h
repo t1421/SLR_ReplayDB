@@ -13,6 +13,7 @@ public:
 	void UseThisSQL(SQL_MIS_New * inSQL);
 
 	bool Upload();
+	bool Download(string sGameID);
 	string DublettenCheck();
 	
 	string sEvent;

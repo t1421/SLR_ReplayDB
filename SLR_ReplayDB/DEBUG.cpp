@@ -8,7 +8,7 @@ DEBUG::DEBUG(string sLogName)
 {
 	bGUI = true;
 	bFile = true;
-	bFilter = true;
+	bFilter = false;
 
 
 		printf("DEBUG WIRD GESTARTET -->\n");
@@ -33,6 +33,8 @@ DEBUG::DEBUG(string sLogName)
 		//Fill_DBArray("Reader", "readString", "*", "false");
 		
 		Fill_DBArray("PMV_to_SQL", "*", "*", "true");
+
+		Fill_DBArray("Imager", "*", "*", "true");
 
 		Fill_DBArray("LOAD", "*", "*", "true");
 		Fill_DBArray("LOAD", "INI_Value_Check", "*", "false");
