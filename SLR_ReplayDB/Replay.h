@@ -119,6 +119,8 @@ public:
 	string MapName;
 	string FileName;
 	string WinningTeam;
+
+	stringstream ssPMVFile;
 protected:
 
 private:
@@ -129,6 +131,7 @@ private:
 	bool SetMinLeaveTime();
 	bool SetCharges();
 	bool FillPlayerIDInAction();
+	bool getPMVinSS(string sFile);
 	string FindWinningTeam();
 	string get_file_name(string pfad);
 	string sTime(unsigned long ulTime);

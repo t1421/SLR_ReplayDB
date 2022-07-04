@@ -32,6 +32,14 @@ bool Replay::LoadPMV(string sFile)
 	}
 	FileName = get_file_name(sFile);
 
+
+	if (getPMVinSS(sFile) == false)
+	{
+		MISERROR("<-- ReadHeader getPMVinSS");
+		OK = false;
+		return false;
+	}
+
 	if (ReadHeader() == false)
 	{
 		MISERROR("<-- ReadHeader faild");
@@ -900,7 +908,7 @@ string Replay::FindWinningTeam()
 						if (TeamMatrix[k]->GroupID == PlayerMatrix[j]->GroupID &&
 							TeamMatrix[k]->Name == "TM_TEAM1")
 						{
-							if (ActionMatrix[i]->Type == 4041) // Kill Own Unit
+							if (ActionMatrix[i]->Type == 4041 && PlayModeID == 2) // Kill Own Unit in PVP
 							{
 								MISEA("#40");
 								return "TM_TEAM2";
@@ -911,7 +919,7 @@ string Replay::FindWinningTeam()
 						if (TeamMatrix[k]->GroupID == PlayerMatrix[j]->GroupID &&
 							TeamMatrix[k]->Name == "TM_TEAM2")
 						{
-							if (ActionMatrix[i]->Type == 4041) // Kill Own Unit
+							if (ActionMatrix[i]->Type == 4041 && PlayModeID == 2) // Kill Own Unit in PVP
 							{
 								MISEA("#41");
 								return "TM_TEAM1";
@@ -928,4 +936,22 @@ string Replay::FindWinningTeam()
 
 	MISERROR("<-- NO WINNER!!!");
 	return "";
+}
+
+bool Replay::getPMVinSS(string sFile)
+{
+	MISS;
+	//For SQL Upload
+	ifstream ifs;
+	ifs.open(sFile, std::ifstream::binary | std::ifstream::in);
+	if (ifs)
+	{
+		ssPMVFile << ifs.rdbuf();
+		ifs.close();
+		MISEA("X1");
+		return true;
+	}
+
+	MISEA("X2");
+	return false;
 }

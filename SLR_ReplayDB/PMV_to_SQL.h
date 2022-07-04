@@ -29,6 +29,7 @@ protected:
 	bool UploadActions(string iNewHeadID);
 	bool UploadPlayers(string iNewHeadID);
 	bool UploadPMVPlayerDeck(string iNewHeadID);
+	bool PMVtoSQL(string iNewHeadID);
 
 private:
 	SQL_MIS_New * NN;

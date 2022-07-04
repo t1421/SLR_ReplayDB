@@ -70,6 +70,13 @@ bool PMV_to_SQL::Upload()
 		return false;
 	}
 
+	if (!PMVtoSQL(HeadID))
+	{
+		MISEA("ERROR while Uploading PMV File");
+		return false;
+	}
+	
+
 	if (!UploadPlayers(HeadID))
 	{
 		MISEA("ERROR while Uploading Players");
@@ -421,6 +428,19 @@ bool PMV_to_SQL::Download(string sGameID)
 		Action_TEMP->PlayerID = NN->res->getInt(7);
 		RR->ActionMatrix.push_back(Action_TEMP);
 	}
+
+	MISE;
+	return true;
+}
+
+bool PMV_to_SQL::PMVtoSQL(string iNewHeadID)
+{
+	MISS;
+
+	Bro->N->ssSQL << " UPDATE game SET PMV = ?";
+	Bro->N->ssSQL << " WHERE ID = " << iNewHeadID;
+	Bro->N->SendBLOB(RR->ssPMVFile.str());
+
 
 	MISE;
 	return true;

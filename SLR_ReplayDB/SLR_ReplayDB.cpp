@@ -86,6 +86,7 @@ int main(int argc, char **argv)
 			printf("####################|###########################################\n");
 			printf("P;new               | new MYSQL Uploard object\n");
 			printf("P;open              | loads R into P\n");
+			printf("P;upload            | save R into SQL\n");
 			printf("P;download;[GameID] | loads R from SQL\n");
 			printf("P;dublette          | Checks if Games is alreade in MYSQL\n");
 			printf("####################|###########################################\n\n");
@@ -134,6 +135,11 @@ int main(int argc, char **argv)
 			{				
 				P->UseThisSQL(N);				
 				P->UseThisPMV(R);
+			}
+
+			if (Checker(sbuf, "upload"))
+			{
+				P->Upload();
 			}
 
 			if (Checker(sbuf, "download"))
