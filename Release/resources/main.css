@@ -1,0 +1,72 @@
+
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+
+}
+
+.green-box{
+background-color: #00DD00 !important;
+}
+
+.yellow-box{
+background-color: #FFFFBB !important;
+}
+
+.aktiv{
+background-color: #22DD22 !important;
+}
+
+.inaktiv{
+background-color: #DD2222 !important;
+}
+
+.PlusUndMinus{
+width: 50px !important;
+}
+
+.gruen-box{
+background-color: #00DD00 !important;
+}
+
+.grau-box{
+background-color: #BBBBBB !important;
+}
+
+.weiss-box{
+background-color: #FFFFFF !important;
+} 
+
+.ColorButton0{
+position: absolute;
+    left: 525px;
+} 
+
+.ColorButton1{
+position: absolute;
+    left: 485px;
+} 
+
+.ColorButton2{
+position: absolute;
+    left: 445px;
+} 
+
+.ColorButton3{
+position: absolute;
+    left: 405px;
+} 
+
+.ColorButton4{
+position: absolute;
+    left: 365px;
+} 
+
+.ColorButton5{
+position: absolute;
+    left: 325px;
+} 
+
+    

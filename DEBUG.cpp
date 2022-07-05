@@ -49,7 +49,11 @@ DEBUG::DEBUG(string sLogName)
 		Fill_DBArray("SQL_MIS_New", "SendBLOB", "*", "false");
 		
 		
-		
+		Fill_DBArray("WEB_Main", "*", "*", "true");
+		Fill_DBArray("MISCONTAINER", "*", "*", "true");
+		Fill_DBArray("MISSERVER", "*", "*", "true");
+		Fill_DBArray("WEB_MA", "*", "*", "true");
+
 		Fill_DBArray("broker", "*", "*", "true");
 
 		/////////////////////////////////////////////////////

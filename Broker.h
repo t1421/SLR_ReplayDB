@@ -8,6 +8,7 @@ class Replay;
 class LOAD;
 class Manager;
 class Imager;
+class WEB_Main;
 
 class broker
 {
@@ -21,11 +22,13 @@ public:
 	LOAD* L;
 	Manager* M;
 	Imager* I;
+	WEB_Main *W;
 	
 	broker* Bro;
 
 	bool bAktive;
 
+#ifndef BrokerWebOnly
 	unsigned char C_GetActionOrbForCardID(unsigned short CardID);
 	string L_getSQL_Server();
 	string L_getSQL_User();
@@ -34,6 +37,7 @@ public:
 	string L_getPMV_PATH();
 	string L_getPMV_AUTO_PATH();
 	string L_getPMV_ARCH_PATH();
+#endif
 	
 protected:
 	

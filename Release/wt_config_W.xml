@@ -1,0 +1,10 @@
+<server>
+     <application-settings location="*">
+		<log-file>K:\c++\SLR_ReplayDB\Release\LOG\WW.log</log-file>
+		<web-sockets>false</web-sockets>
+		<session-management>
+			<!-- <tracking>URL</tracking> -->
+			<reload-is-new-session>false</reload-is-new-session>
+		</session-management>
+    </application-settings>
+</server>

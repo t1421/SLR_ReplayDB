@@ -670,7 +670,9 @@ bool Replay::AddFirstOrb()
 		//Action_TEMP->Size = 13;
 		Action_TEMP->Type = 4031;
 		Action_TEMP->ActionPlayer = ActionMatrix[iPosOfUnit]->ActionPlayer;
-#ifndef noBroker
+#if defined(noBroker) || defined(BrokerWebOnly)
+		Action_TEMP->Color = 0;
+#else
 		Action_TEMP->Color = Bro->C_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card);
 #endif
 		ActionMatrix.insert(ActionMatrix.begin() + iPosOfUnit, Action_TEMP);				
