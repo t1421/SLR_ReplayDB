@@ -1,7 +1,7 @@
 // SLR_ReplayDB.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
 //
 
-#include "stdafx.h"
+#include "prototypes.h"
 
 #include "SQL_MIS_New.h" 
 #include "CardBase.h" 

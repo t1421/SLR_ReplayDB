@@ -1,6 +1,6 @@
 //#define DF_Debug
 
-#include "stdafx.h"
+#include "prototypes.h"
 
 #include "DEBUG.h"
 #include "SQL_MIS_New.h" 

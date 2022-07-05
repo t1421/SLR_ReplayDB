@@ -1,6 +1,6 @@
 //#define DF_Debug
 
-#include "stdafx.h"
+#include "prototypes.h"
 
 #include "Thread_MIS.h"
 

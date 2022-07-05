@@ -27,9 +27,11 @@ public:
 
 	mutex mtx;
 
+#ifndef noBroker
 	static broker* Bro;
 	void teachB() { Bro->B = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }	
+#endif
 
 protected:
 

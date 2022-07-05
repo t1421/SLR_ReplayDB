@@ -1,13 +1,15 @@
 //#define DF_Debug
 
-#include "stdafx.h"
+#include "prototypes.h"
 
 #include "Reader.h" 
 
 #include <locale>
 #include <codecvt>
 
+#ifndef noBroker
 broker *(Reader::Bro) = NULL;
+#endif
 
 Reader::Reader()
 {

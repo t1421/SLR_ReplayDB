@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{67F52F4B-A32B-4299-849F-35B0BB6DC7A0}</ProjectGuid>
+    <ProjectGuid>{1ACE7870-7DA3-4D28-877F-631D70AB7408}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>SLR_ReplayDB</RootNamespace>
+    <RootNamespace>SLR_ReplayParser</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -83,8 +83,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -97,8 +96,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
@@ -112,29 +110,24 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;noBroker;noDebug;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>K:\Sound_Server\lib\opencv3.4\include;K:\Sound_Server\lib\mysql-connector-c++-noinstall-1.1.9-win32\include;K:\Sound_Server\lib\boost_1_68_0;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\include;K:\Sound_Server\lib\jsoncpp-1.9.5\install\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>K:\Sound_Server\lib\opencv3.4\lib\VC14_32;K:\Sound_Server\lib\mysql-connector-c++-noinstall-1.1.9-win32\lib;K:\Sound_Server\lib\boost_1_68_0\stage\lib;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\lib;K:\Sound_Server\lib\jsoncpp-1.9.5\build2\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>mysqlcppconn.lib;libcurl.lib;jsoncpp.lib;opencv_imgcodecs340.lib;opencv_imgproc340.lib;opencv_core340.lib;opencv_highgui340.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <PrecompiledHeader>
-      </PrecompiledHeader>
+      <PrecompiledHeader>Use</PrecompiledHeader>
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -152,32 +145,14 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Broker.h" />
-    <ClInclude Include="..\CardBase.h" />
-    <ClInclude Include="..\DEBUG.h" />
-    <ClInclude Include="..\Imager.h" />
-    <ClInclude Include="..\LOAD.h" />
-    <ClInclude Include="..\Manager.h" />
-    <ClInclude Include="..\PMV_to_SQL.h" />
+    <ClCompile Include="..\Reader.cpp" />
+    <ClCompile Include="..\Replay.cpp" />
+    <ClCompile Include="..\SLR_ReplayParser.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ClInclude Include="..\prototypes.h" />
     <ClInclude Include="..\Reader.h" />
     <ClInclude Include="..\Replay.h" />
-    <ClInclude Include="..\SQL_MIS_New.h" />
-    <ClInclude Include="..\Thread_MIS.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\Broker.cpp" />
-    <ClCompile Include="..\CardBase.cpp" />
-    <ClCompile Include="..\DEBUG.cpp" />
-    <ClCompile Include="..\Imager.cpp" />
-    <ClCompile Include="..\LOAD.cpp" />
-    <ClCompile Include="..\Manager.cpp" />
-    <ClCompile Include="..\PMV_to_SQL.cpp" />
-    <ClCompile Include="..\Reader.cpp" />
-    <ClCompile Include="..\Replay.cpp" />
-    <ClCompile Include="..\SLR_ReplayDB.cpp" />
-    <ClCompile Include="..\SQL_MIS_New.cpp" />
-    <ClCompile Include="..\Thread_MIS.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

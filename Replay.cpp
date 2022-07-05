@@ -1,10 +1,12 @@
 //#define DF_Debug
 
-#include "stdafx.h"
+#include "prototypes.h"
 
 #include "Replay.h" 
 
+#ifndef noBroker
 broker *(Replay::Bro) = NULL;
+#endif
 
 Replay::Replay()
 {
@@ -668,7 +670,9 @@ bool Replay::AddFirstOrb()
 		//Action_TEMP->Size = 13;
 		Action_TEMP->Type = 4031;
 		Action_TEMP->ActionPlayer = ActionMatrix[iPosOfUnit]->ActionPlayer;
+#ifndef noBroker
 		Action_TEMP->Color = Bro->C_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card);
+#endif
 		ActionMatrix.insert(ActionMatrix.begin() + iPosOfUnit, Action_TEMP);				
 	}
 

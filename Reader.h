@@ -22,9 +22,10 @@ public:
 	string readWString();
 
 	//BROKER
+#ifndef noBroker
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
-
+#endif
 
 	unsigned int PMVPosition;
 	size_t length;

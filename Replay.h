@@ -92,10 +92,10 @@ public:
 	void EchoAction(string sAction);
 
 	//BROKER
+#ifndef noBroker
 	static broker* Bro;
-	//void teachR() { Bro->R = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
-
+#endif
 
 	unsigned char GroupCount;
 	unsigned char Unknow3;

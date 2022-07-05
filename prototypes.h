@@ -2,7 +2,7 @@
 #define PROTOTYPES_H_
 
 ///Globale Def
-#define DF_Debug
+//#define DF_Debug
 
 #ifdef DF_Debug 
 #define MISD(___Mes___) Bro->B->StatusNew(__FUNCTION__, ___Mes___);
@@ -13,8 +13,12 @@
 
 #else
 #define MISD(___Mes___); 
-//#define MISERROR(___Mes___); 
-#define MISERROR(___Mes___)Bro->B->StatusE("E", __FUNCTION__, ___Mes___);
+#ifndef noBroker
+	#define MISERROR(___Mes___)Bro->B->StatusE("E", __FUNCTION__, ___Mes___);
+
+#else
+	#define MISERROR(___Mes___);
+#endif
 #define MISS
 #define MISE
 #define MISEA(___Mes___);
@@ -49,3 +53,11 @@ enum SETTINGTYP {eB_Gui, eB_File, eB_Filter,SETTINGTYP_MAX};
 
 
 #endif /* PROTOTYPES_H_ */
+
+#ifndef noBroker
+#include "Broker.h"
+#endif
+
+#ifndef noDebug
+#include "DEBUG.h"
+#endif
