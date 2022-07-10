@@ -1,6 +1,8 @@
 #ifndef Imager_H
 #define Imager_H
 
+class Replay;
+
 class Imager
 {
 public:
@@ -8,6 +10,8 @@ public:
 	~Imager();
 
 	void test();
+	bool UseThisPMV(Replay * inReplay);
+	bool MakeIMG();
 	
 	//BROKER
 	static broker* Bro;
@@ -17,7 +21,7 @@ protected:
 
 
 private:
-	
+	Replay * RR;
 };
 
 #endif //Imager_H

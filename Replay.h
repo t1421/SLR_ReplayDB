@@ -121,6 +121,7 @@ public:
 	string WinningTeam;
 
 	stringstream ssPMVFile;
+	string sSQLGameID;
 protected:
 
 private:

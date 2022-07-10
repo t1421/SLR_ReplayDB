@@ -18,6 +18,8 @@ public:
 	string sPMV_AUTO_PATH;
 	string sPMV_ARCH_PATH;
 
+	string sTMP_PATH;
+
 	//BROKER
 	static broker* Bro;
 	void teachL() { Bro->L = this; }

@@ -23,6 +23,7 @@ public:
 	bool WEBtoSQL(bool bUpdate);
 	bool IMGtoQSL(int iCardID, string sFile);
 	bool Imager(int iCardID);
+	bool DownloadPNG(int iCardID);
 	string DownloadImage(int iCardID, string sCardName, bool bPromo);
 
 	

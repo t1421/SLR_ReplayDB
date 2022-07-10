@@ -1,9 +1,8 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "prototypes.h"
 
 #include "WEB_Main.h"
-#include "WEB_SERVER.h"
 #include "WEB_CONTAINER.h"
 
 broker *(WEB_Main::Bro) = NULL;
@@ -39,7 +38,7 @@ void WEB_Main::Init_W()
 	ARGV[3] = "--http-address";
 	ARGV[4] = "0.0.0.0";
 	ARGV[5] = "--http-port";
-	ARGV[6] = "8080";
+	ARGV[6] = "80";
 	ARGV[7] = "--accesslog";
 	ARGV[8] = (char*)sLog_path.c_str();
 	ARGV[9] = "--resources-dir";
@@ -52,8 +51,7 @@ void WEB_Main::Init_W()
 	W = new WServer(ARGV[0]);
 	MISD("#2");
 	W->setServerConfiguration(13, ARGV, WTHTTP_CONFIGURATION);
-	MISD("#3");
-	WW = new MISSERVER(*W);
+	MISD("#3");	
 	MISD("#4");
 	W->addEntryPoint(Wt::EntryPointType::Application, createApplicationW);
 	

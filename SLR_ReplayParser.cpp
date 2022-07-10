@@ -15,6 +15,7 @@ int main(int argc, char **argv)
 		{			
 			printf("Action Count: %i\n", RR->ActionMatrix.size());
 		}						
+		else printf("An error has occurred\nYou sure its an PMV-File?\nCould also be a bug on the website, so feel free to contact Ultralord\n");
 	}
 	else printf("Drag and Drop you PMV on the Applikation\n");
 

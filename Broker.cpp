@@ -12,7 +12,6 @@
 #include "Manager.h"
 #else 
 #include "WEB_Main.h"
-#include "WEB_SERVER.h"
 #include "WEB_CONTAINER.h"
 #include "WEB_MA.h"
 #endif
@@ -37,7 +36,6 @@ broker::broker()
 #else 
 	WEB_Main::learnBro(this);
 	MISCONTAINER::learnBro(this);
-	MISSERVER::learnBro(this);
 	WEB_MA::learnBro(this);
 #endif
 	Replay::learnBro(this);
@@ -70,6 +68,11 @@ unsigned char broker::C_GetActionOrbForCardID(unsigned short CardID)
 	return C->GetActionOrbForCardID(CardID);
 }
 
+bool broker::C_DownloadPNG(unsigned short CardID)
+{
+	return C->DownloadPNG(CardID);
+}
+
 string broker::L_getSQL_Server()
 {
 	return L->sSQL_Server;
@@ -99,4 +102,9 @@ string broker::L_getPMV_ARCH_PATH()
 {
 	return L->sPMV_ARCH_PATH;
 }
+string broker::L_getTMP_PATH()
+{
+	return L->sTMP_PATH;
+}
+
 #endif

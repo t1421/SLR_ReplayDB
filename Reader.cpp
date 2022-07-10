@@ -120,6 +120,13 @@ bool Reader::Open(string sFile)
 		return false;
 	}
 
+	if (PMVbuffer[0] != 'P'
+		&& PMVbuffer[1] != 'M'
+		&& PMVbuffer[2] != 'V')
+	{
+		MISEA("V3")
+		return false;
+	}
 	// Pos 0-2 = "PMV"
 	PMVPosition = 3;
 

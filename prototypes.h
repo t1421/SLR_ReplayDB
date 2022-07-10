@@ -39,8 +39,7 @@
 using namespace std;
 
 ///Pfad Constanten
-static string Log_path			= "K:\\c++\\SLR_ReplayDB\\Release\\LOG\\";
-static string Tmp_path          = "K:\\c++\\SLR_ReplayDB\\Release\\TMP\\";
+static string Log_path			= "LOG\\";
 static string CardWebURL    	= "https://hub.backend.skylords.eu/api/auctions/cards?id=all";
 static string WikiPre           = "https://skylords-reborn.fandom.com/wiki/";
 static string WikiPos           = "_Card_Artwork.png";
@@ -51,6 +50,11 @@ enum STATUS { eWait, eStart, eRunning };
 enum THREADTYP { eI, eW, eWS, eK, eO, eF, eL, eFB, eMAIN, THREADTYP_MAX };
 enum SETTINGTYP {eB_Gui, eB_File, eB_Filter,SETTINGTYP_MAX};
 
+
+inline bool File_exists(const std::string& name) {
+	ifstream f(name.c_str());
+	return f.good();
+}
 
 #endif /* PROTOTYPES_H_ */
 

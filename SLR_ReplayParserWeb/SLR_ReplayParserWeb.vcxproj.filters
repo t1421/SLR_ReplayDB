@@ -42,9 +42,6 @@
     <ClCompile Include="..\WEB_CONTAINER.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\WEB_SERVER.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\WEB_MA.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -69,9 +66,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\WEB_CONTAINER.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_SERVER.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\WEB_MA.h">

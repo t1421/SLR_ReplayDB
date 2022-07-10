@@ -71,6 +71,7 @@ int main(int argc, char **argv)
 			printf("C;update            | Adds neu cards to MYSQL\n");
 			printf("C;imager;0          | Loads all images from WIKI in MYSQL\n");
 			printf("C;imager;[ID]       | Loads images for CARDID from WIKI in MYSQL\n");
+			printf("C;download;[ID]     | Loads images for MYSQL\n");
 			printf("####################|###########################################\n\n");
 			printf("####################|###########################################\n");
 			printf("R;new               | new Replay object\n");
@@ -92,15 +93,18 @@ int main(int argc, char **argv)
 			printf("####################|###########################################\n\n");
 			printf("####################|###########################################\n");
 			printf("I;new               | new Imager Object\n");
+			printf("I;open              | Use the current P Pointer\n");
+			printf("I;make              | Creates the Image\n");
 			printf("I;test              | test\n");
 			printf("####################|###########################################\n\n");
 		}
 
 		if (Checker(sbuf, "C"))
 		{
-			if (Checker(sbuf, "update"))Bro->C->WEBtoSQL(false);
-			if (Checker(sbuf, "full"))Bro->C->WEBtoSQL(true);
-			if (Checker(sbuf, "imager"))Bro->C->Imager(atoi(sbuf.c_str()));
+			if (Checker(sbuf, "update"))C->WEBtoSQL(false);
+			if (Checker(sbuf, "full"))C->WEBtoSQL(true);
+			if (Checker(sbuf, "imager"))C->Imager(atoi(sbuf.c_str()));
+			if (Checker(sbuf, "download"))C->DownloadPNG(atoi(sbuf.c_str()));
 		}		
 
 		if (Checker(sbuf, "R"))
@@ -159,6 +163,8 @@ int main(int argc, char **argv)
 		if (Checker(sbuf, "I"))
 		{
 			if (Checker(sbuf, "new"))I = new Imager();
+			if (Checker(sbuf, "open"))I->UseThisPMV(R);
+			if (Checker(sbuf, "make"))I->MakeIMG();
 			if (Checker(sbuf, "test"))I->test();
 		}
 	}

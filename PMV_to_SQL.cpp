@@ -351,7 +351,8 @@ bool PMV_to_SQL::Download(string sGameID)
 	NN->ssSQL << "       MinLeaveGame, ";
 	NN->ssSQL << "       FileName, ";
 	NN->ssSQL << "       WinningTeam, ";
-	NN->ssSQL << "       map.Name ";
+	NN->ssSQL << "       map.Name, ";
+	NN->ssSQL << "       game.ID ";
 	NN->ssSQL << " FROM game ";
 	NN->ssSQL << " left join map on map.ID = game.mapID";
 	NN->ssSQL << " WHERE game.ID = " << sGameID;
@@ -373,6 +374,7 @@ bool PMV_to_SQL::Download(string sGameID)
 	RR->FileName = NN->res->getString(9);
 	RR->WinningTeam = NN->res->getString(10);
 	RR->MapName = NN->res->getString(11);
+	RR->sSQLGameID = NN->res->getString(12);
 
 
 

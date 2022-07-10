@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "prototypes.h"
 
@@ -213,7 +213,7 @@ string CardBase::DownloadImage(int iCardID, string sCardName, bool bPromo)
 
 	MISD(sURL);
 
-	OutFile.open(Tmp_path + to_string(iCardID) + ".png", std::ostream::binary);
+	OutFile.open(Bro->L_getTMP_PATH() + to_string(iCardID) + ".png", std::ostream::binary);
 
 	curl = curl_easy_init();
 	if (curl)
@@ -239,7 +239,7 @@ string CardBase::DownloadImage(int iCardID, string sCardName, bool bPromo)
 		{
 			OutFile.close();
 			MISE;
-			return Tmp_path + to_string(iCardID) + ".png";
+			return Bro->L_getTMP_PATH() + to_string(iCardID) + ".png";
 		}
 		else
 		{
@@ -404,4 +404,39 @@ unsigned char CardBase::GetActionOrbForCardID(unsigned short CardID)
 
 	MISE;
 	return iReturn;
+}
+
+
+bool CardBase::DownloadPNG(int iCardID)
+{
+	MISS;
+
+	Bro->N->ssSQL << "SELECT IMG FROM cards WHERE ID = "<< iCardID;
+	if (Bro->N->send() <= 0) 
+	{
+		MISEA(" # No Card with ID:" + to_string(iCardID));
+		return false;
+	}
+
+	Bro->N->res->next();
+	if (Bro->N->res->getString(1) == "")
+	{
+		MISEA(" # No IMG in DB for:" + to_string(iCardID));
+		return false;
+	}
+
+	MISD(Bro->L_getTMP_PATH() + to_string(iCardID) + ".png");
+
+	ofstream OutFile;
+	OutFile.open(Bro->L_getTMP_PATH() + to_string(iCardID) + ".png", std::ostream::binary);
+	if (!OutFile)
+	{
+		MISEA(" # can open PNG File:" + to_string(iCardID));
+		return false;
+	}
+	OutFile << Bro->N->res->getString(1);
+	OutFile.close();
+
+	MISE;
+	return true;
 }

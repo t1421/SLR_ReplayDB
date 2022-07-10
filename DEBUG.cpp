@@ -23,7 +23,7 @@ DEBUG::DEBUG(string sLogName)
 
 		Fill_DBArray("", "*", "*", "true"); // MAIN
 
-		Fill_DBArray("CardBase", "*", "*", "false");
+		Fill_DBArray("CardBase", "*", "*", "true");
 
 		Fill_DBArray("Replay", "*", "*", "true");
 		Fill_DBArray("Replay", "sTime", "*", "false");
@@ -51,7 +51,6 @@ DEBUG::DEBUG(string sLogName)
 		
 		Fill_DBArray("WEB_Main", "*", "*", "true");
 		Fill_DBArray("MISCONTAINER", "*", "*", "true");
-		Fill_DBArray("MISSERVER", "*", "*", "true");
 		Fill_DBArray("WEB_MA", "*", "*", "true");
 
 		Fill_DBArray("broker", "*", "*", "true");

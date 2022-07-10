@@ -1,6 +1,7 @@
 <server>
      <application-settings location="*">
-		<log-file>K:\c++\SLR_ReplayDB\Release\LOG\WW.log</log-file>
+		<max-request-size>512</max-request-size> 
+		<log-file>.\LOG\WW.log</log-file>
 		<web-sockets>false</web-sockets>
 		<session-management>
 			<!-- <tracking>URL</tracking> -->

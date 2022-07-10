@@ -30,6 +30,7 @@ public:
 
 #ifndef BrokerWebOnly
 	unsigned char C_GetActionOrbForCardID(unsigned short CardID);
+	bool C_DownloadPNG(unsigned short CardID);
 	string L_getSQL_Server();
 	string L_getSQL_User();
 	string L_getSQL_PW();
@@ -37,6 +38,7 @@ public:
 	string L_getPMV_PATH();
 	string L_getPMV_AUTO_PATH();
 	string L_getPMV_ARCH_PATH();
+	string L_getTMP_PATH();
 #endif
 	
 protected:
