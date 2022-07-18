@@ -19,6 +19,7 @@ public:
 	string sPMV_ARCH_PATH;
 
 	string sTMP_PATH;
+	string sFFMPEG;
 
 	//BROKER
 	static broker* Bro;

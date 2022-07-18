@@ -56,6 +56,16 @@ inline bool File_exists(const std::string& name) {
 	return f.good();
 }
 
+inline string ReplaceString(string subject, const string& search, const string& replace)
+{
+	size_t pos = 0;
+	while ((pos = subject.find(search, pos)) != std::string::npos) {
+		subject.replace(pos, search.length(), replace);
+		pos += replace.length();
+	}
+	return subject;
+}
+
 #endif /* PROTOTYPES_H_ */
 
 #ifndef noBroker
