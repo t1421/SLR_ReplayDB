@@ -114,7 +114,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;noBroker;noDebug;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;BrokerParser;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -145,11 +145,15 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\Broker.cpp" />
+    <ClCompile Include="..\DEBUG.cpp" />
     <ClCompile Include="..\Reader.cpp" />
     <ClCompile Include="..\Replay.cpp" />
     <ClCompile Include="..\SLR_ReplayParser.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Broker.h" />
+    <ClInclude Include="..\DEBUG.h" />
     <ClInclude Include="..\prototypes.h" />
     <ClInclude Include="..\Reader.h" />
     <ClInclude Include="..\Replay.h" />
