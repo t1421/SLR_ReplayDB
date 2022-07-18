@@ -4,14 +4,14 @@
 
 broker *(DEBUG::Bro) = NULL;
 
-DEBUG::DEBUG(string sLogName)
+DEBUG::DEBUG(string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 {
-	bGUI = true;
-	bFile = true;
-	bFilter = false;
+	bGUI = _bGUI;
+	bFile = _bFile;
+	bFilter = _bFilter;
 
 
-		printf("DEBUG WIRD GESTARTET -->\n");
+		//printf("DEBUG WIRD GESTARTET -->\n");
 
 		Fill_DBArray("*", "*", "*", "true");
 		
@@ -26,7 +26,8 @@ DEBUG::DEBUG(string sLogName)
 		Fill_DBArray("CardBase", "*", "*", "true");
 
 		Fill_DBArray("Replay", "*", "*", "true");
-		Fill_DBArray("Replay", "sTime", "*", "false");
+		Fill_DBArray("Replay", "sTime", "*", "false");		
+		Fill_DBArray("Replay", "SwitchType", "*", "false"); 
 		Fill_DBArray("Replay", "FindWinningTeam", "*", "false");
 		
 		Fill_DBArray("Reader", "*", "*", "true");
@@ -60,7 +61,7 @@ DEBUG::DEBUG(string sLogName)
 		if (bFile)ofB.open(Log_path + sLogName + ".log", ios::binary);
 		ofE.open(Log_path + sLogName + "_E.log", ios::binary | std::ofstream::app);
 
-		printf("DEBUG WIRD GESTARTET <--\n");
+		//printf("DEBUG WIRD GESTARTET <--\n");
 
 }
 

@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "prototypes.h"
 
@@ -497,8 +497,8 @@ bool Replay::ReadActions()
 				{
 					readUnsignedLong(); // Unit
 				}				
-				Action_TEMP->ActionPlayer = readUnsignedLong();
 				readUnsignedLong(); // Unit Decomposer
+				Action_TEMP->ActionPlayer = readUnsignedLong();				
 				break;
 
 				///x###x Same bei T4 Schatten gebäude?
@@ -510,7 +510,7 @@ bool Replay::ReadActions()
 				break;
 
 				///###
-			case 4038: //Go in Nexus
+			case 4038: //Use Tunnel
 				tempCount = readUnsignedShort(); // Unit Count
 				for (unsigned int i = 0; i < tempCount; i++)
 				{
@@ -572,6 +572,19 @@ bool Replay::ReadActions()
 				readUnsignedLong(); // X
 				readUnsignedLong(); // Y	
 				break;
+			case 4045: // SLR desync???
+				readUnsignedShort(); //Size of Data
+				this->readUnsignedChar(); //ID of inner Data
+				readUnsignedLongLong(); // state Hash 1
+				readUnsignedLongLong(); // state Hash 2
+				readUnsignedLongLong(); // state Hash 3
+				readUnsignedLongLong(); // state Hash 4
+				readUnsignedLongLong(); // state Hash 5
+				readUnsignedLongLong(); // state Hash 6
+				readUnsignedLong(); // Count figures on map
+				readUnsignedLong(); // count entities on map
+				readUnsignedLong(); // Steps
+				break;
 			
 			default:
 				MISERROR(FileName);
@@ -580,11 +593,12 @@ bool Replay::ReadActions()
 					to_string(PMVPosition) + " # " +
 					to_string(MainSize) +
 					"Unknow");
+				PMVPosition = SollPos;
 				OK = false;								
 			}			
 			ActionMatrix.push_back(Action_TEMP);
 		}			
-		
+		/*
 		if (PMVPosition != SollPos)
 		{
 			MISERROR(FileName);
@@ -592,6 +606,7 @@ bool Replay::ReadActions()
 			MISERROR("Befor:" + to_string(ActionMatrix[ActionMatrix.size() - 1]->Type));
 			PMVPosition = SollPos;
 		}		
+		*/
 	}
 
 	MISE;
@@ -670,11 +685,7 @@ bool Replay::AddFirstOrb()
 		//Action_TEMP->Size = 13;
 		Action_TEMP->Type = 4031;
 		Action_TEMP->ActionPlayer = ActionMatrix[iPosOfUnit]->ActionPlayer;
-#if defined(noBroker) || defined(BrokerWebOnly)
-		Action_TEMP->Color = 0;
-#else
 		Action_TEMP->Color = Bro->C_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card);
-#endif
 		ActionMatrix.insert(ActionMatrix.begin() + iPosOfUnit, Action_TEMP);				
 	}
 
@@ -736,35 +747,36 @@ string Replay::get_file_name(string pfad)
 void Replay::EchoHead()
 {
 	MISS;
-	MISD("Playtime:   " + to_string(Playtime));
-	MISD("FileVersion:" + to_string(FileVersion));
-	MISD("GameVersion:" + to_string(GameVersion));
-	MISD("Playtime:   " + to_string(Playtime));
-	MISD("Unknow3:    " + to_string(Unknow3));
-	MISD("Unknow4:    " + to_string(Unknow4));
-	MISD("MapName:    " + MapName);
-	MISD("Seed:       " + to_string(Seed));
-	MISD("MapID:      " + to_string(MapID));
-	MISD("difficulty: " + to_string(DifficultyID));
-	MISD("PlayMode:   " + to_string(PlayModeID));
-	MISD("ActionBlock:" + to_string(ActionBlock));
-	MISD("PMVFromPlay:" + to_string(PMVPlayerID));
-	MISD("GroupCount :" + to_string(GroupCount));
-	MISD("WinningTeam:" + WinningTeam);
+	printf("Playtime:   %u\n", Playtime);
+	printf("FileVersion:%u\n", FileVersion);
+	printf("GameVersion:%u\n", GameVersion);;
+	printf("Unknow3:    %u\n", Unknow3);
+	printf("Unknow4:    %u\n", Unknow4);
+	printf("MapName:    %s\n", MapName.c_str());
+	printf("Seed:       %u\n", Seed);
+	printf("MapID:      %u\n", MapID);
+	printf("difficulty: %u\n", DifficultyID);
+	printf("PlayMode:   %u\n", PlayModeID);
+	printf("ActionBlock:%u\n", ActionBlock);
+	printf("PMVFromPlay:%u\n", PMVPlayerID);
+	printf("GroupCount :%u\n", GroupCount);
+	printf("WinningTeam:%s\n", WinningTeam.c_str());
+	printf("FileName   :%s\n", FileName.c_str());
 	MISE;
 }
 
 void Replay::EchoAllied()
 {
 	MISS;
-	MISD("MatrixCount:" + to_string(MatrixCount));
-	MISD("count # i # j # v");
+	printf("MatrixCount:%u\n", MatrixCount);
+	printf("count # i # j # v\n");
 	for (unsigned int i = 0; i < MatrixCount; i++)
 	{		
-		MISD(to_string(i) + "#"
-			+ to_string(AlliedMatrix[i]->i) + "#"
-			+ to_string(AlliedMatrix[i]->j) + "#"
-			+ to_string(AlliedMatrix[i]->v));
+		printf("%u # %u # %u # %u \n",
+			i ,
+			AlliedMatrix[i]->i ,
+			AlliedMatrix[i]->j ,
+			AlliedMatrix[i]->v);
 	}
 	MISE;
 }
@@ -772,14 +784,15 @@ void Replay::EchoAllied()
 void Replay::EchoTeam()
 {
 	MISS;
-	MISD("TeamCount:" + to_string(TeamCount));
-	MISD("Count # Name # GroupID # Value");
+	printf("TeamCount:%u\n", TeamCount);
+	printf("Count # Name # GroupID # Value\n");
 	for (unsigned int i = 0; i < TeamCount; i++)
 	{
-		MISD(to_string(i) + "#"
-			+ TeamMatrix[i]->Name + "#"
-			+ to_string(TeamMatrix[i]->GroupID) + "#"
-			+ to_string(TeamMatrix[i]->Value));
+		printf("%u # %s # %u # %u \n", 
+			i ,
+			TeamMatrix[i]->Name.c_str() ,
+			TeamMatrix[i]->GroupID ,
+			TeamMatrix[i]->Value);
 	}
 	MISE
 }
@@ -787,18 +800,19 @@ void Replay::EchoTeam()
 void Replay::EchoPlayer()
 {
 	MISS;
-	MISD("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal")
+	printf("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal\n");
 		for (unsigned int i = 0; i < PlayerMatrix.size(); i++)
 		{
-			MISD(to_string(i) + "#"
-				+ PlayerMatrix[i]->Name + "#"
-				+ to_string(PlayerMatrix[i]->PlayerID) + "#"
-				+ to_string(PlayerMatrix[i]->ActionPlayer) + "#"
-				+ to_string(PlayerMatrix[i]->GroupID) + "#"
-				+ to_string(PlayerMatrix[i]->IDinGroup) + "#"
-				+ to_string(PlayerMatrix[i]->Type) + "#"
-				+ to_string(PlayerMatrix[i]->Cards) + "#"
-				+ to_string(PlayerMatrix[i]->CardsTotal));
+			printf("%u # %s # %u # %u # %u # %u # %u # %u # %u\n",
+			i ,
+			PlayerMatrix[i]->Name.c_str() ,
+			PlayerMatrix[i]->PlayerID ,
+			PlayerMatrix[i]->ActionPlayer ,
+			PlayerMatrix[i]->GroupID ,
+			PlayerMatrix[i]->IDinGroup ,
+			PlayerMatrix[i]->Type ,
+			PlayerMatrix[i]->Cards ,
+			PlayerMatrix[i]->CardsTotal);
 		}
 	MISE;
 }
@@ -806,19 +820,20 @@ void Replay::EchoPlayer()
 void Replay::EchoPlayerDecks()
 {
 	MISS;
-	MISD("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal");
+	printf("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal\n");
 		for (unsigned int i = 0; i < PlayerMatrix.size(); i++)
 		{
-			MISD(to_string(i) + "#"	+ PlayerMatrix[i]->Name );
+			printf("%u # %s", i , PlayerMatrix[i]->Name.c_str() );
 
-			MISD("Count # DeckCardID # CardID # Upgrade # Charges")
+			printf("Count # DeckCardID # CardID # Upgrade # Charges\n");
 				for (unsigned int j = 0; j < PlayerMatrix[i]->Deck.size(); j++)
 				{
-					MISD(to_string(j) + "#"
-						+ to_string(PlayerMatrix[i]->Deck[j]->DeckCardID) + "#"
-						+ to_string(PlayerMatrix[i]->Deck[j]->CardID) + "#"
-						+ to_string(PlayerMatrix[i]->Deck[j]->Upgrade) + "#"
-						+ to_string(PlayerMatrix[i]->Deck[j]->Charges));
+					printf("%u # %u # %u # %u # %u \n",
+						j,
+						PlayerMatrix[i]->Deck[j]->DeckCardID ,
+						PlayerMatrix[i]->Deck[j]->CardID ,
+						PlayerMatrix[i]->Deck[j]->Upgrade ,
+						PlayerMatrix[i]->Deck[j]->Charges);
 				}
 		}
 	MISE;
@@ -827,17 +842,19 @@ void Replay::EchoPlayerDecks()
 void Replay::EchoAction(string sAction)
 {
 	MISS;
-	MISD("count # Time # Position # Type # ActionPlayer # PlayerID # Card ");
+	printf("count # Time # Position # Type # ActionPlayer # PlayerID # Card \n");
 	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
 	{
 		if (to_string(ActionMatrix[i]->Type) == sAction || sAction == "*")
-		MISD(to_string(i) + " # " + 
-			sTime(ActionMatrix[i]->Time) + " # " +
-			to_string(ActionMatrix[i]->Position) + " # " +		
-			to_string(ActionMatrix[i]->Type) + " # " +
-			to_string(ActionMatrix[i]->ActionPlayer) + " # " +
-			to_string(ActionMatrix[i]->PlayerID) + " # " +
-			to_string(ActionMatrix[i]->Card) );
+			printf("%u # %s # %u # %u # %u # %u # %u \n",
+				i ,
+				sTime(ActionMatrix[i]->Time).c_str() ,
+				ActionMatrix[i]->Position ,
+				ActionMatrix[i]->Type ,
+				ActionMatrix[i]->ActionPlayer ,
+				ActionMatrix[i]->PlayerID ,			
+				ActionMatrix[i]->Card );
+
 	}
 	MISE;
 }
@@ -960,4 +977,101 @@ bool Replay::getPMVinSS(string sFile)
 
 	MISEA("X2");
 	return false;
+}
+
+
+string Replay::SwitchType(unsigned long inType)
+{
+	//MISS;
+
+	switch(inType)
+	{
+	case 4001: 	
+		return "Unknow 4001";
+	case 4002: 
+		return "Leave game";
+	case 4004: 
+		return "12Player sync";
+	case 4005: 
+		return "Unknow 4005";
+	case 4006: 
+		return "Open Gold";
+	case 4007: 
+		return "Objective OK";
+	case 4008: 
+		return "Unknow 4008";
+	case 4009: 
+		return "Summon unit";
+	case 4010: 
+		return "Cast spell";
+	case 4011: 
+		return "Cast line spell";
+	case 4012: 
+		return "Cast building";
+	case 4013: 
+		return "Move unit";
+	case 4014: 
+		return "Use ability";
+	case 4015: 
+		return "Attack";
+	case 4019: 
+		return "Stop unit";
+	case 4020: 
+		return "Hold position";
+	case 4027: 
+		return "Ping";
+	case 4028: 
+		return "Switch Gate";
+	case 4029: 
+		return "Build/Rep. wall";
+	case 4030: 
+		return "Build well";
+	case 4031: 
+		return "Build orb";
+	case 4033: 
+		return "Move on wall";
+	case 4034: 
+		return "Switch ability";
+	case 4035: 
+		return "Repair building";
+	case 4036: 
+		return "Move into Decom.";
+	case 4037: 
+		return "Place Nexusexit";
+	case 4038: 
+		return "Use tunnel";
+	case 4039: 
+		return "Switch tunnel";
+	case 4040: 
+		return "Return Nexusexit";
+	case 4041: 
+		return "Kill own unit";
+	case 4042: 
+		return "Place Chaostotem";
+	case 4043: 
+		return "Cant get Gold";
+	case 4044:
+		return "Switch Twilight";
+	case 4045:
+		return "Desync Check";
+	default:
+		return "NO IDEA!!!";
+	}
+	
+	return "";
+	//MISE;
+}
+
+int Replay::CountActions()
+{
+	MISS;
+	int iOut = 0;
+	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
+	{
+		if (ActionMatrix[i]->Type == 4045)continue;
+		iOut++;
+	}
+	
+	MISE;
+	return iOut;
 }

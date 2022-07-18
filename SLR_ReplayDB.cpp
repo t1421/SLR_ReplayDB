@@ -18,13 +18,13 @@ bool Checker(string &check, string name);
 int main(int argc, char **argv)
 {
 	char buf[1024] = { '0' };
+	int iArcCout = 1;
 	string sbuf;
 
 	broker* Bro = new broker;
 
-	DEBUG* B = new DEBUG("SLR_ReplayDB");
+	DEBUG* B = new DEBUG("SLR_ReplayDB",true,true,false);
 	B->teachB();
-	//B->bFilter = true;
 
 	LOAD* L = new LOAD();
 	L->teachL();
@@ -52,10 +52,18 @@ int main(int argc, char **argv)
 	
 	while (Bro->bAktive)
 	{
-//		std::cout << "Message: ";
-		std::cin >> buf;
-		
-		sbuf = buf;
+		if (argc > 1 && argc > iArcCout)
+		{
+			
+			sbuf = argv[iArcCout];
+			iArcCout++;
+			std::cout << "ARG:" << sbuf << endl;
+		}
+		else
+		{
+			std::cin >> buf;
+			sbuf = buf;
+		}
 
 		if (string(buf) == "x")Bro->bAktive = false;
 		if (string(buf) == "1")Bro->C->WEBtoSQL(false);
@@ -94,8 +102,9 @@ int main(int argc, char **argv)
 			printf("####################|###########################################\n");
 			printf("I;new               | new Imager Object\n");
 			printf("I;open              | Use the current P Pointer\n");
-			printf("I;make              | Creates the Image\n");
-			printf("I;test              | test\n");
+			printf("I;makeIMG           | Creates the Image\n");
+			printf("I;makeMOV           | Creates Mov from image\n");
+			printf("I;echo              | outputs paths\n");
 			printf("####################|###########################################\n\n");
 		}
 
@@ -164,9 +173,12 @@ int main(int argc, char **argv)
 		{
 			if (Checker(sbuf, "new"))I = new Imager();
 			if (Checker(sbuf, "open"))I->UseThisPMV(R);
-			if (Checker(sbuf, "make"))I->MakeIMG();
-			if (Checker(sbuf, "test"))I->test();
+			if (Checker(sbuf, "makeIMG"))I->MakeIMG();
+			if (Checker(sbuf, "makeMOV"))I->MakeMOV();
+			if (Checker(sbuf, "echo"))I->Echo();
 		}
+
+		if (Checker(sbuf, "exit"))Bro->bAktive = false;
 	}
 
 	M->Stop_Thread();

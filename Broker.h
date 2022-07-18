@@ -28,7 +28,11 @@ public:
 
 	bool bAktive;
 
-#ifndef BrokerWebOnly
+#if defined BrokerParser || defined BrokerWeb
+	unsigned char C_GetActionOrbForCardID(unsigned short CardID);
+#endif
+
+#ifdef BrokerNormal
 	unsigned char C_GetActionOrbForCardID(unsigned short CardID);
 	bool C_DownloadPNG(unsigned short CardID);
 	string L_getSQL_Server();
@@ -39,6 +43,7 @@ public:
 	string L_getPMV_AUTO_PATH();
 	string L_getPMV_ARCH_PATH();
 	string L_getTMP_PATH();
+	string L_getFFMPEG();
 #endif
 	
 protected:

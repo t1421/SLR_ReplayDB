@@ -11,7 +11,7 @@ int main(int argc, char **argv)
 
 	broker* Bro = new broker;
 
-	DEBUG* B = new DEBUG("SLR_ReplayParserWeb");
+	DEBUG* B = new DEBUG("SLR_ReplayParserWeb",true,true,true);
 	B->teachB();
 
 	WEB_Main* W = new WEB_Main();

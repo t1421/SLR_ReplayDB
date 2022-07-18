@@ -10,7 +10,7 @@ public:
 	bool bFile;
 	bool bFilter;
 
-	DEBUG(string sLogName);
+	DEBUG(string sLogName, bool _bGUI, bool _bFile, bool _bFilter);
 	
 	void StatusE(string Modul, string Funktion, string Wert);
 	void StatusNew(string Fun, string Wert);

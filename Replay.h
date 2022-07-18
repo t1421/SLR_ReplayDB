@@ -90,6 +90,8 @@ public:
 	void EchoPlayer();
 	void EchoPlayerDecks();
 	void EchoAction(string sAction);
+	string SwitchType(unsigned long inType);
+	int CountActions();
 
 	//BROKER
 #ifndef noBroker

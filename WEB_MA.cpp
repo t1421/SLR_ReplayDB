@@ -50,9 +50,9 @@ WEB_MA::WEB_MA()
 		{
 			wtStatus->setText("PMV OK");
 
-			wtStatus->setText("<h3> The restult is: " + to_string(R->ActionMatrix.size()) + "</h3>");
+			wtStatus->setText("<h3> The restult is: " + to_string(R->CountActions()) + "</h3>");
 		}
-		else wtStatus->setText("An error has occurred<br>You sure its an PMV-File?<br>Could also be a bug on the website, so feel free to contact Ultralord");
+		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> <h3> Your Temporarily result is: " + to_string(R->CountActions()) + "</h3> " );
 
 	});
 
