@@ -25,37 +25,31 @@ string WSTRINGtoSTRING(WString in)
 
 void WEB_Main::Init_W()
 {
+	try {
 	MISS;
 
 	sThreadName = "W";
 
 	string sLog_path = Log_path + "W.log";
 	
-	char *ARGV[13];
+	char *ARGV[3];
 	ARGV[0] = ".";
-	ARGV[1] = "--docroot";
-	ARGV[2] = ".";
-	ARGV[3] = "--http-address";
-	ARGV[4] = "0.0.0.0";
-	ARGV[5] = "--http-port";
-	ARGV[6] = "80";
-	ARGV[7] = "--accesslog";
-	ARGV[8] = (char*)sLog_path.c_str();
-	ARGV[9] = "--resources-dir";
-	ARGV[10] = "./resources";
-	ARGV[11] = "--c";
-	ARGV[12] = "wt_config_W.xml";
+	ARGV[1] = "--accesslog";
+	ARGV[2] = (char*)sLog_path.c_str();
 
 	MISD("#1");
-	
-	W = new WServer(ARGV[0]);
+	W = new WServer(3,ARGV, "./wt_http.cfg");
 	MISD("#2");
-	W->setServerConfiguration(13, ARGV, WTHTTP_CONFIGURATION);
-	MISD("#3");	
-	MISD("#4");
 	W->addEntryPoint(Wt::EntryPointType::Application, createApplicationW);
-	
+
 	MISE;
+	}
+	catch (WServer::Exception& e) {
+		std::cerr << e.what() << std::endl;
+	}
+	catch (std::exception &e) {
+		std::cerr << "exception: " << e.what() << std::endl;
+	}
 }
 
 void WEB_Main::Thread_Function()
