@@ -220,39 +220,46 @@ bool Replay::ReadActions()
 
 			switch (Action_TEMP->Type)
 			{
-			case 4001: //REALLY_UNKNOWN_A1						
-				Action_TEMP->ActionPlayer = readUnsignedLong();
-				readUnsignedLong(); //zero
+			case 4001: //SLR-TEAM: 4001 - Irrelevant (Ist bei mir einfach auskommentiert)
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
 					to_string(Action_TEMP->Position) + " # " +
 					to_string(MainSize) +
 					" ???");
-				OK = false;
+				PMVPosition = SollPos;
 				break;
 				///###
 			case 4002: //leave game		
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				break;
 				///###
-			case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )		// Anzahl von Gegnern auf der Map?					
-				readUnsignedLong(); //Unit
-				this->readUnsignedChar(); // ??? number between 0 and 16?				
-				break;
-				///###
-			case 4005: //REALLY_UNKNOWN - Sige of Hoee ?						
-				Action_TEMP->ActionPlayer = readUnsignedLong();
-				readUnsignedLong(); //zero?
-				readUnsignedLong(); //Unit?
-				readUnsignedLong(); //zero?
+			case 4003: //SLR-TEAM: 4003 - Desync
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
 					to_string(Action_TEMP->Position) + " # " +
 					to_string(MainSize) +
 					" ???");
-				OK = false;
+				PMVPosition = SollPos;
+				break;
+			case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )		// Anzahl von Gegnern auf der Map?					
+				readUnsignedLong(); //Unit
+				this->readUnsignedChar(); // ??? number between 0 and 16?				
+				break;
+				///###
+			case 4005: //SLR-TEAM: 4005 - Hat was mit Loot Verteilung zu tun					
+				//Action_TEMP->ActionPlayer = readUnsignedLong();
+				//readUnsignedLong(); //zero?
+				//readUnsignedLong(); //Unit?
+				//readUnsignedLong(); //zero?
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
 			case 4006: //GOLD	
 				Action_TEMP->PlayerID = readUnsignedLongLong(); // wer hat eingesammelt
 				readUnsignedLong(); // Unit
@@ -268,16 +275,14 @@ bool Replay::ReadActions()
 				readUnsignedLong(); // ObjectiveID ?
 				break;
 
-			case 4008: //PVE_UNKNOWN_A8	
+			case 4008: //SLR-TEAM: 4008 - Hat was mit Scripting zu tun (wahrsch. iwas zum Map scripts debuggen oder so)
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
 					to_string(Action_TEMP->Position) + " # " +
 					to_string(MainSize) +
 					" ???");
-				OK = false;
 				PMVPosition = SollPos;
-
 				break;
 				///###
 			case 4009: //summon unit
@@ -403,7 +408,33 @@ bool Replay::ReadActions()
 				this->readUnsignedChar(); // immer 0
 
 				break;
-				///###
+			case 4016: //SLR-TEAM: 4016 - Ist bei mir auch auskommentiert
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
+				break;
+			case 4017: //SLR-TEAM: 4017 - Glaube das sind ultrakrasse GM Hacks
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
+				break;
+			case 4018: //SLR-TEAM: 4018 - Auskommentiert (KillEntity - glaube unnötig, da es and GroupKillEntity gibt)
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
+				break;
 			case 4019: //stop unit
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				tempCount = readUnsignedShort(); // Unit Count
@@ -421,7 +452,61 @@ bool Replay::ReadActions()
 					readUnsignedLong(); // Unit
 				}
 				break;
-
+			case 4021: //SLR-TEAM: 4021 - Auskommentiert (PlaceSquad - wahrscheinlich auch durch was anderes Überschrieben
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
+				break;
+			case 4022: //SLR-TEAM: 4022 - Irgendwas mit Mapscripts
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
+				break;
+			case 4023: //SLR-TEAM: 4023 - Auskommentiert (CancelCutScene)
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
+				break;
+			case 4024: //SLR-TEAM:4024 - Relevant für die Schmiede
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
+				break;
+			case 4025: //SLR-TEAM: 4025 - Relevant für die Schmiede
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
+				break;
+			case 4026: //SLR-TEAM: 4026 - SetGameDifficulty - glaube nicht, dass man das während des Spiels machen kann
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
+				break;
+				
 				///X###X GGF. PING Type analysieren?
 			case 4027: // PING (Meet / Help / ...)
 				Action_TEMP->ActionPlayer = readUnsignedLong();
@@ -463,7 +548,15 @@ bool Replay::ReadActions()
 				readUnsignedLong(); //Unit
 				Action_TEMP->Color = this->readUnsignedChar();				
 				break;
-				
+			case 4032: //SLR-TEAM: 4032 - SquadRefill - Dachte das passiert automatisch?
+				MISERROR(FileName);
+				MISERROR(sTime(Action_TEMP->Time) + "#" +
+					to_string(Action_TEMP->Type) + "#" +
+					to_string(Action_TEMP->Position) + " # " +
+					to_string(MainSize) +
+					" ???");
+				PMVPosition = SollPos;
+				break;
 				///X###X Immer Zero?
 			case 4033: //Unit move on Wall
 				Action_TEMP->ActionPlayer = readUnsignedLong();
@@ -598,15 +691,7 @@ bool Replay::ReadActions()
 			}			
 			ActionMatrix.push_back(Action_TEMP);
 		}			
-		/*
-		if (PMVPosition != SollPos)
-		{
-			MISERROR(FileName);
-			MISERROR("wir sind off, soll:" + to_string(SollPos) + " ist:" + to_string(PMVPosition));
-			MISERROR("Befor:" + to_string(ActionMatrix[ActionMatrix.size() - 1]->Type));
-			PMVPosition = SollPos;
-		}		
-		*/
+
 	}
 
 	MISE;
@@ -820,15 +905,15 @@ void Replay::EchoPlayer()
 void Replay::EchoPlayerDecks()
 {
 	MISS;
-	printf("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal\n");
+	printf("countP # Name\n");
 		for (unsigned int i = 0; i < PlayerMatrix.size(); i++)
 		{
-			printf("%u # %s", i , PlayerMatrix[i]->Name.c_str() );
+			printf("%u # %s\n", i , PlayerMatrix[i]->Name.c_str() );
 
-			printf("Count # DeckCardID # CardID # Upgrade # Charges\n");
+			printf("##> Count # DeckCardID # CardID # Upgrade # Charges\n");
 				for (unsigned int j = 0; j < PlayerMatrix[i]->Deck.size(); j++)
 				{
-					printf("%u # %u # %u # %u # %u \n",
+					printf("##> %u # %u # %u # %u # %u \n",
 						j,
 						PlayerMatrix[i]->Deck[j]->DeckCardID ,
 						PlayerMatrix[i]->Deck[j]->CardID ,
@@ -987,19 +1072,21 @@ string Replay::SwitchType(unsigned long inType)
 	switch(inType)
 	{
 	case 4001: 	
-		return "Unknow 4001";
+		return "?4001 ?";
 	case 4002: 
 		return "Leave game";
+	case 4003:
+		return "Desync";
 	case 4004: 
 		return "12Player sync";
 	case 4005: 
-		return "Unknow 4005";
+		return "?4005 Loot";
 	case 4006: 
 		return "Open Gold";
 	case 4007: 
 		return "Objective OK";
 	case 4008: 
-		return "Unknow 4008";
+		return "?4008 Map Debug";
 	case 4009: 
 		return "Summon unit";
 	case 4010: 
@@ -1014,10 +1101,28 @@ string Replay::SwitchType(unsigned long inType)
 		return "Use ability";
 	case 4015: 
 		return "Attack";
+	case 4016:
+		return "?4016 ?";
+	case 4017:
+		return "?4017 GM Stuf";
+	case 4018:
+		return "old KillEntity";
 	case 4019: 
 		return "Stop unit";
-	case 4020: 
+	case 4020:
 		return "Hold position";
+	case 4021:
+		return "old PlaceSqua";
+	case 4022:
+		return "Mapscripts";
+	case 4023:
+		return "StopCutScene";
+	case 4024:
+		return "4024 Forge";
+	case 4025:
+		return "4025 Forge";
+	case 4026:
+		return "SetDifficulty";
 	case 4027: 
 		return "Ping";
 	case 4028: 
@@ -1026,8 +1131,10 @@ string Replay::SwitchType(unsigned long inType)
 		return "Build/Rep. wall";
 	case 4030: 
 		return "Build well";
-	case 4031: 
+	case 4031:
 		return "Build orb";
+	case 4032:
+		return "SquadRefill ";
 	case 4033: 
 		return "Move on wall";
 	case 4034: 

@@ -133,14 +133,13 @@ CvScalar Imager::SwitchTypeColor(unsigned long inType)
 
 	switch (inType)
 	{
-	case 4001://"Unknow 4001";
-	case 4002://"Leave game";
-	case 4005://"Unknow 4005";
-	case 4008://"Unknow 4008";
+	
+	//ROT
 	case 4015://"Attack";
 	case 4041://"Kill own unit";
 		return cvScalar((0), (0), (255), 255);
 
+	//GELB
 	case 4004://"12Player sync";		
 	case 4006://"Open Gold";
 	case 4007://"Objective OK";
@@ -148,6 +147,7 @@ CvScalar Imager::SwitchTypeColor(unsigned long inType)
 	case 4043://"Cant collect Gold";
 		return cvScalar((0), (255), (255), 255);
 
+	//BLAU
 	case 4009://"Summon unit";
 	case 4010://"Cast spell";
 	case 4011://"Cast line spell";
@@ -156,6 +156,7 @@ CvScalar Imager::SwitchTypeColor(unsigned long inType)
 	case 4031://"Build orb";
 		return cvScalar((255), (0), (0), 255);		
 	
+	//GR‹N
 	case 4013://"Move unit";
 	case 4019://"Stop unit";
 	case 4020://"Hold position";
@@ -164,6 +165,7 @@ CvScalar Imager::SwitchTypeColor(unsigned long inType)
 	case 4038://"Use tunnel";
 		return cvScalar((0), (255), (0), 255);
 
+	//T‹RKIS
 	case 4014://"Use ability";
 	case 4028://"Switch Gate";	
 	case 4029://"Build/Rep. wall";
@@ -176,11 +178,28 @@ CvScalar Imager::SwitchTypeColor(unsigned long inType)
 	case 4044://"Switch TW";
 		return cvScalar((255), (255), (0), 255);
 
+	//Transparent
+	case 4001://"?4001 ?";
+	case 4002://"Leave game";
+	case 4003://"Desync";
+	case 4005://"?4005 Loot";
+	case 4008://"?4008 Map Debug";
+	case 4016://"?4016 ?";
+	case 4017://"?4017 GM Stuff";
+	case 4018://"old KillEntity";
+	case 4021://"old PlaceSqua";
+	case 4022://"Mapscripts";
+	case 4023://"StopCutScene";
+	case 4024://"4024 Forge";
+	case 4025://"4025 Forge";
+	case 4026://"SetDifficulty";
+	case 4032://"SquadRefill";
 	case 4045://"Desync Check";
 	default:
 		return cvScalar((255), (255), (255), 0); // Nicht anzeigen
 	}
 
+	//Weiﬂ
 	return cvScalar((255), (255), (255), 255);
 
 	//MISE;
