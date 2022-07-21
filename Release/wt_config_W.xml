@@ -4,8 +4,8 @@
 		<log-file>.\LOG\WW.log</log-file>
 		<web-sockets>false</web-sockets>
 		<session-management>
-			<!-- <tracking>URL</tracking> -->
-			<reload-is-new-session>false</reload-is-new-session>
+			<tracking>URL</tracking>
+			<!-- <reload-is-new-session>false</reload-is-new-session> -->
 		</session-management>
     </application-settings>
 </server>
