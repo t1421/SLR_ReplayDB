@@ -13,12 +13,7 @@
 
 #else
 #define MISD(___Mes___); 
-#ifndef noBroker
-	#define MISERROR(___Mes___)Bro->B->StatusE("E", __FUNCTION__, ___Mes___);
-
-#else
-	#define MISERROR(___Mes___);
-#endif
+#define MISERROR(___Mes___)Bro->B->StatusE("E", __FUNCTION__, ___Mes___);
 #define MISS
 #define MISE
 #define MISEA(___Mes___);

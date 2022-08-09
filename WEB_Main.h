@@ -13,6 +13,10 @@
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WFileUpload.h>
 
+#include <Wt/WSslInfo.h>
+#include <Wt/WValidator.h>
+#include <Wt/WSslCertificate.h>
+
 using namespace Wt;
 
 std::unique_ptr<Wt::WApplication> createApplicationW(const WEnvironment& env);

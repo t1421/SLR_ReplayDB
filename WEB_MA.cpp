@@ -49,8 +49,8 @@ WEB_MA::WEB_MA()
 		if (R->LoadPMV(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
 		{
 			wtStatus->setText("PMV OK");
-
 			wtStatus->setText("<h3> The restult is: " + to_string(R->CountActions()) + "</h3>");
+			MISERROR(to_string(R->CountActions()));
 		}
 		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> <h3> Your Temporarily result is: " + to_string(R->CountActions()) + "</h3> " );
 

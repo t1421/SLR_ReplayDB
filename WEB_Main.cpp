@@ -9,9 +9,26 @@ broker *(WEB_Main::Bro) = NULL;
 
 std::unique_ptr<Wt::WApplication> createApplicationW(const WEnvironment& env)
 {
+	
 	//MISS;
+	//WSslInfo* SSL = env.sslInfo();
+	//if (SSL == 0)cout << "KEIN SSL\n";
+	//else cout << "SSL\n";
+
+	/*
+	cout << "11\n";
+	WSslCertificate Cert = SSL->clientCertificate();
+	cout << "12\n";
+	cout << Cert.Title << endl;
+	Wt::WValidator::Result SSLResult = SSL->clientVerificationResult();
+	//Wt::WValidator::Result results = env.sslInfo()->clientVerificationResult();	
+	cout << "2\n";
+	//cout << results.message() << endl;
+	*/
 	return Wt::cpp14::make_unique<MISCONTAINER>(env);
+	cout << "3\n";
 	//MISE;
+
 }
 
 string WSTRINGtoSTRING(WString in)

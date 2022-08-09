@@ -57,7 +57,9 @@ struct Action {
 
 	unsigned int Position;
 
-	Action():Time(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), Color(0)
+	bool SystemAction;
+
+	Action():Time(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), Color(0), SystemAction(false)
 	{}
 
 	//unsigned long Unit;
