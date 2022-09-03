@@ -8,22 +8,27 @@
 #include "Reader.h" 
 #include "Broker.h"
 
+#if defined BrokerNormal || defined BrokerWeb
+#include "SQL_MIS_New.h" 
+#include "CardBase.h" 
+#include "LOAD.h"
+#endif
+
 #ifdef BrokerParser
 
 #endif
 
 #ifdef BrokerWeb
+
 #include "WEB_Main.h"
 #include "WEB_CONTAINER.h"
 #include "WEB_MA.h"
+#include "WEB_MB.h"
 #endif
 
 #ifdef BrokerNormal
-#include "SQL_MIS_New.h" 
-#include "CardBase.h" 
 #include "Imager.h"
 #include "PMV_to_SQL.h"
-#include "LOAD.h"
 #include "Manager.h"
 #endif
 
@@ -36,23 +41,32 @@ broker::broker()
 	Replay::learnBro(this);
 	Reader::learnBro(this);
 
+#if defined BrokerNormal || defined BrokerWeb
+	SQL_MIS_New::learnBro(this);
+	CardBase::learnBro(this);
+	LOAD::learnBro(this);
+#endif
+
 #ifdef BrokerWeb
 	WEB_Main::learnBro(this);
 	MISCONTAINER::learnBro(this);
 	WEB_MA::learnBro(this);
+	WEB_MB::learnBro(this);
 #endif
+
 #ifdef BrokerParser
 
 #endif
+
 #ifdef BrokerNormal
-	SQL_MIS_New::learnBro(this);
-	CardBase::learnBro(this);
+
 	PMV_to_SQL::learnBro(this);
 	Imager::learnBro(this);
-	LOAD::learnBro(this);
 	Manager::learnBro(this);	
 	Thread_MIS::learnBro(this);
 #endif
+
+
 	
 	
 	
@@ -93,7 +107,9 @@ bool broker::C_DownloadPNG(unsigned short CardID)
 {
 	return C->DownloadPNG(CardID);
 }
+#endif
 
+#if defined BrokerNormal || defined BrokerWeb
 string broker::L_getSQL_Server()
 {
 	return L->sSQL_Server;

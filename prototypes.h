@@ -41,9 +41,9 @@ static string WikiPos           = "_Card_Artwork.png";
 
 
 
-enum STATUS { eWait, eStart, eRunning };
-enum THREADTYP { eI, eW, eWS, eK, eO, eF, eL, eFB, eMAIN, THREADTYP_MAX };
-enum SETTINGTYP {eB_Gui, eB_File, eB_Filter,SETTINGTYP_MAX};
+//enum STATUS { eWait, eStart, eRunning };
+//enum THREADTYP { eI, eW, eWS, eK, eO, eF, eL, eFB, eMAIN, THREADTYP_MAX };
+//enum SETTINGTYP {eB_Gui, eB_File, eB_Filter,SETTINGTYP_MAX};
 
 
 inline bool File_exists(const std::string& name) {

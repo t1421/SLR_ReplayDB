@@ -35,6 +35,9 @@ public:
 #ifdef BrokerNormal
 	unsigned char C_GetActionOrbForCardID(unsigned short CardID);
 	bool C_DownloadPNG(unsigned short CardID);
+#endif
+
+#if defined BrokerNormal || defined BrokerWeb
 	string L_getSQL_Server();
 	string L_getSQL_User();
 	string L_getSQL_PW();
@@ -44,8 +47,7 @@ public:
 	string L_getPMV_ARCH_PATH();
 	string L_getTMP_PATH();
 	string L_getFFMPEG();
-#endif
-	
+#endif	
 protected:
 	
 

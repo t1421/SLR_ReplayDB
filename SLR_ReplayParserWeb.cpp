@@ -4,6 +4,9 @@
 #include "prototypes.h"
 
 #include "WEB_Main.h"
+#include "SQL_MIS_New.h" 
+#include "CardBase.h" 
+#include "LOAD.h" 
 
 int main(int argc, char **argv)
 {
@@ -13,6 +16,16 @@ int main(int argc, char **argv)
 
 	DEBUG* B = new DEBUG("SLR_ReplayParserWeb",true,true,true);
 	B->teachB();
+
+	LOAD* L = new LOAD();
+	L->teachL();
+	L->StartUp();
+
+	SQL_MIS_New* N = new SQL_MIS_New("MAIN");
+	N->teachN();
+
+	CardBase* C = new CardBase();
+	C->teachC();
 
 	WEB_Main* W = new WEB_Main();
 	W->teachW();

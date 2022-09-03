@@ -5,6 +5,23 @@
 #include "SQL_MIS_New.h"
 #include "CardBase.h" 
 
+broker *(CardBase::Bro) = NULL;
+
+#ifdef BrokerWeb
+CardBase::CardBase()
+{
+	MISS;
+	bCardsLoaded = false;
+	MISE;
+}
+CardBase::~CardBase()
+{
+	MISS;
+	MISE;
+}
+#endif
+
+#ifdef BrokerNormal
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
 	((std::string*)userp)->append((char*)contents, size * nmemb);
@@ -22,8 +39,6 @@ static size_t FileCallback(void* buf, size_t size, size_t nmemb, void* userp)
 	return 0;
 }
 
-
-broker *(CardBase::Bro) = NULL;
 
 CardBase::CardBase()
 {
@@ -308,6 +323,42 @@ bool CardBase::Imager(int iCardID)
 	return true;
 }
 
+bool CardBase::DownloadPNG(int iCardID)
+{
+	MISS;
+
+	Bro->N->ssSQL << "SELECT IMG FROM cards WHERE ID = " << iCardID;
+	if (Bro->N->send() <= 0)
+	{
+		MISEA(" # No Card with ID:" + to_string(iCardID));
+		return false;
+	}
+
+	Bro->N->res->next();
+	if (Bro->N->res->getString(1) == "")
+	{
+		MISEA(" # No IMG in DB for:" + to_string(iCardID));
+		return false;
+	}
+
+	MISD(Bro->L_getTMP_PATH() + to_string(iCardID) + ".png");
+
+	ofstream OutFile;
+	OutFile.open(Bro->L_getTMP_PATH() + to_string(iCardID) + ".png", std::ostream::binary);
+	if (!OutFile)
+	{
+		MISEA(" # can open PNG File:" + to_string(iCardID));
+		return false;
+	}
+	OutFile << Bro->N->res->getString(1);
+	OutFile.close();
+
+	MISE;
+	return true;
+}
+
+#endif
+
 bool CardBase::LoadCardsFromSQL()
 {
 	MISS;
@@ -407,36 +458,3 @@ unsigned char CardBase::GetActionOrbForCardID(unsigned short CardID)
 }
 
 
-bool CardBase::DownloadPNG(int iCardID)
-{
-	MISS;
-
-	Bro->N->ssSQL << "SELECT IMG FROM cards WHERE ID = "<< iCardID;
-	if (Bro->N->send() <= 0) 
-	{
-		MISEA(" # No Card with ID:" + to_string(iCardID));
-		return false;
-	}
-
-	Bro->N->res->next();
-	if (Bro->N->res->getString(1) == "")
-	{
-		MISEA(" # No IMG in DB for:" + to_string(iCardID));
-		return false;
-	}
-
-	MISD(Bro->L_getTMP_PATH() + to_string(iCardID) + ".png");
-
-	ofstream OutFile;
-	OutFile.open(Bro->L_getTMP_PATH() + to_string(iCardID) + ".png", std::ostream::binary);
-	if (!OutFile)
-	{
-		MISEA(" # can open PNG File:" + to_string(iCardID));
-		return false;
-	}
-	OutFile << Bro->N->res->getString(1);
-	OutFile.close();
-
-	MISE;
-	return true;
-}

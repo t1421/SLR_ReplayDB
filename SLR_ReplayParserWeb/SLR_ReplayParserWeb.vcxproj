@@ -119,15 +119,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;BrokerWeb;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>K:\c++\Wt 4.5.2 msvs2015 x86\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>K:\Sound_Server\lib\boost_1_68_0;K:\c++\Wt 4.5.2 msvs2015 x86\include;K:\Sound_Server\lib\mysql-connector-c++-noinstall-1.1.9-win32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>K:\c++\Wt 4.5.2 msvs2015 x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>wt.lib;wthttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>K:\c++\Wt 4.5.2 msvs2015 x86\lib;K:\Sound_Server\lib\mysql-connector-c++-noinstall-1.1.9-win32\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>mysqlcppconn.lib;wt.lib;wthttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -153,25 +153,33 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Broker.cpp" />
+    <ClCompile Include="..\CardBase.cpp" />
     <ClCompile Include="..\DEBUG.cpp" />
+    <ClCompile Include="..\LOAD.cpp" />
     <ClCompile Include="..\Reader.cpp" />
     <ClCompile Include="..\Replay.cpp" />
     <ClCompile Include="..\SLR_ReplayParserWeb.cpp" />
+    <ClCompile Include="..\SQL_MIS_New.cpp" />
     <ClCompile Include="..\Thread_MIS.cpp" />
     <ClCompile Include="..\WEB_CONTAINER.cpp" />
     <ClCompile Include="..\WEB_MA.cpp" />
     <ClCompile Include="..\WEB_Main.cpp" />
+    <ClCompile Include="..\WEB_MB.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Broker.h" />
+    <ClInclude Include="..\CardBase.h" />
     <ClInclude Include="..\DEBUG.h" />
+    <ClInclude Include="..\LOAD.h" />
     <ClInclude Include="..\prototypes.h" />
     <ClInclude Include="..\Reader.h" />
     <ClInclude Include="..\Replay.h" />
+    <ClInclude Include="..\SQL_MIS_New.h" />
     <ClInclude Include="..\Thread_MIS.h" />
     <ClInclude Include="..\WEB_CONTAINER.h" />
     <ClInclude Include="..\WEB_MA.h" />
     <ClInclude Include="..\WEB_Main.h" />
+    <ClInclude Include="..\WEB_MB.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

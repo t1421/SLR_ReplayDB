@@ -5,6 +5,7 @@
 
 class MISEvent;
 class WEB_MA;
+class WEB_MB;
 
 class MISCONTAINER : public WApplication 
 
@@ -14,6 +15,7 @@ public:
 	//Wt::WContainerWidget *AnzeigeFrame;
 
 	WEB_MA *MA;	
+	WEB_MB *MB;
 
 	Wt::WContainerWidget *GlobaelContainer;
 	

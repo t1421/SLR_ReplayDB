@@ -4,6 +4,7 @@
 
 #include "WEB_Main.h"
 #include "WEB_MA.h"
+#include "WEB_MB.h"
 
 #include "WEB_CONTAINER.h"
 
@@ -32,6 +33,7 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 
 	MISD("#3");	
 	MA = new WEB_MA();	
+	MB = new WEB_MB();
 	
 	MISD("#4");
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());
@@ -46,7 +48,8 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	 
 	MISD("#5");
 
-	GlobaelContainer->addWidget(std::unique_ptr<WContainerWidget>(std::move(MA->cMain)));
+	//GlobaelContainer->addWidget(std::unique_ptr<WContainerWidget>(std::move(MA->cMain)));
+	GlobaelContainer->addWidget(std::unique_ptr<WContainerWidget>(std::move(MB->cMain)));
 
 	MISE;
 }

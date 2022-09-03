@@ -1,9 +1,10 @@
 #ifndef CardBase_H
 #define CardBase_H
 
-#include <curl/curl.h>
-#include <json/json.h>
-
+#ifdef BrokerNormal
+	#include <curl/curl.h>
+	#include <json/json.h>
+#endif
 struct SQLCard {
 	unsigned short cardId;
 	unsigned char  fireOrbs;
@@ -29,20 +30,27 @@ public:
 	
 	unsigned char GetActionOrbForCardID(unsigned short CardID);
 
+	vector<SQLCard*> SQLCardMatrix;
+
+	bool bCardsLoaded;
+	bool LoadCardsFromSQL();
+
 	//BROKER
 	static broker* Bro;
 	void teachC() { Bro->C = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
+	
 protected:
 
 private:
+#ifdef BrokerNormal
 	Json::Value GetJsonFromWeb();
 	CURL *curl;
-	bool bCardsLoaded;
-	bool LoadCardsFromSQL();
+#endif
+	
 
-	vector<SQLCard*> SQLCardMatrix;
+	
 };
 
 #endif //CardBase_H
