@@ -9,8 +9,7 @@
 #include "Broker.h"
 
 #if defined BrokerNormal || defined BrokerWeb
-#include "SQL_MIS_New.h" 
-#include "CardBase.h" 
+
 #include "LOAD.h"
 #endif
 
@@ -27,6 +26,8 @@
 #endif
 
 #ifdef BrokerNormal
+#include "SQL_MIS_New.h" 
+#include "CardBase.h" 
 #include "Imager.h"
 #include "PMV_to_SQL.h"
 #include "Manager.h"
@@ -42,8 +43,6 @@ broker::broker()
 	Reader::learnBro(this);
 
 #if defined BrokerNormal || defined BrokerWeb
-	SQL_MIS_New::learnBro(this);
-	CardBase::learnBro(this);
 	LOAD::learnBro(this);
 #endif
 
@@ -59,7 +58,8 @@ broker::broker()
 #endif
 
 #ifdef BrokerNormal
-
+	SQL_MIS_New::learnBro(this);
+	CardBase::learnBro(this);
 	PMV_to_SQL::learnBro(this);
 	Imager::learnBro(this);
 	Manager::learnBro(this);	

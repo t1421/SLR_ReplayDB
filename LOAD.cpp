@@ -63,3 +63,46 @@ bool LOAD::INI_Value_Check(string &check, string name)
 		return false;
 	}
 }
+
+void LOAD::LoadCards()
+{
+	MISS;
+	MISS;
+	string line;
+	string sName = sTMP_PATH + "cards.csv";
+
+	ifstream ifFile;
+	ifFile.open(sName.c_str(), ios::binary);
+
+	if (ifFile.good())
+	{
+		MISD("good");
+
+		while (getline(ifFile, line))
+		{
+			CsvAllCards.emplace_back(new CsvCard(
+				atoi(entry(line, 0).c_str()),
+				atoi(entry(line, 1).c_str()),
+				atoi(entry(line, 2).c_str()),
+				atoi(entry(line, 3).c_str()),
+				atoi(entry(line, 4).c_str()),
+				atoi(entry(line, 5).c_str())
+			));
+		}
+
+		ifFile.close();
+	}
+	else MISERROR("cant open cards.csv");
+	
+	MISE;
+}
+
+string LOAD::entry(string Liste, int pos)
+{
+	if (pos == 0)return Liste.substr(0, Liste.find(";"));
+	else
+	{
+		Liste.erase(0, Liste.find(";") + 1);
+		return entry(Liste, pos - 1);
+	}
+}

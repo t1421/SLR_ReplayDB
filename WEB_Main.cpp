@@ -5,6 +5,7 @@
 #include "WEB_Main.h"
 #include "WEB_CONTAINER.h"
 
+
 broker *(WEB_Main::Bro) = NULL;
 
 std::unique_ptr<Wt::WApplication> createApplicationW(const WEnvironment& env)

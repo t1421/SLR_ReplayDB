@@ -4,7 +4,7 @@
 #include "Replay.h" 
 #include "WEB_Main.h"
 #include "WEB_MB.h"
-#include "CardBase.h" 
+#include "Load.h" 
 
 broker *(WEB_MB::Bro) = NULL;
 
@@ -28,9 +28,7 @@ WEB_MB::WEB_MB()
 	wtStatus->setText("Select PMV (or drag and drop on the button)");
 	
 	
-	MISD("#1");
-
-	Bro->C->LoadCardsFromSQL();
+	MISD("#1");	
 
 	MISD("#3");
 	wfuDropZone->setFilters(".pmv");
@@ -44,6 +42,7 @@ WEB_MB::WEB_MB()
 	MISD("#5");
 	
 	wfuDropZone->uploaded().connect([=] {
+		wfuDropZone->hide();
 		wtStatus->setText("Upload done");
 
 		R = new Replay();
@@ -51,7 +50,9 @@ WEB_MB::WEB_MB()
 		if (R->LoadPMV(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
 		{
 			wtStatus->setText("Calculationg results...");
-			//wtStatus->setText("<h3> The restult is: " + to_string(R->CountActions()) + "</h3>");
+			//wtStatus->setText("<h3> The restult is: " + to_string(R->CountActions()) + "</h3>");			
+			
+			
 			showResults();
 			wtStatus->setText(" ");
 			//MISERROR(to_string(R->CountActions()));
@@ -83,52 +84,79 @@ bool WEB_MB::showResults()
 {
 	MISS;
 
+
+	MISD("#0");
+
 	if (FillWebDeck() == false)
 	{
 		MISEA("X1");
 		return false;
 	}
 
-	cResult->clear();
+	MISD("#222");
 
-	WContainerWidget *cResultX = new WContainerWidget();
-	cResult->addWidget(std::unique_ptr<WWidget>(std::move(cResultX)));
-	WGridLayout *TempGrid;
+	WTable *wtTabelle = new WTable();
+	cResult->addWidget(std::unique_ptr<WWidget>(std::move(wtTabelle)));
+
+	MISD("#3");
+
+	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Tier Check</h3>"))));
+	wtTabelle->elementAt(1, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 1"))));
+	wtTabelle->elementAt(2, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 2"))));
+	wtTabelle->elementAt(3, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 3"))));
+	wtTabelle->elementAt(4, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 4"))));
+	wtTabelle->elementAt(5, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))));
+
+
+	wtTabelle->elementAt(6, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Type Check</h3>"))));
+	wtTabelle->elementAt(7, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Unit"))));
+	wtTabelle->elementAt(8, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Building"))));
+	wtTabelle->elementAt(9, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Spell"))));
+	wtTabelle->elementAt(10, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))));
+
+	wtTabelle->elementAt(11, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Color Check</h3>"))));
+	wtTabelle->elementAt(12, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Fire"))));
+	wtTabelle->elementAt(13, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Nature"))));
+	wtTabelle->elementAt(14, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Frost"))));
+	wtTabelle->elementAt(15, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Shadow"))));
+
+	wtTabelle->elementAt(16, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Twilight"))));
+	wtTabelle->elementAt(17, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Stonekin"))));
+	wtTabelle->elementAt(18, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Lost Souls"))));
+	wtTabelle->elementAt(19, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Bandits"))));
+
+	wtTabelle->elementAt(20, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Others"))));
+	wtTabelle->elementAt(21, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))));
 	
-	TempGrid = new WGridLayout();
-	cResultX->setLayout(std::unique_ptr<WGridLayout>(std::move(TempGrid)));
+	MISD("#4");
 
-	WImage	*Deck;
+	for (unsigned int i = 0; i < WebDeck.size() ; i++)
+	{
+		wtTabelle->elementAt(WebDeck[i]->iFire + WebDeck[i]->iNature + WebDeck[i]->iFrost + WebDeck[i]->iShadow + WebDeck[i]->iNeutral, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		if (WebDeck[i]->bUnit)wtTabelle->elementAt(7, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		if (WebDeck[i]->bBuilding)wtTabelle->elementAt(8, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		if (WebDeck[i]->bSpell)wtTabelle->elementAt(9, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
 
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Tier Check</h3>"))), 0, 0, 0, 2);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 1"))), 1, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 2"))), 2, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 3"))), 3, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 4"))), 4, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))), 5, 0, 0, 2);
+		if(WebDeck[i]->iFire != 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(12, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(13, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(14, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(15, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
 
+		else if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(16, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(17, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(18, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		else if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(19, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		else wtTabelle->elementAt(20, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		
 
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Type Check</h3>"))), 6, 0, 0, 2);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Unit"))), 7, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Building"))), 8, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Spell"))), 9, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))), 10, 0, 0, 2);
+		//MISD(to_string(WebDeck[i]->CardID));
+		//Deck = new WImage("./resources/Cards/" + to_string(WebDeck[i]->CardID) + ".png");
+		//wtTabelle->elementAt(21, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		//wtTabelle->elementAt(1, 1)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+	}
 
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Color Check</h3>"))), 11, 0, 0, 2);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Fire"))), 12, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Nature"))), 13, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Frost"))), 14, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Shadow"))), 15, 0, 0, 1);
+	MISD("#5");
 
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Twilight"))), 16, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Stonekin"))), 17, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Lost Souls"))), 18, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Bandits"))), 19, 0, 0, 1);
-
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Others"))), 20, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))), 21, 0, 0, 2);
-	
-	
 	//Deck = new WImage("./resources/Cards/1448.png");
 
 	//TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(Deck)), 0, 0);
@@ -171,20 +199,28 @@ bool WEB_MB::FillWebDeck()
 void WEB_MB::addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Building)
 {
 	MISS;
-	unsigned int uiFound = 0;
-	for (unsigned int i = 0; i < WebDeck.size(); i++)
-	{
-		if (uiCardID == WebDeck[i]->CardID)uiFound = i;
-	}
+	unsigned int uiFound = -1;
 
-	if (uiFound != 0)WebDeck[uiFound]->playCount++;
+	for (unsigned int i = 0; i < WebDeck.size(); i++)if (uiCardID == WebDeck[i]->CardID)uiFound = i;
+	
+	if (uiFound != -1)WebDeck[uiFound]->playCount++;
 	else
 	{
+		//MISD(to_string(uiCardID));
 		WebCard *Card_TEMP = new WebCard;
 		Card_TEMP->CardID = uiCardID;
 		Card_TEMP->bUnit = Unit;
 		Card_TEMP->bSpell = Spell;
 		Card_TEMP->bBuilding = Building;
+
+		Card_TEMP->IMG = new WImage("./resources/Cards/" + to_string(uiCardID) + ".png");
+		Card_TEMP->IMG->setHeight(IMG_SIZE);
+		Card_TEMP->IMG->setWidth(IMG_SIZE);
+		Card_TEMP->IMG->resize(IMG_SIZE, IMG_SIZE);
+		Card_TEMP->IMG->setMaximumSize(IMG_SIZE, IMG_SIZE);
+		//Card_TEMP->IMG->setPositionScheme(Wt::PositionScheme::Absolute);
+
+		
 
 		WebDeck.push_back(Card_TEMP);
 	}
@@ -196,15 +232,16 @@ void WEB_MB::addColors()
 	MISS;
 	for (unsigned int i = 0; i < WebDeck.size(); i++)
 	{
-		MISD(to_string(WebDeck[i]->CardID));
-		for (unsigned int j = 0; j < Bro->C->SQLCardMatrix.size(); j++)
+		//MISD(to_string(WebDeck[i]->CardID));
+		for (unsigned int j = 0; j < Bro->L->CsvAllCards.size(); j++)
 		{
-			if (Bro->C->SQLCardMatrix[j]->cardId == WebDeck[i]->CardID)
+			if (Bro->L->CsvAllCards[j]->CardID == WebDeck[i]->CardID)
 			{
-				WebDeck[i]->bFire = Bro->C->SQLCardMatrix[j]->fireOrbs != 0;
-				WebDeck[i]->bFrost = Bro->C->SQLCardMatrix[j]->frostOrbs != 0;
-				WebDeck[i]->bShadow = Bro->C->SQLCardMatrix[j]->shadowOrbs != 0;
-				WebDeck[i]->bNature = Bro->C->SQLCardMatrix[j]->natureOrbs != 0;
+				WebDeck[i]->iFire = Bro->L->CsvAllCards[j]->iFire;
+				WebDeck[i]->iFrost = Bro->L->CsvAllCards[j]->iFrost;
+				WebDeck[i]->iShadow = Bro->L->CsvAllCards[j]->iShadow;
+				WebDeck[i]->iNature = Bro->L->CsvAllCards[j]->iNature;
+				WebDeck[i]->iNeutral = Bro->L->CsvAllCards[j]->iNeutral;				
 				break;
 			}
 		}

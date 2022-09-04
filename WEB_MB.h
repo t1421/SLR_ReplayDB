@@ -1,16 +1,21 @@
 #ifndef WEB_MB_H
 #define WEB_MB_H
 
+#define IMG_SIZE 50
+
 struct WebCard {
 	unsigned short CardID;
 	unsigned int   playCount;
-	bool		   bFire;
-	bool		   bFrost;
-	bool		   bShadow;
-	bool		   bNature;
+	unsigned int   iFire;
+	unsigned int   iFrost;
+	unsigned int   iShadow;
+	unsigned int   iNature;
+	unsigned int   iNeutral;
 	bool		   bUnit;
 	bool		   bSpell;
 	bool		   bBuilding;
+
+	WImage		  *IMG;
 };
 
 class WEB_MB
@@ -27,7 +32,7 @@ public:
 	
 
 	WContainerWidget *cMain;
-	WContainerWidget *cResult;
+	WContainerWidget *cResult;	
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

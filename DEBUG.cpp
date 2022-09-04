@@ -54,6 +54,7 @@ DEBUG::DEBUG(string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("MISCONTAINER", "*", "*", "true");
 		Fill_DBArray("WEB_MA", "*", "*", "true");
 		Fill_DBArray("WEB_MB", "*", "*", "true");
+		Fill_DBArray("WEB_MB", "addCard", "*", "false");
 
 		Fill_DBArray("broker", "*", "*", "true");
 

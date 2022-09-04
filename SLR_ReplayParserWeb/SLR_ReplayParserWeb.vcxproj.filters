@@ -48,12 +48,6 @@
     <ClCompile Include="..\WEB_MB.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\CardBase.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\SQL_MIS_New.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\LOAD.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -87,12 +81,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\WEB_MB.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\CardBase.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\SQL_MIS_New.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\LOAD.h">

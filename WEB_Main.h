@@ -13,6 +13,8 @@
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WFileUpload.h>
 
+#include <Wt/WTable.h>
+
 #include <Wt/WSslInfo.h>
 #include <Wt/WValidator.h>
 #include <Wt/WSslCertificate.h>
