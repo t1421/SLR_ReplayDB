@@ -15,7 +15,7 @@ struct WebCard {
 	bool		   bSpell;
 	bool		   bBuilding;
 
-	WImage		  *IMG;
+	WImage		  *IMG[3];
 };
 
 class WEB_MB
@@ -32,7 +32,8 @@ public:
 	
 
 	WContainerWidget *cMain;
-	WContainerWidget *cResult;	
+	WContainerWidget *cResult;
+	WTable *wtTabelle;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

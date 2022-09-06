@@ -29,7 +29,6 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	WApplication::instance()->setTitle("SLR - Action counter");
 
 	WApplication::instance()->useStyleSheet(WLink("./resources/main.css"));
-	WApplication::instance()->useStyleSheet(WLink("./resources/opacity.css"));
 
 	MISD("#3");	
 	MA = new WEB_MA();	
@@ -45,7 +44,7 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 
 	wTemp = WColor(20, 20, 20);
 	root()->decorationStyle().setBackgroundColor(wTemp);
-	 
+
 	MISD("#5");
 
 	//GlobaelContainer->addWidget(std::unique_ptr<WContainerWidget>(std::move(MA->cMain)));
