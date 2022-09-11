@@ -19,6 +19,9 @@
 #include <Wt/WValidator.h>
 #include <Wt/WSslCertificate.h>
 
+#include <Wt/WStackedWidget.h>
+#include <Wt/WToolBar.h>
+
 using namespace Wt;
 
 std::unique_ptr<Wt::WApplication> createApplicationW(const WEnvironment& env);

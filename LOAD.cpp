@@ -69,7 +69,7 @@ void LOAD::LoadCards()
 	MISS;
 	MISS;
 	string line;
-	string sName = sTMP_PATH + "cards.csv";
+	string sName = "cards.csv";
 
 	ifstream ifFile;
 	ifFile.open(sName.c_str(), ios::binary);
@@ -86,13 +86,16 @@ void LOAD::LoadCards()
 				atoi(entry(line, 2).c_str()),
 				atoi(entry(line, 3).c_str()),
 				atoi(entry(line, 4).c_str()),
-				atoi(entry(line, 5).c_str())
+				atoi(entry(line, 5).c_str()),
+				atoi(entry(line, 6).c_str()),
+				atoi(entry(line, 7).c_str()),
+				atoi(entry(line, 8).c_str())
 			));
 		}
 
 		ifFile.close();
 	}
-	else MISERROR("cant open cards.csv");
+	else MISERROR("cant open .\\cards.csv");
 	
 	MISE;
 }

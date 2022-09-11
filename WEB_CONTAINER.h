@@ -1,7 +1,7 @@
 #ifndef WEB_CONTAINER_H
 #define WEB_CONTAINER_H
 
-#define MaxRegister 1
+#define MaxRegister 2
 
 class MISEvent;
 class WEB_MA;
@@ -12,17 +12,24 @@ class MISCONTAINER : public WApplication
 {
 public:
 	
-	//Wt::WContainerWidget *AnzeigeFrame;
-
 	WEB_MA *MA;	
 	WEB_MB *MB;
 
 	Wt::WContainerWidget *GlobaelContainer;
-	
+	Wt::WContainerWidget *AnzeigeFrame;
+
+
+
 	//----------------------------------------------------------------
 
 	MISCONTAINER(const Wt::WEnvironment& env);
+	~MISCONTAINER();
 
+	Wt::WStackedWidget *Stack;
+	Wt::WPushButton *button[MaxRegister];
+	Wt::WToolBar *toolBar;
+	void updateToolbar(int iAktiv);
+	void ToolBarButton(int Index, string Name, WContainerWidget &CON);
 
 	//BROKER
 	static broker* Bro;

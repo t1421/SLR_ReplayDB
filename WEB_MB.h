@@ -2,6 +2,7 @@
 #define WEB_MB_H
 
 #define IMG_SIZE 50
+#define MaxRegister 2
 
 struct WebCard {
 	unsigned short CardID;
@@ -28,8 +29,7 @@ public:
 	WText		 *wtStatus;
 	WText		 *Head;
 
-	vector <WebCard*> WebDeck;
-	
+	vector <WebCard*> WebDeck;	
 
 	WContainerWidget *cMain;
 	WContainerWidget *cResult;
@@ -39,10 +39,22 @@ public:
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 	WEB_MB();
-	bool showResults();
+	string showResults();
 	bool FillWebDeck();
+	bool FillWebDeckAction();
+	bool FillWebDeckDeck();
 	void addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Building);
 	void addColors();
+
+	bool getFromCSVBuilding(unsigned short uiCardID);
+	bool getFromCSVSpell(unsigned short uiCardID);
+	bool getFromCSVUnit(unsigned short uiCardID);
+
+	Wt::WPushButton *button[MaxRegister];
+	Wt::WToolBar *toolBar;
+	int iAktiveToolbar;
+	void updateToolbar();
+	void ToolBarButton(int Index, string Name);
 
 };
 

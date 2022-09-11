@@ -22,7 +22,7 @@ WEB_MA::WEB_MA()
 	Head		= new WText();
 	
 
-	Head->setText("<h1><b>PMV Action Counter</b></h1>");
+	Head->setText("<h1><b>BOT 1 Action Counter</b></h1>");
 	wtStatus->setText("Select PMV (or drag and drop on the button)");
 	
 	

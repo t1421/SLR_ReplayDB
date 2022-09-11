@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "prototypes.h"
 #include "Replay.h" 
@@ -23,12 +23,11 @@ WEB_MB::WEB_MB()
 	wtStatus	= new WText();
 	Head		= new WText();
 	wtTabelle   = new WTable();
+	toolBar     = new WToolBar();
 	
-
-	Head->setText("<h1><b>Check PMV for Event</b></h1>");
+	Head->setText("<h1><b>BOT 2 Replay Checker</b></h1>");
 	wtStatus->setText("Select PMV (or drag and drop on the button)");
-	
-	
+		
 	MISD("#1");	
 
 	MISD("#3");
@@ -54,7 +53,9 @@ WEB_MB::WEB_MB()
 			//wtStatus->setText("<h3> The restult is: " + to_string(R->CountActions()) + "</h3>");			
 			
 			
-			showResults();
+			wtStatus->setText(showResults());
+			//if()wtStatus->setText("<h4>All looks good :-)</h4>");
+			//else wtStatus->setText("<h4>Something is wrong in your deck</h4>");
 			
 			//MISERROR(to_string(R->CountActions()));
 		}
@@ -68,12 +69,19 @@ WEB_MB::WEB_MB()
 		wtStatus->setText("File is too large.");
 	});
 
+	MISD("#7");
+
+	ToolBarButton(0, "Cards Played");
+	ToolBarButton(1, "Cards in Deck");	
+	iAktiveToolbar = 0;
+	updateToolbar();
 
 	MISD("#10");
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(Head)), 0, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)), 1, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)), 2, 0, 0, 1);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 3, 0, 0, 1);	
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(Head)), 0, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(toolBar)), 1, 0);	
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)), 2, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)), 3, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 4, 0);	
 	cResult->addWidget(std::unique_ptr<WWidget>(std::move(wtTabelle)));
 	
 	MISE;
@@ -82,7 +90,7 @@ WEB_MB::WEB_MB()
 
 
 
-bool WEB_MB::showResults()
+string WEB_MB::showResults()
 {
 	MISS;
 
@@ -96,7 +104,7 @@ bool WEB_MB::showResults()
 	if (FillWebDeck() == false)
 	{
 		MISEA("X1");
-		return false;
+		return "<h4>Something is wrong in your deck</h4>";
 	}
 
 	MISD("#222");
@@ -221,27 +229,26 @@ bool WEB_MB::showResults()
 	for (int i = 0; i < iRow; i++)
 	{
 		//MISD(to_string(i));
-		if(dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->imageLink() == WLink("./resources/0.png"))
-			wtStatus->setText("<h2>Something is wrong</h2>");
+		if (dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->imageLink() == WLink("./resources/0.png"))
+		{
+			MISEA("X1");
+			return "<h4>Something is wrong in your deck</h4>";
+		}
 	}
 	
-	MISD("#5");
-
-	//Deck = new WImage("./resources/Cards/1448.png");
-
-	//TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(Deck)), 0, 0);
-	
-
 	MISE;
-	return true;
+	return "<h4>All looks good :-)</h4>";
 }
-
 
 bool WEB_MB::FillWebDeck()
 {
-	MISS;
+		if(iAktiveToolbar==0)return FillWebDeckAction();	
+		else return FillWebDeckDeck();
+}
 
-	WebCard *Card_TEMP;
+bool WEB_MB::FillWebDeckAction()
+{
+	MISS;
 
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
 	{
@@ -266,6 +273,38 @@ bool WEB_MB::FillWebDeck()
 	return true;
 }
 
+bool WEB_MB::FillWebDeckDeck()
+{
+	MISS;
+
+	for (unsigned int i = 0; i < R->PlayerMatrix.size(); i++)
+	{
+		MISD("i:" + to_string(i))
+		if (R->PlayerMatrix[i]->Deck.size() == 0) continue;
+		for (unsigned int j = 0; j < R->PlayerMatrix[i]->Deck.size(); j++)
+		{
+			MISD("j:" + to_string(j))
+			addCard(R->PlayerMatrix[i]->Deck[j]->CardID, 
+				getFromCSVUnit(R->PlayerMatrix[i]->Deck[j]->CardID),
+				getFromCSVSpell(R->PlayerMatrix[i]->Deck[j]->CardID),
+				getFromCSVBuilding(R->PlayerMatrix[i]->Deck[j]->CardID));
+		}
+
+		if (WebDeck.size() != 0)break;
+	}
+	
+	if (WebDeck.size() == 0)
+	{
+		MISEA("No Deck?");
+		return false;
+	}
+
+	addColors();
+
+	MISE;
+	return true;
+}
+
 void WEB_MB::addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Building)
 {
 	MISS;
@@ -276,7 +315,7 @@ void WEB_MB::addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Buildi
 	if (uiFound != -1)WebDeck[uiFound]->playCount++;
 	else
 	{
-		//MISD(to_string(uiCardID));
+		MISD(to_string(uiCardID));
 		WebCard *Card_TEMP = new WebCard;
 		Card_TEMP->CardID = uiCardID;
 		Card_TEMP->bUnit = Unit;
@@ -320,4 +359,65 @@ void WEB_MB::addColors()
 		
 	}
 	MISE;
+}
+
+void WEB_MB::ToolBarButton(int Index, string Name)
+{
+	MISS;
+	button[Index] = new Wt::WPushButton();
+	button[Index]->setText(Name);
+	toolBar->addButton(std::unique_ptr<Wt::WPushButton>(button[Index]));
+	button[Index]->clicked().connect(std::bind([=]() {		
+		iAktiveToolbar = Index;
+		updateToolbar();
+		if(R != NULL)if(R->OK)wtStatus->setText(showResults());
+	}));
+	MISE;
+}
+
+void WEB_MB::updateToolbar()
+{
+	MISS;
+
+	string sCSS;
+	for (int i = 0; i < MaxRegister; i++)
+	{
+		MISD(to_string(i));
+		sCSS = WSTRINGtoSTRING(button[i]->styleClass());
+
+		if (sCSS.find("button1") != sCSS.npos)sCSS.erase(sCSS.find("button1"), 7);
+		if (sCSS.find("button0") != sCSS.npos)sCSS.erase(sCSS.find("button0"), 7);
+
+		if (i == iAktiveToolbar)sCSS = "button1 " + sCSS;
+		else sCSS = "button0" + sCSS;
+
+		button[i]->setStyleClass(sCSS);
+	}
+
+
+	MISE;
+}
+
+bool WEB_MB::getFromCSVBuilding(unsigned short uiCardID)
+{
+	for (unsigned int j = 0; j < Bro->L->CsvAllCards.size(); j++)
+		if (Bro->L->CsvAllCards[j]->CardID == uiCardID)return Bro->L->CsvAllCards[j]->bBuilding;
+
+	return false;
+}
+
+bool WEB_MB::getFromCSVSpell(unsigned short uiCardID)
+{
+	for (unsigned int j = 0; j < Bro->L->CsvAllCards.size(); j++)
+		if (Bro->L->CsvAllCards[j]->CardID == uiCardID)return Bro->L->CsvAllCards[j]->bSpell;
+
+	return false;
+}
+
+bool WEB_MB::getFromCSVUnit(unsigned short uiCardID)
+{
+	for (unsigned int j = 0; j < Bro->L->CsvAllCards.size(); j++)
+		if (Bro->L->CsvAllCards[j]->CardID == uiCardID)return Bro->L->CsvAllCards[j]->bUnit;
+
+	return false;
 }

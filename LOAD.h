@@ -10,13 +10,19 @@ struct CsvCard {
 	unsigned int   iShadow;
 	unsigned int   iNature;
 	unsigned int   iNeutral;
+	bool		   bUnit;
+	bool		   bSpell;
+	bool		   bBuilding;
 	CsvCard(unsigned short _CardID,
 		unsigned int   _iFire,
 		unsigned int   _iFrost,
 		unsigned int   _iShadow,
 		unsigned int   _iNature,
-		unsigned int   _iNeutral) :
-		CardID(_CardID), iFire(_iFire), iFrost(_iFrost) , iShadow(_iShadow), iNature(_iNature), iNeutral(_iNeutral){}
+		unsigned int   _iNeutral,
+		bool		   _bUnit,
+		bool		   _bSpell,
+		bool		   _bBuilding) :
+		CardID(_CardID), iFire(_iFire), iFrost(_iFrost) , iShadow(_iShadow), iNature(_iNature), iNeutral(_iNeutral),bUnit(_bUnit),bSpell(_bSpell),bBuilding(_bBuilding) {}
 };
 
 class LOAD //: public Thread_MIS

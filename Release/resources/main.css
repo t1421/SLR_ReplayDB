@@ -16,12 +16,14 @@ background-color: #00DD00 !important;
 background-color: #FFFFBB !important;
 }
 
-.aktiv{
-background-color: #22DD22 !important;
+.button1{
+background-color: #DDDDDD !important;
+color: #222222
 }
 
-.inaktiv{
-background-color: #DD2222 !important;
+.button0{
+background-color: #222222 !important;
+color: #DDDDDD
 }
 
 .PlusUndMinus{
