@@ -165,7 +165,8 @@ int main(int argc, char **argv)
 
 			if (Checker(sbuf, "dublette"))
 			{
-				MISD("Return: " + P->DublettenCheck());
+				printf("%s\n", P->DublettenCheck().c_str());
+				//MISD("Return: " + P->DublettenCheck());
 			}
 		}
 

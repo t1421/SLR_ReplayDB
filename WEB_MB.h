@@ -27,6 +27,8 @@ public:
 
 	WFileUpload  *wfuDropZone;	
 	WText		 *wtStatus;
+	WText		 *wtMap;
+	WText		 *wtTime;
 	WText		 *Head;
 
 	vector <WebCard*> WebDeck;	

@@ -94,7 +94,7 @@ public:
 	void EchoAction(string sAction);
 	string SwitchType(unsigned long inType);
 	int CountActions();
-
+	string sTime(unsigned long ulTime);
 	//BROKER
 #ifndef noBroker
 	static broker* Bro;
@@ -139,7 +139,7 @@ private:
 	bool getPMVinSS(string sFile);
 	string FindWinningTeam();
 	string get_file_name(string pfad);
-	string sTime(unsigned long ulTime);
+	
 
 };
 

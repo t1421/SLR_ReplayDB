@@ -12,7 +12,7 @@ int main(int argc, char **argv)
 
 	broker* Bro = new broker;
 
-	DEBUG* B = new DEBUG("SLR_ReplayParserWeb",true,true,false);
+	DEBUG* B = new DEBUG("SLR_ReplayParserWeb",true,true,true);
 	B->teachB();
 
 	LOAD* L = new LOAD();

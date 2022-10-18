@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "prototypes.h"
 #include "Replay.h" 
@@ -21,12 +21,14 @@ WEB_MB::WEB_MB()
 	
 	wfuDropZone = new WFileUpload();
 	wtStatus	= new WText();
+	wtMap       = new WText();
+	wtTime      = new WText();
 	Head		= new WText();
 	wtTabelle   = new WTable();
 	toolBar     = new WToolBar();
 	
 	Head->setText("<h1><b>BOT 2 Replay Checker</b></h1>");
-	wtStatus->setText("Select PMV (or drag and drop on the button)");
+	wtStatus->setText("<h4>Select PMV (or drag and drop on the button)</h4>");
 		
 	MISD("#1");	
 
@@ -36,24 +38,29 @@ WEB_MB::WEB_MB()
 
 	wfuDropZone->changed().connect([=] {
 		wfuDropZone->upload();
-		wtStatus->setText("New File");
+		wtStatus->setText("<h4>New File</h4>");
 	});
 	
 	MISD("#5");
 	
 	wfuDropZone->uploaded().connect([=] {
 		//wfuDropZone->hide();
-		wtStatus->setText("Upload done");
+		wtStatus->setText("<h4>Upload done</h4>");
+		wtMap->setText(" ");
+		wtTime->setText(" ");
 
 		R = new Replay();
 		
 		if (R->LoadPMV(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
 		{
-			wtStatus->setText("Calculationg results...");
+			wtStatus->setText("<h4>Calculationg results...</h4>");
 			//wtStatus->setText("<h3> The restult is: " + to_string(R->CountActions()) + "</h3>");			
 			
+			wtMap->setText("Map: " + R->MapName);
+			wtTime->setText("Time: " + R->sTime(R->Playtime));
 			
 			wtStatus->setText(showResults());
+			MISERROR(to_string(iAktiveToolbar) + "#" + WSTRINGtoSTRING(wtStatus->text()));
 			//if()wtStatus->setText("<h4>All looks good :-)</h4>");
 			//else wtStatus->setText("<h4>Something is wrong in your deck</h4>");
 			
@@ -66,7 +73,7 @@ WEB_MB::WEB_MB()
 	MISD("#6");
 
 	wfuDropZone->fileTooLarge().connect([=] {
-		wtStatus->setText("File is too large.");
+		wtStatus->setText("<h4>File is too large.</h4>");
 	});
 
 	MISD("#7");
@@ -81,7 +88,9 @@ WEB_MB::WEB_MB()
 	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(toolBar)), 1, 0);	
 	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)), 2, 0);
 	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)), 3, 0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 4, 0);	
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtMap)), 4, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtTime)), 5, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 6, 0);	
 	cResult->addWidget(std::unique_ptr<WWidget>(std::move(wtTabelle)));
 	
 	MISE;
@@ -106,8 +115,6 @@ string WEB_MB::showResults()
 		MISEA("X1");
 		return "<h4>Something is wrong in your deck</h4>";
 	}
-
-	MISD("#222");
 
 	MISD("#3");
 
@@ -170,13 +177,7 @@ string WEB_MB::showResults()
 		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(17,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
 		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(18,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
 		else if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(19,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else wtTabelle->elementAt(20,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		
-
-		//MISD(to_string(WebDeck[i]->CardID));
-		//Deck = new WImage("./resources/Cards/" + to_string(WebDeck[i]->CardID) + ".png");
-		//wtTabelle->elementAt(21,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
-		//wtTabelle->elementAt(1,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG)));
+		else wtTabelle->elementAt(20,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));	
 	}
 
 	iCol--;
@@ -279,11 +280,12 @@ bool WEB_MB::FillWebDeckDeck()
 
 	for (unsigned int i = 0; i < R->PlayerMatrix.size(); i++)
 	{
-		MISD("i:" + to_string(i))
+		//MISD("i:" + to_string(i))
 		if (R->PlayerMatrix[i]->Deck.size() == 0) continue;
 		for (unsigned int j = 0; j < R->PlayerMatrix[i]->Deck.size(); j++)
 		{
-			MISD("j:" + to_string(j))
+			if (R->PlayerMatrix[i]->Deck[j]->CardID == 0)continue;
+			//MISD("j:" + to_string(j))
 			addCard(R->PlayerMatrix[i]->Deck[j]->CardID, 
 				getFromCSVUnit(R->PlayerMatrix[i]->Deck[j]->CardID),
 				getFromCSVSpell(R->PlayerMatrix[i]->Deck[j]->CardID),
@@ -370,7 +372,11 @@ void WEB_MB::ToolBarButton(int Index, string Name)
 	button[Index]->clicked().connect(std::bind([=]() {		
 		iAktiveToolbar = Index;
 		updateToolbar();
-		if(R != NULL)if(R->OK)wtStatus->setText(showResults());
+		if (R != NULL)if (R->OK)
+		{
+			wtStatus->setText(showResults());
+			MISERROR(to_string(iAktiveToolbar) + "#" + WSTRINGtoSTRING(wtStatus->text()));
+		}
 	}));
 	MISE;
 }
