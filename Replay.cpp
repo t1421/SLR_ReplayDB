@@ -221,7 +221,6 @@ bool Replay::ReadActions()
 			switch (Action_TEMP->Type)
 			{
 			case 4001: //SLR-TEAM: 4001 - Irrelevant (Ist bei mir einfach auskommentiert)
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -232,12 +231,10 @@ bool Replay::ReadActions()
 				break;
 				///###
 			case 4002: //leave game		
-				Action_TEMP->SystemAction = true;
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				break;
 				///###
 			case 4003: //SLR-TEAM: 4003 - Desync
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -247,7 +244,6 @@ bool Replay::ReadActions()
 				PMVPosition = SollPos;
 				break;
 			case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )		// Anzahl von Gegnern auf der Map?					
-				Action_TEMP->SystemAction = true;
 				readUnsignedLong(); //Unit
 				this->readUnsignedChar(); // ??? number between 0 and 16?				
 				break;
@@ -257,7 +253,6 @@ bool Replay::ReadActions()
 				//readUnsignedLong(); //zero?
 				//readUnsignedLong(); //Unit?
 				//readUnsignedLong(); //zero?
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -277,12 +272,10 @@ bool Replay::ReadActions()
 				break;
 				///###
 			case 4007: //Objective OK 
-				Action_TEMP->SystemAction = true;
 				readUnsignedLong(); // ObjectiveID ?
 				break;
 
 			case 4008: //SLR-TEAM: 4008 - Hat was mit Scripting zu tun (wahrsch. iwas zum Map scripts debuggen oder so)
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -387,7 +380,7 @@ bool Replay::ReadActions()
 			case 4014: //use unit ability
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				readUnsignedLong(); // Unit
-				readUnsignedLong(); // Abbility ID
+				Action_TEMP->AdditionalInfo = to_string(readUnsignedLong()); // Abbility ID
 				this->readUnsignedChar(); // immer 1
 				readUnsignedLong(); // immer 1
 				readUnsignedLong(); // Abbility Type - 2=Buldig Global Efffect / 6=Fier on the Ground / 8=Comet Catcher
@@ -416,7 +409,6 @@ bool Replay::ReadActions()
 
 				break;
 			case 4016: //SLR-TEAM: 4016 - Ist bei mir auch auskommentiert
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -426,7 +418,6 @@ bool Replay::ReadActions()
 				PMVPosition = SollPos;
 				break;
 			case 4017: //SLR-TEAM: 4017 - Glaube das sind ultrakrasse GM Hacks
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -436,7 +427,6 @@ bool Replay::ReadActions()
 				PMVPosition = SollPos;
 				break;
 			case 4018: //SLR-TEAM: 4018 - Auskommentiert (KillEntity - glaube unnötig, da es and GroupKillEntity gibt)
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -463,7 +453,6 @@ bool Replay::ReadActions()
 				}
 				break;
 			case 4021: //SLR-TEAM: 4021 - Auskommentiert (PlaceSquad - wahrscheinlich auch durch was anderes Überschrieben
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -473,7 +462,6 @@ bool Replay::ReadActions()
 				PMVPosition = SollPos;
 				break;
 			case 4022: //SLR-TEAM: 4022 - Irgendwas mit Mapscripts
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -483,7 +471,6 @@ bool Replay::ReadActions()
 				PMVPosition = SollPos;
 				break;
 			case 4023: //SLR-TEAM: 4023 - Auskommentiert (CancelCutScene)
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -493,7 +480,6 @@ bool Replay::ReadActions()
 				PMVPosition = SollPos;
 				break;
 			case 4024: //SLR-TEAM:4024 - Relevant für die Schmiede
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -503,7 +489,6 @@ bool Replay::ReadActions()
 				PMVPosition = SollPos;
 				break;
 			case 4025: //SLR-TEAM: 4025 - Relevant für die Schmiede
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -513,7 +498,6 @@ bool Replay::ReadActions()
 				PMVPosition = SollPos;
 				break;
 			case 4026: //SLR-TEAM: 4026 - SetGameDifficulty - glaube nicht, dass man das während des Spiels machen kann
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -562,10 +546,9 @@ bool Replay::ReadActions()
 				// 4 = Red
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				readUnsignedLong(); //Unit
-				Action_TEMP->Color = this->readUnsignedChar();				
+				Action_TEMP->AdditionalInfo = to_string(this->readUnsignedChar());
 				break;
 			case 4032: //SLR-TEAM: 4032 - SquadRefill - Dachte das passiert automatisch?
-				Action_TEMP->SystemAction = true;
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
 					to_string(Action_TEMP->Type) + "#" +
@@ -683,7 +666,6 @@ bool Replay::ReadActions()
 				readUnsignedLong(); // Y	
 				break;
 			case 4045: // SLR desync???
-				Action_TEMP->SystemAction = true;
 				readUnsignedShort(); //Size of Data
 				this->readUnsignedChar(); //ID of inner Data
 				readUnsignedLongLong(); // state Hash 1
@@ -788,7 +770,7 @@ bool Replay::AddFirstOrb()
 		//Action_TEMP->Size = 13;
 		Action_TEMP->Type = 4031;
 		Action_TEMP->ActionPlayer = ActionMatrix[iPosOfUnit]->ActionPlayer;
-		Action_TEMP->Color = Bro->C_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card);
+		Action_TEMP->AdditionalInfo = to_string(Bro->C_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card));
 		ActionMatrix.insert(ActionMatrix.begin() + iPosOfUnit, Action_TEMP);				
 	}
 

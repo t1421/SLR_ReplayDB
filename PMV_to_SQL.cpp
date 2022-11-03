@@ -268,7 +268,7 @@ bool PMV_to_SQL::UploadActions(string iNewHeadID)
 		NN->ssSQL << "  ActionTypeID , ";
 		NN->ssSQL << "  CardID , ";
 		NN->ssSQL << "  Charges , ";
-		NN->ssSQL << "  Color , ";
+		NN->ssSQL << "  AdditionalInfo , ";
 		NN->ssSQL << "  Upgrade , ";
 		NN->ssSQL << "  playerID) ";
 		NN->ssSQL << "VALUES(";
@@ -277,7 +277,7 @@ bool PMV_to_SQL::UploadActions(string iNewHeadID)
 		NN->ssSQL << RR->ActionMatrix[i]->Type << " , ";
 		NN->ssSQL << RR->ActionMatrix[i]->Card << " , ";
 		NN->ssSQL << int(RR->ActionMatrix[i]->Charges) << " , ";
-		NN->ssSQL << int(RR->ActionMatrix[i]->Color) << " , ";
+		NN->ssSQL << "'"<<RR->ActionMatrix[i]->AdditionalInfo << "' , ";
 		NN->ssSQL << RR->ActionMatrix[i]->Upgrade << " , ";
 		NN->ssSQL << RR->ActionMatrix[i]->PlayerID <<" ) ";
 		NN->send();
@@ -408,7 +408,7 @@ bool PMV_to_SQL::Download(string sGameID)
 	NN->ssSQL << "			ActionTypeID , ";
 	NN->ssSQL << "			CardID , ";
 	NN->ssSQL << "			Charges , ";
-	NN->ssSQL << "			Color , ";
+	NN->ssSQL << "			AdditionalInfo , ";
 	NN->ssSQL << "			Upgrade , ";
 	NN->ssSQL << "			playerID ";
 	NN->ssSQL << " FROM action ";
@@ -425,7 +425,7 @@ bool PMV_to_SQL::Download(string sGameID)
 		Action_TEMP->Type = NN->res->getInt(2);
 		Action_TEMP->Card = NN->res->getInt(3);
 		Action_TEMP->Charges = NN->res->getInt(4);
-		Action_TEMP->Color = NN->res->getInt(5);
+		Action_TEMP->AdditionalInfo = NN->res->getString(5);
 		Action_TEMP->Upgrade = NN->res->getInt(6);
 		Action_TEMP->PlayerID = NN->res->getInt(7);
 		RR->ActionMatrix.push_back(Action_TEMP);

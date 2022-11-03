@@ -52,14 +52,12 @@ struct Action {
 	unsigned long ActionPlayer;
 	unsigned long long PlayerID;
 	unsigned char Charges;
-	
-	unsigned char Color;
 
 	unsigned int Position;
 
-	bool SystemAction;
+	string AdditionalInfo;
 
-	Action():Time(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), Color(0), SystemAction(false)
+	Action():Time(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), AdditionalInfo()
 	{}
 
 	//unsigned long Unit;
