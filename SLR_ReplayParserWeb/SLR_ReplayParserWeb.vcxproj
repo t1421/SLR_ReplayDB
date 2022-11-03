@@ -166,6 +166,7 @@
     <ClCompile Include="..\WEB_MA.cpp" />
     <ClCompile Include="..\WEB_Main.cpp" />
     <ClCompile Include="..\WEB_MB.cpp" />
+    <ClCompile Include="..\WEB_MC.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Broker.h" />
@@ -179,6 +180,7 @@
     <ClInclude Include="..\WEB_MA.h" />
     <ClInclude Include="..\WEB_Main.h" />
     <ClInclude Include="..\WEB_MB.h" />
+    <ClInclude Include="..\WEB_MC.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

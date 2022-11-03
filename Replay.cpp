@@ -529,14 +529,14 @@ bool Replay::ReadActions()
 				///X###X GGF. letzter wert nicht immer zero
 			case 4029: //build wall
 				Action_TEMP->ActionPlayer = readUnsignedLong();
-				readUnsignedLong(); // Unit
+				Action_TEMP->AdditionalInfo = to_string(readUnsignedLong()); //Unit	
 				this->readUnsignedChar(); // Zero???				
 				break;
 
 				///###
 			case 4030: //create mana
 				Action_TEMP->ActionPlayer = readUnsignedLong();
-				readUnsignedLong(); //Unit				
+				Action_TEMP->AdditionalInfo = to_string( readUnsignedLong() ); //Unit				
 				break;
 				///###
 			case 4031: //create orb
@@ -545,8 +545,8 @@ bool Replay::ReadActions()
 				// 3 = Frost
 				// 4 = Red
 				Action_TEMP->ActionPlayer = readUnsignedLong();
-				readUnsignedLong(); //Unit
-				Action_TEMP->AdditionalInfo = to_string(this->readUnsignedChar());
+				tempCount = readUnsignedLong(); //Unit
+				Action_TEMP->AdditionalInfo = to_string(this->readUnsignedChar()) + ";" + to_string(tempCount);
 				break;
 			case 4032: //SLR-TEAM: 4032 - SquadRefill - Dachte das passiert automatisch?
 				MISERROR(FileName);
@@ -843,7 +843,7 @@ void Replay::EchoHead()
 	printf("difficulty: %u\n", DifficultyID);
 	printf("PlayMode:   %u\n", PlayModeID);
 	printf("ActionBlock:%u\n", ActionBlock);
-	printf("PMVFromPlay:%u\n", PMVPlayerID);
+	printf("PMVFromPlay:%llu\n", PMVPlayerID);
 	printf("GroupCount :%u\n", GroupCount);
 	printf("WinningTeam:%s\n", WinningTeam.c_str());
 	printf("FileName   :%s\n", FileName.c_str());
@@ -888,7 +888,7 @@ void Replay::EchoPlayer()
 	printf("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal\n");
 		for (unsigned int i = 0; i < PlayerMatrix.size(); i++)
 		{
-			printf("%u # %s # %u # %u # %u # %u # %u # %u # %u\n",
+			printf("%u # %s # %llu # %u # %u # %u # %u # %u # %u\n",
 			i ,
 			PlayerMatrix[i]->Name.c_str() ,
 			PlayerMatrix[i]->PlayerID ,
@@ -927,19 +927,23 @@ void Replay::EchoPlayerDecks()
 void Replay::EchoAction(string sAction)
 {
 	MISS;
-	printf("count # Time # Position # Type # ActionPlayer # PlayerID # Card \n");
+	printf("count # Time # Position # Type # ActionPlayer # PlayerID # Card # AdditionalInfo \n");
 	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
 	{
 		if (ActionMatrix[i]->Type == 4045)continue;
 		if (to_string(ActionMatrix[i]->Type) == sAction || sAction == "*")
-			printf("%u # %s # %u # %u # %u # %u # %u \n",
-				i ,
+		{
+			printf("%u # %s # %u # %u  # %u # %llu  # %u # %s \n", 
+				i,
 				sTime(ActionMatrix[i]->Time).c_str() ,
-				ActionMatrix[i]->Position ,
+				ActionMatrix[i]->Position, 
 				ActionMatrix[i]->Type ,
 				ActionMatrix[i]->ActionPlayer ,
-				ActionMatrix[i]->PlayerID ,			
-				ActionMatrix[i]->Card );
+				ActionMatrix[i]->PlayerID ,
+				ActionMatrix[i]->Card ,
+				ActionMatrix[i]->AdditionalInfo.c_str() 
+			);
+		}
 
 	}
 	MISE;

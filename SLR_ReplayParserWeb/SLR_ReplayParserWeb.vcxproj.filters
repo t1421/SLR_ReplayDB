@@ -51,6 +51,9 @@
     <ClCompile Include="..\LOAD.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\WEB_MC.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Broker.h">
@@ -84,6 +87,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\LOAD.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_MC.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

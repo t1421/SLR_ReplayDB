@@ -1,11 +1,12 @@
 #ifndef WEB_CONTAINER_H
 #define WEB_CONTAINER_H
 
-#define MaxRegister 2
+#define MaxRegister 3
 
 class MISEvent;
 class WEB_MA;
 class WEB_MB;
+class WEB_MC;
 
 class MISCONTAINER : public WApplication 
 
@@ -14,6 +15,7 @@ public:
 	
 	WEB_MA *MA;	
 	WEB_MB *MB;
+	WEB_MC *MC;
 
 	Wt::WContainerWidget *GlobaelContainer;
 	Wt::WContainerWidget *AnzeigeFrame;
@@ -36,8 +38,6 @@ public:
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 private:
-
-	//bool bMobile;
 
 };
 

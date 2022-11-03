@@ -23,6 +23,7 @@
 #include "WEB_CONTAINER.h"
 #include "WEB_MA.h"
 #include "WEB_MB.h"
+#include "WEB_MC.h"
 #endif
 
 #ifdef BrokerNormal
@@ -51,6 +52,7 @@ broker::broker()
 	MISCONTAINER::learnBro(this);
 	WEB_MA::learnBro(this);
 	WEB_MB::learnBro(this);
+	WEB_MC::learnBro(this);
 #endif
 
 #ifdef BrokerParser

@@ -1,10 +1,11 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "prototypes.h"
 
 #include "WEB_Main.h"
 #include "WEB_MA.h"
 #include "WEB_MB.h"
+#include "WEB_MC.h"
 
 #include "WEB_CONTAINER.h"
 
@@ -33,6 +34,7 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	MISD("#3");	
 	MA = new WEB_MA();	
 	MB = new WEB_MB();
+	MC = new WEB_MC();
 	
 	MISD("#4");
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());
@@ -41,7 +43,6 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	Stack = new WStackedWidget();
 	AnzeigeFrame->addWidget(std::unique_ptr<WContainerWidget>(std::move(Stack)));
 
-	//GlobaelContainer->setMaximumSize(900, 950);
 	WColor wTemp;
 
 	wTemp = WColor(222, 222, 222);
@@ -54,11 +55,9 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 
 	ToolBarButton(0, "BOT1", *MA->cMain);
 	ToolBarButton(1, "BOT2", *MB->cMain);
-	Stack->setCurrentIndex(1);
-	updateToolbar(1);
-
-	//GlobaelContainer->addWidget(std::unique_ptr<WContainerWidget>(std::move(MA->cMain)));
-	//GlobaelContainer->addWidget(std::unique_ptr<WContainerWidget>(std::move(MB->cMain)));
+	ToolBarButton(2, "BOT3", *MC->cMain);
+	Stack->setCurrentIndex(2);
+	updateToolbar(2);
 
 	MISE;
 }
@@ -69,6 +68,7 @@ MISCONTAINER::~MISCONTAINER()
 	MISS;
 	delete MA;
 	delete MB;
+	delete MC;
 	MISE;
 }
 
@@ -104,6 +104,5 @@ void MISCONTAINER::updateToolbar(int iAktiv)
 		button[i]->setStyleClass(sCSS);
 	}		
 	
-
 	MISE;
 }
