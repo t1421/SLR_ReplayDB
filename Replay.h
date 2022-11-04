@@ -91,7 +91,8 @@ public:
 	void EchoPlayerDecks();
 	void EchoAction(string sAction);
 	string SwitchType(unsigned long inType);
-	int CountActions();
+	int CountActions(string sAction);
+	int CountActions() { return CountActions("*"); }
 	string sTime(unsigned long ulTime);
 	//BROKER
 #ifndef noBroker

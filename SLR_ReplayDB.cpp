@@ -79,6 +79,7 @@ int main(int argc, char **argv)
 			printf("C;update            | Adds neu cards to MYSQL\n");
 			printf("C;imager;0          | Loads all images from WIKI in MYSQL\n");
 			printf("C;imager;[ID]       | Loads images for CARDID from WIKI in MYSQL\n");
+			printf("C;upload;[ID]       | Uploads images for CARDID from TempDir in MYSQL\n");
 			printf("C;download;[ID]     | Loads images for MYSQL\n");
 			printf("####################|###########################################\n\n");
 			printf("####################|###########################################\n");
@@ -113,6 +114,7 @@ int main(int argc, char **argv)
 			if (Checker(sbuf, "update"))C->WEBtoSQL(false);
 			if (Checker(sbuf, "full"))C->WEBtoSQL(true);
 			if (Checker(sbuf, "imager"))C->Imager(atoi(sbuf.c_str()));
+			if (Checker(sbuf, "upload"))C->UploadFromTemp(atoi(sbuf.c_str()));
 			if (Checker(sbuf, "download"))C->DownloadPNG(atoi(sbuf.c_str()));
 		}		
 

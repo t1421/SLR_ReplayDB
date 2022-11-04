@@ -1174,16 +1174,18 @@ string Replay::SwitchType(unsigned long inType)
 	//MISE;
 }
 
-int Replay::CountActions()
+
+int Replay::CountActions(string sAction)
 {
 	MISS;
 	int iOut = 0;
 	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
 	{
 		if (ActionMatrix[i]->Type == 4045)continue;
-		iOut++;
+		if (to_string(ActionMatrix[i]->Type) == sAction || sAction == "*")iOut++;
 	}
 	
 	MISE;
 	return iOut;
 }
+

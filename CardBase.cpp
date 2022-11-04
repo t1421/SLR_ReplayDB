@@ -458,3 +458,9 @@ unsigned char CardBase::GetActionOrbForCardID(unsigned short CardID)
 }
 
 
+void CardBase::UploadFromTemp(unsigned short CardID)
+{
+	MISS;
+	IMGtoQSL(CardID, Bro->L_getTMP_PATH() + to_string(CardID) + ".png");
+	MISE;
+}

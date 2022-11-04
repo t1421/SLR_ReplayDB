@@ -26,6 +26,7 @@ public:
 	bool Imager(int iCardID);
 	bool DownloadPNG(int iCardID);
 	string DownloadImage(int iCardID, string sCardName, bool bPromo);
+	void UploadFromTemp(unsigned short CardID);
 
 	
 	unsigned char GetActionOrbForCardID(unsigned short CardID);
