@@ -22,6 +22,7 @@ WEB_MC::WEB_MC()
 	wfuDropZone = new WFileUpload();
 	wtStatus	= new WText();
 	wtMap       = new WText();
+	wtDif       = new WText();
 	wtTime      = new WText();
 	Head		= new WText();
 	wtTabelle   = new WTable();
@@ -47,6 +48,7 @@ WEB_MC::WEB_MC()
 		wtStatus->setText("<h4>Upload done</h4>");
 		wtMap->setText(" ");
 		wtTime->setText(" ");
+		wtDif->setText(" ");
 
 		R = new Replay();
 		
@@ -55,8 +57,44 @@ WEB_MC::WEB_MC()
 			wtStatus->setText("<h4>Calculationg results...</h4>");
 			//wtStatus->setText("<h3> The restult is: " + to_string(R->CountActions()) + "</h3>");			
 			
+			if (R->MapName != "11101_PvE_01p_TugOfWar.map")
+			{
+				wtStatus->setText("<h4> Wrong Map </h4>");
+				MISEA("Wrong Map");
+				return;
+			}
+
+			if (R->DifficultyID != 1)
+			{
+				wtStatus->setText("<h4> Wrong Difficulty </h4>");
+				MISEA("Wrong Difficulty");
+				return;
+			}
+
+			if (R->CountActions("4007") != 2)
+			{
+				wtStatus->setText("<h4> You have to save 2 Wagons </h4>");
+				MISEA("2 Wagons");
+				return;
+			}
+
+			if (R->Playtime > 10000)
+			{
+				wtStatus->setText("<h4> You have to Save the first 2 Wagons </h4>");
+				MISEA("First 2 Wagons");
+				return;
+			}
+
 			wtMap->setText("Map: " + R->MapName);
+			wtDif->setText("Difficulty: " + to_string(R->DifficultyID));
 			wtTime->setText("Time: " + R->sTime(R->Playtime));
+
+			addStartingWells();
+			addUnitToFirstOrb();
+
+			//R->EchoAction("4030");
+			//R->EchoAction("4031");
+
 			
 			wtStatus->setText(showResults());
 			//MISERROR(to_string(iAktiveToolbar) + "#" + WSTRINGtoSTRING(wtStatus->text()));
@@ -78,10 +116,10 @@ WEB_MC::WEB_MC()
 
 	MISD("#10");
 	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(Head)), 0, 0);
-	//TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(toolBar)), 1, 0);	
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)), 2, 0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)), 3, 0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtMap)), 4, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)), 1, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)), 2, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtMap)), 3, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtDif)), 4, 0);
 	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtTime)), 5, 0);
 	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 6, 0);	
 	cResult->addWidget(std::unique_ptr<WWidget>(std::move(wtTabelle)));
@@ -234,3 +272,42 @@ string WEB_MC::showResults()
 	return "<h4>All looks good :-)</h4>";
 }
 
+
+
+void WEB_MC::addUnitToFirstOrb()
+{
+	MISS;
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+	{
+		if (R->ActionMatrix[i]->Type != 4031)continue;
+		R->ActionMatrix[i]->AdditionalInfo = R->ActionMatrix[i]->AdditionalInfo + ";4555";
+		MISE;
+		return;
+	}
+	MISEA("FAIL");
+}
+
+void WEB_MC::addStartingWells()
+{
+	MISS;
+	Action * Action_TEMP;
+	unsigned int Player;
+
+	for (Player = 0; Player < R->PlayerMatrix.size(); Player++)
+	{
+		if (R->PlayerMatrix[Player]->Type != 1)continue;
+		else break;
+	}
+
+	for (unsigned int i = 0; i < 3; i++)
+	{
+		Action_TEMP = new Action;
+		Action_TEMP->Time = 0;
+		Action_TEMP->Type = 4030;
+		Action_TEMP->ActionPlayer = R->PlayerMatrix[Player]->ActionPlayer;
+		Action_TEMP->AdditionalInfo = to_string(4550 + i);
+		R->ActionMatrix.insert(R->ActionMatrix.begin() , Action_TEMP);
+	}
+	
+	MISE;
+}

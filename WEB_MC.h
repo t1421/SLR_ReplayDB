@@ -10,6 +10,7 @@ public:
 	WFileUpload  *wfuDropZone;	
 	WText		 *wtStatus;
 	WText		 *wtMap;
+	WText		 *wtDif;
 	WText		 *wtTime;
 	WText		 *Head;
 
@@ -23,6 +24,8 @@ public:
 
 	WEB_MC();
 	string showResults();
+	void addUnitToFirstOrb();
+	void addStartingWells();
 
 };
 
