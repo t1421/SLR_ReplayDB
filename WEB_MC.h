@@ -1,6 +1,8 @@
 #ifndef WEB_MC_H
 #define WEB_MC_H
 
+#define IMG_SIZE 300
+
 class WEB_MC
 {
 public:
@@ -14,9 +16,13 @@ public:
 	WText		 *wtTime;
 	WText		 *Head;
 
+	WContainerWidget *cMap;
+	WImage       *wiMap;
+
 
 	WContainerWidget *cMain;
 	WContainerWidget *cResult;
+	
 	WTable *wtTabelle;
 
 	static broker* Bro;

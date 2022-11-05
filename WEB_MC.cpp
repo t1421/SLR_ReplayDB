@@ -15,8 +15,11 @@ WEB_MC::WEB_MC()
 	WColor wTemp;
 
 	cMain = new WContainerWidget();
+	
 	cResult = new WContainerWidget();
 	WGridLayout *TempGrid = new WGridLayout();
+	WGridLayout *TempGrid2 = new WGridLayout();
+	
 	cMain->setLayout(std::unique_ptr<WGridLayout>(std::move(TempGrid)));
 	
 	wfuDropZone = new WFileUpload();
@@ -26,11 +29,20 @@ WEB_MC::WEB_MC()
 	wtTime      = new WText();
 	Head		= new WText();
 	wtTabelle   = new WTable();
+
+	cMap = new WContainerWidget();
+	wiMap = new WImage("./resources/TheTreasureFleet.webp");
+	cMap->setStyleClass("crop");
 	
+	MISD("#1");
+
 	Head->setText("<h1><b>BOT 3 Replay Checker</b></h1>");
 	wtStatus->setText("<h4>Select PMV (or drag and drop on the button)</h4>");
+	wtMap->setText("Map: ");
+	wtTime->setText("Time; ");
+	wtDif->setText("Difficulty: ");
 		
-	MISD("#1");	
+	
 
 	MISD("#3");
 	wfuDropZone->setFilters(".pmv");
@@ -46,9 +58,12 @@ WEB_MC::WEB_MC()
 	wfuDropZone->uploaded().connect([=] {
 		//wfuDropZone->hide();
 		wtStatus->setText("<h4>Upload done</h4>");
-		wtMap->setText(" ");
-		wtTime->setText(" ");
-		wtDif->setText(" ");
+		wtMap->setText("Map: ");
+		wtTime->setText("Time; ");
+		wtDif->setText("Difficulty: ");
+		
+		
+
 
 		R = new Replay();
 		
@@ -92,8 +107,9 @@ WEB_MC::WEB_MC()
 			addStartingWells();
 			addUnitToFirstOrb();
 
-			//R->EchoAction("4030");
-			//R->EchoAction("4031");
+			R->EchoAction("4029"); 
+			R->EchoAction("4030");
+			R->EchoAction("4031");
 
 			
 			wtStatus->setText(showResults());
@@ -115,14 +131,28 @@ WEB_MC::WEB_MC()
 	
 
 	MISD("#10");
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(Head)), 0, 0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)), 1, 0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)), 2, 0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtMap)), 3, 0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtDif)), 4, 0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtTime)), 5, 0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 6, 0);	
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(Head)), 0, 0,0,2);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)), 1, 0, 0, 2);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)), 2, 0, 0, 2);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtMap)), 3, 0, 0, 2);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtDif)), 4, 0, 0, 2);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtTime)), 5, 0, 0, 2);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cMap)), 6, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 6, 1);
+	
+	TempGrid->setColumnStretch(0, 5);
+	TempGrid->setColumnStretch(1, 95);
+	//TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 1, 1, 6, 0);	
+	cResult->setContentAlignment(AlignmentFlag::Left);
+	
+		
+	cMap->setMaximumSize(400, 400);
 	cResult->addWidget(std::unique_ptr<WWidget>(std::move(wtTabelle)));
+	cMap->addWidget(std::unique_ptr<WWidget>(std::move(wiMap)));
+
+	//cLeft->setMaximumSize(400, 700);
+	//TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(cLeft)), 0, 0);
+	//TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 0, 1);
 	
 	MISE;
 }
@@ -137,6 +167,12 @@ string WEB_MC::showResults()
 	unsigned short iRow = 0;
 	unsigned short iCol = 0;
 
+	unsigned int iMaxAction = 0;
+	unsigned short iMaxRow = 0;
+	unsigned short iMaxCol = 0;
+	
+	unsigned long iUnit;
+
 	wtTabelle->clear();	
 	MISD("#0");
 	/*
@@ -148,33 +184,63 @@ string WEB_MC::showResults()
 	*/
 	MISD("#3");
 
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Tier Check</h3>"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 1"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 2"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 3"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 4"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))));
+	wtTabelle->elementAt(iRow,iCol++)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Wells </h3>"))));
+	wtTabelle->elementAt(iRow,iCol++)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Orbs </h3>"))));
+	wtTabelle->elementAt(iRow,iCol++)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Walls </h3>"))));
+	wtTabelle->columnAt(0)->setWidth(100);
+	wtTabelle->columnAt(1)->setWidth(100);
+	wtTabelle->columnAt(2)->setWidth(100);
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+	{
+		if (   R->ActionMatrix[i]->Type != 4029
+			&& R->ActionMatrix[i]->Type != 4030
+			&& R->ActionMatrix[i]->Type != 4031)continue;
 
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Type Check</h3>"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Unit"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Building"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Spell"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))));
+		iUnit = atoi(R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1).c_str());
+		switch (iUnit)
+		{
+			//Orbs
+		case 4555: iRow = 1; iCol = 1; break;
+		case 4556: iRow = 2; iCol = 1; break;
+		case 4557: iRow = 3; iCol = 1; break;
+		case 4558: iRow = 4; iCol = 1; break;
+		
+			//Wells
+		
+		case 4535: iRow = 1; iCol = 0; break;
+		case 4536: iRow = 2; iCol = 0; break;
+		case 4537: iRow = 3; iCol = 0; break;
+		case 4538: iRow = 4; iCol = 0; break;
+		case 4539: iRow = 5; iCol = 0; break;
+		case 4540: iRow = 6; iCol = 0; break;
+		case 4541: iRow = 7; iCol = 0; break;
+		case 4542: iRow = 8; iCol = 0; break;
+		case 4543: iRow = 9; iCol = 0; break;
+		case 4544: iRow = 10; iCol = 0; break;
+		case 4545: iRow = 11; iCol = 0; break;
+		case 4546: iRow = 12; iCol = 0; break;
+		case 4547: iRow = 13; iCol = 0; break;
+		case 4548: iRow = 14; iCol = 0; break;
+		case 4549: iRow = 15; iCol = 0; break;
+		case 4550: iRow = 16; iCol = 0; break;
+		case 4551: iRow = 17; iCol = 0; break;
+		case 4552: iRow = 18; iCol = 0; break;
+		case 4553: iRow = 19; iCol = 0; break;
+		case 4554: iRow = 20; iCol = 0; break;
+		
 
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Color Check</h3>"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Fire"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Nature"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Frost"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Shadow"))));
+		}
+		
+		if (wtTabelle->elementAt(iRow, iCol)->count() == 0)
+		{
+			wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<WWidget>(new WText(R->sTime(R->ActionMatrix[i]->Time))));
+			iMaxAction = i;
+			iMaxRow = iRow;
+			iMaxCol = iCol;
+		}
+	}
+	wtTabelle->elementAt(iMaxRow, iMaxCol)->setStyleClass("green");
 
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Twilight"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Stonekin"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Lost Souls"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Bandits"))));
-
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Others"))));
-	wtTabelle->elementAt(iRow++,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))));
-	iRow--;
 	/*
 	for (int i = 0; i < iRow; i++)
 	{

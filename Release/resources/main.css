@@ -72,4 +72,20 @@ position: absolute;
     left: 325px;
 } 
 
-    
+.crop {
+        width: 400px !important;
+        height: 400px !important;
+        overflow: hidden;
+    }
+
+.crop img {
+        width: 600px;
+        height: 600px;
+        margin: -100px -100px -100px -100px;
+    }    
+	
+.green{
+background-color: #99DD99 !important;
+color: #111111 !important;
+}
+	
