@@ -142,18 +142,15 @@ WEB_MC::WEB_MC()
 	
 	TempGrid->setColumnStretch(0, 5);
 	TempGrid->setColumnStretch(1, 95);
-	//TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 1, 1, 6, 0);	
-	cResult->setContentAlignment(AlignmentFlag::Left);
-	
-		
+
+	cResult->setContentAlignment(AlignmentFlag::Left);		
 	cMap->setMaximumSize(400, 400);
 	cResult->addWidget(std::unique_ptr<WWidget>(std::move(wtTabelle)));
-	cMap->addWidget(std::unique_ptr<WWidget>(std::move(wiMap)));
 
-	//cLeft->setMaximumSize(400, 700);
-	//TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(cLeft)), 0, 0);
-	//TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 0, 1);
 	
+	cMap->addWidget(std::unique_ptr<WWidget>(std::move(wiMap)));
+	InitVector();
+
 	MISE;
 }
 
@@ -164,176 +161,66 @@ string WEB_MC::showResults()
 {
 	MISS;
 
-	unsigned short iRow = 0;
-	unsigned short iCol = 0;
-
-	unsigned int iMaxAction = 0;
-	unsigned short iMaxRow = 0;
-	unsigned short iMaxCol = 0;
-	
+	unsigned int iRow;
+	unsigned int iMaxAction = 0;	
 	unsigned long iUnit;
 
 	wtTabelle->clear();	
 	MISD("#0");
-	/*
-	if (FillWebDeck() == false)
-	{
-		MISEA("X1");
-		return "<h4>Something is wrong in your deck</h4>";
-	}
-	*/
+
+	
+
 	MISD("#3");
 
-	wtTabelle->elementAt(iRow,iCol++)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Wells </h3>"))));
-	wtTabelle->elementAt(iRow,iCol++)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Orbs </h3>"))));
-	wtTabelle->elementAt(iRow,iCol++)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Walls </h3>"))));
+	wtTabelle->elementAt(0,0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Wells </h3>"))));
+	wtTabelle->elementAt(0,1)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Orbs </h3>"))));
+	wtTabelle->elementAt(0,2)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Walls </h3>"))));
 	wtTabelle->columnAt(0)->setWidth(100);
 	wtTabelle->columnAt(1)->setWidth(100);
 	wtTabelle->columnAt(2)->setWidth(100);
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
 	{
-		if (   R->ActionMatrix[i]->Type != 4029
+		if (R->ActionMatrix[i]->Type != 4029
 			&& R->ActionMatrix[i]->Type != 4030
 			&& R->ActionMatrix[i]->Type != 4031)continue;
 
 		iUnit = atoi(R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1).c_str());
-		switch (iUnit)
-		{
-			//Orbs
-		case 4555: iRow = 1; iCol = 1; break;
-		case 4556: iRow = 2; iCol = 1; break;
-		case 4557: iRow = 3; iCol = 1; break;
-		case 4558: iRow = 4; iCol = 1; break;
-		
-			//Wells
-		
-		case 4535: iRow = 1; iCol = 0; break;
-		case 4536: iRow = 2; iCol = 0; break;
-		case 4537: iRow = 3; iCol = 0; break;
-		case 4538: iRow = 4; iCol = 0; break;
-		case 4539: iRow = 5; iCol = 0; break;
-		case 4540: iRow = 6; iCol = 0; break;
-		case 4541: iRow = 7; iCol = 0; break;
-		case 4542: iRow = 8; iCol = 0; break;
-		case 4543: iRow = 9; iCol = 0; break;
-		case 4544: iRow = 10; iCol = 0; break;
-		case 4545: iRow = 11; iCol = 0; break;
-		case 4546: iRow = 12; iCol = 0; break;
-		case 4547: iRow = 13; iCol = 0; break;
-		case 4548: iRow = 14; iCol = 0; break;
-		case 4549: iRow = 15; iCol = 0; break;
-		case 4550: iRow = 16; iCol = 0; break;
-		case 4551: iRow = 17; iCol = 0; break;
-		case 4552: iRow = 18; iCol = 0; break;
-		case 4553: iRow = 19; iCol = 0; break;
-		case 4554: iRow = 20; iCol = 0; break;
-		
 
-		}
-		
-		if (wtTabelle->elementAt(iRow, iCol)->count() == 0)
+		for (unsigned int j = 0; j < vMarker.size(); j++)
 		{
-			wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<WWidget>(new WText(R->sTime(R->ActionMatrix[i]->Time))));
-			iMaxAction = i;
-			iMaxRow = iRow;
-			iMaxCol = iCol;
+			if (vMarker[j]->Unit == iUnit && WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")
+			{
+				vMarker[j]->Time->setText(R->sTime(R->ActionMatrix[i]->Time));
+				iMaxAction = i;
+			}
 		}
 	}
-	wtTabelle->elementAt(iMaxRow, iMaxCol)->setStyleClass("green");
 
-	/*
-	for (int i = 0; i < iRow; i++)
-	{
-		wtTabelle->elementAt(i, iCol)->setHeight(IMG_SIZE);
-		wtTabelle->elementAt(i, iCol + 1)->addWidget(std::unique_ptr<WWidget>(std::move(new WImage(""))));
-		wtTabelle->elementAt(i, iCol + 1)->widget(0)->setHeight(IMG_SIZE);
-		wtTabelle->elementAt(i, iCol + 1)->widget(0)->setWidth(IMG_SIZE);
-		wtTabelle->elementAt(i, iCol + 1)->widget(0)->resize(IMG_SIZE, IMG_SIZE);
-		wtTabelle->elementAt(i, iCol + 1)->widget(0)->setMaximumSize(IMG_SIZE, IMG_SIZE);
-	}
+
+	iUnit = atoi(R->ActionMatrix[iMaxAction]->AdditionalInfo.erase(0, R->ActionMatrix[iMaxAction]->AdditionalInfo.find(";") + 1).c_str());
 	
-	iCol++;
-	iCol++;
-	MISD("#4");
-
-	for (unsigned int i = 0; i < WebDeck.size() ; i++)
+	for (unsigned int i = 0; i < 3; i++)
 	{
-		wtTabelle->elementAt(WebDeck[i]->iFire + WebDeck[i]->iNature + WebDeck[i]->iFrost + WebDeck[i]->iShadow + WebDeck[i]->iNeutral,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[0])));
-
 		
-		if (WebDeck[i]->bUnit)wtTabelle->elementAt(7,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[1])));
-		if (WebDeck[i]->bBuilding)wtTabelle->elementAt(8,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[1])));
-		if (WebDeck[i]->bSpell)wtTabelle->elementAt(9,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[1])));
-		
-		if(WebDeck[i]->iFire != 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(12,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(13,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(14,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(15,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-
-		else if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(16,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(17,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(18,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(19,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else wtTabelle->elementAt(20,iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));	
-	}
-
-	iCol--;
-	MISD("#Z1");
-	//Tier check
-	for (int i = 1; i < 5; i++)
-	{
-		//static_cast
-		if (wtTabelle->elementAt(i, iCol + 1)->count() == 4)dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
-		else dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
-	}
-
-	//Type check
-	for (int i = 7; i < 10; i++)
-	{
-		//static_cast
-		if (wtTabelle->elementAt(i, iCol + 1)->count() <= 6 && wtTabelle->elementAt(i, iCol + 1)->count() >= 5)dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
-		else dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
-	}
-
-	//Color check1
-	if (wtTabelle->elementAt(12, iCol + 1)->count() +
-		wtTabelle->elementAt(13, iCol + 1)->count() +
-		wtTabelle->elementAt(14, iCol + 1)->count() +
-		wtTabelle->elementAt(15, iCol + 1)->count() == 16)
-	{
-		for (int i = 12; i < 16; i++)
+		for (unsigned int j = 0, iRow = 1; j < vMarker.size(); j++)
 		{
-			if (wtTabelle->elementAt(i, iCol + 1)->count() == 4)dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
-			else dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
-		}
-		for (int i = 16; i < 20; i++)
-		{
-			if (wtTabelle->elementAt(i, iCol + 1)->count() == 0)dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
-			else dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
+			if (vMarker[j]->Type != i) continue;
+			
+			wtTabelle->elementAt(++iRow, vMarker[j]->Type)->addWidget(std::unique_ptr<WWidget>(std::move(vMarker[j]->Time)));
+			if (WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")wtTabelle->elementAt(iRow, vMarker[j]->Type)->setStyleClass("red");
+			if (vMarker[j]->Unit == iUnit)wtTabelle->elementAt(iRow, vMarker[j]->Type)->setStyleClass("green");
+
+			wtTabelle->elementAt(iRow, vMarker[j]->Type)->mouseWentOver().connect([=] {
+				vMarker[j]->IMG->setHidden(false);
+			});
+
+			wtTabelle->elementAt(iRow, vMarker[j]->Type)->mouseWentOut().connect([=] {
+				vMarker[j]->IMG->setHidden(true);
+			});
+			
 		}
 	}
-	else for (int i = 12; i < 20; i++)
-	{
-		if (wtTabelle->elementAt(i, iCol + 1)->count() == 2)dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
-		else dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
-	}
 
-	if (wtTabelle->elementAt(20, iCol + 1)->count() == 0)dynamic_cast<WImage *>(wtTabelle->elementAt(20, iCol)->widget(0))->setImageLink("./resources/1.png");
-	else dynamic_cast<WImage *>(wtTabelle->elementAt(20, iCol)->widget(0))->setImageLink("./resources/0.png");
-
-	//wtTabelle->elementAt(i, iCol + 1)->widget(0)->setHeight(IMG_SIZE);
-
-	MISD("##5");
-	for (int i = 0; i < iRow; i++)
-	{
-		//MISD(to_string(i));
-		if (dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->imageLink() == WLink("./resources/0.png"))
-		{
-			MISEA("X1");
-			return "<h4>Something is wrong in your deck</h4>";
-		}
-	}
-	*/
 	MISE;
 	return "<h4>All looks good :-)</h4>";
 }
@@ -375,5 +262,49 @@ void WEB_MC::addStartingWells()
 		R->ActionMatrix.insert(R->ActionMatrix.begin() , Action_TEMP);
 	}
 	
+	MISE;
+}
+
+
+void WEB_MC::InitVector()
+{
+	MISS;
+
+	
+	vMarker.clear();
+	MISD(to_string(90 + Xoffset) + "#" + to_string(267 + Yoffset));
+	vMarker.push_back(new Marker(1, 4555,  90 , 267 ));
+	vMarker.push_back(new Marker(1, 4556, 157 , 318 ));
+	vMarker.push_back(new Marker(1, 4557,  60 , 142 ));
+	vMarker.push_back(new Marker(1, 4558, 332 , 103 ));
+
+	vMarker.push_back(new Marker(0, 4535, 155, 368));
+	vMarker.push_back(new Marker(0, 4536, 145, 368));
+	vMarker.push_back(new Marker(0, 4537, 157, 244));
+	vMarker.push_back(new Marker(0, 4538, 158, 249));
+	vMarker.push_back(new Marker(0, 4539, 339, 330));
+	vMarker.push_back(new Marker(0, 4540, 342, 257));
+	vMarker.push_back(new Marker(0, 4541, 247, 148));
+	vMarker.push_back(new Marker(0, 4542, 188,  36));
+	vMarker.push_back(new Marker(0, 4543, 247, 154));
+	vMarker.push_back(new Marker(0, 4544, 328, 96));
+	vMarker.push_back(new Marker(0, 4545, 325, 103));
+	vMarker.push_back(new Marker(0, 4546, 328, 110));
+	vMarker.push_back(new Marker(0, 4547,  65, 136));
+	vMarker.push_back(new Marker(0, 4548,  59, 148));
+	vMarker.push_back(new Marker(0, 4549,  67, 144));
+	vMarker.push_back(new Marker(0, 4550,  85, 263));
+	vMarker.push_back(new Marker(0, 4551,  79, 262));
+	vMarker.push_back(new Marker(0, 4552,  83, 258));
+	vMarker.push_back(new Marker(0, 4553,  46, 286));
+	vMarker.push_back(new Marker(0, 4554,  45, 293));
+
+	vMarker.push_back(new Marker(2, 4452,  75, 316));
+	vMarker.push_back(new Marker(2, 4453, 151, 347));
+	vMarker.push_back(new Marker(2, 4455, 291, 76));
+	
+	for(unsigned int i = 0; i < vMarker.size();i++)
+	cMap->addWidget(std::unique_ptr<WWidget>(std::move(vMarker[i]->IMG)));
+
 	MISE;
 }
