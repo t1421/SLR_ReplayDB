@@ -16,11 +16,14 @@ WEB_MC::WEB_MC()
 
 	cMain = new WContainerWidget();
 	
-	cResult = new WContainerWidget();
+	cReplay = new WContainerWidget();
+	cReplayResult = new WContainerWidget();
+	cRank   = new WContainerWidget();
 	WGridLayout *TempGrid = new WGridLayout();
 	WGridLayout *TempGrid2 = new WGridLayout();
 	
 	cMain->setLayout(std::unique_ptr<WGridLayout>(std::move(TempGrid)));
+	cReplay->setLayout(std::unique_ptr<WGridLayout>(std::move(TempGrid2)));
 	
 	wfuDropZone = new WFileUpload();
 	wtStatus	= new WText();
@@ -29,6 +32,8 @@ WEB_MC::WEB_MC()
 	wtTime      = new WText();
 	Head		= new WText();
 	wtTabelle   = new WTable();
+	toolBar = new WToolBar();
+	Stack = new WStackedWidget();
 
 	cMap = new WContainerWidget();
 	wiMap = new WImage("./resources/TheTreasureFleet.webp");
@@ -59,7 +64,7 @@ WEB_MC::WEB_MC()
 		//wfuDropZone->hide();
 		wtStatus->setText("<h4>Upload done</h4>");
 		wtMap->setText("Map: ");
-		wtTime->setText("Time; ");
+		wtTime->setText("Playtime; ");
 		wtDif->setText("Difficulty: ");
 		
 		
@@ -70,86 +75,113 @@ WEB_MC::WEB_MC()
 		if (R->LoadPMV(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
 		{
 			wtStatus->setText("<h4>Calculationg results...</h4>");
-			//wtStatus->setText("<h3> The restult is: " + to_string(R->CountActions()) + "</h3>");			
-			
+			wtTabelle->clear();
+						
+
+			//MAP Check
 			if (R->MapName != "11101_PvE_01p_TugOfWar.map")
 			{
-				wtStatus->setText("<h4> Wrong Map </h4>");
+				wtStatus->setText("<h4 style='color:Tomato;'>  Wrong Map </h4>");
 				MISEA("Wrong Map");
 				return;
 			}
 
+			
+
+			
+
+			
+
+			wtMap->setText("Map: " + R->MapName);
+			if(R->DifficultyID==1)wtDif->setText("Difficulty: Standard");
+			else wtDif->setText("Difficulty: " + to_string(R->DifficultyID));
+			wtTime->setText("Playtime: " + R->sTime(R->Playtime));
+
+			addStartingWells();
+			addUnitToFirstOrb();
+			
+			showResults();
+
+
+
+			// ERROR Checks
 			if (R->DifficultyID != 1)
 			{
-				wtStatus->setText("<h4> Wrong Difficulty </h4>");
+				wtStatus->setText("<h4 style='color:Tomato;'>  Wrong Difficulty </h4>");
 				MISEA("Wrong Difficulty");
 				return;
 			}
 
 			if (R->CountActions("4007") != 2)
 			{
-				wtStatus->setText("<h4> You have to save 2 Wagons </h4>");
-				MISEA("2 Wagons");
+				wtStatus->setText("<h4 style='color:Tomato;'>  You have to save the first 2 Wagons </h4>");
+				MISEA("2 Wagons Count");
 				return;
 			}
 
 			if (R->Playtime > 10000)
 			{
-				wtStatus->setText("<h4> You have to Save the first 2 Wagons </h4>");
+				wtStatus->setText("<h4 style='color:Tomato;'>  You have to save the first 2 Wagons </h4>");
 				MISEA("First 2 Wagons");
 				return;
 			}
 
-			wtMap->setText("Map: " + R->MapName);
-			wtDif->setText("Difficulty: " + to_string(R->DifficultyID));
-			wtTime->setText("Time: " + R->sTime(R->Playtime));
+			for (unsigned j = 0; j < vMarker.size(); j++) if (WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")
+			{
+				wtStatus->setText("<h4 style='color:Tomato;'> You did not build all Orbs and/or Wells </h4>");
+				MISEA("Not build all");
+				return;
+			}
 
-			addStartingWells();
-			addUnitToFirstOrb();
-
-			R->EchoAction("4029"); 
-			R->EchoAction("4030");
-			R->EchoAction("4031");
-
-			
-			wtStatus->setText(showResults());
-			//MISERROR(to_string(iAktiveToolbar) + "#" + WSTRINGtoSTRING(wtStatus->text()));
-			//if()wtStatus->setText("<h4>All looks good :-)</h4>");
-			//else wtStatus->setText("<h4>Something is wrong in your deck</h4>");
-			
-			//MISERROR(to_string(R->CountActions()));
+			wtStatus->setText("<h4 style='color:MediumSeaGreen;'> All is looking fin :-) </h4>");
 		}
-		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4>" );
+		else wtStatus->setText("<h4 style='color:Tomato;'> An error has occurred </h4> <h4> You may want to contact Ultralord </h4>" );
 
 	});
 
 	MISD("#6");
 
 	wfuDropZone->fileTooLarge().connect([=] {
-		wtStatus->setText("<h4>File is too large.</h4>");
+		wtStatus->setText("<h4 style='color:Tomato;'> File is too large.</h4>");
 	});
 	
 
 	MISD("#10");
+
+	
+
 	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(Head)), 0, 0,0,2);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)), 1, 0, 0, 2);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)), 2, 0, 0, 2);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtMap)), 3, 0, 0, 2);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtDif)), 4, 0, 0, 2);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtTime)), 5, 0, 0, 2);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cMap)), 6, 0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(cResult)), 6, 1);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(toolBar)), 1, 0,0,2);
+	TempGrid->addWidget(std::unique_ptr<WContainerWidget>(std::move(Stack)), 2, 0, 0, 2);
 	
-	TempGrid->setColumnStretch(0, 5);
-	TempGrid->setColumnStretch(1, 95);
 
-	cResult->setContentAlignment(AlignmentFlag::Left);		
+	TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)), 0, 0, 0, 2);
+	TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)), 1, 0, 0, 2);
+	TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(wtMap)), 2, 0, 0, 2);
+	TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(wtDif)), 3, 0, 0, 2);
+	TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(wtTime)), 4, 0, 0, 2);
+	TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(cMap)), 5, 0);
+	TempGrid2->addWidget(std::unique_ptr<WWidget>(std::move(cReplayResult)), 5, 1);
+	
+	TempGrid2->setColumnStretch(0, 5);
+	TempGrid2->setColumnStretch(1, 95);
+
+	cReplayResult->setContentAlignment(AlignmentFlag::Left);
 	cMap->setMaximumSize(400, 400);
-	cResult->addWidget(std::unique_ptr<WWidget>(std::move(wtTabelle)));
+	cReplayResult->addWidget(std::unique_ptr<WWidget>(std::move(wtTabelle)));
+
+	cMap->addWidget(std::unique_ptr<WWidget>(std::move(wiMap)));
+
+	MISD("#10");
 
 	
-	cMap->addWidget(std::unique_ptr<WWidget>(std::move(wiMap)));
-	InitVector();
+	
+
+	ToolBarButton(0, "Replay", *cReplay);
+	ToolBarButton(1, "Rank", *cRank);
+	Stack->setCurrentIndex(0);
+	updateToolbar();
+	
 
 	MISE;
 }
@@ -157,7 +189,7 @@ WEB_MC::WEB_MC()
 
 
 
-string WEB_MC::showResults()
+void WEB_MC::showResults()
 {
 	MISS;
 
@@ -165,23 +197,23 @@ string WEB_MC::showResults()
 	unsigned int iMaxAction = 0;	
 	unsigned long iUnit;
 
-	wtTabelle->clear();	
+	
 	MISD("#0");
 
-	
+	InitVector();
 
 	MISD("#3");
 
 	wtTabelle->elementAt(0,0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Wells </h3>"))));
 	wtTabelle->elementAt(0,1)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Orbs </h3>"))));
-	wtTabelle->elementAt(0,2)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Walls </h3>"))));
+	//wtTabelle->elementAt(0,2)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Walls </h3>"))));
 	wtTabelle->columnAt(0)->setWidth(100);
 	wtTabelle->columnAt(1)->setWidth(100);
-	wtTabelle->columnAt(2)->setWidth(100);
+	//wtTabelle->columnAt(2)->setWidth(100);
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
 	{
-		if (R->ActionMatrix[i]->Type != 4029
-			&& R->ActionMatrix[i]->Type != 4030
+		if ( //R->ActionMatrix[i]->Type != 4029
+			   R->ActionMatrix[i]->Type != 4030
 			&& R->ActionMatrix[i]->Type != 4031)continue;
 
 		iUnit = atoi(R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1).c_str());
@@ -222,7 +254,7 @@ string WEB_MC::showResults()
 	}
 
 	MISE;
-	return "<h4>All looks good :-)</h4>";
+	
 }
 
 
@@ -274,37 +306,76 @@ void WEB_MC::InitVector()
 	vMarker.clear();
 	MISD(to_string(90 + Xoffset) + "#" + to_string(267 + Yoffset));
 	vMarker.push_back(new Marker(1, 4555,  90 , 267 ));
-	vMarker.push_back(new Marker(1, 4556, 157 , 318 ));
-	vMarker.push_back(new Marker(1, 4557,  60 , 142 ));
+	vMarker.push_back(new Marker(1, 4556, 157 , 318 ));	
 	vMarker.push_back(new Marker(1, 4558, 332 , 103 ));
+	vMarker.push_back(new Marker(1, 4557, 60, 142));
 
-	vMarker.push_back(new Marker(0, 4535, 155, 368));
-	vMarker.push_back(new Marker(0, 4536, 145, 368));
-	vMarker.push_back(new Marker(0, 4537, 157, 244));
-	vMarker.push_back(new Marker(0, 4538, 158, 249));
-	vMarker.push_back(new Marker(0, 4539, 339, 330));
-	vMarker.push_back(new Marker(0, 4540, 342, 257));
-	vMarker.push_back(new Marker(0, 4541, 247, 148));
-	vMarker.push_back(new Marker(0, 4542, 188,  36));
-	vMarker.push_back(new Marker(0, 4543, 247, 154));
-	vMarker.push_back(new Marker(0, 4544, 328, 96));
-	vMarker.push_back(new Marker(0, 4545, 325, 103));
-	vMarker.push_back(new Marker(0, 4546, 328, 110));
-	vMarker.push_back(new Marker(0, 4547,  65, 136));
-	vMarker.push_back(new Marker(0, 4548,  59, 148));
-	vMarker.push_back(new Marker(0, 4549,  67, 144));
 	vMarker.push_back(new Marker(0, 4550,  85, 263));
 	vMarker.push_back(new Marker(0, 4551,  79, 262));
 	vMarker.push_back(new Marker(0, 4552,  83, 258));
 	vMarker.push_back(new Marker(0, 4553,  46, 286));
-	vMarker.push_back(new Marker(0, 4554,  45, 293));
+	vMarker.push_back(new Marker(0, 4554,  45, 293));	
+	vMarker.push_back(new Marker(0, 4536, 145, 368));
+	vMarker.push_back(new Marker(0, 4535, 155, 368));
+	vMarker.push_back(new Marker(0, 4539, 339, 330));
+	vMarker.push_back(new Marker(0, 4540, 342, 257));
+	vMarker.push_back(new Marker(0, 4537, 157, 244));
+	vMarker.push_back(new Marker(0, 4538, 158, 249));
+	vMarker.push_back(new Marker(0, 4541, 247, 148));
+	vMarker.push_back(new Marker(0, 4543, 247, 154));
+	vMarker.push_back(new Marker(0, 4542, 188, 36));
+	vMarker.push_back(new Marker(0, 4544, 328, 96));
+	vMarker.push_back(new Marker(0, 4545, 325, 103));
+	vMarker.push_back(new Marker(0, 4546, 328, 110));
+	vMarker.push_back(new Marker(0, 4547, 65, 136));
+	vMarker.push_back(new Marker(0, 4548, 59, 148));
+	vMarker.push_back(new Marker(0, 4549, 67, 144));
 
-	vMarker.push_back(new Marker(2, 4452,  75, 316));
-	vMarker.push_back(new Marker(2, 4453, 151, 347));
-	vMarker.push_back(new Marker(2, 4455, 291, 76));
+	//vMarker.push_back(new Marker(2, 4452,  75, 316));
+	//vMarker.push_back(new Marker(2, 4453, 151, 347));
+	//vMarker.push_back(new Marker(2, 4455, 291, 76));
 	
 	for(unsigned int i = 0; i < vMarker.size();i++)
 	cMap->addWidget(std::unique_ptr<WWidget>(std::move(vMarker[i]->IMG)));
+
+	MISE;
+}
+
+
+void WEB_MC::ToolBarButton(int Index, string Name, WContainerWidget &CON)
+{
+	MISS;
+	button[Index] = new Wt::WPushButton();
+	button[Index]->setText(Name);
+	toolBar->addButton(std::unique_ptr<Wt::WPushButton>(button[Index]));
+	button[Index]->clicked().connect(std::bind([=]() {
+		Stack->setCurrentIndex(Index);
+		updateToolbar();
+	}));
+
+	Stack->insertWidget(Index, std::unique_ptr<WContainerWidget>(std::move(&CON)));
+	MISE;
+}
+
+void WEB_MC::updateToolbar()
+{
+	MISS;
+
+	string sCSS;
+	for (int i = 0; i < MaxRegister; i++)
+	{
+		MISD(to_string(i));
+		sCSS = WSTRINGtoSTRING(button[i]->styleClass());
+
+		if (sCSS.find("button1") != sCSS.npos)sCSS.erase(sCSS.find("button1"), 7);
+		if (sCSS.find("button0") != sCSS.npos)sCSS.erase(sCSS.find("button0"), 7);
+
+		if (i == Stack->currentIndex())sCSS = "button1 " + sCSS;
+		else sCSS = "button0" + sCSS;
+
+		button[i]->setStyleClass(sCSS);
+	}
+
 
 	MISE;
 }

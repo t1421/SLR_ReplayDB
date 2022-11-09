@@ -4,6 +4,7 @@
 #define IMG_SIZE 300
 #define Xoffset -304
 #define Yoffset -199
+#define MaxRegister 2
 
 struct Marker
 {
@@ -19,7 +20,7 @@ struct Marker
 		Type(_Type),
 		Unit(_Unit),
 		Time(new WText("XX:XX")),
-		IMG(new WImage("./resources/M.png"))
+		IMG(new WImage("./resources/M.gif"))
 	{
 		IMG->setHidden(true);
 		IMG->setHeight(10);
@@ -50,7 +51,9 @@ public:
 	vector <Marker *> vMarker;
 
 	WContainerWidget *cMain;
-	WContainerWidget *cResult;
+	WContainerWidget *cReplay;
+	WContainerWidget *cReplayResult;
+	WContainerWidget *cRank;
 	
 	WTable *wtTabelle;
 
@@ -58,10 +61,16 @@ public:
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 	WEB_MC();
-	string showResults();
+	void showResults();
 	void addUnitToFirstOrb();
 	void addStartingWells();
 	void InitVector();
+	
+	WStackedWidget *Stack;
+	Wt::WToolBar *toolBar;
+	Wt::WPushButton *button[MaxRegister];
+	void ToolBarButton(int Index, string Name, WContainerWidget &CON);
+	void updateToolbar();
 	
 
 };
