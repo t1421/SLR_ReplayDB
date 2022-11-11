@@ -38,10 +38,10 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	
 	MISD("#4");
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());
-	toolBar = GlobaelContainer->addWidget(Wt::cpp14::make_unique<Wt::WToolBar>());
+	GlobaelContainer->addWidget(std::unique_ptr<WWidget>(std::move(tToolbar)));
 	AnzeigeFrame = GlobaelContainer->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());
-	Stack = new WStackedWidget();
-	AnzeigeFrame->addWidget(std::unique_ptr<WContainerWidget>(std::move(Stack)));
+	
+	AnzeigeFrame->addWidget(std::unique_ptr<WWidget>(std::move(sToolbar)));
 
 	WColor wTemp;
 
@@ -53,11 +53,11 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 
 	MISD("#5");
 
-	ToolBarButton(0, "BOT1", *MA->cMain);
-	ToolBarButton(1, "BOT2", *MB->cMain);
-	ToolBarButton(2, "BOT3", *MC->cMain);
-	Stack->setCurrentIndex(2);
-	updateToolbar(2);
+	WEB_Toolbar::ToolBarButton(0, "BOT1", *MA->cMain);
+	WEB_Toolbar::ToolBarButton(1, "BOT2", *MB->cMain);
+	WEB_Toolbar::ToolBarButton(2, "BOT3", *MC->cMain);
+	WEB_Toolbar::sToolbar->setCurrentIndex(2);
+	WEB_Toolbar::updateToolbar();
 
 	MISE;
 }
@@ -69,40 +69,5 @@ MISCONTAINER::~MISCONTAINER()
 	delete MA;
 	delete MB;
 	delete MC;
-	MISE;
-}
-
-void MISCONTAINER::ToolBarButton(int Index, string Name, WContainerWidget &CON)
-{
-	MISS;
-	button[Index] = new Wt::WPushButton();
-	button[Index]->setText(Name);
-	toolBar->addButton(std::unique_ptr<Wt::WPushButton>(button[Index]));
-	button[Index]->clicked().connect(std::bind([=]() {				
-		Stack->setCurrentIndex(Index);
-		updateToolbar(Index);
-	}));
-
-	Stack->insertWidget(Index, std::unique_ptr<WContainerWidget>(std::move(&CON)));
-	MISE;
-}
-
-void MISCONTAINER::updateToolbar(int iAktiv)
-{
-	MISS;
-	string sCSS;
-	for (int i = 0; i < MaxRegister; i++)
-	{
-		sCSS = WSTRINGtoSTRING(button[i]->styleClass());
-
-		if (sCSS.find("button1") != sCSS.npos)sCSS.erase(sCSS.find("button1"), 7);
-		if (sCSS.find("button0") != sCSS.npos)sCSS.erase(sCSS.find("button0"), 7);
-
-		if( i == iAktiv)sCSS = "button1 " + sCSS;
-		else sCSS = "button0" + sCSS;
-		
-		button[i]->setStyleClass(sCSS);
-	}		
-	
 	MISE;
 }

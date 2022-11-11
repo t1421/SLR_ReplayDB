@@ -173,7 +173,12 @@
     <ClCompile Include="..\WEB_MA.cpp" />
     <ClCompile Include="..\WEB_Main.cpp" />
     <ClCompile Include="..\WEB_MB.cpp" />
+    <ClCompile Include="..\WEB_MBA.cpp" />
+    <ClCompile Include="..\WEB_MBB.cpp" />
     <ClCompile Include="..\WEB_MC.cpp" />
+    <ClCompile Include="..\WEB_MCA.cpp" />
+    <ClCompile Include="..\WEB_MCB.cpp" />
+    <ClCompile Include="..\WEB_Toolbar.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Broker.h" />
@@ -187,7 +192,12 @@
     <ClInclude Include="..\WEB_MA.h" />
     <ClInclude Include="..\WEB_Main.h" />
     <ClInclude Include="..\WEB_MB.h" />
+    <ClInclude Include="..\WEB_MBA.h" />
+    <ClInclude Include="..\WEB_MBB.h" />
     <ClInclude Include="..\WEB_MC.h" />
+    <ClInclude Include="..\WEB_MCA.h" />
+    <ClInclude Include="..\WEB_MCB.h" />
+    <ClInclude Include="..\WEB_Toolbar.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,10 +1,13 @@
 #ifndef WEB_MC_H
 #define WEB_MC_H
 
+#include "WEB_Toolbar.h"
+class WEB_MCA;
+class WEB_MCB;
+
 #define IMG_SIZE 300
 #define Xoffset -304
 #define Yoffset -199
-#define MaxRegister 2
 
 struct Marker
 {
@@ -33,46 +36,20 @@ struct Marker
 	}
 };
 
-class WEB_MC
+class WEB_MC : public WEB_Toolbar
 {
 public:
 
-	Replay* R;
-
-	WFileUpload  *wfuDropZone;	
-	WText		 *wtStatus;
-	WText		 *wtMap;
-	WText		 *wtDif;
-	WText		 *wtTime;
-	WText		 *Head;
-
-	WContainerWidget *cMap;
-	WImage       *wiMap;
-	vector <Marker *> vMarker;
+	WEB_MCA *A;
+	WEB_MCB *B;
 
 	WContainerWidget *cMain;
-	WContainerWidget *cReplay;
-	WContainerWidget *cReplayResult;
-	WContainerWidget *cRank;
 	
-	WTable *wtTabelle;
-
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 	WEB_MC();
-	void showResults();
-	void addUnitToFirstOrb();
-	void addStartingWells();
-	void InitVector();
 	
-	WStackedWidget *Stack;
-	Wt::WToolBar *toolBar;
-	Wt::WPushButton *button[MaxRegister];
-	void ToolBarButton(int Index, string Name, WContainerWidget &CON);
-	void updateToolbar();
-	
-
 };
 
 

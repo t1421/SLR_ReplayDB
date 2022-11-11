@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Quelldateien\WEB">
+      <UniqueIdentifier>{0d78bca8-b505-4d62-ad8a-3d67a5dd808b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\WEB">
+      <UniqueIdentifier>{3d79b13d-511b-47e1-8537-e0b8509943d8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -33,26 +39,41 @@
     <ClCompile Include="..\Replay.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\WEB_Main.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\Thread_MIS.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_CONTAINER.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_MA.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_MB.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\LOAD.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\WEB_CONTAINER.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_MA.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_Main.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_MBA.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_MBB.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_MCA.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_MCB.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_Toolbar.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_MB.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
     <ClCompile Include="..\WEB_MC.cpp">
-      <Filter>Quelldateien</Filter>
+      <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -68,29 +89,44 @@
     <ClInclude Include="..\Replay.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\WEB_Main.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\Thread_MIS.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_CONTAINER.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_MA.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\prototypes.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\WEB_MB.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\LOAD.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\WEB_Toolbar.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_CONTAINER.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_MA.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_Main.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_MBA.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_MBB.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_MCA.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_MCB.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_MB.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
     <ClInclude Include="..\WEB_MC.h">
-      <Filter>Headerdateien</Filter>
+      <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

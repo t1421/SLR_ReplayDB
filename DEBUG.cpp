@@ -51,10 +51,14 @@ DEBUG::DEBUG(string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		
 		
 		Fill_DBArray("WEB_Main", "*", "*", "true");
+		Fill_DBArray("WEB_Toolbar", "*", "*", "true");
 		Fill_DBArray("MISCONTAINER", "*", "*", "true");
 		//Fill_DBArray("MISCONTAINER", "*", "*", "false");
 		Fill_DBArray("WEB_MA", "*", "*", "true");
+
 		Fill_DBArray("WEB_MB", "*", "*", "true");
+		Fill_DBArray("WEB_MBA", "*", "*", "true");
+		Fill_DBArray("WEB_MBB", "*", "*", "true");
 	
 		Fill_DBArray("WEB_MB", "addCard", "*", "false");
 		Fill_DBArray("WEB_MB", "showResults", "*", "false");
@@ -62,6 +66,8 @@ DEBUG::DEBUG(string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("WEB_MB", "updateToolbar", "*", "false");
 
 		Fill_DBArray("WEB_MC", "*", "*", "true");
+		Fill_DBArray("WEB_MCA", "*", "*", "true");
+		Fill_DBArray("WEB_MCB", "*", "*", "true");
 		
 
 		Fill_DBArray("broker", "*", "*", "true");

@@ -1,14 +1,14 @@
 #ifndef WEB_CONTAINER_H
 #define WEB_CONTAINER_H
 
-#define MaxRegister 3
+#include "WEB_Toolbar.h"
 
 class MISEvent;
 class WEB_MA;
 class WEB_MB;
 class WEB_MC;
 
-class MISCONTAINER : public WApplication 
+class MISCONTAINER : public WApplication, public WEB_Toolbar
 
 {
 public:
@@ -20,18 +20,10 @@ public:
 	Wt::WContainerWidget *GlobaelContainer;
 	Wt::WContainerWidget *AnzeigeFrame;
 
-
-
 	//----------------------------------------------------------------
 
 	MISCONTAINER(const Wt::WEnvironment& env);
 	~MISCONTAINER();
-
-	Wt::WStackedWidget *Stack;
-	Wt::WPushButton *button[MaxRegister];
-	Wt::WToolBar *toolBar;
-	void updateToolbar(int iAktiv);
-	void ToolBarButton(int Index, string Name, WContainerWidget &CON);
 
 	//BROKER
 	static broker* Bro;
