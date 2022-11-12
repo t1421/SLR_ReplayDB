@@ -2,7 +2,7 @@
 #define WEB_MCB_H
 
 
-class WEB_MCB 
+class WEB_MCB: public WebRefresh
 {
 public:
 	

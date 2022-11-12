@@ -57,9 +57,6 @@
     <ClCompile Include="..\WEB_MBA.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
-    <ClCompile Include="..\WEB_MBB.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
     <ClCompile Include="..\WEB_MCA.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
@@ -73,6 +70,9 @@
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
     <ClCompile Include="..\WEB_MC.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_Replay.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
   </ItemGroup>
@@ -113,9 +113,6 @@
     <ClInclude Include="..\WEB_MBA.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
-    <ClInclude Include="..\WEB_MBB.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
     <ClInclude Include="..\WEB_MCA.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
@@ -126,6 +123,9 @@
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
     <ClInclude Include="..\WEB_MC.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_Replay.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
   </ItemGroup>

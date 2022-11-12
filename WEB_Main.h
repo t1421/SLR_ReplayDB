@@ -24,6 +24,14 @@
 
 using namespace Wt;
 
+class WebRefresh
+{
+public:
+	virtual void WRefresh() { printf("no refresh\n"); };
+};
+
+
+
 std::unique_ptr<Wt::WApplication> createApplicationW(const WEnvironment& env);
 
 string WSTRINGtoSTRING(WString in);

@@ -3,38 +3,26 @@
 
 #include "WEB_MB.h"
 
-class WEB_MBA
+
+class WEB_MBA: public WebRefresh
 {
 public:
 
-	Replay* R;
-
-	WFileUpload  *wfuDropZone;	
-	WText		 *wtStatus;
+	WEB_Replay *WR;
+	
 	WText		 *wtMap;
 	WText		 *wtTime;
-	WText		 *Head;
-
-	vector <WebCard*> WebDeck;	
-
+	WText		 *wtStatus;
+	bool bMode;
+	
 	WContainerWidget *cMain;
-	WContainerWidget *cResult;
 	WTable *wtTabelle;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
-	WEB_MBA();
-	string showResults();
-	bool FillWebDeck();
-	bool FillWebDeckAction();
-	bool FillWebDeckDeck();
-	void addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Building);
-	void addColors();
-
-	bool getFromCSVBuilding(unsigned short uiCardID);
-	bool getFromCSVSpell(unsigned short uiCardID);
-	bool getFromCSVUnit(unsigned short uiCardID);
+	WEB_MBA(WEB_Replay *WR_,bool bMode_);
+	void WRefresh();
 
 };
 

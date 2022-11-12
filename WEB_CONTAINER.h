@@ -2,13 +2,14 @@
 #define WEB_CONTAINER_H
 
 #include "WEB_Toolbar.h"
+#include "WEB_Replay.h"
 
 class MISEvent;
 class WEB_MA;
 class WEB_MB;
 class WEB_MC;
 
-class MISCONTAINER : public WApplication, public WEB_Toolbar
+class MISCONTAINER : public WApplication, public WEB_Toolbar , public WEB_Replay
 
 {
 public:
@@ -17,8 +18,10 @@ public:
 	WEB_MB *MB;
 	WEB_MC *MC;
 
+	WFileUpload  *wfuDropZone;
+	WText		 *wtStatus;
+
 	Wt::WContainerWidget *GlobaelContainer;
-	Wt::WContainerWidget *AnzeigeFrame;
 
 	//----------------------------------------------------------------
 

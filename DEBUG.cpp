@@ -52,13 +52,13 @@ DEBUG::DEBUG(string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		
 		Fill_DBArray("WEB_Main", "*", "*", "true");
 		Fill_DBArray("WEB_Toolbar", "*", "*", "true");
+		Fill_DBArray("WEB_Replay", "*", "*", "true");
 		Fill_DBArray("MISCONTAINER", "*", "*", "true");
 		//Fill_DBArray("MISCONTAINER", "*", "*", "false");
 		Fill_DBArray("WEB_MA", "*", "*", "true");
 
 		Fill_DBArray("WEB_MB", "*", "*", "true");
-		Fill_DBArray("WEB_MBA", "*", "*", "true");
-		Fill_DBArray("WEB_MBB", "*", "*", "true");
+		Fill_DBArray("WEB_MBA", "*", "*", "true");		
 	
 		Fill_DBArray("WEB_MB", "addCard", "*", "false");
 		Fill_DBArray("WEB_MB", "showResults", "*", "false");

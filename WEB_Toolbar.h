@@ -6,15 +6,16 @@
 class WEB_Toolbar
 {
 public:
-	
-	WEB_Toolbar() :sToolbar(new WStackedWidget),tToolbar(new WToolBar) {};
-	
+
+	WEB_Toolbar() :sToolbar(new WStackedWidget), tToolbar(new WToolBar) {};
+
 	WStackedWidget *sToolbar;
 	WToolBar *tToolbar;
-	vector <WPushButton *> bToolbar;
-	void ToolBarButton(int Index, string Name, WContainerWidget &CON);
+	vector <WPushButton *> bToolbar;	
+	vector <WebRefresh *> wfToolbar;
+	void ToolBarButton(int Index, string Name, WContainerWidget &CON, WebRefresh *WF);
 	void updateToolbar();
-
+	void updateFrame();
 
 	//BROKER
 	static broker* Bro;

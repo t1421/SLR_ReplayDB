@@ -7,16 +7,20 @@
 
 broker *(WEB_Toolbar::Bro) = NULL;
 
-void WEB_Toolbar::ToolBarButton(int Index, string Name, WContainerWidget &CON)
+
+void WEB_Toolbar::ToolBarButton(int Index, string Name, WContainerWidget &CON, WebRefresh *WF)
 {
 	MISS;
 	bToolbar.push_back(new Wt::WPushButton());
+	wfToolbar.push_back(WF);
 	bToolbar[Index]->setText(Name);
 	tToolbar->addButton(std::unique_ptr<Wt::WPushButton>(bToolbar[Index]));
 	bToolbar[Index]->clicked().connect(std::bind([=]() {
 		sToolbar->setCurrentIndex(Index);
 		updateToolbar();
+		WF->WRefresh();
 	}));
+
 
 	sToolbar->insertWidget(Index, std::unique_ptr<WContainerWidget>(std::move(&CON)));
 	MISE;
@@ -39,5 +43,13 @@ void WEB_Toolbar::updateToolbar()
 
 		bToolbar[i]->setStyleClass(sCSS);
 	}
+	MISE;
+}
+
+
+void WEB_Toolbar::updateFrame()
+{
+	MISS;
+	wfToolbar[sToolbar->currentIndex()]->WRefresh();	
 	MISE;
 }

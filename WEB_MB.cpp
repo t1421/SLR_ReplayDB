@@ -4,34 +4,43 @@
 #include "WEB_Main.h"
 #include "WEB_MB.h"
 #include "WEB_MBA.h"
-#include "WEB_MBB.h"
+
+class WEB_Replay;
 
 
 broker *(WEB_MB::Bro) = NULL;
 
-WEB_MB::WEB_MB()
+WEB_MB::WEB_MB(WEB_Replay *WR_)
 {
 	MISS;
 
 	WColor wTemp;
 
 	cMain = new WContainerWidget();
-	cMain->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h1><b>BOT 2 Replay Checker</b></h1>"))));
 	cMain->addWidget(std::unique_ptr<WWidget>(std::move(tToolbar)));
 	cMain->addWidget(std::unique_ptr<WWidget>(std::move(sToolbar)));
 			
 	MISD("#1");	
 
-	A = new WEB_MBA();
-	B = new WEB_MBB();
+	A = new WEB_MBA(WR_,true);
+	B = new WEB_MBA(WR_, false);
 
 	MISD("#3");
 
-	WEB_Toolbar::ToolBarButton(0, "Cards Played", *A->cMain);
-	WEB_Toolbar::ToolBarButton(1, "Cards in Deck", *B->cMain);
+	WEB_Toolbar::ToolBarButton(0, "Cards Played", *A->cMain,A);
+	WEB_Toolbar::ToolBarButton(1, "Cards in Deck", *B->cMain,B);
 	WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 	
 	
 	MISE;
 }
+
+
+void WEB_MB::WRefresh()
+{
+	MISS;
+	updateFrame();
+	MISE;
+}
+
