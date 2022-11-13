@@ -60,35 +60,27 @@ class WEB_Replay
 {
 public:
 
-	WEB_Replay();
-	bool NewReplay(string sFile);
-
-	bool BOT1();
-	int CountActions();
-
 	Replay* R;
 	vector <WebCard*> WebDeckDeck;
 	vector <WebCard*> WebDeckActions;
 	vector <Marker *> vMarker;
-	
-	bool BOT2();
-	bool FillWebDeckDeck();
-	bool FillWebDeckAction();
-	bool FillTableBOT2(vector <WebCard*>& WebDeck, WTable *wtTabelle);
-
-	bool BOT3();
 	bool BOT3Stuff;
-	void BOT3WellsAndOrbUnit();
-	unsigned int Difficulty();
-	int CountActions(string sFilter);
-	unsigned int Playtime();
-	void FillTableBOT3(WTable *wtTabelle);
-	
 
+	WEB_Replay();
+	
+	string BOT1();
+	string BOT2(bool bMode, WTable *wtTabelle);
+	string BOT3(WTable *wtTabelle, WContainerWidget *cMap);
+
+	int CountActions();
+	int CountActions(string sFilter);
+	unsigned int Difficulty();
+	unsigned int Playtime();
 	string MapName();
 	string Time();
 
-
+	bool NewReplay(string sFile);
+	
 	//BROKER
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
@@ -103,8 +95,13 @@ private:
 	void addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Building, vector <WebCard*>& WebDeck);
 	void addColors(vector <WebCard*>& WebDeck);
 	void InitVector();
-	
-	
+
+	bool FillWebDeckDeck();
+	bool FillWebDeckAction();
+	bool FillTableBOT2(vector <WebCard*>& WebDeck, WTable *wtTabelle);
+
+	void BOT3WellsAndOrbUnit();
+	void FillTableBOT3(WTable *wtTabelle);
 
 };
 

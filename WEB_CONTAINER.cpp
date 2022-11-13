@@ -36,20 +36,43 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	MB = new WEB_MB(this);
 	MC = new WEB_MC(this);
 
+	wtMap = new WText(" ");
+	wtDif = new WText(" ");
+	wtTime = new WText(" ");
+	wtActions = new WText(" ");
+
 	wfuDropZone = new WFileUpload();
-	wtStatus = new WText();	
+	wtStatus = new WText("Waiting for Replay");	
 	
 	MISD("#4");
 	WGridLayout *TempGrid = new WGridLayout();
+	WGridLayout *ReplayInfoGrid = new WGridLayout();
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());
+	ReplayInfo = new WContainerWidget();
 	
 	GlobaelContainer->setLayout(std::unique_ptr<WGridLayout>(std::move(TempGrid)));
+	ReplayInfo->setLayout(std::unique_ptr<WGridLayout>(std::move(ReplayInfoGrid)));
 
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h2><b>BOT Replay Checking Website</b></h2>"))),0,0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)),1,0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)),2,0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(tToolbar)),3,0);
-	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(sToolbar)), 4, 0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h2><b>Replay Checking</b></h2>"))),0,0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wfuDropZone)),1,0,0,0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)),2,0,0,0);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(tToolbar)),3,0,0,2);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(sToolbar)), 4, 0,0,2);
+	TempGrid->addWidget(std::unique_ptr<WWidget>(std::move(ReplayInfo)), 0, 1, 4, 0);
+
+	ReplayInfoGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Map: "))), 0, 0);
+	ReplayInfoGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Difficulti: "))), 1, 0);
+	ReplayInfoGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Playtime: "))), 2, 0);
+	ReplayInfoGrid->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Actions: "))), 3, 0);
+	ReplayInfoGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtMap)), 0, 1);
+	ReplayInfoGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtDif)), 1, 1);
+	ReplayInfoGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtTime)), 2, 1);
+	ReplayInfoGrid->addWidget(std::unique_ptr<WWidget>(std::move(wtActions)), 3, 1);
+	
+	TempGrid->setColumnStretch(0, 5);
+	TempGrid->setColumnStretch(1, 95);
+	ReplayInfoGrid->setColumnStretch(0, 5);
+	ReplayInfoGrid->setColumnStretch(1, 95);
 
 	MISD("#5");
 
@@ -94,7 +117,8 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 		}
 		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");
 
-		updateFrame();
+		WRefresh();
+		updateFrame();		
 
 	});
 
@@ -110,3 +134,16 @@ MISCONTAINER::~MISCONTAINER()
 	delete MC;
 	MISE;
 }
+
+void MISCONTAINER::WRefresh()
+{
+	MISS;
+
+	wtMap->setText(MapName());
+	wtTime->setText(Time());
+	wtDif->setText(to_string(Difficulty()));
+	wtActions->setText(to_string(CountActions()));	
+
+	MISE;
+}
+

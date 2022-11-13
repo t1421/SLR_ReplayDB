@@ -10,8 +10,6 @@ public:
 
 	WEB_Replay *WR;
 	
-	WText		 *wtMap;
-	WText		 *wtTime;
 	WText		 *wtStatus;
 	bool bMode;
 	

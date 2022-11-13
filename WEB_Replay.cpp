@@ -27,19 +27,59 @@ int WEB_Replay::CountActions(string sFilter)
 	return R->CountActions(sFilter);
 };
 
-bool WEB_Replay::BOT1()
+string WEB_Replay::BOT1()
 {
-	return R->OK;
+	//MAP Check
+	if (R->OK != true)return "Error in replay";
+	if (R->MapName != "11105_PvE_01p_EncountersWithTwilight.map")return "Wrong Map";
+	if (R->DifficultyID != 3)return "Wrong Difficulty";
+	
+	return "";
 };
 
-bool WEB_Replay::BOT2()
+string WEB_Replay::BOT2(bool bMode, WTable *wtTabelle)
 {
-	return R->OK;
+	bool result = false;
+
+	if (R->OK != true)return "Error in replay";
+
+	if (bMode)
+	{
+		FillWebDeckAction();
+		result = FillTableBOT2(WebDeckActions, wtTabelle);
+	}
+	else
+	{
+		FillWebDeckDeck();
+		result = FillTableBOT2(WebDeckDeck, wtTabelle);
+	}
+
+	if (R->MapName != "11104_PvE_01p_BehindEnemyLines.map")return "Wrong Map";
+	if (R->DifficultyID != 2)return "Wrong Difficulty";
+
+	if (result == true)return "";
+	else return "Something is wrong in your deck";
+	
+	return "";
 }
 
-bool WEB_Replay::BOT3()
+string WEB_Replay::BOT3(WTable *wtTabelle, WContainerWidget *cMap)
 {
-	return R->OK;
+	if (R->OK != true)return "Error in replay";
+	if (R->MapName != "11101_PvE_01p_TugOfWar.map")return "Wrong Map";
+	BOT3WellsAndOrbUnit();
+	FillTableBOT3(wtTabelle);
+
+	for (unsigned int i = 0; i < vMarker.size(); i++)
+		cMap->addWidget(std::unique_ptr<WWidget>(std::move(vMarker[i]->IMG)));
+
+	if (R->DifficultyID != 1)return "Wrong Difficulty";
+	if (R->CountActions("4007") != 2)return "You have to save the first 2 Wagons";
+	if (R->Playtime > 10000)return "You have to save the first 2 Wagons";
+	
+	for (unsigned j = 0; j < vMarker.size(); j++) if (WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")return "You did not build all Orbs and/or Wells";
+		
+	return "";
 }
 
 string WEB_Replay::MapName()
@@ -209,10 +249,6 @@ bool WEB_Replay::getFromCSVUnit(unsigned short uiCardID)
 
 	return false;
 }
-
-
-
-
 
 
 bool WEB_Replay::FillTableBOT2(vector <WebCard*>& WebDeck, WTable *wtTabelle)
@@ -390,7 +426,6 @@ void WEB_Replay::FillTableBOT3(WTable *wtTabelle)
 {
 	MISS;
 
-	unsigned int iRow;
 	unsigned int iMaxAction = 0;
 	unsigned long iUnit;
 

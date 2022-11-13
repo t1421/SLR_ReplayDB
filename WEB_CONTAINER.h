@@ -20,8 +20,16 @@ public:
 
 	WFileUpload  *wfuDropZone;
 	WText		 *wtStatus;
+	WText		 *wtMap;
+	WText		 *wtDif;
+	WText		 *wtTime;
+	WText		 *wtActions;
+	
 
 	Wt::WContainerWidget *GlobaelContainer;
+	Wt::WContainerWidget *ReplayInfo;
+
+	void WRefresh();
 
 	//----------------------------------------------------------------
 

@@ -27,10 +27,10 @@ WEB_MA::WEB_MA(WEB_Replay *WR_):WR(WR_)
 void WEB_MA::WRefresh()
 {
 	MISS;
-	MISD(to_string(WR->BOT1()));
+	string sReturn = WR->BOT1();
 	
-	if(WR->BOT1())wtStatus->setText("<h3> The restult is: " + to_string(WR->CountActions()) + "</h3>");
-	else wtStatus->setText("<h3> somthing went wrong </h3>");
-
+	if(sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>"); 
+	else wtStatus->setText("<h3> The restult is: " + to_string(WR->CountActions()) + "</h3>");
+	
 	MISE;
 }

@@ -10,14 +10,9 @@ public:
 	WEB_Replay *WR;
 
 	WText		 *wtStatus;
-	WText		 *wtMap;
-	WText		 *wtDif;
-	WText		 *wtTime;
 
 	WContainerWidget *cMap;
-	WImage       *wiMap;
-	
-	
+	WImage       *wiMap;	
 
 	WContainerWidget *cMain;
 	WContainerWidget *cReplay;
@@ -30,8 +25,6 @@ public:
 
 	WEB_MCA(WEB_Replay *WR_);
 	void WRefresh();
-
-	void showResults();
 
 };
 
