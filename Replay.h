@@ -2,6 +2,11 @@
 #define Replay_H
 
 #include "Reader.h" 
+#ifdef __linux__
+#include <tgmath.h> 
+#endif
+
+#include <sstream>
 
 //unsigned char			/// 8
 //unsigned short		///16
@@ -15,7 +20,7 @@ struct Allied {
 };
 
 struct Team {
-	string Name;
+	std::string Name;
 	unsigned long GroupID;
 	unsigned short Value;
 };
@@ -29,7 +34,7 @@ struct Card {
 };
 
 struct Player {
-	string Name;
+	std::string Name;
 	unsigned long long PlayerID;
 	unsigned long ActionPlayer;
 	unsigned char GroupID;
@@ -37,7 +42,7 @@ struct Player {
 	unsigned char Type;
 	unsigned char Cards;
 	unsigned char CardsTotal;
-	vector <Card*> Deck;
+	std::vector <Card*> Deck;
 };
 
 struct Action {
@@ -55,7 +60,7 @@ struct Action {
 
 	unsigned int Position;
 
-	string AdditionalInfo;
+	std::string AdditionalInfo;
 
 	Action():Time(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), AdditionalInfo()
 	{}
@@ -83,22 +88,20 @@ public:
 
 	bool OK;	
 
-	bool LoadPMV(string sFile);
+	bool LoadPMV(std::string sFile);
 	void EchoHead();
 	void EchoAllied();
 	void EchoTeam();
 	void EchoPlayer();
 	void EchoPlayerDecks();
-	void EchoAction(string sAction);
-	string SwitchType(unsigned long inType);
-	int CountActions(string sAction);
+	void EchoAction(std::string sAction);
+	std::string SwitchType(unsigned long inType);
+	int CountActions(std::string sAction);
 	int CountActions() { return CountActions("*"); }
-	string sTime(unsigned long ulTime);
+	std::string sTime(unsigned long ulTime);
 	//BROKER
-#ifndef noBroker
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
-#endif
 
 	unsigned char GroupCount;
 	unsigned char Unknow3;
@@ -115,16 +118,16 @@ public:
 	unsigned short TeamCount;
 	unsigned long long PMVPlayerID;
 	unsigned long MinLeaveGame;
-	vector<Allied*> AlliedMatrix;
-	vector<Team*> TeamMatrix;
-	vector<Player*> PlayerMatrix;
-	vector<Action*> ActionMatrix;
-	string MapName;
-	string FileName;
-	string WinningTeam;
+	std::vector<Allied*> AlliedMatrix;
+	std::vector<Team*> TeamMatrix;
+	std::vector<Player*> PlayerMatrix;
+	std::vector<Action*> ActionMatrix;
+	std::string MapName;
+	std::string FileName;
+	std::string WinningTeam;
 
-	stringstream ssPMVFile;
-	string sSQLGameID;
+	std::stringstream ssPMVFile;
+	std::string sSQLGameID;
 protected:
 
 private:
@@ -135,9 +138,9 @@ private:
 	bool SetMinLeaveTime();
 	bool SetCharges();
 	bool FillPlayerIDInAction();
-	bool getPMVinSS(string sFile);
-	string FindWinningTeam();
-	string get_file_name(string pfad);
+	bool getPMVinSS(std::string sFile);
+	std::string FindWinningTeam();
+	std::string get_file_name(std::string pfad);
 	
 
 };

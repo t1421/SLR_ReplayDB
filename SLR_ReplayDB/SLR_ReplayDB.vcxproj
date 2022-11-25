@@ -159,11 +159,11 @@
     <ClInclude Include="..\LOAD.h" />
     <ClInclude Include="..\Manager.h" />
     <ClInclude Include="..\PMV_to_SQL.h" />
-    <ClInclude Include="..\prototypes.h" />
     <ClInclude Include="..\Reader.h" />
     <ClInclude Include="..\Replay.h" />
     <ClInclude Include="..\SQL_MIS_New.h" />
     <ClInclude Include="..\Thread_MIS.h" />
+    <ClInclude Include="..\Utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Broker.cpp" />
@@ -178,6 +178,7 @@
     <ClCompile Include="..\SLR_ReplayDB.cpp" />
     <ClCompile Include="..\SQL_MIS_New.cpp" />
     <ClCompile Include="..\Thread_MIS.cpp" />
+    <ClCompile Include="..\Utility.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,9 +1,12 @@
 #ifndef Reader_H
 #define Reader_H
 
-union UnsignedLongLongUnion { unsigned long ull; byte b[8]; };
-union UnsignedLongUnion { unsigned long ul; byte b[4]; };
-union UnsignedShortUnion { unsigned short us; byte b[2]; };
+#include <fstream>
+#include <vector>
+
+union UnsignedLongLongUnion { unsigned long ull; char b[8]; };
+union UnsignedLongUnion { unsigned long ul; char b[4]; };
+union UnsignedShortUnion { unsigned short us; char b[2]; };
 
 #define MaxString 512
 
@@ -13,32 +16,30 @@ public:
 	Reader();
 	~Reader();
 
-	bool Open(string sFile);
+	bool Open(std::string sFile);
 	unsigned long readUnsignedLong();
 	unsigned char readUnsignedChar();	
 	unsigned short readUnsignedShort();
 	unsigned long long readUnsignedLongLong();
-	string readString();
-	string readWString();
+	std::string readString();
+	std::string readWString();
 
 	//BROKER
-#ifndef noBroker
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
-#endif
 
 	unsigned int PMVPosition;
 	size_t length;
 protected:
-	string sAddDoubleBackslash(string changeString);
+	std::string sAddDoubleBackslash(std::string changeString);
 
 private:
 	UnsignedLongLongUnion ULLU;
 	UnsignedLongUnion ULU;
 	UnsignedShortUnion USU;
 
-	ifstream     PMVFile;
-	vector<char> PMVbuffer;
+	std::ifstream     PMVFile;
+	std::vector<char> PMVbuffer;
 
 
 	

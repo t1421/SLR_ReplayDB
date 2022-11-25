@@ -1,6 +1,6 @@
 //#define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h"
 
 #include "Thread_MIS.h"
 
@@ -10,7 +10,7 @@ void Thread_MIS::Start_Thread()
 {
 	MISD("--> " + sThreadName);
 	bRunning = true;
-	tThread = thread(&Thread_MIS::Thread_Function, this);
+	tThread = std::thread(&Thread_MIS::Thread_Function, this);
 	MISD("<-- " + sThreadName);
 }
 
@@ -29,10 +29,10 @@ void Thread_MIS::Thread_Function()
 	MISD("<--" + sThreadName);
 }
 
-string Thread_MIS::Status()
+std::string Thread_MIS::Status()
 {
 	MISD("-->" + sThreadName);
-	string sreturn = sThreadName + "=" + to_string(bRunning);
+	std::string sreturn = sThreadName + "=" + std::to_string(bRunning);
 	MISD("<--" + sThreadName);
 	return sreturn;
 }

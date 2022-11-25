@@ -39,9 +39,6 @@
     <ClInclude Include="..\PMV_to_SQL.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\prototypes.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\Reader.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -52,6 +49,9 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\Thread_MIS.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utility.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
@@ -90,6 +90,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\Thread_MIS.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Utility.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>

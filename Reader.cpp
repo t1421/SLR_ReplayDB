@@ -1,15 +1,14 @@
 //#define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h" 
 
 #include "Reader.h" 
 
+#include <sstream>
 #include <locale>
 #include <codecvt>
 
-#ifndef noBroker
 broker *(Reader::Bro) = NULL;
-#endif
 
 Reader::Reader()
 {
@@ -63,23 +62,23 @@ unsigned char Reader::readUnsignedChar()
 }
 
 
-string Reader::readString()
+std::string Reader::readString()
 {
-	stringstream ssOUT;
+	std::stringstream ssOUT;
 	unsigned long len = readUnsignedLong();	
 	for (unsigned int iPos = 0; iPos < len; iPos++)ssOUT << PMVbuffer[PMVPosition++];
 	return ssOUT.str();
 }
 
 
-string Reader::readWString()
+std::string Reader::readWString()
 {
 	
-	wstringstream wss;
-	wstring ws;
-	string sOut;
-	using convert_typeX = codecvt_utf8<wchar_t>;
-	wstring_convert<convert_typeX, wchar_t> converterX;
+	std::wstringstream wss;
+	std::wstring ws;
+	std::string sOut;
+	using convert_typeX = std::codecvt_utf8<wchar_t>;
+	std::wstring_convert<convert_typeX, wchar_t> converterX;
 	
 	unsigned long len = readUnsignedLong() * 2;
 	for (unsigned int iPos = 0; iPos < len; iPos++)wss << PMVbuffer[PMVPosition++];
@@ -92,13 +91,13 @@ string Reader::readWString()
 	return sOut;
 }
 
-bool Reader::Open(string sFile)
+bool Reader::Open(std::string sFile)
 {
 	MISS;
 
 	sFile = sAddDoubleBackslash(sFile);
 
-	PMVFile.open(sFile,ios_base::binary);
+	PMVFile.open(sFile, std::ios_base::binary);
 	if (!PMVFile) 
 	{
 		MISEA("V1 " + sFile)
@@ -135,7 +134,7 @@ bool Reader::Open(string sFile)
 	MISE;
 }
 
-string Reader::sAddDoubleBackslash(string changeString)
+std::string Reader::sAddDoubleBackslash(std::string changeString)
 {
 	MISS;
 	for (unsigned int start_pos = 0; start_pos <= changeString.length(); start_pos++)if (changeString[start_pos] == char(92))

@@ -1,12 +1,10 @@
-#define DF_Debug
+//#define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h" 
 
 #include "Replay.h" 
 
-#ifndef noBroker
 broker *(Replay::Bro) = NULL;
-#endif
 
 Replay::Replay()
 {
@@ -22,7 +20,7 @@ Replay::~Replay()
 	MISE;
 }
 
-bool Replay::LoadPMV(string sFile)
+bool Replay::LoadPMV(std::string sFile)
 {
 	MISS;
 
@@ -109,7 +107,7 @@ bool Replay::ReadHeader()
 	FileVersion = readUnsignedLong();
 	if (FileVersion > 200)GameVersion = readUnsignedLong();
 	Playtime = readUnsignedLong();
-	if (FileVersion > 213)Seed = readUnsignedLong(); // Seed - wichtig für RPVE
+	if (FileVersion > 213)Seed = readUnsignedLong(); // Seed - wichtig fï¿½r RPVE
 		
 	MapName = get_file_name(readString());
 	if(MapName=="")
@@ -181,7 +179,7 @@ bool Replay::ReadHeader()
 
 	if (ActionBlock != PMVPosition)
 	{
-		MISERROR("<-- ActionBlockOffsetError soll:" + to_string(ActionBlock) + " ist:" + to_string(PMVPosition));
+		MISERROR("<-- ActionBlockOffsetError soll:" + std::to_string(ActionBlock) + " ist:" + std::to_string(PMVPosition));
 		return false;
 	}
 	
@@ -223,9 +221,9 @@ bool Replay::ReadActions()
 			case 4001: //SLR-TEAM: 4001 - Irrelevant (Ist bei mir einfach auskommentiert)
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
@@ -237,9 +235,9 @@ bool Replay::ReadActions()
 			case 4003: //SLR-TEAM: 4003 - Desync
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
@@ -255,9 +253,9 @@ bool Replay::ReadActions()
 				//readUnsignedLong(); //zero?
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 			case 4006: //GOLD	
@@ -266,7 +264,7 @@ bool Replay::ReadActions()
 				tempCount = readUnsignedLong();
 				for (unsigned int i = 0; i < tempCount; i++)
 				{
-					readUnsignedLongLong(); // wer erhält gold
+					readUnsignedLongLong(); // wer erhï¿½lt gold
 					readUnsignedLong(); // menge gold
 				}
 				break;
@@ -278,9 +276,9 @@ bool Replay::ReadActions()
 			case 4008: //SLR-TEAM: 4008 - Hat was mit Scripting zu tun (wahrsch. iwas zum Map scripts debuggen oder so)
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
@@ -380,7 +378,7 @@ bool Replay::ReadActions()
 			case 4014: //use unit ability
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				readUnsignedLong(); // Unit
-				Action_TEMP->AdditionalInfo = to_string(readUnsignedLong()); // Abbility ID
+				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedLong()); // Abbility ID
 				this->readUnsignedChar(); // immer 1
 				readUnsignedLong(); // immer 1
 				readUnsignedLong(); // Abbility Type - 2=Buldig Global Efffect / 6=Fier on the Ground / 8=Comet Catcher
@@ -411,27 +409,27 @@ bool Replay::ReadActions()
 			case 4016: //SLR-TEAM: 4016 - Ist bei mir auch auskommentiert
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
 			case 4017: //SLR-TEAM: 4017 - Glaube das sind ultrakrasse GM Hacks
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
-			case 4018: //SLR-TEAM: 4018 - Auskommentiert (KillEntity - glaube unnötig, da es and GroupKillEntity gibt)
+			case 4018: //SLR-TEAM: 4018 - Auskommentiert (KillEntity - glaube unnï¿½tig, da es and GroupKillEntity gibt)
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
@@ -452,57 +450,57 @@ bool Replay::ReadActions()
 					readUnsignedLong(); // Unit
 				}
 				break;
-			case 4021: //SLR-TEAM: 4021 - Auskommentiert (PlaceSquad - wahrscheinlich auch durch was anderes Überschrieben
+			case 4021: //SLR-TEAM: 4021 - Auskommentiert (PlaceSquad - wahrscheinlich auch durch was anderes ï¿½berschrieben
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
 			case 4022: //SLR-TEAM: 4022 - Irgendwas mit Mapscripts
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
 			case 4023: //SLR-TEAM: 4023 - Auskommentiert (CancelCutScene)
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
-			case 4024: //SLR-TEAM:4024 - Relevant für die Schmiede
+			case 4024: //SLR-TEAM:4024 - Relevant fï¿½r die Schmiede
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
-			case 4025: //SLR-TEAM: 4025 - Relevant für die Schmiede
+			case 4025: //SLR-TEAM: 4025 - Relevant fï¿½r die Schmiede
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
-			case 4026: //SLR-TEAM: 4026 - SetGameDifficulty - glaube nicht, dass man das während des Spiels machen kann
+			case 4026: //SLR-TEAM: 4026 - SetGameDifficulty - glaube nicht, dass man das wï¿½hrend des Spiels machen kann
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
@@ -529,14 +527,14 @@ bool Replay::ReadActions()
 				///X###X GGF. letzter wert nicht immer zero
 			case 4029: //build wall
 				Action_TEMP->ActionPlayer = readUnsignedLong();
-				Action_TEMP->AdditionalInfo = to_string(readUnsignedLong()); //Unit	
+				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedLong()); //Unit	
 				this->readUnsignedChar(); // Zero???				
 				break;
 
 				///###
 			case 4030: //create mana
 				Action_TEMP->ActionPlayer = readUnsignedLong();
-				Action_TEMP->AdditionalInfo = to_string( readUnsignedLong() ); //Unit				
+				Action_TEMP->AdditionalInfo = std::to_string( readUnsignedLong() ); //Unit				
 				break;
 				///###
 			case 4031: //create orb
@@ -546,14 +544,14 @@ bool Replay::ReadActions()
 				// 4 = Red
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				tempCount = readUnsignedLong(); //Unit
-				Action_TEMP->AdditionalInfo = to_string(this->readUnsignedChar()) + ";" + to_string(tempCount);
+				Action_TEMP->AdditionalInfo = std::to_string(this->readUnsignedChar()) + ";" + std::to_string(tempCount);
 				break;
 			case 4032: //SLR-TEAM: 4032 - SquadRefill - Dachte das passiert automatisch?
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(Action_TEMP->Position) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(Action_TEMP->Position) + " # " +
+					std::to_string(MainSize) +
 					" ???");
 				PMVPosition = SollPos;
 				break;
@@ -594,7 +592,7 @@ bool Replay::ReadActions()
 				Action_TEMP->ActionPlayer = readUnsignedLong();				
 				break;
 
-				///x###x Same bei T4 Schatten gebäude?
+				///x###x Same bei T4 Schatten gebï¿½ude?
 			case 4037: //Place Nexus Exit (oder generell Bulding?) // TESTEN T4 Schatten
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				readUnsignedLong(); // Nexus
@@ -654,7 +652,7 @@ bool Replay::ReadActions()
 			case 4044: // TW Unit Switch
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				readUnsignedLong(); // Ziel Card ID
-				readUnsignedLong(); // Unknow - ändert sich - KP wann, BZW 1,3,4 bleiben gleich ? bei gleicher Ziel Unit?
+				readUnsignedLong(); // Unknow - ï¿½ndert sich - KP wann, BZW 1,3,4 bleiben gleich ? bei gleicher Ziel Unit?
 				readUnsignedShort(); // immer 0 und 255 ?
 				readUnsignedLong(); // Abbility ID
 				this->readUnsignedChar(); // immer 1
@@ -682,9 +680,9 @@ bool Replay::ReadActions()
 			default:
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					to_string(Action_TEMP->Type) + "#" +
-					to_string(PMVPosition) + " # " +
-					to_string(MainSize) +
+					std::to_string(Action_TEMP->Type) + "#" +
+					std::to_string(PMVPosition) + " # " +
+					std::to_string(MainSize) +
 					"Unknow");
 				PMVPosition = SollPos;
 				OK = false;								
@@ -695,9 +693,10 @@ bool Replay::ReadActions()
 	}
 
 	MISE;
+	return true;
 }
 
-string Replay::sTime(unsigned long ulTime)
+std::string Replay::sTime(unsigned long ulTime)
 {
 	MISS;
 	char cOut[6];	
@@ -713,7 +712,7 @@ bool Replay::ConnectActionToPlayer()
 
 	for (unsigned int i = 0; i < ActionMatrix.size(); i++)if (ActionMatrix[i]->ActionPlayer != 0 && ActionMatrix[i]->ActionPlayer < minActionPlayer)minActionPlayer = ActionMatrix[i]->ActionPlayer;
 
-	//MISD("minActionPlayer:" + to_string(minActionPlayer));
+	//MISD("minActionPlayer:" + std::to_string(minActionPlayer));
 	if (minActionPlayer == 4294967295 - 1) 
 	{
 		MISERROR("<-- cant find min Action Player");
@@ -770,7 +769,7 @@ bool Replay::AddFirstOrb()
 		//Action_TEMP->Size = 13;
 		Action_TEMP->Type = 4031;
 		Action_TEMP->ActionPlayer = ActionMatrix[iPosOfUnit]->ActionPlayer;
-		Action_TEMP->AdditionalInfo = to_string(Bro->C_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card));
+		Action_TEMP->AdditionalInfo = std::to_string(Bro->C_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card));
 		ActionMatrix.insert(ActionMatrix.begin() + iPosOfUnit, Action_TEMP);				
 	}
 
@@ -820,7 +819,7 @@ bool Replay::SetCharges()
 
 
 
-string Replay::get_file_name(string pfad)
+std::string Replay::get_file_name(std::string pfad)
 {
 	pfad = pfad.substr(pfad.find("\\") + 1, pfad.length() - pfad.find("\\") + 1);
 	if (pfad.find("\\") != pfad.npos) pfad = get_file_name(pfad);
@@ -832,17 +831,17 @@ string Replay::get_file_name(string pfad)
 void Replay::EchoHead()
 {
 	MISS;
-	printf("Playtime:   %u\n", Playtime);
-	printf("FileVersion:%u\n", FileVersion);
-	printf("GameVersion:%u\n", GameVersion);;
+	printf("Playtime:   %lu\n", Playtime);
+	printf("FileVersion:%lu\n", FileVersion);
+	printf("GameVersion:%lu\n", GameVersion);;
 	printf("Unknow3:    %u\n", Unknow3);
 	printf("Unknow4:    %u\n", Unknow4);
 	printf("MapName:    %s\n", MapName.c_str());
-	printf("Seed:       %u\n", Seed);
-	printf("MapID:      %u\n", MapID);
+	printf("Seed:       %lu\n", Seed);
+	printf("MapID:      %lu\n", MapID);
 	printf("difficulty: %u\n", DifficultyID);
 	printf("PlayMode:   %u\n", PlayModeID);
-	printf("ActionBlock:%u\n", ActionBlock);
+	printf("ActionBlock:%lu\n", ActionBlock);
 	printf("PMVFromPlay:%llu\n", PMVPlayerID);
 	printf("GroupCount :%u\n", GroupCount);
 	printf("WinningTeam:%s\n", WinningTeam.c_str());
@@ -873,7 +872,7 @@ void Replay::EchoTeam()
 	printf("Count # Name # GroupID # Value\n");
 	for (unsigned int i = 0; i < TeamCount; i++)
 	{
-		printf("%u # %s # %u # %u \n", 
+		printf("%u # %s # %lu # %u \n", 
 			i ,
 			TeamMatrix[i]->Name.c_str() ,
 			TeamMatrix[i]->GroupID ,
@@ -888,7 +887,7 @@ void Replay::EchoPlayer()
 	printf("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal\n");
 		for (unsigned int i = 0; i < PlayerMatrix.size(); i++)
 		{
-			printf("%u # %s # %llu # %u # %u # %u # %u # %u # %u\n",
+			printf("%u # %s # %llu # %lu # %u # %u # %u # %u # %u\n",
 			i ,
 			PlayerMatrix[i]->Name.c_str() ,
 			PlayerMatrix[i]->PlayerID ,
@@ -924,16 +923,16 @@ void Replay::EchoPlayerDecks()
 	MISE;
 }
 
-void Replay::EchoAction(string sAction)
+void Replay::EchoAction(std::string sAction)
 {
 	MISS;
 	printf("count # Time # Position # Type # ActionPlayer # PlayerID # Card # AdditionalInfo \n");
 	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
 	{
 		if (ActionMatrix[i]->Type == 4045)continue;
-		if (to_string(ActionMatrix[i]->Type) == sAction || sAction == "*")
+		if (std::to_string(ActionMatrix[i]->Type) == sAction || sAction == "*")
 		{
-			printf("%u # %s # %u # %u  # %u # %llu  # %u # %s \n", 
+			printf("%u # %s # %u # %lu  # %lu # %llu  # %lu # %s \n", 
 				i,
 				sTime(ActionMatrix[i]->Time).c_str() ,
 				ActionMatrix[i]->Position, 
@@ -950,7 +949,7 @@ void Replay::EchoAction(string sAction)
 }
 
 
-string Replay::FindWinningTeam()
+std::string Replay::FindWinningTeam()
 {
 	MISS;
 	unsigned int iCountTeam1 = 0;
@@ -978,7 +977,7 @@ string Replay::FindWinningTeam()
 
 	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
 	{
-		if (to_string(ActionMatrix[i]->Type) == "4002") //Leave game
+		if (std::to_string(ActionMatrix[i]->Type) == "4002") //Leave game
 		{
 			for (unsigned int j = 0; j < PlayerMatrix.size(); j++)
 			{
@@ -1051,11 +1050,11 @@ string Replay::FindWinningTeam()
 	return "";
 }
 
-bool Replay::getPMVinSS(string sFile)
+bool Replay::getPMVinSS(std::string sFile)
 {
 	MISS;
 	//For SQL Upload
-	ifstream ifs;
+	std::ifstream ifs;
 	ifs.open(sFile, std::ifstream::binary | std::ifstream::in);
 	if (ifs)
 	{
@@ -1070,7 +1069,7 @@ bool Replay::getPMVinSS(string sFile)
 }
 
 
-string Replay::SwitchType(unsigned long inType)
+std::string Replay::SwitchType(unsigned long inType)
 {
 	//MISS;
 
@@ -1175,14 +1174,14 @@ string Replay::SwitchType(unsigned long inType)
 }
 
 
-int Replay::CountActions(string sAction)
+int Replay::CountActions(std::string sAction)
 {
 	MISS;
 	int iOut = 0;
 	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
 	{
 		if (ActionMatrix[i]->Type == 4045)continue;
-		if (to_string(ActionMatrix[i]->Type) == sAction || sAction == "*")iOut++;
+		if (std::to_string(ActionMatrix[i]->Type) == sAction || sAction == "*")iOut++;
 	}
 	
 	MISE;

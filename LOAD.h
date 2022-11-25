@@ -3,6 +3,9 @@
 
 #include "Thread_MIS.h"
 
+#include <string>
+#include <vector>
+
 struct CsvCard {
 	unsigned short CardID;
 	unsigned int   iFire;
@@ -33,19 +36,19 @@ public:
 
 	void LoadCards();
 	    	
-	string sSQL_Server;
-	string sSQL_User;
-	string sSQL_PW;
-	string sSQL_DB;
+	std::string sSQL_Server;
+	std::string sSQL_User;
+	std::string sSQL_PW;
+	std::string sSQL_DB;
 
-	string sPMV_PATH;
-	string sPMV_AUTO_PATH;
-	string sPMV_ARCH_PATH;
+	std::string sPMV_PATH;
+	std::string sPMV_AUTO_PATH;
+	std::string sPMV_ARCH_PATH;
 
-	string sTMP_PATH;
-	string sFFMPEG;
+	std::string sTMP_PATH;
+	std::string sFFMPEG;
 
-	vector <CsvCard*> CsvAllCards;
+	std::vector <CsvCard*> CsvAllCards;
 
 	//BROKER
 	static broker* Bro;
@@ -57,8 +60,8 @@ protected:
 	void Load_Settings();
 private:
 
-	bool INI_Value_Check(string &check, string name);
-	string entry(string Liste, int pos);
+	bool INI_Value_Check(std::string &check, std::string name);
+	std::string entry(std::string Liste, int pos);
 
 };
 

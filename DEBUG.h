@@ -1,7 +1,13 @@
 #ifndef DEBUG_H
 #define DEBUG_H
+#include "Broker.h"
 
 class SQL_MIS_New;
+
+#include <string>
+#include <mutex> 
+#include <vector>
+#include <fstream>
 
 class DEBUG
 {
@@ -10,28 +16,26 @@ public:
 	bool bFile;
 	bool bFilter;
 
-	DEBUG(string sLogName, bool _bGUI, bool _bFile, bool _bFilter);
+	DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter);
 	
-	void StatusE(string Modul, string Funktion, string Wert);
-	void StatusNew(string Fun, string Wert);
-	bool check_MFW(string Modul, string Funktion, string Wert);
-	void Fill_DBArray(string Modul, string Funktion, string Wert, string Status);
+	void StatusE(std::string Modul, std::string Funktion, std::string Wert);
+	void StatusNew(std::string Fun, std::string Wert);
+	bool check_MFW(std::string Modul, std::string Funktion, std::string Wert);
+	void Fill_DBArray(std::string Modul, std::string Funktion, std::string Wert, std::string Status);
 	
-	vector<vector<string>> DebugInfo;
+	std::vector<std::vector<std::string>> DebugInfo;
 	
     time_t t;
-    struct tm ts;
+    struct tm ts ;
 
-	ofstream ofB;
-	ofstream ofE;
+	std::ofstream ofB;
+	std::ofstream ofE;
 
-	mutex mtx;
+	std::mutex mtx;
 
-#ifndef noBroker
 	static broker* Bro;
 	void teachB() { Bro->B = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }	
-#endif
 
 protected:
 

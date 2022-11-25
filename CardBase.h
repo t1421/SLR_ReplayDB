@@ -1,6 +1,8 @@
 #ifndef CardBase_H
 #define CardBase_H
 
+#include <fstream>
+
 #ifdef BrokerNormal
 	#include <curl/curl.h>
 	#include <json/json.h>
@@ -22,16 +24,16 @@ public:
 	~CardBase();
 
 	bool WEBtoSQL(bool bUpdate);
-	bool IMGtoQSL(int iCardID, string sFile);
+	bool IMGtoQSL(int iCardID, std::string sFile);
 	bool Imager(int iCardID);
 	bool DownloadPNG(int iCardID);
-	string DownloadImage(int iCardID, string sCardName, bool bPromo);
+	std::string DownloadImage(int iCardID, std::string sCardName, bool bPromo);
 	void UploadFromTemp(unsigned short CardID);
 
 	
 	unsigned char GetActionOrbForCardID(unsigned short CardID);
 
-	vector<SQLCard*> SQLCardMatrix;
+	std::vector<SQLCard*> SQLCardMatrix;
 
 	bool bCardsLoaded;
 	bool LoadCardsFromSQL();

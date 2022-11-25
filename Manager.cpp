@@ -1,11 +1,13 @@
 //#define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h" 
 
 #include "Manager.h"
 #include "Replay.h" 
 #include "PMV_to_SQL.h" 
 #include "SQL_MIS_New.h" 
+
+#include "Utility.h"
 
 #include <boost/filesystem.hpp>
 using namespace boost::filesystem;
@@ -23,7 +25,7 @@ void Manager::Thread_Function()
 {
 	MISS;
 
-	stringstream ssCMD;
+	std::stringstream ssCMD;
 
 	while (bRunning)
 	{
@@ -71,6 +73,7 @@ void Manager::Thread_Function()
 		
 		
 		Sleep(1000);
+		
 	}	
 	MISE;
 }

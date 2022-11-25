@@ -1,14 +1,12 @@
-// SLR_ReplayParser.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
-//
-
-#include "prototypes.h"
+#include "Broker.h" 
+#include "DEBUG.h" 
 #include "Replay.h" 
 
 int main(int argc, char **argv)
 {
 	if (argc > 1)
 	{
-		string sFile = string(argv[1]);
+		std::string sFile = std::string(argv[1]);
 
 		broker* Bro = new broker;
 
@@ -20,7 +18,7 @@ int main(int argc, char **argv)
 		{			
 			printf("Action Count: %i\n", RR->CountActions());
 		}						
-		else printf("An error has occurred\nYou may want to contact Ultralord \n Your Temporarily result is: %i\n" , to_string(RR->ActionMatrix.size()));
+		else printf("An error has occurred\nYou may want to contact Ultralord \n Your Temporarily result is: %i\n" , int(RR->ActionMatrix.size()));
 			
 	}
 	else printf("Drag and Drop you PMV on the Applikation\n");

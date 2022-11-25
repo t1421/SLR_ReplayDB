@@ -1,12 +1,11 @@
 //#define DF_Debug
-
-#include "prototypes.h"
+#include "Broker.h"
 
 #include "DEBUG.h"
 #include "Thread_MIS.h" 
 #include "Replay.h" 
 #include "Reader.h" 
-#include "Broker.h"
+
 
 #if defined BrokerNormal || defined BrokerWeb
 
@@ -122,43 +121,53 @@ bool broker::C_DownloadPNG(unsigned short CardID)
 #endif
 
 #if defined BrokerNormal || defined BrokerWeb
-string broker::L_getSQL_Server()
+std::string broker::L_getSQL_Server()
 {
 	return L->sSQL_Server;
 }
-string broker::L_getSQL_User()
+std::string broker::L_getSQL_User()
 {
 	return L->sSQL_User;
 }
-string broker::L_getSQL_PW()
+std::string broker::L_getSQL_PW()
 {
 	return L->sSQL_PW;
 }
-string broker::L_getSQL_DB()
+std::string broker::L_getSQL_DB()
 {
 	return L->sSQL_DB;
 }
 
-string broker::L_getPMV_PATH()
+std::string broker::L_getPMV_PATH()
 {
 	return L->sPMV_PATH;
 }
-string broker::L_getPMV_AUTO_PATH()
+std::string broker::L_getPMV_AUTO_PATH()
 {
 	return L->sPMV_AUTO_PATH;
 }
-string broker::L_getPMV_ARCH_PATH()
+std::string broker::L_getPMV_ARCH_PATH()
 {
 	return L->sPMV_ARCH_PATH;
 }
-string broker::L_getTMP_PATH()
+std::string broker::L_getTMP_PATH()
 {
 	return L->sTMP_PATH;
 }
 
-string broker::L_getFFMPEG()
+std::string broker::L_getFFMPEG()
 {
 	return L->sFFMPEG;
 }
 
 #endif
+
+void broker::B_StatusNew(std::string Fun, std::string Wert)
+{
+	B->StatusNew(Fun, Wert);
+}
+
+void broker::B_StatusE(std::string Modul, std::string Funktion, std::string Wert)
+{
+	B->StatusE(Modul, Funktion, Wert);
+}

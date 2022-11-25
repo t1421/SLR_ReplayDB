@@ -40,7 +40,7 @@ bool PMV_to_SQL::Upload()
 {
 	MISS;
 
-	string HeadID = "";
+	std::string HeadID = "";
 
 	HeadID = DublettenCheck();
 	//MISD("X" + HeadID + "X");
@@ -154,7 +154,7 @@ bool PMV_to_SQL::NewMasterData()
 }
 
 
-string PMV_to_SQL::UploadHead()
+std::string PMV_to_SQL::UploadHead()
 {
 	MISS;
 
@@ -190,7 +190,7 @@ string PMV_to_SQL::UploadHead()
 	return NN->get_LAST_INSERT_ID();
 }
 
-bool PMV_to_SQL::UploadPlayers(string iNewHeadID)
+bool PMV_to_SQL::UploadPlayers(std::string iNewHeadID)
 {
 	MISS;
 
@@ -220,8 +220,7 @@ bool PMV_to_SQL::UploadPlayers(string iNewHeadID)
 	return true;
 }
 
-
-string PMV_to_SQL::DublettenCheck()
+std::string PMV_to_SQL::DublettenCheck()
 {
 	MISS;
 
@@ -256,7 +255,7 @@ string PMV_to_SQL::DublettenCheck()
 }
 
 
-bool PMV_to_SQL::UploadActions(string iNewHeadID)
+bool PMV_to_SQL::UploadActions(std::string iNewHeadID)
 {
 	MISS;
 
@@ -288,7 +287,7 @@ bool PMV_to_SQL::UploadActions(string iNewHeadID)
 	return true;
 }
 
-bool PMV_to_SQL::UploadPMVPlayerDeck(string iNewHeadID)
+bool PMV_to_SQL::UploadPMVPlayerDeck(std::string iNewHeadID)
 {
 	MISS;
 
@@ -334,7 +333,7 @@ void PMV_to_SQL::UseThisSQL(SQL_MIS_New * inSQL)
 	MISE;
 }
 
-bool PMV_to_SQL::Download(string sGameID)
+bool PMV_to_SQL::Download(std::string sGameID)
 {
 	MISS;
 
@@ -435,7 +434,7 @@ bool PMV_to_SQL::Download(string sGameID)
 	return true;
 }
 
-bool PMV_to_SQL::PMVtoSQL(string iNewHeadID)
+bool PMV_to_SQL::PMVtoSQL(std::string iNewHeadID)
 {
 	MISS;
 

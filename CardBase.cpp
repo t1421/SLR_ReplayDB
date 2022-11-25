@@ -1,6 +1,10 @@
 #define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h" 
+
+#define CardWebURL "https://hub.backend.skylords.eu/api/auctions/cards?id=all"
+#define WikiPre    "https://skylords-reborn.fandom.com/wiki/"
+#define WikiPos    "_Card_Artwork.png"
 
 #include "SQL_MIS_New.h"
 #include "CardBase.h" 
@@ -65,7 +69,7 @@ Json::Value CardBase::GetJsonFromWeb()
 	Json::Value jsonData;
 	Json::Reader jsonReader;
 
-	string readBuffer = "";
+	std::string readBuffer = "";
 
 	curl = curl_easy_init();
 	if (curl)
@@ -76,7 +80,7 @@ Json::Value CardBase::GetJsonFromWeb()
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
 
 		res = curl_easy_perform(curl);
-		if (res != CURLE_OK)Bro->B->StatusE("E", "GetJsonFromWeb - curl_easy_perform", curl_easy_strerror(res));
+		if (res != CURLE_OK)Bro->B_StatusE("E", "GetJsonFromWeb - curl_easy_perform", curl_easy_strerror(res));
 		
 		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
 		if (httpCode == 200)
@@ -85,9 +89,9 @@ Json::Value CardBase::GetJsonFromWeb()
 			{
 				MISD("Json Request - Sucess")
 			}
-			else Bro->B->StatusE("E", "GetJsonFromWeb - jsonReader.parse", "");
+			else Bro->B_StatusE("E", "GetJsonFromWeb - jsonReader.parse", "");
 		}
-		else Bro->B->StatusE("E", "GetJsonFromWeb - httpCode", to_string(httpCode));
+		else Bro->B_StatusE("E", "GetJsonFromWeb - httpCode", std::to_string(httpCode));
 
 		curl_easy_cleanup(curl);
 	}
@@ -106,7 +110,7 @@ bool CardBase::WEBtoSQL(bool bUpdate)
 	bool bNewCard;
 
 	AllCards = GetJsonFromWeb();
-	MISD("CardCount:" + to_string(AllCards.size()));
+	MISD("CardCount:" + std::to_string(AllCards.size()));
 
 	for (Json::ArrayIndex i = 0; i < AllCards.size(); i++)
 	{		
@@ -155,17 +159,17 @@ bool CardBase::WEBtoSQL(bool bUpdate)
 }
 
 
-string CardBase::DownloadImage(int iCardID, string sCardName, bool bPromo)
+std::string CardBase::DownloadImage(int iCardID, std::string sCardName, bool bPromo)
 {
 	MISS;
 
-	ofstream OutFile;
+	std::ofstream OutFile;
 	CURLcode res;
 	long httpCode(0);
 	int start_pos = 0;
-	string sURL;
+	std::string sURL;
 	
-	string readBuffer = "";
+	std::string readBuffer = "";
 	
 	start_pos = 0;
 	while ((start_pos = sCardName.find(" ", start_pos)) != sCardName.npos)sCardName.replace(start_pos, 1, "_");
@@ -192,7 +196,7 @@ string CardBase::DownloadImage(int iCardID, string sCardName, bool bPromo)
 		res = curl_easy_perform(curl);
 		if (res != CURLE_OK)
 		{
-			Bro->B->StatusE("E", "DownloadImage #1 - curl_easy_perform", curl_easy_strerror(res));
+			Bro->B_StatusE("E", "DownloadImage #1 - curl_easy_perform", curl_easy_strerror(res));
 			MISEA("V2");
 			return "";
 		}
@@ -214,7 +218,7 @@ string CardBase::DownloadImage(int iCardID, string sCardName, bool bPromo)
 		}
 		else 
 		{
-			MISEA("V3: httpCode #1:" + to_string(httpCode));			
+			MISEA("V3: httpCode #1:" + std::to_string(httpCode));
 			return "";
 		}
 	}
@@ -228,7 +232,7 @@ string CardBase::DownloadImage(int iCardID, string sCardName, bool bPromo)
 
 	MISD(sURL);
 
-	OutFile.open(Bro->L_getTMP_PATH() + to_string(iCardID) + ".png", std::ostream::binary);
+	OutFile.open(Bro->L_getTMP_PATH() + std::to_string(iCardID) + ".png", std::ostream::binary);
 
 	curl = curl_easy_init();
 	if (curl)
@@ -243,7 +247,7 @@ string CardBase::DownloadImage(int iCardID, string sCardName, bool bPromo)
 		res = curl_easy_perform(curl);
 		if (res != CURLE_OK)
 		{
-			Bro->B->StatusE("E", "DownloadImage #2 - curl_easy_perform", curl_easy_strerror(res));
+			Bro->B_StatusE("E", "DownloadImage #2 - curl_easy_perform", curl_easy_strerror(res));
 			MISEA("V5: Error curl_easy_perform Image");
 			return "";
 		}
@@ -254,11 +258,11 @@ string CardBase::DownloadImage(int iCardID, string sCardName, bool bPromo)
 		{
 			OutFile.close();
 			MISE;
-			return Bro->L_getTMP_PATH() + to_string(iCardID) + ".png";
+			return Bro->L_getTMP_PATH() + std::to_string(iCardID) + ".png";
 		}
 		else
 		{
-			MISEA("V6: httpCode:" + to_string(httpCode));
+			MISEA("V6: httpCode:" + std::to_string(httpCode));
 			return "";
 		}
 	}
@@ -270,12 +274,12 @@ string CardBase::DownloadImage(int iCardID, string sCardName, bool bPromo)
 
 
 
-bool CardBase::IMGtoQSL(int iCardID, string sFile)
+bool CardBase::IMGtoQSL(int iCardID, std::string sFile)
 {
 	MISS;
 	
-	ifstream ifs;
-	stringstream ss;
+	std::ifstream ifs;
+	std::stringstream ss;
 	
 	ifs.open(sFile, std::ifstream::binary | std::ifstream::in);
 	if (ifs)
@@ -283,7 +287,7 @@ bool CardBase::IMGtoQSL(int iCardID, string sFile)
 		ss<< ifs.rdbuf();
 		ifs.close();
 	}
-	else Bro->B->StatusE("E", "IMGtoQSL", "Error opening File");
+	else Bro->B_StatusE("E", "IMGtoQSL", "Error opening File");
 	
 	Bro->N->ssSQL << " UPDATE cards SET IMG = ?";
 	Bro->N->ssSQL << " WHERE ID = " << iCardID;
@@ -298,15 +302,15 @@ bool CardBase::Imager(int iCardID)
 {
 	MISS;
 
-	string sCardName;
-	string sPath;
+	std::string sCardName;
+	std::string sPath;
 
 	Bro->N->ssSQL << "SELECT CardName, ID, promo FROM cards ";
 	if(iCardID!=0)Bro->N->ssSQL << " WHERE ID = " << iCardID;
 	
 	if (Bro->N->send() <= 0)
 	{
-		MISEA("V1: " + to_string(iCardID) + " not found");
+		MISEA("V1: " + std::to_string(iCardID) + " not found");
 		return false;
 	}
 
@@ -330,24 +334,24 @@ bool CardBase::DownloadPNG(int iCardID)
 	Bro->N->ssSQL << "SELECT IMG FROM cards WHERE ID = " << iCardID;
 	if (Bro->N->send() <= 0)
 	{
-		MISEA(" # No Card with ID:" + to_string(iCardID));
+		MISEA(" # No Card with ID:" + std::to_string(iCardID));
 		return false;
 	}
 
 	Bro->N->res->next();
 	if (Bro->N->res->getString(1) == "")
 	{
-		MISEA(" # No IMG in DB for:" + to_string(iCardID));
+		MISEA(" # No IMG in DB for:" + std::to_string(iCardID));
 		return false;
 	}
 
-	MISD(Bro->L_getTMP_PATH() + to_string(iCardID) + ".png");
+	MISD(Bro->L_getTMP_PATH() + std::to_string(iCardID) + ".png");
 
-	ofstream OutFile;
-	OutFile.open(Bro->L_getTMP_PATH() + to_string(iCardID) + ".png", std::ostream::binary);
+	std::ofstream OutFile;
+	OutFile.open(Bro->L_getTMP_PATH() + std::to_string(iCardID) + ".png", std::ostream::binary);
 	if (!OutFile)
 	{
-		MISEA(" # can open PNG File:" + to_string(iCardID));
+		MISEA(" # can open PNG File:" + std::to_string(iCardID));
 		return false;
 	}
 	OutFile << Bro->N->res->getString(1);
@@ -461,6 +465,6 @@ unsigned char CardBase::GetActionOrbForCardID(unsigned short CardID)
 void CardBase::UploadFromTemp(unsigned short CardID)
 {
 	MISS;
-	IMGtoQSL(CardID, Bro->L_getTMP_PATH() + to_string(CardID) + ".png");
+	IMGtoQSL(CardID, Bro->L_getTMP_PATH() + std::to_string(CardID) + ".png");
 	MISE;
 }

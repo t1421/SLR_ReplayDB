@@ -1,19 +1,21 @@
 //#define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h"
 
 #include "LOAD.h"
+
+#include <fstream>
 
 broker *(LOAD::Bro) = NULL;
 
 void LOAD::Load_Settings()
 {
 	MISS;
-	string line;
-	string sName = "Settings.ini";
+	std::string line;
+	std::string sName = "Settings.ini";
 
-	ifstream ifFile;
-	ifFile.open(sName.c_str(), ios::binary);
+	std::ifstream ifFile;
+	ifFile.open(sName.c_str(), std::ios::binary);
 
 	if (ifFile.good())
 	{
@@ -48,7 +50,7 @@ void LOAD::StartUp()
 	MISE;
 }
 
-bool LOAD::INI_Value_Check(string &check, string name)
+bool LOAD::INI_Value_Check(std::string &check, std::string name)
 {
 	MISS;
 	if (check.substr(0, check.find("=")) == name)
@@ -68,11 +70,11 @@ void LOAD::LoadCards()
 {
 	MISS;
 	MISS;
-	string line;
-	string sName = "cards.csv";
+	std::string line;
+	std::string sName = "cards.csv";
 
-	ifstream ifFile;
-	ifFile.open(sName.c_str(), ios::binary);
+	std::ifstream ifFile;
+	ifFile.open(sName.c_str(), std::ios::binary);
 
 	if (ifFile.good())
 	{
@@ -100,7 +102,7 @@ void LOAD::LoadCards()
 	MISE;
 }
 
-string LOAD::entry(string Liste, int pos)
+std::string LOAD::entry(std::string Liste, int pos)
 {
 	if (pos == 0)return Liste.substr(0, Liste.find(";"));
 	else

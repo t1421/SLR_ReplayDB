@@ -1,12 +1,12 @@
 //#define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h" 
 
 #include "SQL_MIS_New.h"
 
 broker *(SQL_MIS_New::Bro) = NULL;
 
-SQL_MIS_New::SQL_MIS_New(string _Name) :sName(_Name)
+SQL_MIS_New::SQL_MIS_New(std::string _Name) :sName(_Name)
 {
 	MISD("--> " + _Name);
 	
@@ -25,11 +25,11 @@ SQL_MIS_New::SQL_MIS_New(string _Name) :sName(_Name)
 	}
 	catch (sql::SQLException &e)
 	{
-		Bro->B->StatusE("E", "0SQL_ERROR: ", sName);
-		Bro->B->StatusE("E", "1SQL_ERROR: ", e.what());
-		Bro->B->StatusE("E", "2SQL_ERROR: ", to_string(e.getErrorCode()));
-		Bro->B->StatusE("E", "3SQL_ERROR: ", e.getSQLState());
-		Bro->B->StatusE("E", "4SQL_ERROR: ", "While connecting");
+		Bro->B_StatusE("E", "0SQL_ERROR: ", sName);
+		Bro->B_StatusE("E", "1SQL_ERROR: ", e.what());
+		Bro->B_StatusE("E", "2SQL_ERROR: ", std::to_string(e.getErrorCode()));
+		Bro->B_StatusE("E", "3SQL_ERROR: ", e.getSQLState());
+		Bro->B_StatusE("E", "4SQL_ERROR: ", "While connecting");
 	}
 	MISE;
 }
@@ -50,7 +50,7 @@ int SQL_MIS_New::send()
 	// Upper und Trimmen 
 	int ireturn;
 
-	string sSTMT = ssSQL.str(); //boost::to_upper_copy(ssSQL.str());
+	std::string sSTMT = ssSQL.str(); //boost::to_upper_copy(ssSQL.str());
 	sSTMT.erase(0, sSTMT.find_first_not_of(" "));
 	ssSQL.str("");
 
@@ -79,11 +79,11 @@ int SQL_MIS_New::send()
 
 	catch (sql::SQLException &e)
 	{
-		Bro->B->StatusE("E", "0SQL_ERROR: ", sName);
-		Bro->B->StatusE("E", "1SQL_ERROR: ", e.what());
-		Bro->B->StatusE("E", "2SQL_ERROR: ", to_string(e.getErrorCode()));
-		Bro->B->StatusE("E", "3SQL_ERROR: ", e.getSQLState());
-		Bro->B->StatusE("E", "4SQL_ERROR: ", sSTMT);
+		Bro->B_StatusE("E", "0SQL_ERROR: ", sName);
+		Bro->B_StatusE("E", "1SQL_ERROR: ", e.what());
+		Bro->B_StatusE("E", "2SQL_ERROR: ", std::to_string(e.getErrorCode()));
+		Bro->B_StatusE("E", "3SQL_ERROR: ", e.getSQLState());
+		Bro->B_StatusE("E", "4SQL_ERROR: ", sSTMT);
 	}
 
 	MISE;
@@ -91,10 +91,10 @@ int SQL_MIS_New::send()
 }
 
 
-string SQL_MIS_New::get_LAST_INSERT_ID()
+std::string SQL_MIS_New::get_LAST_INSERT_ID()
 {
 	MISS;
-	string sTemp;
+	std::string sTemp;
 	ssSQL << " SELECT LAST_INSERT_ID() ";
 	send();
 	res->first();
@@ -105,7 +105,7 @@ string SQL_MIS_New::get_LAST_INSERT_ID()
 }
 
 
-string SQL_MIS_New::clearString(string changeString)
+std::string SQL_MIS_New::clearString(std::string changeString)
 {
 	MISS;
 
@@ -132,11 +132,11 @@ string SQL_MIS_New::clearString(string changeString)
 
 
 
-bool SQL_MIS_New::SendBLOB(string sBlob)
+bool SQL_MIS_New::SendBLOB(std::string sBlob)
 {
 	MISS;
 
-	string sSTMT = ssSQL.str(); //boost::to_upper_copy(ssSQL.str());
+	std::string sSTMT = ssSQL.str(); //boost::to_upper_copy(ssSQL.str());
 	sSTMT.erase(0, sSTMT.find_first_not_of(" "));
 	ssSQL.str("");
 	try
@@ -154,11 +154,11 @@ bool SQL_MIS_New::SendBLOB(string sBlob)
 
 	catch (sql::SQLException &e)
 	{
-		Bro->B->StatusE("E", "0SQL_ERROR: ", sName);
-		Bro->B->StatusE("E", "1SQL_ERROR: ", e.what());
-		Bro->B->StatusE("E", "2SQL_ERROR: ", to_string(e.getErrorCode()));
-		Bro->B->StatusE("E", "3SQL_ERROR: ", e.getSQLState());
-		Bro->B->StatusE("E", "4SQL_ERROR: ", sSTMT);
+		Bro->B_StatusE("E", "0SQL_ERROR: ", sName);
+		Bro->B_StatusE("E", "1SQL_ERROR: ", e.what());
+		Bro->B_StatusE("E", "2SQL_ERROR: ", std::to_string(e.getErrorCode()));
+		Bro->B_StatusE("E", "3SQL_ERROR: ", e.getSQLState());
+		Bro->B_StatusE("E", "4SQL_ERROR: ", sSTMT);
 	}
 
 	MISE;

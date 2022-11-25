@@ -1,10 +1,15 @@
-#include "prototypes.h"
+#include "Broker.h" 
+
+#define Log_path "LOG\\"
+#define __STDC_WANT_LIB_EXT1__ 1
+#include <time.h>
 
 #include "DEBUG.h"
 
+
 broker *(DEBUG::Bro) = NULL;
 
-DEBUG::DEBUG(string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
+DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 {
 	bGUI = _bGUI;
 	bFile = _bFile;
@@ -31,7 +36,6 @@ DEBUG::DEBUG(string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Replay", "FindWinningTeam", "*", "false");
 		
 		Fill_DBArray("Reader", "*", "*", "true");
-		//Fill_DBArray("Reader", "readString", "*", "false");
 		
 		Fill_DBArray("PMV_to_SQL", "*", "*", "true");
 
@@ -74,17 +78,17 @@ DEBUG::DEBUG(string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 
 		/////////////////////////////////////////////////////
 
-		if (bFile)ofB.open(Log_path + sLogName + ".log", ios::binary);
-		ofE.open(Log_path + sLogName + "_E.log", ios::binary | std::ofstream::app);
+		if (bFile)ofB.open(Log_path + sLogName + ".log", std::ios::binary);
+		ofE.open(Log_path + sLogName + "_E.log", std::ios::binary | std::ofstream::app);
 
 		//printf("DEBUG WIRD GESTARTET <--\n");
 
 }
 
 
-void DEBUG::Fill_DBArray(string Modul, string Funktion, string Wert, string Status)
+void DEBUG::Fill_DBArray(std::string Modul, std::string Funktion, std::string Wert, std::string Status)
 {
-	std::vector<string> vs;
+	std::vector<std::string> vs;
 	DebugInfo.push_back(vs);
 
 	DebugInfo[DebugInfo.size() - 1].push_back(Modul);
@@ -93,16 +97,16 @@ void DEBUG::Fill_DBArray(string Modul, string Funktion, string Wert, string Stat
 	DebugInfo[DebugInfo.size() - 1].push_back(Status);
 }
 
-void DEBUG::StatusE(string Modul, string Funktion, string Wert)
+void DEBUG::StatusE(std::string Modul, std::string Funktion, std::string Wert)
 {
-	ofE << Modul << ";" << Funktion << ";" << Wert << endl;
+	ofE << Modul << ";" << Funktion << ";" << Wert << std::endl;
 	StatusNew(Modul + "::" + Funktion, Wert);
 }
 
-void DEBUG::StatusNew(string Fun, string Wert)
+void DEBUG::StatusNew(std::string Fun, std::string Wert)
 {
-	string sClass = "";
-	string sMethode;
+	std::string sClass = "";
+	std::string sMethode;
 
 	size_t colons = Fun.find("::");
 
@@ -116,8 +120,13 @@ void DEBUG::StatusNew(string Fun, string Wert)
 	if ( bGUI == false &&
 		bFile == false)return;
 
-	t = time(NULL);
+	t = time(NULL);	
+#ifdef __linux__
+	localtime_r( &t, &ts );
+#endif
+#ifdef _WIN32
 	localtime_s(&ts, &t);
+#endif
 
 	if (bFilter && (Wert == "-->" || Wert == "<--"))return;
 
@@ -133,16 +142,16 @@ void DEBUG::StatusNew(string Fun, string Wert)
 			if (bFile)
 			{
 				ofB << ts.tm_hour << ":" << ts.tm_min << ":" << ts.tm_sec << ";";
-				ofB << sClass.c_str() << ";" << sMethode.c_str() << ";" << Wert.c_str() << endl;
+				ofB << sClass.c_str() << ";" << sMethode.c_str() << ";" << Wert.c_str() << std::endl;
 			}
 			mtx.unlock();
 		}
 
 }
 
-bool DEBUG::check_MFW(string Modul, string Funktion, string Wert)
+bool DEBUG::check_MFW(std::string Modul, std::string Funktion, std::string Wert)
 {
-	string return_ = "";
+	std::string return_ = "";
 
 	for (unsigned int i = 0; i < DebugInfo.size(); i++)
 	{

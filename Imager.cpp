@@ -1,10 +1,10 @@
 #define DF_Debug
 
-#include "prototypes.h"
-
-#include "Replay.h" 
+#include "Broker.h" 
+#include "Utility.h" 
 
 #include "Imager.h" 
+#include "Replay.h" 
 
 using namespace cv;
 
@@ -64,14 +64,14 @@ bool Imager::MakeIMG()
 			|| RR->ActionMatrix[i]->Type == 4011 //Line Spell
 			|| RR->ActionMatrix[i]->Type == 4012) //Building			
 		{
-			if (!File_exists(Bro->L_getTMP_PATH() + to_string(RR->ActionMatrix[i]->Card) + ".png"))
+			if (!File_exists(Bro->L_getTMP_PATH() + std::to_string(RR->ActionMatrix[i]->Card) + ".png"))
 			{
 				if (Bro->C_DownloadPNG(RR->ActionMatrix[i]->Card))
 				{
-					MISE("Error during DOwnload of: " + to_string(RR->ActionMatrix[i]->Card));
+					MISE("Error during DOwnload of: " + std::to_string(RR->ActionMatrix[i]->Card));
 				}
 			}
-			Card = imread(Bro->L_getTMP_PATH() + to_string(RR->ActionMatrix[i]->Card) + ".png", CV_LOAD_IMAGE_UNCHANGED);
+			Card = imread(Bro->L_getTMP_PATH() + std::to_string(RR->ActionMatrix[i]->Card) + ".png", CV_LOAD_IMAGE_UNCHANGED);
 			Card.copyTo(newPIC(Rect(320, RR->ActionMatrix[i]->Time * 4, Card.cols, Card.rows)));
 		}
 	}
@@ -105,7 +105,7 @@ bool Imager::MakeMOV()
 	IMG_Path = ReplaceString(IMG_Path, "\\", "/");
 	IMG_Path = ReplaceString(IMG_Path, ":/", "\\\\:/");
 	
-	stringstream ssCMD;
+	std::stringstream ssCMD;
 
 	ssCMD << " call \"" << Bro->L_getFFMPEG() << "\" ";
 	ssCMD << " -y -f lavfi -i ";

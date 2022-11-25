@@ -13,10 +13,10 @@ public:
 	void UseThisSQL(SQL_MIS_New * inSQL);
 
 	bool Upload();
-	bool Download(string sGameID);
-	string DublettenCheck();
+	bool Download(std::string sGameID);
+	std::string DublettenCheck();
 	
-	string sEvent;
+	std::string sEvent;
 	
 	static broker* Bro;
 	//void teachP() { Bro->P = this; }
@@ -24,12 +24,12 @@ public:
 
 protected:
 	bool NewMasterData();
-	string UploadHead();
+	std::string UploadHead();
 	
-	bool UploadActions(string iNewHeadID);
-	bool UploadPlayers(string iNewHeadID);
-	bool UploadPMVPlayerDeck(string iNewHeadID);
-	bool PMVtoSQL(string iNewHeadID);
+	bool UploadActions(std::string iNewHeadID);
+	bool UploadPlayers(std::string iNewHeadID);
+	bool UploadPMVPlayerDeck(std::string iNewHeadID);
+	bool PMVtoSQL(std::string iNewHeadID);
 
 private:
 	SQL_MIS_New * NN;

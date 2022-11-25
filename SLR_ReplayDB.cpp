@@ -1,8 +1,8 @@
 // SLR_ReplayDB.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
 //
 
-#include "prototypes.h"
-
+#include "Broker.h" 
+#include "DEBUG.h" 
 #include "SQL_MIS_New.h" 
 #include "CardBase.h" 
 #include "LOAD.h" 
@@ -10,16 +10,16 @@
 #include "Replay.h" 
 #include "PMV_to_SQL.h" 
 #include "Imager.h" 
+#include "Utility.h" 
 
 
 
-bool Checker(string &check, string name);
 
 int main(int argc, char **argv)
 {
 	char buf[1024] = { '0' };
 	int iArcCout = 1;
-	string sbuf;
+	std::string sbuf;
 
 	broker* Bro = new broker;
 
@@ -57,7 +57,7 @@ int main(int argc, char **argv)
 			
 			sbuf = argv[iArcCout];
 			iArcCout++;
-			std::cout << "ARG:" << sbuf << endl;
+			std::cout << "ARG:" << sbuf << std::endl;
 		}
 		else
 		{
@@ -65,12 +65,12 @@ int main(int argc, char **argv)
 			sbuf = buf;
 		}
 
-		if (string(buf) == "x")Bro->bAktive = false;
-		if (string(buf) == "1")Bro->C->WEBtoSQL(false);
-		if (string(buf) == "2")Bro->C->WEBtoSQL(true);				
-		if (string(buf) == "3")Bro->C->Imager(1394);
-		if (string(buf) == "3")Bro->C->Imager(1395);
-		if (string(buf) == "9")Bro->C->Imager(0);
+		if (std::string(buf) == "x")Bro->bAktive = false;
+		if (std::string(buf) == "1")Bro->C->WEBtoSQL(false);
+		if (std::string(buf) == "2")Bro->C->WEBtoSQL(true);
+		if (std::string(buf) == "3")Bro->C->Imager(1394);
+		if (std::string(buf) == "3")Bro->C->Imager(1395);
+		if (std::string(buf) == "9")Bro->C->Imager(0);
 
 		if (Checker(sbuf, "?"))
 		{
@@ -191,16 +191,3 @@ int main(int argc, char **argv)
 }
 
 
-
-bool Checker(string &check, string name)
-{
-	if (check.substr(0, check.find(";")) == name)
-	{
-		check.erase(0, check.find(";") + 1);
-		return true;
-	}
-	else
-	{
-		return false;
-	}
-}

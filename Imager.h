@@ -21,8 +21,8 @@ public:
 
 	void Echo();
 
-	string IMG_Path;
-	string MOV_Path;
+	std::string IMG_Path;
+	std::string MOV_Path;
 	
 	//BROKER
 	static broker* Bro;

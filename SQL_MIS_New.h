@@ -9,8 +9,10 @@
 #include <cppconn/statement.h>
 #include <cppconn/prepared_statement.h>
 
-
 #include <boost/algorithm/string.hpp>
+
+#include <string>
+#include <sstream>
 
 using namespace sql;
 class SQL_MIS_New
@@ -23,20 +25,20 @@ public:
 	ResultSet *res  = NULL;
 	
 
-	string sName;
+	std::string sName;
 
-	stringstream ssSQL;
+	std::stringstream ssSQL;
 
 	//-------------------------------------
 
-	SQL_MIS_New(string _Name);
+	SQL_MIS_New(std::string _Name);
 	~SQL_MIS_New();
 
 
 	int send();	
-	string clearString(string changeString);
-	string get_LAST_INSERT_ID();
-	bool SendBLOB(string sBlob);
+	std::string clearString(std::string changeString);
+	std::string get_LAST_INSERT_ID();
+	bool SendBLOB(std::string sBlob);
 	
 	//BROKER
 	static broker* Bro;

@@ -1,23 +1,24 @@
 #ifndef Thread_MIS_H
 #define Thread_MIS_H
 
-
+#include <chrono>
+#include <thread>
 
 class Thread_MIS
 {
 public:
 	
 	Thread_MIS():sThreadName("?"){};
-	Thread_MIS(string sName) :sThreadName(sName) {};
+	Thread_MIS(std::string sName) :sThreadName(sName) {};
 
 	virtual void Start_Thread();
 	virtual void Stop_Thread();
 	virtual void Thread_Function();
-	string Status();
+	std::string Status();
 
-	thread tThread;
+	std::thread tThread;
 	bool bRunning;
-	string sThreadName;
+	std::string sThreadName;
 
 	//BROKER
 	static broker* Bro;
