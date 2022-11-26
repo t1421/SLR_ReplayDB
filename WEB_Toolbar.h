@@ -1,19 +1,23 @@
 #ifndef WEB_Toolbar_H
 #define WEB_Toolbar_H
 
+#include <Wt/WPushButton.h>
+#include <Wt/WToolBar.h>
+#include <Wt/WStackedWidget.h>
 
+#include "WEB_Utility.h"
 
 class WEB_Toolbar
 {
 public:
 
-	WEB_Toolbar() :sToolbar(new WStackedWidget), tToolbar(new WToolBar) {};
+	WEB_Toolbar() :sToolbar(new Wt::WStackedWidget), tToolbar(new Wt::WToolBar) {};
 
-	WStackedWidget *sToolbar;
-	WToolBar *tToolbar;
-	vector <WPushButton *> bToolbar;	
-	vector <WebRefresh *> wfToolbar;
-	void ToolBarButton(int Index, string Name, WContainerWidget &CON, WebRefresh *WF);
+	Wt::WStackedWidget *sToolbar;
+	Wt::WToolBar *tToolbar;
+	std::vector <Wt::WPushButton *> bToolbar;
+	std::vector <WebRefresh *> wfToolbar;
+	void ToolBarButton(int Index, std::string Name, Wt::WContainerWidget &CON, WebRefresh *WF);
 	void updateToolbar();
 	void updateFrame();
 

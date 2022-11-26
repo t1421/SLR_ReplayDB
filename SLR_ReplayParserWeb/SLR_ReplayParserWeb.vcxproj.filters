@@ -75,6 +75,12 @@
     <ClCompile Include="..\WEB_Replay.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
+    <ClCompile Include="..\Utility.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_Utility.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Broker.h">
@@ -90,9 +96,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\Thread_MIS.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\prototypes.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\LOAD.h">
@@ -126,6 +129,12 @@
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
     <ClInclude Include="..\WEB_Replay.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Utility.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_Utility.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
   </ItemGroup>

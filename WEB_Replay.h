@@ -1,7 +1,10 @@
 #ifndef WEB_Replay_H
 #define WEB_Replay_H
 
-#include "WEB_Main.h"
+//#include "WEB_Main.h"
+
+#include <Wt/WText.h>
+#include <Wt/WImage.h>
 
 class Replay;
 
@@ -22,7 +25,7 @@ struct WebCard {
 	bool		   bSpell;
 	bool		   bBuilding;
 
-	WImage		  *IMG[3];
+	Wt::WImage		  *IMG[3];
 };
 
 
@@ -32,8 +35,8 @@ struct Marker
 {
 	unsigned short Type;
 	unsigned long Unit;
-	WText *Time;
-	WImage *IMG;
+	Wt::WText *Time;
+	Wt::WImage *IMG;
 
 	Marker(unsigned short _Type,
 		unsigned long _Unit,
@@ -41,17 +44,17 @@ struct Marker
 		short _Y) :
 		Type(_Type),
 		Unit(_Unit),
-		Time(new WText("XX:XX")),
-		IMG(new WImage("./resources/M.gif"))
+		Time(new Wt::WText("XX:XX")),
+		IMG(new Wt::WImage("./resources/M.gif"))
 	{
 		IMG->setHidden(true);
 		IMG->setHeight(10);
 		IMG->setWidth(10);
 		IMG->resize(10, 10);
 		IMG->setMaximumSize(10, 10);
-		IMG->setPositionScheme(PositionScheme::Relative);
-		IMG->setOffsets(_X + Xoffset, Side::Left);
-		IMG->setOffsets(_Y + Yoffset, Side::Top);
+		IMG->setPositionScheme(Wt::PositionScheme::Relative);
+		IMG->setOffsets(_X + Xoffset, Wt::Side::Left);
+		IMG->setOffsets(_Y + Yoffset, Wt::Side::Top);
 	}
 };
 
@@ -61,25 +64,25 @@ class WEB_Replay
 public:
 
 	Replay* R;
-	vector <WebCard*> WebDeckDeck;
-	vector <WebCard*> WebDeckActions;
-	vector <Marker *> vMarker;
+	std::vector <WebCard*> WebDeckDeck;
+	std::vector <WebCard*> WebDeckActions;
+	std::vector <Marker *> vMarker;
 	bool BOT3Stuff;
 
 	WEB_Replay();
 	
-	string BOT1();
-	string BOT2(bool bMode, WTable *wtTabelle);
-	string BOT3(WTable *wtTabelle, WContainerWidget *cMap);
+	std::string BOT1();
+	std::string BOT2(bool bMode, Wt::WTable *wtTabelle);
+	std::string BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap);
 
 	int CountActions();
-	int CountActions(string sFilter);
+	int CountActions(std::string sFilter);
 	unsigned int Difficulty();
 	unsigned int Playtime();
-	string MapName();
-	string Time();
+	std::string MapName();
+	std::string Time();
 
-	bool NewReplay(string sFile);
+	bool NewReplay(std::string sFile);
 	
 	//BROKER
 	static broker* Bro;
@@ -92,16 +95,16 @@ private:
 	bool getFromCSVBuilding(unsigned short uiCardID);
 	bool getFromCSVSpell(unsigned short uiCardID);
 	bool getFromCSVUnit(unsigned short uiCardID);
-	void addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Building, vector <WebCard*>& WebDeck);
-	void addColors(vector <WebCard*>& WebDeck);
+	void addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Building, std::vector <WebCard*>& WebDeck);
+	void addColors(std::vector <WebCard*>& WebDeck);
 	void InitVector();
 
 	bool FillWebDeckDeck();
 	bool FillWebDeckAction();
-	bool FillTableBOT2(vector <WebCard*>& WebDeck, WTable *wtTabelle);
+	bool FillTableBOT2(std::vector <WebCard*>& WebDeck, Wt::WTable *wtTabelle);
 
 	void BOT3WellsAndOrbUnit();
-	void FillTableBOT3(WTable *wtTabelle);
+	void FillTableBOT3(Wt::WTable *wtTabelle);
 
 };
 

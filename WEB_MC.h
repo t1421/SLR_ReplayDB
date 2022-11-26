@@ -16,7 +16,7 @@ public:
 	WEB_MCA *A;
 	WEB_MCB *B;
 
-	WContainerWidget *cMain;
+	Wt::WContainerWidget *cMain;
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

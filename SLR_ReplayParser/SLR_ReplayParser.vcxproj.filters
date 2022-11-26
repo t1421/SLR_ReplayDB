@@ -47,9 +47,6 @@
     <ClInclude Include="..\Replay.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\prototypes.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\Broker.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>

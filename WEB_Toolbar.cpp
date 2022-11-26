@@ -1,14 +1,16 @@
 #define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h"
+#include "WEB_Utility.h"
 
-#include "WEB_Main.h"
 #include "WEB_Toolbar.h"
+
+
 
 broker *(WEB_Toolbar::Bro) = NULL;
 
 
-void WEB_Toolbar::ToolBarButton(int Index, string Name, WContainerWidget &CON, WebRefresh *WF)
+void WEB_Toolbar::ToolBarButton(int Index, std::string Name, Wt::WContainerWidget &CON, WebRefresh *WF)
 {
 	MISS;
 	bToolbar.push_back(new Wt::WPushButton());
@@ -22,17 +24,17 @@ void WEB_Toolbar::ToolBarButton(int Index, string Name, WContainerWidget &CON, W
 	}));
 
 
-	sToolbar->insertWidget(Index, std::unique_ptr<WContainerWidget>(std::move(&CON)));
+	sToolbar->insertWidget(Index, std::unique_ptr<Wt::WContainerWidget>(std::move(&CON)));
 	MISE;
 }
 
 void WEB_Toolbar::updateToolbar()
 {
 	MISS;
-	string sCSS;
+	std::string sCSS;
 	for (unsigned short i = 0; i < bToolbar.size(); i++)
 	{
-		MISD(to_string(i));
+		MISD(std::to_string(i));
 		sCSS = WSTRINGtoSTRING(bToolbar[i]->styleClass());
 
 		if (sCSS.find("button1") != sCSS.npos)sCSS.erase(sCSS.find("button1"), 7);

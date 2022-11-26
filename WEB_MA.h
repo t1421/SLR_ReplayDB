@@ -1,15 +1,20 @@
 #ifndef WEB_MA_H
 #define WEB_MA_H
 
+#include "WEB_Utility.h"
+#include <Wt/WContainerWidget.h>
+#include <Wt/WText.h>
+
 class WEB_Replay;
+
 
 class WEB_MA : public WebRefresh
 {
 public:
 
-	WText		 *wtStatus;
+	Wt::WText		 *wtStatus;
 
-	WContainerWidget *cMain;
+	Wt::WContainerWidget *cMain;
 	WEB_Replay *WR;
 
 	void WRefresh();

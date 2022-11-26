@@ -1,8 +1,10 @@
 #define DF_Debug
 
-#include "prototypes.h"
-#include "WEB_Main.h"
+#include "Broker.h"
+
 #include "WEB_MCB.h"
+
+#include <Wt/WContainerWidget.h>
 
 broker *(WEB_MCB::Bro) = NULL;
 
@@ -10,7 +12,7 @@ WEB_MCB::WEB_MCB()
 {
 	MISS;
 
-	cMain = new WContainerWidget();
+	cMain = new Wt::WContainerWidget();
 	
 	MISE;
 }

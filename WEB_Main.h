@@ -5,6 +5,8 @@
 
 ///WT LIBS
 #include <Wt/WServer.h>
+/*
+#include <Wt/WServer.h>
 #include <Wt/WString.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WPushButton.h>
@@ -21,27 +23,17 @@
 
 #include <Wt/WStackedWidget.h>
 #include <Wt/WToolBar.h>
+*/
+//using namespace Wt;
 
-using namespace Wt;
-
-class WebRefresh
-{
-public:
-	virtual void WRefresh() { printf("no refresh\n"); };
-};
-
-
-
-std::unique_ptr<Wt::WApplication> createApplicationW(const WEnvironment& env);
-
-string WSTRINGtoSTRING(WString in);
+//std::unique_ptr<Wt::WApplication> createApplicationW(const Wt::WEnvironment& env);
 
 class WEB_Main: public Thread_MIS  //: public Wt::WApplication
 {
 
 public:
 
-	WServer *W;
+	Wt::WServer *W;
 
 	WEB_Main() :Thread_MIS("W?") {};
 

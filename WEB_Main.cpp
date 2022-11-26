@@ -1,23 +1,18 @@
 //#define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h" 
 
+#define Log_path "LOG\\"
+
+#include "Utility.h"
 #include "WEB_Main.h"
 #include "WEB_CONTAINER.h"
 
-
 broker *(WEB_Main::Bro) = NULL;
 
-std::unique_ptr<Wt::WApplication> createApplicationW(const WEnvironment& env)
+std::unique_ptr<Wt::WApplication> createApplicationW(const Wt::WEnvironment& env)
 {
-	return Wt::cpp14::make_unique<MISCONTAINER>(env);
-}
-
-string WSTRINGtoSTRING(WString in)
-{
-	stringstream ss;
-	ss << in;
-	return ss.str();
+	return std::make_unique<MISCONTAINER>(env);
 }
 
 void WEB_Main::Init_W()
@@ -27,7 +22,8 @@ void WEB_Main::Init_W()
 
 	sThreadName = "W";
 
-	string sLog_path = Log_path + "W.log";
+	std::string sLog_path = Log_path;
+	sLog_path = sLog_path.append("W.log");
 	
 	char *ARGV[3];
 	ARGV[0] = ".";
@@ -35,13 +31,13 @@ void WEB_Main::Init_W()
 	ARGV[2] = (char*)sLog_path.c_str();
 
 	MISD("#1");
-	W = new WServer(3,ARGV, "./wt_http.cfg");
+	W = new Wt::WServer(3,ARGV, "./wt_http.cfg");
 	MISD("#2");
 	W->addEntryPoint(Wt::EntryPointType::Application, createApplicationW);
 
 	MISE;
 	}
-	catch (WServer::Exception& e) {
+	catch (Wt::WServer::Exception& e) {
 		std::cerr << e.what() << std::endl;
 	}
 	catch (std::exception &e) {

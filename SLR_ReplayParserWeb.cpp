@@ -1,8 +1,8 @@
 // SLR_ReplayParserWeb.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
 //
 
-#include "prototypes.h"
-
+#include "Broker.h"
+#include "DEBUG.h" 
 #include "WEB_Main.h"
 #include "LOAD.h" 
 
@@ -29,7 +29,7 @@ int main(int argc, char **argv)
 	while (Bro->bAktive)
 	{
 		std::cin >> buf;
-		if (string(buf) == "x")Bro->bAktive = false;
+		if (std::string(buf) == "x")Bro->bAktive = false;
 	}
 
 	W->Stop_Thread();

@@ -1,16 +1,20 @@
 #define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h"
 
-#include "WEB_Replay.h"
+#include "WEB_Utility.h"
 #include "Replay.h" 
 #include "LOAD.h" 
+
+#include "WEB_Replay.h"
+
+#include <Wt/WTable.h>
 
 broker *(WEB_Replay::Bro) = NULL;
 
 WEB_Replay::WEB_Replay() :R(new Replay()), BOT3Stuff(false){};
 
-bool WEB_Replay::NewReplay(string sFile)
+bool WEB_Replay::NewReplay(std::string sFile)
 {
 	R = new Replay;
 	BOT3Stuff = false;
@@ -22,12 +26,12 @@ int WEB_Replay::CountActions()
 	return R->CountActions(); 
 };
 
-int WEB_Replay::CountActions(string sFilter)
+int WEB_Replay::CountActions(std::string sFilter)
 {
 	return R->CountActions(sFilter);
 };
 
-string WEB_Replay::BOT1()
+std::string WEB_Replay::BOT1()
 {
 	//MAP Check
 	if (R->OK != true)return "Error in replay";
@@ -37,7 +41,7 @@ string WEB_Replay::BOT1()
 	return "";
 };
 
-string WEB_Replay::BOT2(bool bMode, WTable *wtTabelle)
+std::string WEB_Replay::BOT2(bool bMode,Wt:: WTable *wtTabelle)
 {
 	bool result = false;
 
@@ -63,7 +67,7 @@ string WEB_Replay::BOT2(bool bMode, WTable *wtTabelle)
 	return "";
 }
 
-string WEB_Replay::BOT3(WTable *wtTabelle, WContainerWidget *cMap)
+std::string WEB_Replay::BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap)
 {
 	if (R->OK != true)return "Error in replay";
 	if (R->MapName != "11101_PvE_01p_TugOfWar.map")return "Wrong Map";
@@ -71,7 +75,7 @@ string WEB_Replay::BOT3(WTable *wtTabelle, WContainerWidget *cMap)
 	FillTableBOT3(wtTabelle);
 
 	for (unsigned int i = 0; i < vMarker.size(); i++)
-		cMap->addWidget(std::unique_ptr<WWidget>(std::move(vMarker[i]->IMG)));
+		cMap->addWidget(std::unique_ptr<Wt::WWidget>(std::move(vMarker[i]->IMG)));
 
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (R->CountActions("4007") != 2)return "You have to save the first 2 Wagons";
@@ -82,12 +86,12 @@ string WEB_Replay::BOT3(WTable *wtTabelle, WContainerWidget *cMap)
 	return "";
 }
 
-string WEB_Replay::MapName()
+std::string WEB_Replay::MapName()
 {
 	return R->MapName;
 }
 
-string WEB_Replay::Time()
+std::string WEB_Replay::Time()
 {
 	return R->sTime(R->Playtime);
 }
@@ -131,7 +135,7 @@ bool WEB_Replay::FillWebDeckAction()
 	return true;
 }
 
-void WEB_Replay::addColors(vector <WebCard*>& WebDeck)
+void WEB_Replay::addColors(std::vector <WebCard*>& WebDeck)
 {
 	MISS;
 	for (unsigned int i = 0; i < WebDeck.size(); i++)
@@ -154,7 +158,7 @@ void WEB_Replay::addColors(vector <WebCard*>& WebDeck)
 	MISE;
 }
 
-void WEB_Replay::addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Building, vector <WebCard*>& WebDeck)
+void WEB_Replay::addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Building, std::vector <WebCard*>& WebDeck)
 {
 	MISS;
 	unsigned int uiFound = -1;
@@ -166,7 +170,7 @@ void WEB_Replay::addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Bu
 	if (uiFound != -1)WebDeck[uiFound]->playCount++;
 	else
 	{
-		MISD(to_string(uiCardID));
+		MISD(std::to_string(uiCardID));
 		WebCard *Card_TEMP = new WebCard;
 		Card_TEMP->CardID = uiCardID;
 		Card_TEMP->bUnit = Unit;
@@ -175,7 +179,7 @@ void WEB_Replay::addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Bu
 
 		for (int i = 0; i < 3; i++)
 		{
-			Card_TEMP->IMG[i] = new WImage("./resources/Cards/" + to_string(uiCardID) + ".png");
+			Card_TEMP->IMG[i] = new Wt::WImage("./resources/Cards/" + std::to_string(uiCardID) + ".png");
 			Card_TEMP->IMG[i]->setHeight(BOT2_IMG_SIZE);
 			Card_TEMP->IMG[i]->setWidth(BOT2_IMG_SIZE);
 			Card_TEMP->IMG[i]->resize(BOT2_IMG_SIZE, BOT2_IMG_SIZE);
@@ -251,45 +255,45 @@ bool WEB_Replay::getFromCSVUnit(unsigned short uiCardID)
 }
 
 
-bool WEB_Replay::FillTableBOT2(vector <WebCard*>& WebDeck, WTable *wtTabelle)
+bool WEB_Replay::FillTableBOT2(std::vector <WebCard*>& WebDeck, Wt::WTable *wtTabelle)
 {
 	MISS;
 	unsigned short iRow = 0;
 	unsigned short iCol = 0;
 
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Tier Check</h3>"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 1"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 2"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 3"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Tier 4"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Tier Check</h3>"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Tier 1"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Tier 2"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Tier 3"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Tier 4"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
 
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Type Check</h3>"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Unit"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Building"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Spell"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Type Check</h3>"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Unit"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Building"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Spell"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
 
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3>Color Check</h3>"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Fire"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Nature"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Frost"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Shadow"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Color Check</h3>"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Fire"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Nature"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Frost"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Shadow"))));
 
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Twilight"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Stonekin"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Lost Souls"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Bandits"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Twilight"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Stonekin"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Lost Souls"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Bandits"))));
 
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("Others"))));
-	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(new WText(" "))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Others"))));
+	wtTabelle->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
 	iRow--;
 
 	MISD("#1");
 	for (int i = 0; i < iRow; i++)
 	{
 		wtTabelle->elementAt(i, iCol)->setHeight(BOT2_IMG_SIZE);
-		wtTabelle->elementAt(i, iCol + 1)->addWidget(std::unique_ptr<WWidget>(std::move(new WImage(""))));
+		wtTabelle->elementAt(i, iCol + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage(""))));
 		wtTabelle->elementAt(i, iCol + 1)->widget(0)->setHeight(BOT2_IMG_SIZE);
 		wtTabelle->elementAt(i, iCol + 1)->widget(0)->setWidth(BOT2_IMG_SIZE);
 		wtTabelle->elementAt(i, iCol + 1)->widget(0)->resize(BOT2_IMG_SIZE, BOT2_IMG_SIZE);
@@ -301,23 +305,23 @@ bool WEB_Replay::FillTableBOT2(vector <WebCard*>& WebDeck, WTable *wtTabelle)
 
 	for (unsigned int i = 0; i < WebDeck.size(); i++)
 	{
-		wtTabelle->elementAt(WebDeck[i]->iFire + WebDeck[i]->iNature + WebDeck[i]->iFrost + WebDeck[i]->iShadow + WebDeck[i]->iNeutral, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[0])));
+		wtTabelle->elementAt(WebDeck[i]->iFire + WebDeck[i]->iNature + WebDeck[i]->iFrost + WebDeck[i]->iShadow + WebDeck[i]->iNeutral, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[0])));
 
 
-		if (WebDeck[i]->bUnit)wtTabelle->elementAt(7, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[1])));
-		if (WebDeck[i]->bBuilding)wtTabelle->elementAt(8, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[1])));
-		if (WebDeck[i]->bSpell)wtTabelle->elementAt(9, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[1])));
+		if (WebDeck[i]->bUnit)wtTabelle->elementAt(7, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[1])));
+		if (WebDeck[i]->bBuilding)wtTabelle->elementAt(8, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[1])));
+		if (WebDeck[i]->bSpell)wtTabelle->elementAt(9, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[1])));
 
-		if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(12, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(13, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(14, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(15, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
+		if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(12, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[2])));
+		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(13, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[2])));
+		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(14, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[2])));
+		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(15, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[2])));
 
-		else if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(16, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(17, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(18, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(19, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
-		else wtTabelle->elementAt(20, iCol)->addWidget(std::unique_ptr<WWidget>(std::move(WebDeck[i]->IMG[2])));
+		else if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(16, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[2])));
+		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature != 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow == 0)wtTabelle->elementAt(17, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[2])));
+		else if (WebDeck[i]->iFire == 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost != 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(18, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[2])));
+		else if (WebDeck[i]->iFire != 0 && WebDeck[i]->iNature == 0 && WebDeck[i]->iFrost == 0 && WebDeck[i]->iShadow != 0)wtTabelle->elementAt(19, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[2])));
+		else wtTabelle->elementAt(20, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WebDeck[i]->IMG[2])));
 	}
 
 	iCol--;
@@ -326,16 +330,16 @@ bool WEB_Replay::FillTableBOT2(vector <WebCard*>& WebDeck, WTable *wtTabelle)
 	for (int i = 1; i < 5; i++)
 	{
 		//static_cast
-		if (wtTabelle->elementAt(i, iCol + 1)->count() == 4)dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
-		else dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
+		if (wtTabelle->elementAt(i, iCol + 1)->count() == 4)dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
+		else dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
 	}
 
 	//Type check
 	for (int i = 7; i < 10; i++)
 	{
 		//static_cast
-		if (wtTabelle->elementAt(i, iCol + 1)->count() <= 6 && wtTabelle->elementAt(i, iCol + 1)->count() >= 5)dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
-		else dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
+		if (wtTabelle->elementAt(i, iCol + 1)->count() <= 6 && wtTabelle->elementAt(i, iCol + 1)->count() >= 5)dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
+		else dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
 	}
 
 	//Color check1
@@ -346,30 +350,30 @@ bool WEB_Replay::FillTableBOT2(vector <WebCard*>& WebDeck, WTable *wtTabelle)
 	{
 		for (int i = 12; i < 16; i++)
 		{
-			if (wtTabelle->elementAt(i, iCol + 1)->count() == 4)dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
-			else dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
+			if (wtTabelle->elementAt(i, iCol + 1)->count() == 4)dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
+			else dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
 		}
 		for (int i = 16; i < 20; i++)
 		{
-			if (wtTabelle->elementAt(i, iCol + 1)->count() == 0)dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
-			else dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
+			if (wtTabelle->elementAt(i, iCol + 1)->count() == 0)dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
+			else dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
 		}
 	}
 	else for (int i = 12; i < 20; i++)
 	{
-		if (wtTabelle->elementAt(i, iCol + 1)->count() == 2)dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
-		else dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
+		if (wtTabelle->elementAt(i, iCol + 1)->count() == 2)dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/1.png");
+		else dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->setImageLink("./resources/0.png");
 	}
 
-	if (wtTabelle->elementAt(20, iCol + 1)->count() == 0)dynamic_cast<WImage *>(wtTabelle->elementAt(20, iCol)->widget(0))->setImageLink("./resources/1.png");
-	else dynamic_cast<WImage *>(wtTabelle->elementAt(20, iCol)->widget(0))->setImageLink("./resources/0.png");
+	if (wtTabelle->elementAt(20, iCol + 1)->count() == 0)dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(20, iCol)->widget(0))->setImageLink("./resources/1.png");
+	else dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(20, iCol)->widget(0))->setImageLink("./resources/0.png");
 
 	//wtTabelle->elementAt(i, iCol + 1)->widget(0)->setHeight(IMG_SIZE);
 	MISD("##5");
 	for (int i = 0; i < iRow; i++)
 	{
 		//MISD(to_string(i));
-		if (dynamic_cast<WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->imageLink() == WLink("./resources/0.png"))
+		if (dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, iCol)->widget(0))->imageLink() == Wt::WLink("./resources/0.png"))
 		{
 			MISEA("X1");
 			return false;
@@ -406,7 +410,7 @@ void WEB_Replay::BOT3WellsAndOrbUnit()
 		Action_TEMP->Time = 0;
 		Action_TEMP->Type = 4030;
 		Action_TEMP->ActionPlayer = R->PlayerMatrix[Player]->ActionPlayer;
-		Action_TEMP->AdditionalInfo = to_string(4550 + i);
+		Action_TEMP->AdditionalInfo = std::to_string(4550 + i);
 		R->ActionMatrix.insert(R->ActionMatrix.begin(), Action_TEMP);
 	}
 
@@ -422,7 +426,7 @@ void WEB_Replay::BOT3WellsAndOrbUnit()
 }
 
 
-void WEB_Replay::FillTableBOT3(WTable *wtTabelle)
+void WEB_Replay::FillTableBOT3(Wt::WTable *wtTabelle)
 {
 	MISS;
 
@@ -431,8 +435,8 @@ void WEB_Replay::FillTableBOT3(WTable *wtTabelle)
 
 	InitVector();
 
-	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Wells </h3>"))));
-	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Orbs </h3>"))));
+	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Wells </h3>"))));
+	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Orbs </h3>"))));
 	//wtTabelle->elementAt(0,2)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Walls </h3>"))));
 	wtTabelle->columnAt(0)->setWidth(100);
 	wtTabelle->columnAt(1)->setWidth(100);
@@ -466,7 +470,7 @@ void WEB_Replay::FillTableBOT3(WTable *wtTabelle)
 		{
 			if (vMarker[j]->Type != i) continue;
 
-			wtTabelle->elementAt(++iRow, vMarker[j]->Type)->addWidget(std::unique_ptr<WWidget>(std::move(vMarker[j]->Time)));
+			wtTabelle->elementAt(++iRow, vMarker[j]->Type)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(vMarker[j]->Time)));
 			if (WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")wtTabelle->elementAt(iRow, vMarker[j]->Type)->setStyleClass("red");
 			if (vMarker[j]->Unit == iUnit)wtTabelle->elementAt(iRow, vMarker[j]->Type)->setStyleClass("green");
 
@@ -491,7 +495,7 @@ void WEB_Replay::InitVector()
 
 
 	vMarker.clear();
-	MISD(to_string(90 + Xoffset) + "#" + to_string(267 + Yoffset));
+	MISD(std::to_string(90 + Xoffset) + "#" + std::to_string(267 + Yoffset));
 	vMarker.push_back(new Marker(1, 4555, 90, 267));
 	vMarker.push_back(new Marker(1, 4556, 157, 318));
 	vMarker.push_back(new Marker(1, 4558, 332, 103));

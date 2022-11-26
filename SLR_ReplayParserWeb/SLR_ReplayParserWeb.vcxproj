@@ -169,6 +169,7 @@
     <ClCompile Include="..\Replay.cpp" />
     <ClCompile Include="..\SLR_ReplayParserWeb.cpp" />
     <ClCompile Include="..\Thread_MIS.cpp" />
+    <ClCompile Include="..\Utility.cpp" />
     <ClCompile Include="..\WEB_CONTAINER.cpp" />
     <ClCompile Include="..\WEB_MA.cpp" />
     <ClCompile Include="..\WEB_Main.cpp" />
@@ -179,15 +180,16 @@
     <ClCompile Include="..\WEB_MCB.cpp" />
     <ClCompile Include="..\WEB_Replay.cpp" />
     <ClCompile Include="..\WEB_Toolbar.cpp" />
+    <ClCompile Include="..\WEB_Utility.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\Broker.h" />
     <ClInclude Include="..\DEBUG.h" />
     <ClInclude Include="..\LOAD.h" />
-    <ClInclude Include="..\prototypes.h" />
     <ClInclude Include="..\Reader.h" />
     <ClInclude Include="..\Replay.h" />
     <ClInclude Include="..\Thread_MIS.h" />
+    <ClInclude Include="..\Utility.h" />
     <ClInclude Include="..\WEB_CONTAINER.h" />
     <ClInclude Include="..\WEB_MA.h" />
     <ClInclude Include="..\WEB_Main.h" />
@@ -198,6 +200,7 @@
     <ClInclude Include="..\WEB_MCB.h" />
     <ClInclude Include="..\WEB_Replay.h" />
     <ClInclude Include="..\WEB_Toolbar.h" />
+    <ClInclude Include="..\WEB_Utility.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

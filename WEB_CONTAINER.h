@@ -4,12 +4,15 @@
 #include "WEB_Toolbar.h"
 #include "WEB_Replay.h"
 
-class MISEvent;
+#include <Wt/WText.h>
+#include <Wt/WFileUpload.h>
+#include <Wt/WApplication.h>
+
 class WEB_MA;
 class WEB_MB;
 class WEB_MC;
 
-class MISCONTAINER : public WApplication, public WEB_Toolbar , public WEB_Replay
+class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar , public WEB_Replay
 
 {
 public:
@@ -18,12 +21,12 @@ public:
 	WEB_MB *MB;
 	WEB_MC *MC;
 
-	WFileUpload  *wfuDropZone;
-	WText		 *wtStatus;
-	WText		 *wtMap;
-	WText		 *wtDif;
-	WText		 *wtTime;
-	WText		 *wtActions;
+	Wt::WFileUpload  *wfuDropZone;
+	Wt::WText		 *wtStatus;
+	Wt::WText		 *wtMap;
+	Wt::WText		 *wtDif;
+	Wt::WText		 *wtTime;
+	Wt::WText		 *wtActions;
 	
 
 	Wt::WContainerWidget *GlobaelContainer;

@@ -1,8 +1,9 @@
 #ifndef WEB_MBA_H
 #define WEB_MBA_H
 
-#include "WEB_MB.h"
+#include "WEB_Utility.h"
 
+class WEB_Replay;
 
 class WEB_MBA: public WebRefresh
 {
@@ -10,11 +11,11 @@ public:
 
 	WEB_Replay *WR;
 	
-	WText		 *wtStatus;
+	Wt::WText		 *wtStatus;
 	bool bMode;
 	
-	WContainerWidget *cMain;
-	WTable *wtTabelle;
+	Wt::WContainerWidget *cMain;
+	Wt::WTable *wtTabelle;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

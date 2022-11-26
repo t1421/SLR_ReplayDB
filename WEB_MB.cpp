@@ -1,7 +1,7 @@
 #define DF_Debug
 
-#include "prototypes.h"
-#include "WEB_Main.h"
+#include "Broker.h"
+
 #include "WEB_MB.h"
 #include "WEB_MBA.h"
 
@@ -14,11 +14,9 @@ WEB_MB::WEB_MB(WEB_Replay *WR_)
 {
 	MISS;
 
-	WColor wTemp;
-
-	cMain = new WContainerWidget();
-	cMain->addWidget(std::unique_ptr<WWidget>(std::move(tToolbar)));
-	cMain->addWidget(std::unique_ptr<WWidget>(std::move(sToolbar)));
+	cMain = new Wt::WContainerWidget();
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)));
 			
 	MISD("#1");	
 

@@ -156,7 +156,6 @@
   <ItemGroup>
     <ClInclude Include="..\Broker.h" />
     <ClInclude Include="..\DEBUG.h" />
-    <ClInclude Include="..\prototypes.h" />
     <ClInclude Include="..\Reader.h" />
     <ClInclude Include="..\Replay.h" />
     <ClInclude Include="..\Thread_MIS.h" />

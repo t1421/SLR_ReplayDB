@@ -1,8 +1,7 @@
 #define DF_Debug
 
-#include "prototypes.h"
+#include "Broker.h"
 
-#include "WEB_Main.h"
 #include "WEB_MA.h"
 #include "WEB_Replay.h"
 
@@ -12,12 +11,12 @@ WEB_MA::WEB_MA(WEB_Replay *WR_):WR(WR_)
 {
 	MISS;
 
-	cMain = new WContainerWidget();	
-	wtStatus = new WText();
+	cMain = new Wt::WContainerWidget();	
+	wtStatus = new Wt::WText();
 	
 	MISD("#1");
 
-	cMain->addWidget(std::unique_ptr<WWidget>(std::move(wtStatus)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
 
 	MISE;
 }
@@ -27,10 +26,10 @@ WEB_MA::WEB_MA(WEB_Replay *WR_):WR(WR_)
 void WEB_MA::WRefresh()
 {
 	MISS;
-	string sReturn = WR->BOT1();
+	std::string sReturn = WR->BOT1();
 	
 	if(sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>"); 
-	else wtStatus->setText("<h3> The restult is: " + to_string(WR->CountActions()) + "</h3>");
+	else wtStatus->setText("<h3> The restult is: " + std::to_string(WR->CountActions()) + "</h3>");
 	
 	MISE;
 }
