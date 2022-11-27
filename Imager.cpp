@@ -1,10 +1,11 @@
 #define DF_Debug
 
 #include "Broker.h" 
-#include "Utility.h" 
 
 #include "Imager.h" 
 #include "Replay.h" 
+
+#include "Utility.h" 
 
 using namespace cv;
 
