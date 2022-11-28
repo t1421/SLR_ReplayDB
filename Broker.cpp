@@ -6,7 +6,6 @@
 #include "Replay.h" 
 #include "Reader.h" 
 
-
 #if defined BrokerNormal || defined BrokerWeb
 
 #include "LOAD.h"
