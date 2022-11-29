@@ -5,7 +5,11 @@
 
 #ifdef BrokerNormal
 	#include <curl/curl.h>
-	#include <json/json.h>
+	#ifdef __linux__
+		#include <jsoncpp/json/json.h>
+	#else
+		#include <json/json.h>
+	#endif
 #endif
 struct SQLCard {
 	unsigned short cardId;

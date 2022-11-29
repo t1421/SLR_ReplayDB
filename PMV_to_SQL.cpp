@@ -109,7 +109,7 @@ bool PMV_to_SQL::NewMasterData()
 	NN->ssSQL << "SELECT ID FROM playmode WHERE ID = " << int(RR->PlayModeID);
 	if (NN->send() <= 0)
 	{
-		MISD("New playmode:" + to_string(RR->PlayModeID));
+		MISD("New playmode:" + std::to_string(RR->PlayModeID));
 		NN->ssSQL << "INSERT INTO playmode (ID) VALUES(" << int(RR->PlayModeID) << ")";
 		NN->send();
 		bReturn = true;
@@ -118,7 +118,7 @@ bool PMV_to_SQL::NewMasterData()
 	NN->ssSQL << "SELECT ID FROM difficulty WHERE ID = " << int(RR->DifficultyID) ;
 	if (NN->send() <= 0)
 	{
-		MISD("New difficulty:" + to_string(RR->DifficultyID));
+		MISD("New difficulty:" + std::to_string(RR->DifficultyID));
 		NN->ssSQL << "INSERT INTO difficulty (ID) VALUES(" << int(RR->DifficultyID) <<")";
 		NN->send();
 		bReturn = true;
@@ -198,7 +198,7 @@ bool PMV_to_SQL::UploadPlayers(std::string iNewHeadID)
 	
 	for (unsigned int i = 0; i < RR->PlayerMatrix.size(); i++)
 	{
-		if (RR->PlayerMatrix[i]->Type != 1)continue; //KI überspringen
+		if (RR->PlayerMatrix[i]->Type != 1)continue; //KI ï¿½berspringen
 
 		for (findTeam = 0; findTeam < RR->TeamMatrix.size() && RR->TeamMatrix[findTeam]->GroupID != RR->PlayerMatrix[i]->GroupID; findTeam++);
 		

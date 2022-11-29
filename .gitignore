@@ -21,3 +21,4 @@ Release/SLR_ReplayParserWeb.pdb
 *.cer
 *.pem
 *.key
+*.o

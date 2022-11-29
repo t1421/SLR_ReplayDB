@@ -45,12 +45,12 @@ public:
 
 	bool bAktive;
 
-#if defined BrokerParser || defined BrokerWeb
+//#if defined BrokerParser || defined BrokerWeb
 	unsigned char C_GetActionOrbForCardID(unsigned short CardID);
-#endif
+//#endif
 
 #ifdef BrokerNormal
-	unsigned char C_GetActionOrbForCardID(unsigned short CardID);
+	//unsigned char C_GetActionOrbForCardID(unsigned short CardID);
 	bool C_DownloadPNG(unsigned short CardID);
 #endif
 

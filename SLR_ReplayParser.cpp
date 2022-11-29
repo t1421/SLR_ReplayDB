@@ -10,7 +10,7 @@ int main(int argc, char **argv)
 
 		broker* Bro = new broker;
 
-		DEBUG* B = new DEBUG("SLR_ReplayDB",false,false,false);
+		DEBUG* B = new DEBUG("SLR_ReplayDB",true,true,false);
 		B->teachB();		
 		Replay * RR = new Replay();
 

@@ -103,12 +103,13 @@ bool Replay::ReadHeader()
 	Team* Team_TEMP;
 	Player* Player_TEMP;
 	Card* Card_TEMP;
-
+MISD("#1");
 	FileVersion = readUnsignedLong();
 	if (FileVersion > 200)GameVersion = readUnsignedLong();
 	Playtime = readUnsignedLong();
 	if (FileVersion > 213)Seed = readUnsignedLong(); // Seed - wichtig f�r RPVE
-		
+MISD(std::to_string(PMVPosition));		
+MISD("#2");	
 	MapName = get_file_name(readString());
 	if(MapName=="")
 	{
@@ -116,7 +117,7 @@ bool Replay::ReadHeader()
 		return false;
 	}
 
-	//MISD("Vars");
+	MISD("Vars");
 	ActionBlock = readUnsignedLong() + PMVPosition;
 	Unknow3 = readUnsignedChar();
 	Unknow4 = readUnsignedChar();
@@ -126,7 +127,7 @@ bool Replay::ReadHeader()
 	PMVPlayerID = readUnsignedLongLong();
 	GroupCount = readUnsignedChar();
 
-	//MISD("Matrix");
+	MISD("Matrix");
 	MatrixCount = readUnsignedShort();	
 	for (int i = 0; i < MatrixCount; i++)
 	{		
@@ -137,7 +138,7 @@ bool Replay::ReadHeader()
 		AlliedMatrix.push_back(Allied_TEMP);
 	}
 
-	//MISD("Team");
+	MISD("Team");
 	TeamCount = readUnsignedShort();
 	for (int i = 0; i < TeamCount; i++)
 	{
@@ -148,7 +149,7 @@ bool Replay::ReadHeader()
 		TeamMatrix.push_back(Team_TEMP);
 	}
 	
-	//MISD("Player");
+	MISD("Player");
 	while (PMVPosition < ActionBlock)
 	{
 		Player_TEMP = new Player;
@@ -160,7 +161,7 @@ bool Replay::ReadHeader()
 		Player_TEMP->Cards = readUnsignedChar();
 		Player_TEMP->CardsTotal = readUnsignedChar();
 		PlayerMatrix.push_back(Player_TEMP);				
-
+MISD("PlayerX");
 		for (int i = 0; i < PlayerMatrix[PlayerMatrix.size() - 1]->Cards; i++)
 		{
 			Card_TEMP = new Card;

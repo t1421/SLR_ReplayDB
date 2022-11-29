@@ -72,7 +72,7 @@ bool Imager::MakeIMG()
 					MISE("Error during DOwnload of: " + std::to_string(RR->ActionMatrix[i]->Card));
 				}
 			}
-			Card = imread(Bro->L_getTMP_PATH() + std::to_string(RR->ActionMatrix[i]->Card) + ".png", CV_LOAD_IMAGE_UNCHANGED);
+			Card = imread(Bro->L_getTMP_PATH() + std::to_string(RR->ActionMatrix[i]->Card) + ".png", IMREAD_UNCHANGED);
 			Card.copyTo(newPIC(Rect(320, RR->ActionMatrix[i]->Time * 4, Card.cols, Card.rows)));
 		}
 	}
@@ -157,7 +157,7 @@ CvScalar Imager::SwitchTypeColor(unsigned long inType)
 	case 4031://"Build orb";
 		return cvScalar((255), (0), (0), 255);		
 	
-	//GRÜN
+	//GRï¿½N
 	case 4013://"Move unit";
 	case 4019://"Stop unit";
 	case 4020://"Hold position";
@@ -166,7 +166,7 @@ CvScalar Imager::SwitchTypeColor(unsigned long inType)
 	case 4038://"Use tunnel";
 		return cvScalar((0), (255), (0), 255);
 
-	//TÜRKIS
+	//Tï¿½RKIS
 	case 4014://"Use ability";
 	case 4028://"Switch Gate";	
 	case 4029://"Build/Rep. wall";
@@ -200,7 +200,7 @@ CvScalar Imager::SwitchTypeColor(unsigned long inType)
 		return cvScalar((255), (255), (255), 0); // Nicht anzeigen
 	}
 
-	//Weiß
+	//Weiï¿½
 	return cvScalar((255), (255), (255), 255);
 
 	//MISE;

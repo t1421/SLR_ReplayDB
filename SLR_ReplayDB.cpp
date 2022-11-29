@@ -1,4 +1,4 @@
-// SLR_ReplayDB.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
+// SLR_ReplayDB.cpp : Definiert den Einstiegspunkt fï¿½r die Konsolenanwendung.
 //
 
 #include "Broker.h" 
