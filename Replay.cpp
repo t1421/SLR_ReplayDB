@@ -105,12 +105,21 @@ bool Replay::ReadHeader()
 	Card* Card_TEMP;
 MISD("#1");
 	FileVersion = readUnsignedLong();
+	MISD(std::to_string(FileVersion));
+	MISD("#2");	
 	if (FileVersion > 200)GameVersion = readUnsignedLong();
+	MISD(std::to_string(GameVersion));
+	MISD("#3");	
 	Playtime = readUnsignedLong();
+	MISD(std::to_string(Playtime));
+	MISD("#4");	
 	if (FileVersion > 213)Seed = readUnsignedLong(); // Seed - wichtig f�r RPVE
+	MISD(std::to_string(Seed));
+	MISD("#5");	
 MISD(std::to_string(PMVPosition));		
-MISD("#2");	
+MISD("#10");	
 	MapName = get_file_name(readString());
+	MISD(MapName);	
 	if(MapName=="")
 	{
 		MISERROR("<-- No Map Name? ");

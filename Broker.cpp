@@ -7,7 +7,6 @@
 #include "Reader.h" 
 
 #if defined BrokerNormal || defined BrokerWeb
-
 #include "LOAD.h"
 #endif
 
@@ -32,12 +31,16 @@
 #ifdef BrokerNormal
 #include "SQL_MIS_New.h" 
 #include "CardBase.h" 
-#include "Imager.h"
 #include "PMV_to_SQL.h"
+#endif
+
+#ifndef noManager
 #include "Manager.h"
 #endif
 
-
+#ifndef noImager
+#include "Imager.h"
+#endif
 broker::broker()
 {
 	bAktive = true;
@@ -63,31 +66,31 @@ broker::broker()
 	WEB_Replay::learnBro(this);
 #endif
 
-#ifdef BrokerParser
-
-#endif
 
 #ifdef BrokerNormal
 	SQL_MIS_New::learnBro(this);
 	CardBase::learnBro(this);
 	PMV_to_SQL::learnBro(this);
-	Imager::learnBro(this);
-	Manager::learnBro(this);	
 	Thread_MIS::learnBro(this);
+
 #endif
 
-
+#ifndef noManager
+	Manager::learnBro(this);	
+	M = NULL;
+#endif
 	
-	
+#ifndef noImager	
+Imager::learnBro(this);	
+	I = NULL;
+#endif	
 	
 	Bro = this;
 
 	B = NULL;
 	N = NULL;
-	C = NULL;	
-	M = NULL;
-	L = NULL;
-	I = NULL;
+	C = NULL;
+	L = NULL;	
 	W = NULL;
 
 }
@@ -112,7 +115,8 @@ unsigned char broker::C_GetActionOrbForCardID(unsigned short CardID)
 {
 	return C->GetActionOrbForCardID(CardID);
 }
-
+#endif
+#ifdef CardBaseUpdater
 bool broker::C_DownloadPNG(unsigned short CardID)
 {
 	return C->DownloadPNG(CardID);

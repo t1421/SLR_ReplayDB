@@ -6,12 +6,17 @@
 #include "SQL_MIS_New.h" 
 #include "CardBase.h" 
 #include "LOAD.h" 
-#include "Manager.h" 
 #include "Replay.h" 
 #include "PMV_to_SQL.h" 
-#include "Imager.h" 
+
 #include "Utility.h" 
 
+#ifndef noImager
+#include "Imager.h" 
+#endif
+#ifndef noManager
+#include "Manager.h" 
+#endif
 
 
 
@@ -26,6 +31,8 @@ int main(int argc, char **argv)
 	DEBUG* B = new DEBUG("SLR_ReplayDB",true,true,false);
 	B->teachB();
 
+	Replay* R = new Replay();	
+
 	LOAD* L = new LOAD();
 	L->teachL();
 	L->StartUp();
@@ -35,17 +42,18 @@ int main(int argc, char **argv)
 
 	CardBase* C = new CardBase();
 	C->teachC();
-
 	
-	
-
+#ifndef noManager
 	Manager* M = new Manager();
 	M->teachM();
 	M->Start_Thread();
-	
-	Replay* R = new Replay();	
+#endif	
+
+
 	PMV_to_SQL* P = new PMV_to_SQL();
+#ifndef noImager
 	Imager* I = new Imager();
+#endif
 	
 
 	MISD("--> MAINSCHEIFE");
@@ -65,15 +73,9 @@ int main(int argc, char **argv)
 			sbuf = buf;
 		}
 
-		if (std::string(buf) == "x")Bro->bAktive = false;
-		if (std::string(buf) == "1")Bro->C->WEBtoSQL(false);
-		if (std::string(buf) == "2")Bro->C->WEBtoSQL(true);
-		if (std::string(buf) == "3")Bro->C->Imager(1394);
-		if (std::string(buf) == "3")Bro->C->Imager(1395);
-		if (std::string(buf) == "9")Bro->C->Imager(0);
-
 		if (Checker(sbuf, "?"))
 		{
+			#ifdef CardBaseUpdater
 			printf("####################|###########################################\n");
 			printf("C;full              | Updates all cards in MYSQL\n");
 			printf("C;update            | Adds neu cards to MYSQL\n");
@@ -82,6 +84,7 @@ int main(int argc, char **argv)
 			printf("C;upload;[ID]       | Uploads images for CARDID from TempDir in MYSQL\n");
 			printf("C;download;[ID]     | Loads images for MYSQL\n");
 			printf("####################|###########################################\n\n");
+			#endif
 			printf("####################|###########################################\n");
 			printf("R;new               | new Replay object\n");
 			printf("R;open;[FILE]       | Opens FILE from Replay dir\n");
@@ -100,6 +103,7 @@ int main(int argc, char **argv)
 			printf("P;download;[GameID] | loads R from SQL\n");
 			printf("P;dublette          | Checks if Games is alreade in MYSQL\n");
 			printf("####################|###########################################\n\n");
+			#ifndef noImager
 			printf("####################|###########################################\n");
 			printf("I;new               | new Imager Object\n");
 			printf("I;open              | Use the current P Pointer\n");
@@ -107,8 +111,10 @@ int main(int argc, char **argv)
 			printf("I;makeMOV           | Creates Mov from image\n");
 			printf("I;echo              | outputs paths\n");
 			printf("####################|###########################################\n\n");
+			#endif
 		}
 
+#ifdef CardBaseUpdater		
 		if (Checker(sbuf, "C"))
 		{
 			if (Checker(sbuf, "update"))C->WEBtoSQL(false);
@@ -117,6 +123,7 @@ int main(int argc, char **argv)
 			if (Checker(sbuf, "upload"))C->UploadFromTemp(atoi(sbuf.c_str()));
 			if (Checker(sbuf, "download"))C->DownloadPNG(atoi(sbuf.c_str()));
 		}		
+#endif		
 
 		if (Checker(sbuf, "R"))
 		{
@@ -171,7 +178,7 @@ int main(int argc, char **argv)
 				//MISD("Return: " + P->DublettenCheck());
 			}
 		}
-
+#ifndef noImager
 		if (Checker(sbuf, "I"))
 		{
 			if (Checker(sbuf, "new"))I = new Imager();
@@ -180,11 +187,12 @@ int main(int argc, char **argv)
 			if (Checker(sbuf, "makeMOV"))I->MakeMOV();
 			if (Checker(sbuf, "echo"))I->Echo();
 		}
-
+#endif
 		if (Checker(sbuf, "exit"))Bro->bAktive = false;
 	}
-
+#ifndef noManager
 	M->Stop_Thread();
+#endif
 
 	MISD("<-- MAINSCHEIFE");
     return 0;

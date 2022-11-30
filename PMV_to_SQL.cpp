@@ -241,7 +241,7 @@ std::string PMV_to_SQL::DublettenCheck()
 	NN->ssSQL << "    AND MinLeaveGame = " << RR->MinLeaveGame;	
 	NN->ssSQL << "  GROUP BY ID " ;
 	NN->ssSQL << " HAVING SUM(gameplayers.playerID) = " << iPlayerIDSUM;
-
+	//MISD(NN->ssSQL.str());
 	if (NN->send() > 0)
 	{
 		NN->res->next();

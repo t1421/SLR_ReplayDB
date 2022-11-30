@@ -2,8 +2,9 @@
 #define CardBase_H
 
 #include <fstream>
+#include <vector>
 
-#ifdef BrokerNormal
+#ifdef CardBaseUpdater
 	#include <curl/curl.h>
 	#ifdef __linux__
 		#include <jsoncpp/json/json.h>
@@ -27,14 +28,19 @@ public:
 	CardBase();
 	~CardBase();
 
+#ifdef CardBaseUpdater
 	bool WEBtoSQL(bool bUpdate);
 	bool IMGtoQSL(int iCardID, std::string sFile);
 	bool Imager(int iCardID);
 	bool DownloadPNG(int iCardID);
 	std::string DownloadImage(int iCardID, std::string sCardName, bool bPromo);
 	void UploadFromTemp(unsigned short CardID);
+private:
+	Json::Value GetJsonFromWeb();
+	CURL *curl;
+#endif
 
-	
+	public:
 	unsigned char GetActionOrbForCardID(unsigned short CardID);
 
 	std::vector<SQLCard*> SQLCardMatrix;
@@ -49,14 +55,6 @@ public:
 
 	
 protected:
-
-private:
-#ifdef BrokerNormal
-	Json::Value GetJsonFromWeb();
-	CURL *curl;
-#endif
-	
-
 	
 };
 

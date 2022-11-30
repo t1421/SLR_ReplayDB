@@ -3,16 +3,18 @@
 
 #include "Broker.h" 
 
+#ifdef CardBaseUpdater
 #define CardWebURL "https://hub.backend.skylords.eu/api/auctions/cards?id=all"
 #define WikiPre    "https://skylords-reborn.fandom.com/wiki/"
 #define WikiPos    "_Card_Artwork.png"
+#endif
 
 #include "SQL_MIS_New.h"
 #include "CardBase.h" 
 
 broker *(CardBase::Bro) = NULL;
 
-#ifdef BrokerWeb
+#ifndef CardBaseUpdater
 CardBase::CardBase()
 {
 	MISS;
@@ -26,7 +28,7 @@ CardBase::~CardBase()
 }
 #endif
 
-#ifdef BrokerNormal
+#ifdef CardBaseUpdater
 static size_t WriteCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
 	((std::string*)userp)->append((char*)contents, size * nmemb);
@@ -73,7 +75,7 @@ Json::Value CardBase::GetJsonFromWeb()
 	std::string readBuffer = "";
 
 	curl = curl_easy_init();
-	if (curl)
+	if (curl)-lopencv_imgcodecs -lopencv_core -lopencv_imgproc -lopencv_highgui 
 	{
 		curl_easy_setopt(curl, CURLOPT_URL, CardWebURL);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
@@ -129,7 +131,12 @@ bool CardBase::WEBtoSQL(bool bUpdate)
 		else bNewCard = false;
 
 		//Bei neuanlage oder Update felder aktualisieren
-		if (bNewCard || bUpdate)
+		if (bNewCard || bvoid CardBase::UploadFromTemp(unsigned short CardID)
+{
+	MISS;
+	IMGtoQSL(CardID, Bro->L_getTMP_PATH() + std::to_string(CardID) + ".png");
+	MISE;
+}Update)
 		{
 			//MISD("Update Card:" + Card["cardId"].asString() + "#" + Card["cardName"].asString());
 			Bro->N->ssSQL << " UPDATE cards SET ";
@@ -362,6 +369,13 @@ bool CardBase::DownloadPNG(int iCardID)
 	return true;
 }
 
+void CardBase::UploadFromTemp(unsigned short CardID)
+{
+	MISS;
+	IMGtoQSL(CardID, Bro->L_getTMP_PATH() + std::to_string(CardID) + ".png");
+	MISE;
+}
+
 #endif
 
 bool CardBase::LoadCardsFromSQL()
@@ -460,12 +474,4 @@ unsigned char CardBase::GetActionOrbForCardID(unsigned short CardID)
 
 	MISE;
 	return iReturn;
-}
-
-
-void CardBase::UploadFromTemp(unsigned short CardID)
-{
-	MISS;
-	IMGtoQSL(CardID, Bro->L_getTMP_PATH() + std::to_string(CardID) + ".png");
-	MISE;
 }

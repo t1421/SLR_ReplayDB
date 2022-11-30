@@ -7,7 +7,7 @@ int main(int argc, char **argv)
 	if (argc > 1)
 	{
 		std::string sFile = std::string(argv[1]);
-
+printf("File %s\n", sFile.c_str());
 		broker* Bro = new broker;
 
 		DEBUG* B = new DEBUG("SLR_ReplayDB",true,true,false);
