@@ -75,7 +75,7 @@ Json::Value CardBase::GetJsonFromWeb()
 	std::string readBuffer = "";
 
 	curl = curl_easy_init();
-	if (curl)-lopencv_imgcodecs -lopencv_core -lopencv_imgproc -lopencv_highgui 
+	if (curl)
 	{
 		curl_easy_setopt(curl, CURLOPT_URL, CardWebURL);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
@@ -131,12 +131,7 @@ bool CardBase::WEBtoSQL(bool bUpdate)
 		else bNewCard = false;
 
 		//Bei neuanlage oder Update felder aktualisieren
-		if (bNewCard || bvoid CardBase::UploadFromTemp(unsigned short CardID)
-{
-	MISS;
-	IMGtoQSL(CardID, Bro->L_getTMP_PATH() + std::to_string(CardID) + ".png");
-	MISE;
-}Update)
+		if (bNewCard || bUpdate)
 		{
 			//MISD("Update Card:" + Card["cardId"].asString() + "#" + Card["cardName"].asString());
 			Bro->N->ssSQL << " UPDATE cards SET ";
