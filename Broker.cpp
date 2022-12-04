@@ -2,17 +2,15 @@
 #include "Broker.h"
 
 #include "DEBUG.h"
-#include "Thread_MIS.h" 
+
 #include "Replay.h" 
 #include "Reader.h" 
 
 #if defined BrokerNormal || defined BrokerWeb
 #include "LOAD.h"
+#include "Thread_MIS.h" 
 #endif
 
-#ifdef BrokerParser
-
-#endif
 
 #ifdef BrokerWeb
 
@@ -55,6 +53,7 @@ broker::broker()
 	Reader::learnBro(this);
 
 #if defined BrokerNormal || defined BrokerWeb
+	Thread_MIS::learnBro(this);
 	LOAD::learnBro(this);
 	L = NULL;
 #endif

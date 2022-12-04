@@ -16,6 +16,7 @@ int main(int argc, char **argv)
 	B->teachB();
 
 	WEB_Main* W = new WEB_Main();
+	std::cout << W->sThreadName << std::endl;
 
 	LOAD* L = new LOAD();
 	L->teachL();
