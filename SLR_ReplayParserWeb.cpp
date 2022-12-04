@@ -1,4 +1,4 @@
-// SLR_ReplayParserWeb.cpp : Definiert den Einstiegspunkt für die Konsolenanwendung.
+// SLR_ReplayParserWeb.cpp : Definiert den Einstiegspunkt fï¿½r die Konsolenanwendung.
 //
 
 #include "Broker.h"
@@ -15,16 +15,18 @@ int main(int argc, char **argv)
 	DEBUG* B = new DEBUG("SLR_ReplayParserWeb",true,true,false);
 	B->teachB();
 
+	WEB_Main* W = new WEB_Main();
+
 	LOAD* L = new LOAD();
 	L->teachL();
 	L->StartUp();
 	L->LoadCards();
-
-	WEB_Main* W = new WEB_Main();
+	
 	W->teachW();
 
 	W->Init_W();
 	W->Start_Thread();
+	//W->W->start();
 
 	while (Bro->bAktive)
 	{

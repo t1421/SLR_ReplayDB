@@ -3,11 +3,10 @@
 
 #include "Broker.h" 
 #include "DEBUG.h" 
-#include "SQL_MIS_New.h" 
 #include "CardBase.h" 
 #include "LOAD.h" 
 #include "Replay.h" 
-#include "PMV_to_SQL.h" 
+
 
 #include "Utility.h" 
 
@@ -18,7 +17,12 @@
 #include "Manager.h" 
 #endif
 
+#ifndef noSQL
+#include "SQL_MIS_New.h" 
+#include "PMV_to_SQL.h" 
+#endif
 
+#include <iostream>
 
 int main(int argc, char **argv)
 {
@@ -37,8 +41,11 @@ int main(int argc, char **argv)
 	L->teachL();
 	L->StartUp();
 
+#ifndef noSQL
+	PMV_to_SQL* P = new PMV_to_SQL();
 	SQL_MIS_New* N = new SQL_MIS_New("MAIN");
 	N->teachN();
+#endif
 
 	CardBase* C = new CardBase();
 	C->teachC();
@@ -50,7 +57,7 @@ int main(int argc, char **argv)
 #endif	
 
 
-	PMV_to_SQL* P = new PMV_to_SQL();
+	
 #ifndef noImager
 	Imager* I = new Imager();
 #endif
@@ -96,6 +103,7 @@ int main(int argc, char **argv)
 			printf("R;echo;action;*     | Outputs all Actions\n");
 			printf("R;echo;action;[ID]  | Outputs Actions with ID\n");
 			printf("####################|###########################################\n\n");
+			#ifndef noSQL
 			printf("####################|###########################################\n");
 			printf("P;new               | new MYSQL Uploard object\n");
 			printf("P;open              | loads R into P\n");
@@ -103,6 +111,7 @@ int main(int argc, char **argv)
 			printf("P;download;[GameID] | loads R from SQL\n");
 			printf("P;dublette          | Checks if Games is alreade in MYSQL\n");
 			printf("####################|###########################################\n\n");
+			#endif
 			#ifndef noImager
 			printf("####################|###########################################\n");
 			printf("I;new               | new Imager Object\n");
@@ -148,7 +157,7 @@ int main(int argc, char **argv)
 				}
 			}
 		}
-
+#ifndef noSQL
 		if (Checker(sbuf, "P"))
 		{
 			if (Checker(sbuf, "new"))P = new PMV_to_SQL();
@@ -178,6 +187,7 @@ int main(int argc, char **argv)
 				//MISD("Return: " + P->DublettenCheck());
 			}
 		}
+#endif		
 #ifndef noImager
 		if (Checker(sbuf, "I"))
 		{

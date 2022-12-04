@@ -69,9 +69,12 @@ bool LOAD::INI_Value_Check(std::string &check, std::string name)
 void LOAD::LoadCards()
 {
 	MISS;
-	MISS;
 	std::string line;
-	std::string sName = "cards.csv";
+	#ifdef __linux__
+	std::string sName = "./Release/cards.csv";
+	#else
+	std::string sName = "./cards.csv";
+	#endif
 
 	std::ifstream ifFile;
 	ifFile.open(sName.c_str(), std::ios::binary);

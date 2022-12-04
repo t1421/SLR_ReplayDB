@@ -3,30 +3,7 @@
 
 #include "Thread_MIS.h"
 
-///WT LIBS
 #include <Wt/WServer.h>
-/*
-#include <Wt/WServer.h>
-#include <Wt/WString.h>
-#include <Wt/WContainerWidget.h>
-#include <Wt/WPushButton.h>
-#include <Wt/WGridLayout.h> 
-#include <Wt/WEnvironment.h>
-#include <Wt/WBootstrapTheme.h> 
-#include <Wt/WFileUpload.h>
-
-#include <Wt/WTable.h>
-
-#include <Wt/WSslInfo.h>
-#include <Wt/WValidator.h>
-#include <Wt/WSslCertificate.h>
-
-#include <Wt/WStackedWidget.h>
-#include <Wt/WToolBar.h>
-*/
-//using namespace Wt;
-
-//std::unique_ptr<Wt::WApplication> createApplicationW(const Wt::WEnvironment& env);
 
 class WEB_Main: public Thread_MIS  //: public Wt::WApplication
 {

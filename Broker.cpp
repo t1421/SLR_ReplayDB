@@ -29,8 +29,11 @@
 #endif
 
 #ifdef BrokerNormal
-#include "SQL_MIS_New.h" 
 #include "CardBase.h" 
+#endif
+
+#ifndef noSQL
+#include "SQL_MIS_New.h" 
 #include "PMV_to_SQL.h"
 #endif
 
@@ -44,13 +47,16 @@
 broker::broker()
 {
 	bAktive = true;
+	Bro = this;
 
 	DEBUG::learnBro(this);
+	B = NULL;	
 	Replay::learnBro(this);
 	Reader::learnBro(this);
 
 #if defined BrokerNormal || defined BrokerWeb
 	LOAD::learnBro(this);
+	L = NULL;
 #endif
 
 #ifdef BrokerWeb
@@ -64,15 +70,20 @@ broker::broker()
 	WEB_MCB::learnBro(this);
 	WEB_Toolbar::learnBro(this);
 	WEB_Replay::learnBro(this);
+	W = NULL;
 #endif
 
 
-#ifdef BrokerNormal
-	SQL_MIS_New::learnBro(this);
-	CardBase::learnBro(this);
-	PMV_to_SQL::learnBro(this);
+#ifdef BrokerNormal	
+	CardBase::learnBro(this);	
 	Thread_MIS::learnBro(this);
+	C = NULL;
+#endif
 
+#ifndef noSQL
+SQL_MIS_New::learnBro(this);
+PMV_to_SQL::learnBro(this);
+N = NULL;
 #endif
 
 #ifndef noManager
@@ -85,13 +96,8 @@ Imager::learnBro(this);
 	I = NULL;
 #endif	
 	
-	Bro = this;
 
-	B = NULL;
-	N = NULL;
-	C = NULL;
-	L = NULL;	
-	W = NULL;
+	
 
 }
 

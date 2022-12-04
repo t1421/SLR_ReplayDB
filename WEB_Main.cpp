@@ -31,7 +31,12 @@ void WEB_Main::Init_W()
 	ARGV[2] = (char*)sLog_path.c_str();
 
 	MISD("#1");
+	#ifdef __linux__
+	W = new Wt::WServer(3,ARGV, "./Release/wt_http_Linux.cfg");
+	#else
 	W = new Wt::WServer(3,ARGV, "./wt_http.cfg");
+	#endif
+	
 	MISD("#2");
 	W->addEntryPoint(Wt::EntryPointType::Application, createApplicationW);
 

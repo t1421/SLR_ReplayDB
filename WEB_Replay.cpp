@@ -16,7 +16,7 @@ WEB_Replay::WEB_Replay() :R(new Replay()), BOT3Stuff(false){};
 
 bool WEB_Replay::NewReplay(std::string sFile)
 {
-	R = new Replay;
+	R = new Replay();
 	BOT3Stuff = false;
 	return R->LoadPMV(sFile);
 }
@@ -392,7 +392,7 @@ void WEB_Replay::BOT3WellsAndOrbUnit()
 	//Nur einmal!
 	if (BOT3Stuff == true)return;
 
-	//Nur infos für eine Map
+	//Nur infos fï¿½r eine Map
 	if (R->MapName != "11101_PvE_01p_TugOfWar.map") return;
 
 	Action * Action_TEMP;

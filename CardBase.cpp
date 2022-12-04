@@ -9,7 +9,10 @@
 #define WikiPos    "_Card_Artwork.png"
 #endif
 
+#ifndef noSQL
 #include "SQL_MIS_New.h"
+#endif
+
 #include "CardBase.h" 
 
 broker *(CardBase::Bro) = NULL;
@@ -373,6 +376,7 @@ void CardBase::UploadFromTemp(unsigned short CardID)
 
 #endif
 
+#ifndef noSQL
 bool CardBase::LoadCardsFromSQL()
 {
 	MISS;
@@ -407,6 +411,7 @@ bool CardBase::LoadCardsFromSQL()
 	MISE;
 	return true;
 }
+#endif
 
 unsigned char CardBase::GetActionOrbForCardID(unsigned short CardID)
 {
@@ -417,13 +422,13 @@ unsigned char CardBase::GetActionOrbForCardID(unsigned short CardID)
 	unsigned char iReturn = 0;
 
 	//MISD("CardID " + to_string(CardID));
-
+#ifndef noSQL
 	if (!LoadCardsFromSQL())
 	{
 		MISEA("V1 Error while Loading von DB")
 		return 255;
 	}
-
+#endif
 	for (i = 0; i < SQLCardMatrix.size(); i++)
 	{
 		if (SQLCardMatrix[i]->cardId == CardID)break;

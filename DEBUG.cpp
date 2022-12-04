@@ -1,6 +1,6 @@
 #include "Broker.h" 
 
-#define Log_path "LOG\\"
+#define Log_path "LOG/"
 #define __STDC_WANT_LIB_EXT1__ 1
 #include <time.h>
 

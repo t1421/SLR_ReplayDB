@@ -46,7 +46,9 @@ private:
 	std::vector<SQLCard*> SQLCardMatrix;
 
 	bool bCardsLoaded;
+	#ifndef noSQL
 	bool LoadCardsFromSQL();
+	#endif
 
 	//BROKER
 	static broker* Bro;
