@@ -1,20 +1,34 @@
 #ifndef BROKER_H
 #define BROKER_H
-
-#ifdef DF_Debug 
-#define MISD(___Mes___) Bro->B_StatusNew(__FUNCTION__, ___Mes___);
-#define MISERROR(___Mes___)Bro->B_StatusE("E", __FUNCTION__, ___Mes___);
-#define MISS MISD("-->");
-#define MISE MISD("<--");
-#define MISEA(___Mes___) MISD("<-- " ___Mes___);
-
+#ifdef __linux__
+	#ifdef DF_Debug 
+		#define MISD(___Mes___) Bro->B_StatusNew(__PRETTY_FUNCTION__, ___Mes___);
+		#define MISERROR(___Mes___)Bro->B_StatusE("E", __PRETTY_FUNCTION__, ___Mes___);
+		#define MISS MISD("-->");
+		#define MISE MISD("<--");
+		#define MISEA(___Mes___) MISD("<-- " ___Mes___);
+	#else
+		#define MISD(___Mes___); 
+		#define MISERROR(___Mes___)Bro->B_StatusE("E", __PRETTY_FUNCTION__, ___Mes___);
+		#define MISS
+		#define MISE
+		#define MISEA(___Mes___);
+	#endif
 #else
-#define MISD(___Mes___); 
-#define MISERROR(___Mes___)Bro->B_StatusE("E", __FUNCTION__, ___Mes___);
-#define MISS
-#define MISE
-#define MISEA(___Mes___);
-#endif
+	#ifdef DF_Debug 
+		#define MISD(___Mes___) Bro->B_StatusNew(__FUNCTION__, ___Mes___);
+		#define MISERROR(___Mes___)Bro->B_StatusE("E", __FUNCTION__, ___Mes___);
+		#define MISS MISD("-->");
+		#define MISE MISD("<--");
+		#define MISEA(___Mes___) MISD("<-- " ___Mes___);
+	#else
+		#define MISD(___Mes___); 
+		#define MISERROR(___Mes___)Bro->B_StatusE("E", __FUNCTION__, ___Mes___);
+		#define MISS
+		#define MISE
+		#define MISEA(___Mes___);
+	#endif
+#endif	
 
 #include <string>
 

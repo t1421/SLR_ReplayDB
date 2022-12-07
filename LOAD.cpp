@@ -36,6 +36,8 @@ void LOAD::Load_Settings()
 			if (INI_Value_Check(line, "TMP_PATH"))sTMP_PATH = line.c_str();
 
 			if (INI_Value_Check(line, "FFMPEG"))sFFMPEG = line.c_str();				
+
+			ifFile.clear();
 		}
 		
 		ifFile.close();
@@ -96,6 +98,8 @@ void LOAD::LoadCards()
 				atoi(entry(line, 7).c_str()),
 				atoi(entry(line, 8).c_str())
 			));
+
+			ifFile.clear();
 		}
 
 		ifFile.close();

@@ -112,8 +112,10 @@ void DEBUG::StatusNew(std::string Fun, std::string Wert)
 
 	if (colons != std::string::npos)
 	{
-		sMethode = Fun.substr(colons + 2, Fun.rfind("("));
-		sClass = Fun.substr(0, colons);
+		sMethode = Fun.substr(colons + 2, Fun.rfind("("));		
+		if(Fun.find(" ")!= std::string::npos)
+			sClass = Fun.substr(Fun.find(" ") + 1, colons - Fun.find(" ") - 1);
+		else sClass = Fun.substr(0,colons);
 	}
 	else sMethode = Fun.substr(0, Fun.rfind("("));
 
