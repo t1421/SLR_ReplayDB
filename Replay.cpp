@@ -1069,6 +1069,7 @@ bool Replay::getPMVinSS(std::string sFile)
 	if (ifs)
 	{
 		ssPMVFile << ifs.rdbuf();
+		ifs.clear();
 		ifs.close();
 		MISEA("X1");
 		return true;

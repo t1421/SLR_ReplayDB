@@ -29,31 +29,26 @@ Reader::~Reader()
 //unsigned long long	///62
 unsigned long long Reader::readUnsignedLongLong()
 {
-	ULLU.b[0] = PMVbuffer[PMVPosition++];
-	ULLU.b[1] = PMVbuffer[PMVPosition++];
-	ULLU.b[2] = PMVbuffer[PMVPosition++];
-	ULLU.b[3] = PMVbuffer[PMVPosition++];
-	ULLU.b[4] = PMVbuffer[PMVPosition++];
-	ULLU.b[5] = PMVbuffer[PMVPosition++];
-	ULLU.b[6] = PMVbuffer[PMVPosition++];
-	ULLU.b[7] = PMVbuffer[PMVPosition++];
-	return ULLU.ull;
+	unsigned long value = 0;
+  	for (int i = 0; i < 8; ++i) 
+    	value += (unsigned long)(PMVbuffer[PMVPosition++] & 0xFF) << (8 * i);  
+  return value;
 }
 
 unsigned long Reader::readUnsignedLong()
 {
-	ULU.b[0] = PMVbuffer[PMVPosition++];
-	ULU.b[1] = PMVbuffer[PMVPosition++];
-	ULU.b[2] = PMVbuffer[PMVPosition++];
-	ULU.b[3] = PMVbuffer[PMVPosition++];
-	return ULU.ul;
+	unsigned long value = 0;
+  	for (int i = 0; i < 4; ++i) 
+		value += (unsigned long)(PMVbuffer[PMVPosition++] & 0xFF) << (8 * i);
+  return value;
 }
 
 unsigned short Reader::readUnsignedShort()
 {
-	USU.b[0] = PMVbuffer[PMVPosition++];
-	USU.b[1] = PMVbuffer[PMVPosition++];
-	return USU.us;
+	unsigned short value = 0;
+  	for (int i = 0; i < 2; ++i) 
+    	value += (unsigned long)(PMVbuffer[PMVPosition++] & 0xFF) << (8 * i);  	
+  	return value;
 }
 
 unsigned char Reader::readUnsignedChar()
@@ -111,6 +106,7 @@ bool Reader::Open(std::string sFile)
 	PMVbuffer.clear();
 	PMVbuffer.reserve(length);
 	PMVFile.read(&PMVbuffer[0], length);
+	PMVFile.clear();
 	PMVFile.close();
 
 	if (length <= 0)

@@ -4,10 +4,6 @@
 #include <fstream>
 #include <vector>
 
-union UnsignedLongLongUnion { unsigned long ull; char b[8]; };
-union UnsignedLongUnion { unsigned long ul; char b[4]; };
-union UnsignedShortUnion { unsigned short us; char b[2]; };
-
 #define MaxString 512
 
 class Reader
@@ -34,10 +30,6 @@ protected:
 	std::string sAddDoubleBackslash(std::string changeString);
 
 private:
-	UnsignedLongLongUnion ULLU;
-	UnsignedLongUnion ULU;
-	UnsignedShortUnion USU;
-
 	std::ifstream     PMVFile;
 	std::vector<char> PMVbuffer;
 
