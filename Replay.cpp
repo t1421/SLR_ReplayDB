@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "Broker.h" 
 
@@ -149,13 +149,20 @@ MISD("#10");
 
 	MISD("Team");
 	TeamCount = readUnsignedShort();
+	MISD("Teams:" + std::to_string(TeamCount));
 	for (int i = 0; i < TeamCount; i++)
 	{
+		MISD("#NR  :" + std::to_string(i));
 		Team_TEMP = new Team;
+		MISD("#NR  :" + std::to_string(i) + "#1");
 		Team_TEMP->Name = readString();
+		MISD("#NR  :" + std::to_string(i) + "#2");
 		Team_TEMP->GroupID = readUnsignedLong();
+		MISD("#NR  :" + std::to_string(i) + "#3");
 		Team_TEMP->Value = readUnsignedShort();
+		MISD("#NR  :" + std::to_string(i) + "#4");
 		TeamMatrix.push_back(Team_TEMP);
+		MISD("#NR  :" + std::to_string(i) + "#5");
 	}
 	
 	MISD("Player");

@@ -109,20 +109,24 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 
 	wfuDropZone->changed().connect([=] 
 	{
+		MISD("#changed");
 		wfuDropZone->upload();
 		wtStatus->setText("New File \n");
 	});
 	wfuDropZone->fileTooLarge().connect([=] 
 	{
+		MISD("#fileTooLarge");
 		wtStatus->setText("File is too large. \n");
 	});
 
 	wfuDropZone->uploaded().connect([=] 
 	{
+		MISD("#uploaded");
 		wtStatus->setText("Upload done \n");
 
 		if (NewReplay(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
 		{
+			MISD("#NewReplay");
 			wtStatus->setText("PMV OK \n");
 		}
 		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");

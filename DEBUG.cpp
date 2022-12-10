@@ -35,7 +35,7 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Replay", "SwitchType", "*", "false"); 
 		Fill_DBArray("Replay", "FindWinningTeam", "*", "false");
 		
-		Fill_DBArray("Reader", "*", "*", "true");
+		Fill_DBArray("Reader", "*", "*", "false");
 		
 		Fill_DBArray("PMV_to_SQL", "*", "*", "true");
 
