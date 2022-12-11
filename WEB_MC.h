@@ -5,7 +5,7 @@
 #include "WEB_Replay.h"
 
 class WEB_MCA;
-class WEB_MCB;
+class WEB_Rank;
 class WEB_Replay;
 
 
@@ -14,7 +14,7 @@ class WEB_MC : public WEB_Toolbar , public WebRefresh
 public:
 
 	WEB_MCA *A;
-	WEB_MCB *B;
+	WEB_Rank *B;
 
 	Wt::WContainerWidget *cMain;
 	

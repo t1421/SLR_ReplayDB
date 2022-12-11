@@ -8,3 +8,4 @@ std::string WSTRINGtoSTRING(Wt::WString in)
 	ss << in;
 	return ss.str();
 }
+

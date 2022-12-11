@@ -5,6 +5,7 @@
 #include "WEB_Utility.h"
 #include "Replay.h" 
 #include "LOAD.h" 
+#include "Utility.h"
 
 #include "WEB_Replay.h"
 
@@ -67,12 +68,12 @@ std::string WEB_Replay::BOT2(bool bMode,Wt:: WTable *wtTabelle)
 	return "";
 }
 
-std::string WEB_Replay::BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap)
+std::string WEB_Replay::BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, unsigned long &Time)
 {
 	if (R->OK != true)return "Error in replay";
 	if (R->MapName != "11101_PvE_01p_TugOfWar.map")return "Wrong Map";
 	BOT3WellsAndOrbUnit();
-	FillTableBOT3(wtTabelle);
+	Time = FillTableBOT3(wtTabelle);
 
 	for (unsigned int i = 0; i < vMarker.size(); i++)
 		cMap->addWidget(std::unique_ptr<Wt::WWidget>(std::move(vMarker[i]->IMG)));
@@ -93,12 +94,17 @@ std::string WEB_Replay::MapName()
 
 std::string WEB_Replay::Time()
 {
-	return R->sTime(R->Playtime);
+	return sTime(R->Playtime);
 }
 
-unsigned int WEB_Replay::Playtime()
+unsigned long WEB_Replay::Playtime()
 {
 	return R->Playtime;
+}
+
+unsigned long long WEB_Replay::Player()
+{
+	return R->PMVPlayerID;
 }
 
 unsigned int WEB_Replay::Difficulty()
@@ -426,7 +432,7 @@ void WEB_Replay::BOT3WellsAndOrbUnit()
 }
 
 
-void WEB_Replay::FillTableBOT3(Wt::WTable *wtTabelle)
+unsigned long WEB_Replay::FillTableBOT3(Wt::WTable *wtTabelle)
 {
 	MISS;
 
@@ -454,7 +460,7 @@ void WEB_Replay::FillTableBOT3(Wt::WTable *wtTabelle)
 		{
 			if (vMarker[j]->Unit == iUnit && WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")
 			{
-				vMarker[j]->Time->setText(R->sTime(R->ActionMatrix[i]->Time));
+				vMarker[j]->Time->setText(sTime(R->ActionMatrix[i]->Time));
 				iMaxAction = i;
 			}
 		}
@@ -486,6 +492,7 @@ void WEB_Replay::FillTableBOT3(Wt::WTable *wtTabelle)
 	}
 
 	MISE;
+	return R->ActionMatrix[iMaxAction]->Time;
 }
 
 

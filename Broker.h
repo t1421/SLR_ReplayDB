@@ -32,6 +32,11 @@
 
 #include <string>
 
+#define BOT1LIST 0
+#define BOT2LIST 1
+#define BOT3LIST 2
+#define BOTXLIST 2
+
 class DEBUG;
 class SQL_MIS_New;
 class CardBase;
@@ -40,6 +45,7 @@ class LOAD;
 class Manager;
 class Imager;
 class WEB_Main;
+class MIS_Rank;
 
 class broker
 {
@@ -49,12 +55,13 @@ public:
 
 	DEBUG* B;
 	SQL_MIS_New* N;
-	CardBase* C;	
+	CardBase* C;
 	LOAD* L;
 	Manager* M;
 	Imager* I;
 	WEB_Main *W;
-	
+	MIS_Rank* A[BOTXLIST];
+
 	broker* Bro;
 
 	bool bAktive;
@@ -78,7 +85,14 @@ public:
 	std::string L_getPMV_ARCH_PATH();
 	std::string L_getTMP_PATH();
 	std::string L_getFFMPEG();
+	std::string L_getRANK_PATH();
+	
 #endif	
+
+#ifdef BrokerWeb
+	void INIT();
+	int AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, unsigned long Playtime);
+#endif
 
 	void B_StatusNew(std::string Fun, std::string Wert);
 	void B_StatusE(std::string Modul, std::string Funktion, std::string Wert);

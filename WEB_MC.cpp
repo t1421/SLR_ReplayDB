@@ -4,7 +4,7 @@
 
 #include "WEB_MC.h"
 #include "WEB_MCA.h"
-#include "WEB_MCB.h"
+#include "WEB_Rank.h"
 
 broker *(WEB_MC::Bro) = NULL;
 
@@ -19,7 +19,7 @@ WEB_MC::WEB_MC(WEB_Replay *WR_)
 	MISD("#10");
 
 	A = new WEB_MCA(WR_);
-	B = new WEB_MCB();
+	B = new WEB_Rank(BOT3LIST);
 	
 	MISD("#11");	
 

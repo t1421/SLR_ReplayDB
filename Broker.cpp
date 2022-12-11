@@ -17,13 +17,15 @@
 #include "WEB_Main.h"
 #include "WEB_CONTAINER.h"
 #include "WEB_MA.h"
+#include "WEB_MAA.h"
 #include "WEB_MB.h"
 #include "WEB_MBA.h"
 #include "WEB_MC.h"
 #include "WEB_MCA.h"
-#include "WEB_MCB.h"
+#include "WEB_Rank.h"
 #include "WEB_Toolbar.h"
 #include "WEB_Replay.h"
+#include "MIS_Rank.h"
 #endif
 
 #ifdef BrokerNormal
@@ -62,13 +64,16 @@ broker::broker()
 	WEB_Main::learnBro(this);
 	MISCONTAINER::learnBro(this);
 	WEB_MA::learnBro(this);
+	WEB_MAA::learnBro(this);
 	WEB_MB::learnBro(this);
 	WEB_MBA::learnBro(this);
 	WEB_MC::learnBro(this);
 	WEB_MCA::learnBro(this);
-	WEB_MCB::learnBro(this);
+	WEB_Rank::learnBro(this);
 	WEB_Toolbar::learnBro(this);
 	WEB_Replay::learnBro(this);
+	MIS_Rank::learnBro(this);
+	
 	W = NULL;
 #endif
 
@@ -99,6 +104,22 @@ Imager::learnBro(this);
 	
 
 }
+
+#ifdef BrokerWeb
+void broker::INIT()
+{
+	MISS;
+	for (int i = 0; i <= BOTXLIST; i++)A[i] = new MIS_Rank(i);
+	MISE;
+}
+
+int broker::AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, unsigned long Playtime)
+{
+	return A[iRANK]->AddPlayer(PMVPlayerID, Playtime);
+}
+
+
+#endif
 
 broker::~broker()
 {
@@ -167,6 +188,13 @@ std::string broker::L_getFFMPEG()
 {
 	return L->sFFMPEG;
 }
+
+std::string broker::L_getRANK_PATH()
+{
+	return L->sRANK_PATH;	
+}
+
+
 
 #endif
 

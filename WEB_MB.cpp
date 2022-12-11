@@ -4,6 +4,7 @@
 
 #include "WEB_MB.h"
 #include "WEB_MBA.h"
+#include "WEB_Rank.h"
 
 class WEB_Replay;
 
@@ -22,11 +23,13 @@ WEB_MB::WEB_MB(WEB_Replay *WR_)
 
 	A = new WEB_MBA(WR_,true);
 	B = new WEB_MBA(WR_, false);
+	C = new WEB_Rank(BOT2LIST);
 
 	MISD("#3");
 
 	WEB_Toolbar::ToolBarButton(0, "Cards Played", *A->cMain,A);
 	WEB_Toolbar::ToolBarButton(1, "Cards in Deck", *B->cMain,B);
+	WEB_Toolbar::ToolBarButton(2, "Rank", *C->cMain, C);
 	WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 	

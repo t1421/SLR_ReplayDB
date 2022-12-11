@@ -7,6 +7,7 @@
 class WEB_MBA;
 class WEB_MBB;
 class WEB_Replay;
+class WEB_Rank;
 
 class WEB_MB : public WEB_Toolbar , public WebRefresh
 {
@@ -14,6 +15,7 @@ public:
 
 	WEB_MBA *A;
 	WEB_MBA *B;
+	WEB_Rank *C;
 
 	Wt::WContainerWidget *cMain;
 	

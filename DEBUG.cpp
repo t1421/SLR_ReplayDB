@@ -31,7 +31,6 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("CardBase", "*", "*", "true");
 
 		Fill_DBArray("Replay", "*", "*", "true");
-		Fill_DBArray("Replay", "sTime", "*", "false");		
 		Fill_DBArray("Replay", "SwitchType", "*", "false"); 
 		Fill_DBArray("Replay", "FindWinningTeam", "*", "false");
 		
@@ -60,6 +59,7 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("MISCONTAINER", "*", "*", "true");
 		//Fill_DBArray("MISCONTAINER", "*", "*", "false");
 		Fill_DBArray("WEB_MA", "*", "*", "true");
+		Fill_DBArray("WEB_MAA", "*", "*", "true");
 
 		Fill_DBArray("WEB_MB", "*", "*", "true");
 		Fill_DBArray("WEB_MBA", "*", "*", "true");		
@@ -71,7 +71,10 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 
 		Fill_DBArray("WEB_MC", "*", "*", "true");
 		Fill_DBArray("WEB_MCA", "*", "*", "true");
-		Fill_DBArray("WEB_MCB", "*", "*", "true");
+
+		Fill_DBArray("WEB_Rank", "*", "*", "true");
+
+		Fill_DBArray("MIS_Rank", "*", "*", "true");
 		
 
 		Fill_DBArray("broker", "*", "*", "true");

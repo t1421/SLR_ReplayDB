@@ -73,12 +73,13 @@ public:
 	
 	std::string BOT1();
 	std::string BOT2(bool bMode, Wt::WTable *wtTabelle);
-	std::string BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap);
+	std::string BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, unsigned long &Time);
 
 	int CountActions();
 	int CountActions(std::string sFilter);
 	unsigned int Difficulty();
-	unsigned int Playtime();
+	unsigned long Playtime();
+	unsigned long long Player();
 	std::string MapName();
 	std::string Time();
 
@@ -104,7 +105,7 @@ private:
 	bool FillTableBOT2(std::vector <WebCard*>& WebDeck, Wt::WTable *wtTabelle);
 
 	void BOT3WellsAndOrbUnit();
-	void FillTableBOT3(Wt::WTable *wtTabelle);
+	unsigned long  FillTableBOT3(Wt::WTable *wtTabelle);
 
 };
 

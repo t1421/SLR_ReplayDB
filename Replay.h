@@ -98,7 +98,7 @@ public:
 	std::string SwitchType(unsigned long inType);
 	int CountActions(std::string sAction);
 	int CountActions() { return CountActions("*"); }
-	std::string sTime(unsigned long ulTime);
+
 	//BROKER
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

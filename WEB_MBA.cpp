@@ -2,6 +2,7 @@
 
 #include "Broker.h"
 
+#include "Utility.h" 
 #include "WEB_MBA.h"
 #include "WEB_Replay.h"
 
@@ -37,8 +38,28 @@ void WEB_MBA::WRefresh()
 	std::string sReturn = WR->BOT2(bMode, wtTabelle);
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
-	else wtStatus->setText("<h3>All looks good :-)</h3> ");
+	else
+	{
+		//wtStatus->setText("<h3>All looks good :-)</h3> ");
+		switch (Bro->AddRankPlayer(BOT2LIST, WR->Player(), WR->Playtime()))
+		{
+		case 5: //Slower
+			wtStatus->setText("<h3>Welcome back, nice run: " + sTime(WR->Playtime()) + " -> but slower :-)</h3> ");
+			break;
+		case 9: //Same
+			wtStatus->setText("<h3>Welcome back, nice run: " + sTime(WR->Playtime()) + " -> same time as befor :-)</h3> ");
+			break;
+		case 10: //Faster
+			wtStatus->setText("<h3>Welcome back, nice run: " + sTime(WR->Playtime()) + " -> faster then your last :-)</h3> ");
+			break;
+		case 15: //New Player
+			wtStatus->setText("<h3>Welcome on the Leaderboard: " + sTime(WR->Playtime()) + ":-)</h3> ");
+			break;
+		default: //Should not happen
+			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
+		}
 
+	}
 	MISE;
 }
 

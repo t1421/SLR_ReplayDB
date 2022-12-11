@@ -33,6 +33,8 @@ void LOAD::Load_Settings()
 			if (INI_Value_Check(line, "PMV_AUTO_PATH"))sPMV_AUTO_PATH = line.c_str();
 			if (INI_Value_Check(line, "PMV_ARCH_PATH"))sPMV_ARCH_PATH = line.c_str();
 
+			if (INI_Value_Check(line, "RANK_PATH"))sRANK_PATH = line.c_str();
+
 			if (INI_Value_Check(line, "TMP_PATH"))sTMP_PATH = line.c_str();
 
 			if (INI_Value_Check(line, "FFMPEG"))sFFMPEG = line.c_str();				

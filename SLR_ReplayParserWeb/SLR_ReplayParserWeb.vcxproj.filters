@@ -60,9 +60,6 @@
     <ClCompile Include="..\WEB_MCA.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
-    <ClCompile Include="..\WEB_MCB.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
     <ClCompile Include="..\WEB_Toolbar.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
@@ -79,6 +76,15 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\WEB_Utility.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\MIS_Rank.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_Rank.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\WEB_MAA.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,9 +125,6 @@
     <ClInclude Include="..\WEB_MCA.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
-    <ClInclude Include="..\WEB_MCB.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
     <ClInclude Include="..\WEB_MB.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
@@ -135,6 +138,15 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\WEB_Utility.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\MIS_Rank.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_Rank.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\WEB_MAA.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
   </ItemGroup>

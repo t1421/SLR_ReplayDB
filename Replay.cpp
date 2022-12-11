@@ -3,6 +3,7 @@
 #include "Broker.h" 
 
 #include "Replay.h" 
+#include "Utility.h" 
 
 broker *(Replay::Bro) = NULL;
 
@@ -713,14 +714,6 @@ bool Replay::ReadActions()
 	return true;
 }
 
-std::string Replay::sTime(unsigned long ulTime)
-{
-	MISS;
-	char cOut[6];	
-	snprintf(cOut, 6, "%02d:%02d", int(floor(ulTime / 600)), int(ulTime / 10 %60));
-	MISE;
-	return cOut;
-}
 
 bool Replay::ConnectActionToPlayer()
 {

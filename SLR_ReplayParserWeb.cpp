@@ -19,11 +19,15 @@ int main(int argc, char **argv)
 	L->teachL();
 	L->StartUp();
 	L->LoadCards();
+
+	MISD(Bro->L_getRANK_PATH());
 	
 	WEB_Main* W = new WEB_Main();
 	W->teachW();
 	W->Init_W();
 	W->Start_Thread();
+
+	Bro->INIT();
 
 	while (Bro->bAktive)
 	{

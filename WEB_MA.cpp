@@ -3,20 +3,31 @@
 #include "Broker.h"
 
 #include "WEB_MA.h"
-#include "WEB_Replay.h"
+#include "WEB_MAA.h"
+#include "WEB_Rank.h"
+
 
 broker *(WEB_MA::Bro) = NULL;
 
-WEB_MA::WEB_MA(WEB_Replay *WR_):WR(WR_)
+WEB_MA::WEB_MA(WEB_Replay *WR_)
 {
 	MISS;
 
 	cMain = new Wt::WContainerWidget();	
-	wtStatus = new Wt::WText();
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)));
 	
 	MISD("#1");
 
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
+	A = new WEB_MAA(WR_);
+	B = new WEB_Rank(BOT1LIST);
+
+	MISD("#11");
+
+	WEB_Toolbar::ToolBarButton(0, "Replay", *A->cMain, A);
+	WEB_Toolbar::ToolBarButton(1, "Rank", *B->cMain, B);
+	WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	WEB_Toolbar::updateToolbar();
 
 	MISE;
 }
@@ -26,10 +37,6 @@ WEB_MA::WEB_MA(WEB_Replay *WR_):WR(WR_)
 void WEB_MA::WRefresh()
 {
 	MISS;
-	std::string sReturn = WR->BOT1();
-	
-	if(sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>"); 
-	else wtStatus->setText("<h3> The restult is: " + std::to_string(WR->CountActions()) + "</h3>");
-	
+	updateFrame();		
 	MISE;
 }

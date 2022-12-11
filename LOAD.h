@@ -45,6 +45,8 @@ public:
 	std::string sPMV_AUTO_PATH;
 	std::string sPMV_ARCH_PATH;
 
+	std::string sRANK_PATH;
+
 	std::string sTMP_PATH;
 	std::string sFFMPEG;
 

@@ -35,3 +35,10 @@ std::string ReplaceString(std::string subject, const std::string& search, const 
 	}
 	return subject;
 }
+
+std::string sTime(unsigned long ulTime)
+{
+	char cOut[6];
+	snprintf(cOut, 6, "%02d:%02d", int(floor(ulTime / 600)), int(ulTime / 10 % 60));
+	return cOut;
+}

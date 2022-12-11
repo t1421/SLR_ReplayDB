@@ -2,10 +2,9 @@
 
 #include "Broker.h"
 
-//#include "Replay.h" 
-#include "WEB_Replay.h"
-
+#include "Utility.h" 
 #include "WEB_MCA.h"
+#include "WEB_Replay.h"
 
 #include <Wt/WTable.h>
 #include <Wt/WGridLayout.h>
@@ -55,11 +54,33 @@ void WEB_MCA::WRefresh()
 {
 	MISS;
 
+	unsigned long iTime;
+
 	wtTabelle->clear();
-	std::string sReturn = WR->BOT3(wtTabelle, cMap);
+	std::string sReturn = WR->BOT3(wtTabelle, cMap, iTime);
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
-	else wtStatus->setText("<h3>All looks good :-)</h3> ");
+	else
+	{
+		//wtStatus->setText("<h3>All looks good :-)</h3> ");
+		switch (Bro->AddRankPlayer(BOT3LIST, WR->Player(), iTime))
+		{
+		case 5: //Slower
+			wtStatus->setText("<h3>Welcome back, nice run: " + sTime(iTime) + " -> but slower :-)</h3> ");
+			break;
+		case 9: //Same
+			wtStatus->setText("<h3>Welcome back, nice run: " + sTime(iTime) + " -> same time as befor :-)</h3> ");
+			break;
+		case 10: //Faster
+			wtStatus->setText("<h3>Welcome back, nice run: " + sTime(iTime) + " -> faster then your last :-)</h3> ");
+			break;
+		case 15: //New Player
+			wtStatus->setText("<h3>Welcome on the Leaderboard: " + sTime(iTime) + ":-)</h3> ");
+			break;
+		default: //Should not happen
+			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
+		}
+	}
 
 	MISE;
 }
