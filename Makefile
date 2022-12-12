@@ -1,6 +1,7 @@
 CC = g++
 CFLAGS = -g -Wall -pthread 
-Const = -D DF_Debug
+Const = 
+#-D DF_Debug
 
 #noManager -lboost_filesystem
 #noImager  -lopencv_imgcodecs -lopencv_core -lopencv_imgproc -lopencv_highgui 
@@ -19,8 +20,8 @@ Parser: SLR_ReplayParser.o BrokerParser.o DEBUG.o Reader.o Replay.o Thread_MIS.o
 DB: SLR_ReplayDB.o BrokerDB.o DEBUG.o CardBaseDB.o LOAD.o Reader.o Replay.o Thread_MIS.o Utility.o 
 	$(CC) $(CFLAGS) -o DB SLR_ReplayDB.o BrokerDB.o DEBUG.o CardBaseDB.o LOAD.o Reader.o Replay.o Thread_MIS.o Utility.o $(DBLIBS) $(Const)
 
-WEB: SLR_ReplayParserWeb.o BrokerWEB.o DEBUG.o Thread_MIS.o WEB_Main.o WEB_CONTAINER.o WEB_MA.o WEB_MB.o WEB_MBA.o WEB_MC.o WEB_MCA.o WEB_MCB.o WEB_Toolbar.o WEB_Replay.o WEB_Utility.o Replay.o Reader.o LOAD.o Utility.o
-	$(CC) $(CFLAGS) -o WEB SLR_ReplayParserWeb.o BrokerWEB.o DEBUG.o Thread_MIS.o WEB_Main.o WEB_CONTAINER.o WEB_MA.o WEB_MB.o WEB_MBA.o WEB_MC.o WEB_MCA.o WEB_MCB.o WEB_Toolbar.o WEB_Replay.o WEB_Utility.o Replay.o Reader.o LOAD.o Utility.o $(WEBLIBS) $(Const) 
+WEB: BrokerWEB.o DEBUG.o LOAD.o MIS_Rank.o Reader.o Replay.o SLR_ReplayParserWeb.o Thread_MIS.o Utility.o WEB_Main.o WEB_CONTAINER.o WEB_MA.o WEB_MAA.o WEB_MB.o WEB_MBA.o WEB_MC.o WEB_MCA.o WEB_Rank.o WEB_Replay.o WEB_Toolbar.o WEB_Utility.o 
+	$(CC) $(CFLAGS) -o WEB BrokerWEB.o DEBUG.o LOAD.o MIS_Rank.o Reader.o Replay.o SLR_ReplayParserWeb.o Thread_MIS.o Utility.o WEB_Main.o WEB_CONTAINER.o WEB_MA.o WEB_MAA.o WEB_MB.o WEB_MBA.o WEB_MC.o WEB_MCA.o WEB_Rank.o WEB_Replay.o WEB_Toolbar.o WEB_Utility.o  $(WEBLIBS) $(Const) 
  
 
 ###Main OBJs
@@ -55,7 +56,7 @@ BrokerParser.o: Broker.h DEBUG.h Thread_MIS.h Replay.h Reader.h Broker.cpp
 BrokerDB.o: Broker.h DEBUG.h Thread_MIS.h Replay.h Reader.h Broker.cpp LOAD.h CardBase.h 
 	$(CC) -c Broker.cpp -o BrokerDB.o -D BrokerNormal -D noManager -D noImager -D noSQL $(Const)
 
-BrokerWEB.o: Broker.h DEBUG.h Thread_MIS.h Replay.h Reader.h Broker.cpp LOAD.h CardBase.h WEB_Main.h WEB_CONTAINER.h WEB_MA.h WEB_MB.h WEB_MBA.h WEB_MC.h WEB_MCA.h WEB_MCB.h WEB_Toolbar.h WEB_Replay.h 
+BrokerWEB.o: Broker.h DEBUG.h Thread_MIS.h Replay.h Reader.h Broker.cpp LOAD.h CardBase.h WEB_Main.h WEB_CONTAINER.h WEB_MA.h WEB_MB.h WEB_MBA.h WEB_MC.h WEB_MCA.h WEB_Toolbar.h WEB_Replay.h 
 	$(CC) -c Broker.cpp -o BrokerWEB.o -D BrokerWeb -D noManager -D noImager -D noSQL $(Const)	
 
 ###Rest
@@ -83,9 +84,12 @@ LOAD.o: Broker.h LOAD.h LOAD.cpp
 CardBaseDB.o: Broker.h CardBase.h CardBase.cpp SQL_MIS_New.h
 	$(CC) -c CardBase.cpp -o CardBaseDB.o -D BrokerNormal -D noSQL $(Const)
 
+MIS_Rank.o: Broker.h MIS_Rank.h MIS_Rank.cpp
+	$(CC) -c MIS_Rank.cpp -D BrokerWeb $(Const)
+
 ### WEB
 WEB_Main.o: Broker.h WEB_Main.h WEB_Main.cpp Utility.h WEB_CONTAINER.h Thread_MIS.h
-	$(CC) -c WEB_Main.cpp Thread_MIS.o $(Const)
+	$(CC) -c WEB_Main.cpp $(Const)
 
 WEB_CONTAINER: Broker.h WEB_CONTAINER.h WEB_CONTAINER.cpp WEB_Utility.h WEB_MA.h WEB_MB.h WEB_MC.h WEB_Toolbar.h WEB_Replay.h
 	$(CC) -c WEB_CONTAINER.cpp  $(Const)
@@ -93,26 +97,29 @@ WEB_CONTAINER: Broker.h WEB_CONTAINER.h WEB_CONTAINER.cpp WEB_Utility.h WEB_MA.h
 WEB_Toolbar.o: Broker.h WEB_Toolbar.h WEB_Toolbar.cpp WEB_Utility.h
 	$(CC) -c WEB_Toolbar.cpp $(Const)
 
+WEB_Rank.o: Broker.h WEB_Rank.h MIS_Rank.h WEB_Rank.cpp Utility.h WEB_Utility.h
+	$(CC) -c WEB_Rank.cpp $(Const)	
+
 WEB_Replay.o: Broker.h WEB_Replay.h WEB_Replay.cpp WEB_Utility.h Replay.h LOAD.h
 	$(CC) -c WEB_Replay.cpp  $(Const)
 
-WEB_MA.o: Broker.h WEB_MA.h WEB_MA.cpp WEB_Replay.h WEB_Utility.h 
+WEB_MA.o: Broker.h WEB_MA.h WEB_MAA.h WEB_MA.cpp WEB_Rank.h WEB_Toolbar.h WEB_Replay.h
 	$(CC) -c WEB_MA.cpp  $(Const)
 
-WEB_MB.o: Broker.h WEB_MB.h WEB_MB.cpp WEB_MBA.h WEB_Replay.h WEB_Toolbar.h
+WEB_MAA.o: Broker.h WEB_MAA.h WEB_MAA.cpp WEB_Replay.h WEB_Utility.h
+	$(CC) -c WEB_MAA.cpp -D BrokerWeb $(Const)	
+
+WEB_MB.o: Broker.h WEB_MB.h WEB_MBA.h WEB_MB.cpp WEB_Rank.h WEB_Toolbar.h WEB_Replay.h
 	$(CC) -c WEB_MB.cpp  $(Const)	
 
-WEB_MBA.o: Broker.h WEB_MBA.h WEB_MBA.cpp WEB_Replay.h WEB_Utility.h
-	$(CC) -c WEB_MBA.cpp $(Const)		
+WEB_MBA.o: Broker.h WEB_MBA.h WEB_MBA.cpp WEB_Replay.h WEB_Utility.h Utility.h
+	$(CC) -c WEB_MBA.cpp -D BrokerWeb $(Const)		
 
-WEB_MC.o: Broker.h WEB_MC.h WEB_MC.cpp WEB_MCA.h WEB_MCB.h WEB_Replay.h WEB_Toolbar.h
+WEB_MC.o: Broker.h WEB_MC.h WEB_MCA.h WEB_MC.cpp WEB_Rank.h WEB_Toolbar.h WEB_Replay.h
 	$(CC) -c WEB_MC.cpp  $(Const)	
 
-WEB_MCA.o: Broker.h WEB_MCA.h WEB_MCA.cpp WEB_Replay.h WEB_Utility.h
-	$(CC) -c WEB_MCA.cpp $(Const)	
-
-WEB_MCB.o: Broker.h WEB_MCB.h WEB_MCB.cpp WEB_Utility.h
-	$(CC) -c WEB_MCB.cpp $(Const)		
+WEB_MCA.o: Broker.h WEB_MCA.h WEB_MCA.cpp WEB_Replay.h WEB_Utility.h Utility.h
+	$(CC) -c WEB_MCA.cpp -D BrokerWeb $(Const)	
 
 clean:
 	rm *.o Parser DB WEB

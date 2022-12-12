@@ -2,6 +2,10 @@
 #include <thread>
 #include <fstream>
 
+#ifdef __linux__
+#include <tgmath.h> 
+#endif
+
 void Sleep(int time)
 {
 	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
