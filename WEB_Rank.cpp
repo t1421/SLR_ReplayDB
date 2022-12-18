@@ -37,7 +37,8 @@ void WEB_Rank::WRefresh()
 
 	for (unsigned int i = 0; i < Bro->A[iBOTLIST]->RankRows.size(); i++)
 	{
-		wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->A[iBOTLIST]->RankRows[i]->Player)))));
+		//wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->A[iBOTLIST]->RankRows[i]->Player)))));
+		wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(Bro->A[iBOTLIST]->RankRows[i]->Name))));
 		if (iBOTLIST == 0) wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->A[iBOTLIST]->RankRows[i]->Time)))));
 		else wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Bro->A[iBOTLIST]->RankRows[i]->Time)))));
 	}

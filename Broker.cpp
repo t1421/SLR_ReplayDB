@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 #include "Broker.h"
 
 #include "DEBUG.h"
@@ -26,6 +26,9 @@
 #include "WEB_Toolbar.h"
 #include "WEB_Replay.h"
 #include "MIS_Rank.h"
+
+#include <algorithm>
+#include <iterator>
 #endif
 
 #ifdef BrokerNormal
@@ -107,18 +110,62 @@ Imager::learnBro(this);
 
 #ifdef BrokerWeb
 void broker::INIT()
-{
-	MISS;
+{	
 	for (int i = 0; i <= BOTXLIST; i++)A[i] = new MIS_Rank(i);
-	MISE;
+
+	std::ifstream ifFile;
+	std::string line;
+	
+	ifFile.open(L_getRANK_PATH() + "Names.csv", std::ios::binary);	
+	if (!ifFile.good())
+	{
+		return;
+	}
+	
+	std::copy(std::istream_iterator<std::string>(ifFile),
+		std::istream_iterator<std::string>(),
+		std::back_inserter(FreeNames));
+	
+	ifFile.close();
+	
 }
 
-int broker::AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, unsigned long Playtime)
+int broker::AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, unsigned long Playtime, std::string &sRankName)
 {
-	return A[iRANK]->AddPlayer(PMVPlayerID, Playtime);
+	return A[iRANK]->AddPlayer(PMVPlayerID, Playtime, sRankName);
 }
 
+std::string broker::getName()
+{
+	if (FreeNames.size() == 0)
+	{
+		return "ERROR###1";
+	}
+	mtx.lock();
+	std::string sTemp = FreeNames.at(0);
+	FreeNames.erase(FreeNames.begin());
+	saveName();
+	mtx.unlock();
 
+	return sTemp;
+}
+
+void broker::saveName()
+{
+	
+	std::ofstream ofFile;	
+	ofFile.open(L_getRANK_PATH() + "Names.csv", std::ios::binary);
+	if (ofFile.good())
+	{
+		for (unsigned int i = 0; i < FreeNames.size(); i++)
+		{
+			ofFile << FreeNames[i] << std::endl;
+		}
+		ofFile.close();
+	}
+	//else MISEA("Error for Rank list");
+	
+}
 #endif
 
 broker::~broker()

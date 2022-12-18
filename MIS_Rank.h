@@ -8,7 +8,9 @@
 struct ROW {
 	unsigned long long Player;
 	unsigned long Time;
+	std::string Name;
 };
+
 
 class MIS_Rank
 {
@@ -18,10 +20,9 @@ public:
 
 	void SaveList();
 	void SortList();
-	int AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime);
+	int AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime, std::string &sRankName);
 
 	std::vector<ROW*> RankRows;
-
 	
 	//BROKER
 	static broker* Bro;

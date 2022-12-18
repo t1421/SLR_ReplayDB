@@ -36,6 +36,8 @@ MIS_Rank::MIS_Rank(int iRankList): sFile(std::to_string(iRankList) + ".csv")
 		R_Temp->Player = atoi(line.substr(0, line.find(";")).c_str());
 		line.erase(0, line.find(";") + 1);
 		R_Temp->Time = atoi(line.substr(0, line.find(";")).c_str());
+		line.erase(0, line.find(";") + 1);
+		R_Temp->Name = line.substr(0, line.find(";")).c_str();
 		
 		RankRows.push_back(R_Temp);
 		ifFile.clear();
@@ -63,7 +65,7 @@ void MIS_Rank::SaveList()
 		mtx.lock();
 		for (unsigned int i = 0; i < RankRows.size(); i++)
 		{
-			ofFile << RankRows[i]->Player << ";" << RankRows[i]->Time << std::endl;
+			ofFile << RankRows[i]->Player << ";" << RankRows[i]->Time << ";" << RankRows[i]->Name << std::endl;
 		}
 		mtx.unlock();
 		ofFile.close();
@@ -86,13 +88,14 @@ void MIS_Rank::SortList()
 }
 
 
-int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime)
+int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime, std::string &sRankName)
 {
 	MISS;
 	int iReturn = 0;
+	unsigned int i;
 
 	mtx.lock();
-	for (unsigned int i = 0; i < RankRows.size(); i++)
+	for (i = 0; i < RankRows.size(); i++)
 	{
 		if (RankRows[i]->Player == PMVPlayerID)
 		{
@@ -100,7 +103,7 @@ int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime)
 			{
 				MISD("Player vorhanden, Time Updated");
 				RankRows[i]->Time = Playtime;
-				iReturn = 10;				
+				iReturn = 10;
 				break;
 			}
 			else if (RankRows[i]->Time == Playtime)
@@ -113,7 +116,7 @@ int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime)
 			else
 			{
 				MISD("Player vorhanden, Time Slower");
-				iReturn = 5;				
+				iReturn = 5;
 				break;
 			}
 		}
@@ -124,9 +127,14 @@ int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime)
 		ROW* R_Temp = new ROW();
 		R_Temp->Player = PMVPlayerID;
 		R_Temp->Time = Playtime;
+		R_Temp->Name = Bro->getName();
+
 		RankRows.push_back(R_Temp);
+		i = RankRows.size() - 1;
 		iReturn = 15;
 	}
+
+	sRankName = RankRows[i]->Name;
 	mtx.unlock();
 
 	if (iReturn > 9)
@@ -134,7 +142,7 @@ int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime)
 		SortList();
 		SaveList();
 	}
-
+	
 	MISE;
 	return iReturn;
 }

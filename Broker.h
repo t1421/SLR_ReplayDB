@@ -31,6 +31,8 @@
 #endif	
 
 #include <string>
+#include <mutex> 
+#include <vector>
 
 #define BOT1LIST 0
 #define BOT2LIST 1
@@ -91,7 +93,11 @@ public:
 
 #ifdef BrokerWeb
 	void INIT();
-	int AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, unsigned long Playtime);
+	int AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, unsigned long Playtime, std::string &sRankName);
+	std::vector<std::string> FreeNames;
+	std::string getName();
+	void saveName();
+	std::mutex mtx;
 #endif
 
 	void B_StatusNew(std::string Fun, std::string Wert);

@@ -31,20 +31,21 @@ void WEB_MAA::WRefresh()
 	else
 	{
 		//wtStatus->setText("<h3> The restult is: " + std::to_string(WR->CountActions()) + "</h3>");
-		switch (Bro->AddRankPlayer(BOT1LIST, WR->Player(), WR->CountActions()))
+		std::string sRankName;
+		switch (Bro->AddRankPlayer(BOT1LIST, WR->Player(), WR->CountActions(), sRankName))
 		{
 		case 5: //Slower
 
-			wtStatus->setText("<h3>Welcome back, nice run: " + std::to_string(WR->CountActions()) + " -> but more actions :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(WR->CountActions()) + " -> but more actions :-)</h3> ");
 			break;
 		case 9: //Same
-			wtStatus->setText("<h3>Welcome back, nice run: " + std::to_string(WR->CountActions()) + " -> same action count :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(WR->CountActions()) + " -> same action count :-)</h3> ");
 			break;
 		case 10: //Faster
-			wtStatus->setText("<h3>Welcome back, nice run: " + std::to_string(WR->CountActions()) + " -> less actions then your last :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(WR->CountActions()) + " -> less actions then your last :-)</h3> ");
 			break;
 		case 15: //New Player
-			wtStatus->setText("<h3>Welcome on the Leaderboard: " + std::to_string(WR->CountActions()) + " actions :-)</h3> ");
+			wtStatus->setText("<h3>Welcome on the Leaderboard " + sRankName + ": " + std::to_string(WR->CountActions()) + " actions :-)</h3> ");
 			break;
 		default: //Should not happen
 			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
