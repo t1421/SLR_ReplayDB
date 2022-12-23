@@ -50,6 +50,8 @@ public:
 	std::string sTMP_PATH;
 	std::string sFFMPEG;
 
+	int BOTRankMode[BOTXLIST];
+
 	std::vector <CsvCard*> CsvAllCards;
 
 	//BROKER

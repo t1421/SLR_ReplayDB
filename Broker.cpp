@@ -111,7 +111,7 @@ Imager::learnBro(this);
 #ifdef BrokerWeb
 void broker::INIT()
 {	
-	for (int i = 0; i <= BOTXLIST; i++)A[i] = new MIS_Rank(i);
+	for (int i = 0; i <= BOTXLIST; i++)A[i] = new MIS_Rank(i,L->BOTRankMode[i]);
 
 	std::ifstream ifFile;
 	std::string line;

@@ -135,9 +135,6 @@ bool Reader::Open(std::string sFile)
 		MISEA("V3")
 		return false;
 	}
-	MISD(std::to_string(PMVbuffer[0]));
-	MISD(std::to_string(PMVbuffer[1]));
-	MISD(std::to_string(PMVbuffer[2]));
 
 	// Pos 0-2 = "PMV"
 	PMVPosition = 3;

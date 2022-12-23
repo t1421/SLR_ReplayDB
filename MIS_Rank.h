@@ -15,12 +15,13 @@ struct ROW {
 class MIS_Rank
 {
 public:
-	MIS_Rank(int iRankList);
+	MIS_Rank(int iRankList, int _RankMode);
 	~MIS_Rank();
 
 	void SaveList();
 	void SortList();
 	int AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime, std::string &sRankName);
+	int RankMode;
 
 	std::vector<ROW*> RankRows;
 	

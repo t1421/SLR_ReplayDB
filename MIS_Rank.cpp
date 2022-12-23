@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "Broker.h" 
 
@@ -14,7 +14,7 @@ bool comparePlayer(const ROW *a, const ROW *b)
 	return a->Time < b->Time;
 }
 
-MIS_Rank::MIS_Rank(int iRankList): sFile(std::to_string(iRankList) + ".csv")
+MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList) + ".csv"), RankMode(_RankMode)
 {
 	MISS;
 
@@ -22,6 +22,7 @@ MIS_Rank::MIS_Rank(int iRankList): sFile(std::to_string(iRankList) + ".csv")
 	std::string line;
 	ROW* R_Temp;
 	std::ifstream ifFile;
+	
 	
 	ifFile.open(Bro->L_getRANK_PATH() + sFile.c_str(), std::ios::binary);
 	if (!ifFile.good())
@@ -127,18 +128,23 @@ int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime, 
 		ROW* R_Temp = new ROW();
 		R_Temp->Player = PMVPlayerID;
 		R_Temp->Time = Playtime;
-		R_Temp->Name = Bro->getName();
-
+		if (RankMode == 1)sRankName = "Player"; 
+		else R_Temp->Name = Bro->getName();
+		
 		RankRows.push_back(R_Temp);
 		i = RankRows.size() - 1;
 		iReturn = 15;
 	}
-
+	
 	sRankName = RankRows[i]->Name;
+
+	if (RankMode == 1)RankRows.pop_back();
+	
 	mtx.unlock();
 
-	if (iReturn > 9)
-	{
+	if (iReturn > 9
+		&& RankMode != 1)
+	{		
 		SortList();
 		SaveList();
 	}
