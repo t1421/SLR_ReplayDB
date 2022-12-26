@@ -62,7 +62,7 @@ public:
 	Manager* M;
 	Imager* I;
 	WEB_Main *W;
-	MIS_Rank* A[BOTXLIST];
+	MIS_Rank* A[BOTXLIST + 1];
 
 	broker* Bro;
 

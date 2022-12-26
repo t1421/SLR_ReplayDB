@@ -50,7 +50,7 @@ public:
 	std::string sTMP_PATH;
 	std::string sFFMPEG;
 
-	int BOTRankMode[BOTXLIST];
+	int BOTRankMode[BOTXLIST + 1];
 
 	std::vector <CsvCard*> CsvAllCards;
 

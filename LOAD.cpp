@@ -23,6 +23,7 @@ void LOAD::Load_Settings()
 		while (getline(ifFile, line))
 		{
 			line.erase(line.size() - 1);
+			//printf("%s\n",line.c_str());
 
 			if (INI_Value_Check(line, "SQL_Server"))sSQL_Server = line.c_str();
 			if (INI_Value_Check(line, "SQL_User"))sSQL_User = line.c_str();
@@ -42,7 +43,7 @@ void LOAD::Load_Settings()
 			if (INI_Value_Check(line, "BOT1RankMode"))BOTRankMode[BOT1LIST] = atoi(line.c_str());
 			if (INI_Value_Check(line, "BOT2RankMode"))BOTRankMode[BOT2LIST] = atoi(line.c_str());
 			if (INI_Value_Check(line, "BOT3RankMode"))BOTRankMode[BOT3LIST] = atoi(line.c_str());
-
+			
 			ifFile.clear();
 		}
 		
