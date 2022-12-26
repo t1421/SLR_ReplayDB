@@ -135,10 +135,9 @@ int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime, 
 		i = RankRows.size() - 1;
 		iReturn = 15;
 	}
+	else sRankName = RankRows[i]->Name;
+	if (RankMode == 1 && iReturn == 15)RankRows.pop_back();
 	
-	sRankName = RankRows[i]->Name;
-
-	if (RankMode == 1)RankRows.pop_back();
 	
 	mtx.unlock();
 
