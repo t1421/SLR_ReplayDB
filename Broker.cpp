@@ -241,6 +241,11 @@ std::string broker::L_getRANK_PATH()
 	return L->sRANK_PATH;	
 }
 
+int broker::L_getBOTRankMode(int _BOT)
+{
+	return L->BOTRankMode[_BOT];
+}
+
 
 
 #endif

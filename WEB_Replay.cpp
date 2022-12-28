@@ -440,7 +440,7 @@ unsigned long WEB_Replay::FillTableBOT3(Wt::WTable *wtTabelle)
 	unsigned long iUnit;
 
 	InitVector();
-
+	
 	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Wells </h3>"))));
 	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Orbs </h3>"))));
 	//wtTabelle->elementAt(0,2)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Walls </h3>"))));
