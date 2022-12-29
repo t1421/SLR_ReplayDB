@@ -97,10 +97,13 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	
 
 	MISD("#6");
-	WEB_Toolbar::ToolBarButton(0, "BOT1", *MA->cMain, MA);
-	WEB_Toolbar::ToolBarButton(1, "BOT2", *MB->cMain, MB);
-	WEB_Toolbar::ToolBarButton(2, "BOT3", *MC->cMain, MC);
-	WEB_Toolbar::sToolbar->setCurrentIndex(2);
+	if (Bro->L_getBOTRankMode(BOT1LIST) <10)WEB_Toolbar::ToolBarButton(0, "BOT1", *MA->cMain, MA);
+	if (Bro->L_getBOTRankMode(BOT2LIST) <10)WEB_Toolbar::ToolBarButton(1, "BOT2", *MB->cMain, MB);
+	if (Bro->L_getBOTRankMode(BOT3LIST) <10)WEB_Toolbar::ToolBarButton(2, "BOT3", *MC->cMain, MC);
+	
+	//WEB_Toolbar::sToolbar->setCurrentIndex(1);
+	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -1);
+	
 	WEB_Toolbar::updateToolbar();
 
 	MISD("#7");
