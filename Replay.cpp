@@ -644,7 +644,8 @@ bool Replay::ReadActions()
 				tempCount = readUnsignedLong(); // Unit Count !!! Wiso ein Long???
 				for (unsigned int i = 0; i < tempCount; i++)
 				{
-					readUnsignedLong(); // Unit
+					Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";" ; // Unit
+					//readUnsignedLong(); // Unit
 				}
 				break;
 				///###

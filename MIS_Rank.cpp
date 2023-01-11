@@ -129,7 +129,11 @@ int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime, 
 		R_Temp->Player = PMVPlayerID;
 		R_Temp->Time = Playtime;
 		if (RankMode == 1)sRankName = "Player"; 
-		else R_Temp->Name = Bro->getName();
+		else
+		{
+			R_Temp->Name = Bro->getName();
+			sRankName = R_Temp->Name;
+		}
 		
 		RankRows.push_back(R_Temp);
 		i = RankRows.size() - 1;

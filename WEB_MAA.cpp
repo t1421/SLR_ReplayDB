@@ -49,7 +49,8 @@ void WEB_MAA::WRefresh()
 			break;
 		default: //Should not happen
 			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
-			}
+		}
+		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}
 
 	MISE;

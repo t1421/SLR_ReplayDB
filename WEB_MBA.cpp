@@ -59,6 +59,7 @@ void WEB_MBA::WRefresh()
 		default: //Should not happen
 			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
 		}
+		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 
 	}
 	MISE;
