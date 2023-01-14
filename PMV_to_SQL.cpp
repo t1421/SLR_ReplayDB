@@ -261,6 +261,7 @@ bool PMV_to_SQL::UploadActions(std::string iNewHeadID)
 
 	for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
 	{
+		if (RR->ActionMatrix[i]->Type == 4045) continue;
 		NN->ssSQL << "INSERT INTO action (";
 		NN->ssSQL << "  gameID , ";
 		NN->ssSQL << "  Time  , ";
