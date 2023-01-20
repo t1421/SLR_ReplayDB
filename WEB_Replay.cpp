@@ -81,7 +81,7 @@ std::string WEB_Replay::BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, 
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (R->CountActions("4007") != 2)return "You have to save the first 2 Wagons";
 	if (R->Playtime > 10000)return "You have to save the first 2 Wagons";
-	if (R->GameVersion != 1400039)return "Wrong Game Version";
+	if (R->GameVersion != 400039)return "Wrong Game Version";
 	
 	for (unsigned j = 0; j < vMarker.size(); j++) if (WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")return "You did not build all Orbs and/or Wells";
 		
