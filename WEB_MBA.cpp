@@ -48,7 +48,7 @@ void WEB_MBA::WRefresh()
 			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(WR->Playtime()) + " -> but slower :-)</h3> ");
 			break;
 		case 9: //Same
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(WR->Playtime()) + " -> same time as befor :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(WR->Playtime()) + " -> same time as before :-)</h3> ");
 			break;
 		case 10: //Faster
 			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(WR->Playtime()) + " -> faster then your last :-)</h3> ");

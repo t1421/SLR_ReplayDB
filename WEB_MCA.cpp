@@ -70,7 +70,7 @@ void WEB_MCA::WRefresh()
 			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iTime) + " -> but slower :-)</h3> ");
 			break;
 		case 9: //Same
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iTime) + " -> same time as befor :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iTime) + " -> same time as before :-)</h3> ");
 			break;
 		case 10: //Faster
 			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iTime) + " -> faster then your last :-)</h3> ");
