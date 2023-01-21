@@ -152,18 +152,20 @@ std::string broker::getName()
 
 void broker::saveName()
 {
-	
+	printf("save Name\n");
 	std::ofstream ofFile;	
 	ofFile.open(L_getRANK_PATH() + "Names.csv", std::ios::binary);
 	if (ofFile.good())
 	{
+		printf("FILE OK\n");
 		for (unsigned int i = 0; i < FreeNames.size(); i++)
 		{
+	 //printf("%i\n",i);
 			ofFile << FreeNames[i] << std::endl;
 		}
 		ofFile.close();
 	}
-	//else MISEA("Error for Rank list");
+	else printf("XXX\n");
 	
 }
 #endif
