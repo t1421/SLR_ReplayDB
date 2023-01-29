@@ -1,7 +1,7 @@
 #ifndef WEB_Main_H
 #define WEB_Main_H
 
-#include "Thread_MIS.h"
+#include "..\..\incl\Thread_MIS.h"
 
 #include <Wt/WServer.h>
 

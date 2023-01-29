@@ -1,51 +1,51 @@
 #define DF_Debug
-#include "Broker.h"
+#include "..\incl\Broker.h"
 
-#include "DEBUG.h"
+#include "..\incl\DEBUG.h"
 
-#include "Replay.h" 
-#include "Reader.h" 
+#include "..\incl\Replay.h" 
+#include "..\incl\Reader.h" 
 
 #if defined BrokerNormal || defined BrokerWeb
-#include "LOAD.h"
-#include "Thread_MIS.h" 
+#include "..\incl\LOAD.h"
+#include "..\incl\Thread_MIS.h" 
 #endif
 
 
 #ifdef BrokerWeb
 
-#include "WEB_Main.h"
-#include "WEB_CONTAINER.h"
-#include "WEB_MA.h"
-#include "WEB_MAA.h"
-#include "WEB_MB.h"
-#include "WEB_MBA.h"
-#include "WEB_MC.h"
-#include "WEB_MCA.h"
-#include "WEB_Rank.h"
-#include "WEB_Toolbar.h"
-#include "WEB_Replay.h"
-#include "MIS_Rank.h"
+#include "..\incl\WEB\WEB_Main.h"
+#include "..\incl\WEB\WEB_CONTAINER.h"
+#include "..\incl\WEB\WEB_MA.h"
+#include "..\incl\WEB\WEB_MAA.h"
+#include "..\incl\WEB\WEB_MB.h"
+#include "..\incl\WEB\WEB_MBA.h"
+#include "..\incl\WEB\WEB_MC.h"
+#include "..\incl\WEB\WEB_MCA.h"
+#include "..\incl\WEB\WEB_Rank.h"
+#include "..\incl\WEB\WEB_Toolbar.h"
+#include "..\incl\WEB\WEB_Replay.h"
+#include "..\incl\MIS_Rank.h"
 
 #include <algorithm>
 #include <iterator>
 #endif
 
 #ifdef BrokerNormal
-#include "CardBase.h" 
+#include "..\incl\CardBase.h" 
 #endif
 
 #ifndef noSQL
-#include "SQL_MIS_New.h" 
-#include "PMV_to_SQL.h"
+#include "..\incl\SQL_MIS_New.h" 
+#include "..\incl\PMV_to_SQL.h"
 #endif
 
 #ifndef noManager
-#include "Manager.h"
+#include "..\incl\Manager.h"
 #endif
 
 #ifndef noImager
-#include "Imager.h"
+#include "..\incl\Imager.h"
 #endif
 broker::broker()
 {

@@ -1,10 +1,10 @@
 //#define DF_Debug
 
-#include "Broker.h"
+#include "..\..\incl\Broker.h"
 
-#include "WEB_MB.h"
-#include "WEB_MBA.h"
-#include "WEB_Rank.h"
+#include "..\..\incl\WEB\WEB_MB.h"
+#include "..\..\incl\WEB\WEB_MBA.h"
+#include "..\..\incl\WEB\WEB_Rank.h"
 
 class WEB_Replay;
 

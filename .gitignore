@@ -23,3 +23,7 @@ Release/SLR_ReplayParserWeb.pdb
 *.key
 *.o
 Release/RANK/
+Release/SLR_ReplayParserNuki1.iobj
+Release/SLR_ReplayParserNuki1.ipdb
+Release/SLR_ReplayParserNuki1.pdb
+SLR_ReplayParserNuki1/Release/

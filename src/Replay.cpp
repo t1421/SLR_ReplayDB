@@ -1,9 +1,9 @@
 //#define DF_Debug
 
-#include "Broker.h" 
+#include "..\incl\Broker.h" 
 
-#include "Replay.h" 
-#include "Utility.h" 
+#include "..\incl\Replay.h" 
+#include "..\incl\Utility.h" 
 
 broker *(Replay::Bro) = NULL;
 

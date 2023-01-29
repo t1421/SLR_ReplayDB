@@ -1,10 +1,10 @@
-#include "Broker.h" 
+#include "..\incl\Broker.h" 
 
 #define Log_path "LOG/"
 #define __STDC_WANT_LIB_EXT1__ 1
 #include <time.h>
 
-#include "DEBUG.h"
+#include "..\incl\DEBUG.h"
 
 
 broker *(DEBUG::Bro) = NULL;

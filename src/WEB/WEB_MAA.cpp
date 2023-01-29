@@ -1,9 +1,9 @@
 //#define DF_Debug
 
-#include "Broker.h"
+#include "..\..\incl\Broker.h"
 
-#include "WEB_MAA.h"
-#include "WEB_Replay.h"
+#include "..\..\incl\WEB\WEB_MAA.h"
+#include "..\..\incl\WEB\WEB_Replay.h"
 
 #include <Wt/WContainerWidget.h>
 

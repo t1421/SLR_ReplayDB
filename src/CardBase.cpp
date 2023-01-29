@@ -1,7 +1,7 @@
 //#define DF_Debug
 //#define BrokerNormal
 
-#include "Broker.h" 
+#include "..\incl\Broker.h" 
 
 #ifdef CardBaseUpdater
 #define CardWebURL "https://hub.backend.skylords.eu/api/auctions/cards?id=all"
@@ -10,10 +10,10 @@
 #endif
 
 #ifndef noSQL
-#include "SQL_MIS_New.h"
+#include "..\incl\SQL_MIS_New.h"
 #endif
 
-#include "CardBase.h" 
+#include "..\incl\CardBase.h" 
 
 broker *(CardBase::Bro) = NULL;
 

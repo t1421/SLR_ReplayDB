@@ -1,8 +1,8 @@
 //#define DF_Debug
 
-#include "Broker.h" 
+#include "..\incl\Broker.h" 
 
-#include "SQL_MIS_New.h"
+#include "..\incl\SQL_MIS_New.h"
 
 broker *(SQL_MIS_New::Bro) = NULL;
 

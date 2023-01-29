@@ -1,10 +1,10 @@
 // SLR_ReplayParserWeb.cpp : Definiert den Einstiegspunkt f�r die Konsolenanwendung.
 //
 
-#include "Broker.h"
-#include "DEBUG.h" 
-#include "WEB_Main.h"
-#include "LOAD.h" 
+#include "incl\Broker.h"
+#include "incl\DEBUG.h" 
+#include "incl\WEB\WEB_Main.h"
+#include "incl\LOAD.h" 
 
 int main(int argc, char **argv)
 {

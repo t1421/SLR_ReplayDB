@@ -1,10 +1,10 @@
 //#define DF_Debug
 
-#include "Broker.h"
+#include "..\..\incl\Broker.h"
 
-#include "WEB_MA.h"
-#include "WEB_MAA.h"
-#include "WEB_Rank.h"
+#include "..\..\incl\WEB\WEB_MA.h"
+#include "..\..\incl\WEB\WEB_MAA.h"
+#include "..\..\incl\WEB\WEB_Rank.h"
 
 
 broker *(WEB_MA::Bro) = NULL;

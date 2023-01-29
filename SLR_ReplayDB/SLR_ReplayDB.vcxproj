@@ -152,33 +152,33 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Broker.h" />
-    <ClInclude Include="..\CardBase.h" />
-    <ClInclude Include="..\DEBUG.h" />
-    <ClInclude Include="..\Imager.h" />
-    <ClInclude Include="..\LOAD.h" />
-    <ClInclude Include="..\Manager.h" />
-    <ClInclude Include="..\PMV_to_SQL.h" />
-    <ClInclude Include="..\Reader.h" />
-    <ClInclude Include="..\Replay.h" />
-    <ClInclude Include="..\SQL_MIS_New.h" />
-    <ClInclude Include="..\Thread_MIS.h" />
-    <ClInclude Include="..\Utility.h" />
+    <ClInclude Include="..\incl\Broker.h" />
+    <ClInclude Include="..\incl\CardBase.h" />
+    <ClInclude Include="..\incl\DEBUG.h" />
+    <ClInclude Include="..\incl\Imager.h" />
+    <ClInclude Include="..\incl\LOAD.h" />
+    <ClInclude Include="..\incl\Manager.h" />
+    <ClInclude Include="..\incl\PMV_to_SQL.h" />
+    <ClInclude Include="..\incl\Reader.h" />
+    <ClInclude Include="..\incl\Replay.h" />
+    <ClInclude Include="..\incl\SQL_MIS_New.h" />
+    <ClInclude Include="..\incl\Thread_MIS.h" />
+    <ClInclude Include="..\incl\Utility.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\Broker.cpp" />
-    <ClCompile Include="..\CardBase.cpp" />
-    <ClCompile Include="..\DEBUG.cpp" />
-    <ClCompile Include="..\Imager.cpp" />
-    <ClCompile Include="..\LOAD.cpp" />
-    <ClCompile Include="..\Manager.cpp" />
-    <ClCompile Include="..\PMV_to_SQL.cpp" />
-    <ClCompile Include="..\Reader.cpp" />
-    <ClCompile Include="..\Replay.cpp" />
     <ClCompile Include="..\SLR_ReplayDB.cpp" />
-    <ClCompile Include="..\SQL_MIS_New.cpp" />
-    <ClCompile Include="..\Thread_MIS.cpp" />
-    <ClCompile Include="..\Utility.cpp" />
+    <ClCompile Include="..\src\Broker.cpp" />
+    <ClCompile Include="..\src\CardBase.cpp" />
+    <ClCompile Include="..\src\DEBUG.cpp" />
+    <ClCompile Include="..\src\Imager.cpp" />
+    <ClCompile Include="..\src\LOAD.cpp" />
+    <ClCompile Include="..\src\Manager.cpp" />
+    <ClCompile Include="..\src\PMV_to_SQL.cpp" />
+    <ClCompile Include="..\src\Reader.cpp" />
+    <ClCompile Include="..\src\Replay.cpp" />
+    <ClCompile Include="..\src\SQL_MIS_New.cpp" />
+    <ClCompile Include="..\src\Thread_MIS.cpp" />
+    <ClCompile Include="..\src\Utility.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

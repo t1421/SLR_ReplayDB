@@ -1,9 +1,9 @@
 //#define DF_Debug
 
-#include "Broker.h"
-#include "WEB_Utility.h"
+#include "..\..\incl\Broker.h"
+#include "..\..\incl\WEB\WEB_Utility.h"
 
-#include "WEB_Toolbar.h"
+#include "..\..\incl\WEB\WEB_Toolbar.h"
 
 
 

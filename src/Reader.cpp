@@ -1,8 +1,8 @@
 #define DF_Debug
 
-#include "Broker.h" 
+#include "..\incl\Broker.h" 
 
-#include "Reader.h" 
+#include "..\incl\Reader.h" 
 
 #include <sstream>
 #include <locale>

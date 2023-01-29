@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="src">
+      <UniqueIdentifier>{2b82efb9-4a2b-4b2b-b97b-bb17af67521f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="incl">
+      <UniqueIdentifier>{bf28a2b1-f57b-40f6-a7c9-631279099040}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\incl\Broker.h">
+      <Filter>incl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\DEBUG.h">
+      <Filter>incl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\Reader.h">
+      <Filter>incl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\Replay.h">
+      <Filter>incl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\Thread_MIS.h">
+      <Filter>incl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\Utility.h">
+      <Filter>incl</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\src\Broker.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\DEBUG.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Reader.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Replay.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Thread_MIS.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Utility.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

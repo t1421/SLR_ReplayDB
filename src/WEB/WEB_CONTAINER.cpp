@@ -1,14 +1,14 @@
 //#define DF_Debug
 
-#include "Broker.h" 
-#include "WEB_Utility.h"
+#include "..\..\incl\Broker.h" 
+#include "..\..\incl\WEB\WEB_Utility.h"
 
 //#include "WEB_Main.h"
-#include "WEB_MA.h"
-#include "WEB_MB.h"
-#include "WEB_MC.h"
+#include "..\..\incl\WEB\WEB_MA.h"
+#include "..\..\incl\WEB\WEB_MB.h"
+#include "..\..\incl\WEB\WEB_MC.h"
 
-#include "WEB_CONTAINER.h"
+#include "..\..\incl\WEB\WEB_CONTAINER.h"
 
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WText.h>
@@ -71,7 +71,7 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(ReplayInfo)), 0, 1, 4, 0);
 
 	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Map: "))), 0, 0);
-	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Difficulti: "))), 1, 0);
+	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Difficulty: "))), 1, 0);
 	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Playtime: "))), 2, 0);
 	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Actions: "))), 3, 0);
 	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtMap)), 0, 1);

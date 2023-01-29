@@ -1,25 +1,25 @@
 // SLR_ReplayDB.cpp : Definiert den Einstiegspunkt f�r die Konsolenanwendung.
 //
 
-#include "Broker.h" 
-#include "DEBUG.h" 
-#include "CardBase.h" 
-#include "LOAD.h" 
-#include "Replay.h" 
+#include "incl\Broker.h" 
+#include "incl\DEBUG.h" 
+#include "incl\CardBase.h" 
+#include "incl\LOAD.h" 
+#include "incl\Replay.h" 
 
 
-#include "Utility.h" 
+#include "incl\Utility.h" 
 
 #ifndef noImager
-#include "Imager.h" 
+#include "incl\Imager.h" 
 #endif
 #ifndef noManager
-#include "Manager.h" 
+#include "incl\Manager.h" 
 #endif
 
 #ifndef noSQL
-#include "SQL_MIS_New.h" 
-#include "PMV_to_SQL.h" 
+#include "incl\SQL_MIS_New.h" 
+#include "incl\PMV_to_SQL.h" 
 #endif
 
 #include <iostream>

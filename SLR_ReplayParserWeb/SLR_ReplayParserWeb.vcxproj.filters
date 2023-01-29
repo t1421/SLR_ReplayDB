@@ -24,129 +24,127 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\SLR_ReplayParserWeb.cpp">
+    <ClCompile Include="..\SLR_ReplayParserWeb.cpp" />
+    <ClCompile Include="..\src\Broker.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\DEBUG.cpp">
+    <ClCompile Include="..\src\DEBUG.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\Broker.cpp">
+    <ClCompile Include="..\src\LOAD.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\Reader.cpp">
+    <ClCompile Include="..\src\Reader.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\Replay.cpp">
+    <ClCompile Include="..\src\Replay.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\Thread_MIS.cpp">
+    <ClCompile Include="..\src\Thread_MIS.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\LOAD.cpp">
+    <ClCompile Include="..\src\Utility.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\WEB_CONTAINER.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_MA.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_Main.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_MBA.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_MCA.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_Toolbar.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_MB.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_MC.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_Replay.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Utility.cpp">
+    <ClCompile Include="..\src\MIS_Rank.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\WEB_Utility.cpp">
+    <ClCompile Include="..\src\WEB\WEB_CONTAINER.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
-    <ClCompile Include="..\MIS_Rank.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\WEB_Rank.cpp">
+    <ClCompile Include="..\src\WEB\WEB_MA.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
-    <ClCompile Include="..\WEB_MAA.cpp">
+    <ClCompile Include="..\src\WEB\WEB_MAA.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Main.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_MB.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_MBA.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_MC.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_MCA.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Rank.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Replay.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Toolbar.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Utility.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Broker.h">
+    <ClInclude Include="..\incl\Broker.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\DEBUG.h">
+    <ClInclude Include="..\incl\DEBUG.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\Reader.h">
+    <ClInclude Include="..\incl\LOAD.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\Replay.h">
+    <ClInclude Include="..\incl\Replay.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\Thread_MIS.h">
+    <ClInclude Include="..\incl\Reader.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\LOAD.h">
+    <ClInclude Include="..\incl\Thread_MIS.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\WEB_Toolbar.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_CONTAINER.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_MA.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_Main.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_MBA.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_MCA.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_MB.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_MC.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\WEB_Replay.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Utility.h">
+    <ClInclude Include="..\incl\Utility.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\WEB_Utility.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\MIS_Rank.h">
+    <ClInclude Include="..\incl\MIS_Rank.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\WEB_Rank.h">
+    <ClInclude Include="..\incl\WEB\WEB_CONTAINER.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
-    <ClInclude Include="..\WEB_MAA.h">
+    <ClInclude Include="..\incl\WEB\WEB_MA.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_MAA.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Main.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_MB.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_MBA.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_MC.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_MCA.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Rank.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Replay.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Toolbar.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Utility.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
   </ItemGroup>

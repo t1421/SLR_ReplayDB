@@ -1,10 +1,10 @@
 //#define DF_Debug
 
-#include "Broker.h"
+#include "..\..\incl\Broker.h"
 
-#include "Utility.h" 
-#include "WEB_MBA.h"
-#include "WEB_Replay.h"
+#include "..\..\incl\Utility.h" 
+#include "..\..\incl\WEB\WEB_MBA.h"
+#include "..\..\incl\WEB\WEB_Replay.h"
 
 #include <Wt/WTable.h>
 #include <Wt/WGridLayout.h>

@@ -1,8 +1,8 @@
 //#define DF_Debug
 
-#include "Broker.h"
+#include "..\incl\Broker.h"
 
-#include "Thread_MIS.h"
+#include "..\incl\Thread_MIS.h"
 
 broker *(Thread_MIS::Bro) = NULL;
 

@@ -1,10 +1,10 @@
 //#define DF_Debug
 
-#include "Broker.h"
+#include "..\..\incl\Broker.h"
 
-#include "WEB_Rank.h"
-#include "MIS_Rank.h"
-#include "Utility.h"
+#include "..\..\incl\WEB\WEB_Rank.h"
+#include "..\..\incl\MIS_Rank.h"
+#include "..\..\incl\Utility.h"
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
