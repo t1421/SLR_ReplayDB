@@ -1,12 +1,18 @@
 #include "incl\Broker.h" 
 #include "incl\DEBUG.h" 
 #include "incl\Replay.h" 
+#include "incl\Utility.h" 
 
-
+#define OneErrorLeave false
 
 int main(int argc, char **argv)
 {
+	int error = 0;
 	unsigned int iCoundPlayers = 0;
+	unsigned int iStartPosSolo = 0;
+
+	std::vector<unsigned int> PowerWells;
+	std::vector<unsigned int> Transforms;
 	
 	unsigned int CardsCound = 0;
 	unsigned int CardsCoundTotal = 0;
@@ -34,7 +40,8 @@ int main(int argc, char **argv)
 			else
 			{
 				Bro->B->StatusE("ERROR", "GameVersion", std::to_string(RR->GameVersion));
-				return -1;
+				if(OneErrorLeave)return -1;
+				else error = -1;
 			}
 
 			// Map CHeck
@@ -42,20 +49,43 @@ int main(int argc, char **argv)
 			else
 			{
 				Bro->B->StatusE("ERROR", "Map", RR->MapName);
-				return -2;
+				if (OneErrorLeave)return -2;
+				else error = -2;
 			}
 
 			// Div Check
-			if (RR->DifficultyID == 1)Bro->B->StatusE("OK", "Difficulty", std::to_string(RR->DifficultyID));
+			if (RR->DifficultyID == 2)Bro->B->StatusE("OK", "Difficulty", std::to_string(RR->DifficultyID));
 			else
 			{
 				Bro->B->StatusE("ERROR", "Difficulty", std::to_string(RR->DifficultyID));
-				return -3;
+				if (OneErrorLeave)return -3;
+				else error = -3;
 			}
+
+			// Left Game Check
+			for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
+				if (RR->ActionMatrix[i]->Type == 4002)
+				{
+					Bro->B->StatusE("ERROR", "LeftCheck", sTime(RR->ActionMatrix[i]->Time));
+					if (OneErrorLeave)return -8;
+					else error = -8;
+				}
+			if (RR->DifficultyID == 1)Bro->B->StatusE("OK", "LeftCheck", "NoOne");
+				
 
 			for (unsigned i = 0; i < RR->PlayerMatrix.size(); i++)
 			{
 				if (RR->PlayerMatrix[i]->Name == "pl_Enemy1") continue;
+				if (RR->PlayerMatrix[i]->Name == "pl_Player2")
+				{
+					iStartPosSolo = 1;
+					continue;
+				}
+				if (RR->PlayerMatrix[i]->Name == "pl_Player1")
+				{
+					iStartPosSolo = 2;
+					continue;
+				}
 				Bro->B->StatusE("", "Player" + std::to_string(i), RR->PlayerMatrix[i]->Name);
 				iCoundPlayers++;
 				CardsCound = 0;
@@ -84,27 +114,103 @@ int main(int argc, char **argv)
 			}
 
 			// Card Count CHeck
-			if (CardsCoundTotal <= 20)Bro->B->StatusE("OK", "TotalCardsPlayed", std::to_string(CardsCoundTotal));
+			if (CardsCoundTotal <= 20)Bro->B->StatusE("OK", "TotalCardsPlayed_20", std::to_string(CardsCoundTotal));
 			else
 			{
-				Bro->B->StatusE("ERROR", "TotalCardsPlayed", std::to_string(CardsCoundTotal));
-				return -4;
+				Bro->B->StatusE("ERROR", "TotalCardsPlayed_20", std::to_string(CardsCoundTotal));
+				if (OneErrorLeave)return -4;
+				else error = -4;
 			}
 
 			///Count Powerells
-			//Check Starting Pos
+			//Add Start Wells
+			for (unsigned int i = 0; i < iCoundPlayers * 2; i++)PowerWells.push_back(i);
+
+			bool dublette;
+
+			for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
+			{
+				if (RR->ActionMatrix[i]->Type != 4030) continue;
+				dublette = false;
+				for (unsigned int j = 0; j < PowerWells.size(); j++)
+					if (atoi(RR->ActionMatrix[i]->AdditionalInfo.c_str()) == PowerWells[j])
+						dublette = true;
+
+				if (!dublette)PowerWells.push_back(atoi(RR->ActionMatrix[i]->AdditionalInfo.c_str()));
+			}
+			
+			if (iCoundPlayers == 2) //DUO
+			{
+				if (PowerWells.size() ==27)Bro->B->StatusE("OK", "PowerWellsDuo_27", std::to_string(PowerWells.size()));
+				else
+				{
+					Bro->B->StatusE("ERROR", "PowerWellsDuo_27", std::to_string(PowerWells.size()));
+					if (OneErrorLeave)return -5;
+					else error = -5;
+				}
+			}
+			else // SOLO
+			{
+				switch (iStartPosSolo)
+				{
+				case 1:
+					if (PowerWells.size() == 22)Bro->B->StatusE("OK", "PowerWellsSoloPOS2_22", std::to_string(PowerWells.size()));
+					else
+					{
+						Bro->B->StatusE("ERROR", "PowerWellsSoloPOS2_22", std::to_string(PowerWells.size()));
+						if (OneErrorLeave)return -6;
+						else error = -6;
+					}
+					break;
+				case 2:
+					if (PowerWells.size() == 23)Bro->B->StatusE("OK", "PowerWellsSoloPOS2_23", std::to_string(PowerWells.size()));
+					else
+					{
+						Bro->B->StatusE("ERROR", "PowerWellsSoloPOS2_23", std::to_string(PowerWells.size()));
+						if (OneErrorLeave)return -7;
+						else error = -7;
+					}
+					break;
+				}				
+			}
 
 
+			// Transform Check
+			for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
+			{
+				if (RR->ActionMatrix[i]->Type != 4007) continue;
+				if (atoi(RR->ActionMatrix[i]->AdditionalInfo.c_str()) < 500)continue;
 
+				dublette = false;
+				for (unsigned int j = 0; j < Transforms.size(); j++)
+					if (atoi(RR->ActionMatrix[i]->AdditionalInfo.c_str()) == Transforms[j])
+						dublette = true;
 
+				if (!dublette)Transforms.push_back(atoi(RR->ActionMatrix[i]->AdditionalInfo.c_str()));
+			}
 
+			if (Transforms.size() >= 3)Bro->B->StatusE("OK", "TransformCheck", std::to_string(Transforms.size()));
+			else
+			{
+				Bro->B->StatusE("ERROR", "TransformCheck", std::to_string(Transforms.size()));
+				if (OneErrorLeave)return -9;
+				else error = -9;
+			}
 
 
 			
 		}
 		else Bro->B->StatusE("ERROR", "Cant_open_file", sFile);
+
+		if (error != 0) Bro->B->StatusE("ERROR", "NotAllChecksWhereOK", "!!!FAILED!!!");
+		else Bro->B->StatusE("OK", "AllChecksAreOK", "!!!VALID!!!");
+
+
 	}
 	else printf("Drag and Drop you PMV on the Applikation\n");
+
+
+	
 
 	system("Pause");
     return 0;

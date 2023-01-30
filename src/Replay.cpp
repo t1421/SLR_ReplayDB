@@ -288,7 +288,7 @@ bool Replay::ReadActions()
 				break;
 				///###
 			case 4007: //Objective OK 
-				readUnsignedLong(); // ObjectiveID ?
+				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedLong()); //ObjectiveID
 				break;
 
 			case 4008: //SLR-TEAM: 4008 - Hat was mit Scripting zu tun (wahrsch. iwas zum Map scripts debuggen oder so)
