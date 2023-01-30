@@ -10,13 +10,15 @@ int main(int argc, char **argv)
 	int error = 0;
 	unsigned int iCoundPlayers = 0;
 	unsigned int iStartPosSolo = 0;
+	bool dublette;
 
 	std::vector<unsigned int> PowerWells;
 	std::vector<unsigned int> Transforms;
+	std::vector<std::string> Cards;
 	
-	unsigned int CardsCound = 0;
-	unsigned int CardsCoundTotal = 0;
-	Card Cards[4][20];
+	//unsigned int CardsCound = 0;
+	//unsigned int CardsCoundTotal = 0;
+	//Card Cards[4][20];
 	if (argc > 1)
 	{
 		std::string sFile = std::string(argv[1]);
@@ -88,36 +90,30 @@ int main(int argc, char **argv)
 				}
 				Bro->B->StatusE("", "Player" + std::to_string(i), RR->PlayerMatrix[i]->Name);
 				iCoundPlayers++;
-				CardsCound = 0;
+				//CardsCound = 0;
+			}
 
-				for (unsigned int j = 0; j < RR->ActionMatrix.size(); j++)
+			for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
+			{
+				if (RR->ActionMatrix[i]->Type == 4009
+					|| RR->ActionMatrix[i]->Type == 4010
+					|| RR->ActionMatrix[i]->Type == 4011
+					|| RR->ActionMatrix[i]->Type == 4012)
 				{
-					if (RR->ActionMatrix[j]->Type == 4009
-						|| RR->ActionMatrix[j]->Type == 4010
-						|| RR->ActionMatrix[j]->Type == 4011
-						|| RR->ActionMatrix[j]->Type == 4012)
-					{
-						for (unsigned int k = 0; k < 20; k++)
-						{
-							if (Cards[i][k].CardID == RR->ActionMatrix[j]->Card) break; //Kare schon mal gespielt
-							if (Cards[i][k].CardID != 0) continue; // irgend eine andere Karte
-							
-							Cards[i][k].CardID = RR->ActionMatrix[j]->Card;
-							CardsCound++;
-							CardsCoundTotal++;
-							
-							break;
-						}
-					}
+					dublette = false;
+					for (unsigned int j = 0; j < Cards.size(); j++)
+						if (std::to_string(RR->ActionMatrix[i]->ActionPlayer) + std::to_string(RR->ActionMatrix[i]->Card) == Cards[j])
+							dublette = true;
+
+					if (!dublette)Cards.push_back(std::to_string(RR->ActionMatrix[i]->ActionPlayer) + std::to_string(RR->ActionMatrix[i]->Card));
 				}
-				Bro->B->StatusE("", "Cards", std::to_string(CardsCound));				
 			}
 
 			// Card Count CHeck
-			if (CardsCoundTotal <= 20)Bro->B->StatusE("OK", "TotalCardsPlayed_20", std::to_string(CardsCoundTotal));
+			if (Cards.size() <= 20)Bro->B->StatusE("OK", "TotalCardsPlayed_20", std::to_string(Cards.size()));
 			else
 			{
-				Bro->B->StatusE("ERROR", "TotalCardsPlayed_20", std::to_string(CardsCoundTotal));
+				Bro->B->StatusE("ERROR", "TotalCardsPlayed_20", std::to_string(Cards.size()));
 				if (OneErrorLeave)return -4;
 				else error = -4;
 			}
@@ -126,7 +122,7 @@ int main(int argc, char **argv)
 			//Add Start Wells
 			for (unsigned int i = 0; i < iCoundPlayers * 2; i++)PowerWells.push_back(i);
 
-			bool dublette;
+			
 
 			for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
 			{
@@ -154,19 +150,19 @@ int main(int argc, char **argv)
 				switch (iStartPosSolo)
 				{
 				case 1:
-					if (PowerWells.size() == 22)Bro->B->StatusE("OK", "PowerWellsSoloPOS2_22", std::to_string(PowerWells.size()));
+					if (PowerWells.size() == 22)Bro->B->StatusE("OK", "PowerSoloPOS1_22", std::to_string(PowerWells.size()));
 					else
 					{
-						Bro->B->StatusE("ERROR", "PowerWellsSoloPOS2_22", std::to_string(PowerWells.size()));
+						Bro->B->StatusE("ERROR", "PowerSoloPOS1_22", std::to_string(PowerWells.size()));
 						if (OneErrorLeave)return -6;
 						else error = -6;
 					}
 					break;
 				case 2:
-					if (PowerWells.size() == 23)Bro->B->StatusE("OK", "PowerWellsSoloPOS2_23", std::to_string(PowerWells.size()));
+					if (PowerWells.size() == 23)Bro->B->StatusE("OK", "PowerSoloPOS2_23", std::to_string(PowerWells.size()));
 					else
 					{
-						Bro->B->StatusE("ERROR", "PowerWellsSoloPOS2_23", std::to_string(PowerWells.size()));
+						Bro->B->StatusE("ERROR", "PowerSoloPOS2_23", std::to_string(PowerWells.size()));
 						if (OneErrorLeave)return -7;
 						else error = -7;
 					}
