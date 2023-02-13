@@ -85,6 +85,24 @@
     <ClCompile Include="..\src\WEB\WEB_Utility.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_MD.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_MDA.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Analyser.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Acti.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Deck.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Head.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h">
@@ -145,6 +163,24 @@
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_Utility.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_MD.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_MDA.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Analyser.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Analyser_Deck.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Analyser_Head.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Analyser_Acti.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
   </ItemGroup>

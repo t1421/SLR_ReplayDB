@@ -171,6 +171,10 @@
     <ClCompile Include="..\src\Replay.cpp" />
     <ClCompile Include="..\src\Thread_MIS.cpp" />
     <ClCompile Include="..\src\Utility.cpp" />
+    <ClCompile Include="..\src\WEB\WEB_Analyser.cpp" />
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Acti.cpp" />
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Deck.cpp" />
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Head.cpp" />
     <ClCompile Include="..\src\WEB\WEB_CONTAINER.cpp" />
     <ClCompile Include="..\src\WEB\WEB_MA.cpp" />
     <ClCompile Include="..\src\WEB\WEB_MAA.cpp" />
@@ -179,6 +183,8 @@
     <ClCompile Include="..\src\WEB\WEB_MBA.cpp" />
     <ClCompile Include="..\src\WEB\WEB_MC.cpp" />
     <ClCompile Include="..\src\WEB\WEB_MCA.cpp" />
+    <ClCompile Include="..\src\WEB\WEB_MD.cpp" />
+    <ClCompile Include="..\src\WEB\WEB_MDA.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Rank.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Replay.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Toolbar.cpp" />
@@ -193,6 +199,10 @@
     <ClInclude Include="..\incl\Replay.h" />
     <ClInclude Include="..\incl\Thread_MIS.h" />
     <ClInclude Include="..\incl\Utility.h" />
+    <ClInclude Include="..\incl\WEB\WEB_Analyser.h" />
+    <ClInclude Include="..\incl\WEB\WEB_Analyser_Acti.h" />
+    <ClInclude Include="..\incl\WEB\WEB_Analyser_Deck.h" />
+    <ClInclude Include="..\incl\WEB\WEB_Analyser_Head.h" />
     <ClInclude Include="..\incl\WEB\WEB_CONTAINER.h" />
     <ClInclude Include="..\incl\WEB\WEB_MA.h" />
     <ClInclude Include="..\incl\WEB\WEB_MAA.h" />
@@ -201,6 +211,8 @@
     <ClInclude Include="..\incl\WEB\WEB_MBA.h" />
     <ClInclude Include="..\incl\WEB\WEB_MC.h" />
     <ClInclude Include="..\incl\WEB\WEB_MCA.h" />
+    <ClInclude Include="..\incl\WEB\WEB_MD.h" />
+    <ClInclude Include="..\incl\WEB\WEB_MDA.h" />
     <ClInclude Include="..\incl\WEB\WEB_Rank.h" />
     <ClInclude Include="..\incl\WEB\WEB_Replay.h" />
     <ClInclude Include="..\incl\WEB\WEB_Toolbar.h" />

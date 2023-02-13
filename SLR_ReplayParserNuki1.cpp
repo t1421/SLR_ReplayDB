@@ -110,14 +110,17 @@ int main(int argc, char **argv)
 			}
 
 			// Card Count CHeck
-			if (Cards.size() <= 20)Bro->B->StatusE("OK", "TotalCardsPlayed_20", std::to_string(Cards.size()));
+			if (   Cards.size() <= 20 && iCoundPlayers == 2
+				|| Cards.size() <= 10 && iCoundPlayers == 1)Bro->B->StatusE("OK", "TotalCardsPlayed", std::to_string(Cards.size()));
 			else
 			{
-				Bro->B->StatusE("ERROR", "TotalCardsPlayed_20", std::to_string(Cards.size()));
+				Bro->B->StatusE("ERROR", "TotalCardsPlayed", std::to_string(Cards.size()));
 				if (OneErrorLeave)return -4;
 				else error = -4;
 			}
 
+
+			/*
 			///Count Powerells
 			//Add Start Wells
 			for (unsigned int i = 0; i < iCoundPlayers * 2; i++)PowerWells.push_back(i);
@@ -169,7 +172,7 @@ int main(int argc, char **argv)
 					break;
 				}				
 			}
-
+			*/
 
 			// Transform Check
 			for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
@@ -185,7 +188,7 @@ int main(int argc, char **argv)
 				if (!dublette)Transforms.push_back(atoi(RR->ActionMatrix[i]->AdditionalInfo.c_str()));
 			}
 
-			if (Transforms.size() >= 3)Bro->B->StatusE("OK", "TransformCheck", std::to_string(Transforms.size()));
+			if (Transforms.size() >= 2)Bro->B->StatusE("OK", "TransformCheck", std::to_string(Transforms.size()));
 			else
 			{
 				Bro->B->StatusE("ERROR", "TransformCheck", std::to_string(Transforms.size()));

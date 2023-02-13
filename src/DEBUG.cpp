@@ -72,10 +72,17 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("WEB_MC", "*", "*", "true");
 		Fill_DBArray("WEB_MCA", "*", "*", "true");
 
+		Fill_DBArray("WEB_MD", "*", "*", "true");
+		Fill_DBArray("WEB_MDA", "*", "*", "true");
+
 		Fill_DBArray("WEB_Rank", "*", "*", "true");
 
 		Fill_DBArray("MIS_Rank", "*", "*", "true");
-		
+
+		Fill_DBArray("WEB_Analyser", "*", "*", "true");	
+		Fill_DBArray("WEB_Analyser_Head", "*", "*", "true");
+		Fill_DBArray("WEB_Analyser_Deck", "*", "*", "true");
+		Fill_DBArray("WEB_Analyser_Actio", "*", "*", "true");
 
 		Fill_DBArray("broker", "*", "*", "true");
 

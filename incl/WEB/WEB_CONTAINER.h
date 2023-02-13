@@ -11,6 +11,8 @@
 class WEB_MA;
 class WEB_MB;
 class WEB_MC;
+class WEB_MD;
+class WEB_Analyser;
 
 class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar , public WEB_Replay
 
@@ -20,6 +22,8 @@ public:
 	WEB_MA *MA;	
 	WEB_MB *MB;
 	WEB_MC *MC;
+	WEB_MD *MD;
+	WEB_Analyser *Analyser;
 
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
@@ -44,6 +48,8 @@ public:
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 private:
+
+	std::string sPARA;
 
 };
 

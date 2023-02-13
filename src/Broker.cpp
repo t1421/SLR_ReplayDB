@@ -22,10 +22,16 @@
 #include "..\incl\WEB\WEB_MBA.h"
 #include "..\incl\WEB\WEB_MC.h"
 #include "..\incl\WEB\WEB_MCA.h"
+#include "..\incl\WEB\WEB_MD.h"
 #include "..\incl\WEB\WEB_Rank.h"
 #include "..\incl\WEB\WEB_Toolbar.h"
 #include "..\incl\WEB\WEB_Replay.h"
 #include "..\incl\MIS_Rank.h"
+
+#include "..\incl\WEB\WEB_Analyser.h"
+#include "..\incl\WEB\WEB_Analyser_Head.h"
+#include "..\incl\WEB\WEB_Analyser_Deck.h"
+#include "..\incl\WEB\WEB_Analyser_Acti.h"
 
 #include <algorithm>
 #include <iterator>
@@ -72,11 +78,17 @@ broker::broker()
 	WEB_MBA::learnBro(this);
 	WEB_MC::learnBro(this);
 	WEB_MCA::learnBro(this);
+	WEB_MD::learnBro(this);
 	WEB_Rank::learnBro(this);
 	WEB_Toolbar::learnBro(this);
 	WEB_Replay::learnBro(this);
 	MIS_Rank::learnBro(this);
-	
+
+	WEB_Analyser::learnBro(this);
+	WEB_Analyser_Head::learnBro(this);
+	WEB_Analyser_Deck::learnBro(this);
+	WEB_Analyser_Acti::learnBro(this);
+		
 	W = NULL;
 #endif
 

@@ -282,8 +282,9 @@ bool Replay::ReadActions()
 				tempCount = readUnsignedLong();
 				for (unsigned int i = 0; i < tempCount; i++)
 				{
-					readUnsignedLongLong(); // wer erh�lt gold
-					readUnsignedLong(); // menge gold
+					readUnsignedLongLong(); // wer erh�lt gold					
+					if(i==0)Action_TEMP->AdditionalInfo = std::to_string(readUnsignedLong()); // menge gold
+					else readUnsignedLong(); // menge gold
 				}
 				break;
 				///###

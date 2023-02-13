@@ -7,6 +7,8 @@
 #include "..\..\incl\WEB\WEB_MA.h"
 #include "..\..\incl\WEB\WEB_MB.h"
 #include "..\..\incl\WEB\WEB_MC.h"
+#include "..\..\incl\WEB\WEB_MD.h"
+#include "..\..\incl\WEB\WEB_Analyser.h"
 
 #include "..\..\incl\WEB\WEB_CONTAINER.h"
 
@@ -16,6 +18,7 @@
 #include <Wt/WGridLayout.h>
 #include <Wt/WContainerWidget.h>
 #include <Wt/WApplication.h>
+#include <Wt/WEnvironment.h>
 #include <string>
 
 
@@ -25,6 +28,11 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	: WApplication(env)
 {
 	MISS;
+	if (!env.getParameterValues("PARAM").empty())
+	{
+		const std::string *PARA = (env.getParameter("PARAM"));
+		sPARA.assign(PARA->c_str());
+	}
 
 	MISD("#1");
 	auto bootstrapTheme = std::make_shared<Wt::WBootstrapTheme>();
@@ -45,6 +53,8 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	MA = new WEB_MA(this);	
 	MB = new WEB_MB(this);
 	MC = new WEB_MC(this);
+	MD = new WEB_MD(this);
+	Analyser = new WEB_Analyser(this);
 
 	wtMap = new Wt::WText(" ");
 	wtDif = new Wt::WText(" ");
@@ -97,9 +107,12 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	
 
 	MISD("#6");
-	if (Bro->L_getBOTRankMode(BOT1LIST) <10)WEB_Toolbar::ToolBarButton(0, "BOT1", *MA->cMain, MA);
-	if (Bro->L_getBOTRankMode(BOT2LIST) <10)WEB_Toolbar::ToolBarButton(1, "BOT2", *MB->cMain, MB);
-	if (Bro->L_getBOTRankMode(BOT3LIST) <10)WEB_Toolbar::ToolBarButton(2, "BOT3", *MC->cMain, MC);
+	if (Bro->L_getBOTRankMode(BOT1LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT1", *MA->cMain, MA);
+	if (Bro->L_getBOTRankMode(BOT2LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT2", *MB->cMain, MB);
+	if (Bro->L_getBOTRankMode(BOT3LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT3", *MC->cMain, MC);
+	if (Bro->L_getBOTRankMode(BOT4LIST) <10
+		|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT4", *MD->cMain, MD);
+	if (sPARA == "BETA")WEB_Toolbar::ToolBarButton(bToolbar.size(), "Analyser", *Analyser->cMain, Analyser);
 	
 	//WEB_Toolbar::sToolbar->setCurrentIndex(1);
 	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -1);
@@ -149,6 +162,8 @@ MISCONTAINER::~MISCONTAINER()
 	delete MA;
 	delete MB;
 	delete MC;
+	delete MD;
+	delete Analyser;
 	MISE;
 }
 
