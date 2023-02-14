@@ -56,9 +56,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\SLR_ReplayDB.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Broker.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -92,6 +89,9 @@
     <ClCompile Include="..\src\Utility.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\PMV_to_SQL.cpp" />
+    <ClCompile Include="..\src\PMV_to_SQL.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SLR_ReplayDB.cpp" />
   </ItemGroup>
 </Project>

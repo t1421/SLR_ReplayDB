@@ -46,7 +46,10 @@ bool Imager::MakeIMG()
 	unsigned int iTimeMax = RR->Playtime * 4;
 	Mat Card;
 
-	Mat newPIC(iTimeMax + 320, 320 * 2, CV_8UC4,  cv::Scalar(0, 0, 0, 0)); 
+	//Mat newPIC(iTimeMax + 320, 320 * 2, CV_8UC4,  cv::Scalar(0, 0, 0, 0)); 
+	//line(newPIC, Point(0, 320 / 2), Point(320 * 2, 320 / 2), Scalar(255, 255, 255,255), 2); //Start
+	//line(newPIC, Point(0, iTimeMax + 320 / 2), Point(320 * 2, iTimeMax + 320 / 2), Scalar(255, 255, 255, 255), 2); //End
+	Mat newPIC(iTimeMax + 320, 320 + 80, CV_8UC4,  cv::Scalar(0, 0, 0, 0)); 
 	line(newPIC, Point(0, 320 / 2), Point(320 * 2, 320 / 2), Scalar(255, 255, 255,255), 2); //Start
 	line(newPIC, Point(0, iTimeMax + 320 / 2), Point(320 * 2, iTimeMax + 320 / 2), Scalar(255, 255, 255, 255), 2); //End
 
@@ -72,8 +75,23 @@ bool Imager::MakeIMG()
 					MISE("Error during DOwnload of: " + std::to_string(RR->ActionMatrix[i]->Card));
 				}
 			}
+
 			Card = imread(Bro->L_getTMP_PATH() + std::to_string(RR->ActionMatrix[i]->Card) + ".png", IMREAD_UNCHANGED);
-			Card.copyTo(newPIC(Rect(320, RR->ActionMatrix[i]->Time * 4, Card.cols, Card.rows)));
+			Card.copyTo(newPIC(Rect(240, RR->ActionMatrix[i]->Time * 4 + 120, Card.cols, Card.rows)));
+		}
+
+		if (RR->ActionMatrix[i]->Type == 4030) //WELL			
+		{		
+			//MISD("WELL");
+			Card = imread(Bro->L_getTMP_PATH() +  "W.png", IMREAD_UNCHANGED);
+			Card.copyTo(newPIC(Rect(240, RR->ActionMatrix[i]->Time * 4 + 120, Card.cols, Card.rows)));
+		}
+
+		if (RR->ActionMatrix[i]->Type == 4031) //ORB
+		{
+			//MISD("ORB");
+			Card = imread(Bro->L_getTMP_PATH() + "O.png", IMREAD_UNCHANGED);
+			Card.copyTo(newPIC(Rect(240, RR->ActionMatrix[i]->Time * 4 + 120, Card.cols, Card.rows)));
 		}
 	}
 
@@ -112,7 +130,8 @@ bool Imager::MakeMOV()
 	ssCMD << " -y -f lavfi -i ";
 	ssCMD << " \"color = black@0.0";
 	ssCMD << " :d = " << int(RR->Playtime / 10);
-	ssCMD << " :s = 640x1080,format=rgba";
+	//ssCMD << " :s = 640x1080,format=rgba";
+	ssCMD << " :s = 400x1080,format=rgba";
 	ssCMD << " [background]; ";
 	ssCMD << " movie = \"" << IMG_Path << "\"";
 	ssCMD << " [overlay]; ";

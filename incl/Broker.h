@@ -49,6 +49,7 @@ class Manager;
 class Imager;
 class WEB_Main;
 class MIS_Rank;
+class CardBaseSMJ;
 
 class broker
 {
@@ -63,6 +64,7 @@ public:
 	Manager* M;
 	Imager* I;
 	WEB_Main *W;
+	CardBaseSMJ *J;
 	MIS_Rank* A[BOTXLIST + 1];
 
 	broker* Bro;

@@ -122,15 +122,15 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;BrokerWeb;noImager;noManager;noSQL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>K:\Sound_Server\lib\boost_1_68_0;K:\c++\Wt 4.5.2 msvs2015 x86\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>K:\Sound_Server\lib\boost_1_68_0;K:\c++\Wt 4.5.2 msvs2015 x86\include;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\include;K:\Sound_Server\lib\jsoncpp-1.9.5\install\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>K:\c++\Wt 4.5.2 msvs2015 x86\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>wt.lib;wthttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>K:\c++\Wt 4.5.2 msvs2015 x86\lib;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\lib;K:\Sound_Server\lib\jsoncpp-1.9.5\build2\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wt.lib;wthttp.lib;libcurl.lib;jsoncpp.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>start "" taskkill /IM SLR_ReplayParserWeb.exe /F</Command>
@@ -164,6 +164,7 @@
   <ItemGroup>
     <ClCompile Include="..\SLR_ReplayParserWeb.cpp" />
     <ClCompile Include="..\src\Broker.cpp" />
+    <ClCompile Include="..\src\CardBaseSMJ.cpp" />
     <ClCompile Include="..\src\DEBUG.cpp" />
     <ClCompile Include="..\src\LOAD.cpp" />
     <ClCompile Include="..\src\MIS_Rank.cpp" />
@@ -192,6 +193,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h" />
+    <ClInclude Include="..\incl\CardBaseSMJ.h" />
     <ClInclude Include="..\incl\DEBUG.h" />
     <ClInclude Include="..\incl\LOAD.h" />
     <ClInclude Include="..\incl\MIS_Rank.h" />

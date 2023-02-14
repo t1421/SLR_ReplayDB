@@ -5,10 +5,14 @@
 #include "incl\DEBUG.h" 
 #include "incl\WEB\WEB_Main.h"
 #include "incl\LOAD.h" 
+#include "incl\CardBaseSMJ.h" 
+#include "incl\Utility.h" 
+
 
 int main(int argc, char **argv)
 {
 	char buf[1024] = { '0' };
+	std::string sbuf;
 
 	broker* Bro = new broker;
 
@@ -27,12 +31,28 @@ int main(int argc, char **argv)
 	W->Init_W();
 	W->Start_Thread();
 
+	CardBaseSMJ* J = new CardBaseSMJ();
+	J->teachJ();
+
 	Bro->INIT();
 
 	while (Bro->bAktive)
 	{
 		std::cin >> buf;
-		if (std::string(buf) == "x")Bro->bAktive = false;
+		sbuf = buf;		
+		if (Checker(sbuf, "exit"))Bro->bAktive = false;
+		if (Checker(sbuf, "x"))Bro->bAktive = false;
+
+		if (Checker(sbuf, "?"))
+		{
+			printf("####################|###########################################\n");
+			printf("J;new               | New Istance\n");
+			printf("J;fill              | Get Card information form SMJ\n");
+			printf("J;imager;0          | Download all cards images\n");
+			printf("J;imager;[ID]       | Download single card image\n");			
+			printf("####################|###########################################\n\n");
+		}
+
 	}
 
 	W->Stop_Thread();

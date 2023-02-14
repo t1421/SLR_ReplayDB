@@ -103,6 +103,9 @@
     <ClCompile Include="..\src\WEB\WEB_Analyser_Head.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\CardBaseSMJ.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h">
@@ -182,6 +185,9 @@
     </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_Analyser_Acti.h">
       <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\CardBaseSMJ.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

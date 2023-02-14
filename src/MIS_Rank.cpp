@@ -1,8 +1,8 @@
 //#define DF_Debug
 
-#include "Broker.h" 
+#include "..\incl\Broker.h" 
 
-#include "MIS_Rank.h" 
+#include "..\incl\MIS_Rank.h" 
 
 #include <fstream>
 #include <algorithm>
@@ -103,7 +103,7 @@ int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime, 
 			if (RankRows[i]->Time > Playtime)
 			{
 				MISD("Player vorhanden, Time Updated");
-				RankRows[i]->Time = Playtime;
+				if (RankMode != 1)RankRows[i]->Time = Playtime;
 				iReturn = 10;
 				break;
 			}

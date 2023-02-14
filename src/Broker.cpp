@@ -33,6 +33,8 @@
 #include "..\incl\WEB\WEB_Analyser_Deck.h"
 #include "..\incl\WEB\WEB_Analyser_Acti.h"
 
+#include "..\incl\CardBaseSMJ.h" 
+
 #include <algorithm>
 #include <iterator>
 #endif
@@ -88,8 +90,11 @@ broker::broker()
 	WEB_Analyser_Head::learnBro(this);
 	WEB_Analyser_Deck::learnBro(this);
 	WEB_Analyser_Acti::learnBro(this);
+
+	CardBaseSMJ::learnBro(this);
 		
 	W = NULL;
+	J = NULL;
 #endif
 
 
