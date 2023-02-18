@@ -29,6 +29,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("", "*", "*", "true"); // MAIN
 
 		Fill_DBArray("CardBase", "*", "*", "true");
+		Fill_DBArray("CardBaseSMJ", "*", "*", "true");
+		
 
 		Fill_DBArray("Replay", "*", "*", "true");
 		Fill_DBArray("Replay", "SwitchType", "*", "false"); 
@@ -82,7 +84,7 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("WEB_Analyser", "*", "*", "true");	
 		Fill_DBArray("WEB_Analyser_Head", "*", "*", "true");
 		Fill_DBArray("WEB_Analyser_Deck", "*", "*", "true");
-		Fill_DBArray("WEB_Analyser_Actio", "*", "*", "true");
+		Fill_DBArray("WEB_Analyser_Acti", "*", "*", "true");
 
 		Fill_DBArray("broker", "*", "*", "true");
 

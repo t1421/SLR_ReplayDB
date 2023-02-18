@@ -91,6 +91,7 @@ public:
 	std::string L_getTMP_PATH();
 	std::string L_getFFMPEG();
 	std::string L_getRANK_PATH();
+	std::string L_getSMJPIC_PATH();
 	int L_getBOTRankMode(int _BOT);
 	
 #endif	

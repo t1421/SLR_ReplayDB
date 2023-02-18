@@ -48,6 +48,7 @@ public:
 	std::string sRANK_PATH;
 
 	std::string sTMP_PATH;
+	std::string sSMJPIC_PATH;
 	std::string sFFMPEG;
 
 	int BOTRankMode[BOTXLIST + 1];

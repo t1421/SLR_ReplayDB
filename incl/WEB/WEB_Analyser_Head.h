@@ -11,7 +11,7 @@ public:
 
 	WEB_Replay *WR;
 	
-	//Wt::WText		 *wtStatus;
+	
 	
 	Wt::WContainerWidget *cMain;
 
@@ -20,6 +20,36 @@ public:
 
 	WEB_Analyser_Head(WEB_Replay *WR_);
 	void WRefresh();
+
+	private:
+		Wt::WText		 *Playtime;		
+		Wt::WText		 *MapName;
+		Wt::WText		 *Seed;
+		Wt::WText		 *MapID;
+		Wt::WText		 *DifficultyID;
+		Wt::WText		 *PlayModeID;
+		Wt::WText		 *PMVPlayerID;
+		
+		
+		Wt::WText		 *WinningTeam;
+		//Wt::WText		 *FileName;
+
+		Wt::WText		 *FileVersion;
+		Wt::WText		 *GameVersion;
+		Wt::WText		 *GroupCount;
+		Wt::WText		 *DifficultyID2;
+		Wt::WText		 *Playtime2;		
+		Wt::WText		 *PlayModeID2;
+		Wt::WText		 *PMVPlayerID2;
+		Wt::WText		 *ActionBlock;
+		Wt::WText		 *Unknow3;
+		Wt::WText		 *Unknow4;
+		
+		Wt::WText		 *MatrixCount;
+		Wt::WText		 *TeamCount;
+		
+			
+	
 
 };
 

@@ -33,6 +33,7 @@ int main(int argc, char **argv)
 
 	CardBaseSMJ* J = new CardBaseSMJ();
 	J->teachJ();
+	J->Init();
 
 	Bro->INIT();
 
@@ -47,10 +48,19 @@ int main(int argc, char **argv)
 		{
 			printf("####################|###########################################\n");
 			printf("J;new               | New Istance\n");
-			printf("J;fill              | Get Card information form SMJ\n");
-			printf("J;imager;0          | Download all cards images\n");
-			printf("J;imager;[ID]       | Download single card image\n");			
+			printf("J;init              | calls init\n");
+			printf("J;echo;[ID]         | print Card data\n");
+			printf("J;imager            | Download image\n");			
 			printf("####################|###########################################\n\n");
+		}
+		if (Checker(sbuf, "J"))
+		{
+			if (Checker(sbuf, "new")) J = new CardBaseSMJ();
+			if (Checker(sbuf, "init")) J->Init();
+			if (Checker(sbuf, "echo"))J->EchoCard(sbuf);
+			if (Checker(sbuf, "imager"))J->DownloadImage(1348,1,1);
+			
+
 		}
 
 	}

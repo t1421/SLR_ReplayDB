@@ -27,13 +27,14 @@ WEB_Analyser::WEB_Analyser(WEB_Replay *WR_)
 	
 
 	MISD("#11");
-
+	
 	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Head", *Head->cMain, Head);
 	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Deck", *Deck->cMain, Deck);
 	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Acti", *Acti->cMain, Acti);
 	WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 
+	
 	MISE;
 }
 

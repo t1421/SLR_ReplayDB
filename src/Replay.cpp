@@ -10,7 +10,7 @@ broker *(Replay::Bro) = NULL;
 Replay::Replay()
 {
 	MISS;
-	OK = true;
+	OK = false;
 	MISE;
 }
 
@@ -24,6 +24,8 @@ Replay::~Replay()
 bool Replay::LoadPMV(std::string sFile)
 {
 	MISS;
+
+	OK = true;
 
 	if (!Open(sFile))
 	{

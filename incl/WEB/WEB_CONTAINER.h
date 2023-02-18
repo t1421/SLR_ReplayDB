@@ -50,6 +50,7 @@ public:
 private:
 
 	std::string sPARA;
+	std::string sBETA;
 
 };
 

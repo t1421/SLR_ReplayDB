@@ -194,6 +194,12 @@ broker::~broker()
 	MISE;
 }
 
+#ifdef BrokerWeb
+unsigned char broker::C_GetActionOrbForCardID(unsigned short CardID)
+{
+	return J->GetActionOrbForCardID(CardID);
+}
+#endif
 
 #if defined BrokerParser || defined BrokerWeb
 unsigned char broker::C_GetActionOrbForCardID(unsigned short CardID)
@@ -248,6 +254,10 @@ std::string broker::L_getPMV_ARCH_PATH()
 std::string broker::L_getTMP_PATH()
 {
 	return L->sTMP_PATH;
+}
+std::string broker::L_getSMJPIC_PATH()
+{
+	return L->sSMJPIC_PATH;
 }
 
 std::string broker::L_getFFMPEG()

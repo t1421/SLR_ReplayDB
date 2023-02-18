@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h" 
 #include "..\..\incl\WEB\WEB_Utility.h"
@@ -33,6 +33,11 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 		const std::string *PARA = (env.getParameter("PARAM"));
 		sPARA.assign(PARA->c_str());
 	}
+	if (!env.getParameterValues("BETA").empty())
+	{
+		const std::string *BETA = (env.getParameter("BETA"));
+		sBETA.assign(BETA->c_str());
+	}
 
 	MISD("#1");
 	auto bootstrapTheme = std::make_shared<Wt::WBootstrapTheme>();
@@ -55,6 +60,7 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	MC = new WEB_MC(this);
 	MD = new WEB_MD(this);
 	Analyser = new WEB_Analyser(this);
+	
 
 	wtMap = new Wt::WText(" ");
 	wtDif = new Wt::WText(" ");

@@ -12,14 +12,24 @@
 	#include <json/json.h>
 #endif
 
-struct SQLCard {
+struct SMJCard {
 	unsigned short cardId;
-	unsigned char  fireOrbs;
-	unsigned char  frostOrbs;
-	unsigned char  natureOrbs;
-	unsigned char  shadowOrbs;
-	unsigned char  neutralOrbs;
-
+	std::string SMJid;
+	std::string cardName;
+	unsigned char color;
+	unsigned char orbsTotal;
+	unsigned char orbsNeutral;
+	unsigned char orbsFire;
+	unsigned char orbsShadow;
+	unsigned char orbsNature;
+	unsigned char orbsFrost;
+	unsigned char orbsFireShadow;
+	unsigned char orbsNatureFrost;
+	unsigned char orbsFireNature;
+	unsigned char orbsShadowFrost;
+	unsigned char orbsShadowNature;
+	unsigned char orbsFireFrost;
+	unsigned char type;
 };
 
 class CardBaseSMJ
@@ -28,20 +38,18 @@ public:
 	CardBaseSMJ();
 	~CardBaseSMJ();
 
-
-	std::string DownloadImage(int iCardID, std::string sCardName, bool bPromo);
+	std::string DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges);
 	
 private:
-	Json::Value GetJsonFromWeb();
+	Json::Value SMJtoCHASH();
 	CURL *curl;
 
-
-	public:
+public:
 	unsigned char GetActionOrbForCardID(unsigned short CardID);
+	void EchoCard(std::string sCardID);
+	std::vector<SMJCard*> SMJMatrix;
 
-	std::vector<SQLCard*> SQLCardMatrix;
-
-	bool bCardsLoaded;
+	bool Init();
 
 	//BROKER
 	static broker* Bro;

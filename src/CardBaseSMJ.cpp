@@ -34,7 +34,6 @@ CardBaseSMJ::CardBaseSMJ()
 {
 	MISS;
 	curl_global_init(CURL_GLOBAL_DEFAULT);
-	bCardsLoaded = false;
 	MISE;
 }
 
@@ -45,7 +44,84 @@ CardBaseSMJ::~CardBaseSMJ()
 	MISE;
 }
 
-Json::Value CardBaseSMJ::GetJsonFromWeb()
+bool CardBaseSMJ::Init()
+{
+	MISS;
+	Json::Value RawData;
+	Json::Value AllCards;
+	Json::Value Card;
+	Json::Value ID;
+
+	SMJCard * SMJCard_TEMP;
+
+	RawData = SMJtoCHASH();
+	AllCards = RawData["data"];
+
+	MISD("AllCards:" + std::to_string(AllCards.size()));
+	for (Json::ArrayIndex i = 0; i < AllCards.size(); i++)
+	{
+		Card = AllCards[i];
+		SMJCard_TEMP = new SMJCard();		
+		SMJCard_TEMP->SMJid = Card["_id"].asString();
+		SMJCard_TEMP->cardName = Card["cardName"].asString();
+		SMJCard_TEMP->color = Card["color"].asInt();
+		SMJCard_TEMP->orbsTotal = Card["orbsTotal"].asInt();
+		SMJCard_TEMP->orbsNeutral = Card["orbsNeutral"].asInt();
+		SMJCard_TEMP->orbsFire = Card["orbsFire"].asInt();
+		SMJCard_TEMP->orbsShadow = Card["orbsShadow"].asInt();
+		SMJCard_TEMP->orbsNature = Card["orbsNature"].asInt();
+		SMJCard_TEMP->orbsFrost = Card["orbsFrost"].asInt();
+		SMJCard_TEMP->orbsFireShadow = Card["orbsFireShadow"].asInt();
+		SMJCard_TEMP->orbsNatureFrost = Card["orbsNatureFrost"].asInt();
+		SMJCard_TEMP->orbsFireNature = Card["orbsFireNature"].asInt();
+		SMJCard_TEMP->orbsShadowFrost = Card["orbsShadowFrost"].asInt();
+		SMJCard_TEMP->orbsShadowNature = Card["orbsShadowNature"].asInt();
+		SMJCard_TEMP->orbsFireFrost = Card["orbsFireFrost"].asInt();
+		SMJCard_TEMP->type = Card["type"].asInt();
+		
+		ID = Card["officialCardIds"];
+		SMJCard_TEMP->cardId = ID[0].asInt();
+
+		SMJMatrix.push_back(SMJCard_TEMP);
+	}
+
+	return true;
+	MISE;
+}
+
+void CardBaseSMJ::EchoCard(std::string sCardID)
+{
+	MISS;
+	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
+	{
+		//MISD(std::to_string(SMJMatrix[i]->cardId));
+		if (SMJMatrix[i]->cardId == atoi(sCardID.c_str()))
+		{
+			printf("cardId:            %lu\n", SMJMatrix[i]->cardId);
+			printf("SMJid:             %s\n", SMJMatrix[i]->SMJid.c_str());
+			printf("cardName:          %s\n", SMJMatrix[i]->cardName.c_str());
+			printf("color:             %lu\n", SMJMatrix[i]->color);
+			printf("orbsTotal:         %lu\n", SMJMatrix[i]->orbsTotal);
+			printf("orbsNeutral:       %lu\n", SMJMatrix[i]->orbsNeutral);
+			printf("orbsFire:          %lu\n", SMJMatrix[i]->orbsFire);
+			printf("orbsShadow:        %lu\n", SMJMatrix[i]->orbsShadow);
+			printf("orbsNature:        %lu\n", SMJMatrix[i]->orbsNature);
+			printf("orbsFrost:         %lu\n", SMJMatrix[i]->orbsFrost);
+			printf("orbsFireShadow:    %lu\n", SMJMatrix[i]->orbsFireShadow);
+			printf("orbsNatureFrost:   %lu\n", SMJMatrix[i]->orbsNatureFrost);
+			printf("orbsFireNature:    %lu\n", SMJMatrix[i]->orbsFireNature);
+			printf("orbsShadowFrost:   %lu\n", SMJMatrix[i]->orbsShadowFrost);
+			printf("orbsShadowNature:  %lu\n", SMJMatrix[i]->orbsShadowNature);
+			printf("orbsFireFrost:     %lu\n", SMJMatrix[i]->orbsFireFrost);
+			printf("type:              %lu\n", SMJMatrix[i]->type);
+			break;
+		}
+	}
+	MISE;
+}
+
+
+Json::Value CardBaseSMJ::SMJtoCHASH()
 {
 	MISS;
 	
@@ -60,7 +136,7 @@ Json::Value CardBaseSMJ::GetJsonFromWeb()
 	curl = curl_easy_init();
 	if (curl)
 	{
-		//curl_easy_setopt(curl, CURLOPT_URL, CardWebURL);
+		curl_easy_setopt(curl, CURLOPT_URL, SMJ_Cards);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
@@ -86,80 +162,37 @@ Json::Value CardBaseSMJ::GetJsonFromWeb()
 	return jsonData;
 }
 
-std::string CardBaseSMJ::DownloadImage(int iCardID, std::string sCardName, bool bPromo)
+std::string CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges)
 {
 	MISS;
 
 	std::ofstream OutFile;
 	CURLcode res;
 	long httpCode(0);
-	int start_pos = 0;
 	std::string sURL;
-	
-	std::string readBuffer = "";
-	
-	start_pos = 0;
-	while ((start_pos = sCardName.find(" ", start_pos)) != sCardName.npos)sCardName.replace(start_pos, 1, "_");
-	start_pos = 0;
-	while ((start_pos = sCardName.find("'", start_pos))  != sCardName.npos)sCardName.replace(start_pos, 1, "%27");	
-	start_pos = 0;
-	while ((start_pos = sCardName.find("(", start_pos))  != sCardName.npos)sCardName.replace(start_pos, 1, "%28");
-	start_pos = 0;
-	while ((start_pos = sCardName.find(")", start_pos))  != sCardName.npos)sCardName.replace(start_pos, 1, "%29");
-			
-	//sURL = WikiPre + sCardName;
+	std::string SMJID;
+	std::string sFile = std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges);
 
-	MISD(sURL);
-
-	// Get Wiki Page
-	curl = curl_easy_init();
-	if (curl)
+	
+	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
 	{
-		curl_easy_setopt(curl, CURLOPT_URL, sURL);
-		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
-		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);		
-
-		res = curl_easy_perform(curl);
-		if (res != CURLE_OK)
+		if (SMJMatrix[i]->cardId == CardID)
 		{
-			Bro->B_StatusE("E", "DownloadImage #1 - curl_easy_perform", curl_easy_strerror(res));
-			MISEA("V2");
-			return "";
-		}
-			
-		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
-		curl_easy_cleanup(curl);
-		if (httpCode == 200 || httpCode == 201)
-		{
-			start_pos = 0;
-			while ((start_pos = readBuffer.find("data-src=", start_pos)) != readBuffer.npos)
-			{
-				start_pos = start_pos + 10;
-
-				sURL = readBuffer.substr(start_pos, readBuffer.find(char(34), start_pos) - start_pos);
-				//if (bPromo && sURL.find(sCardName + "_%28Promo%29" + WikiPos) != sURL.npos)break;
-				//else if (sURL.find(sCardName + WikiPos) != sURL.npos)break;				
-			}	
-
-		}
-		else 
-		{
-			MISEA("V3: httpCode #1:" + std::to_string(httpCode));
-			return "";
+			SMJID = SMJMatrix[i]->SMJid;
+			break;
 		}
 	}
 
-	if (sURL == "")
-	{
-		MISEA("V4: NO URL FOUND");
-		return "";
-	}
-
-
+	sURL  = SMJ_B_IMG;
+	sURL += SMJID;
+	sURL += "?upgrades=";
+	sURL += std::to_string(Upgrade);
+	sURL += "&charges=";
+	sURL += std::to_string(Charges);
+		
 	MISD(sURL);
 
-	OutFile.open(Bro->L_getTMP_PATH() + std::to_string(iCardID) + ".png", std::ostream::binary);
+	OutFile.open(Bro->L_getSMJPIC_PATH() + sFile + ".png", std::ostream::binary);
 
 	curl = curl_easy_init();
 	if (curl)
@@ -185,7 +218,7 @@ std::string CardBaseSMJ::DownloadImage(int iCardID, std::string sCardName, bool 
 		{
 			OutFile.close();
 			MISE;
-			return Bro->L_getTMP_PATH() + std::to_string(iCardID) + ".png";
+			return Bro->L_getSMJPIC_PATH() + sFile + ".png";
 		}
 		else
 		{
@@ -207,55 +240,15 @@ unsigned char CardBaseSMJ::GetActionOrbForCardID(unsigned short CardID)
 {
 	MISS;
 
-	unsigned char doubbelSet = 0;
-	unsigned int i;
-	unsigned char iReturn = 0;
-
-	//MISD("CardID " + to_string(CardID));
-
-	for (i = 0; i < SQLCardMatrix.size(); i++)
+	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
 	{
-		if (SQLCardMatrix[i]->cardId == CardID)break;
+		if (SMJMatrix[i]->cardId == CardID)
+		{
+			MISE;
+			return SMJMatrix[i]->color;
+		}
 	}
 
-	if (i == SQLCardMatrix.size())
-	{
-		MISEA("V2 Cant Find in Matrix")
-		return 255;
-	}
-
-	if (SQLCardMatrix[i]->shadowOrbs != 0)
-	{
-		iReturn += 1;
-		doubbelSet++;
-	}
-	if (SQLCardMatrix[i]->natureOrbs != 0)
-	{
-		iReturn += 2;
-		doubbelSet++;
-	}
-	if (SQLCardMatrix[i]->frostOrbs != 0)
-	{
-		iReturn += 3;
-		doubbelSet++;
-	}
-	if (SQLCardMatrix[i]->fireOrbs != 0)
-	{
-		iReturn += 4;
-		doubbelSet++;
-	}
-	if (SQLCardMatrix[i]->neutralOrbs != 0)
-	{
-		iReturn += 100;
-		doubbelSet++;
-	}
-
-	if (doubbelSet != 1)
-	{
-		MISEA("V3 Multi Set")
-		return 255;
-	}
-
-	MISE;
-	return iReturn;
+	MISEA("Canft Find Card");
+	return 99;
 }
