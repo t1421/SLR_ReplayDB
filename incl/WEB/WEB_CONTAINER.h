@@ -8,7 +8,9 @@
 #include <Wt/WFileUpload.h>
 #include <Wt/WApplication.h>
 
+#ifdef BOT1
 class WEB_MA;
+#endif
 class WEB_MB;
 class WEB_MC;
 class WEB_MD;
@@ -19,7 +21,9 @@ class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar , public WEB_Re
 {
 public:
 	
+#ifdef BOT1
 	WEB_MA *MA;	
+#endif
 	WEB_MB *MB;
 	WEB_MC *MC;
 	WEB_MD *MD;
@@ -30,7 +34,7 @@ public:
 	Wt::WText		 *wtMap;
 	Wt::WText		 *wtDif;
 	Wt::WText		 *wtTime;
-	Wt::WText		 *wtActions;
+	//Wt::WText		 *wtActions;
 	
 
 	Wt::WContainerWidget *GlobaelContainer;

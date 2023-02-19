@@ -16,7 +16,7 @@ struct SMJCard {
 	unsigned short cardId;
 	std::string SMJid;
 	std::string cardName;
-	unsigned char color;
+	char color;
 	unsigned char orbsTotal;
 	unsigned char orbsNeutral;
 	unsigned char orbsFire;

@@ -98,9 +98,9 @@ void CardBaseSMJ::EchoCard(std::string sCardID)
 		if (SMJMatrix[i]->cardId == atoi(sCardID.c_str()))
 		{
 			printf("cardId:            %lu\n", SMJMatrix[i]->cardId);
-			printf("SMJid:             %s\n", SMJMatrix[i]->SMJid.c_str());
-			printf("cardName:          %s\n", SMJMatrix[i]->cardName.c_str());
-			printf("color:             %lu\n", SMJMatrix[i]->color);
+			printf("SMJid:             %s\n",  SMJMatrix[i]->SMJid.c_str());
+			printf("cardName:          %s\n",  SMJMatrix[i]->cardName.c_str());
+			printf("color:             %i\n",  SMJMatrix[i]->color);
 			printf("orbsTotal:         %lu\n", SMJMatrix[i]->orbsTotal);
 			printf("orbsNeutral:       %lu\n", SMJMatrix[i]->orbsNeutral);
 			printf("orbsFire:          %lu\n", SMJMatrix[i]->orbsFire);

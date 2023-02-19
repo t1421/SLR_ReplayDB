@@ -31,6 +31,7 @@ struct Card {
 	unsigned short CardID;
 	unsigned short Upgrade;
 	unsigned char  Charges;
+	unsigned long  count;
 };
 
 struct Player {

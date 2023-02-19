@@ -4,7 +4,9 @@
 #include "..\..\incl\WEB\WEB_Utility.h"
 
 //#include "WEB_Main.h"
+#ifdef BOT1
 #include "..\..\incl\WEB\WEB_MA.h"
+#endif
 #include "..\..\incl\WEB\WEB_MB.h"
 #include "..\..\incl\WEB\WEB_MC.h"
 #include "..\..\incl\WEB\WEB_MD.h"
@@ -55,7 +57,9 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	WApplication::instance()->useStyleSheet(Wt::WLink("./resources/main.css"));
 
 	MISD("#3");	
+#ifdef BOT1
 	MA = new WEB_MA(this);	
+#endif
 	MB = new WEB_MB(this);
 	MC = new WEB_MC(this);
 	MD = new WEB_MD(this);
@@ -65,7 +69,7 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	wtMap = new Wt::WText(" ");
 	wtDif = new Wt::WText(" ");
 	wtTime = new Wt::WText(" ");
-	wtActions = new Wt::WText(" ");
+	//wtActions = new Wt::WText(" ");
 
 	wfuDropZone = new Wt::WFileUpload();
 	wtStatus = new Wt::WText("Waiting for Replay");
@@ -89,11 +93,11 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Map: "))), 0, 0);
 	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Difficulty: "))), 1, 0);
 	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Playtime: "))), 2, 0);
-	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Actions: "))), 3, 0);
+	//ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Actions: "))), 3, 0);
 	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtMap)), 0, 1);
 	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtDif)), 1, 1);
 	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTime)), 2, 1);
-	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtActions)), 3, 1);
+	//ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtActions)), 3, 1);
 	
 	TempGrid->setColumnStretch(0, 5);
 	TempGrid->setColumnStretch(1, 95);
@@ -113,7 +117,9 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	
 
 	MISD("#6");
+#ifdef BOT1
 	if (Bro->L_getBOTRankMode(BOT1LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT1", *MA->cMain, MA);
+#endif
 	if (Bro->L_getBOTRankMode(BOT2LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT2", *MB->cMain, MB);
 	if (Bro->L_getBOTRankMode(BOT3LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT3", *MC->cMain, MC);
 	if (Bro->L_getBOTRankMode(BOT4LIST) <10
@@ -165,7 +171,9 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 MISCONTAINER::~MISCONTAINER()
 {
 	MISS;
+#ifdef BOT1
 	delete MA;
+#endif
 	delete MB;
 	delete MC;
 	delete MD;
@@ -180,7 +188,7 @@ void MISCONTAINER::WRefresh()
 	wtMap->setText(MapName());
 	wtTime->setText(Time());
 	wtDif->setText(std::to_string(Difficulty()));
-	wtActions->setText(std::to_string(CountActions()));	
+	//wtActions->setText(std::to_string(CountActions()));	
 
 	MISE;
 }

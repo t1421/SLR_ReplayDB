@@ -71,12 +71,17 @@ public:
 
 	WEB_Replay();
 	
+#ifdef BOT1
 	std::string BOT1();
+#endif
 	std::string BOT2(bool bMode, Wt::WTable *wtTabelle);
 	std::string BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, unsigned long &Time);
 
+#ifdef BOT1
 	int CountActions();
+#endif
 	int CountActions(std::string sFilter);
+
 	unsigned int Difficulty();
 	unsigned long Playtime();
 	unsigned long long Player();

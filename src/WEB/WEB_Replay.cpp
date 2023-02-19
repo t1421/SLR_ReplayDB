@@ -22,16 +22,19 @@ bool WEB_Replay::NewReplay(std::string sFile)
 	return R->LoadPMV(sFile);
 }
 
+#ifdef BOT1
 int WEB_Replay::CountActions() 
 { 
 	return R->CountActions(); 
 };
+#endif
 
 int WEB_Replay::CountActions(std::string sFilter)
 {
 	return R->CountActions(sFilter);
 };
 
+#ifdef BOT1
 std::string WEB_Replay::BOT1()
 {
 	//MAP Check
@@ -41,6 +44,7 @@ std::string WEB_Replay::BOT1()
 	
 	return "";
 };
+#endif
 
 std::string WEB_Replay::BOT2(bool bMode,Wt:: WTable *wtTabelle)
 {

@@ -25,6 +25,7 @@ WEB_MAA::WEB_MAA(WEB_Replay *WR_): WR(WR_)
 void WEB_MAA::WRefresh()
 {
 	MISS;
+#ifdef BOT1
 	std::string sReturn = WR->BOT1();
 
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
@@ -52,7 +53,7 @@ void WEB_MAA::WRefresh()
 		}
 		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}
-
+#endif
 	MISE;
 }
 

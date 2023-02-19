@@ -40,6 +40,8 @@
 #define BOT4LIST 3
 #define BOTXLIST 3
 
+//#define BOT1
+
 class DEBUG;
 class SQL_MIS_New;
 class CardBase;
