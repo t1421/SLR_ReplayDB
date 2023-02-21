@@ -9,6 +9,9 @@
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
 
+#define Card_Size_X 185
+#define Card_Size_Y 255
+
 broker *(WEB_Analyser_Deck::Bro) = NULL;
 
 WEB_Analyser_Deck::WEB_Analyser_Deck(WEB_Replay *WR_): WR(WR_)
@@ -111,13 +114,29 @@ unsigned int WEB_Analyser_Deck::drawPlayer(unsigned int iPlayer, unsigned int &i
 {
 	MISS;
 	unsigned short iCol = 0;
+	unsigned char tempCharge;
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>"+Players[iPlayer]->Name+"</h3>"))));
 	wtTabelle->elementAt(iRow, iCol)->setColumnSpan(5);
 	iRow++;
 
 	for (unsigned int i = 0; i < Players[iPlayer]->Deck.size(); i++)
 	{
-		wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->CardID)))));
+		tempCharge = Bro->J_SwitchCharges(Players[iPlayer]->Deck[i]->CardID, Players[iPlayer]->Deck[i]->Charges);
+		if (tempCharge > Players[iPlayer]->Deck[i]->Upgrade)tempCharge = Players[iPlayer]->Deck[i]->Upgrade;
+		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage(Bro->J_GetImage(
+			Players[iPlayer]->Deck[i]->CardID,
+			Players[iPlayer]->Deck[i]->Upgrade,
+			tempCharge
+		)))));
+		
+		wtTabelle->elementAt(iRow, iCol)->widget(0)->setHeight(Card_Size_Y);
+		wtTabelle->elementAt(iRow, iCol)->widget(0)->setWidth(Card_Size_X);
+		wtTabelle->elementAt(iRow, iCol)->widget(0)->resize(Card_Size_X, Card_Size_Y);
+		wtTabelle->elementAt(iRow, iCol)->widget(0)->setMaximumSize(Card_Size_X, Card_Size_Y);
+
+		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->CardID)))));
+
+		iCol++;
 		if (i % 5 == 4)
 		{
 			iRow++;

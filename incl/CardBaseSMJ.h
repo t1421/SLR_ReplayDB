@@ -30,6 +30,7 @@ struct SMJCard {
 	unsigned char orbsShadowNature;
 	unsigned char orbsFireFrost;
 	unsigned char type;
+	unsigned char maxCharges;
 };
 
 class CardBaseSMJ
@@ -46,8 +47,12 @@ private:
 
 public:
 	unsigned char GetActionOrbForCardID(unsigned short CardID);
+
+	unsigned char SwitchCharges(unsigned short CardID, unsigned char IstCharges);
+
 	void EchoCard(std::string sCardID);
 	std::vector<SMJCard*> SMJMatrix;
+	std::string GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges);
 
 	bool Init();
 

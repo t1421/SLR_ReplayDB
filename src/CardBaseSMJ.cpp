@@ -8,6 +8,7 @@
 #define SMJ_B_IMG "https://smj.cards/api/images/fullCard/"
 
 #include "..\incl\CardBaseSMJ.h" 
+#include "..\incl\Utility.h" 
 
 broker *(CardBaseSMJ::Bro) = NULL;
 
@@ -78,6 +79,8 @@ bool CardBaseSMJ::Init()
 		SMJCard_TEMP->orbsShadowNature = Card["orbsShadowNature"].asInt();
 		SMJCard_TEMP->orbsFireFrost = Card["orbsFireFrost"].asInt();
 		SMJCard_TEMP->type = Card["type"].asInt();
+		SMJCard_TEMP->maxCharges = Card["maxCharges"].asInt();
+		
 		
 		ID = Card["officialCardIds"];
 		SMJCard_TEMP->cardId = ID[0].asInt();
@@ -114,6 +117,8 @@ void CardBaseSMJ::EchoCard(std::string sCardID)
 			printf("orbsShadowNature:  %lu\n", SMJMatrix[i]->orbsShadowNature);
 			printf("orbsFireFrost:     %lu\n", SMJMatrix[i]->orbsFireFrost);
 			printf("type:              %lu\n", SMJMatrix[i]->type);
+			printf("maxCharges:        %lu\n", SMJMatrix[i]->maxCharges);
+			
 			break;
 		}
 	}
@@ -251,4 +256,82 @@ unsigned char CardBaseSMJ::GetActionOrbForCardID(unsigned short CardID)
 
 	MISEA("Canft Find Card");
 	return 99;
+}
+
+
+std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges)
+{
+	MISS;
+	std::string sFile = std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges) + ".png";
+	if (!File_exists(Bro->L_getSMJPIC_PATH() + sFile))
+	{
+		MISD("Download: " + sFile);
+		DownloadImage(CardID, Upgrade, Charges);
+	}
+	MISE;
+	return "./resources/SMJPIC/" + sFile;
+}
+
+
+unsigned char CardBaseSMJ::SwitchCharges(unsigned short CardID, unsigned char IstCharges)
+{
+	MISS;
+
+	unsigned char MaxChages = 0;
+	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
+	{
+		if (SMJMatrix[i]->cardId == CardID)
+		{
+			MaxChages = SMJMatrix[i]->maxCharges;
+			break;
+		}
+	}
+
+	switch (MaxChages)
+	{
+	case 4: switch (IstCharges)
+	{
+	case 1: return 0;
+	case 2: return 1;
+	case 3: return 2;
+	case 4: return 3;
+	}
+	case 8: switch (IstCharges)
+	{
+	case 4: return 0;
+	case 6: return 1;
+	case 7: return 2;
+	case 8: return 3;
+	}
+	case 12: switch (IstCharges)
+	{
+	case 6: return 0;
+	case 8: return 1;
+	case 10: return 2;
+	case 12: return 3;
+	}
+	case 16: switch (IstCharges)
+	{
+	case 8: return 0;
+	case 11: return 1;
+	case 14: return 2;
+	case 16: return 3;
+	}
+	case 10: switch (IstCharges)
+	{
+	case 10: return 0;
+	case 14: return 1;
+	case 17: return 2;
+	case 20: return 3;
+	}
+	case 24: switch (IstCharges)
+	{
+	case 12: return 0;
+	case 16: return 1;
+	case 20: return 2;
+	case 24: return 3;
+	}
+	}
+
+	MISE;
 }

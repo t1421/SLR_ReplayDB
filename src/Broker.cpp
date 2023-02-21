@@ -279,7 +279,14 @@ int broker::L_getBOTRankMode(int _BOT)
 	return L->BOTRankMode[_BOT];
 }
 
-
+std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges)
+{
+	return J->GetImage(_CardID, _Upgrade, _Charges);
+}
+unsigned char broker::J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges)
+{
+	return J->SwitchCharges(_CardID,_IstCharges);
+}
 
 #endif
 
