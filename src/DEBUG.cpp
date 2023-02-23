@@ -64,9 +64,10 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("WEB_MA", "*", "*", "true");
 		Fill_DBArray("WEB_MAA", "*", "*", "true");
 #endif
+#ifdef BOT2
 		Fill_DBArray("WEB_MB", "*", "*", "true");
 		Fill_DBArray("WEB_MBA", "*", "*", "true");		
-	
+#endif	
 		Fill_DBArray("WEB_MB", "addCard", "*", "false");
 		Fill_DBArray("WEB_MB", "showResults", "*", "false");
 		Fill_DBArray("WEB_MB", "WEB_MB", "*", "false");

@@ -10,6 +10,8 @@
 #include "..\incl\CardBaseSMJ.h" 
 #include "..\incl\Utility.h" 
 
+#include <opencv2/opencv.hpp>
+
 broker *(CardBaseSMJ::Bro) = NULL;
 
 
@@ -167,7 +169,7 @@ Json::Value CardBaseSMJ::SMJtoCHASH()
 	return jsonData;
 }
 
-std::string CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges)
+void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges)
 {
 	MISS;
 
@@ -214,7 +216,7 @@ std::string CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgr
 		{
 			Bro->B_StatusE("E", "DownloadImage #2 - curl_easy_perform", curl_easy_strerror(res));
 			MISEA("V5: Error curl_easy_perform Image");
-			return "";
+			return ;
 		}
 
 		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
@@ -223,18 +225,19 @@ std::string CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgr
 		{
 			OutFile.close();
 			MISE;
-			return Bro->L_getSMJPIC_PATH() + sFile + ".png";
+			return;
+				//Bro->L_getSMJPIC_PATH() + sFile + ".png";
 		}
 		else
 		{
 			MISEA("V6: httpCode:" + std::to_string(httpCode));
-			return "";
+			return ;
 		}
 	}
 
 	OutFile.close();
 	MISEA("V5");
-	return "";
+	return ;
 }
 
 
@@ -272,6 +275,38 @@ std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, 
 	return "./resources/SMJPIC/" + sFile;
 }
 
+std::string CardBaseSMJ::GetSWImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges)
+{
+	MISS;
+	std::string sFile = std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges) + "SW.png";
+	if (!File_exists(Bro->L_getSMJPIC_PATH() + sFile))
+	{
+		MISD("ConvertImage: " + sFile);
+		GetImage(CardID, Upgrade, Charges);
+		ConvertImage(Bro->L_getSMJPIC_PATH() + sFile);
+	}
+	MISE;
+	return "./resources/SMJPIC/" + sFile;
+}
+void CardBaseSMJ::ConvertImage(std::string sFile)
+{
+	MISS;
+	std::string sFileIn = sFile;
+	sFileIn.replace(sFileIn.find("SW.png"), 6, ".png");
+	//MISD(sFile);
+	//MISD(sFileIn);
+
+	cv::Mat image = cv::imread(sFileIn, cv::IMREAD_COLOR);
+	if (image.empty()) {
+		MISEA("Cant open " + sFileIn);
+		return ;
+	}
+	cv::Mat grayImage;
+	cv::cvtColor(image, grayImage, cv::COLOR_BGR2GRAY);
+	cv::imwrite(sFile, grayImage);
+
+	MISE;
+}
 
 unsigned char CardBaseSMJ::SwitchCharges(unsigned short CardID, unsigned char IstCharges)
 {

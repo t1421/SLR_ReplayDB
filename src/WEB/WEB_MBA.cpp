@@ -34,6 +34,7 @@ void WEB_MBA::WRefresh()
 {
 	MISS;
 	
+#ifdef BOT2
 	wtTabelle->clear();
 	std::string sReturn = WR->BOT2(bMode, wtTabelle);
 	
@@ -62,6 +63,7 @@ void WEB_MBA::WRefresh()
 		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 
 	}
+#endif
 	MISE;
 }
 

@@ -7,7 +7,9 @@
 #ifdef BOT1
 #include "..\..\incl\WEB\WEB_MA.h"
 #endif
+#ifdef BOT2
 #include "..\..\incl\WEB\WEB_MB.h"
+#endif
 #include "..\..\incl\WEB\WEB_MC.h"
 #include "..\..\incl\WEB\WEB_MD.h"
 #include "..\..\incl\WEB\WEB_Analyser.h"
@@ -60,7 +62,9 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 #ifdef BOT1
 	MA = new WEB_MA(this);	
 #endif
+#ifdef BOT2
 	MB = new WEB_MB(this);
+#endif
 	MC = new WEB_MC(this);
 	MD = new WEB_MD(this);
 	Analyser = new WEB_Analyser(this);
@@ -120,7 +124,9 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 #ifdef BOT1
 	if (Bro->L_getBOTRankMode(BOT1LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT1", *MA->cMain, MA);
 #endif
+#ifdef BOT2
 	if (Bro->L_getBOTRankMode(BOT2LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT2", *MB->cMain, MB);
+#endif
 	if (Bro->L_getBOTRankMode(BOT3LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT3", *MC->cMain, MC);
 	if (Bro->L_getBOTRankMode(BOT4LIST) <10
 		|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT4", *MD->cMain, MD);
@@ -174,7 +180,9 @@ MISCONTAINER::~MISCONTAINER()
 #ifdef BOT1
 	delete MA;
 #endif
+#ifdef BOT2
 	delete MB;
+#endif
 	delete MC;
 	delete MD;
 	delete Analyser;

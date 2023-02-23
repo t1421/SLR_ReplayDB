@@ -45,7 +45,7 @@ std::string WEB_Replay::BOT1()
 	return "";
 };
 #endif
-
+#ifdef BOT2
 std::string WEB_Replay::BOT2(bool bMode,Wt:: WTable *wtTabelle)
 {
 	bool result = false;
@@ -71,7 +71,7 @@ std::string WEB_Replay::BOT2(bool bMode,Wt:: WTable *wtTabelle)
 	
 	return "";
 }
-
+#endif
 std::string WEB_Replay::BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, unsigned long &Time)
 {
 	if (R->OK != true)return "Error in replay";
@@ -116,7 +116,7 @@ unsigned int WEB_Replay::Difficulty()
 {
 	return R->DifficultyID;
 }
-
+#ifdef BOT2
 bool WEB_Replay::FillWebDeckAction()
 {
 	MISS;
@@ -394,7 +394,7 @@ bool WEB_Replay::FillTableBOT2(std::vector <WebCard*>& WebDeck, Wt::WTable *wtTa
 	MISE;
 	return true;
 }
-
+#endif
 
 void WEB_Replay::BOT3WellsAndOrbUnit()
 {

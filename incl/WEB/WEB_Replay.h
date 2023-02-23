@@ -74,7 +74,9 @@ public:
 #ifdef BOT1
 	std::string BOT1();
 #endif
+#ifdef BOT2
 	std::string BOT2(bool bMode, Wt::WTable *wtTabelle);
+#endif
 	std::string BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, unsigned long &Time);
 
 #ifdef BOT1
@@ -97,18 +99,19 @@ public:
 protected:
 
 private:
-
+#ifdef BOT2
 	bool getFromCSVBuilding(unsigned short uiCardID);
 	bool getFromCSVSpell(unsigned short uiCardID);
 	bool getFromCSVUnit(unsigned short uiCardID);
 	void addCard(unsigned short uiCardID, bool Unit, bool Spell, bool Building, std::vector <WebCard*>& WebDeck);
 	void addColors(std::vector <WebCard*>& WebDeck);
-	void InitVector();
 
 	bool FillWebDeckDeck();
 	bool FillWebDeckAction();
 	bool FillTableBOT2(std::vector <WebCard*>& WebDeck, Wt::WTable *wtTabelle);
+#endif
 
+	void InitVector();
 	void BOT3WellsAndOrbUnit();
 	unsigned long  FillTableBOT3(Wt::WTable *wtTabelle);
 

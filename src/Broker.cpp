@@ -20,8 +20,10 @@
 #include "..\incl\WEB\WEB_MA.h"
 #include "..\incl\WEB\WEB_MAA.h"
 #endif
+#ifdef BOT2
 #include "..\incl\WEB\WEB_MB.h"
 #include "..\incl\WEB\WEB_MBA.h"
+#endif
 #include "..\incl\WEB\WEB_MC.h"
 #include "..\incl\WEB\WEB_MCA.h"
 #include "..\incl\WEB\WEB_MD.h"
@@ -80,8 +82,10 @@ broker::broker()
 	WEB_MA::learnBro(this);
 	WEB_MAA::learnBro(this);
 #endif
+#ifdef BOT2
 	WEB_MB::learnBro(this);
 	WEB_MBA::learnBro(this);
+#endif
 	WEB_MC::learnBro(this);
 	WEB_MCA::learnBro(this);
 	WEB_MD::learnBro(this);
@@ -279,9 +283,11 @@ int broker::L_getBOTRankMode(int _BOT)
 	return L->BOTRankMode[_BOT];
 }
 
-std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges)
+std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count)
 {
-	return J->GetImage(_CardID, _Upgrade, _Charges);
+	if (_Count>0)return J->GetImage(_CardID, _Upgrade, _Charges);
+	else return J->GetSWImage(_CardID, _Upgrade, _Charges);
+	
 }
 unsigned char broker::J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges)
 {

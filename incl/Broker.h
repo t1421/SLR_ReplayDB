@@ -95,7 +95,7 @@ public:
 	std::string L_getRANK_PATH();
 	std::string L_getSMJPIC_PATH();
 	int L_getBOTRankMode(int _BOT);
-	std::string J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges);
+	std::string J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count);
 	unsigned char J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges);
 	
 #endif	

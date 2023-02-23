@@ -39,7 +39,7 @@ public:
 	CardBaseSMJ();
 	~CardBaseSMJ();
 
-	std::string DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges);
+	void DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges);
 	
 private:
 	Json::Value SMJtoCHASH();
@@ -53,6 +53,8 @@ public:
 	void EchoCard(std::string sCardID);
 	std::vector<SMJCard*> SMJMatrix;
 	std::string GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges);
+	std::string GetSWImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges);
+	void ConvertImage(std::string sFile);
 
 	bool Init();
 

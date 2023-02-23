@@ -70,8 +70,15 @@ bool WEB_Analyser_Deck::GetDecks()
 
 	for (unsigned int i = 0; i < WR->R->PlayerMatrix.size(); i++)
 	{
+		MISD(std::to_string(WR->R->PlayerMatrix[i]->Deck.size()));
 		Player_Temp = new Player;
-		Player_Temp = WR->R->PlayerMatrix[i];
+		//Player_Temp = WR->R->PlayerMatrix[i];
+		Player_Temp->Name = WR->R->PlayerMatrix[i]->Name;
+		Player_Temp->PlayerID = WR->R->PlayerMatrix[i]->PlayerID;
+		Player_Temp->ActionPlayer = WR->R->PlayerMatrix[i]->ActionPlayer;
+		Player_Temp->GroupID = WR->R->PlayerMatrix[i]->GroupID;
+		Player_Temp->IDinGroup = WR->R->PlayerMatrix[i]->IDinGroup;
+		Player_Temp->Type = WR->R->PlayerMatrix[i]->Type;
 		Player_Temp->Deck.clear();
 		for (unsigned int j = 0; j < WR->R->ActionMatrix.size(); j++)
 		{
@@ -102,6 +109,35 @@ bool WEB_Analyser_Deck::GetDecks()
 			}
 			Player_Temp->Deck[CardLoop]->count++;
 		}
+
+		//Get Deck of Hosting Player
+		if (WR->R->PlayerMatrix[i]->PlayerID == WR->R->PMVPlayerID)
+		{
+			MISD(std::to_string(WR->R->PlayerMatrix[i]->Deck.size()));
+			for (int j = 0; j < WR->R->PlayerMatrix[i]->Deck.size(); j++)
+			{
+				Found = false;
+				for (CardLoop = 0; CardLoop < Player_Temp->Deck.size(); CardLoop++)
+					if (Player_Temp->Deck[CardLoop]->CardID == WR->R->PlayerMatrix[i]->Deck[j]->CardID)
+					{
+						Found = true;
+						break;
+					}
+
+				if (Found == false)
+				{
+					//MISD("ADD   :" + std::to_string(WR->R->ActionMatrix[j]->Card));
+					Card_Temp = new Card;
+					Card_Temp->CardID = WR->R->PlayerMatrix[i]->Deck[j]->CardID;
+					Card_Temp->Charges = WR->R->PlayerMatrix[i]->Deck[j]->Charges;
+					Card_Temp->Upgrade = WR->R->PlayerMatrix[i]->Deck[j]->Upgrade;
+					Card_Temp->count = 0;
+					Player_Temp->Deck.push_back(Card_Temp);
+				}
+
+			}
+
+		}
 		
 		Players.push_back(Player_Temp);
 	}
@@ -109,6 +145,8 @@ bool WEB_Analyser_Deck::GetDecks()
 	MISE;
 	return true;
 }
+
+
 
 unsigned int WEB_Analyser_Deck::drawPlayer(unsigned int iPlayer, unsigned int &iRow)
 {
@@ -121,12 +159,15 @@ unsigned int WEB_Analyser_Deck::drawPlayer(unsigned int iPlayer, unsigned int &i
 
 	for (unsigned int i = 0; i < Players[iPlayer]->Deck.size(); i++)
 	{
+		if (Players[iPlayer]->Deck[i]->CardID == 0)continue;
 		tempCharge = Bro->J_SwitchCharges(Players[iPlayer]->Deck[i]->CardID, Players[iPlayer]->Deck[i]->Charges);
 		if (tempCharge > Players[iPlayer]->Deck[i]->Upgrade)tempCharge = Players[iPlayer]->Deck[i]->Upgrade;
+
 		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage(Bro->J_GetImage(
 			Players[iPlayer]->Deck[i]->CardID,
 			Players[iPlayer]->Deck[i]->Upgrade,
-			tempCharge
+			tempCharge,
+			Players[iPlayer]->Deck[i]->count
 		)))));
 		
 		wtTabelle->elementAt(iRow, iCol)->widget(0)->setHeight(Card_Size_Y);
@@ -134,7 +175,8 @@ unsigned int WEB_Analyser_Deck::drawPlayer(unsigned int iPlayer, unsigned int &i
 		wtTabelle->elementAt(iRow, iCol)->widget(0)->resize(Card_Size_X, Card_Size_Y);
 		wtTabelle->elementAt(iRow, iCol)->widget(0)->setMaximumSize(Card_Size_X, Card_Size_Y);
 
-		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->CardID)))));
+		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->count)))));
+		//wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->CardID)))));
 
 		iCol++;
 		if (i % 5 == 4)
