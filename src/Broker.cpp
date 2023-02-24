@@ -24,8 +24,10 @@
 #include "..\incl\WEB\WEB_MB.h"
 #include "..\incl\WEB\WEB_MBA.h"
 #endif
+#ifdef BOT3
 #include "..\incl\WEB\WEB_MC.h"
 #include "..\incl\WEB\WEB_MCA.h"
+#endif
 #include "..\incl\WEB\WEB_MD.h"
 #include "..\incl\WEB\WEB_Rank.h"
 #include "..\incl\WEB\WEB_Toolbar.h"
@@ -86,8 +88,10 @@ broker::broker()
 	WEB_MB::learnBro(this);
 	WEB_MBA::learnBro(this);
 #endif
+#ifdef BOT3
 	WEB_MC::learnBro(this);
 	WEB_MCA::learnBro(this);
+#endif
 	WEB_MD::learnBro(this);
 	WEB_Rank::learnBro(this);
 	WEB_Toolbar::learnBro(this);

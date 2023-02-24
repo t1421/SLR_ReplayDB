@@ -53,7 +53,7 @@ WEB_MCA::WEB_MCA(WEB_Replay *WR_) : WR(WR_)
 void WEB_MCA::WRefresh()
 {
 	MISS;
-
+#ifdef BOT3
 	unsigned long iTime;
 
 	wtTabelle->clear();
@@ -83,6 +83,6 @@ void WEB_MCA::WRefresh()
 		}		
 		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}
-
+#endif
 	MISE;
 }

@@ -81,8 +81,9 @@ public:
 
 #ifdef BOT1
 	int CountActions();
-#endif
 	int CountActions(std::string sFilter);
+#endif
+	
 
 	unsigned int Difficulty();
 	unsigned long Playtime();
@@ -111,9 +112,11 @@ private:
 	bool FillTableBOT2(std::vector <WebCard*>& WebDeck, Wt::WTable *wtTabelle);
 #endif
 
+#ifdef BOT3
 	void InitVector();
 	void BOT3WellsAndOrbUnit();
 	unsigned long  FillTableBOT3(Wt::WTable *wtTabelle);
+#endif
 
 };
 

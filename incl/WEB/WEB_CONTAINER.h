@@ -14,7 +14,9 @@ class WEB_MA;
 #ifdef BOT2
 class WEB_MB;
 #endif
+#ifdef BOT3
 class WEB_MC;
+#endif
 class WEB_MD;
 class WEB_Analyser;
 
@@ -29,7 +31,9 @@ public:
 #ifdef BOT2
 	WEB_MB *MB;
 #endif
+#ifdef BOT3
 	WEB_MC *MC;
+#endif
 	WEB_MD *MD;
 	WEB_Analyser *Analyser;
 

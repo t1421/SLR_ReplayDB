@@ -27,14 +27,13 @@ int WEB_Replay::CountActions()
 { 
 	return R->CountActions(); 
 };
-#endif
 
 int WEB_Replay::CountActions(std::string sFilter)
 {
 	return R->CountActions(sFilter);
 };
 
-#ifdef BOT1
+
 std::string WEB_Replay::BOT1()
 {
 	//MAP Check
@@ -72,6 +71,7 @@ std::string WEB_Replay::BOT2(bool bMode,Wt:: WTable *wtTabelle)
 	return "";
 }
 #endif
+#ifdef BOT3
 std::string WEB_Replay::BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, unsigned long &Time)
 {
 	if (R->OK != true)return "Error in replay";
@@ -91,6 +91,154 @@ std::string WEB_Replay::BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, 
 		
 	return "";
 }
+
+
+void WEB_Replay::BOT3WellsAndOrbUnit()
+{
+	MISS;
+
+	//Nur einmal!
+	if (BOT3Stuff == true)return;
+
+	//Nur infos f�r eine Map
+	if (R->MapName != "11101_PvE_01p_TugOfWar.map") return;
+
+	Action * Action_TEMP;
+	unsigned int Player;
+
+	for (Player = 0; Player < R->PlayerMatrix.size(); Player++)
+	{
+		if (R->PlayerMatrix[Player]->Type != 1)continue;
+		else break;
+	}
+
+	for (unsigned int i = 0; i < 3; i++)
+	{
+		Action_TEMP = new Action;
+		Action_TEMP->Time = 0;
+		Action_TEMP->Type = 4030;
+		Action_TEMP->ActionPlayer = R->PlayerMatrix[Player]->ActionPlayer;
+		Action_TEMP->AdditionalInfo = std::to_string(4550 + i);
+		R->ActionMatrix.insert(R->ActionMatrix.begin(), Action_TEMP);
+	}
+
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+	{
+		if (R->ActionMatrix[i]->Type != 4031)continue;
+		R->ActionMatrix[i]->AdditionalInfo = R->ActionMatrix[i]->AdditionalInfo + ";4555";
+		MISE;
+		return;
+	}
+
+	MISE;
+}
+
+
+unsigned long WEB_Replay::FillTableBOT3(Wt::WTable *wtTabelle)
+{
+	MISS;
+
+	unsigned int iMaxAction = 0;
+	unsigned long iUnit;
+
+	InitVector();
+
+	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Wells </h3>"))));
+	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Orbs </h3>"))));
+	//wtTabelle->elementAt(0,2)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Walls </h3>"))));
+	wtTabelle->columnAt(0)->setWidth(100);
+	wtTabelle->columnAt(1)->setWidth(100);
+	//wtTabelle->columnAt(2)->setWidth(100);
+
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+	{
+		if ( //R->ActionMatrix[i]->Type != 4029
+			R->ActionMatrix[i]->Type != 4030
+			&& R->ActionMatrix[i]->Type != 4031)continue;
+
+		iUnit = atoi(R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1).c_str());
+
+		for (unsigned int j = 0; j < vMarker.size(); j++)
+		{
+			if (vMarker[j]->Unit == iUnit && WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")
+			{
+				vMarker[j]->Time->setText(sTime(R->ActionMatrix[i]->Time));
+				iMaxAction = i;
+			}
+		}
+	}
+
+
+	iUnit = atoi(R->ActionMatrix[iMaxAction]->AdditionalInfo.erase(0, R->ActionMatrix[iMaxAction]->AdditionalInfo.find(";") + 1).c_str());
+
+	for (unsigned int i = 0; i < 3; i++)
+	{
+
+		for (unsigned int j = 0, iRow = 1; j < vMarker.size(); j++)
+		{
+			if (vMarker[j]->Type != i) continue;
+
+			wtTabelle->elementAt(++iRow, vMarker[j]->Type)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(vMarker[j]->Time)));
+			if (WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")wtTabelle->elementAt(iRow, vMarker[j]->Type)->setStyleClass("red");
+			if (vMarker[j]->Unit == iUnit)wtTabelle->elementAt(iRow, vMarker[j]->Type)->setStyleClass("green");
+
+			wtTabelle->elementAt(iRow, vMarker[j]->Type)->mouseWentOver().connect([=] {
+				vMarker[j]->IMG->setHidden(false);
+			});
+
+			wtTabelle->elementAt(iRow, vMarker[j]->Type)->mouseWentOut().connect([=] {
+				vMarker[j]->IMG->setHidden(true);
+			});
+
+		}
+	}
+
+	MISE;
+	return R->ActionMatrix[iMaxAction]->Time;
+}
+
+void WEB_Replay::InitVector()
+{
+	MISS;
+
+
+	vMarker.clear();
+	MISD(std::to_string(90 + Xoffset) + "#" + std::to_string(267 + Yoffset));
+	vMarker.push_back(new Marker(1, 4555, 90, 267));
+	vMarker.push_back(new Marker(1, 4556, 157, 318));
+	vMarker.push_back(new Marker(1, 4558, 332, 103));
+	vMarker.push_back(new Marker(1, 4557, 60, 142));
+
+	vMarker.push_back(new Marker(0, 4550, 85, 263));
+	vMarker.push_back(new Marker(0, 4551, 79, 262));
+	vMarker.push_back(new Marker(0, 4552, 83, 258));
+	vMarker.push_back(new Marker(0, 4553, 46, 286));
+	vMarker.push_back(new Marker(0, 4554, 45, 293));
+	vMarker.push_back(new Marker(0, 4536, 145, 368));
+	vMarker.push_back(new Marker(0, 4535, 155, 368));
+	vMarker.push_back(new Marker(0, 4539, 339, 330));
+	vMarker.push_back(new Marker(0, 4540, 342, 257));
+	vMarker.push_back(new Marker(0, 4537, 157, 244));
+	vMarker.push_back(new Marker(0, 4538, 158, 249));
+	vMarker.push_back(new Marker(0, 4541, 247, 148));
+	vMarker.push_back(new Marker(0, 4543, 247, 154));
+	vMarker.push_back(new Marker(0, 4542, 188, 36));
+	vMarker.push_back(new Marker(0, 4544, 328, 96));
+	vMarker.push_back(new Marker(0, 4545, 325, 103));
+	vMarker.push_back(new Marker(0, 4546, 328, 110));
+	vMarker.push_back(new Marker(0, 4547, 65, 136));
+	vMarker.push_back(new Marker(0, 4548, 59, 148));
+	vMarker.push_back(new Marker(0, 4549, 67, 144));
+
+	//vMarker.push_back(new Marker(2, 4452,  75, 316));
+	//vMarker.push_back(new Marker(2, 4453, 151, 347));
+	//vMarker.push_back(new Marker(2, 4455, 291, 76));
+
+
+
+	MISE;
+}
+#endif
 
 std::string WEB_Replay::MapName()
 {
@@ -396,149 +544,5 @@ bool WEB_Replay::FillTableBOT2(std::vector <WebCard*>& WebDeck, Wt::WTable *wtTa
 }
 #endif
 
-void WEB_Replay::BOT3WellsAndOrbUnit()
-{
-	MISS;
-
-	//Nur einmal!
-	if (BOT3Stuff == true)return;
-
-	//Nur infos f�r eine Map
-	if (R->MapName != "11101_PvE_01p_TugOfWar.map") return;
-
-	Action * Action_TEMP;
-	unsigned int Player;
-
-	for (Player = 0; Player < R->PlayerMatrix.size(); Player++)
-	{
-		if (R->PlayerMatrix[Player]->Type != 1)continue;
-		else break;
-	}
-
-	for (unsigned int i = 0; i < 3; i++)
-	{
-		Action_TEMP = new Action;
-		Action_TEMP->Time = 0;
-		Action_TEMP->Type = 4030;
-		Action_TEMP->ActionPlayer = R->PlayerMatrix[Player]->ActionPlayer;
-		Action_TEMP->AdditionalInfo = std::to_string(4550 + i);
-		R->ActionMatrix.insert(R->ActionMatrix.begin(), Action_TEMP);
-	}
-
-	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
-	{
-		if (R->ActionMatrix[i]->Type != 4031)continue;
-		R->ActionMatrix[i]->AdditionalInfo = R->ActionMatrix[i]->AdditionalInfo + ";4555";
-		MISE;
-		return;
-	}
-
-	MISE;
-}
 
 
-unsigned long WEB_Replay::FillTableBOT3(Wt::WTable *wtTabelle)
-{
-	MISS;
-
-	unsigned int iMaxAction = 0;
-	unsigned long iUnit;
-
-	InitVector();
-	
-	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Wells </h3>"))));
-	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Orbs </h3>"))));
-	//wtTabelle->elementAt(0,2)->addWidget(std::unique_ptr<WWidget>(std::move(new WText("<h3> Walls </h3>"))));
-	wtTabelle->columnAt(0)->setWidth(100);
-	wtTabelle->columnAt(1)->setWidth(100);
-	//wtTabelle->columnAt(2)->setWidth(100);
-
-	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
-	{
-		if ( //R->ActionMatrix[i]->Type != 4029
-			R->ActionMatrix[i]->Type != 4030
-			&& R->ActionMatrix[i]->Type != 4031)continue;
-
-		iUnit = atoi(R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1).c_str());
-
-		for (unsigned int j = 0; j < vMarker.size(); j++)
-		{
-			if (vMarker[j]->Unit == iUnit && WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")
-			{
-				vMarker[j]->Time->setText(sTime(R->ActionMatrix[i]->Time));
-				iMaxAction = i;
-			}
-		}
-	}
-
-
-	iUnit = atoi(R->ActionMatrix[iMaxAction]->AdditionalInfo.erase(0, R->ActionMatrix[iMaxAction]->AdditionalInfo.find(";") + 1).c_str());
-
-	for (unsigned int i = 0; i < 3; i++)
-	{
-
-		for (unsigned int j = 0, iRow = 1; j < vMarker.size(); j++)
-		{
-			if (vMarker[j]->Type != i) continue;
-
-			wtTabelle->elementAt(++iRow, vMarker[j]->Type)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(vMarker[j]->Time)));
-			if (WSTRINGtoSTRING(vMarker[j]->Time->text()) == "XX:XX")wtTabelle->elementAt(iRow, vMarker[j]->Type)->setStyleClass("red");
-			if (vMarker[j]->Unit == iUnit)wtTabelle->elementAt(iRow, vMarker[j]->Type)->setStyleClass("green");
-
-			wtTabelle->elementAt(iRow, vMarker[j]->Type)->mouseWentOver().connect([=] {
-				vMarker[j]->IMG->setHidden(false);
-			});
-
-			wtTabelle->elementAt(iRow, vMarker[j]->Type)->mouseWentOut().connect([=] {
-				vMarker[j]->IMG->setHidden(true);
-			});
-
-		}
-	}
-
-	MISE;
-	return R->ActionMatrix[iMaxAction]->Time;
-}
-
-
-void WEB_Replay::InitVector()
-{
-	MISS;
-
-
-	vMarker.clear();
-	MISD(std::to_string(90 + Xoffset) + "#" + std::to_string(267 + Yoffset));
-	vMarker.push_back(new Marker(1, 4555, 90, 267));
-	vMarker.push_back(new Marker(1, 4556, 157, 318));
-	vMarker.push_back(new Marker(1, 4558, 332, 103));
-	vMarker.push_back(new Marker(1, 4557, 60, 142));
-
-	vMarker.push_back(new Marker(0, 4550, 85, 263));
-	vMarker.push_back(new Marker(0, 4551, 79, 262));
-	vMarker.push_back(new Marker(0, 4552, 83, 258));
-	vMarker.push_back(new Marker(0, 4553, 46, 286));
-	vMarker.push_back(new Marker(0, 4554, 45, 293));
-	vMarker.push_back(new Marker(0, 4536, 145, 368));
-	vMarker.push_back(new Marker(0, 4535, 155, 368));
-	vMarker.push_back(new Marker(0, 4539, 339, 330));
-	vMarker.push_back(new Marker(0, 4540, 342, 257));
-	vMarker.push_back(new Marker(0, 4537, 157, 244));
-	vMarker.push_back(new Marker(0, 4538, 158, 249));
-	vMarker.push_back(new Marker(0, 4541, 247, 148));
-	vMarker.push_back(new Marker(0, 4543, 247, 154));
-	vMarker.push_back(new Marker(0, 4542, 188, 36));
-	vMarker.push_back(new Marker(0, 4544, 328, 96));
-	vMarker.push_back(new Marker(0, 4545, 325, 103));
-	vMarker.push_back(new Marker(0, 4546, 328, 110));
-	vMarker.push_back(new Marker(0, 4547, 65, 136));
-	vMarker.push_back(new Marker(0, 4548, 59, 148));
-	vMarker.push_back(new Marker(0, 4549, 67, 144));
-
-	//vMarker.push_back(new Marker(2, 4452,  75, 316));
-	//vMarker.push_back(new Marker(2, 4453, 151, 347));
-	//vMarker.push_back(new Marker(2, 4455, 291, 76));
-
-	
-
-	MISE;
-}
