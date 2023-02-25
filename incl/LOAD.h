@@ -34,7 +34,7 @@ public:
 
 	void StartUp();
 
-	void LoadCards();
+	
 	    	
 	std::string sSQL_Server;
 	std::string sSQL_User;
@@ -54,8 +54,10 @@ public:
 
 	int BOTRankMode[BOTXLIST + 1];
 
+#ifdef CC_BOT2
 	std::vector <CsvCard*> CsvAllCards;
-
+	void LoadCards();
+#endif
 	//BROKER
 	static broker* Bro;
 	void teachL() { Bro->L = this; }

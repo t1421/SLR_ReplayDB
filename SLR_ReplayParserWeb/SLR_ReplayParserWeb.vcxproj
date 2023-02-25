@@ -120,7 +120,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;BrokerWeb;noImager;noManager;noSQL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;BrokerWeb;noImager;noManager;noSQL;noSMJ;CC_BOT1;CC_BOT2;CC_BOT3;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>K:\Sound_Server\lib\boost_1_68_0;K:\c++\Wt 4.5.2 msvs2015 x86\include;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\include;K:\Sound_Server\lib\jsoncpp-1.9.5\install\include;K:\Sound_Server\lib\opencv3.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -164,7 +164,6 @@
   <ItemGroup>
     <ClCompile Include="..\SLR_ReplayParserWeb.cpp" />
     <ClCompile Include="..\src\Broker.cpp" />
-    <ClCompile Include="..\src\CardBaseSMJ.cpp" />
     <ClCompile Include="..\src\DEBUG.cpp" />
     <ClCompile Include="..\src\LOAD.cpp" />
     <ClCompile Include="..\src\MIS_Rank.cpp" />
@@ -172,10 +171,6 @@
     <ClCompile Include="..\src\Replay.cpp" />
     <ClCompile Include="..\src\Thread_MIS.cpp" />
     <ClCompile Include="..\src\Utility.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Analyser.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Acti.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Deck.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Head.cpp" />
     <ClCompile Include="..\src\WEB\WEB_CONTAINER.cpp" />
     <ClCompile Include="..\src\WEB\WEB_MA.cpp" />
     <ClCompile Include="..\src\WEB\WEB_MAA.cpp" />
@@ -193,7 +188,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h" />
-    <ClInclude Include="..\incl\CardBaseSMJ.h" />
     <ClInclude Include="..\incl\DEBUG.h" />
     <ClInclude Include="..\incl\LOAD.h" />
     <ClInclude Include="..\incl\MIS_Rank.h" />
@@ -201,10 +195,6 @@
     <ClInclude Include="..\incl\Replay.h" />
     <ClInclude Include="..\incl\Thread_MIS.h" />
     <ClInclude Include="..\incl\Utility.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Analyser.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Analyser_Acti.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Analyser_Deck.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Analyser_Head.h" />
     <ClInclude Include="..\incl\WEB\WEB_CONTAINER.h" />
     <ClInclude Include="..\incl\WEB\WEB_MA.h" />
     <ClInclude Include="..\incl\WEB\WEB_MAA.h" />

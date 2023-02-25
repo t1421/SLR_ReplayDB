@@ -18,7 +18,9 @@ class WEB_MB;
 class WEB_MC;
 #endif
 class WEB_MD;
+#ifndef noSMJ
 class WEB_Analyser;
+#endif
 
 class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar , public WEB_Replay
 
@@ -35,8 +37,10 @@ public:
 	WEB_MC *MC;
 #endif
 	WEB_MD *MD;
-	WEB_Analyser *Analyser;
 
+#ifndef noSMJ
+	WEB_Analyser *Analyser;
+#endif
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
 	Wt::WText		 *wtMap;

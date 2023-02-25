@@ -24,7 +24,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\SLR_ReplayParserWeb.cpp" />
     <ClCompile Include="..\src\Broker.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
@@ -52,25 +51,7 @@
     <ClCompile Include="..\src\WEB\WEB_CONTAINER.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_MA.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_MAA.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB\WEB_Main.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_MB.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_MBA.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_MC.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_MCA.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
     <ClCompile Include="..\src\WEB\WEB_Rank.cpp">
@@ -90,6 +71,24 @@
     </ClCompile>
     <ClCompile Include="..\src\WEB\WEB_MDA.cpp">
       <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Analyser.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Acti.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Deck.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Head.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\CardBaseSMJ.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\SLR_ReplayParserWebV2.cpp">
+      <Filter>Quelldateien</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -120,25 +119,7 @@
     <ClInclude Include="..\incl\WEB\WEB_CONTAINER.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_MA.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_MAA.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_Main.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_MB.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_MBA.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_MC.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_MCA.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_Rank.h">
@@ -158,6 +139,21 @@
     </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_MDA.h">
       <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Analyser.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Analyser_Deck.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Analyser_Head.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Analyser_Acti.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\CardBaseSMJ.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -34,12 +34,14 @@
 #include "..\incl\WEB\WEB_Replay.h"
 #include "..\incl\MIS_Rank.h"
 
+#ifndef noSMJ
 #include "..\incl\WEB\WEB_Analyser.h"
 #include "..\incl\WEB\WEB_Analyser_Head.h"
 #include "..\incl\WEB\WEB_Analyser_Deck.h"
 #include "..\incl\WEB\WEB_Analyser_Acti.h"
 
 #include "..\incl\CardBaseSMJ.h" 
+#endif
 
 #include <algorithm>
 #include <iterator>
@@ -97,16 +99,18 @@ broker::broker()
 	WEB_Toolbar::learnBro(this);
 	WEB_Replay::learnBro(this);
 	MIS_Rank::learnBro(this);
-
+#ifndef noSMJ
 	WEB_Analyser::learnBro(this);
 	WEB_Analyser_Head::learnBro(this);
 	WEB_Analyser_Deck::learnBro(this);
 	WEB_Analyser_Acti::learnBro(this);
 
 	CardBaseSMJ::learnBro(this);
+	J = NULL;
+#endif
 		
 	W = NULL;
-	J = NULL;
+	
 #endif
 
 
@@ -206,14 +210,15 @@ broker::~broker()
 	MISE;
 }
 
-#ifdef BrokerWeb
+#ifndef noSMJ
 unsigned char broker::C_GetActionOrbForCardID(unsigned short CardID)
 {
 	return J->GetActionOrbForCardID(CardID);
 }
 #endif
 
-#if defined BrokerParser 
+
+#if defined BrokerParser  || defined CC_BOT1 || defined CC_BOT2 || defined CC_BOT3
 unsigned char broker::C_GetActionOrbForCardID(unsigned short CardID)
 {
 	return 0;

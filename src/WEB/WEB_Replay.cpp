@@ -13,12 +13,18 @@
 
 broker *(WEB_Replay::Bro) = NULL;
 
-WEB_Replay::WEB_Replay() :R(new Replay()), BOT3Stuff(false){};
+WEB_Replay::WEB_Replay() :R(new Replay())
+#ifdef CC_BOT3
+, BOT3Stuff(false)
+#endif
+{};
 
 bool WEB_Replay::NewReplay(std::string sFile)
 {
 	R = new Replay();
+#ifdef CC_BOT3
 	BOT3Stuff = false;
+#endif
 	return R->LoadPMV(sFile);
 }
 

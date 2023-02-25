@@ -14,7 +14,9 @@
 #include "..\..\incl\WEB\WEB_MC.h"
 #endif
 #include "..\..\incl\WEB\WEB_MD.h"
+#ifndef noSMJ
 #include "..\..\incl\WEB\WEB_Analyser.h"
+#endif
 
 #include "..\..\incl\WEB\WEB_CONTAINER.h"
 
@@ -71,7 +73,9 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	MC = new WEB_MC(this);
 #endif
 	MD = new WEB_MD(this);
+#ifndef noSMJ
 	Analyser = new WEB_Analyser(this);
+#endif
 	
 
 	wtMap = new Wt::WText(" ");
@@ -136,7 +140,10 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 #endif
 	if (Bro->L_getBOTRankMode(BOT4LIST) <10
 		|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT4", *MD->cMain, MD);
-	if (sPARA == "BETA")WEB_Toolbar::ToolBarButton(bToolbar.size(), "Analyser", *Analyser->cMain, Analyser);
+
+#ifndef noSMJ
+	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Analyser", *Analyser->cMain, Analyser);
+#endif
 	
 	//WEB_Toolbar::sToolbar->setCurrentIndex(1);
 	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -1);
@@ -193,7 +200,9 @@ MISCONTAINER::~MISCONTAINER()
 	delete MC;
 #endif
 	delete MD;
+#ifndef noSMJ
 	delete Analyser;
+#endif
 	MISE;
 }
 

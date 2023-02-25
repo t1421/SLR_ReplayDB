@@ -7,6 +7,7 @@
 #include <Wt/WImage.h>
 
 class Replay;
+#ifdef CC_BOT2
 
 #define BOT2_IMG_SIZE 50
 #define BOT3_IMG_SIZE 300
@@ -27,10 +28,10 @@ struct WebCard {
 
 	Wt::WImage		  *IMG[3];
 };
+#endif
 
 
-
-
+#ifdef CC_BOT3
 struct Marker
 {
 	unsigned short Type;
@@ -57,31 +58,36 @@ struct Marker
 		IMG->setOffsets(_Y + Yoffset, Wt::Side::Top);
 	}
 };
-
+#endif
 
 class WEB_Replay
 {
 public:
 
 	Replay* R;
-	std::vector <WebCard*> WebDeckDeck;
-	std::vector <WebCard*> WebDeckActions;
-	std::vector <Marker *> vMarker;
-	bool BOT3Stuff;
+#ifdef CC_BOT2
+
+#endif
+	
 
 	WEB_Replay();
 	
 #ifdef CC_BOT1
 	std::string BOT1();
-#endif
-#ifdef CC_BOT2
-	std::string BOT2(bool bMode, Wt::WTable *wtTabelle);
-#endif
-	std::string BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, unsigned long &Time);
-
-#ifdef CC_BOT1
+	bool BOT3Stuff;
 	int CountActions();
 	int CountActions(std::string sFilter);
+#endif
+#ifdef CC_BOT2
+	std::vector <WebCard*> WebDeckDeck;
+	std::vector <WebCard*> WebDeckActions;
+	std::vector <Marker *> vMarker;
+	std::string BOT2(bool bMode, Wt::WTable *wtTabelle);
+#endif
+	
+
+#ifdef CC_BOT3
+	std::string BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, unsigned long &Time);
 #endif
 	
 

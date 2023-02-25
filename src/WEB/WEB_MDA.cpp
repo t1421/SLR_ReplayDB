@@ -53,7 +53,7 @@ WEB_MDA::WEB_MDA(WEB_Replay *WR_) : WR(WR_)
 void WEB_MDA::WRefresh()
 {
 	MISS;
-
+	/*
 	unsigned long iTime;
 
 	wtTabelle->clear();
@@ -83,6 +83,6 @@ void WEB_MDA::WRefresh()
 		}		
 		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}
-
+	*/
 	MISE;
 }

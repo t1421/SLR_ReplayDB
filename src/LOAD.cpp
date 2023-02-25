@@ -77,7 +77,7 @@ bool LOAD::INI_Value_Check(std::string &check, std::string name)
 		return false;
 	}
 }
-
+#ifdef CC_BOT2
 void LOAD::LoadCards()
 {
 	MISS;
@@ -118,7 +118,7 @@ void LOAD::LoadCards()
 	
 	MISE;
 }
-
+#endif
 std::string LOAD::entry(std::string Liste, int pos)
 {
 	if (pos == 0)return Liste.substr(0, Liste.find(";"));
