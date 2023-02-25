@@ -16,15 +16,15 @@
 
 #include "..\incl\WEB\WEB_Main.h"
 #include "..\incl\WEB\WEB_CONTAINER.h"
-#ifdef BOT1
+#ifdef CC_BOT1
 #include "..\incl\WEB\WEB_MA.h"
 #include "..\incl\WEB\WEB_MAA.h"
 #endif
-#ifdef BOT2
+#ifdef CC_BOT2
 #include "..\incl\WEB\WEB_MB.h"
 #include "..\incl\WEB\WEB_MBA.h"
 #endif
-#ifdef BOT3
+#ifdef CC_BOT3
 #include "..\incl\WEB\WEB_MC.h"
 #include "..\incl\WEB\WEB_MCA.h"
 #endif
@@ -80,15 +80,15 @@ broker::broker()
 #ifdef BrokerWeb
 	WEB_Main::learnBro(this);
 	MISCONTAINER::learnBro(this);
-#ifdef BOT1
+#ifdef CC_BOT1
 	WEB_MA::learnBro(this);
 	WEB_MAA::learnBro(this);
 #endif
-#ifdef BOT2
+#ifdef CC_BOT2
 	WEB_MB::learnBro(this);
 	WEB_MBA::learnBro(this);
 #endif
-#ifdef BOT3
+#ifdef CC_BOT3
 	WEB_MC::learnBro(this);
 	WEB_MCA::learnBro(this);
 #endif

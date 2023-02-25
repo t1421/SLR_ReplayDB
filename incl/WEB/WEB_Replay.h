@@ -71,15 +71,15 @@ public:
 
 	WEB_Replay();
 	
-#ifdef BOT1
+#ifdef CC_BOT1
 	std::string BOT1();
 #endif
-#ifdef BOT2
+#ifdef CC_BOT2
 	std::string BOT2(bool bMode, Wt::WTable *wtTabelle);
 #endif
 	std::string BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, unsigned long &Time);
 
-#ifdef BOT1
+#ifdef CC_BOT1
 	int CountActions();
 	int CountActions(std::string sFilter);
 #endif
@@ -100,7 +100,7 @@ public:
 protected:
 
 private:
-#ifdef BOT2
+#ifdef CC_BOT2
 	bool getFromCSVBuilding(unsigned short uiCardID);
 	bool getFromCSVSpell(unsigned short uiCardID);
 	bool getFromCSVUnit(unsigned short uiCardID);
@@ -112,7 +112,7 @@ private:
 	bool FillTableBOT2(std::vector <WebCard*>& WebDeck, Wt::WTable *wtTabelle);
 #endif
 
-#ifdef BOT3
+#ifdef CC_BOT3
 	void InitVector();
 	void BOT3WellsAndOrbUnit();
 	unsigned long  FillTableBOT3(Wt::WTable *wtTabelle);

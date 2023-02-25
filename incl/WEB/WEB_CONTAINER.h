@@ -8,13 +8,13 @@
 #include <Wt/WFileUpload.h>
 #include <Wt/WApplication.h>
 
-#ifdef BOT1
+#ifdef CC_BOT1
 class WEB_MA;
 #endif
-#ifdef BOT2
+#ifdef CC_BOT2
 class WEB_MB;
 #endif
-#ifdef BOT3
+#ifdef CC_BOT3
 class WEB_MC;
 #endif
 class WEB_MD;
@@ -25,13 +25,13 @@ class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar , public WEB_Re
 {
 public:
 	
-#ifdef BOT1
+#ifdef CC_BOT1
 	WEB_MA *MA;	
 #endif
-#ifdef BOT2
+#ifdef CC_BOT2
 	WEB_MB *MB;
 #endif
-#ifdef BOT3
+#ifdef CC_BOT3
 	WEB_MC *MC;
 #endif
 	WEB_MD *MD;

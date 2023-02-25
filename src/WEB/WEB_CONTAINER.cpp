@@ -4,13 +4,13 @@
 #include "..\..\incl\WEB\WEB_Utility.h"
 
 //#include "WEB_Main.h"
-#ifdef BOT1
+#ifdef CC_BOT1
 #include "..\..\incl\WEB\WEB_MA.h"
 #endif
-#ifdef BOT2
+#ifdef CC_BOT2
 #include "..\..\incl\WEB\WEB_MB.h"
 #endif
-#ifdef BOT3
+#ifdef CC_BOT3
 #include "..\..\incl\WEB\WEB_MC.h"
 #endif
 #include "..\..\incl\WEB\WEB_MD.h"
@@ -61,13 +61,13 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	WApplication::instance()->useStyleSheet(Wt::WLink("./resources/main.css"));
 
 	MISD("#3");	
-#ifdef BOT1
+#ifdef CC_BOT1
 	MA = new WEB_MA(this);	
 #endif
-#ifdef BOT2
+#ifdef CC_BOT2
 	MB = new WEB_MB(this);
 #endif
-#ifdef BOT3
+#ifdef CC_BOT3
 	MC = new WEB_MC(this);
 #endif
 	MD = new WEB_MD(this);
@@ -125,13 +125,13 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	
 
 	MISD("#6");
-#ifdef BOT1
+#ifdef CC_BOT1
 	if (Bro->L_getBOTRankMode(BOT1LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT1", *MA->cMain, MA);
 #endif
-#ifdef BOT2
+#ifdef CC_BOT2
 	if (Bro->L_getBOTRankMode(BOT2LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT2", *MB->cMain, MB);
 #endif
-#ifdef BOT3
+#ifdef CC_BOT3
 	if (Bro->L_getBOTRankMode(BOT3LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT3", *MC->cMain, MC);
 #endif
 	if (Bro->L_getBOTRankMode(BOT4LIST) <10
@@ -183,13 +183,13 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 MISCONTAINER::~MISCONTAINER()
 {
 	MISS;
-#ifdef BOT1
+#ifdef CC_BOT1
 	delete MA;
 #endif
-#ifdef BOT2
+#ifdef CC_BOT2
 	delete MB;
 #endif
-#ifdef BOT3
+#ifdef CC_BOT3
 	delete MC;
 #endif
 	delete MD;

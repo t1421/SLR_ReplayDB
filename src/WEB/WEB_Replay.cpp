@@ -22,7 +22,7 @@ bool WEB_Replay::NewReplay(std::string sFile)
 	return R->LoadPMV(sFile);
 }
 
-#ifdef BOT1
+#ifdef CC_BOT1
 int WEB_Replay::CountActions() 
 { 
 	return R->CountActions(); 
@@ -44,7 +44,7 @@ std::string WEB_Replay::BOT1()
 	return "";
 };
 #endif
-#ifdef BOT2
+#ifdef CC_BOT2
 std::string WEB_Replay::BOT2(bool bMode,Wt:: WTable *wtTabelle)
 {
 	bool result = false;
@@ -71,7 +71,7 @@ std::string WEB_Replay::BOT2(bool bMode,Wt:: WTable *wtTabelle)
 	return "";
 }
 #endif
-#ifdef BOT3
+#ifdef CC_BOT3
 std::string WEB_Replay::BOT3(Wt::WTable *wtTabelle, Wt::WContainerWidget *cMap, unsigned long &Time)
 {
 	if (R->OK != true)return "Error in replay";
@@ -264,7 +264,7 @@ unsigned int WEB_Replay::Difficulty()
 {
 	return R->DifficultyID;
 }
-#ifdef BOT2
+#ifdef CC_BOT2
 bool WEB_Replay::FillWebDeckAction()
 {
 	MISS;
