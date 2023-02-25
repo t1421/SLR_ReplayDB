@@ -169,7 +169,7 @@ Json::Value CardBaseSMJ::SMJtoCHASH()
 	return jsonData;
 }
 
-void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges)
+void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, bool bSmall)
 {
 	MISS;
 
@@ -190,7 +190,8 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 		}
 	}
 
-	sURL  = SMJ_B_IMG;
+	if(bSmall) sURL = SMJ_S_IMG;
+	else sURL  = SMJ_B_IMG;
 	sURL += SMJID;
 	sURL += "?upgrades=";
 	sURL += std::to_string(Upgrade);
@@ -199,7 +200,8 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 		
 	MISD(sURL);
 
-	OutFile.open(Bro->L_getSMJPIC_PATH() + sFile + ".png", std::ostream::binary);
+	if(bSmall)OutFile.open(Bro->L_getSMJPICSMALL_PATH() + sFile + ".png", std::ostream::binary);
+	else OutFile.open(Bro->L_getSMJPIC_PATH() + sFile + ".png", std::ostream::binary); 
 
 	curl = curl_easy_init();
 	if (curl)
@@ -262,32 +264,52 @@ unsigned char CardBaseSMJ::GetActionOrbForCardID(unsigned short CardID)
 }
 
 
-std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges)
+std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, bool bSmall, bool bSW)
 {
 	MISS;
-	std::string sFile = std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges) + ".png";
-	if (!File_exists(Bro->L_getSMJPIC_PATH() + sFile))
+	std::string sFile;
+
+	if (bSmall)
+	{
+		sFile = Bro->L_getSMJPICSMALL_PATH();
+		Upgrade = 0;
+		Charges = 0;
+	}
+	else sFile = Bro->L_getSMJPIC_PATH();
+
+	sFile += std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges);	
+	if (bSW)sFile += "SW";
+	
+	sFile += ".png";
+	
+	if (!File_exists(sFile))
 	{
 		MISD("Download: " + sFile);
-		DownloadImage(CardID, Upgrade, Charges);
+		DownloadImage(CardID, Upgrade, Charges, bSmall);
+		if (bSW)ConvertImage(sFile);
 	}
 	MISE;
-	return "./resources/SMJPIC/" + sFile;
+	return sFile;
 }
-
-std::string CardBaseSMJ::GetSWImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges)
+/*
+std::string CardBaseSMJ::GetSWImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, bool bSmall)
 {
 	MISS;
-	std::string sFile = std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges) + "SW.png";
-	if (!File_exists(Bro->L_getSMJPIC_PATH() + sFile))
+	std::string sFile;
+	if (bSmall) sFile = Bro->L_getSMJPICSMALL_PATH();
+	else sFile = Bro->L_getSMJPIC_PATH();
+	sFile += std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges) + "SW.png";
+
+	if (!File_exists(sFile))
 	{
 		MISD("ConvertImage: " + sFile);
-		GetImage(CardID, Upgrade, Charges);
-		ConvertImage(Bro->L_getSMJPIC_PATH() + sFile);
+		GetImage(CardID, Upgrade, Charges, bSmall);
+		ConvertImage( sFile);
 	}
 	MISE;
-	return "./resources/SMJPIC/" + sFile;
+	return sFile;
 }
+*/
 void CardBaseSMJ::ConvertImage(std::string sFile)
 {
 	MISS;
@@ -368,5 +390,15 @@ unsigned char CardBaseSMJ::SwitchCharges(unsigned short CardID, unsigned char Is
 	}
 	}
 
+	MISE;
+}
+
+SMJCard* CardBaseSMJ::GetSMJCard(unsigned short _CardID)
+{
+	MISS;
+	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
+	{
+		if (SMJMatrix[i]->cardId = _CardID)return SMJMatrix[i];
+	}
 	MISE;
 }

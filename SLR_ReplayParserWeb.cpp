@@ -50,8 +50,10 @@ int main(int argc, char **argv)
 			printf("J;new               | New Istance\n");
 			printf("J;init              | calls init\n");
 			printf("J;echo;[ID]         | print Card data\n");
-			printf("J;imager            | Download image\n");
-			printf("J;convert           | get SW image\n");
+			printf("J;BC                | Big Color\n");
+			printf("J;BS                | Big SW\n");
+			printf("J;SC                | small Color\n");
+			printf("J;SS                | small SW\n");
 			printf("####################|###########################################\n\n");
 		}
 		if (Checker(sbuf, "J"))
@@ -59,8 +61,11 @@ int main(int argc, char **argv)
 			if (Checker(sbuf, "new")) J = new CardBaseSMJ();
 			if (Checker(sbuf, "init")) J->Init();
 			if (Checker(sbuf, "echo"))J->EchoCard(sbuf);
-			if (Checker(sbuf, "imager"))J->DownloadImage(1348,1,1);
-			if (Checker(sbuf, "convert"))J->GetSWImage(1348, 1, 1);
+			//if (Checker(sbuf, "imager"))J->DownloadImage(1348,1,1,true);
+			if (Checker(sbuf, "BC"))J->GetImage(1348, 2, 1, false,false);
+			if (Checker(sbuf, "BS"))J->GetImage(290, 2, 1, false, true);
+			if (Checker(sbuf, "SC"))J->GetImage(1348, 2, 1, true, false);
+			if (Checker(sbuf, "SS"))J->GetImage(290, 2, 1, true, true);
 			
 
 		}

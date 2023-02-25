@@ -271,6 +271,10 @@ std::string broker::L_getSMJPIC_PATH()
 {
 	return L->sSMJPIC_PATH;
 }
+std::string broker::L_getSMJPICSMALL_PATH()
+{
+	return L->sSMJPICSMALL_PATH;
+}
 
 std::string broker::L_getFFMPEG()
 {
@@ -288,10 +292,9 @@ int broker::L_getBOTRankMode(int _BOT)
 }
 
 #ifndef noSMJ
-std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count)
+std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall)
 {
-	if (_Count>0)return J->GetImage(_CardID, _Upgrade, _Charges);
-	else return J->GetSWImage(_CardID, _Upgrade, _Charges);
+	return J->GetImage(_CardID, _Upgrade, _Charges, bSmall, _Count==0);
 	
 }
 unsigned char broker::J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges)
