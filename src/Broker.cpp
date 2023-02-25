@@ -287,6 +287,7 @@ int broker::L_getBOTRankMode(int _BOT)
 	return L->BOTRankMode[_BOT];
 }
 
+#ifndef noSMJ
 std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count)
 {
 	if (_Count>0)return J->GetImage(_CardID, _Upgrade, _Charges);
@@ -297,7 +298,7 @@ unsigned char broker::J_SwitchCharges(unsigned short _CardID, unsigned char _Ist
 {
 	return J->SwitchCharges(_CardID,_IstCharges);
 }
-
+#endif
 #endif
 
 void broker::B_StatusNew(std::string Fun, std::string Wert)
