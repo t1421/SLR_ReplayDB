@@ -2,57 +2,21 @@
 #define WEB_CONTAINER_H
 
 #include "WEB_Toolbar.h"
-#include "WEB_Replay.h"
+#include "WEB_Analyser.h"
 
 #include <Wt/WText.h>
 #include <Wt/WFileUpload.h>
 #include <Wt/WApplication.h>
 
-#ifdef CC_BOT1
-class WEB_MA;
-#endif
-#ifdef CC_BOT2
-class WEB_MB;
-#endif
-#ifdef CC_BOT3
-class WEB_MC;
-#endif
 class WEB_MD;
-#ifndef noSMJ
-class WEB_Analyser;
-#endif
 
-class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar , public WEB_Replay
+class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser
 
 {
 public:
-	
-#ifdef CC_BOT1
-	WEB_MA *MA;	
-#endif
-#ifdef CC_BOT2
-	WEB_MB *MB;
-#endif
-#ifdef CC_BOT3
-	WEB_MC *MC;
-#endif
-	WEB_MD *MD;
 
-#ifndef noSMJ
-	WEB_Analyser *Analyser;
-#endif
-	Wt::WFileUpload  *wfuDropZone;
-	Wt::WText		 *wtStatus;
-	Wt::WText		 *wtMap;
-	Wt::WText		 *wtDif;
-	Wt::WText		 *wtTime;
-	//Wt::WText		 *wtActions;
-	
 
-	Wt::WContainerWidget *GlobaelContainer;
-	Wt::WContainerWidget *ReplayInfo;
 
-	void WRefresh();
 
 	//----------------------------------------------------------------
 
@@ -63,10 +27,21 @@ public:
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
+
 private:
+
+	void WRefresh();
+
+	WEB_MD *MD;
+	Wt::WFileUpload  *wfuDropZone;
+	Wt::WText		 *wtStatus;
+	Wt::WContainerWidget *GlobaelContainer;
+
 
 	std::string sPARA;
 	std::string sBETA;
+
+	
 
 };
 

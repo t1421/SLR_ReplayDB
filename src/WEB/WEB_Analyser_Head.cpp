@@ -2,8 +2,9 @@
 
 #include "..\..\incl\Broker.h"
 
+#include "..\..\incl\WEB\WEB_Analyser.h"
+#include "..\..\incl\Replay.h"
 #include "..\..\incl\WEB\WEB_Analyser_Head.h"
-#include "..\..\incl\WEB\WEB_Replay.h"
 #include "..\..\incl\Replay.h" 
 #include "..\..\incl\Utility.h" 
 
@@ -12,7 +13,7 @@
 
 broker *(WEB_Analyser_Head::Bro) = NULL;
 
-WEB_Analyser_Head::WEB_Analyser_Head(WEB_Replay *WR_): WR(WR_)
+WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_)
 {
 	MISS;
 
@@ -124,17 +125,17 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Replay *WR_): WR(WR_)
 void WEB_Analyser_Head::WRefresh()
 {
 	MISS;
-	if (WR->R->OK != true)
+	if (WA->R->OK != true)
 	{
 		MISEA("no Replay");
 		return;
 	}
 	
-	Playtime->setText(sTime(WR->R->Playtime));
+	Playtime->setText(sTime(WA->R->Playtime));
 	
-	MapName->setText(WR->R->MapName);
-	Seed->setText(std::to_string(WR->R->Seed));
-	switch (WR->R->DifficultyID)
+	MapName->setText(WA->R->MapName);
+	Seed->setText(std::to_string(WA->R->Seed));
+	switch (WA->R->DifficultyID)
 	{
 	case 1:
 		DifficultyID->setText("Std");
@@ -146,7 +147,7 @@ void WEB_Analyser_Head::WRefresh()
 		DifficultyID->setText("Exp");
 		break;
 	}
-	switch (WR->R->PlayModeID)
+	switch (WA->R->PlayModeID)
 	{
 	case 1:
 		PlayModeID->setText("PvE");
@@ -156,29 +157,29 @@ void WEB_Analyser_Head::WRefresh()
 		break;
 	}
 	
-	for (int i = 0; i < WR->R->PlayerMatrix.size();i++)
-		if(WR->R->PlayerMatrix[i]->PlayerID== WR->R->PMVPlayerID)PMVPlayerID->setText(WR->R->PlayerMatrix[i]->Name);
+	for (int i = 0; i < WA->R->PlayerMatrix.size();i++)
+		if(WA->R->PlayerMatrix[i]->PlayerID== WA->R->PMVPlayerID)PMVPlayerID->setText(WA->R->PlayerMatrix[i]->Name);
 
 
 	
-	WinningTeam->setText(WR->R->WinningTeam);
-	//FileName->setText(WR->R->FileName);
+	WinningTeam->setText(WA->R->WinningTeam);
+	//FileName->setText(WA->R->FileName);
 
-	FileVersion->setText(std::to_string(WR->R->FileVersion));
-	GameVersion->setText(std::to_string(WR->R->GameVersion));
-	GroupCount->setText(std::to_string(WR->R->GroupCount));
-	MatrixCount->setText(std::to_string(WR->R->MatrixCount));
-	TeamCount->setText(std::to_string(WR->R->TeamCount));
+	FileVersion->setText(std::to_string(WA->R->FileVersion));
+	GameVersion->setText(std::to_string(WA->R->GameVersion));
+	GroupCount->setText(std::to_string(WA->R->GroupCount));
+	MatrixCount->setText(std::to_string(WA->R->MatrixCount));
+	TeamCount->setText(std::to_string(WA->R->TeamCount));
 
 
-	DifficultyID2->setText(std::to_string(WR->R->DifficultyID));
-	Playtime2->setText(std::to_string(WR->R->Playtime));
-	PlayModeID2->setText(std::to_string(WR->R->PlayModeID));
-	PMVPlayerID2->setText(std::to_string(WR->R->PMVPlayerID));
-	ActionBlock->setText(std::to_string(WR->R->ActionBlock));
-	Unknow3->setText(std::to_string(WR->R->Unknow3));
-	Unknow4->setText(std::to_string(WR->R->Unknow4));
-	MapID->setText(std::to_string(WR->R->MapID));
+	DifficultyID2->setText(std::to_string(WA->R->DifficultyID));
+	Playtime2->setText(std::to_string(WA->R->Playtime));
+	PlayModeID2->setText(std::to_string(WA->R->PlayModeID));
+	PMVPlayerID2->setText(std::to_string(WA->R->PMVPlayerID));
+	ActionBlock->setText(std::to_string(WA->R->ActionBlock));
+	Unknow3->setText(std::to_string(WA->R->Unknow3));
+	Unknow4->setText(std::to_string(WA->R->Unknow4));
+	MapID->setText(std::to_string(WA->R->MapID));
 	
 	
 	MISE;

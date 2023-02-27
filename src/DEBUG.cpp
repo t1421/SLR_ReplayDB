@@ -57,25 +57,9 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		
 		Fill_DBArray("WEB_Main", "*", "*", "true");
 		Fill_DBArray("WEB_Toolbar", "*", "*", "true");
-		Fill_DBArray("WEB_Replay", "*", "*", "true");
 		Fill_DBArray("MISCONTAINER", "*", "*", "true");
 		
-#ifdef CC_BOT1
-		Fill_DBArray("WEB_MA", "*", "*", "true");
-		Fill_DBArray("WEB_MAA", "*", "*", "true");
-#endif
-#ifdef CC_BOT2
-		Fill_DBArray("WEB_MB", "*", "*", "true");
-		Fill_DBArray("WEB_MBA", "*", "*", "true");			
-		Fill_DBArray("WEB_MB", "addCard", "*", "false");
-		Fill_DBArray("WEB_MB", "showResults", "*", "false");
-		Fill_DBArray("WEB_MB", "WEB_MB", "*", "false");
-		Fill_DBArray("WEB_MB", "updateToolbar", "*", "false");
-#endif
-#ifdef CC_BOT3
-		Fill_DBArray("WEB_MC", "*", "*", "true");
-		Fill_DBArray("WEB_MCA", "*", "*", "true");
-#endif
+
 		Fill_DBArray("WEB_MD", "*", "*", "true");
 		Fill_DBArray("WEB_MDA", "*", "*", "true");
 

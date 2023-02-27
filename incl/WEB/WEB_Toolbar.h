@@ -13,10 +13,7 @@ public:
 
 	WEB_Toolbar() :sToolbar(new Wt::WStackedWidget), tToolbar(new Wt::WToolBar) {};
 
-	Wt::WStackedWidget *sToolbar;
-	Wt::WToolBar *tToolbar;
-	std::vector <Wt::WPushButton *> bToolbar;
-	std::vector <WebRefresh *> wfToolbar;
+
 	void ToolBarButton(int Index, std::string Name, Wt::WContainerWidget &CON, WebRefresh *WF);
 	void updateToolbar();
 	void updateFrame();
@@ -25,6 +22,12 @@ public:
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
+	Wt::WStackedWidget *getToolbar() { return sToolbar; };
+
+	Wt::WStackedWidget *sToolbar;
+	Wt::WToolBar *tToolbar;
+	std::vector <Wt::WPushButton *> bToolbar;
+	std::vector <WebRefresh *> wfToolbar;
 protected:
 
 private:

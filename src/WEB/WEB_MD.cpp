@@ -8,7 +8,7 @@
 
 broker *(WEB_MD::Bro) = NULL;
 
-WEB_MD::WEB_MD(WEB_Replay *WR_)
+WEB_MD::WEB_MD(WEB_Analyser *WA_)
 {
 	MISS;
 
@@ -18,7 +18,7 @@ WEB_MD::WEB_MD(WEB_Replay *WR_)
 
 	MISD("#10");
 
-	A = new WEB_MDA(WR_);
+	A = new WEB_MDA(WA_);
 	B = new WEB_Rank(BOT3LIST);
 	
 	MISD("#11");	

@@ -57,9 +57,6 @@
     <ClCompile Include="..\src\WEB\WEB_Rank.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_Replay.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB\WEB_Toolbar.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
@@ -123,9 +120,6 @@
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_Rank.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_Replay.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_Toolbar.h">

@@ -2,14 +2,14 @@
 
 #include "..\..\incl\Broker.h"
 
+#include "..\..\incl\WEB\WEB_Analyser.h"
 #include "..\..\incl\WEB\WEB_Analyser_Acti.h"
-#include "..\..\incl\WEB\WEB_Replay.h"
 
 #include <Wt/WContainerWidget.h>
 
 broker *(WEB_Analyser_Acti::Bro) = NULL;
 
-WEB_Analyser_Acti::WEB_Analyser_Acti(WEB_Replay *WR_): WR(WR_)
+WEB_Analyser_Acti::WEB_Analyser_Acti(WEB_Analyser *WA_) : WA(WA_)
 {
 	MISS;
 

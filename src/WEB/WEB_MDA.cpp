@@ -4,14 +4,14 @@
 
 #include "..\..\incl\Utility.h" 
 #include "..\..\incl\WEB\WEB_MDA.h"
-#include "..\..\incl\WEB\WEB_Replay.h"
+#include "..\..\incl\WEB\WEB_Analyser.h"
 
 #include <Wt/WTable.h>
 #include <Wt/WGridLayout.h>
 
 broker *(WEB_MDA::Bro) = NULL;
 
-WEB_MDA::WEB_MDA(WEB_Replay *WR_) : WR(WR_)
+WEB_MDA::WEB_MDA(WEB_Analyser *WA_) : WA(WA_)
 {
 	MISS;
 

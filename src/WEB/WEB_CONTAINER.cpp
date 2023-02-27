@@ -2,22 +2,8 @@
 
 #include "..\..\incl\Broker.h" 
 #include "..\..\incl\WEB\WEB_Utility.h"
-
-//#include "WEB_Main.h"
-#ifdef CC_BOT1
-#include "..\..\incl\WEB\WEB_MA.h"
-#endif
-#ifdef CC_BOT2
-#include "..\..\incl\WEB\WEB_MB.h"
-#endif
-#ifdef CC_BOT3
-#include "..\..\incl\WEB\WEB_MC.h"
-#endif
 #include "..\..\incl\WEB\WEB_MD.h"
-#ifndef noSMJ
 #include "..\..\incl\WEB\WEB_Analyser.h"
-#endif
-
 #include "..\..\incl\WEB\WEB_CONTAINER.h"
 
 #include <Wt/WBootstrapTheme.h> 
@@ -55,66 +41,25 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	MISD("#2");
 
 	WApplication::instance()->setTheme(bootstrapTheme);
-
-	//bMobile = env.agentIsMobileWebKit();
-
-	WApplication::instance()->setTitle("SLR - BOT Checker");
-
+	WApplication::instance()->setTitle("SLR - Replay Checker");
 	WApplication::instance()->useStyleSheet(Wt::WLink("./resources/main.css"));
 
 	MISD("#3");	
-#ifdef CC_BOT1
-	MA = new WEB_MA(this);	
-#endif
-#ifdef CC_BOT2
-	MB = new WEB_MB(this);
-#endif
-#ifdef CC_BOT3
-	MC = new WEB_MC(this);
-#endif
-	MD = new WEB_MD(this);
-#ifndef noSMJ
-	Analyser = new WEB_Analyser(this);
-#endif
-	
 
-	wtMap = new Wt::WText(" ");
-	wtDif = new Wt::WText(" ");
-	wtTime = new Wt::WText(" ");
-	//wtActions = new Wt::WText(" ");
-
+	MD = new WEB_MD(this);	
 	wfuDropZone = new Wt::WFileUpload();
 	wtStatus = new Wt::WText("Waiting for Replay");
 	
 	MISD("#4");
 	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
-	Wt::WGridLayout *ReplayInfoGrid = new Wt::WGridLayout();
-	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());
-	ReplayInfo = new Wt::WContainerWidget();
-	
+	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	
 	GlobaelContainer->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
-	ReplayInfo->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(ReplayInfoGrid)));
-
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h2><b>Replay Checking</b></h2>"))),0,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)),1,0,0,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)),2,0,0,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)),3,0,0,2);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)), 4, 0,0,2);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(ReplayInfo)), 0, 1, 4, 0);
-
-	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Map: "))), 0, 0);
-	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Difficulty: "))), 1, 0);
-	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Playtime: "))), 2, 0);
-	//ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Actions: "))), 3, 0);
-	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtMap)), 0, 1);
-	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtDif)), 1, 1);
-	ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTime)), 2, 1);
-	//ReplayInfoGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtActions)), 3, 1);
 	
-	TempGrid->setColumnStretch(0, 5);
-	TempGrid->setColumnStretch(1, 95);
-	ReplayInfoGrid->setColumnStretch(0, 5);
-	ReplayInfoGrid->setColumnStretch(1, 95);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h2><b>Replay Checking</b></h2>"))),0,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)),1,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)),2,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::tToolbar)),3,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::sToolbar)), 4, 0);
 
 	MISD("#5");
 
@@ -126,28 +71,14 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	wTemp = Wt::WColor(20, 20, 20);
 	root()->decorationStyle().setBackgroundColor(wTemp);
 
-	
-
 	MISD("#6");
-#ifdef CC_BOT1
-	if (Bro->L_getBOTRankMode(BOT1LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT1", *MA->cMain, MA);
-#endif
-#ifdef CC_BOT2
-	if (Bro->L_getBOTRankMode(BOT2LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT2", *MB->cMain, MB);
-#endif
-#ifdef CC_BOT3
-	if (Bro->L_getBOTRankMode(BOT3LIST) <10)WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT3", *MC->cMain, MC);
-#endif
-	if (Bro->L_getBOTRankMode(BOT4LIST) <10
-		|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(bToolbar.size(), "BOT4", *MD->cMain, MD);
 
-#ifndef noSMJ
-	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Analyser", *Analyser->cMain, Analyser);
-#endif
+	if (Bro->L_getBOTRankMode(BOT4LIST) <10
+		|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT4", *MD->cMain, MD);
+
+	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Analyser", *cMainAnalyser, this);
 	
-	//WEB_Toolbar::sToolbar->setCurrentIndex(1);
-	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -1);
-	
+	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -1);	
 	WEB_Toolbar::updateToolbar();
 
 	MISD("#7");
@@ -179,7 +110,7 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");
 
 		WRefresh();
-		updateFrame();		
+		WEB_Toolbar::updateFrame();
 
 	});
 
@@ -190,31 +121,12 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 MISCONTAINER::~MISCONTAINER()
 {
 	MISS;
-#ifdef CC_BOT1
-	delete MA;
-#endif
-#ifdef CC_BOT2
-	delete MB;
-#endif
-#ifdef CC_BOT3
-	delete MC;
-#endif
-	delete MD;
-#ifndef noSMJ
-	delete Analyser;
-#endif
 	MISE;
 }
 
 void MISCONTAINER::WRefresh()
 {
 	MISS;
-
-	wtMap->setText(MapName());
-	wtTime->setText(Time());
-	wtDif->setText(std::to_string(Difficulty()));
-	//wtActions->setText(std::to_string(CountActions()));	
-
 	MISE;
 }
 

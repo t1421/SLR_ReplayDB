@@ -181,7 +181,6 @@
     <ClCompile Include="..\src\WEB\WEB_MD.cpp" />
     <ClCompile Include="..\src\WEB\WEB_MDA.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Rank.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Replay.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Toolbar.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Utility.cpp" />
   </ItemGroup>
@@ -204,7 +203,6 @@
     <ClInclude Include="..\incl\WEB\WEB_MD.h" />
     <ClInclude Include="..\incl\WEB\WEB_MDA.h" />
     <ClInclude Include="..\incl\WEB\WEB_Rank.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Replay.h" />
     <ClInclude Include="..\incl\WEB\WEB_Toolbar.h" />
     <ClInclude Include="..\incl\WEB\WEB_Utility.h" />
   </ItemGroup>

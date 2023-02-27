@@ -3,31 +3,28 @@
 
 #include "WEB_Utility.h"
 
-class WEB_Replay;
-struct Player;
+class WEB_Analyser;
 
 class WEB_Analyser_Deck : public WebRefresh
 {
 public:
 
-	WEB_Replay *WR;
-	
-	//Wt::WText		 *wtStatus;
+	WEB_Analyser *WA;
 	
 	Wt::WContainerWidget *cMain;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
-	WEB_Analyser_Deck(WEB_Replay *WR_);
+	WEB_Analyser_Deck(WEB_Analyser *WA_);
 	void WRefresh();
 
 	Wt::WTable *wtTabelle;
 
 private:
-	bool GetDecks();
+	//bool GetDecks();
 	unsigned int drawPlayer(unsigned int iPlayer, unsigned int &iRow);
-	std::vector <Player*> Players;
+	
 	
 };
 

@@ -7,8 +7,6 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_ReplayDB", "SLR_ReplayD
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_ReplayParser", "SLR_ReplayParser\SLR_ReplayParser.vcxproj", "{1ACE7870-7DA3-4D28-877F-631D70AB7408}"
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_ReplayParserWeb", "SLR_ReplayParserWeb\SLR_ReplayParserWeb.vcxproj", "{85121D57-AFA8-4C88-94B7-6C711EDA890C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{BF28138C-8D25-474B-B3F0-156FD9B228B2}"
 	ProjectSection(SolutionItems) = preProject
 		Makefile = Makefile
@@ -42,14 +40,6 @@ Global
 		{1ACE7870-7DA3-4D28-877F-631D70AB7408}.Release|x64.Build.0 = Release|x64
 		{1ACE7870-7DA3-4D28-877F-631D70AB7408}.Release|x86.ActiveCfg = Release|Win32
 		{1ACE7870-7DA3-4D28-877F-631D70AB7408}.Release|x86.Build.0 = Release|Win32
-		{85121D57-AFA8-4C88-94B7-6C711EDA890C}.Debug|x64.ActiveCfg = Debug|x64
-		{85121D57-AFA8-4C88-94B7-6C711EDA890C}.Debug|x64.Build.0 = Debug|x64
-		{85121D57-AFA8-4C88-94B7-6C711EDA890C}.Debug|x86.ActiveCfg = Debug|Win32
-		{85121D57-AFA8-4C88-94B7-6C711EDA890C}.Debug|x86.Build.0 = Debug|Win32
-		{85121D57-AFA8-4C88-94B7-6C711EDA890C}.Release|x64.ActiveCfg = Release|x64
-		{85121D57-AFA8-4C88-94B7-6C711EDA890C}.Release|x64.Build.0 = Release|x64
-		{85121D57-AFA8-4C88-94B7-6C711EDA890C}.Release|x86.ActiveCfg = Release|Win32
-		{85121D57-AFA8-4C88-94B7-6C711EDA890C}.Release|x86.Build.0 = Release|Win32
 		{8D791E8B-CAD3-48B8-B059-A74A8FDBEB46}.Debug|x64.ActiveCfg = Debug|x64
 		{8D791E8B-CAD3-48B8-B059-A74A8FDBEB46}.Debug|x64.Build.0 = Debug|x64
 		{8D791E8B-CAD3-48B8-B059-A74A8FDBEB46}.Debug|x86.ActiveCfg = Debug|Win32

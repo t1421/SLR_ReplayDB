@@ -3,22 +3,20 @@
 
 #include "WEB_Utility.h"
 
-class WEB_Replay;
+class WEB_Analyser;
 
 class WEB_Analyser_Head : public WebRefresh
 {
 public:
 
-	WEB_Replay *WR;
-	
-	
+	WEB_Analyser *WA;
 	
 	Wt::WContainerWidget *cMain;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
-	WEB_Analyser_Head(WEB_Replay *WR_);
+	WEB_Analyser_Head(WEB_Analyser *WA_);
 	void WRefresh();
 
 	private:
