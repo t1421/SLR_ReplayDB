@@ -37,6 +37,9 @@ int main(int argc, char **argv)
 		{	
 			Bro->B->StatusE("OK", "OpenFile", "");
 
+			Bro->B->StatusE("", "ReplayTime",sTime(RR->Playtime));
+			Bro->B->StatusE("", "LastAction", sTime(RR->ActionMatrix[RR->ActionMatrix.size() - 1]->Time));
+
 			// Game Version CHeck
 			if (RR->GameVersion = 400039)Bro->B->StatusE("OK", "GameVersion", std::to_string(RR->GameVersion));
 			else
