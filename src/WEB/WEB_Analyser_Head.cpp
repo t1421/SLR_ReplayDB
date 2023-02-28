@@ -10,6 +10,7 @@
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WGridLayout.h>
+#include <Wt/WText.h>
 
 broker *(WEB_Analyser_Head::Bro) = NULL;
 
@@ -125,7 +126,7 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_)
 void WEB_Analyser_Head::WRefresh()
 {
 	MISS;
-	if (WA->R->OK != true)
+	if (WA->isOK() != true)
 	{
 		MISEA("no Replay");
 		return;

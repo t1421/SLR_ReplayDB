@@ -8,6 +8,9 @@
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
+#include <Wt/WText.h>
+#include <Wt/WImage.h>
+
 
 #define Card_Size_X 185
 #define Card_Size_Y 255

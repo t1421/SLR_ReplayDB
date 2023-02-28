@@ -7,6 +7,7 @@
 class WebRefresh
 {
 public:
+	Wt::WContainerWidget *cMain;
 	virtual void WRefresh() { printf("no refresh\n"); };
 };
 

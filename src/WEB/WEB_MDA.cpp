@@ -8,6 +8,8 @@
 
 #include <Wt/WTable.h>
 #include <Wt/WGridLayout.h>
+#include <Wt/WText.h>
+
 
 broker *(WEB_MDA::Bro) = NULL;
 
@@ -29,7 +31,7 @@ WEB_MDA::WEB_MDA(WEB_Analyser *WA_) : WA(WA_)
 	MISD("#1");
 
 	cMap = new Wt::WContainerWidget();
-	wiMap = new Wt::WImage("./resources/TheTreasureFleet.webp");
+	//wiMap = new Wt::WImage("./resources/TheTreasureFleet.webp");
 	cMap->setStyleClass("crop");
 	
 	MISD("#2");
@@ -44,7 +46,7 @@ WEB_MDA::WEB_MDA(WEB_Analyser *WA_) : WA(WA_)
 	cReplayResult->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
 	cReplayResult->setContentAlignment(Wt::AlignmentFlag::Left);
 	
-	cMap->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wiMap)));
+	//cMap->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wiMap)));
 	cMap->setMaximumSize(400, 400);
 	
 	MISE;

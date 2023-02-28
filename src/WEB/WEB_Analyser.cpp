@@ -17,9 +17,9 @@ WEB_Analyser::WEB_Analyser(): R(new Replay())
 {
 	MISS;
 
-	cMainAnalyser = new Wt::WContainerWidget();
-	cMainAnalyser->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)));
-	cMainAnalyser->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)));
+	//cMainAnalyser = new Wt::WContainerWidget();
+	//cMainAnalyser->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)));
+	//cMainAnalyser->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)));
 	
 	MISD("#1");
 
@@ -29,14 +29,14 @@ WEB_Analyser::WEB_Analyser(): R(new Replay())
 	
 
 	MISD("#11");
-	
+	/*
 	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Head", *Head->cMain, Head);
 	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Deck", *Deck->cMain, Deck);
 	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Acti", *Acti->cMain, Acti);
 	WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 
-	
+	*/
 	MISE;
 }
 
@@ -46,22 +46,21 @@ bool WEB_Analyser::isOK()
 	return R->OK; 
 	MISE;
 };
-
+/*
 void WEB_Analyser::WRefresh()
 {
 	MISS;
-	updateFrame();		
+	WEB_Toolbar::updateFrame();
 	//getData();
 	MISE;
 }
-
+*/
 bool WEB_Analyser::NewReplay(std::string sFile)
 {
 	R = new Replay();
 	if(R->LoadPMV(sFile))return getData();
 	else return false;
 }
-
 
 bool WEB_Analyser::getData()
 {

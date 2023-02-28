@@ -3,6 +3,9 @@
 
 #include "WEB_Toolbar.h"
 #include "WEB_Analyser.h"
+#include "WEB_Analyser_Head.h"
+#include "WEB_Analyser_Deck.h"
+#include "WEB_Analyser_Acti.h"
 
 #include <Wt/WText.h>
 #include <Wt/WFileUpload.h>

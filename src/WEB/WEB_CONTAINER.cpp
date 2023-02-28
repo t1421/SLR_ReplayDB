@@ -76,7 +76,11 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	if (Bro->L_getBOTRankMode(BOT4LIST) <10
 		|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT4", *MD->cMain, MD);
 
-	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Analyser", *cMainAnalyser, this);
+	//WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Analyser", *cMainAnalyser, this);
+
+	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
+	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);
+	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Acti", *this->Acti->cMain, this->Acti);
 	
 	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -1);	
 	WEB_Toolbar::updateToolbar();

@@ -15,7 +15,7 @@ public:
 	WEB_MDA *A;
 	WEB_Rank *B;
 
-	Wt::WContainerWidget *cMain;
+	//Wt::WContainerWidget *cMain;
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

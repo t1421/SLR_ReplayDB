@@ -14,9 +14,9 @@ public:
 	Wt::WText		 *wtStatus;
 
 	Wt::WContainerWidget *cMap;
-	Wt::WImage       *wiMap;
+	//Wt::WImage       *wiMap;
 
-	Wt::WContainerWidget *cMain;
+	//Wt::WContainerWidget *cMain;
 	Wt::WContainerWidget *cReplay;
 	Wt::WContainerWidget *cReplayResult;
 	
