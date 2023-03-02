@@ -12,8 +12,6 @@ public:
 
 	WEB_Analyser *WA;
 	
-	//Wt::WText		 *wtStatus;
-	
 	Wt::WContainerWidget *cMain;
 
 	static broker* Bro;
@@ -21,6 +19,13 @@ public:
 
 	WEB_Analyser_Acti(WEB_Analyser *WA_);
 	void WRefresh();
+
+	void UpdateTabelle();
+
+	
+	Wt::WTable *wtPlayers;
+	Wt::WTable *wtActionsTypes;
+	Wt::WTable *wtActions;
 
 };
 

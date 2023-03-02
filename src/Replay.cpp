@@ -179,7 +179,9 @@ MISD("#10");
 		Player_TEMP->Type = readUnsignedChar();
 		Player_TEMP->Cards = readUnsignedChar();
 		Player_TEMP->CardsTotal = readUnsignedChar();
-		PlayerMatrix.push_back(Player_TEMP);				
+
+		PlayerMatrix.push_back(Player_TEMP);	
+
 MISD("PlayerX");
 		for (int i = 0; i < PlayerMatrix[PlayerMatrix.size() - 1]->Cards; i++)
 		{

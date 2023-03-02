@@ -10,51 +10,38 @@
 #include "..\..\incl\WEB\WEB_Analyser_Acti.h"
 
 
-
 broker *(WEB_Analyser::Bro) = NULL;
 
 WEB_Analyser::WEB_Analyser(): R(new Replay())
 {
 	MISS;
-
-	//cMainAnalyser = new Wt::WContainerWidget();
-	//cMainAnalyser->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)));
-	//cMainAnalyser->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)));
+	
+	ActionSum* ActionSum_Tmp;
+	for (unsigned int i = 4000; i <= 4045; i++)
+	{
+		ActionSum_Tmp = new ActionSum();
+		ActionSum_Tmp->ActionID = i;
+		ActionSum_Tmp->sActionName = R->SwitchType(i);
+		ActionSum_Tmp->iCount = 0;
+		ActionSum_Tmp->wcBox = new Wt::WCheckBox(ActionSum_Tmp->sActionName);
+		ActionSum_Tmp->wcBox->setChecked(true);
+		ActionSums.push_back(ActionSum_Tmp);
+	}
 	
 	MISD("#1");
 
 	Head = new WEB_Analyser_Head(this);
 	Deck = new WEB_Analyser_Deck(this);
 	Acti = new WEB_Analyser_Acti(this);
-	
 
-	MISD("#11");
-	/*
-	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Head", *Head->cMain, Head);
-	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Deck", *Deck->cMain, Deck);
-	WEB_Toolbar::ToolBarButton(bToolbar.size(), "Acti", *Acti->cMain, Acti);
-	WEB_Toolbar::sToolbar->setCurrentIndex(0);
-	WEB_Toolbar::updateToolbar();
-
-	*/
 	MISE;
 }
 
 bool WEB_Analyser::isOK() 
 { 
-	MISS;
 	return R->OK; 
-	MISE;
 };
-/*
-void WEB_Analyser::WRefresh()
-{
-	MISS;
-	WEB_Toolbar::updateFrame();
-	//getData();
-	MISE;
-}
-*/
+
 bool WEB_Analyser::NewReplay(std::string sFile)
 {
 	R = new Replay();
@@ -84,6 +71,8 @@ bool WEB_Analyser::getData()
 		Player_Temp->GroupID = R->PlayerMatrix[i]->GroupID;
 		Player_Temp->IDinGroup = R->PlayerMatrix[i]->IDinGroup;
 		Player_Temp->Type = R->PlayerMatrix[i]->Type;
+		Player_Temp->wcBox = new Wt::WCheckBox(Player_Temp->Name);
+		Player_Temp->iActionCount = 0;
 		Player_Temp->Deck.clear();
 		for (unsigned int j = 0; j < R->ActionMatrix.size(); j++)
 		{
@@ -146,6 +135,14 @@ bool WEB_Analyser::getData()
 
 		Players.push_back(Player_Temp);
 	}
+
+	MISD("#2");
+	for (unsigned int i = 0; i < ActionSums.size(); i++)
+	{
+		ActionSums[i]->iCount = 0;
+		ActionSums[i]->wcBox->setChecked(true);
+	}
+	/// DO ACTION FILLING
 
 	MISE;
 	return true;

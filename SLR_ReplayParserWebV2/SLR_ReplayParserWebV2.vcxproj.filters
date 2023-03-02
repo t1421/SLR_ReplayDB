@@ -149,5 +149,8 @@
     <ClInclude Include="..\incl\CardBaseSMJ.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\incl\DataTypes.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

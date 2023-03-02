@@ -46,11 +46,17 @@ bool PMV_to_SQL::Upload()
 	//MISD("X" + HeadID + "X");
 	if (HeadID != "0")
 	{
-		MISD("Dublette: " + HeadID);
+		MISE("Dublette: " + HeadID);
 		if (UploadPMVPlayerDeck(HeadID))
 		{
-			MISD("NEW Deck Old Head");
+			MISE("NEW Deck Old Head");
 		}
+
+		NN->ssSQL << "UPDATE game ";
+		NN->ssSQL << "   SET Event = '" << sEvent << "' ";
+		NN->ssSQL << " WHERE ID = " << HeadID;
+		NN->send();
+
 		MISEA("V1")
 		return false;
 	}

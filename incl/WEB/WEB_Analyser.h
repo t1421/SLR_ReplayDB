@@ -1,15 +1,17 @@
 #ifndef WEB_Analyser_H
 #define WEB_Analyser_H
 
-//#include "WEB_Toolbar.h"
-class WebRefresh;
 class WEB_Analyser_Head;
 class WEB_Analyser_Deck;
 class WEB_Analyser_Acti;
 class Replay;
 class Player;
+class ActionSum;
 
-class WEB_Analyser  //public WebRefresh, public WEB_Toolbar
+
+
+
+class WEB_Analyser 
 {
 public:
 
@@ -18,8 +20,7 @@ public:
 	WEB_Analyser_Acti *Acti;
 
 	std::vector <Player*> Players;
-
-	//Wt::WContainerWidget *cMainAnalyser;
+	std::vector <ActionSum*> ActionSums;
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
@@ -29,7 +30,6 @@ public:
 	Replay* R;
 
 	WEB_Analyser();
-	//void WRefresh();
 
 	bool isOK();
 };
