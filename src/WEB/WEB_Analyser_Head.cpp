@@ -14,7 +14,7 @@
 
 broker *(WEB_Analyser_Head::Bro) = NULL;
 
-WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_)
+WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 {
 	MISS;
 
@@ -131,6 +131,12 @@ void WEB_Analyser_Head::WRefresh()
 		MISEA("no Replay");
 		return;
 	}
+
+	if (!newData)
+	{
+		MISEA("not New");
+		return;
+	}
 	
 	Playtime->setText(sTime(WA->R->Playtime));
 	
@@ -182,7 +188,7 @@ void WEB_Analyser_Head::WRefresh()
 	Unknow4->setText(std::to_string(WA->R->Unknow4));
 	MapID->setText(std::to_string(WA->R->MapID));
 	
-	
+	newData = !newData;
 	MISE;
 }
 

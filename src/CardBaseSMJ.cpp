@@ -200,8 +200,8 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 		
 	MISD(sURL);
 
-	if(bSmall)OutFile.open(Bro->L_getSMJPICSMALL_PATH() + sFile + ".png", std::ostream::binary);
-	else OutFile.open(Bro->L_getSMJPIC_PATH() + sFile + ".png", std::ostream::binary); 
+	if(bSmall)OutFile.open(Bro->L_getSMJPICSMALL_PATH() + sFile + ".webp", std::ostream::binary);
+	else OutFile.open(Bro->L_getSMJPIC_PATH() + sFile + ".webp", std::ostream::binary); 
 
 	curl = curl_easy_init();
 	if (curl)
@@ -280,7 +280,7 @@ std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, 
 	sFile += std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges);	
 	if (bSW)sFile += "SW";
 	
-	sFile += ".png";
+	sFile += ".webp";
 	
 	if (!File_exists(sFile))
 	{
@@ -314,7 +314,7 @@ void CardBaseSMJ::ConvertImage(std::string sFile)
 {
 	MISS;
 	std::string sFileIn = sFile;
-	sFileIn.replace(sFileIn.find("SW.png"), 6, ".png");
+	sFileIn.replace(sFileIn.find("SW.webp"), 7, ".webp");
 	//MISD(sFile);
 	//MISD(sFileIn);
 

@@ -5,9 +5,9 @@ class WEB_Analyser_Head;
 class WEB_Analyser_Deck;
 class WEB_Analyser_Acti;
 class Replay;
-class Player;
-class ActionSum;
-
+struct Player;
+struct ActionSum;
+struct ActionWeb;
 
 
 
@@ -21,12 +21,14 @@ public:
 
 	std::vector <Player*> Players;
 	std::vector <ActionSum*> ActionSums;
+	std::vector <ActionWeb*> Actions;
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 	bool NewReplay(std::string sFile);
 	bool getData();
+	std::string GetPlayerName(unsigned long inPlayer);
 	Replay* R;
 
 	WEB_Analyser();

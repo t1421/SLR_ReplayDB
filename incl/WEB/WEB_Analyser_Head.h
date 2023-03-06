@@ -9,6 +9,8 @@ class WEB_Analyser_Head : public WebRefresh
 {
 public:
 
+	bool newData;
+
 	WEB_Analyser *WA;
 	
 	Wt::WContainerWidget *cMain;

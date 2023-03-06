@@ -18,7 +18,7 @@
 
 broker *(WEB_Analyser_Deck::Bro) = NULL;
 
-WEB_Analyser_Deck::WEB_Analyser_Deck(WEB_Analyser *WA_) : WA(WA_)
+WEB_Analyser_Deck::WEB_Analyser_Deck(WEB_Analyser *WA_) : WA(WA_), newData(true)
 {
 	MISS;
 
@@ -34,17 +34,20 @@ WEB_Analyser_Deck::WEB_Analyser_Deck(WEB_Analyser *WA_) : WA(WA_)
 void WEB_Analyser_Deck::WRefresh()
 {
 	MISS;
-
-	wtTabelle->clear();
-
-
 	if (WA->isOK() != true)
 	{
 		MISEA("no Replay");
 		return;
 	}
 
+	if (!newData)
+	{
+		MISEA("not New");
+		return;
+	}
 	
+	wtTabelle->clear();
+
 	unsigned iRow = 0;
 	for (unsigned int i= 0; i < WA->Players.size(); i++)
 	{
@@ -52,6 +55,8 @@ void WEB_Analyser_Deck::WRefresh()
 		drawPlayer(i, iRow);
 		iRow += 2;
 	}
+
+	newData = !newData;
 
 	MISE;
 }
@@ -85,7 +90,7 @@ unsigned int WEB_Analyser_Deck::drawPlayer(unsigned int iPlayer, unsigned int &i
 		wtTabelle->elementAt(iRow, iCol)->widget(0)->resize(Card_Size_X, Card_Size_Y);
 		wtTabelle->elementAt(iRow, iCol)->widget(0)->setMaximumSize(Card_Size_X, Card_Size_Y);
 		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h></h>"))));
-		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(WA->Players[iPlayer]->Deck[i]->count)))));
+		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Count: " + std::to_string(WA->Players[iPlayer]->Deck[i]->count)))));
 		//wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->CardID)))));
 
 		iCol++;

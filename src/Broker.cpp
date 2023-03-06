@@ -282,6 +282,11 @@ unsigned char broker::J_SwitchCharges(unsigned short _CardID, unsigned char _Ist
 {
 	return J->SwitchCharges(_CardID,_IstCharges);
 }
+
+SMJCard* broker::J_GetSMJCard(unsigned short _CardID)
+{
+	return J->GetSMJCard(_CardID);
+}
 #endif
 #endif
 

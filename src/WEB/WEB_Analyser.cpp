@@ -54,8 +54,12 @@ bool WEB_Analyser::getData()
 	MISS;
 
 	Players.clear();
+	Players.clear();
+	Actions.clear();
+
 	Player *Player_Temp;
 	Card *Card_Temp;
+	ActionWeb *Action_Temp;
 
 	unsigned int CardLoop;
 	bool Found;
@@ -73,6 +77,7 @@ bool WEB_Analyser::getData()
 		Player_Temp->Type = R->PlayerMatrix[i]->Type;
 		Player_Temp->wcBox = new Wt::WCheckBox(Player_Temp->Name);
 		Player_Temp->iActionCount = 0;
+		Player_Temp->wcBox->setChecked(true);
 		Player_Temp->Deck.clear();
 		for (unsigned int j = 0; j < R->ActionMatrix.size(); j++)
 		{
@@ -142,8 +147,143 @@ bool WEB_Analyser::getData()
 		ActionSums[i]->iCount = 0;
 		ActionSums[i]->wcBox->setChecked(true);
 	}
-	/// DO ACTION FILLING
+
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+	{
+		if (R->ActionMatrix[i]->Type == 4001 ||
+			R->ActionMatrix[i]->Type == 4003 ||
+			R->ActionMatrix[i]->Type == 4004 ||
+			R->ActionMatrix[i]->Type == 4005 ||
+			R->ActionMatrix[i]->Type == 4008 ||
+			R->ActionMatrix[i]->Type == 4016 ||
+			R->ActionMatrix[i]->Type == 4017 ||
+			R->ActionMatrix[i]->Type == 4018 ||
+			R->ActionMatrix[i]->Type == 4021 ||
+			R->ActionMatrix[i]->Type == 4022 ||
+			R->ActionMatrix[i]->Type == 4023 ||
+			R->ActionMatrix[i]->Type == 4024 ||
+			R->ActionMatrix[i]->Type == 4025 ||
+			R->ActionMatrix[i]->Type == 4026 ||
+			R->ActionMatrix[i]->Type == 4032 ||
+			R->ActionMatrix[i]->Type == 4045 
+			) continue;
+
+		Action_Temp = new ActionWeb();
+		Action_Temp->Time = R->ActionMatrix[i]->Time;
+		Action_Temp->sActionName = R->SwitchType(R->ActionMatrix[i]->Type);
+		Action_Temp->sPlayerName = GetPlayerName(R->ActionMatrix[i]->PlayerID);
+		
+		switch (R->ActionMatrix[i]->Type)
+		{
+		case 4002:
+			//Action_Temp->WImage = Pfeil / Türe
+			break;
+		case 4006: //GOLD	
+			//Action_Temp->WImage GOLD Truhe
+			Action_Temp->Info = R->ActionMatrix[i]->AdditionalInfo + " Gold";
+			break;
+		case 4007: //Objective OK 
+			//Action_Temp->WImage HAKEN
+			Action_Temp->Info = "ID: " + R->ActionMatrix[i]->AdditionalInfo;
+			break;
+		case 4009: //summon unit
+		case 4010: //cast spell
+		case 4011: //cast line spell
+		case 4012: //cast building
+			//Action_Temp->WImage Card
+			Action_Temp->Info = Bro->J_GetSMJCard(R->ActionMatrix[i]->Card)->cardName;
+			break;
+		case 4013: //move unit
+			//Action_Temp->WImage = Pfeil ? Way Point
+			break;
+		case 4014: //use unit ability
+		    //Action_Temp->WImage = ???
+			Action_Temp->Info = "ID: " + R->ActionMatrix[i]->AdditionalInfo;
+			break;
+		case 4015: //attack
+			//Action_Temp->WImage = Schwert
+			break;
+		case 4019: //stop unit
+			//Action_Temp->WImage = Hand
+			break;
+		case 4020: //hold unit position
+			//Action_Temp->WImage = Schild
+			break;
+		case 4027: // PING (Meet / Help / ...)
+		    //Action_Temp->WImage = Ping
+			break;
+		case 4028: //toggle wall gate
+				   //Action_Temp->WImage = Gate
+			break;
+		case 4029: //build wall
+				   //Action_Temp->WImage = WALL
+			break;
+		case 4030: //create mana
+				   //Action_Temp->WImage = WELL
+			break;
+		case 4031: //create orb
+				   //Action_Temp->WImage = Orb Coloro
+				   // 1 = Shadow
+				   // 2 = Green
+				   // 3 = Frost
+				   // 4 = Red
+			break;
+		case 4033: //Unit move on Wall
+				   //Action_Temp->WImage = Pfeil auf Wall
+			break;
+		case 4034: //Switch Abbility (Stone Tempest)
+				   //Action_Temp->WImage = ???
+			Action_Temp->Info = "ID: " + R->ActionMatrix[i]->AdditionalInfo;
+			break;
+		case 4035: //Trigger Reparier
+				   //Action_Temp->WImage = Hammer
+			break;
+		case 4036: //Move unit in decomposer // TESTEN ander key wenn man die abbiliti nutzt?
+				   //Action_Temp->WImage = decomposer abbility
+			break;
+		case 4037: //Place Nexus Exit (oder generell Bulding?) // TESTEN T4 Schatten			
+				   //Action_Temp->WImage = NexusAbbylity 1
+			break;
+		case 4038: //Use Tunnel
+				   //Action_Temp->WImage = Move Tunell icon
+			break;
+		case 4039: // Switch Tunnel
+				   //Action_Temp->WImage = Switch icon
+			break;
+		case 4040: // Switch Nexusportal Back
+				   //Action_Temp->WImage = NexusAbbylity 2
+			break;
+
+		case 4041: //Killed own Unit
+				   //Action_Temp->WImage = toten kopf
+			break;
+		case 4042: // Placing Altar Of Chaos Totem
+				   //Action_Temp->WImage = Chaos Icon
+			break;
+		case 4043: // go to Gold but not able to collect
+				   //Action_Temp->WImage = Gold mit X
+			break;
+		case 4044: // TW Unit Switch
+				   //Action_Temp->WImage = TW ICON
+			break;
+		}
+
+		Actions.push_back(Action_Temp);
+
+		ActionSums[R->ActionMatrix[i]->Type - 4000]->iCount++;
+	}
+	
+
+	Head->newData = true;
+	Deck->newData = true;
+	Acti->newData = true;
 
 	MISE;
 	return true;
+}
+
+std::string WEB_Analyser::GetPlayerName(unsigned long inPlayer)
+{
+	for (unsigned int i = 0; i < Players.size(); i++)if (Players[i]->PlayerID == inPlayer)return Players[i]->Name;
+	return "pl_Enemy1";
 }

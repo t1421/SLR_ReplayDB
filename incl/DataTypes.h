@@ -58,8 +58,10 @@ struct Action {
 	unsigned int Position;
 
 	std::string AdditionalInfo;
+	//std::string sActionName;
+	
 
-	Action() :Time(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), AdditionalInfo()
+	Action() :Time(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), AdditionalInfo() //, sActionName()
 	{}
 
 	//unsigned long Unit;
@@ -87,6 +89,39 @@ struct ActionSum {
 #endif 
 };
 
+
+struct ActionWeb {
+	unsigned long Time;
+
+	std::string Info;
+	std::string sActionName;
+	std::string sPlayerName;
+
+	int iImage;
+
+	ActionWeb() : Time(0), Info(), sActionName(), sPlayerName(), iImage(0)	{}
+};
+
+struct SMJCard {
+	unsigned short cardId;
+	std::string SMJid;
+	std::string cardName;
+	char color;
+	unsigned char orbsTotal;
+	unsigned char orbsNeutral;
+	unsigned char orbsFire;
+	unsigned char orbsShadow;
+	unsigned char orbsNature;
+	unsigned char orbsFrost;
+	unsigned char orbsFireShadow;
+	unsigned char orbsNatureFrost;
+	unsigned char orbsFireNature;
+	unsigned char orbsShadowFrost;
+	unsigned char orbsShadowNature;
+	unsigned char orbsFireFrost;
+	unsigned char type;
+	unsigned char maxCharges;
+};
 #endif //DataTypes
 
 

@@ -10,6 +10,8 @@ class WEB_Analyser_Acti : public WebRefresh
 {
 public:
 
+	bool newData;
+
 	WEB_Analyser *WA;
 	
 	Wt::WContainerWidget *cMain;
@@ -21,12 +23,14 @@ public:
 	void WRefresh();
 
 	void UpdateTabelle();
+	
 
 	
 	Wt::WTable *wtPlayers;
 	Wt::WTable *wtActionsTypes;
 	Wt::WTable *wtActions;
 
+	bool DoSkip(std::string sAction, std::string sPlayer);
 };
 
 

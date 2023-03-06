@@ -12,26 +12,7 @@
 	#include <json/json.h>
 #endif
 
-struct SMJCard {
-	unsigned short cardId;
-	std::string SMJid;
-	std::string cardName;
-	char color;
-	unsigned char orbsTotal;
-	unsigned char orbsNeutral;
-	unsigned char orbsFire;
-	unsigned char orbsShadow;
-	unsigned char orbsNature;
-	unsigned char orbsFrost;
-	unsigned char orbsFireShadow;
-	unsigned char orbsNatureFrost;
-	unsigned char orbsFireNature;
-	unsigned char orbsShadowFrost;
-	unsigned char orbsShadowNature;
-	unsigned char orbsFireFrost;
-	unsigned char type;
-	unsigned char maxCharges;
-};
+#include "DataTypes.h" 
 
 class CardBaseSMJ
 {
@@ -46,7 +27,7 @@ private:
 	CURL *curl;
 
 public:
-	unsigned char GetActionOrbForCardID(unsigned short CardID);
+	unsigned char GetActionOrbForCardID(unsigned short CardID);	
 
 	unsigned char SwitchCharges(unsigned short CardID, unsigned char IstCharges);
 

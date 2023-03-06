@@ -50,6 +50,7 @@ class Imager;
 class WEB_Main;
 class MIS_Rank;
 class CardBaseSMJ;
+struct SMJCard;
 
 class broker
 {
@@ -98,6 +99,7 @@ public:
 #ifndef noSMJ
 	std::string J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall);
 	unsigned char J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges);
+	SMJCard* J_GetSMJCard(unsigned short _CardID);
 #endif
 	
 #endif	

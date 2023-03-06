@@ -8,6 +8,7 @@ class WEB_Analyser;
 class WEB_Analyser_Deck : public WebRefresh
 {
 public:
+	bool newData;
 
 	WEB_Analyser *WA;
 	
