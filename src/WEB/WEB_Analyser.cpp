@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -223,10 +223,13 @@ bool WEB_Analyser::getData()
 			break;
 		case 4031: //create orb
 				   //Action_Temp->WImage = Orb Coloro
-				   // 1 = Shadow
-				   // 2 = Green
-				   // 3 = Frost
-				   // 4 = Red
+			switch (atoi(R->ActionMatrix[i]->AdditionalInfo.substr(0, R->ActionMatrix[i]->AdditionalInfo.find(";")).c_str()))
+			{
+			case 1: Action_Temp->Info = "Shadow"; break;
+			case 2: Action_Temp->Info = "Nature"; break;
+			case 3: Action_Temp->Info = "Frost"; break;
+			case 4: Action_Temp->Info = "SHadow"; break;
+			}
 			break;
 		case 4033: //Unit move on Wall
 				   //Action_Temp->WImage = Pfeil auf Wall

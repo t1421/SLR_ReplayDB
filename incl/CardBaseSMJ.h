@@ -38,7 +38,7 @@ public:
 	std::string GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, bool bSmall, bool bSW);
 	//std::string GetSWImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, bool bSmall);
 	void ConvertImage(std::string sFile);
-
+	void AllIMG();
 	bool Init();
 
 	//BROKER

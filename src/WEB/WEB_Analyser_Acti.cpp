@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\Utility.h" 
@@ -27,7 +27,9 @@ WEB_Analyser_Acti::WEB_Analyser_Acti(WEB_Analyser *WA_) : WA(WA_), newData(true)
 	MISD("#1");	
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPlayers)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>  </h3>"))));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtActionsTypes)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>  </h3>"))));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtActions)));
 	
 	
@@ -113,13 +115,13 @@ void WEB_Analyser_Acti::WRefresh()
 void WEB_Analyser_Acti::UpdateTabelle()
 {
 	MISS;
-
+	
 	wtActions->clear();
 	wtActions->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Time"))));
 	wtActions->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Type"))));
 	wtActions->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Player"))));
 	wtActions->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Info"))));
-	wtActions->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Img"))));
+	//wtActions->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Img"))));
 
 	for (unsigned int i = 0; i < WA->Actions.size(); i++)
 	{
@@ -132,6 +134,10 @@ void WEB_Analyser_Acti::UpdateTabelle()
 		//iImage >0 = card | <0 stuff
 	}
 
+	wtActions->columnAt(0)->setWidth(50);
+	wtActions->columnAt(1)->setWidth(100);
+	wtActions->columnAt(2)->setWidth(100);
+	wtActions->columnAt(2)->setWidth(200);
 	MISE;
 }
 

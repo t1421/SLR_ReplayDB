@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 //#define BrokerNormal
 
 #include "..\incl\Broker.h" 
@@ -178,7 +178,7 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 	long httpCode(0);
 	std::string sURL;
 	std::string SMJID;
-	std::string sFile = std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges);
+	std::string sFile = std::to_string(CardID) + "_" + std::to_string(Upgrade) + std::to_string(Charges);
 
 	
 	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
@@ -277,7 +277,7 @@ std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, 
 	}
 	else sFile = Bro->L_getSMJPIC_PATH();
 
-	sFile += std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges);	
+	sFile += std::to_string(CardID) + "_" + std::to_string(Upgrade) + std::to_string(Charges);	
 	if (bSW)sFile += "SW";
 	
 	sFile += ".webp";
@@ -291,25 +291,7 @@ std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, 
 	MISE;
 	return sFile;
 }
-/*
-std::string CardBaseSMJ::GetSWImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, bool bSmall)
-{
-	MISS;
-	std::string sFile;
-	if (bSmall) sFile = Bro->L_getSMJPICSMALL_PATH();
-	else sFile = Bro->L_getSMJPIC_PATH();
-	sFile += std::to_string(CardID) + std::to_string(Upgrade) + std::to_string(Charges) + "SW.png";
 
-	if (!File_exists(sFile))
-	{
-		MISD("ConvertImage: " + sFile);
-		GetImage(CardID, Upgrade, Charges, bSmall);
-		ConvertImage( sFile);
-	}
-	MISE;
-	return sFile;
-}
-*/
 void CardBaseSMJ::ConvertImage(std::string sFile)
 {
 	MISS;
@@ -398,7 +380,18 @@ SMJCard* CardBaseSMJ::GetSMJCard(unsigned short _CardID)
 	MISS;
 	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
 	{
-		if (SMJMatrix[i]->cardId = _CardID)return SMJMatrix[i];
+		if (SMJMatrix[i]->cardId == _CardID)return SMJMatrix[i];
 	}
+	MISE;
+}
+
+void CardBaseSMJ::AllIMG()
+{
+	MISS;
+	for (unsigned int i = 0; i < SMJMatrix.size(); i++)	
+		for (unsigned int j = 0; j <= 3; j++)
+			for (unsigned int k = 0; k <= j; k++)
+				GetImage(SMJMatrix[i]->cardId, j, k, false, false);
+	
 	MISE;
 }

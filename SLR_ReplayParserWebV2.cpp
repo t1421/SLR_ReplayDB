@@ -25,14 +25,14 @@ int main(int argc, char **argv)
 
 	MISD(Bro->L_getRANK_PATH());
 	
+	CardBaseSMJ* J = new CardBaseSMJ();
+	J->teachJ();
+	J->Init();
+
 	WEB_Main* W = new WEB_Main();
 	W->teachW();
 	W->Init_W();
 	W->Start_Thread();
-
-	CardBaseSMJ* J = new CardBaseSMJ();
-	J->teachJ();
-	J->Init();
 
 	Bro->INIT();
 
@@ -53,6 +53,7 @@ int main(int argc, char **argv)
 			printf("J;BS                | Big SW\n");
 			printf("J;SC                | small Color\n");
 			printf("J;SS                | small SW\n");
+			printf("J;ALL               | Downloads all Cards \n");
 			printf("####################|###########################################\n\n");
 		}
 		if (Checker(sbuf, "J"))
@@ -65,6 +66,7 @@ int main(int argc, char **argv)
 			if (Checker(sbuf, "BS"))J->GetImage(290, 2, 1, false, true);
 			if (Checker(sbuf, "SC"))J->GetImage(1348, 2, 1, true, false);
 			if (Checker(sbuf, "SS"))J->GetImage(290, 2, 1, true, true);
+			if (Checker(sbuf, "ALL"))J->AllIMG();
 			
 
 		}

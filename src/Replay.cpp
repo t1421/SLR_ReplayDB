@@ -594,7 +594,7 @@ bool Replay::ReadActions()
 			case 4034: //Switch Abbility (Stone Tempest)
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				readUnsignedLong(); // Unit
-				readUnsignedLong(); // Abbylity ID
+				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedLong()); // Abbylity ID
 				break;
 
 				///x###x immer Zero?

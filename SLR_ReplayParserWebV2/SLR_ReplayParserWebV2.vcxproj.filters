@@ -72,12 +72,6 @@
     <ClCompile Include="..\src\WEB\WEB_Analyser.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Acti.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Deck.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB\WEB_Analyser_Head.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
@@ -86,6 +80,12 @@
     </ClCompile>
     <ClCompile Include="..\SLR_ReplayParserWebV2.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Acti.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Analyser_Deck.cpp">
+      <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
