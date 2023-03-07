@@ -55,6 +55,8 @@ bool CardBaseSMJ::Init()
 	Json::Value Card;
 	Json::Value ID;
 
+	Json::ArrayIndex IDs;
+
 	SMJCard * SMJCard_TEMP;
 
 	RawData = SMJtoCHASH();
@@ -85,7 +87,8 @@ bool CardBaseSMJ::Init()
 		
 		
 		ID = Card["officialCardIds"];
-		SMJCard_TEMP->cardId = ID[0].asInt();
+		//IDs i = 0; i < AllCards.size(); i++)
+		SMJCard_TEMP->cardId = ID[ID.size() - 1].asInt();
 
 		SMJMatrix.push_back(SMJCard_TEMP);
 	}
