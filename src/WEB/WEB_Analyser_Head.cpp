@@ -165,7 +165,11 @@ void WEB_Analyser_Head::WRefresh()
 	}
 	
 	for (int i = 0; i < WA->R->PlayerMatrix.size();i++)
-		if(WA->R->PlayerMatrix[i]->PlayerID== WA->R->PMVPlayerID)PMVPlayerID->setText(WA->R->PlayerMatrix[i]->Name);
+		if (WA->R->PlayerMatrix[i]->PlayerID == WA->R->PMVPlayerID)
+		{
+			PMVPlayerID->setText(WA->R->PlayerMatrix[i]->Name);
+			break;
+		}
 
 
 	

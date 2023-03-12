@@ -53,7 +53,7 @@ bool CardBaseSMJ::Init()
 	Json::Value RawData;
 	Json::Value AllCards;
 	Json::Value Card;
-	Json::Value ID;
+	Json::Value jTEMP;
 
 	Json::ArrayIndex IDs;
 
@@ -86,9 +86,13 @@ bool CardBaseSMJ::Init()
 		SMJCard_TEMP->maxCharges = Card["maxCharges"].asInt();
 		
 		
-		ID = Card["officialCardIds"];
+		jTEMP = Card["officialCardIds"];
 		//IDs i = 0; i < AllCards.size(); i++)
-		SMJCard_TEMP->cardId = ID[ID.size() - 1].asInt();
+		SMJCard_TEMP->cardId = jTEMP[jTEMP.size() - 1].asInt();
+
+		jTEMP = Card["powerCost"];
+		for (unsigned int iPower = 0; iPower < jTEMP.size(); iPower++ )
+			SMJCard_TEMP->powerCost[iPower] = jTEMP[iPower].asInt();	
 
 		SMJMatrix.push_back(SMJCard_TEMP);
 	}

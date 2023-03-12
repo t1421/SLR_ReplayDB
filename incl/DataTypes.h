@@ -121,6 +121,7 @@ struct SMJCard {
 	unsigned char orbsFireFrost;
 	unsigned char type;
 	unsigned char maxCharges;
+	unsigned int powerCost[4];
 };
 #endif //DataTypes
 

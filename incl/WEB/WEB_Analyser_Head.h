@@ -20,6 +20,7 @@ public:
 
 	WEB_Analyser_Head(WEB_Analyser *WA_);
 	void WRefresh();
+	
 
 	private:
 		Wt::WText		 *Playtime;		

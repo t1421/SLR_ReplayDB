@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -18,36 +18,21 @@ WEB_MDA::WEB_MDA(WEB_Analyser *WA_) : WA(WA_)
 	MISS;
 
 	cMain = new Wt::WContainerWidget();	
-	cReplay = new Wt::WContainerWidget();
-	cReplayResult = new Wt::WContainerWidget();
-	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
-	cMain->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
 	
+		
 	MISD("#0");
 
 	wtStatus	= new Wt::WText(" ");
 	wtTabelle   = new Wt::WTable();
 	
 	MISD("#1");
-
-	cMap = new Wt::WContainerWidget();
-	//wiMap = new Wt::WImage("./resources/TheTreasureFleet.webp");
-	cMap->setStyleClass("crop");
 	
+	
+	
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
 	MISD("#2");
-	
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)), 1, 0, 0, 2);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(cMap)), 2, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(cReplayResult)), 2, 1);
-	
-	TempGrid->setColumnStretch(0, 5);
-	TempGrid->setColumnStretch(1, 95);
-
-	cReplayResult->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
-	cReplayResult->setContentAlignment(Wt::AlignmentFlag::Left);
-	
-	//cMap->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wiMap)));
-	cMap->setMaximumSize(400, 400);
+	cMain->setContentAlignment(Wt::AlignmentFlag::Left);
 	
 	MISE;
 }
@@ -55,36 +40,37 @@ WEB_MDA::WEB_MDA(WEB_Analyser *WA_) : WA(WA_)
 void WEB_MDA::WRefresh()
 {
 	MISS;
-	/*
-	unsigned long iTime;
+	
+	unsigned long iPoints;
 
 	wtTabelle->clear();
-	std::string sReturn = WR->BOT3(wtTabelle, cMap, iTime);
+	std::string sReturn = WA->Check_BOT3();
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
 	else
 	{
-		//wtStatus->setText("<h3>All looks good :-)</h3> ");
+		iPoints = WA->Kalk_BOT3(wtTabelle);
+		MISD("#2#" + std::to_string(iPoints));
 		std::string sRankName;
-		switch (Bro->AddRankPlayer(BOT3LIST, WR->Player(), iTime, sRankName))
+		switch (Bro->AddRankPlayer(BOT4LIST, WA->getPMVPlayerID(), iPoints, sRankName))
 		{
 		case 5: //Slower
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iTime) + " -> but slower :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(iPoints) + " -> but slower :-)</h3> ");
 			break;
 		case 9: //Same
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iTime) + " -> same time as before :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(iPoints) + " -> same time as before :-)</h3> ");
 			break;
 		case 10: //Faster
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iTime) + " -> faster then your last :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(iPoints) + " -> faster then your last :-)</h3> ");
 			break;
 		case 15: //New Player
-			wtStatus->setText("<h3>Welcome to the Leaderboard " + sRankName + ": " + sTime(iTime) + ":-)</h3> ");
+			wtStatus->setText("<h3>Welcome to the Leaderboard " + sRankName + ": " + std::to_string(iPoints)  + ":-)</h3> ");
 			break;
 		default: //Should not happen
 			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
 		}		
-		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
+		//MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}
-	*/
+	
 	MISE;
 }

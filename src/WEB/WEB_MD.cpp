@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -19,7 +19,8 @@ WEB_MD::WEB_MD(WEB_Analyser *WA_)
 	MISD("#10");
 
 	A = new WEB_MDA(WA_);
-	B = new WEB_Rank(BOT3LIST);
+	MISD("#100");
+	B = new WEB_Rank(BOT4LIST); 
 	
 	MISD("#11");	
 

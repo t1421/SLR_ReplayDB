@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -9,6 +9,10 @@
 #include "..\..\incl\WEB\WEB_Analyser_Deck.h"
 #include "..\..\incl\WEB\WEB_Analyser_Acti.h"
 
+#include <Wt/WImage.h>
+
+#define SCard_Size_X 92
+#define SCard_Size_Y 127
 
 broker *(WEB_Analyser::Bro) = NULL;
 
@@ -289,4 +293,92 @@ std::string WEB_Analyser::GetPlayerName(unsigned long inPlayer)
 {
 	for (unsigned int i = 0; i < Players.size(); i++)if (Players[i]->PlayerID == inPlayer)return Players[i]->Name;
 	return "pl_Enemy1";
+}
+
+std::string  WEB_Analyser::Check_BOT3()
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->GameVersion != 400040)return "Wrong Gameversion";
+	if (R->MapName != "11105_PvE_01p_EncountersWithTwilight.map")return "Wrong Map";
+	if (R->DifficultyID != 2)return "Wrong Difficulty"; //2=ADV
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+		if (R->ActionMatrix[i]->Type == 4014 //USE
+			|| R->ActionMatrix[i]->Type == 4034 //SWITCH
+			|| R->ActionMatrix[i]->Type == 4037 //Place Nexus
+			|| R->ActionMatrix[i]->Type == 4039 //Switch tunnel
+			|| R->ActionMatrix[i]->Type == 4040 //return Nexusexit
+			|| R->ActionMatrix[i]->Type == 4042 //Place Chaostotem
+			|| R->ActionMatrix[i]->Type == 4044 //TW Switch
+			) return ""; // "Used ability";
+	MISE;
+	return "";
+}
+
+unsigned int  WEB_Analyser::Kalk_BOT3(Wt::WTable *wtTabelle)
+{
+	MISS;
+	SMJCard* SMJCardTEMP;
+	unsigned char tempCharge;
+	unsigned int iRow = 0;
+	unsigned int iTotalPoints = 0;
+	wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Card</h3>"))));
+	wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Power</h3>"))));
+	wtTabelle->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Count</h3>"))));
+	wtTabelle->elementAt(iRow, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Faktor</h3>"))));
+	wtTabelle->elementAt(iRow, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Points</h3>"))));
+	//wtTabelle->elementAt(iRow, iCol)->setColumnSpan(5);
+
+	iRow++;
+	MISD("#1");
+	for (unsigned int iPlayer = 0; iPlayer <= Players.size(); iPlayer++)
+	{
+		MISD("#2#" + std::to_string(Players[iPlayer]->PlayerID));
+		if (Players[iPlayer]->PlayerID == R->PMVPlayerID && Players[iPlayer]->Type==1)
+			for (unsigned int i = 0; i < Players[iPlayer]->Deck.size(); i++)
+		{
+			MISD("#3#" + std::to_string(Players[iPlayer]->Deck[i]->CardID));
+			
+			if (Players[iPlayer]->Deck[i]->CardID == 0)continue;
+			tempCharge = Bro->J_SwitchCharges(Players[iPlayer]->Deck[i]->CardID, Players[iPlayer]->Deck[i]->Charges);
+			if (tempCharge > Players[iPlayer]->Deck[i]->Upgrade)tempCharge = Players[iPlayer]->Deck[i]->Upgrade;
+
+			wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage(Bro->J_GetImage(
+				Players[iPlayer]->Deck[i]->CardID,
+				Players[iPlayer]->Deck[i]->Upgrade,
+				tempCharge,
+				Players[iPlayer]->Deck[i]->count,
+				true
+			)))));
+
+			wtTabelle->elementAt(iRow, 0)->widget(0)->setHeight(SCard_Size_Y);
+			wtTabelle->elementAt(iRow, 0)->widget(0)->setWidth(SCard_Size_X);
+			wtTabelle->elementAt(iRow, 0)->widget(0)->resize(SCard_Size_X, SCard_Size_Y);
+			wtTabelle->elementAt(iRow, 0)->widget(0)->setMaximumSize(SCard_Size_X, SCard_Size_Y);
+			//cMain->setContentAlignment(Wt::AlignmentFlag::Left);
+
+			SMJCardTEMP = Bro->J_GetSMJCard(Players[iPlayer]->Deck[i]->CardID);
+			wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade])))));
+			wtTabelle->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->count)))));
+			wtTabelle->elementAt(iRow, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(3 - SMJCardTEMP->type )))));
+			wtTabelle->elementAt(iRow, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->count * (3 - SMJCardTEMP->type) * SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade])))));
+			iTotalPoints += Players[iPlayer]->Deck[i]->count * (3 - SMJCardTEMP->type ) * SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade];
+			
+			iRow++;
+			MISD("#3####" + std::to_string(Players[iPlayer]->Deck[i]->CardID));
+		}
+		MISD("#2####" + std::to_string(Players[iPlayer]->PlayerID));
+		if (iTotalPoints != 0)break;
+	}
+	
+	MISE;
+	MISD("#9#" + std::to_string(iTotalPoints));
+	MISE;
+	return iTotalPoints;
+}
+
+unsigned long long WEB_Analyser::getPMVPlayerID()
+{
+	if (!R->OK)return 0;
+	return R->PMVPlayerID;
 }
