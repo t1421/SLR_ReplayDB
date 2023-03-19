@@ -39,7 +39,18 @@ public:
 	bool isOK();
 
 	std::string  Check_BOT3();
-	unsigned int  Kalk_BOT3(Wt::WTable *wtTabelle);
+	double Kalk_BOT3(Wt::WTable *wtTabelle);
+
+	private:
+		double SwitchType(unsigned char ucType) 
+		{
+			switch (ucType)
+			{
+			case(0): return 1.50;
+			case(1): return 1.25;
+			case(2): return 1.00;
+			}
+		};
 };
 
 

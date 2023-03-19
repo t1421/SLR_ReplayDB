@@ -141,7 +141,7 @@ void broker::INIT()
 	
 }
 
-int broker::AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, unsigned long Playtime, std::string &sRankName)
+int broker::AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, double Playtime, std::string &sRankName)
 {
 	return A[iRANK]->AddPlayer(PMVPlayerID, Playtime, sRankName);
 }

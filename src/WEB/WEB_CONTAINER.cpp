@@ -74,7 +74,7 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	MISD("#6");
 
 	if (Bro->L_getBOTRankMode(BOT4LIST) <10
-		|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT4", *MD->cMain, MD);
+		|| sPARA == "BETA")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Vornskr", *MD->cMain, MD);
 
 	//WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Analyser", *cMainAnalyser, this);
 

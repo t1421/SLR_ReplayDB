@@ -106,7 +106,7 @@ public:
 
 #ifdef BrokerWeb
 	void INIT();
-	int AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, unsigned long Playtime, std::string &sRankName);
+	int AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, double Playtime, std::string &sRankName);
 	std::vector<std::string> FreeNames;
 	std::string getName();
 	void saveName();

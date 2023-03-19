@@ -41,7 +41,7 @@ void WEB_MDA::WRefresh()
 {
 	MISS;
 	
-	unsigned long iPoints;
+	double iPoints;
 
 	wtTabelle->clear();
 	std::string sReturn = WA->Check_BOT3();

@@ -315,13 +315,13 @@ std::string  WEB_Analyser::Check_BOT3()
 	return "";
 }
 
-unsigned int  WEB_Analyser::Kalk_BOT3(Wt::WTable *wtTabelle)
+double  WEB_Analyser::Kalk_BOT3(Wt::WTable *wtTabelle)
 {
 	MISS;
 	SMJCard* SMJCardTEMP;
 	unsigned char tempCharge;
 	unsigned int iRow = 0;
-	unsigned int iTotalPoints = 0;
+	double iTotalPoints = 0;	
 	wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Card</h3>"))));
 	wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Power</h3>"))));
 	wtTabelle->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Count</h3>"))));
@@ -329,15 +329,20 @@ unsigned int  WEB_Analyser::Kalk_BOT3(Wt::WTable *wtTabelle)
 	wtTabelle->elementAt(iRow, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Points</h3>"))));
 	//wtTabelle->elementAt(iRow, iCol)->setColumnSpan(5);
 
+	wtTabelle->columnAt(0)->setWidth(75);
+	wtTabelle->columnAt(1)->setWidth(100);
+	wtTabelle->columnAt(2)->setWidth(100);
+	wtTabelle->columnAt(3)->setWidth(100);
+	wtTabelle->columnAt(4)->setWidth(100);
 	iRow++;
 	MISD("#1");
 	for (unsigned int iPlayer = 0; iPlayer <= Players.size(); iPlayer++)
 	{
-		MISD("#2#" + std::to_string(Players[iPlayer]->PlayerID));
+		//MISD("#2#" + std::to_string(Players[iPlayer]->PlayerID));
 		if (Players[iPlayer]->PlayerID == R->PMVPlayerID && Players[iPlayer]->Type==1)
 			for (unsigned int i = 0; i < Players[iPlayer]->Deck.size(); i++)
 		{
-			MISD("#3#" + std::to_string(Players[iPlayer]->Deck[i]->CardID));
+			//MISD("#3#" + std::to_string(Players[iPlayer]->Deck[i]->CardID));
 			
 			if (Players[iPlayer]->Deck[i]->CardID == 0)continue;
 			tempCharge = Bro->J_SwitchCharges(Players[iPlayer]->Deck[i]->CardID, Players[iPlayer]->Deck[i]->Charges);
@@ -360,19 +365,25 @@ unsigned int  WEB_Analyser::Kalk_BOT3(Wt::WTable *wtTabelle)
 			SMJCardTEMP = Bro->J_GetSMJCard(Players[iPlayer]->Deck[i]->CardID);
 			wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade])))));
 			wtTabelle->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->count)))));
-			wtTabelle->elementAt(iRow, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(3 - SMJCardTEMP->type )))));
-			wtTabelle->elementAt(iRow, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->count * (3 - SMJCardTEMP->type) * SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade])))));
-			iTotalPoints += Players[iPlayer]->Deck[i]->count * (3 - SMJCardTEMP->type ) * SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade];
+			wtTabelle->elementAt(iRow, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(SwitchType(SMJCardTEMP->type) )))));
+			wtTabelle->elementAt(iRow, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->count * SwitchType(SMJCardTEMP->type) * SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade])))));
+			iTotalPoints += Players[iPlayer]->Deck[i]->count * SwitchType(SMJCardTEMP->type) * SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade];
 			
+			wtTabelle->elementAt(iRow, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+			wtTabelle->elementAt(iRow, 1)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+			wtTabelle->elementAt(iRow, 2)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+			wtTabelle->elementAt(iRow, 3)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+			wtTabelle->elementAt(iRow, 4)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+
+
 			iRow++;
-			MISD("#3####" + std::to_string(Players[iPlayer]->Deck[i]->CardID));
+			//MISD("#3####" + std::to_string(Players[iPlayer]->Deck[i]->CardID));
 		}
-		MISD("#2####" + std::to_string(Players[iPlayer]->PlayerID));
+		//MISD("#2####" + std::to_string(Players[iPlayer]->PlayerID));
 		if (iTotalPoints != 0)break;
 	}
-	
-	MISE;
-	MISD("#9#" + std::to_string(iTotalPoints));
+		
+	//MISD("#9#" + std::to_string(iTotalPoints));
 	MISE;
 	return iTotalPoints;
 }

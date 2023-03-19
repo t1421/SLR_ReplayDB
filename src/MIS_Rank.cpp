@@ -36,7 +36,7 @@ MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList
 		R_Temp = new ROW();
 		R_Temp->Player = atoi(line.substr(0, line.find(";")).c_str());
 		line.erase(0, line.find(";") + 1);
-		R_Temp->Time = atoi(line.substr(0, line.find(";")).c_str());
+		R_Temp->Time = std::stod(line.substr(0, line.find(";")).c_str());
 		line.erase(0, line.find(";") + 1);
 		R_Temp->Name = line.substr(0, line.find(";")).c_str();
 		
@@ -89,7 +89,7 @@ void MIS_Rank::SortList()
 }
 
 
-int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, unsigned long Playtime, std::string &sRankName)
+int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, double Playtime, std::string &sRankName)
 {
 	MISS;
 	int iReturn = 0;
