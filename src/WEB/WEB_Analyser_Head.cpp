@@ -64,58 +64,60 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Seed: "))), x, y++);
 	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Seed)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("DifficultyID: "))), x, y++);
+	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Difficulty: "))), x, y++);
 	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DifficultyID)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayModeID: "))), x, y++);
+	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayMode: "))), x, y++);
 	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(PlayModeID)), x++, y--);
-
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PMVPlayerID: "))), x, y++);
+	
+	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PMVPlayer: "))), x, y++);
 	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(PMVPlayerID)), x++, y--);
-
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("WinningTeam: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WinningTeam)), x++, y--);
-
-
-
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("MapID: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(MapID)), x++, y--);
-
-	//CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("FileVersion: "))), x, y++);
-	//CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(FileName)), x++, y--);
 
 	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("GameVersion: "))), x, y++);
 	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(GameVersion)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("GroupCount: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(GroupCount)), x++, y--);
+	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("ClientVersion: "))), x, y++);
+	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(FileVersion)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("DifficultyID2: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DifficultyID2)), x++, y--);
+	if (WA->WA_Debug)
+	{
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("WinningTeam: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WinningTeam)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Playtime2: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Playtime2)), x++, y--);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("MapID: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(MapID)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayModeID2: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(PlayModeID2)), x++, y--);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("DifficultyID2: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DifficultyID2)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PMVPlayerID2: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(PMVPlayerID2)), x++, y--);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Playtime2: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Playtime2)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("ActionBlock: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(ActionBlock)), x++, y--);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayModeID2: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(PlayModeID2)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Unknow3: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Unknow3)), x++, y--);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PMVPlayerID2: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(PMVPlayerID2)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Unknow4: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Unknow4)), x++, y--);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("GroupCount: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(GroupCount)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("MatrixCount: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(MatrixCount)), x++, y--);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("MatrixCount: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(MatrixCount)), x++, y--);
 
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("TeamCount: "))), x, y++);
-	CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(TeamCount)), x++, y--);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("TeamCount: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(TeamCount)), x++, y--);
+
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("ActionBlock: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(ActionBlock)), x++, y--);
+
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Unknow3: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Unknow3)), x++, y--);
+
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Unknow4: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Unknow4)), x++, y--);
+	}
+
 
 	CLGrid->setColumnStretch(0, 5);
 	CLGrid->setColumnStretch(1, 95);
@@ -142,25 +144,31 @@ void WEB_Analyser_Head::WRefresh()
 	
 	MapName->setText(WA->R->MapName);
 	Seed->setText(std::to_string(WA->R->Seed));
-	switch (WA->R->DifficultyID)
-	{
-	case 1:
-		DifficultyID->setText("Std");
-		break;
-	case 2:
-		DifficultyID->setText("Adv");
-		break;
-	case 3:
-		DifficultyID->setText("Exp");
-		break;
-	}
+	
+
 	switch (WA->R->PlayModeID)
 	{
 	case 1:
 		PlayModeID->setText("PvE");
+
+		switch (WA->R->DifficultyID)
+		{
+		case 1:
+			DifficultyID->setText("Std");
+			break;
+		case 2:
+			DifficultyID->setText("Adv");
+			break;
+		case 3:
+			DifficultyID->setText("Exp");
+			break;
+		default:
+			DifficultyID->setText(std::to_string(WA->R->DifficultyID - 4));
+		}
 		break;
 	case 2:
 		PlayModeID->setText("PvP");
+		DifficultyID->setText(" - ");
 		break;
 	}
 	

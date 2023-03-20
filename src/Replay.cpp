@@ -169,6 +169,7 @@ MISD("#10");
 	}
 	
 	MISD("Player");
+	
 	while (PMVPosition < ActionBlock)
 	{
 		Player_TEMP = new Player;
@@ -177,14 +178,21 @@ MISD("#10");
 		Player_TEMP->GroupID = readUnsignedChar();
 		Player_TEMP->IDinGroup = readUnsignedChar();
 		Player_TEMP->Type = readUnsignedChar();
-		Player_TEMP->Cards = readUnsignedChar();
-		Player_TEMP->CardsTotal = readUnsignedChar();
+		Player_TEMP->CardsTotal = readUnsignedShort();
 
 		PlayerMatrix.push_back(Player_TEMP);	
+		/*
+		MISD("Player_TEMP->Name    " + Player_TEMP->Name);
+		MISD("Player_TEMP->PlayerID" + std::to_string(Player_TEMP->PlayerID));
+		MISD("Player_TEMP->GroupID" + std::to_string(Player_TEMP->GroupID));
+		MISD("Player_TEMP->IDinGroup" + std::to_string(Player_TEMP->IDinGroup));
+		MISD("Player_TEMP->Type" + std::to_string(Player_TEMP->Type));
+		MISD("Player_TEMP->CardsTotal" + std::to_string(Player_TEMP->CardsTotal));*/
 
 MISD("PlayerX");
-		for (int i = 0; i < PlayerMatrix[PlayerMatrix.size() - 1]->Cards; i++)
+		for (int i = 0; i < PlayerMatrix[PlayerMatrix.size() - 1]->CardsTotal; i++)
 		{
+			//MISD(std::to_string(i) + " / " + std::to_string(PlayerMatrix[PlayerMatrix.size() - 1]->CardsTotal));
 			Card_TEMP = new Card;
 			
 			Card_TEMP->CardFull = readUnsignedLong();
@@ -196,7 +204,8 @@ MISD("PlayerX");
 			Card_TEMP->Charges = readUnsignedChar();
 			PlayerMatrix[PlayerMatrix.size() - 1]->Deck.push_back(Card_TEMP);
 
-		}		
+		}	
+		
 	}
 
 	if (ActionBlock != PMVPosition)
@@ -900,7 +909,7 @@ void Replay::EchoTeam()
 void Replay::EchoPlayer()
 {
 	MISS;
-	printf("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # Cards # CardsTotal\n");
+	printf("countP # Name # PlayerID # ActionPlayer # GroupID # IDinGroup # Type # CardsTotal\n");
 		for (unsigned int i = 0; i < PlayerMatrix.size(); i++)
 		{
 			printf("%u # %s # %llu # %lu # %u # %u # %u # %u # %u\n",
@@ -911,7 +920,7 @@ void Replay::EchoPlayer()
 			PlayerMatrix[i]->GroupID ,
 			PlayerMatrix[i]->IDinGroup ,
 			PlayerMatrix[i]->Type ,
-			PlayerMatrix[i]->Cards ,
+			//PlayerMatrix[i]->Cards ,
 			PlayerMatrix[i]->CardsTotal);
 		}
 	MISE;
@@ -1095,7 +1104,7 @@ std::string Replay::SwitchType(unsigned long inType)
 	case 4001: 	
 		return "?4001 ?";
 	case 4002: 
-		return "Leave game";
+		return "Surrender ";
 	case 4003:
 		return "Desync";
 	case 4004: 

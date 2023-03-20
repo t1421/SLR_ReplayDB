@@ -35,8 +35,11 @@ public:
 	Replay* R;
 
 	WEB_Analyser();
+	void ReNewTaps();
 
 	bool isOK();
+
+	bool WA_Debug;
 
 	std::string  Check_BOT3();
 	double Kalk_BOT3(Wt::WTable *wtTabelle);

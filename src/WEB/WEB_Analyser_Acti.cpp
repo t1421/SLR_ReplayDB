@@ -66,6 +66,10 @@ void WEB_Analyser_Acti::WRefresh()
 
 	for (unsigned int i = 0; i < WA->Players.size(); i++)
 	{
+		if (WA->Players[i]->Type != 1
+			&& WA->Players[i]->Name != "pl_Enemy1"
+			&& WA->WA_Debug == false)continue;
+		
 		wtPlayers->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WA->Players[i]->wcBox)));
 		WA->Players[i]->wcBox->clicked().connect(std::bind([=]() {
 			UpdateTabelle();
@@ -79,6 +83,11 @@ void WEB_Analyser_Acti::WRefresh()
 			iCol = 0;
 		}
 	}
+	wtPlayers->columnAt(0)->setWidth(125);
+	wtPlayers->columnAt(1)->setWidth(125);
+	wtPlayers->columnAt(2)->setWidth(125);
+	wtPlayers->columnAt(3)->setWidth(125);
+	wtPlayers->columnAt(4)->setWidth(125);
 
 
 
@@ -88,7 +97,8 @@ void WEB_Analyser_Acti::WRefresh()
 	iRow = 0;
 	for (unsigned int i = 0; i < WA->ActionSums.size(); i++)
 	{
-		if (WA->ActionSums[i]->iCount == 0)continue;
+		if (WA->ActionSums[i]->iCount == 0
+			&& WA->WA_Debug == false )continue;
 		WA->ActionSums[i]->wcBox->setText(WA->ActionSums[i]->sActionName + "(" + std::to_string(WA->ActionSums[i]->iCount)+ ")");
 		wtActionsTypes->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WA->ActionSums[i]->wcBox)));
 		WA->ActionSums[i]->wcBox->clicked().connect(std::bind([=]() {

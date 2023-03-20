@@ -27,12 +27,13 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 		const std::string *PARA = (env.getParameter("PARAM"));
 		sPARA.assign(PARA->c_str());
 	}
-	if (!env.getParameterValues("BETA").empty())
+	if (sPARA == "DEBUG")
 	{
-		const std::string *BETA = (env.getParameter("BETA"));
-		sBETA.assign(BETA->c_str());
+		MISERROR("DEBUG ON")
+		WA_Debug = true;
+		ReNewTaps();
 	}
-
+	
 	MISD("#1");
 	auto bootstrapTheme = std::make_shared<Wt::WBootstrapTheme>();
 	bootstrapTheme->setVersion(Wt::BootstrapVersion::v3);

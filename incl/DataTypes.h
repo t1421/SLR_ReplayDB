@@ -33,8 +33,8 @@ struct Player {
 	unsigned char GroupID;
 	unsigned char IDinGroup;
 	unsigned char Type;
-	unsigned char Cards;
-	unsigned char CardsTotal;
+	//unsigned char Cards;
+	unsigned short CardsTotal;
 	std::vector <Card*> Deck;
 #ifdef BrokerWeb
 	Wt::WCheckBox *wcBox;

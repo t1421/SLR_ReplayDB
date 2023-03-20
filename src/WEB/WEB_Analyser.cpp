@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -16,7 +16,7 @@
 
 broker *(WEB_Analyser::Bro) = NULL;
 
-WEB_Analyser::WEB_Analyser(): R(new Replay())
+WEB_Analyser::WEB_Analyser(): R(new Replay()), WA_Debug(false)
 {
 	MISS;
 	
@@ -33,6 +33,17 @@ WEB_Analyser::WEB_Analyser(): R(new Replay())
 	}
 	
 	MISD("#1");
+
+	Head = new WEB_Analyser_Head(this);
+	Deck = new WEB_Analyser_Deck(this);
+	Acti = new WEB_Analyser_Acti(this);
+
+	MISE;
+}
+
+void WEB_Analyser::ReNewTaps()
+{
+	MISS;
 
 	Head = new WEB_Analyser_Head(this);
 	Deck = new WEB_Analyser_Deck(this);
@@ -154,7 +165,7 @@ bool WEB_Analyser::getData()
 
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
 	{
-		if (R->ActionMatrix[i]->Type == 4001 ||
+		if ((R->ActionMatrix[i]->Type == 4001 ||
 			R->ActionMatrix[i]->Type == 4003 ||
 			R->ActionMatrix[i]->Type == 4004 ||
 			R->ActionMatrix[i]->Type == 4005 ||
@@ -169,7 +180,7 @@ bool WEB_Analyser::getData()
 			R->ActionMatrix[i]->Type == 4025 ||
 			R->ActionMatrix[i]->Type == 4026 ||
 			R->ActionMatrix[i]->Type == 4032 ||
-			R->ActionMatrix[i]->Type == 4045 
+			R->ActionMatrix[i]->Type == 4045) && WA_Debug==false
 			) continue;
 
 		Action_Temp = new ActionWeb();

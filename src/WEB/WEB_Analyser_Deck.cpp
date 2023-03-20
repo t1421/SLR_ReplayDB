@@ -91,7 +91,7 @@ unsigned int WEB_Analyser_Deck::drawPlayer(unsigned int iPlayer, unsigned int &i
 		wtTabelle->elementAt(iRow, iCol)->widget(0)->setMaximumSize(Card_Size_X, Card_Size_Y);
 		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h></h>"))));
 		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Count: " + std::to_string(WA->Players[iPlayer]->Deck[i]->count)))));
-		//wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->CardID)))));
+		wtTabelle->elementAt(iRow, iCol)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 
 		iCol++;
 		if (i % 5 == 4)
