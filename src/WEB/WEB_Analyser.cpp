@@ -243,7 +243,7 @@ bool WEB_Analyser::getData()
 			case 1: Action_Temp->Info = "Shadow"; break;
 			case 2: Action_Temp->Info = "Nature"; break;
 			case 3: Action_Temp->Info = "Frost"; break;
-			case 4: Action_Temp->Info = "SHadow"; break;
+			case 4: Action_Temp->Info = "Fire"; break;
 			}
 			break;
 		case 4033: //Unit move on Wall
