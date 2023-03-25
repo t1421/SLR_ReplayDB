@@ -63,7 +63,7 @@ void WEB_Analyser_Acti::WRefresh()
 
 	iCol = 0;
 	iRow = 0;
-
+	
 	for (unsigned int i = 0; i < WA->Players.size(); i++)
 	{
 		if (WA->Players[i]->Type != 1
@@ -97,14 +97,19 @@ void WEB_Analyser_Acti::WRefresh()
 	iRow = 0;
 	for (unsigned int i = 0; i < WA->ActionSums.size(); i++)
 	{
+		
 		if (WA->ActionSums[i]->iCount == 0
 			&& WA->WA_Debug == false )continue;
+		MISD(std::to_string(i) + "#" + std::to_string(WA->ActionSums[i]->iCount) + "#" + WA->ActionSums[i]->sActionName);
 		WA->ActionSums[i]->wcBox->setText(WA->ActionSums[i]->sActionName + "(" + std::to_string(WA->ActionSums[i]->iCount)+ ")");
+		MISD("###1")
 		wtActionsTypes->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WA->ActionSums[i]->wcBox)));
+		MISD("###2")
 		WA->ActionSums[i]->wcBox->clicked().connect(std::bind([=]() {
 			UpdateTabelle();
 			//Switch Color
 		}));
+		MISD("###3")
 
 		iCol++;
 		if (iCol % 5 == 4)
@@ -113,6 +118,7 @@ void WEB_Analyser_Acti::WRefresh()
 			iCol = 0;
 		}
 	}
+	MISD("####")
 
 	UpdateTabelle();
 

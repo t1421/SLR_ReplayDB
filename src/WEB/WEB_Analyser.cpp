@@ -27,7 +27,7 @@ WEB_Analyser::WEB_Analyser(): R(new Replay()), WA_Debug(false)
 		ActionSum_Tmp->ActionID = i;
 		ActionSum_Tmp->sActionName = R->SwitchType(i);
 		ActionSum_Tmp->iCount = 0;
-		ActionSum_Tmp->wcBox = new Wt::WCheckBox(ActionSum_Tmp->sActionName);
+		ActionSum_Tmp->wcBox = new Wt::WCheckBox();
 		ActionSum_Tmp->wcBox->setChecked(true);
 		ActionSums.push_back(ActionSum_Tmp);
 	}
@@ -160,6 +160,7 @@ bool WEB_Analyser::getData()
 	for (unsigned int i = 0; i < ActionSums.size(); i++)
 	{
 		ActionSums[i]->iCount = 0;
+		ActionSums[i]->wcBox = new Wt::WCheckBox();
 		ActionSums[i]->wcBox->setChecked(true);
 	}
 
