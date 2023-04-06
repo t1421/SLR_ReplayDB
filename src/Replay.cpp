@@ -547,7 +547,8 @@ bool Replay::ReadActions()
 				readUnsignedLong(); // Zero (traget)
 				readUnsignedLong(); // X
 				readUnsignedLong(); // Y	
-				readUnsignedShort(); // Ping Type? 4=				
+				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedShort()); // Ping Type
+				//0=Ping,1=Attack,2=Def,3=Help,4=Meet
 				break;
 
 				///###
@@ -696,18 +697,22 @@ bool Replay::ReadActions()
 				readUnsignedLong(); // X
 				readUnsignedLong(); // Y	
 				break;
-			case 4045: // SLR desync???
+			case 4045: // SLR desync
 				readUnsignedShort(); //Size of Data
-				this->readUnsignedChar(); //ID of inner Data
-				readUnsignedLongLong(); // state Hash 1
-				readUnsignedLongLong(); // state Hash 2
-				readUnsignedLongLong(); // state Hash 3
-				readUnsignedLongLong(); // state Hash 4
-				readUnsignedLongLong(); // state Hash 5
-				readUnsignedLongLong(); // state Hash 6
-				readUnsignedLong(); // Count figures on map
-				readUnsignedLong(); // count entities on map
-				readUnsignedLong(); // Steps
+				switch (this->readUnsignedChar()) //ID of inner Data
+				{
+					case 2:
+					readUnsignedLongLong(); // state health_hasher
+					readUnsignedLongLong(); // state position_hasher
+					readUnsignedLongLong(); // state power_hasher
+					readUnsignedLongLong(); // state health_rounded_hasher
+					readUnsignedLongLong(); // state position_rounded_hasher
+					readUnsignedLongLong(); // state power_rounded_hasher
+					Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Count figures on map
+					Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Count entities on map
+					readUnsignedLong(); // Steps
+					break;
+				}
 				break;
 			
 			default:

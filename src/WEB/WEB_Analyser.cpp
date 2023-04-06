@@ -285,6 +285,9 @@ bool WEB_Analyser::getData()
 		case 4044: // TW Unit Switch
 				   //Action_Temp->WImage = TW ICON
 			break;
+		case 4045: // SLR Data
+			Action_Temp->Info = "figures/entities: " + R->ActionMatrix[i]->AdditionalInfo;
+			break;
 		}
 
 		Actions.push_back(Action_Temp);
