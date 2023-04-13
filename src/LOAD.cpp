@@ -46,6 +46,8 @@ void LOAD::Load_Settings()
 			if (INI_Value_Check(line, "BOT2RankMode"))BOTRankMode[BOT2LIST] = atoi(line.c_str());
 			if (INI_Value_Check(line, "BOT3RankMode"))BOTRankMode[BOT3LIST] = atoi(line.c_str());
 			if (INI_Value_Check(line, "BOT4RankMode"))BOTRankMode[BOT4LIST] = atoi(line.c_str());
+			if (INI_Value_Check(line, "VornskrRankMode"))BOTRankMode[VornskrLIST] = atoi(line.c_str());
+			
 			
 			ifFile.clear();
 		}

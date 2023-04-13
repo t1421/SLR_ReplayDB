@@ -3,7 +3,7 @@
 #include "..\..\incl\Broker.h"
 
 #include "..\..\incl\Utility.h" 
-#include "..\..\incl\WEB\WEB_MDA.h"
+#include "..\..\incl\WEB\WEB_MEA.h"
 #include "..\..\incl\WEB\WEB_Analyser.h"
 
 #include <Wt/WTable.h>
@@ -11,9 +11,9 @@
 #include <Wt/WText.h>
 
 
-broker *(WEB_MDA::Bro) = NULL;
+broker *(WEB_MEA::Bro) = NULL;
 
-WEB_MDA::WEB_MDA(WEB_Analyser *WA_) : WA(WA_)
+WEB_MEA::WEB_MEA(WEB_Analyser *WA_) : WA(WA_)
 {
 	MISS;
 
@@ -37,22 +37,23 @@ WEB_MDA::WEB_MDA(WEB_Analyser *WA_) : WA(WA_)
 	MISE;
 }
 
-void WEB_MDA::WRefresh()
+void WEB_MEA::WRefresh()
 {
 	MISS;
 	
 	double iPoints;
 
 	wtTabelle->clear();
-	std::string sReturn = WA->Check_BOT3();
+	std::string sReturn = WA->Kalk_BOT4(wtTabelle);
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
 	else
 	{
-		iPoints = WA->Kalk_BOT3(wtTabelle);
+		//iPoints = WA->Kalk_BOT4(wtTabelle);
+		iPoints = WA->getPlaytime();
 		MISD("#2#" + std::to_string(iPoints));
 		std::string sRankName;
-		switch (Bro->AddRankPlayer(VornskrLIST, WA->getPMVPlayerID(), iPoints, sRankName))
+		switch (Bro->AddRankPlayer(BOT4LIST, WA->getPMVPlayerID(), iPoints, sRankName))
 		{
 		case 5: //Slower
 			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(iPoints) + " -> but slower :-)</h3> ");

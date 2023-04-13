@@ -2,13 +2,13 @@
 
 #include "..\..\incl\Broker.h"
 
-#include "..\..\incl\WEB\WEB_MD.h"
-#include "..\..\incl\WEB\WEB_MDA.h"
+#include "..\..\incl\WEB\WEB_ME.h"
+#include "..\..\incl\WEB\WEB_MEA.h"
 #include "..\..\incl\WEB\WEB_Rank.h"
 
-broker *(WEB_MD::Bro) = NULL;
+broker *(WEB_ME::Bro) = NULL;
 
-WEB_MD::WEB_MD(WEB_Analyser *WA_)
+WEB_ME::WEB_ME(WEB_Analyser *WA_)
 {
 	MISS;
 
@@ -18,9 +18,9 @@ WEB_MD::WEB_MD(WEB_Analyser *WA_)
 
 	MISD("#10");
 
-	A = new WEB_MDA(WA_);
+	A = new WEB_MEA(WA_);
 	MISD("#100");
-	B = new WEB_Rank(VornskrLIST);
+	B = new WEB_Rank(BOT4LIST); 
 	
 	MISD("#11");	
 
@@ -32,7 +32,7 @@ WEB_MD::WEB_MD(WEB_Analyser *WA_)
 	MISE;
 }
 
-void WEB_MD::WRefresh()
+void WEB_ME::WRefresh()
 {
 	MISS;
 	updateFrame();

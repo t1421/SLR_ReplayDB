@@ -13,6 +13,8 @@
 
 #define SCard_Size_X 92
 #define SCard_Size_Y 127
+#define BOT4_IMG_SIZE 50
+
 
 broker *(WEB_Analyser::Bro) = NULL;
 
@@ -408,3 +410,68 @@ unsigned long long WEB_Analyser::getPMVPlayerID()
 	if (!R->OK)return 0;
 	return R->PMVPlayerID;
 }
+
+unsigned long long WEB_Analyser::getPlaytime()
+{
+	if (!R->OK)return 0;
+	return R->Playtime;
+}
+
+
+std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle)
+{
+	MISS;
+
+	unsigned iRow = 0;
+	unsigned iCol = 0;
+
+	if (!R->OK)return "No Replay";
+
+	iCol = 0;
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Gameversion:</h3>"))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(R->GameVersion)))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->GameVersion == 400041);
+
+	iCol = 0;
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Map:</h3>"))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(R->MapName))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment( Wt::AlignmentFlag::Middle);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->MapName == "mis.map");
+
+	iCol = 0;
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Difficulty:</h3>"))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(R->DifficultyID)))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->DifficultyID == 2);
+
+	wtTabelle->columnAt(0)->setWidth(200);
+	wtTabelle->columnAt(1)->setWidth(100);
+	wtTabelle->columnAt(2)->setWidth(BOT4_IMG_SIZE);
+
+	for (int i = 0; i < iRow - 1; i++)
+	{
+		if (dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, 2)->widget(0))->imageLink() == Wt::WLink("./resources/0.png"))
+		{		
+			MISEA("Error");
+			return "ERROR";
+		}
+	}
+	MISE;
+	return "";
+}
+
+void  WEB_Analyser::AddIMG(Wt::WTableCell *wtCell, bool bValue)
+{
+	wtCell->setHeight(BOT4_IMG_SIZE);
+	wtCell->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage("./resources/" + std::to_string(bValue) + ".png"))));
+	//widget(0))->setImageLink("./resources/1.png");
+	wtCell->widget(0)->setHeight(BOT4_IMG_SIZE);
+	wtCell->widget(0)->setWidth(BOT4_IMG_SIZE);
+	wtCell->widget(0)->resize(BOT4_IMG_SIZE, BOT4_IMG_SIZE);
+	wtCell->widget(0)->setMaximumSize(BOT4_IMG_SIZE, BOT4_IMG_SIZE);
+}
+

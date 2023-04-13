@@ -3,6 +3,7 @@
 #include "..\..\incl\Broker.h" 
 #include "..\..\incl\WEB\WEB_Utility.h"
 #include "..\..\incl\WEB\WEB_MD.h"
+#include "..\..\incl\WEB\WEB_ME.h"
 #include "..\..\incl\WEB\WEB_Analyser.h"
 #include "..\..\incl\WEB\WEB_CONTAINER.h"
 
@@ -48,6 +49,7 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	MISD("#3");	
 
 	MD = new WEB_MD(this);	
+	ME = new WEB_ME(this);
 	wfuDropZone = new Wt::WFileUpload();
 	wtStatus = new Wt::WText("Waiting for Replay");
 	
@@ -76,6 +78,9 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 
 	if (Bro->L_getBOTRankMode(BOT4LIST) <10
 		|| sPARA == "BETA")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Vornskr", *MD->cMain, MD);
+
+	if (Bro->L_getBOTRankMode(BOT4LIST) <10
+		|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT4", *ME->cMain, ME);
 
 	//WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Analyser", *cMainAnalyser, this);
 

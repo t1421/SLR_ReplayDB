@@ -62,6 +62,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 
 		Fill_DBArray("WEB_MD", "*", "*", "true");
 		Fill_DBArray("WEB_MDA", "*", "*", "true");
+		Fill_DBArray("WEB_ME", "*", "*", "true");
+		Fill_DBArray("WEB_MEA", "*", "*", "true");
 
 		Fill_DBArray("WEB_Rank", "*", "*", "true");
 

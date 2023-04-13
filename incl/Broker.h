@@ -38,7 +38,8 @@
 #define BOT2LIST 1
 #define BOT3LIST 2
 #define BOT4LIST 3
-#define BOTXLIST 3
+#define VornskrLIST 4
+#define BOTXLIST 4
 
 class DEBUG;
 class SQL_MIS_New;

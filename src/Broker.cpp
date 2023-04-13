@@ -19,6 +19,8 @@
 
 #include "..\incl\WEB\WEB_MD.h"
 #include "..\incl\WEB\WEB_MDA.h"
+#include "..\incl\WEB\WEB_ME.h"
+#include "..\incl\WEB\WEB_MEA.h"
 #include "..\incl\WEB\WEB_Rank.h"
 #include "..\incl\WEB\WEB_Toolbar.h"
 #include "..\incl\MIS_Rank.h"
@@ -74,6 +76,8 @@ broker::broker()
 
 	WEB_MD::learnBro(this);
 	WEB_MDA::learnBro(this);
+	WEB_ME::learnBro(this);
+	WEB_MEA::learnBro(this);
 	WEB_Rank::learnBro(this);
 	WEB_Toolbar::learnBro(this);
 	MIS_Rank::learnBro(this);

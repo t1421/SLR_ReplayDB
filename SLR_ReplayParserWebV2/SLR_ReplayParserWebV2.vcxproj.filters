@@ -87,6 +87,12 @@
     <ClCompile Include="..\src\WEB\WEB_Analyser_Deck.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_ME.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_MEA.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h">
@@ -151,6 +157,12 @@
     </ClInclude>
     <ClInclude Include="..\incl\DataTypes.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_ME.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_MEA.h">
+      <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

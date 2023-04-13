@@ -12,6 +12,7 @@
 #include <Wt/WApplication.h>
 
 class WEB_MD;
+class WEB_ME;
 
 class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser
 
@@ -36,6 +37,7 @@ private:
 	void WRefresh();
 
 	WEB_MD *MD;
+	WEB_ME *ME;
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
 	Wt::WContainerWidget *GlobaelContainer;

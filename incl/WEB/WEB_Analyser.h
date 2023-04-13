@@ -32,6 +32,7 @@ public:
 	bool NewReplay(std::string sFile);
 	bool getData();
 	std::string GetPlayerName(unsigned long inPlayer);
+	unsigned long long getPlaytime();
 	Replay* R;
 
 	WEB_Analyser();
@@ -43,6 +44,9 @@ public:
 
 	std::string  Check_BOT3();
 	double Kalk_BOT3(Wt::WTable *wtTabelle);
+
+	std::string Kalk_BOT4(Wt::WTable *wtTabelle);
+	void AddIMG(Wt::WTableCell *wtCell, bool bValue);
 
 	private:
 		double SwitchType(unsigned char ucType) 
