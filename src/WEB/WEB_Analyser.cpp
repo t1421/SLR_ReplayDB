@@ -424,8 +424,72 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle)
 
 	unsigned iRow = 0;
 	unsigned iCol = 0;
+	std::string sColorError = "";
+	std::string sCountError = "";
+	std::string sAffinError = "";
+	std::string sFlyerError = "";
+	int iOrbError = 0;
 
 	if (!R->OK)return "No Replay";
+
+	
+
+	
+	for (unsigned int i = 0; i < Players.size(); i++)
+	{
+		
+		if(Players[i]->PlayerID == getPMVPlayerID() && Players[i]->Type == 1)
+		for (unsigned int j = 0; j < Players[i]->Deck.size(); j++)
+		{
+			
+			if (Players[i]->Deck[j]->count == 0) continue;
+			MISD("###" + std::to_string(Players[i]->Deck[j]->CardID));
+			MISD("1#" + std::to_string(Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->color));
+			MISD("2#" + std::to_string(Players[i]->Deck[j]->count));
+
+			if (Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->color =! 6) 
+				sColorError += Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardName + ",";
+			if (Players[i]->Deck[j]->count > 1) 
+				sCountError += Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardName + ",";
+
+			if (   Players[i]->Deck[j]->CardID == 1486 //Deathglider [B]
+				|| Players[i]->Deck[j]->CardID == 1224 //Deathglider [G]
+				|| Players[i]->Deck[j]->CardID == 1487 //Skycatcher [B]
+				|| Players[i]->Deck[j]->CardID == 1226 //Skycatcher [G]				
+				)
+				sFlyerError += Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardName + ",";
+
+			for (unsigned int k = j + 1; k < Players[i]->Deck.size(); k++)
+			{
+				if (Players[i]->Deck[k]->count == 0) continue;
+				if (Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardNameSimple == Bro->J_GetSMJCard(Players[i]->Deck[k]->CardID)->cardNameSimple)
+					sAffinError += Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardName + ",";
+			}
+			
+		}
+	}
+
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+		if (R->ActionMatrix[i]->Type == 4031)
+			if (R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1) == "2236")
+			{
+				iOrbError++;
+				break;
+			}
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+		if (R->ActionMatrix[i]->Type == 4031)
+			if (R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1) == "2234")
+			{
+				iOrbError++;
+				break;
+			}
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+		if (R->ActionMatrix[i]->Type == 4031)
+			if (R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1) == "2237")
+			{
+				iOrbError++;
+				break;
+			}
 
 	iCol = 0;
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Gameversion:</h3>"))));
@@ -438,7 +502,7 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle)
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Map:</h3>"))));
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(R->MapName))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment( Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
 	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->MapName == "mis.map");
 
 	iCol = 0;
@@ -447,9 +511,45 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle)
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(R->DifficultyID)))));
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
 	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->DifficultyID == 2);
+	
+	iCol = 0;
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Only TW Cards:</h3>"))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sColorError))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), sColorError == "");
 
-	wtTabelle->columnAt(0)->setWidth(200);
-	wtTabelle->columnAt(1)->setWidth(100);
+	iCol = 0;
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Play Cards only once:</h3>"))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sCountError))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), sCountError == "");
+
+	iCol = 0;
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Only one affinity:</h3>"))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sAffinError))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), sAffinError == "");
+
+	iCol = 0;
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>No Flyers:</h3>"))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sFlyerError))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), sFlyerError == "");
+
+	iCol = 0;
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Win:</h3>"))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
+	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), iOrbError == 3);
+	
+
+	wtTabelle->columnAt(0)->setWidth(250);
+	wtTabelle->columnAt(1)->setWidth(200);
 	wtTabelle->columnAt(2)->setWidth(BOT4_IMG_SIZE);
 
 	for (int i = 0; i < iRow - 1; i++)

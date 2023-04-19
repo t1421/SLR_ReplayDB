@@ -97,15 +97,16 @@ struct ActionWeb {
 	std::string sActionName;
 	std::string sPlayerName;
 
-	int iImage;
+	//int iImage;
 
-	ActionWeb() : Time(0), Info(), sActionName(), sPlayerName(), iImage(0)	{}
+	ActionWeb() : Time(0), Info(), sActionName(), sPlayerName()	{}
 };
 
 struct SMJCard {
 	unsigned short cardId;
 	std::string SMJid;
 	std::string cardName;
+	std::string cardNameSimple;
 	char color;
 	unsigned char orbsTotal;
 	unsigned char orbsNeutral;
@@ -122,6 +123,7 @@ struct SMJCard {
 	unsigned char type;
 	unsigned char maxCharges;
 	unsigned int powerCost[4];
+	char affinity;
 };
 #endif //DataTypes
 

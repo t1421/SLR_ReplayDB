@@ -84,6 +84,8 @@ bool CardBaseSMJ::Init()
 		SMJCard_TEMP->orbsFireFrost = Card["orbsFireFrost"].asInt();
 		SMJCard_TEMP->type = Card["type"].asInt();
 		SMJCard_TEMP->maxCharges = Card["maxCharges"].asInt();
+		SMJCard_TEMP->affinity = Card["affinity"].asInt();
+		SMJCard_TEMP->cardNameSimple = Card["cardNameSimple"].asString();
 		
 		
 		jTEMP = Card["officialCardIds"];

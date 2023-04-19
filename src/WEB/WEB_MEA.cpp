@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -56,16 +56,16 @@ void WEB_MEA::WRefresh()
 		switch (Bro->AddRankPlayer(BOT4LIST, WA->getPMVPlayerID(), iPoints, sRankName))
 		{
 		case 5: //Slower
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(iPoints) + " -> but slower :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iPoints) + " -> but slower :-)</h3> ");
 			break;
 		case 9: //Same
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(iPoints) + " -> same time as before :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iPoints) + " -> same time as before :-)</h3> ");
 			break;
 		case 10: //Faster
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(iPoints) + " -> faster then your last :-)</h3> ");
+			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iPoints) + " -> faster then your last :-)</h3> ");
 			break;
 		case 15: //New Player
-			wtStatus->setText("<h3>Welcome to the Leaderboard " + sRankName + ": " + std::to_string(iPoints)  + ":-)</h3> ");
+			wtStatus->setText("<h3>Welcome to the Leaderboard " + sRankName + ": " + sTime(iPoints)  + ":-)</h3> ");
 			break;
 		default: //Should not happen
 			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
