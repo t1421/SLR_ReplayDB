@@ -316,18 +316,18 @@ std::string  WEB_Analyser::Check_BOT3()
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->GameVersion != 400040)return "Wrong Gameversion";
+	if (R->GameVersion != 400042)return "Wrong Gameversion";
 	if (R->MapName != "11105_PvE_01p_EncountersWithTwilight.map")return "Wrong Map";
-	if (R->DifficultyID != 2)return "Wrong Difficulty"; //2=ADV
+	if (R->DifficultyID != 1)return "Wrong Difficulty"; //1=STD
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
-		if (R->ActionMatrix[i]->Type == 4014 //USE
+		if (   (R->ActionMatrix[i]->Type == 4014 && R->ActionMatrix[i]->AdditionalInfo != "2025000") //USE
 			|| R->ActionMatrix[i]->Type == 4034 //SWITCH
 			|| R->ActionMatrix[i]->Type == 4037 //Place Nexus
 			|| R->ActionMatrix[i]->Type == 4039 //Switch tunnel
 			|| R->ActionMatrix[i]->Type == 4040 //return Nexusexit
 			|| R->ActionMatrix[i]->Type == 4042 //Place Chaostotem
 			|| R->ActionMatrix[i]->Type == 4044 //TW Switch
-			) return ""; // "Used ability";
+			) return "You used an ability";
 	MISE;
 	return "";
 }

@@ -56,7 +56,7 @@ void WEB_Rank::WRefresh()
 		wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(i + 1)))));
 		wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(Bro->A[iBOTLIST]->RankRows[i]->Name))));
 		if (iBOTLIST == 0) wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->A[iBOTLIST]->RankRows[i]->Time)))));
-		else wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Bro->A[iBOTLIST]->RankRows[i]->Time)))));
+		else               wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(         sTime(Bro->A[iBOTLIST]->RankRows[i]->Time)))));
 	}
 
 	MISE;

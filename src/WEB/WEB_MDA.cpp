@@ -64,7 +64,7 @@ void WEB_MDA::WRefresh()
 			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + std::to_string(iPoints) + " -> faster then your last :-)</h3> ");
 			break;
 		case 15: //New Player
-			wtStatus->setText("<h3>Welcome to the Leaderboard " + sRankName + ": " + std::to_string(iPoints)  + ":-)</h3> ");
+			wtStatus->setText("<h3>Welcome to the Leaderboard " + sRankName + ": " + std::to_string(iPoints)  + " :-)</h3> ");
 			break;
 		default: //Should not happen
 			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
