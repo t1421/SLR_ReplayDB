@@ -43,8 +43,9 @@ void WEB_Rank::WRefresh()
 
 	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Rank </h3>"))));
 	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Player </h3>"))));
-	if(iBOTLIST==0) wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Actions </h3>"))));
-	else wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Time </h3>"))));
+	if (iBOTLIST == BOT1LIST)        wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Actions </h3>"))));
+	else if(iBOTLIST == VornskrLIST) wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Points </h3>"))));
+	else                             wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Time </h3>"))));
 
 	wtTabelle->columnAt(0)->setWidth(75);
 	wtTabelle->columnAt(1)->setWidth(200);
@@ -55,8 +56,9 @@ void WEB_Rank::WRefresh()
 		//wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->A[iBOTLIST]->RankRows[i]->Player)))));
 		wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(i + 1)))));
 		wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(Bro->A[iBOTLIST]->RankRows[i]->Name))));
-		if (iBOTLIST == 0) wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->A[iBOTLIST]->RankRows[i]->Time)))));
-		else               wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(         sTime(Bro->A[iBOTLIST]->RankRows[i]->Time)))));
+		if (   iBOTLIST == BOT1LIST
+			|| iBOTLIST == VornskrLIST ) wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->A[iBOTLIST]->RankRows[i]->Time)))));
+		else                             wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(         sTime(Bro->A[iBOTLIST]->RankRows[i]->Time)))));
 	}
 
 	MISE;
