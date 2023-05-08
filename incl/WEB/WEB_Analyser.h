@@ -53,8 +53,8 @@ public:
 		{
 			switch (ucType)
 			{
-			case(0): return 3.00;
-			case(1): return 2.00;
+			case(0): return 2.00;
+			case(1): return 1.50;
 			case(2): return 1.00;
 			}
 		};
