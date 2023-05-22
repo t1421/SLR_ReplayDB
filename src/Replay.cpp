@@ -701,7 +701,7 @@ bool Replay::ReadActions()
 				readUnsignedShort(); //Size of Data
 				switch (this->readUnsignedChar()) //ID of inner Data
 				{
-					case 2:
+					case 2: // Desync
 					readUnsignedLongLong(); // state health_hasher
 					readUnsignedLongLong(); // state position_hasher
 					readUnsignedLongLong(); // state power_hasher
@@ -712,6 +712,20 @@ bool Replay::ReadActions()
 					Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Count entities on map
 					readUnsignedLong(); // Steps
 					break;
+
+					case 3: //Pause tracker
+					readUnsignedLong(); // Pause Time
+					break;
+
+					default:
+						MISERROR(FileName);
+						MISERROR(sTime(Action_TEMP->Time) + "#" +
+							std::to_string(Action_TEMP->Type) + "#" +
+							std::to_string(PMVPosition) + " # " +
+							std::to_string(MainSize) +
+							"NEW SLR KEY");
+						PMVPosition = SollPos;
+
 				}
 				break;
 			
@@ -1195,7 +1209,7 @@ std::string Replay::SwitchType(unsigned long inType)
 	case 4044:
 		return "Switch Twilight";
 	case 4045:
-		return "Desync Check";
+		return "SLR Function";
 	default:
 		return "NO IDEA!!!";
 	}

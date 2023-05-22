@@ -316,7 +316,7 @@ std::string  WEB_Analyser::Check_BOT3()
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->GameVersion != 400041)return "Wrong Gameversion";
+	if (R->GameVersion != 400042)return "Wrong Gameversion";
 	if (R->MapName != "11105_PvE_01p_EncountersWithTwilight.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty"; //1=STD
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
@@ -496,7 +496,7 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle)
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(R->GameVersion)))));
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->GameVersion == 400041);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->GameVersion == 400042);
 
 	iCol = 0;
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Map:</h3>"))));
