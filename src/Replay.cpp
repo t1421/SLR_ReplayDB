@@ -274,7 +274,7 @@ bool Replay::ReadActions()
 				break;
 			case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )		// Anzahl von Gegnern auf der Map?					
 				readUnsignedLong(); //Unit
-				this->readUnsignedChar(); // ??? number between 0 and 16?				
+				Action_TEMP->AdditionalInfo = std::to_string(this->readUnsignedChar()); // ??? number between 0 and 16?				
 				break;
 				///###
 			case 4005: //SLR-TEAM: 4005 - Hat was mit Loot Verteilung zu tun					

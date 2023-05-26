@@ -196,6 +196,9 @@ bool WEB_Analyser::getData()
 		case 4002:
 			//Action_Temp->WImage = Pfeil / Türe
 			break;
+		case 4004: //12 Player Map Special	(Sync von Maps 1 bis 3 ? )		// Anzahl von Gegnern auf der Map?					
+			Action_Temp->Info = R->ActionMatrix[i]->AdditionalInfo;
+			break;
 		case 4006: //GOLD	
 			//Action_Temp->WImage GOLD Truhe
 			Action_Temp->Info = R->ActionMatrix[i]->AdditionalInfo + " Gold";
@@ -501,9 +504,10 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle)
 	iCol = 0;
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Map:</h3>"))));
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(R->MapName))));
+	//wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(R->MapName))));
+	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->MapName == "mis.map");
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->MapName == "11441_pve_12p_passagetodarkness.map");
 
 	iCol = 0;
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Difficulty:</h3>"))));
