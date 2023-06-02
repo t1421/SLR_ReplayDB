@@ -318,12 +318,15 @@ std::string WEB_Analyser::GetPlayerName(unsigned long inPlayer)
 std::string  WEB_Analyser::Check_BOT3()
 {
 	MISS;
+	bool OBJOK = false;
+
 	if (!R->OK)return "No Replay";
 	if (R->GameVersion != 400042)return "Wrong Gameversion";
 	if (R->MapName != "11105_PvE_01p_EncountersWithTwilight.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty"; //1=STD
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
-		if (   (R->ActionMatrix[i]->Type == 4014 && R->ActionMatrix[i]->AdditionalInfo != "2002225") //USE
+	{
+		if ((R->ActionMatrix[i]->Type == 4014 && R->ActionMatrix[i]->AdditionalInfo != "2002225") //USE
 			|| R->ActionMatrix[i]->Type == 4034 //SWITCH
 			|| R->ActionMatrix[i]->Type == 4037 //Place Nexus
 			|| R->ActionMatrix[i]->Type == 4039 //Switch tunnel
@@ -331,6 +334,12 @@ std::string  WEB_Analyser::Check_BOT3()
 			|| R->ActionMatrix[i]->Type == 4042 //Place Chaostotem
 			|| R->ActionMatrix[i]->Type == 4044 //TW Switch
 			) return "You used an ability";
+		if (R->ActionMatrix[i]->Type == 4002) return "You left the game";
+		if (R->ActionMatrix[i]->Type == 4007 && R->ActionMatrix[i]->AdditionalInfo == "176") OBJOK = true;
+	}
+
+	if(OBJOK==false)return "You have not finished the map";
+
 	MISE;
 	return "";
 }
