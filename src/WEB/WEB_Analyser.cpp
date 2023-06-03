@@ -3,6 +3,7 @@
 #include "..\..\incl\Broker.h"
 
 #include "..\..\incl\Replay.h" 
+#include "..\..\incl\Utility.h" 
 
 #include "..\..\incl\WEB\WEB_Analyser.h"
 #include "..\..\incl\WEB\WEB_Analyser_Head.h"
@@ -595,86 +596,126 @@ void  WEB_Analyser::AddIMG(Wt::WTableCell *wtCell, bool bValue)
 
 
 
-std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTimes[4])
+std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTimes[3])
 {
 	MISS;
 
+	std::vector<std::pair<std::string, unsigned long>> Wall;
+	std::vector<std::pair<std::string, unsigned long>> Amii;
+	std::vector<std::pair<std::string, unsigned long>> Orb;
+
+	bool dublette;
+	std::string sReturn;
+
 	if (!R->OK)return "No Replay";
 
-	iTimes[0] = 100;
-	iTimes[1] = 200;
-	iTimes[2] = 300;
-	iTimes[3] = 400;
-	/*
-	SMJCard* SMJCardTEMP;
-	unsigned char tempCharge;
-	unsigned int iRow = 0;
-	double iTotalPoints = 0;
-	wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Card</h3>"))));
-	wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Power</h3>"))));
-	wtTabelle->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Count</h3>"))));
-	wtTabelle->elementAt(iRow, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Faktor</h3>"))));
-	wtTabelle->elementAt(iRow, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Points</h3>"))));
-	//wtTabelle->elementAt(iRow, iCol)->setColumnSpan(5);
-
-	wtTabelle->columnAt(0)->setWidth(75);
-	wtTabelle->columnAt(1)->setWidth(100);
-	wtTabelle->columnAt(2)->setWidth(100);
-	wtTabelle->columnAt(3)->setWidth(100);
-	wtTabelle->columnAt(4)->setWidth(100);
-	iRow++;
 	MISD("#1");
-	for (unsigned int iPlayer = 0; iPlayer <= Players.size(); iPlayer++)
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
 	{
-		//MISD("#2#" + std::to_string(Players[iPlayer]->PlayerID));
-		if (Players[iPlayer]->PlayerID == R->PMVPlayerID && Players[iPlayer]->Type == 1)
-			for (unsigned int i = 0; i < Players[iPlayer]->Deck.size(); i++)
-			{
-				//MISD("#3#" + std::to_string(Players[iPlayer]->Deck[i]->CardID));
+		//MISD(std::to_string(R->ActionMatrix[i]->Type));
+		switch (R->ActionMatrix[i]->Type)
+		{
+		case 4007:
+			if (switchKOTG_Wall(R->ActionMatrix[i]->AdditionalInfo) == 0)	break;
 
-				if (Players[iPlayer]->Deck[i]->CardID == 0)continue;
-				tempCharge = Bro->J_SwitchCharges(Players[iPlayer]->Deck[i]->CardID, Players[iPlayer]->Deck[i]->Charges);
-				if (tempCharge > Players[iPlayer]->Deck[i]->Upgrade)tempCharge = Players[iPlayer]->Deck[i]->Upgrade;
+			dublette = false;
+			for (unsigned int j = 0; j < Wall.size(); j++)
+				if (R->ActionMatrix[i]->AdditionalInfo == Wall[j].first)
+					dublette = true;
+			if (!dublette)Wall.push_back(std::make_pair(R->ActionMatrix[i]->AdditionalInfo, R->ActionMatrix[i]->Time));
+			break;
+		case 4014:
+			if (switchKOTG_Amii(R->ActionMatrix[i]->AdditionalInfo)== 0)continue;
+			dublette = false;
+			for (unsigned int j = 0; j < Amii.size(); j++)
+				if (R->ActionMatrix[i]->AdditionalInfo == Amii[j].first)
+					dublette = true;
 
-				wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage(Bro->J_GetImage(
-					Players[iPlayer]->Deck[i]->CardID,
-					Players[iPlayer]->Deck[i]->Upgrade,
-					tempCharge,
-					Players[iPlayer]->Deck[i]->count,
-					true
-				)))));
+			if (!dublette)Amii.push_back(std::make_pair(R->ActionMatrix[i]->AdditionalInfo, R->ActionMatrix[i]->Time));
+			break;
 
-				wtTabelle->elementAt(iRow, 0)->widget(0)->setHeight(SCard_Size_Y);
-				wtTabelle->elementAt(iRow, 0)->widget(0)->setWidth(SCard_Size_X);
-				wtTabelle->elementAt(iRow, 0)->widget(0)->resize(SCard_Size_X, SCard_Size_Y);
-				wtTabelle->elementAt(iRow, 0)->widget(0)->setMaximumSize(SCard_Size_X, SCard_Size_Y);
-				//cMain->setContentAlignment(Wt::AlignmentFlag::Left);
+		case 4031:
+			if (switchKOTG_Orb(entry(R->ActionMatrix[i]->AdditionalInfo, 2)) == 0) continue; // STart Orbs
 
-				SMJCardTEMP = Bro->J_GetSMJCard(Players[iPlayer]->Deck[i]->CardID);
-				wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade])))));
-				wtTabelle->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->count)))));
-				wtTabelle->elementAt(iRow, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(SwitchType(SMJCardTEMP->type))))));
-				wtTabelle->elementAt(iRow, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Players[iPlayer]->Deck[i]->count * SwitchType(SMJCardTEMP->type) * SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade])))));
-				iTotalPoints += Players[iPlayer]->Deck[i]->count * SwitchType(SMJCardTEMP->type) * SMJCardTEMP->powerCost[Players[iPlayer]->Deck[i]->Upgrade];
+			dublette = false;
+			for (unsigned int j = 0; j < Orb.size(); j++)
+				if (entry(R->ActionMatrix[i]->AdditionalInfo,2) == Orb[j].first)
+					dublette = true;
 
-				wtTabelle->elementAt(iRow, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
-				wtTabelle->elementAt(iRow, 1)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
-				wtTabelle->elementAt(iRow, 2)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
-				wtTabelle->elementAt(iRow, 3)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
-				wtTabelle->elementAt(iRow, 4)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+			if (!dublette)Orb.push_back(std::make_pair(entry(R->ActionMatrix[i]->AdditionalInfo, 2), R->ActionMatrix[i]->Time));
+		}
 
-
-				iRow++;
-				//MISD("#3####" + std::to_string(Players[iPlayer]->Deck[i]->CardID));
-			}
-		//MISD("#2####" + std::to_string(Players[iPlayer]->PlayerID));
-		if (iTotalPoints != 0)break;
 	}
 
-	//MISD("#9#" + std::to_string(iTotalPoints));
-	*/
+	MISD("#2");
+	for (unsigned int j = 0; j < Orb.size(); j++)
+		for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+		{
+			if (R->ActionMatrix[i]->Type != 4041) continue;
+			if (R->ActionMatrix[i]->AdditionalInfo == Orb[j].first)
+				sReturn += "You Dest. an orb, ";
+		}
+
+	MISD("#3");
+	if (Orb.size() != 12)sReturn += "Not all Orbs, ";	
+	if (Wall.size() != 6)sReturn += "Not all Walls, ";
+	if (Amii.size() != 4)sReturn += "Not all Amiis, ";
+	
+	MISD("#4");
+	if(Orb.size()>0)iTimes[0] = Orb[Orb.size() - 1].second;
+	if(Wall.size()>0)iTimes[1] = Wall[Wall.size() - 1].second;
+	if(Amii.size()>0)iTimes[2] = Amii[Amii.size() - 1].second;
+		
+	unsigned int iRow = 0;
+	
+	wtTabelle[0]->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Orbs</h3>"))));
+	wtTabelle[0]->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Time</h3>"))));
+
+	wtTabelle[1]->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Walls</h3>"))));
+	wtTabelle[1]->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Time</h3>"))));
+
+	wtTabelle[2]->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Amiis</h3>"))));
+	wtTabelle[2]->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Time</h3>"))));
+	//wtTabelle->elementAt(iRow, iCol)->setColumnSpan(5);
+
+	wtTabelle[0]->columnAt(0)->setWidth(25);
+	wtTabelle[0]->columnAt(1)->setWidth(100);
+	wtTabelle[1]->columnAt(0)->setWidth(25);
+	wtTabelle[1]->columnAt(1)->setWidth(100);
+	wtTabelle[2]->columnAt(0)->setWidth(25);
+	wtTabelle[2]->columnAt(1)->setWidth(100);
+
+	MISD("#1");
+	iRow = 1;
+	for (unsigned int i = 0; i < Orb.size(); i++)
+	{		
+		wtTabelle[0]->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(switchKOTG_Orb(Orb[i].first))))));
+		wtTabelle[0]->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Orb[i].second)))));
+		iRow++;
+	}
+
+	MISD("#2");
+	iRow = 1;
+	for (unsigned int i = 0; i < Wall.size(); i++)
+	{
+		wtTabelle[1]->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(switchKOTG_Wall(Wall[i].first))))));
+		wtTabelle[1]->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Wall[i].second)))));
+		iRow++;
+	}
+
+	MISD("#1");
+	iRow = 1;
+	for (unsigned int i = 0; i < Amii.size(); i++)
+	{
+		wtTabelle[2]->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(switchKOTG_Amii(Amii[i].first))))));
+		wtTabelle[2]->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Amii[i].second)))));
+		iRow++;
+	}
+
+
+	
 	MISE;
-	return "";
+	return sReturn;
 }
 
 std::string WEB_Analyser::GetTeamID()
@@ -692,4 +733,56 @@ std::string WEB_Analyser::GetTeamID()
 		sReturn += std::to_string(TeamPlayer[i]) + "#";
 
 	return sReturn;
+}
+
+int WEB_Analyser::switchKOTG_Orb(std::string sOrbID)
+{
+	MISS;
+	switch (atoi(sOrbID.c_str()))
+	{
+	case 4496: return 1; 
+	case 4495: return 1; 
+	case 4494: return 2; 
+	case 4493: return 2; 
+	case 4486: return 3; 
+	case 4485: return 3; 
+	case 4484: return 3; 
+	case 4492: return 3; 
+	case 4491: return 4; 
+	case 4490: return 4; 
+	case 4487: return 5; 
+	case 4488: return 5; 
+	}
+	MISE;
+	return 0;
+}
+
+int WEB_Analyser::switchKOTG_Wall(std::string sWallID)
+{
+	MISS;
+	switch (atoi(sWallID.c_str()))
+	{
+	case 523: return 3;
+	case 525: return 2;
+	case 566: return 1;
+	case 524: return 6;
+	case 526: return 5;
+	case 527: return 4;
+	}
+	MISE;
+	return 0;
+}
+
+int WEB_Analyser::switchKOTG_Amii(std::string sAmiiID)
+{
+	MISS;
+	switch (atoi(sAmiiID.c_str()))
+	{
+	case 2002215: return 1;
+	case 2001750: return 2;
+	case 2001751: return 3;
+	case 2001268: return 4;
+	}
+	MISE;
+	return 0;
 }

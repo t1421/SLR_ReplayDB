@@ -120,6 +120,7 @@ public:
 
 	std::string GetTeamName(std::string sTeamID);
 	void saveTeams();
+	void KOTGTotalRanking();
 	std::vector<std::pair<std::string, std::string>> TeamNames;
 #endif
 

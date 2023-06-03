@@ -225,21 +225,54 @@ std::string broker::GetTeamName(std::string sTeamID)
 {
 	std::string sName;
 
-	printf("Team 1\n");
 	for (unsigned int i = 0; i < TeamNames.size(); i++)
 		if (TeamNames[i].first == sTeamID)return TeamNames[i].second;
-	printf("Team 2\n");
 	
-	printf("Team 22\n");
 	sName = Bro->getName();
-	printf("Team 3\n");
 	TeamNames.push_back(std::make_pair(sTeamID, sName));
-	printf("Team 4\n");
 	saveTeams();
-	printf("Team 5\n");
-
 
 	return sName;
+}
+
+void broker::KOTGTotalRanking()
+{
+	std::vector<ROW*> TempRows;
+	if (A[KOTGLIST1]->RankRows.size() != A[KOTGLIST2]->RankRows.size() ||
+		A[KOTGLIST1]->RankRows.size() != A[KOTGLIST3]->RankRows.size())
+	{
+		printf("ERROR #1 KOTGTotalRanking\n");
+		return;
+	}
+
+	for (unsigned int i = 0; i < A[KOTGLIST1]->RankRows.size(); i++)
+		TempRows.push_back(new ROW(
+			A[KOTGLIST1]->RankRows[i]->Player,
+			i + 1,
+			//A[KOTGLIST1]->RankRows[i]->Time,
+			A[KOTGLIST1]->RankRows[i]->Name));
+	
+	if (A[KOTGLIST1]->RankRows.size() != TempRows.size())
+	{
+		printf("ERROR #2 KOTGTotalRanking\n");
+		return;
+	}
+
+	for (unsigned int i = 0; i < A[KOTGLIST2]->RankRows.size(); i++)
+		for (unsigned int j = 0; j < TempRows.size(); j++)
+			if (TempRows[j]->Player == A[KOTGLIST2]->RankRows[i]->Player)
+				TempRows[j]->Time += i + 1;
+				//TempRows[j]->Time += A[KOTGLIST2]->RankRows[i]->Time;
+
+	for (unsigned int i = 0; i < A[KOTGLIST3]->RankRows.size(); i++)
+		for (unsigned int j = 0; j < TempRows.size(); j++)
+			if (TempRows[j]->Player == A[KOTGLIST3]->RankRows[i]->Player)
+				TempRows[j]->Time += i + 1;
+				//TempRows[j]->Time += A[KOTGLIST3]->RankRows[i]->Time;
+
+	for (unsigned int j = 0; j < TempRows.size(); j++)
+		AddRankPlayer(KOTGLIST4, TempRows[j]->Player, TempRows[j]->Time, TempRows[j]->Name);
+
 }
 #endif
 

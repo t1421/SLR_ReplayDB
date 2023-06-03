@@ -29,25 +29,37 @@ WEB_MFA::WEB_MFA(WEB_Analyser *WR_) : WR(WR_)
 	wtTabelle[0] = new Wt::WTable();
 	wtTabelle[1] = new Wt::WTable();
 	wtTabelle[2] = new Wt::WTable();
+	wcTabelle[0] = new Wt::WContainerWidget();
+	wcTabelle[1] = new Wt::WContainerWidget();
+	wcTabelle[2] = new Wt::WContainerWidget();
 	
 	MISD("#1");
 
 	//cMap = new Wt::WContainerWidget();
 	wiMap = new Wt::WImage("./resources/kingofthegiants.jpg");
+	wiMap->setHeight(500);
+	wiMap->setWidth(500);
+	wiMap->resize(500, 500);
+	wiMap->setMaximumSize(500, 500);
 	//cMap->setStyleClass("crop");
 	
 	MISD("#2");
 	
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)), 1, 0, 0, 4);
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wiMap)), 2, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[0])), 2, 1);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[1])), 2, 2);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[2])), 2, 3);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTabelle[0])), 2, 1);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTabelle[1])), 2, 2);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTabelle[2])), 2, 3);
 	
-	//TempGrid->setColumnStretch(0, 5);
-	//TempGrid->setColumnStretch(1, 95);
+	TempGrid->setColumnStretch(0, 61);
+	TempGrid->setColumnStretch(1, 13);
+	TempGrid->setColumnStretch(2, 13);
+	TempGrid->setColumnStretch(3, 13);
 
-	//cReplayResult->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
+	wcTabelle[0]->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[0])));
+	wcTabelle[1]->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[1])));
+	wcTabelle[2]->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[2])));
+	//cMain->setContentAlignment(Wt::AlignmentFlag::Left | Wt::AlignmentFlag::Top);
 	//cReplayResult->setContentAlignment(Wt::AlignmentFlag::Left);
 	
 	//cMap->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wiMap)));
@@ -60,7 +72,7 @@ void WEB_MFA::WRefresh()
 {
 	MISS;
 
-	unsigned long iTimes[4];
+	unsigned long iTimes[3];
 
 	wtTabelle[0]->clear();
 	wtTabelle[1]->clear();
@@ -80,28 +92,13 @@ void WEB_MFA::WRefresh()
 		MISD("#4");
 		Bro->AddRankPlayer(KOTGLIST2, sTeamID, iTimes[1], sTeamName);
 		Bro->AddRankPlayer(KOTGLIST3, sTeamID, iTimes[2], sTeamName);
-		Bro->AddRankPlayer(KOTGLIST4, sTeamID, iTimes[3], sTeamName);
-		/*
-		switch (Bro->AddRankPlayer(KOTGLIST1, WR->Player(), iTime, sRankName))
-		{
-		case 5: //Slower
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iTime) + " -> but slower :-)</h3> ");
-			break;
-		case 9: //Same
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iTime) + " -> same time as before :-)</h3> ");
-			break;
-		case 10: //Faster
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iTime) + " -> faster then your last :-)</h3> ");
-			break;
-		case 15: //New Player
-			wtStatus->setText("<h3>Welcome to the Leaderboard " + sRankName + ": " + sTime(iTime) + ":-)</h3> ");
-			break;
-		default: //Should not happen
-			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
-		}		
-		*/
+		Bro->KOTGTotalRanking();
+
+		wtStatus->setText("<h3>Hello there Team " + sTeamName + ", nice run :-)</h3> ");
+
 		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}
 
 	MISE;
 }
+

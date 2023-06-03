@@ -10,6 +10,9 @@ struct ROW {
 	std::string Player;
 	double Time;
 	std::string Name;
+	ROW() {}
+	ROW(std::string _Player,	double _Time,	std::string _Name) :
+		Player( _Player), Time ( _Time), Name (_Name) {}
 };
 
 

@@ -21,6 +21,7 @@ public:
 	//Wt::WContainerWidget *cReplayResult;
 	
 	Wt::WTable *wtTabelle[3];
+	Wt::WContainerWidget *wcTabelle[3];
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
