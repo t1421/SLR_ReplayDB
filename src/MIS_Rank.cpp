@@ -1,6 +1,7 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\incl\Broker.h" 
+#include "..\incl\Utility.h"
 
 #include "..\incl\MIS_Rank.h" 
 
@@ -27,18 +28,16 @@ MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList
 	ifFile.open(Bro->L_getRANK_PATH() + sFile.c_str(), std::ios::binary);
 	if (!ifFile.good())
 	{
-		MISEA("Error for Rank list");
+		MISEA("Error for Rank list: " + std::to_string(iRankList));
 		return;
 	}
 	mtx.lock();
 	while (getline(ifFile, line))
 	{
 		R_Temp = new ROW();
-		R_Temp->Player = atoi(line.substr(0, line.find(";")).c_str());
-		line.erase(0, line.find(";") + 1);
-		R_Temp->Time = std::stod(line.substr(0, line.find(";")).c_str());
-		line.erase(0, line.find(";") + 1);
-		R_Temp->Name = line.substr(0, line.find(";")).c_str();
+		R_Temp->Player = entry(line, 0);
+		R_Temp->Time = std::stod(entry(line, 1));
+		R_Temp->Name = entry(line, 2);
 		
 		RankRows.push_back(R_Temp);
 		ifFile.clear();
@@ -88,13 +87,12 @@ void MIS_Rank::SortList()
 	MISE;
 }
 
-
-int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, double Playtime, std::string &sRankName)
+int MIS_Rank::AddPlayer(std::string PMVPlayerID, double Playtime, std::string &sRankName)
 {
 	MISS;
 	int iReturn = 0;
 	unsigned int i;
-
+	MISD(sRankName);
 	mtx.lock();
 	for (i = 0; i < RankRows.size(); i++)
 	{
@@ -131,15 +129,17 @@ int MIS_Rank::AddPlayer(unsigned long long PMVPlayerID, double Playtime, std::st
 		if (RankMode == 1)sRankName = "Player"; 
 		else
 		{
-			R_Temp->Name = Bro->getName();
+			if (sRankName == "")R_Temp->Name = Bro->getName();
+			else R_Temp->Name = sRankName;
 			sRankName = R_Temp->Name;
+			
 		}
 		
 		RankRows.push_back(R_Temp);
 		i = RankRows.size() - 1;
 		iReturn = 15;
 	}
-	else sRankName = RankRows[i]->Name;
+	else if(sRankName=="")sRankName = RankRows[i]->Name;
 	if (RankMode == 1 && iReturn == 15)RankRows.pop_back();
 	
 	

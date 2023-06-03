@@ -13,6 +13,7 @@
 
 class WEB_MD;
 class WEB_ME;
+class WEB_MF;
 
 class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser
 
@@ -38,6 +39,7 @@ private:
 
 	WEB_MD *MD;
 	WEB_ME *ME;
+	WEB_MF *MF;
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
 	Wt::WContainerWidget *GlobaelContainer;

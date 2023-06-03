@@ -46,3 +46,13 @@ std::string sTime(unsigned long ulTime)
 	snprintf(cOut, 6, "%02d:%02d", int(floor(ulTime / 600)), int(ulTime / 10 % 60));
 	return cOut;
 }
+
+std::string entry(std::string Liste, int pos)
+{
+	if (pos == 0)return Liste.substr(0, Liste.find(";"));
+	else
+	{
+		Liste.erase(0, Liste.find(";") + 1);
+		return entry(Liste, pos - 1);
+	}
+}

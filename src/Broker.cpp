@@ -14,6 +14,8 @@
 
 #ifdef BrokerWeb
 
+#include "..\incl\Utility.h"
+
 #include "..\incl\WEB\WEB_Main.h"
 #include "..\incl\WEB\WEB_CONTAINER.h"
 
@@ -21,6 +23,8 @@
 #include "..\incl\WEB\WEB_MDA.h"
 #include "..\incl\WEB\WEB_ME.h"
 #include "..\incl\WEB\WEB_MEA.h"
+#include "..\incl\WEB\WEB_MF.h"
+#include "..\incl\WEB\WEB_MFA.h"
 #include "..\incl\WEB\WEB_Rank.h"
 #include "..\incl\WEB\WEB_Toolbar.h"
 #include "..\incl\MIS_Rank.h"
@@ -54,6 +58,7 @@
 #ifndef noImager
 #include "..\incl\Imager.h"
 #endif
+
 broker::broker()
 {
 	bAktive = true;
@@ -78,6 +83,8 @@ broker::broker()
 	WEB_MDA::learnBro(this);
 	WEB_ME::learnBro(this);
 	WEB_MEA::learnBro(this);
+	WEB_MF::learnBro(this);
+	WEB_MFA::learnBro(this);
 	WEB_Rank::learnBro(this);
 	WEB_Toolbar::learnBro(this);
 	MIS_Rank::learnBro(this);
@@ -142,12 +149,26 @@ void broker::INIT()
 		std::back_inserter(FreeNames));
 	
 	ifFile.close();
-	
+
+
+	ifFile.open(L_getRANK_PATH() + "Teams.csv", std::ios::binary);
+	if (ifFile.good())
+	{
+		while (getline(ifFile, line))		
+			TeamNames.push_back(std::make_pair(entry(line, 0), entry(line, 1)));;
+		
+		ifFile.close();
+	}
+}
+
+int broker::AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, double Playtime, std::string &sRankName)
+{
+	return A[iRANK]->AddPlayer(PMVPlayerID, Playtime, sRankName);
 }
 
 int broker::AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, double Playtime, std::string &sRankName)
 {
-	return A[iRANK]->AddPlayer(PMVPlayerID, Playtime, sRankName);
+	return A[iRANK]->AddPlayer(std::to_string(PMVPlayerID), Playtime, sRankName);
 }
 
 std::string broker::getName()
@@ -180,16 +201,53 @@ void broker::saveName()
 		}
 		ofFile.close();
 	}
+	else printf("XXX\n");	
+}
+
+void broker::saveTeams()
+{
+	printf("save Teams\n");
+	std::ofstream ofFile;
+	ofFile.open(L_getRANK_PATH() + "Teams.csv", std::ios::binary);
+	if (ofFile.good())
+	{
+		printf("FILE OK\n");
+		for (unsigned int i = 0; i < TeamNames.size(); i++)
+		{
+			ofFile << TeamNames[i].first << ";" << TeamNames[i].second << std::endl;
+		}
+		ofFile.close();
+	}
 	else printf("XXX\n");
+}
+
+std::string broker::GetTeamName(std::string sTeamID)
+{
+	std::string sName;
+
+	printf("Team 1\n");
+	for (unsigned int i = 0; i < TeamNames.size(); i++)
+		if (TeamNames[i].first == sTeamID)return TeamNames[i].second;
+	printf("Team 2\n");
 	
+	printf("Team 22\n");
+	sName = Bro->getName();
+	printf("Team 3\n");
+	TeamNames.push_back(std::make_pair(sTeamID, sName));
+	printf("Team 4\n");
+	saveTeams();
+	printf("Team 5\n");
+
+
+	return sName;
 }
 #endif
 
 broker::~broker()
 {
-	MISS;
+	//MISS;
 	//tFadeThread.join();
-	MISE;
+	//MISE;
 }
 
 #ifndef noSMJ

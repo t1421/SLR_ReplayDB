@@ -39,7 +39,11 @@
 #define BOT3LIST 2
 #define BOT4LIST 3
 #define VornskrLIST 4
-#define BOTXLIST 4
+#define KOTGLIST1 5
+#define KOTGLIST2 6
+#define KOTGLIST3 7
+#define KOTGLIST4 8
+#define BOTXLIST 8
 
 class DEBUG;
 class SQL_MIS_New;
@@ -107,11 +111,16 @@ public:
 
 #ifdef BrokerWeb
 	void INIT();
+	int AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, double Playtime, std::string &sRankName);
 	int AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, double Playtime, std::string &sRankName);
 	std::vector<std::string> FreeNames;
 	std::string getName();
 	void saveName();
 	std::mutex mtx;
+
+	std::string GetTeamName(std::string sTeamID);
+	void saveTeams();
+	std::vector<std::pair<std::string, std::string>> TeamNames;
 #endif
 
 	void B_StatusNew(std::string Fun, std::string Wert);

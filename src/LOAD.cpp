@@ -47,6 +47,10 @@ void LOAD::Load_Settings()
 			if (INI_Value_Check(line, "BOT3RankMode"))BOTRankMode[BOT3LIST] = atoi(line.c_str());
 			if (INI_Value_Check(line, "BOT4RankMode"))BOTRankMode[BOT4LIST] = atoi(line.c_str());
 			if (INI_Value_Check(line, "VornskrRankMode"))BOTRankMode[VornskrLIST] = atoi(line.c_str());
+			if (INI_Value_Check(line, "KOTG1"))BOTRankMode[KOTGLIST1] = atoi(line.c_str());
+			if (INI_Value_Check(line, "KOTG2"))BOTRankMode[KOTGLIST2] = atoi(line.c_str());
+			if (INI_Value_Check(line, "KOTG3"))BOTRankMode[KOTGLIST3] = atoi(line.c_str());
+			if (INI_Value_Check(line, "KOTG4"))BOTRankMode[KOTGLIST4] = atoi(line.c_str());
 			
 			
 			ifFile.clear();

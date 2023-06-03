@@ -13,6 +13,8 @@ inline std::string ReplaceString(std::string subject, const std::string& search,
 
 std::string sTime(unsigned long ulTime);
 
+std::string entry(std::string Liste, int pos);
+
 #endif //Utility_H
 
 

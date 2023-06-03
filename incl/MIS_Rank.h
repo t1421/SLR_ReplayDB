@@ -6,7 +6,8 @@
 
 
 struct ROW {
-	unsigned long long Player;
+	//unsigned long long Player;
+	std::string Player;
 	double Time;
 	std::string Name;
 };
@@ -20,10 +21,13 @@ public:
 
 	void SaveList();
 	void SortList();
-	int AddPlayer(unsigned long long PMVPlayerID, double Playtime, std::string &sRankName);
+		
+	int AddPlayer(std::string PMVPlayerID, double Playtime, std::string &sRankName);
 	int RankMode;
 
 	std::vector<ROW*> RankRows;
+	
+	
 	
 	//BROKER
 	static broker* Bro;
