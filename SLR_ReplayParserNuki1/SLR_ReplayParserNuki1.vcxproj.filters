@@ -47,6 +47,6 @@
     <ClCompile Include="..\src\Utility.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="..\SLR_ReplayParserNuki1.cpp" />
+    <ClCompile Include="..\SLR_ReplayParserNuki.cpp" />
   </ItemGroup>
 </Project>

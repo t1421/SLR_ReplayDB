@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\SLR_ReplayParserNuki1.cpp" />
+    <ClCompile Include="..\SLR_ReplayParserNuki.cpp" />
     <ClCompile Include="..\src\Broker.cpp" />
     <ClCompile Include="..\src\DEBUG.cpp" />
     <ClCompile Include="..\src\Reader.cpp" />
@@ -40,6 +40,7 @@
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SLR_ReplayParser</RootNamespace>
     <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <ProjectName>SLR_ReplayParserNuki</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
