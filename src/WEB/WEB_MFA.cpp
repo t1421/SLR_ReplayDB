@@ -59,6 +59,10 @@ WEB_MFA::WEB_MFA(WEB_Analyser *WR_) : WR(WR_)
 	wcTabelle[0]->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[0])));
 	wcTabelle[1]->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[1])));
 	wcTabelle[2]->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[2])));
+	
+	wcTabelle[0]->setWidth(150);
+	wcTabelle[1]->setWidth(150);
+	wcTabelle[2]->setWidth(150);
 	//cMain->setContentAlignment(Wt::AlignmentFlag::Left | Wt::AlignmentFlag::Top);
 	//cReplayResult->setContentAlignment(Wt::AlignmentFlag::Left);
 	

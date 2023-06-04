@@ -11,6 +11,8 @@
 #include "..\..\incl\WEB\WEB_Analyser_Acti.h"
 
 #include <Wt/WImage.h>
+#include <Wt/WColor.h>
+#include <Wt/WCssDecorationStyle.h>
 #include <algorithm>
 
 #define SCard_Size_X 92
@@ -604,10 +606,16 @@ std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTi
 	std::vector<std::pair<std::string, unsigned long>> Amii;
 	std::vector<std::pair<std::string, unsigned long>> Orb;
 
+	Wt::WColor wTemp;
+
 	bool dublette;
 	std::string sReturn;
 
 	if (!R->OK)return "No Replay";
+	if (R->MapName != "11303_PvE_04p_KingOfTheGiants.map")return "Wrong Map";
+	if (R->GameVersion != 400042) sReturn += ",Wrong Gameversion";
+	if (R->DifficultyID != 3)sReturn += ",Wrong Difficulty"; //3=EXP
+
 
 	MISD("#1");
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
@@ -687,28 +695,34 @@ std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTi
 
 	MISD("#1");
 	iRow = 1;
+	wTemp = Wt::WColor(11, 74, 231);
 	for (unsigned int i = 0; i < Orb.size(); i++)
 	{		
 		wtTabelle[0]->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(switchKOTG_Orb(Orb[i].first))))));
 		wtTabelle[0]->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Orb[i].second)))));
+		wtTabelle[0]->elementAt(iRow, 0)->widget(0)->decorationStyle().setForegroundColor(wTemp);
 		iRow++;
 	}
 
 	MISD("#2");
 	iRow = 1;
+	wTemp = Wt::WColor(254, 19, 2);
 	for (unsigned int i = 0; i < Wall.size(); i++)
 	{
 		wtTabelle[1]->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(switchKOTG_Wall(Wall[i].first))))));
 		wtTabelle[1]->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Wall[i].second)))));
+		wtTabelle[1]->elementAt(iRow, 0)->widget(0)->decorationStyle().setForegroundColor(wTemp);
 		iRow++;
 	}
 
 	MISD("#1");
 	iRow = 1;
+	wTemp = Wt::WColor(132, 250, 14); 
 	for (unsigned int i = 0; i < Amii.size(); i++)
 	{
 		wtTabelle[2]->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(switchKOTG_Amii(Amii[i].first))))));
 		wtTabelle[2]->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Amii[i].second)))));
+		wtTabelle[2]->elementAt(iRow, 0)->widget(0)->decorationStyle().setForegroundColor(wTemp);
 		iRow++;
 	}
 
