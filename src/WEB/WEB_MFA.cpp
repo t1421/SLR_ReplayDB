@@ -10,6 +10,8 @@
 #include <Wt/WGridLayout.h>
 #include <Wt/WText.h>
 #include <Wt/WImage.h>
+#include <Wt/WHBoxLayout.h>
+
 
 broker *(WEB_MFA::Bro) = NULL;
 
@@ -18,9 +20,8 @@ WEB_MFA::WEB_MFA(WEB_Analyser *WR_) : WR(WR_)
 	MISS;
 
 	cMain = new Wt::WContainerWidget();	
-	//cReplay = new Wt::WContainerWidget();
-	//cReplayResult = new Wt::WContainerWidget();
 	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
+	Wt::WHBoxLayout *TempBox = new Wt::WHBoxLayout();
 	cMain->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
 	
 	MISD("#0");
@@ -45,16 +46,15 @@ WEB_MFA::WEB_MFA(WEB_Analyser *WR_) : WR(WR_)
 	
 	MISD("#2");
 	
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)), 1, 0, 0, 4);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wiMap)), 2, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTabelle[0])), 2, 1);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTabelle[1])), 2, 2);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTabelle[2])), 2, 3);
-	
-	TempGrid->setColumnStretch(0, 61);
-	TempGrid->setColumnStretch(1, 13);
-	TempGrid->setColumnStretch(2, 13);
-	TempGrid->setColumnStretch(3, 13);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)), 1, 0);
+	TempGrid->addLayout(std::unique_ptr<Wt::WLayout>(std::move(TempBox)), 2, 0);
+
+	TempBox->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wiMap)));
+	TempBox->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTabelle[0])));
+	TempBox->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTabelle[1])));
+	TempBox->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTabelle[2])));
+	TempBox->setDirection(Wt::LayoutDirection::LeftToRight);
+	TempBox->addStretch(1);
 
 	wcTabelle[0]->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[0])));
 	wcTabelle[1]->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle[1])));
@@ -63,11 +63,10 @@ WEB_MFA::WEB_MFA(WEB_Analyser *WR_) : WR(WR_)
 	wcTabelle[0]->setWidth(150);
 	wcTabelle[1]->setWidth(150);
 	wcTabelle[2]->setWidth(150);
-	//cMain->setContentAlignment(Wt::AlignmentFlag::Left | Wt::AlignmentFlag::Top);
-	//cReplayResult->setContentAlignment(Wt::AlignmentFlag::Left);
-	
-	//cMap->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wiMap)));
-	//cMap->setMaximumSize(400, 400);
+
+	wcTabelle[0]->setContentAlignment(Wt::AlignmentFlag::Left);
+	wcTabelle[1]->setContentAlignment(Wt::AlignmentFlag::Left);
+	wcTabelle[2]->setContentAlignment(Wt::AlignmentFlag::Left);
 	
 	MISE;
 }

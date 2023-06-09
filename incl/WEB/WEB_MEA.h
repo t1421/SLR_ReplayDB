@@ -14,6 +14,7 @@ public:
 	Wt::WText		 *wtStatus;
 	
 	Wt::WTable *wtTabelle;
+	Wt::WTable *wtInfos;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

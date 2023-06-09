@@ -45,7 +45,7 @@ public:
 	std::string  Check_BOT3();
 	double Kalk_BOT3(Wt::WTable *wtTabelle);
 
-	std::string Kalk_BOT4(Wt::WTable *wtTabelle);
+	std::string Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos);
 	void AddIMG(Wt::WTableCell *wtCell, bool bValue);
 
 	std::string Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTimes[3]);

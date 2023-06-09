@@ -252,7 +252,8 @@ bool WEB_Analyser::getData()
 			break;
 		case 4031: //create orb
 				   //Action_Temp->WImage = Orb Coloro
-			switch (atoi(R->ActionMatrix[i]->AdditionalInfo.substr(0, R->ActionMatrix[i]->AdditionalInfo.find(";")).c_str()))
+			if (WA_Debug) Action_Temp->Info = R->ActionMatrix[i]->AdditionalInfo;
+			else switch (atoi(R->ActionMatrix[i]->AdditionalInfo.substr(0, R->ActionMatrix[i]->AdditionalInfo.find(";")).c_str()))
 			{
 			case 1: Action_Temp->Info = "Shadow"; break;
 			case 2: Action_Temp->Info = "Nature"; break;
@@ -348,6 +349,17 @@ std::string  WEB_Analyser::Check_BOT3()
 
 	if(OBJOK==false)return "You have not finished the map";
 
+	for (unsigned int i = 0; i < Players.size(); i++)
+	{
+
+		if (Players[i]->PlayerID == getPMVPlayerID() && Players[i]->Type == 1)
+			for (unsigned int j = 0; j < Players[i]->Deck.size(); j++)
+			{
+				if (Players[i]->Deck[j]->count == 0) continue;
+				if (Players[i]->Deck[j]->CardID == 4051)return "WTF TestStriker ?!?";
+			}
+	}
+
 	MISE;
 	return "";
 }
@@ -438,7 +450,7 @@ unsigned long long WEB_Analyser::getPlaytime()
 }
 
 
-std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle)
+std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos)
 {
 	MISS;
 
@@ -449,6 +461,11 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle)
 	std::string sAffinError = "";
 	std::string sFlyerError = "";
 	int iOrbError = 0;
+
+	unsigned int iNumberOfCardsPlayed = 0;
+	unsigned int iNumberOfTransforms = 0;
+	unsigned int iActionsPlayer = 0;
+	std::vector<std::pair<std::string, unsigned long>> Stamps;
 
 	if (!R->OK)return "No Replay";
 
@@ -485,6 +502,8 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle)
 				if (Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardNameSimple == Bro->J_GetSMJCard(Players[i]->Deck[k]->CardID)->cardNameSimple)
 					sAffinError += Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardName + ",";
 			}
+
+			iNumberOfCardsPlayed += Players[i]->Deck[j]->count;
 			
 		}
 	}
@@ -511,7 +530,43 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle)
 				break;
 			}
 
+	// Info Collection	
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+	{
+		if (R->ActionMatrix[i]->Type == 4044)iNumberOfTransforms++;
+		if (R->ActionMatrix[i]->Type == 4004)Stamps.push_back(std::make_pair(R->ActionMatrix[i]->AdditionalInfo, R->ActionMatrix[i]->Time));
+		if (R->ActionMatrix[i]->PlayerID == getPMVPlayerID())iActionsPlayer++;
+	}
+	
+	for (unsigned int i = 0; i < Stamps.size(); i++)
+	{
+		if (Stamps[i].first == "0")Stamps[i].second = 0;
+		if (Stamps[i].first == "50")Stamps[i].second = R->Playtime;
+	}
+
+	//FIll Infos
 	iCol = 0;
+	iRow = 0;
+	wtInfos->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>Cards Played:</h4>"))));
+	wtInfos->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(iNumberOfCardsPlayed)))));
+	
+	wtInfos->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>Transformations:</h4>"))));
+	wtInfos->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(iNumberOfTransforms)))));
+	
+	wtInfos->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>Actions:</h4>"))));
+	wtInfos->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(iActionsPlayer)))));
+
+	wtInfos->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
+
+	for (unsigned int i = 1; i < Stamps.size(); i++)
+	{
+		wtInfos->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>Stamp " + std::to_string(i) + ":</h4>"))));
+		wtInfos->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Stamps[i].second - Stamps[i-1].second)))));
+	}	
+
+	//Fill Table
+	iCol = 0;
+	iRow = 0;
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Gameversion:</h3>"))));
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(R->GameVersion)))));
