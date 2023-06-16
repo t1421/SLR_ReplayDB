@@ -38,7 +38,7 @@
 #define BOT2LIST 1
 #define BOT3LIST 2
 #define BOT4LIST 3
-#define VornskrLIST 4
+//#define VornskrLIST 4
 #define KOTGLIST1 5
 #define KOTGLIST2 6
 #define KOTGLIST3 7
@@ -98,6 +98,7 @@ public:
 	std::string L_getFFMPEG();
 	std::string L_getRANK_PATH();
 	std::string L_getSMJPIC_PATH();
+	std::string L_getSMJIMG_PATH();
 	std::string L_getSMJPICSMALL_PATH();
 	int L_getBOTRankMode(int _BOT);
 
@@ -111,8 +112,9 @@ public:
 
 #ifdef BrokerWeb
 	void INIT();
-	int AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, double Playtime, std::string &sRankName);
-	int AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, double Playtime, std::string &sRankName);
+	int AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, unsigned long Playtime, std::string &sRankName, unsigned long _Points, unsigned long _Time);
+	//int AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, double Playtime, std::string &sRankName);
+	//int AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, double Playtime, std::string &sRankName);
 	std::vector<std::string> FreeNames;
 	std::string getName();
 	void saveName();
@@ -122,6 +124,7 @@ public:
 	void saveTeams();
 	void KOTGTotalRanking();
 	std::vector<std::pair<std::string, std::string>> TeamNames;
+	std::mutex muxKOTG;
 #endif
 
 	void B_StatusNew(std::string Fun, std::string Wert);

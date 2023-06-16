@@ -41,6 +41,8 @@ void WEB_MDA::WRefresh()
 {
 	MISS;
 	
+#ifdef VornskrLIST
+
 	double iPoints;
 
 	wtTabelle->clear();
@@ -72,5 +74,7 @@ void WEB_MDA::WRefresh()
 		//MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}
 	
+#endif // VornskrLIST
+
 	MISE;
 }

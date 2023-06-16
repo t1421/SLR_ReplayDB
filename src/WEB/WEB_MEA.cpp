@@ -19,6 +19,7 @@ WEB_MEA::WEB_MEA(WEB_Analyser *WA_) : WA(WA_)
 
 	cMain = new Wt::WContainerWidget();	
 	Wt::WContainerWidget *cTempContainer = new Wt::WContainerWidget();
+	Wt::WContainerWidget *cSpacerContainer = new Wt::WContainerWidget();
 	Wt::WHBoxLayout *TempBox = new Wt::WHBoxLayout();
 		
 	MISD("#0");
@@ -36,12 +37,14 @@ WEB_MEA::WEB_MEA(WEB_Analyser *WA_) : WA(WA_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(cTempContainer)));
 	TempBox->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
+	TempBox->addWidget(std::unique_ptr<Wt::WWidget>(std::move(cSpacerContainer)));
 	TempBox->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtInfos)));
 	
 	//cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
 	MISD("#2");
 	cMain->setContentAlignment(Wt::AlignmentFlag::Left);
 	cTempContainer->setWidth(900);
+	cSpacerContainer->setWidth(50);
 	
 	MISE;
 }
@@ -63,7 +66,7 @@ void WEB_MEA::WRefresh()
 		iPoints = WA->getPlaytime();
 		MISD("#2#" + std::to_string(iPoints));
 		std::string sRankName;
-		switch (Bro->AddRankPlayer(BOT4LIST, WA->getPMVPlayerID(), iPoints, sRankName))
+		switch (Bro->AddRankPlayer(BOT4LIST, std::to_string(WA->getPMVPlayerID()), iPoints, sRankName, iPoints, iPoints))
 		{
 		case 5: //Slower
 			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iPoints) + " -> but slower :-)</h3> ");

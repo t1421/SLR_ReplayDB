@@ -38,6 +38,7 @@ void LOAD::Load_Settings()
 
 			if (INI_Value_Check(line, "TMP_PATH"))sTMP_PATH = line.c_str();
 			if (INI_Value_Check(line, "SMJPIC_PATH"))sSMJPIC_PATH = line.c_str();
+			if (INI_Value_Check(line, "SMJIMG_PATH"))sSMJIMG_PATH = line.c_str();
 			if (INI_Value_Check(line, "SMJPICSMALL_PATH"))sSMJPICSMALL_PATH = line.c_str();
 
 			if (INI_Value_Check(line, "FFMPEG"))sFFMPEG = line.c_str();
@@ -46,7 +47,9 @@ void LOAD::Load_Settings()
 			if (INI_Value_Check(line, "BOT2RankMode"))BOTRankMode[BOT2LIST] = atoi(line.c_str());
 			if (INI_Value_Check(line, "BOT3RankMode"))BOTRankMode[BOT3LIST] = atoi(line.c_str());
 			if (INI_Value_Check(line, "BOT4RankMode"))BOTRankMode[BOT4LIST] = atoi(line.c_str());
+#ifdef VornskrLIST
 			if (INI_Value_Check(line, "VornskrRankMode"))BOTRankMode[VornskrLIST] = atoi(line.c_str());
+#endif
 			if (INI_Value_Check(line, "KOTG1"))BOTRankMode[KOTGLIST1] = atoi(line.c_str());
 			if (INI_Value_Check(line, "KOTG2"))BOTRankMode[KOTGLIST2] = atoi(line.c_str());
 			if (INI_Value_Check(line, "KOTG3"))BOTRankMode[KOTGLIST3] = atoi(line.c_str());

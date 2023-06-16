@@ -49,6 +49,7 @@ public:
 
 	std::string sTMP_PATH;
 	std::string sSMJPIC_PATH;
+	std::string sSMJIMG_PATH;
 	std::string sSMJPICSMALL_PATH;
 	std::string sFFMPEG;
 

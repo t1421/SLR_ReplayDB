@@ -8,11 +8,14 @@
 struct ROW {
 	//unsigned long long Player;
 	std::string Player;
-	double Time;
+	unsigned long Time;
+	unsigned long Points;
+	unsigned long Order;
 	std::string Name;
+	
 	ROW() {}
-	ROW(std::string _Player,	double _Time,	std::string _Name) :
-		Player( _Player), Time ( _Time), Name (_Name) {}
+	ROW(std::string _Player, unsigned long _Time,	std::string _Name, unsigned long _Points, unsigned long _Order)  :
+		Player( _Player), Time ( _Time), Name (_Name), Points(_Points), Order(_Order){}
 };
 
 
@@ -25,7 +28,8 @@ public:
 	void SaveList();
 	void SortList();
 		
-	int AddPlayer(std::string PMVPlayerID, double Playtime, std::string &sRankName);
+	//int AddPlayer(std::string PMVPlayerID, double Playtime, std::string &sRankName);
+	int AddPlayer(std::string PMVPlayerID, unsigned long _Order, std::string &sRankName, unsigned long _Points, unsigned long _Time);
 	int RankMode;
 
 	std::vector<ROW*> RankRows;

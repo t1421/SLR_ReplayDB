@@ -11,7 +11,7 @@ broker *(WEB_MD::Bro) = NULL;
 WEB_MD::WEB_MD(WEB_Analyser *WA_)
 {
 	MISS;
-
+#ifdef VornskrLIST
 	cMain = new Wt::WContainerWidget();
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)));
@@ -20,7 +20,9 @@ WEB_MD::WEB_MD(WEB_Analyser *WA_)
 
 	A = new WEB_MDA(WA_);
 	MISD("#100");
+
 	B = new WEB_Rank(VornskrLIST);
+
 	
 	MISD("#11");	
 
@@ -28,7 +30,7 @@ WEB_MD::WEB_MD(WEB_Analyser *WA_)
 	WEB_Toolbar::ToolBarButton(1, "Rank", *B->cMain, B);
 	WEB_Toolbar::sToolbar->setCurrentIndex(0);	
 	WEB_Toolbar::updateToolbar();
-	
+#endif
 	MISE;
 }
 

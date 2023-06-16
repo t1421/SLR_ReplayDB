@@ -460,7 +460,7 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos)
 	std::string sCountError = "";
 	std::string sAffinError = "";
 	std::string sFlyerError = "";
-	int iOrbError = 0;
+	bool dublette = false;
 
 	unsigned int iNumberOfCardsPlayed = 0;
 	unsigned int iNumberOfTransforms = 0;
@@ -508,27 +508,19 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos)
 		}
 	}
 
+	std::vector<std::pair<std::string, unsigned long>> Orb;
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
-		if (R->ActionMatrix[i]->Type == 4031)
-			if (R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1) == "2236")
-			{
-				iOrbError++;
-				break;
-			}
-	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
-		if (R->ActionMatrix[i]->Type == 4031)
-			if (R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1) == "2234")
-			{
-				iOrbError++;
-				break;
-			}
-	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
-		if (R->ActionMatrix[i]->Type == 4031)
-			if (R->ActionMatrix[i]->AdditionalInfo.erase(0, R->ActionMatrix[i]->AdditionalInfo.find(";") + 1) == "2237")
-			{
-				iOrbError++;
-				break;
-			}
+	{
+		if (R->ActionMatrix[i]->Type != 4031) continue;
+		MISD(R->ActionMatrix[i]->AdditionalInfo);
+		if (entry(R->ActionMatrix[i]->AdditionalInfo, 2) == "0") continue; // STart Orbs
+		dublette = false;
+		for (unsigned int j = 0; j < Orb.size(); j++)
+			if (entry(R->ActionMatrix[i]->AdditionalInfo, 2) == Orb[j].first)
+			dublette = true;
+
+		if (!dublette)Orb.push_back(std::make_pair(entry(R->ActionMatrix[i]->AdditionalInfo, 2), R->ActionMatrix[i]->Time));		
+	}
 
 	// Info Collection	
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
@@ -541,7 +533,7 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos)
 	for (unsigned int i = 0; i < Stamps.size(); i++)
 	{
 		if (Stamps[i].first == "0")Stamps[i].second = 0;
-		if (Stamps[i].first == "50")Stamps[i].second = R->Playtime;
+		if (Stamps[i].first == "40")Stamps[i].second = R->Playtime;
 	}
 
 	//FIll Infos
@@ -621,7 +613,7 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos)
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), iOrbError == 3);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), Orb.size() == 4);
 	
 
 	wtTabelle->columnAt(0)->setWidth(250);

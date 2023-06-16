@@ -91,10 +91,10 @@ void WEB_MFA::WRefresh()
 		MISD("#2");
 		std::string sTeamName = Bro->GetTeamName(sTeamID);
 		MISD("#3");
-		Bro->AddRankPlayer(KOTGLIST1, sTeamID, iTimes[0], sTeamName);
+		Bro->AddRankPlayer(KOTGLIST1, sTeamID, iTimes[0], sTeamName, iTimes[0], iTimes[0]);
 		MISD("#4");
-		Bro->AddRankPlayer(KOTGLIST2, sTeamID, iTimes[1], sTeamName);
-		Bro->AddRankPlayer(KOTGLIST3, sTeamID, iTimes[2], sTeamName);
+		Bro->AddRankPlayer(KOTGLIST2, sTeamID, iTimes[1], sTeamName, iTimes[1], iTimes[1]);
+		Bro->AddRankPlayer(KOTGLIST3, sTeamID, iTimes[2], sTeamName, iTimes[2], iTimes[2]);
 		Bro->KOTGTotalRanking();
 
 		wtStatus->setText("<h3>Hello there Team " + sTeamName + ", nice run :-)</h3> ");

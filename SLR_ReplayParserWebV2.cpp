@@ -53,7 +53,11 @@ int main(int argc, char **argv)
 			printf("J;BS                | Big SW\n");
 			printf("J;SC                | small Color\n");
 			printf("J;SS                | small SW\n");
-			printf("J;ALL               | Downloads all Cards \n");
+			printf("J;IC                | ImgOnly Color\n");
+			printf("J;IS                | ImgOnly SW\n");
+			printf("J;ALL_Big           | Downloads all Cards BIG \n");
+			printf("J;ALL_Small         | Downloads all Cards SMALL \n");
+			printf("J;ALL_ImgOnly       | Downloads all Cards IMG ONLY \n");
 			printf("####################|###########################################\n\n");
 		}
 		if (Checker(sbuf, "J"))
@@ -62,11 +66,15 @@ int main(int argc, char **argv)
 			if (Checker(sbuf, "init")) J->Init();
 			if (Checker(sbuf, "echo"))J->EchoCard(sbuf);
 			//if (Checker(sbuf, "imager"))J->DownloadImage(1348,1,1,true);
-			if (Checker(sbuf, "BC"))J->GetImage(1348, 2, 1, false,false);
-			if (Checker(sbuf, "BS"))J->GetImage(290, 2, 1, false, true);
-			if (Checker(sbuf, "SC"))J->GetImage(1348, 2, 1, true, false);
-			if (Checker(sbuf, "SS"))J->GetImage(290, 2, 1, true, true);
-			if (Checker(sbuf, "ALL"))J->AllIMG();
+			if (Checker(sbuf, "BC"))J->GetImage(1348, 2, 1, Big ,false);
+			if (Checker(sbuf, "BS"))J->GetImage(290, 2, 1, Big, true);
+			if (Checker(sbuf, "SC"))J->GetImage(1348, 2, 1, Small, false);
+			if (Checker(sbuf, "SS"))J->GetImage(290, 2, 1, Small, true);
+			if (Checker(sbuf, "IC"))J->GetImage(1348, 2, 1, ImgOnly, false);
+			if (Checker(sbuf, "IS"))J->GetImage(290, 2, 1, ImgOnly, true);
+			if (Checker(sbuf, "ALL_Big"))J->AllIMGBig();
+			if (Checker(sbuf, "ALL_Small"))J->AllIMGSmall();
+			if (Checker(sbuf, "ALL_ImgOnly"))J->AllIMGImgOnly();
 			
 
 		}

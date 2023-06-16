@@ -12,7 +12,7 @@ broker *(MIS_Rank::Bro) = NULL;
 
 bool comparePlayer(const ROW *a, const ROW *b)
 {
-	return a->Time < b->Time;
+	return a->Order < b->Order;
 }
 
 MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList) + ".csv"), RankMode(_RankMode)
@@ -38,6 +38,8 @@ MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList
 		R_Temp->Player = entry(line, 0);
 		R_Temp->Time = std::stod(entry(line, 1));
 		R_Temp->Name = entry(line, 2);
+		R_Temp->Points = std::atoi(entry(line, 3).c_str());
+		R_Temp->Order = std::atoi(entry(line, 4).c_str());
 		
 		RankRows.push_back(R_Temp);
 		ifFile.clear();
@@ -65,7 +67,8 @@ void MIS_Rank::SaveList()
 		mtx.lock();
 		for (unsigned int i = 0; i < RankRows.size(); i++)
 		{
-			ofFile << RankRows[i]->Player << ";" << RankRows[i]->Time << ";" << RankRows[i]->Name << std::endl;
+			//ofFile << RankRows[i]->Player << ";" << RankRows[i]->Time << ";" << RankRows[i]->Name << std::endl;
+			ofFile << RankRows[i]->Player << ";" << RankRows[i]->Time << ";" << RankRows[i]->Name << ";" << RankRows[i]->Points << ";" << RankRows[i]->Order << std::endl;
 		}
 		mtx.unlock();
 		ofFile.close();
@@ -87,7 +90,7 @@ void MIS_Rank::SortList()
 	MISE;
 }
 
-int MIS_Rank::AddPlayer(std::string PMVPlayerID, double Playtime, std::string &sRankName)
+int MIS_Rank::AddPlayer(std::string PMVPlayerID, unsigned long _Order, std::string &sRankName, unsigned long _Points, unsigned long _Time)
 {
 	MISS;
 	int iReturn = 0;
@@ -98,17 +101,24 @@ int MIS_Rank::AddPlayer(std::string PMVPlayerID, double Playtime, std::string &s
 	{
 		if (RankRows[i]->Player == PMVPlayerID)
 		{
-			if (RankRows[i]->Time > Playtime)
+			if (RankRows[i]->Order > _Order)
 			{
 				MISD("Player vorhanden, Time Updated");
-				if (RankMode != 1)RankRows[i]->Time = Playtime;
+				if (RankMode != 1)
+				{
+					RankRows[i]->Order = _Order;
+					RankRows[i]->Time = _Time;
+					RankRows[i]->Points = _Points;
+				}
 				iReturn = 10;
 				break;
 			}
-			else if (RankRows[i]->Time == Playtime)
+			else if (RankRows[i]->Order == _Order)
 			{
 				MISD("Player vorhanden, Time Gleich");
-				RankRows[i]->Time = Playtime;
+				RankRows[i]->Order = _Order;
+				RankRows[i]->Time = _Time;
+				RankRows[i]->Points = _Points;
 				iReturn = 9;
 				break;
 			}
@@ -125,7 +135,9 @@ int MIS_Rank::AddPlayer(std::string PMVPlayerID, double Playtime, std::string &s
 		MISD("New Player");
 		ROW* R_Temp = new ROW();
 		R_Temp->Player = PMVPlayerID;
-		R_Temp->Time = Playtime;
+		R_Temp->Order = _Order;
+		R_Temp->Points = _Points;
+		R_Temp->Time = _Time;
 		if (RankMode == 1)sRankName = "Player"; 
 		else
 		{

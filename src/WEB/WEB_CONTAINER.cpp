@@ -78,13 +78,15 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 
 	MISD("#6");
 
+#ifdef VornskrLIST
 	if (Bro->L_getBOTRankMode(VornskrLIST) <10
 		|| sPARA == "BETA")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Old School Efficiency", *MD->cMain, MD);
+#endif
 
 	if (Bro->L_getBOTRankMode(BOT4LIST) <10
 		|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT4", *ME->cMain, ME);
 
-	if (Bro->L_getBOTRankMode(BOT4LIST) <10
+	if (Bro->L_getBOTRankMode(KOTGLIST1) <10
 		|| sPARA == "KOTG")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "KOTG", *MF->cMain, MF);
 
 	//WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Analyser", *cMainAnalyser, this);

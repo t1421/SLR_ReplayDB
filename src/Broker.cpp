@@ -161,16 +161,16 @@ void broker::INIT()
 	}
 }
 
-int broker::AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, double Playtime, std::string &sRankName)
+int broker::AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, unsigned long Playtime, std::string &sRankName, unsigned long _Points, unsigned long _Time)
 {
-	return A[iRANK]->AddPlayer(PMVPlayerID, Playtime, sRankName);
+	return A[iRANK]->AddPlayer(PMVPlayerID, Playtime, sRankName, _Points, _Time);
 }
-
+/*
 int broker::AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, double Playtime, std::string &sRankName)
 {
 	return A[iRANK]->AddPlayer(std::to_string(PMVPlayerID), Playtime, sRankName);
 }
-
+*/
 std::string broker::getName()
 {
 	if (FreeNames.size() == 0)
@@ -237,42 +237,58 @@ std::string broker::GetTeamName(std::string sTeamID)
 
 void broker::KOTGTotalRanking()
 {
+	muxKOTG.lock();
 	std::vector<ROW*> TempRows;
 	if (A[KOTGLIST1]->RankRows.size() != A[KOTGLIST2]->RankRows.size() ||
 		A[KOTGLIST1]->RankRows.size() != A[KOTGLIST3]->RankRows.size())
 	{
 		printf("ERROR #1 KOTGTotalRanking\n");
+		muxKOTG.unlock();
 		return;
 	}
 
 	for (unsigned int i = 0; i < A[KOTGLIST1]->RankRows.size(); i++)
 		TempRows.push_back(new ROW(
 			A[KOTGLIST1]->RankRows[i]->Player,
+			A[KOTGLIST1]->RankRows[i]->Time,
+			A[KOTGLIST1]->RankRows[i]->Name,
 			i + 1,
-			//A[KOTGLIST1]->RankRows[i]->Time,
-			A[KOTGLIST1]->RankRows[i]->Name));
+			i + 1));
 	
 	if (A[KOTGLIST1]->RankRows.size() != TempRows.size())
 	{
 		printf("ERROR #2 KOTGTotalRanking\n");
+		muxKOTG.unlock();
 		return;
 	}
 
 	for (unsigned int i = 0; i < A[KOTGLIST2]->RankRows.size(); i++)
 		for (unsigned int j = 0; j < TempRows.size(); j++)
 			if (TempRows[j]->Player == A[KOTGLIST2]->RankRows[i]->Player)
-				TempRows[j]->Time += i + 1;
+			{
+				TempRows[j]->Time += A[KOTGLIST2]->RankRows[i]->Time;
+				TempRows[j]->Points += i + 1;
+				TempRows[j]->Order += i + 1;
+			}
 				//TempRows[j]->Time += A[KOTGLIST2]->RankRows[i]->Time;
 
 	for (unsigned int i = 0; i < A[KOTGLIST3]->RankRows.size(); i++)
 		for (unsigned int j = 0; j < TempRows.size(); j++)
 			if (TempRows[j]->Player == A[KOTGLIST3]->RankRows[i]->Player)
-				TempRows[j]->Time += i + 1;
+			{
+				TempRows[j]->Time += A[KOTGLIST3]->RankRows[i]->Time;
+				TempRows[j]->Points += i + 1;
+				TempRows[j]->Order += i + 1;
+			}
+				
 				//TempRows[j]->Time += A[KOTGLIST3]->RankRows[i]->Time;
 
-	for (unsigned int j = 0; j < TempRows.size(); j++)
-		AddRankPlayer(KOTGLIST4, TempRows[j]->Player, TempRows[j]->Time, TempRows[j]->Name);
+	A[KOTGLIST4]->RankRows.clear();
 
+	for (unsigned int j = 0; j < TempRows.size(); j++)
+		AddRankPlayer(KOTGLIST4, TempRows[j]->Player, TempRows[j]->Order * 1000000 + TempRows[j]->Time,TempRows[j]->Name, TempRows[j]->Points, TempRows[j]->Time);
+
+	muxKOTG.unlock();
 }
 #endif
 
@@ -353,6 +369,10 @@ std::string broker::L_getSMJPICSMALL_PATH()
 {
 	return L->sSMJPICSMALL_PATH;
 }
+std::string broker::L_getSMJIMG_PATH()
+{
+	return L->sSMJIMG_PATH;
+}
 
 std::string broker::L_getFFMPEG()
 {
@@ -372,7 +392,7 @@ int broker::L_getBOTRankMode(int _BOT)
 #ifndef noSMJ
 std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall)
 {
-	return J->GetImage(_CardID, _Upgrade, _Charges, bSmall, _Count==0);
+	return J->GetImage(_CardID, _Upgrade, _Charges, Big, _Count==0);
 	
 }
 unsigned char broker::J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges)
