@@ -663,7 +663,6 @@ std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTi
 	if (R->GameVersion != 400042) sReturn += ",Wrong Gameversion";
 	if (R->DifficultyID != 3)sReturn += ",Wrong Difficulty"; //3=EXP
 
-
 	MISD("#1");
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
 	{
@@ -701,7 +700,7 @@ std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTi
 		}
 
 	}
-
+	/*
 	MISD("#2");
 	for (unsigned int j = 0; j < Orb.size(); j++)
 		for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
@@ -710,6 +709,15 @@ std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTi
 			if (R->ActionMatrix[i]->AdditionalInfo == Orb[j].first)
 				sReturn += "You Dest. an orb, ";
 		}
+	*/
+
+	MISD("#2");
+	for (unsigned int i = 0; i < Players.size(); i++)
+		if (Players[i]->Type == 1)
+			for (unsigned int j = 0; j < Players[i]->Deck.size(); j++)			
+				if (Players[i]->Deck[j]->CardID == 4051)sReturn += "WTF TestStriker,";
+			
+	
 
 	MISD("#3");
 	if (Orb.size() != 12)sReturn += "Not all Orbs, ";	
