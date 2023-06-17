@@ -29,21 +29,17 @@
 #include "..\incl\WEB\WEB_Toolbar.h"
 #include "..\incl\MIS_Rank.h"
 
-#ifndef noSMJ
 #include "..\incl\WEB\WEB_Analyser.h"
 #include "..\incl\WEB\WEB_Analyser_Head.h"
 #include "..\incl\WEB\WEB_Analyser_Deck.h"
 #include "..\incl\WEB\WEB_Analyser_Acti.h"
-
-#include "..\incl\CardBaseSMJ.h" 
 #endif
 
+
+#ifndef noSMJ
+#include "..\incl\CardBaseSMJ.h" 
 #include <algorithm>
 #include <iterator>
-#endif
-
-#ifdef BrokerNormal
-#include "..\incl\CardBase.h" 
 #endif
 
 #ifndef noSQL
@@ -88,25 +84,23 @@ broker::broker()
 	WEB_Rank::learnBro(this);
 	WEB_Toolbar::learnBro(this);
 	MIS_Rank::learnBro(this);
-#ifndef noSMJ
+
 	WEB_Analyser::learnBro(this);
 	WEB_Analyser_Head::learnBro(this);
 	WEB_Analyser_Deck::learnBro(this);
 	WEB_Analyser_Acti::learnBro(this);
+	
+	W = NULL;	
+#endif
 
+#ifndef noSMJ
 	CardBaseSMJ::learnBro(this);
 	J = NULL;
-#endif
-		
-	W = NULL;
-	
 #endif
 
 
 #ifdef BrokerNormal	
-	CardBase::learnBro(this);	
 	Thread_MIS::learnBro(this);
-	C = NULL;
 #endif
 
 #ifndef noSQL
@@ -300,30 +294,22 @@ broker::~broker()
 }
 
 #ifndef noSMJ
-unsigned char broker::C_GetActionOrbForCardID(unsigned short CardID)
+unsigned char broker::J_GetActionOrbForCardID(unsigned short CardID)
 {
 	return J->GetActionOrbForCardID(CardID);
+}
+
+std::string broker::J_GetImgOnly(unsigned short CardID)
+{
+	return J->GetImage(CardID,0,0, ImgOnly,false);
 }
 #endif
 
 
 #if defined BrokerParser 
-unsigned char broker::C_GetActionOrbForCardID(unsigned short CardID)
+unsigned char broker::J_GetActionOrbForCardID(unsigned short CardID)
 {
 	return 0;
-}
-#endif
-
-#ifdef BrokerNormal
-unsigned char broker::C_GetActionOrbForCardID(unsigned short CardID)
-{
-	return C->GetActionOrbForCardID(CardID);
-}
-#endif
-#ifdef CardBaseUpdater
-bool broker::C_DownloadPNG(unsigned short CardID)
-{
-	return C->DownloadPNG(CardID);
 }
 #endif
 

@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 //#define BrokerNormal
 
 #include "..\incl\Broker.h" 
@@ -10,6 +10,9 @@
 
 #include "..\incl\CardBaseSMJ.h" 
 #include "..\incl\Utility.h" 
+#ifndef noSQL
+#include "..\incl\SQL_MIS_New.h"
+#endif
 
 #include <opencv2/opencv.hpp>
 
@@ -56,13 +59,15 @@ bool CardBaseSMJ::Init()
 	Json::Value Card;
 	Json::Value jTEMP;
 
+	Json::Value Enum;
+	
 	Json::ArrayIndex IDs;
 
 	SMJCard * SMJCard_TEMP;
 
 	RawData = SMJtoCHASH();
 	AllCards = RawData["data"];
-
+	
 	MISD("AllCards:" + std::to_string(AllCards.size()));
 	for (Json::ArrayIndex i = 0; i < AllCards.size(); i++)
 	{
@@ -87,6 +92,10 @@ bool CardBaseSMJ::Init()
 		SMJCard_TEMP->maxCharges = Card["maxCharges"].asInt();
 		SMJCard_TEMP->affinity = Card["affinity"].asInt();
 		SMJCard_TEMP->cardNameSimple = Card["cardNameSimple"].asString();
+		SMJCard_TEMP->rarity = Card["rarity"].asInt();
+		SMJCard_TEMP->promo = Card["promo"].asInt();
+		
+		
 		
 		
 		jTEMP = Card["officialCardIds"];
@@ -99,10 +108,42 @@ bool CardBaseSMJ::Init()
 
 		SMJMatrix.push_back(SMJCard_TEMP);
 	}
+	
+	
+	AllCards = RawData["enums"];
+	
+	Enum = AllCards["color"];
+	for (auto const& id : Enum.getMemberNames())
+	{
+		EnumColor.push_back(std::make_pair(
+			id, Enum[id].asString()));
+	}
+
+	Enum = AllCards["rarity"];
+	for (auto const& id : Enum.getMemberNames())
+	{
+		EnumRarity.push_back(std::make_pair(
+			id, Enum[id].asString()));
+	}
+
+	Enum = AllCards["affinity"];
+	for (auto const& id : Enum.getMemberNames())
+	{
+		EnumAffinity.push_back(std::make_pair(
+			id, Enum[id].asString()));
+	}
+
+	Enum = AllCards["type"];
+	for (auto const& id : Enum.getMemberNames())
+	{
+		EnumType.push_back(std::make_pair(
+			id, Enum[id].asString()));
+	}
 
 	return true;
 	MISE;
 }
+
 
 void CardBaseSMJ::EchoCard(std::string sCardID)
 {
@@ -278,7 +319,8 @@ unsigned char CardBaseSMJ::GetActionOrbForCardID(unsigned short CardID)
 		if (SMJMatrix[i]->cardId == CardID)
 		{
 			MISE;
-			return SMJMatrix[i]->color;
+			if (SMJMatrix[i]->color == 0) return 4;
+			else return SMJMatrix[i]->color;
 		}
 	}
 
@@ -408,6 +450,29 @@ unsigned char CardBaseSMJ::SwitchCharges(unsigned short CardID, unsigned char Is
 	MISE;
 }
 
+
+std::string CardBaseSMJ::SwitchAffinity(char _Affinity)
+{
+	for (unsigned int i = 0; i < EnumAffinity.size(); i++)
+		if (EnumAffinity[i].first == std::to_string(_Affinity))return EnumAffinity[i].second;
+	
+	return "???";
+}
+std::string CardBaseSMJ::SwitchColor(char _Color)
+{
+	for (unsigned int i = 0; i < EnumColor.size(); i++)
+		if (EnumColor[i].first == std::to_string(_Color))return EnumColor[i].second;
+
+	return "???";
+}
+std::string CardBaseSMJ::SwitchRarity(char _Rarity)
+{
+	for (unsigned int i = 0; i < EnumRarity.size(); i++)
+		if (EnumRarity[i].first == std::to_string(_Rarity))return EnumRarity[i].second;
+
+	return "???";
+}
+
 SMJCard* CardBaseSMJ::GetSMJCard(unsigned short _CardID)
 {
 	MISS;
@@ -448,3 +513,106 @@ void CardBaseSMJ::AllIMGImgOnly()
 
 	MISE;
 }
+
+
+
+#ifndef noSQL
+bool CardBaseSMJ::SMJtoSQL(bool bUpdate)
+{
+	MISS;
+	bool bNewCard;
+
+	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
+	{
+		Bro->N->ssSQL << "SELECT ID FROM cards WHERE ID = " << SMJMatrix[i]->cardId;
+
+		// Nicht vorhanden also Anlegen
+		if (Bro->N->send() <= 0)
+		{
+			MISD("New Card:" + std::to_string(SMJMatrix[i]->cardId));
+			Bro->N->ssSQL << "INSERT INTO cards (	ID ) VALUES('" << SMJMatrix[i]->cardId << "')";
+			Bro->N->send();
+			bNewCard = true;
+		}
+		else bNewCard = false;
+
+		//Bei neuanlage oder Update felder aktualisieren
+		if (bNewCard || bUpdate)
+		{
+			//MISD("Update Card:" + Card["cardId"].asString() + "#" + Card["cardName"].asString());
+			Bro->N->ssSQL << " UPDATE cards SET ";
+			Bro->N->ssSQL << " cardName = '" << Bro->N->clearString(SMJMatrix[i]->cardNameSimple) << "', ";
+			Bro->N->ssSQL << " affinity = '" << SwitchAffinity(SMJMatrix[i]->affinity) << "', ";
+			//Bro->N->ssSQL << " expansion = '" << Card["expansion"].asString() << "', ";
+			Bro->N->ssSQL << " cardType = '" << SwitchColor(SMJMatrix[i]->color) << "', ";
+			Bro->N->ssSQL << " rarity = '" << SwitchRarity(SMJMatrix[i]->rarity) << "', ";
+			Bro->N->ssSQL << " promo = " << std::to_string(SMJMatrix[i]->promo) << ", ";
+			//Bro->N->ssSQL << " obtainable_in_pack = " << (Card["obtainable"].asString() == "In packs") << ", ";
+
+			Bro->N->ssSQL << " fireOrbs = " << std::to_string(SMJMatrix[i]->orbsFire) << ", ";
+			Bro->N->ssSQL << " frostOrbs = " << std::to_string(SMJMatrix[i]->orbsFrost) << ", ";
+			Bro->N->ssSQL << " natureOrbs = " << std::to_string(SMJMatrix[i]->orbsNature) << ", ";
+			Bro->N->ssSQL << " shadowOrbs = " << std::to_string(SMJMatrix[i]->orbsShadow) << ", ";
+			Bro->N->ssSQL << " neutralOrbs = " << std::to_string(SMJMatrix[i]->orbsNeutral
+				+ SMJMatrix[i]->orbsFireFrost + SMJMatrix[i]->orbsFireNature + SMJMatrix[i]->orbsFireShadow
+				+ SMJMatrix[i]->orbsNatureFrost + SMJMatrix[i]->orbsShadowFrost + SMJMatrix[i]->orbsShadowNature)
+				<< " ";
+
+			Bro->N->ssSQL << " WHERE ID = " << SMJMatrix[i]->cardId;
+
+			Bro->N->send();
+		}
+
+	}
+
+	MISE;
+	return true;
+}
+
+bool CardBaseSMJ::IMGtoQSL(int iCardID)
+{
+	MISS;
+
+	std::ifstream ifs;
+	std::stringstream ss;
+
+	std::string sFile = GetImage(iCardID, 0, 0, ImgOnly, false);
+
+	ifs.open(sFile, std::ifstream::binary | std::ifstream::in);
+	if (ifs)
+	{
+		ss << ifs.rdbuf();
+		ifs.close();
+	}
+	else Bro->B_StatusE("E", "IMGtoQSL", "Error opening File");
+
+	Bro->N->ssSQL << " UPDATE cards SET IMG = ?";
+	Bro->N->ssSQL << " WHERE ID = " << iCardID;
+	Bro->N->SendBLOB(ss.str());
+
+
+	MISE;
+	return true;
+}
+
+bool CardBaseSMJ::Imager()
+{
+	MISS;
+
+	Bro->N->ssSQL << "SELECT ID FROM cards ";
+
+	if (Bro->N->send() <= 0)
+	{
+		MISEA("V1: SQL ERROR");
+		return false;
+	}
+
+	while (Bro->N->res->next())	
+		IMGtoQSL(Bro->N->res->getInt(1));
+	
+
+	MISE;
+	return true;
+}
+
+#endif

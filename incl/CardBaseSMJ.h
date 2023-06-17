@@ -28,11 +28,18 @@ private:
 	Json::Value SMJtoCHASH();
 	CURL *curl;
 
+	std::vector<std::pair<std::string, std::string>> EnumColor;
+	std::vector<std::pair<std::string, std::string>> EnumRarity;
+	std::vector<std::pair<std::string, std::string>> EnumAffinity;
+	std::vector<std::pair<std::string, std::string>> EnumType;
+
 public:
 	unsigned char GetActionOrbForCardID(unsigned short CardID);	
 
 	unsigned char SwitchCharges(unsigned short CardID, unsigned char IstCharges);
-
+	std::string SwitchAffinity(char _Affinity);
+	std::string SwitchColor(char _Color);
+	std::string SwitchRarity(char _Rarity);
 	SMJCard* GetSMJCard(unsigned short _CardID);
 
 	void EchoCard(std::string sCardID);
@@ -44,11 +51,22 @@ public:
 	void AllIMGSmall();
 	void AllIMGImgOnly();
 	bool Init();
+	
+
+#ifndef noSQL
+	bool SMJtoSQL(bool bUpdate);
+	bool IMGtoQSL(int iCardID);
+	bool Imager();
+#endif
+
+
 
 	//BROKER
 	static broker* Bro;
 	void teachJ() { Bro->J = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
+
+
 
 	
 protected:

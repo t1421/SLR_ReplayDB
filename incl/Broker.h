@@ -47,7 +47,7 @@
 
 class DEBUG;
 class SQL_MIS_New;
-class CardBase;
+//class CardBase;
 class Replay;
 class LOAD;
 class Manager;
@@ -65,7 +65,7 @@ public:
 
 	DEBUG* B;
 	SQL_MIS_New* N;
-	CardBase* C;
+	//CardBase* C;
 	LOAD* L;
 	Manager* M;
 	Imager* I;
@@ -78,13 +78,10 @@ public:
 	bool bAktive;
 
 //#if defined BrokerParser || defined BrokerWeb
-	unsigned char C_GetActionOrbForCardID(unsigned short CardID);
+	unsigned char J_GetActionOrbForCardID(unsigned short CardID);
 //#endif
 
-#ifdef BrokerNormal
-	//unsigned char C_GetActionOrbForCardID(unsigned short CardID);
-	bool C_DownloadPNG(unsigned short CardID);
-#endif
+
 
 #if defined BrokerNormal || defined BrokerWeb
 	std::string L_getSQL_Server();
@@ -106,6 +103,7 @@ public:
 	std::string J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall);
 	unsigned char J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges);
 	SMJCard* J_GetSMJCard(unsigned short _CardID);
+	std::string J_GetImgOnly(unsigned short CardID);
 #endif
 	
 #endif	

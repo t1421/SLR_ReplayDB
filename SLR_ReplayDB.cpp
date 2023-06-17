@@ -3,7 +3,8 @@
 
 #include "incl\Broker.h" 
 #include "incl\DEBUG.h" 
-#include "incl\CardBase.h" 
+//#include "incl\CardBase.h" 
+#include "incl\CardBaseSMJ.h" 
 #include "incl\LOAD.h" 
 #include "incl\Replay.h" 
 
@@ -47,8 +48,9 @@ int main(int argc, char **argv)
 	N->teachN();
 #endif
 
-	CardBase* C = new CardBase();
-	C->teachC();
+	CardBaseSMJ* J = new CardBaseSMJ();
+	J->teachJ();
+	J->Init();
 	
 #ifndef noManager
 	Manager* M = new Manager();
@@ -82,16 +84,24 @@ int main(int argc, char **argv)
 
 		if (Checker(sbuf, "?"))
 		{
-			#ifdef CardBaseUpdater
+
+			/*
 			printf("####################|###########################################\n");
 			printf("C;full              | Updates all cards in MYSQL\n");
 			printf("C;update            | Adds neu cards to MYSQL\n");
 			printf("C;imager;0          | Loads all images from WIKI in MYSQL\n");
-			printf("C;imager;[ID]       | Loads images for CARDID from WIKI in MYSQL\n");
+			printf("C;IMGtoQSL;[ID]       | Loads images for CARDID from WIKI in MYSQL\n");
 			printf("C;upload;[ID]       | Uploads images for CARDID from TempDir in MYSQL\n");
 			printf("C;download;[ID]     | Loads images for MYSQL\n");
 			printf("####################|###########################################\n\n");
-			#endif
+			*/
+			printf("####################|###########################################\n");
+			printf("J;full              | Updates all cards in MYSQL\n");
+			printf("J;update            | Adds neu cards to MYSQL\n");
+			printf("J;IMGtoQSL;[ID]     | Loads images for CARDID from SMJ in MYSQL\n");
+			printf("J;imager            | Loads all images from SMJ in MYSQL\n");
+			printf("####################|###########################################\n\n");
+
 			printf("####################|###########################################\n");
 			printf("R;new               | new Replay object\n");
 			printf("R;open;[FILE]       | Opens FILE from Replay dir\n");
@@ -122,17 +132,19 @@ int main(int argc, char **argv)
 			printf("####################|###########################################\n\n");
 			#endif
 		}
-
-#ifdef CardBaseUpdater		
-		if (Checker(sbuf, "C"))
+		
+	
+		if (Checker(sbuf, "J"))
 		{
-			if (Checker(sbuf, "update"))C->WEBtoSQL(false);
-			if (Checker(sbuf, "full"))C->WEBtoSQL(true);
-			if (Checker(sbuf, "imager"))C->Imager(atoi(sbuf.c_str()));
-			if (Checker(sbuf, "upload"))C->UploadFromTemp(atoi(sbuf.c_str()));
+			if (Checker(sbuf, "update"))J->SMJtoSQL(false);
+			if (Checker(sbuf, "full"))J->SMJtoSQL(true);
+			if (Checker(sbuf, "IMGtoQSL"))J->IMGtoQSL(atoi(sbuf.c_str()));
+			if (Checker(sbuf, "imager"))J->Imager();
+			/*if (Checker(sbuf, "upload"))C->UploadFromTemp(atoi(sbuf.c_str()));
 			if (Checker(sbuf, "download"))C->DownloadPNG(atoi(sbuf.c_str()));
+			*/
 		}		
-#endif		
+	
 
 		if (Checker(sbuf, "R"))
 		{

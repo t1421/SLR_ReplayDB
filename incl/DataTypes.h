@@ -124,6 +124,10 @@ struct SMJCard {
 	unsigned char maxCharges;
 	unsigned int powerCost[4];
 	char affinity;
+	char rarity;
+	char promo;
+	
+	
 };
 #endif //DataTypes
 

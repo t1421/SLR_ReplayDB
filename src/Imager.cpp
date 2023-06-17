@@ -68,35 +68,35 @@ bool Imager::MakeIMG()
 			|| RR->ActionMatrix[i]->Type == 4011 //Line Spell
 			|| RR->ActionMatrix[i]->Type == 4012) //Building			
 		{
-			if (!File_exists(Bro->L_getTMP_PATH() + std::to_string(RR->ActionMatrix[i]->Card) + ".png"))
+			if (!File_exists(Bro->L_getSMJIMG_PATH() + std::to_string(RR->ActionMatrix[i]->Card) + ".png"))
 			{
-				if (Bro->C_DownloadPNG(RR->ActionMatrix[i]->Card))
+				if (Bro->J_GetImgOnly(RR->ActionMatrix[i]->Card) == "")
 				{
 					MISE("Error during DOwnload of: " + std::to_string(RR->ActionMatrix[i]->Card));
 				}
 			}
 
-			Card = imread(Bro->L_getTMP_PATH() + std::to_string(RR->ActionMatrix[i]->Card) + ".png", IMREAD_UNCHANGED);
+			Card = imread(Bro->L_getSMJIMG_PATH() + std::to_string(RR->ActionMatrix[i]->Card) + ".png", IMREAD_UNCHANGED);
 			Card.copyTo(newPIC(Rect(240, RR->ActionMatrix[i]->Time * 4 + 120, Card.cols, Card.rows)));
 		}
 
 		if (RR->ActionMatrix[i]->Type == 4030) //WELL			
 		{		
 			//MISD("WELL");
-			Card = imread(Bro->L_getTMP_PATH() +  "W.png", IMREAD_UNCHANGED);
+			Card = imread(Bro->L_getSMJIMG_PATH() +  "W.png", IMREAD_UNCHANGED);
 			Card.copyTo(newPIC(Rect(240, RR->ActionMatrix[i]->Time * 4 + 120, Card.cols, Card.rows)));
 		}
 
 		if (RR->ActionMatrix[i]->Type == 4031) //ORB
 		{
 			//MISD("ORB");
-			Card = imread(Bro->L_getTMP_PATH() + "O.png", IMREAD_UNCHANGED);
+			Card = imread(Bro->L_getSMJIMG_PATH() + "O.png", IMREAD_UNCHANGED);
 			Card.copyTo(newPIC(Rect(240, RR->ActionMatrix[i]->Time * 4 + 120, Card.cols, Card.rows)));
 		}
 	}
 
-	if (RR->sSQLGameID != "")IMG_Path = Bro->L_getTMP_PATH() + "GAME_" + RR->sSQLGameID + ".png";
-	else IMG_Path = Bro->L_getTMP_PATH() + "GAME_" + RR->FileName + ".png";
+	if (RR->sSQLGameID != "")IMG_Path = Bro->L_getSMJIMG_PATH() + "GAME_" + RR->sSQLGameID + ".png";
+	else IMG_Path = Bro->L_getSMJIMG_PATH() + "GAME_" + RR->FileName + ".png";
 	
 	imwrite(IMG_Path, newPIC);
 	if (!File_exists(IMG_Path))

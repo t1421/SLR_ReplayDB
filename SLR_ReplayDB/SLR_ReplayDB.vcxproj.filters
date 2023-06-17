@@ -21,9 +21,6 @@
     <ClInclude Include="..\incl\Broker.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\incl\CardBase.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\incl\DEBUG.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -54,12 +51,12 @@
     <ClInclude Include="..\incl\Utility.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="..\incl\CardBaseSMJ.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\src\Broker.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\CardBase.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\src\DEBUG.cpp">
@@ -93,5 +90,8 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\SLR_ReplayDB.cpp" />
+    <ClCompile Include="..\src\CardBaseSMJ.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
