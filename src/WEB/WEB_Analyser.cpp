@@ -661,7 +661,7 @@ std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTi
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "11303_PvE_04p_KingOfTheGiants.map")return "Wrong Map";
 	if (R->GameVersion != 400042) sReturn += ",Wrong Gameversion";
-	if (R->DifficultyID != 2)sReturn += ",Wrong Difficulty"; //3=EXP
+	if (R->DifficultyID != 2)sReturn += ",Wrong Difficulty"; //2=Adv
 
 	MISD("#1");
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
@@ -817,10 +817,10 @@ int WEB_Analyser::switchKOTG_Orb(std::string sOrbID)
 	case 4485: return 3; 
 	case 4484: return 3; 
 	case 4492: return 3; 
-	case 4491: return 4; 
-	case 4490: return 4; 
-	case 4487: return 5; 
-	case 4488: return 5; 
+	case 4491: return 5; 
+	case 4490: return 5; 
+	case 4487: return 4; 
+	case 4488: return 4; 
 	}
 	MISE;
 	return 0;
