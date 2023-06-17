@@ -332,7 +332,7 @@ std::string  WEB_Analyser::Check_BOT3()
 	if (!R->OK)return "No Replay";
 	if (R->GameVersion != 400042)return "Wrong Gameversion";
 	if (R->MapName != "11105_PvE_01p_EncountersWithTwilight.map")return "Wrong Map";
-	if (R->DifficultyID != 2)return "Wrong Difficulty"; //1=STD
+	if (R->DifficultyID != 1)return "Wrong Difficulty"; //1=STD
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
 	{
 		if ((R->ActionMatrix[i]->Type == 4014 && R->ActionMatrix[i]->AdditionalInfo != "2002225") //USE
@@ -661,7 +661,7 @@ std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTi
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "11303_PvE_04p_KingOfTheGiants.map")return "Wrong Map";
 	if (R->GameVersion != 400042) sReturn += ",Wrong Gameversion";
-	if (R->DifficultyID != 3)sReturn += ",Wrong Difficulty"; //3=EXP
+	if (R->DifficultyID != 2)sReturn += ",Wrong Difficulty"; //3=EXP
 
 	MISD("#1");
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
