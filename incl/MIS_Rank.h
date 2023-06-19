@@ -4,8 +4,15 @@
 #include <mutex> 
 #include <vector>
 
-
+#define RankRowStamps 3
 struct ROW {
+	std::string ID;
+	unsigned long ReplayID;
+	unsigned long Stamps[RankRowStamps];
+	ROW() {}
+	ROW(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps], unsigned long _Points, unsigned long _Order) :
+		ID(_ID), ReplayID(_ReplayID) { for (unsigned int i = 0; i < RankRowStamps; i++)Stamps[i] = _Stamps[i]; }
+	/*
 	//unsigned long long Player;
 	std::string Player;
 	unsigned long Time;
@@ -16,6 +23,7 @@ struct ROW {
 	ROW() {}
 	ROW(std::string _Player, unsigned long _Time,	std::string _Name, unsigned long _Points, unsigned long _Order)  :
 		Player( _Player), Time ( _Time), Name (_Name), Points(_Points), Order(_Order){}
+		*/
 };
 
 
@@ -29,7 +37,8 @@ public:
 	void SortList();
 		
 	//int AddPlayer(std::string PMVPlayerID, double Playtime, std::string &sRankName);
-	int AddPlayer(std::string PMVPlayerID, unsigned long _Order, std::string &sRankName, unsigned long _Points, unsigned long _Time);
+	//int AddPlayer(std::string PMVPlayerID, unsigned long _Order, std::string &sRankName, unsigned long _Points, unsigned long _Time);
+	int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
 	int RankMode;
 
 	std::vector<ROW*> RankRows;
