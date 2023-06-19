@@ -2,7 +2,6 @@
 
 #include "..\..\incl\Broker.h" 
 #include "..\..\incl\WEB\WEB_Utility.h"
-#include "..\..\incl\WEB\WEB_MD.h"
 #include "..\..\incl\WEB\WEB_ME.h"
 #include "..\..\incl\WEB\WEB_MF.h"
 #include "..\..\incl\WEB\WEB_Analyser.h"
@@ -49,7 +48,6 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 
 	MISD("#3");	
 
-	MD = new WEB_MD(this);	
 	ME = new WEB_ME(this);
 	MF = new WEB_MF(this);
 	wfuDropZone = new Wt::WFileUpload();

@@ -66,6 +66,7 @@ void WEB_MEA::WRefresh()
 		iPoints = WA->getPlaytime();
 		MISD("#2#" + std::to_string(iPoints));
 		std::string sRankName;
+		/*
 		switch (Bro->AddRankPlayer(BOT4LIST, std::to_string(WA->getPMVPlayerID()), iPoints, sRankName, iPoints, iPoints))
 		{
 		case 5: //Slower
@@ -83,6 +84,7 @@ void WEB_MEA::WRefresh()
 		default: //Should not happen
 			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
 		}		
+		*/
 		//MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}
 	

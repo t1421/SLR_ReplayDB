@@ -12,7 +12,7 @@
 #endif
 
 
-#ifdef BrokerWeb
+//#ifndef noWEB
 
 #include "..\incl\Utility.h"
 
@@ -31,7 +31,7 @@
 #include "..\incl\WEB\WEB_Analyser_Head.h"
 #include "..\incl\WEB\WEB_Analyser_Deck.h"
 #include "..\incl\WEB\WEB_Analyser_Acti.h"
-#endif
+//#endif
 
 
 #ifndef noSMJ
@@ -69,7 +69,7 @@ broker::broker()
 	L = NULL;
 #endif
 
-#ifdef BrokerWeb
+#ifndef noWEB
 	WEB_Main::learnBro(this);
 	MISCONTAINER::learnBro(this);
 
@@ -120,7 +120,7 @@ Imager::learnBro(this);
 
 }
 
-#ifdef BrokerWeb
+//#ifndef noWEB
 void broker::INIT()
 {	
 	for (int i = 0; i <= BOTXLIST; i++)A[i] = new MIS_Rank(i,L->BOTRankMode[i]);
@@ -151,16 +151,11 @@ void broker::INIT()
 	}
 }
 
-int broker::AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, unsigned long Playtime, std::string &sRankName, unsigned long _Points, unsigned long _Time)
+int broker::AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps])
 {
-	return A[iRANK]->AddPlayer(PMVPlayerID, Playtime, sRankName, _Points, _Time);
+	return A[iRANK]->AddPlayer(_ID, _ReplayID, _Stamps);
 }
-/*
-int broker::AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, double Playtime, std::string &sRankName)
-{
-	return A[iRANK]->AddPlayer(std::to_string(PMVPlayerID), Playtime, sRankName);
-}
-*/
+
 std::string broker::getName()
 {
 	if (FreeNames.size() == 0)
@@ -224,7 +219,7 @@ std::string broker::GetTeamName(std::string sTeamID)
 
 	return sName;
 }
-
+/*
 void broker::KOTGTotalRanking()
 {
 	muxKOTG.lock();
@@ -280,7 +275,10 @@ void broker::KOTGTotalRanking()
 
 	muxKOTG.unlock();
 }
-#endif
+*/
+
+
+//#endif
 
 broker::~broker()
 {

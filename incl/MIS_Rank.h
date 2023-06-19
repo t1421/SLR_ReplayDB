@@ -4,7 +4,7 @@
 #include <mutex> 
 #include <vector>
 
-#define RankRowStamps 3
+
 struct ROW {
 	std::string ID;
 	unsigned long ReplayID;
@@ -35,10 +35,13 @@ public:
 
 	void SaveList();
 	void SortList();
+	void CleanList();
 		
 	//int AddPlayer(std::string PMVPlayerID, double Playtime, std::string &sRankName);
 	//int AddPlayer(std::string PMVPlayerID, unsigned long _Order, std::string &sRankName, unsigned long _Points, unsigned long _Time);
-	int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
+	int AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
+	std::vector<ROW*> getRankeROW(int iRanking);
+	std::vector<ROW*> getRankeKOTG();
 	int RankMode;
 
 	std::vector<ROW*> RankRows;

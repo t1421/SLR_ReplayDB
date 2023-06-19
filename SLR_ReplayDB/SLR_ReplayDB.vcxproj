@@ -167,7 +167,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\SLR_ReplayDB.cpp" />
-    <ClCompile Include="..\src\Broker.cpp" />
+    <ClCompile Include="..\src\Broker.cpp">
+      <PreprocessorDefinitions Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">noWEB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
     <ClCompile Include="..\src\CardBaseSMJ.cpp" />
     <ClCompile Include="..\src\DEBUG.cpp" />
     <ClCompile Include="..\src\Imager.cpp" />

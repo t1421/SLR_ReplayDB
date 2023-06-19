@@ -8,6 +8,8 @@
 #include <fstream>
 #include <algorithm>
 
+#define MaxReplaysPerTeam 3
+
 broker *(MIS_Rank::Bro) = NULL;
 
 bool comparePlayer(const ROW *a, const ROW *b)
@@ -19,6 +21,17 @@ bool comparePlayer(const ROW *a, const ROW *b)
 	return aa < bb;
 }
 
+bool comparePlayerField0(const ROW *a, const ROW *b) { return a->Stamps[0] < a->Stamps[0]; }
+bool comparePlayerField1(const ROW *a, const ROW *b) { return a->Stamps[1] < a->Stamps[1]; }
+bool comparePlayerField2(const ROW *a, const ROW *b) { return a->Stamps[2] < a->Stamps[2]; }
+bool comparePlayerField3(const ROW *a, const ROW *b) { return a->Stamps[3] < a->Stamps[3]; }
+bool comparePlayerField4(const ROW *a, const ROW *b) { return a->Stamps[4] < a->Stamps[4]; }
+/*
+bool comparePair(std::pair<std::string, unsigned long> *a, std::pair<std::string, unsigned long> *b)
+{	
+	return a->second < b->second;
+}
+*/
 
 MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList) + ".csv"), RankMode(_RankMode)
 {
@@ -168,8 +181,9 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 
 	if (iReturn > 9
 		&& RankMode != 1)
-	{		
+	{	
 		SortList();
+		CleanList();
 		SaveList();
 	}
 	
@@ -177,4 +191,103 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 	return iReturn;
 }
 
+void MIS_Rank::CleanList()
+{
+	MISS;
+	unsigned int iCount = 0;
+	for (unsigned int i = 0; i < RankRows.size(); i++)
+	{
+		iCount = 0;
+		for (unsigned int j = i; j < RankRows.size(); j++)
+		{
+			if (RankRows[i]->ID == RankRows[j]->ID)
+			{
+				iCount++;
+				if (iCount > MaxReplaysPerTeam) RankRows.erase(RankRows.begin() + j);
+			}
+		}
+	}
+	MISE;
+}
 
+
+std::vector<ROW*> MIS_Rank::getRankeROW(int iRanking)
+{
+	if (iRanking == KOTGLIST4) return getRankeKOTG();
+	MISS;
+	std::vector<ROW*> vReturn;
+
+	for (unsigned int i = 0; i < RankRows.size(); i++)
+		vReturn.push_back(RankRows[i]);
+
+	switch (iRanking)
+	{
+	case KOTGLIST1:
+		std::sort(vReturn.begin(), vReturn.end(), comparePlayerField0);
+		break;
+	case KOTGLIST2:
+		std::sort(vReturn.begin(), vReturn.end(), comparePlayerField1);
+		break;
+	case KOTGLIST3:
+		std::sort(vReturn.begin(), vReturn.end(), comparePlayerField2);
+		break;
+	}
+	
+	MISE;
+	return vReturn;
+}
+
+
+std::vector<ROW*> MIS_Rank::getRankeKOTG()
+{
+	MISS;
+	std::vector<ROW*> vRank0;
+	for (unsigned int i = 0; i < RankRows.size(); i++)
+		vRank0.push_back(RankRows[i]);
+	std::sort(vRank0.begin(), vRank0.end(), comparePlayerField0);
+
+	std::vector<ROW*> vRank1;
+	for (unsigned int i = 0; i < RankRows.size(); i++)
+		vRank1.push_back(RankRows[i]);
+	std::sort(vRank1.begin(), vRank1.end(), comparePlayerField1);
+
+	std::vector<ROW*> vRank2;
+	for (unsigned int i = 0; i < RankRows.size(); i++)
+		vRank2.push_back(RankRows[i]);
+	std::sort(vRank2.begin(), vRank2.end(), comparePlayerField2);
+
+
+	std::vector<ROW*> vReturn;
+	for (unsigned int j = 0; j < RankRows.size(); j++)
+	{
+		vReturn.push_back(RankRows[j]);
+		for (unsigned int i = 0; i < vRank0.size(); i++)		
+			if (vReturn[j]->ID == vRank0[i]->ID && vReturn[j]->ReplayID == vRank0[i]->ReplayID)
+			{
+				vReturn[j]->Stamps[4] = vRank0[i]->Stamps[0];
+				vReturn[j]->Stamps[0] = i * 1000000;
+				vReturn[j]->Stamps[3] += i;				
+			}
+
+		for (unsigned int i = 0; i < vRank1.size(); i++)
+			if (vReturn[j]->ID == vRank1[i]->ID && vReturn[j]->ReplayID == vRank1[i]->ReplayID)
+			{
+				vReturn[j]->Stamps[4] = vRank1[i]->Stamps[1];
+				vReturn[j]->Stamps[0] = i * 1000000;
+				vReturn[j]->Stamps[3] += i;
+			}
+
+		for (unsigned int i = 0; i < vRank2.size(); i++)
+			if (vReturn[j]->ID == vRank2[i]->ID && vReturn[j]->ReplayID == vRank2[i]->ReplayID)
+			{
+				vReturn[j]->Stamps[4] = vRank2[i]->Stamps[2];
+				vReturn[j]->Stamps[0] = i * 1000000;
+				vReturn[j]->Stamps[3] += i;
+			}	
+	}
+
+	std::sort(vReturn.begin(), vReturn.end(), comparePlayer);
+
+	MISE;
+	return vReturn;
+}

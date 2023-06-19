@@ -75,7 +75,7 @@ void WEB_MFA::WRefresh()
 {
 	MISS;
 
-	unsigned long iTimes[3];
+	unsigned long iTimes[RankRowStamps];
 
 	wtTabelle[0]->clear();
 	wtTabelle[1]->clear();
@@ -87,13 +87,12 @@ void WEB_MFA::WRefresh()
 	{
 		//wtStatus->setText("<h3>All looks good :-)</h3> ");
 		std::string sTeamID = WR->GetTeamID();
-		std::string sTeamName = Bro->GetTeamName(sTeamID);
-		Bro->AddRankPlayer(KOTGLIST1, sTeamID, iTimes[0], sTeamName, iTimes[0], iTimes[0]);
-		Bro->AddRankPlayer(KOTGLIST2, sTeamID, iTimes[1], sTeamName, iTimes[1], iTimes[1]);
-		Bro->AddRankPlayer(KOTGLIST3, sTeamID, iTimes[2], sTeamName, iTimes[2], iTimes[2]);
-		Bro->KOTGTotalRanking();
+		//std::string sTeamName = Bro->GetTeamName(sTeamID);
+		
+		Bro->AddPlayer(KOTGLISTX, sTeamID, WR->Actions.size(), iTimes);
+		//Bro->KOTGTotalRanking();
 
-		wtStatus->setText("<h3>Hello there Team " + sTeamName + ", nice run :-)</h3> ");
+		wtStatus->setText("<h3>Hello there Team " + Bro->GetTeamName(sTeamID) + ", nice run :-)</h3> ");
 
 		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}

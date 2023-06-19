@@ -39,7 +39,9 @@
 #define KOTGLIST2 2
 #define KOTGLIST3 3
 #define KOTGLIST4 4
-#define BOTXLIST 4
+#define KOTGLISTX 5
+#define BOTXLIST 5
+#define RankRowStamps 3
 
 class DEBUG;
 class SQL_MIS_New;
@@ -98,9 +100,11 @@ public:
 	
 #endif	
 
-#ifdef BrokerWeb
+//#ifndef noWEB
 	void INIT();
-	int AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, unsigned long Playtime, std::string &sRankName, unsigned long _Points, unsigned long _Time);
+	//int AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, unsigned long Playtime, std::string &sRankName, unsigned long _Points, unsigned long _Time);
+	int AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
+	
 	std::vector<std::string> FreeNames;
 	std::string getName();
 	void saveName();
@@ -108,10 +112,11 @@ public:
 
 	std::string GetTeamName(std::string sTeamID);
 	void saveTeams();
-	void KOTGTotalRanking();
+	//void KOTGTotalRanking();
 	std::vector<std::pair<std::string, std::string>> TeamNames;
 	std::mutex muxKOTG;
-#endif
+//#endif
+	
 
 	void B_StatusNew(std::string Fun, std::string Wert);
 	void B_StatusE(std::string Modul, std::string Funktion, std::string Wert);

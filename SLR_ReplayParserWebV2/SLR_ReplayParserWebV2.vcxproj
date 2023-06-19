@@ -178,8 +178,6 @@
     <ClCompile Include="..\src\WEB\WEB_Analyser_Head.cpp" />
     <ClCompile Include="..\src\WEB\WEB_CONTAINER.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Main.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_MD.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_MDA.cpp" />
     <ClCompile Include="..\src\WEB\WEB_ME.cpp" />
     <ClCompile Include="..\src\WEB\WEB_MEA.cpp" />
     <ClCompile Include="..\src\WEB\WEB_MF.cpp" />
@@ -205,8 +203,6 @@
     <ClInclude Include="..\incl\WEB\WEB_Analyser_Head.h" />
     <ClInclude Include="..\incl\WEB\WEB_CONTAINER.h" />
     <ClInclude Include="..\incl\WEB\WEB_Main.h" />
-    <ClInclude Include="..\incl\WEB\WEB_MD.h" />
-    <ClInclude Include="..\incl\WEB\WEB_MDA.h" />
     <ClInclude Include="..\incl\WEB\WEB_ME.h" />
     <ClInclude Include="..\incl\WEB\WEB_MEA.h" />
     <ClInclude Include="..\incl\WEB\WEB_MF.h" />

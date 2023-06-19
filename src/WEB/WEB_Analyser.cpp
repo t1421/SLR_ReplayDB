@@ -645,7 +645,7 @@ void  WEB_Analyser::AddIMG(Wt::WTableCell *wtCell, bool bValue)
 
 
 
-std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTimes[3])
+std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 

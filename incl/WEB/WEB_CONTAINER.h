@@ -11,7 +11,6 @@
 #include <Wt/WFileUpload.h>
 #include <Wt/WApplication.h>
 
-class WEB_MD;
 class WEB_ME;
 class WEB_MF;
 
@@ -37,7 +36,6 @@ private:
 
 	void WRefresh();
 
-	WEB_MD *MD;
 	WEB_ME *ME;
 	WEB_MF *MF;
 	Wt::WFileUpload  *wfuDropZone;
