@@ -43,13 +43,7 @@ void LOAD::Load_Settings()
 
 			if (INI_Value_Check(line, "FFMPEG"))sFFMPEG = line.c_str();
 
-			if (INI_Value_Check(line, "BOT1RankMode"))BOTRankMode[BOT1LIST] = atoi(line.c_str());
-			if (INI_Value_Check(line, "BOT2RankMode"))BOTRankMode[BOT2LIST] = atoi(line.c_str());
-			if (INI_Value_Check(line, "BOT3RankMode"))BOTRankMode[BOT3LIST] = atoi(line.c_str());
 			if (INI_Value_Check(line, "BOT4RankMode"))BOTRankMode[BOT4LIST] = atoi(line.c_str());
-#ifdef VornskrLIST
-			if (INI_Value_Check(line, "VornskrRankMode"))BOTRankMode[VornskrLIST] = atoi(line.c_str());
-#endif
 			if (INI_Value_Check(line, "KOTG1"))BOTRankMode[KOTGLIST1] = atoi(line.c_str());
 			if (INI_Value_Check(line, "KOTG2"))BOTRankMode[KOTGLIST2] = atoi(line.c_str());
 			if (INI_Value_Check(line, "KOTG3"))BOTRankMode[KOTGLIST3] = atoi(line.c_str());

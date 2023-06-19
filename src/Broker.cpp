@@ -19,8 +19,6 @@
 #include "..\incl\WEB\WEB_Main.h"
 #include "..\incl\WEB\WEB_CONTAINER.h"
 
-#include "..\incl\WEB\WEB_MD.h"
-#include "..\incl\WEB\WEB_MDA.h"
 #include "..\incl\WEB\WEB_ME.h"
 #include "..\incl\WEB\WEB_MEA.h"
 #include "..\incl\WEB\WEB_MF.h"
@@ -75,8 +73,6 @@ broker::broker()
 	WEB_Main::learnBro(this);
 	MISCONTAINER::learnBro(this);
 
-	WEB_MD::learnBro(this);
-	WEB_MDA::learnBro(this);
 	WEB_ME::learnBro(this);
 	WEB_MEA::learnBro(this);
 	WEB_MF::learnBro(this);

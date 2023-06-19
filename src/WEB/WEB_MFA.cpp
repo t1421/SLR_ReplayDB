@@ -86,13 +86,9 @@ void WEB_MFA::WRefresh()
 	else
 	{
 		//wtStatus->setText("<h3>All looks good :-)</h3> ");
-		MISD("#1");
 		std::string sTeamID = WR->GetTeamID();
-		MISD("#2");
 		std::string sTeamName = Bro->GetTeamName(sTeamID);
-		MISD("#3");
 		Bro->AddRankPlayer(KOTGLIST1, sTeamID, iTimes[0], sTeamName, iTimes[0], iTimes[0]);
-		MISD("#4");
 		Bro->AddRankPlayer(KOTGLIST2, sTeamID, iTimes[1], sTeamName, iTimes[1], iTimes[1]);
 		Bro->AddRankPlayer(KOTGLIST3, sTeamID, iTimes[2], sTeamName, iTimes[2], iTimes[2]);
 		Bro->KOTGTotalRanking();

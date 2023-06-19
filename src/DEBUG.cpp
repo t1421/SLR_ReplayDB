@@ -28,9 +28,7 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 
 		Fill_DBArray("", "*", "*", "true"); // MAIN
 
-		Fill_DBArray("CardBase", "*", "*", "true");
-		Fill_DBArray("CardBaseSMJ", "*", "*", "true");
-		
+		Fill_DBArray("CardBaseSMJ", "*", "*", "true");		
 
 		Fill_DBArray("Replay", "*", "*", "true");
 		Fill_DBArray("Replay", "SwitchType", "*", "false"); 
@@ -53,15 +51,11 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("SQL_MIS_New", "send", "*", "false");
 		Fill_DBArray("SQL_MIS_New", "clearString", "*", "false");
 		Fill_DBArray("SQL_MIS_New", "SendBLOB", "*", "false");
-		
-		
+				
 		Fill_DBArray("WEB_Main", "*", "*", "true");
 		Fill_DBArray("WEB_Toolbar", "*", "*", "true");
 		Fill_DBArray("MISCONTAINER", "*", "*", "true");
 		
-
-		Fill_DBArray("WEB_MD", "*", "*", "true");
-		Fill_DBArray("WEB_MDA", "*", "*", "true");
 		Fill_DBArray("WEB_ME", "*", "*", "true");
 		Fill_DBArray("WEB_MEA", "*", "*", "true");
 		Fill_DBArray("WEB_MF", "*", "*", "true");

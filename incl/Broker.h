@@ -34,20 +34,15 @@
 #include <mutex> 
 #include <vector>
 
-#define BOT1LIST 0
-#define BOT2LIST 1
-#define BOT3LIST 2
-#define BOT4LIST 3
-//#define VornskrLIST 4
-#define KOTGLIST1 5
-#define KOTGLIST2 6
-#define KOTGLIST3 7
-#define KOTGLIST4 8
-#define BOTXLIST 8
+#define BOT4LIST 0
+#define KOTGLIST1 1
+#define KOTGLIST2 2
+#define KOTGLIST3 3
+#define KOTGLIST4 4
+#define BOTXLIST 4
 
 class DEBUG;
 class SQL_MIS_New;
-//class CardBase;
 class Replay;
 class LOAD;
 class Manager;
@@ -65,7 +60,6 @@ public:
 
 	DEBUG* B;
 	SQL_MIS_New* N;
-	//CardBase* C;
 	LOAD* L;
 	Manager* M;
 	Imager* I;
@@ -77,11 +71,7 @@ public:
 
 	bool bAktive;
 
-//#if defined BrokerParser || defined BrokerWeb
 	unsigned char J_GetActionOrbForCardID(unsigned short CardID);
-//#endif
-
-
 
 #if defined BrokerNormal || defined BrokerWeb
 	std::string L_getSQL_Server();
@@ -111,8 +101,6 @@ public:
 #ifdef BrokerWeb
 	void INIT();
 	int AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, unsigned long Playtime, std::string &sRankName, unsigned long _Points, unsigned long _Time);
-	//int AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, double Playtime, std::string &sRankName);
-	//int AddRankPlayer(unsigned int iRANK, unsigned long long PMVPlayerID, double Playtime, std::string &sRankName);
 	std::vector<std::string> FreeNames;
 	std::string getName();
 	void saveName();
