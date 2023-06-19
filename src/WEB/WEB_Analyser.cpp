@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -728,6 +728,7 @@ std::string  WEB_Analyser::Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTi
 	if(Orb.size()>0)iTimes[0] = Orb[Orb.size() - 1].second;
 	if(Wall.size()>0)iTimes[1] = Wall[Wall.size() - 1].second;
 	if(Amii.size()>0)iTimes[2] = Amii[Amii.size() - 1].second;
+	for (unsigned int i = 3; i < RankRowStamps; i++)iTimes[i] = 0;
 		
 	unsigned int iRow = 0;
 	

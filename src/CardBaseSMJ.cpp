@@ -475,12 +475,10 @@ std::string CardBaseSMJ::SwitchRarity(char _Rarity)
 
 SMJCard* CardBaseSMJ::GetSMJCard(unsigned short _CardID)
 {
-	MISS;
 	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
 	{
 		if (SMJMatrix[i]->cardId == _CardID)return SMJMatrix[i];
 	}
-	MISE;
 }
 
 void CardBaseSMJ::AllIMGBig()

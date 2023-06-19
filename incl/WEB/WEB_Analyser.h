@@ -48,7 +48,7 @@ public:
 	std::string Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos);
 	void AddIMG(Wt::WTableCell *wtCell, bool bValue);
 
-	std::string Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTimes[3]);
+	std::string Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTimes[RankRowStamps]);
 	std::string GetTeamID();
 	int switchKOTG_Amii(std::string sAmiiID);
 	int switchKOTG_Wall(std::string sWallID);

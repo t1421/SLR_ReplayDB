@@ -10,8 +10,14 @@ struct ROW {
 	unsigned long ReplayID;
 	unsigned long Stamps[RankRowStamps];
 	ROW() {}
-	ROW(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps], unsigned long _Points, unsigned long _Order) :
-		ID(_ID), ReplayID(_ReplayID) { for (unsigned int i = 0; i < RankRowStamps; i++)Stamps[i] = _Stamps[i]; }
+	ROW(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]) :
+		ID(_ID), ReplayID(_ReplayID) {
+		for (unsigned int i = 0; i < RankRowStamps; i++)Stamps[i] = _Stamps[i];
+	}
+	ROW(std::string _ID, unsigned long _ReplayID) :
+		ID(_ID), ReplayID(_ReplayID) {
+		for (unsigned int i = 0; i < RankRowStamps; i++)Stamps[i] = 0;
+	}
 	/*
 	//unsigned long long Player;
 	std::string Player;
@@ -40,8 +46,8 @@ public:
 	//int AddPlayer(std::string PMVPlayerID, double Playtime, std::string &sRankName);
 	//int AddPlayer(std::string PMVPlayerID, unsigned long _Order, std::string &sRankName, unsigned long _Points, unsigned long _Time);
 	int AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
-	std::vector<ROW*> getRankeROW(int iRanking);
-	std::vector<ROW*> getRankeKOTG();
+	std::vector<ROW> getRankeROW(int iRanking);
+	std::vector<ROW> getRankeKOTG();
 	int RankMode;
 
 	std::vector<ROW*> RankRows;

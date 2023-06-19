@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\incl\Broker.h" 
 #include "..\incl\Utility.h"
@@ -12,7 +12,7 @@
 
 broker *(MIS_Rank::Bro) = NULL;
 
-bool comparePlayer(const ROW *a, const ROW *b)
+bool comparePlayer(const ROW * a, const ROW * b)
 {
 	unsigned long aa = 0;
 	unsigned long bb = 0;
@@ -21,11 +21,20 @@ bool comparePlayer(const ROW *a, const ROW *b)
 	return aa < bb;
 }
 
-bool comparePlayerField0(const ROW *a, const ROW *b) { return a->Stamps[0] < a->Stamps[0]; }
-bool comparePlayerField1(const ROW *a, const ROW *b) { return a->Stamps[1] < a->Stamps[1]; }
-bool comparePlayerField2(const ROW *a, const ROW *b) { return a->Stamps[2] < a->Stamps[2]; }
-bool comparePlayerField3(const ROW *a, const ROW *b) { return a->Stamps[3] < a->Stamps[3]; }
-bool comparePlayerField4(const ROW *a, const ROW *b) { return a->Stamps[4] < a->Stamps[4]; }
+bool comparePlayerX(const ROW& a, const ROW& b)
+{
+	unsigned long aa = 0;
+	unsigned long bb = 0;
+	for (unsigned int i = 0; i < RankRowStamps; i++)aa += a.Stamps[i];
+	for (unsigned int i = 0; i < RankRowStamps; i++)bb += b.Stamps[i];
+	return aa < bb;
+}
+
+bool comparePlayerField0(const ROW& a, const ROW& b) { return a.Stamps[0] < b.Stamps[0]; }
+bool comparePlayerField1(const ROW& a, const ROW& b) { return a.Stamps[1] < b.Stamps[1]; }
+bool comparePlayerField2(const ROW& a, const ROW& b) { return a.Stamps[2] < b.Stamps[2]; }
+bool comparePlayerField3(const ROW& a, const ROW& b) { return a.Stamps[3] < b.Stamps[3]; }
+bool comparePlayerField4(const ROW& a, const ROW& b) { return a.Stamps[4] < b.Stamps[4]; }
 /*
 bool comparePair(std::pair<std::string, unsigned long> *a, std::pair<std::string, unsigned long> *b)
 {	
@@ -211,15 +220,14 @@ void MIS_Rank::CleanList()
 }
 
 
-std::vector<ROW*> MIS_Rank::getRankeROW(int iRanking)
-{
-	if (iRanking == KOTGLIST4) return getRankeKOTG();
+std::vector<ROW> MIS_Rank::getRankeROW(int iRanking)
+{	
 	MISS;
-	std::vector<ROW*> vReturn;
-
-	for (unsigned int i = 0; i < RankRows.size(); i++)
-		vReturn.push_back(RankRows[i]);
-
+	std::vector<ROW> vReturn;
+	
+	for (const auto& rowPtr : RankRows) vReturn.push_back(*rowPtr);
+	
+	MISD(std::to_string(iRanking));
 	switch (iRanking)
 	{
 	case KOTGLIST1:
@@ -238,55 +246,110 @@ std::vector<ROW*> MIS_Rank::getRankeROW(int iRanking)
 }
 
 
-std::vector<ROW*> MIS_Rank::getRankeKOTG()
+std::vector<ROW> MIS_Rank::getRankeKOTG()
 {
 	MISS;
-	std::vector<ROW*> vRank0;
-	for (unsigned int i = 0; i < RankRows.size(); i++)
-		vRank0.push_back(RankRows[i]);
+
+	//ROW* newRow;
+	std::vector<ROW> vReturn;
+
+	for (const auto& rowPtrr : RankRows)vReturn.push_back(*rowPtrr);
+	
+	std::sort(vReturn.begin(), vReturn.end(), comparePlayerField0);
+	for (unsigned int i = 0; i < vReturn.size(); i++)
+	{
+		vReturn[i].Stamps[4] = vReturn[i].Stamps[0];
+		vReturn[i].Stamps[3] = (i + 1);
+		vReturn[i].Stamps[0] = (i + 1) * 100000;
+	}	
+
+	std::sort(vReturn.begin(), vReturn.end(), comparePlayerField1);
+	for (unsigned int i = 0; i < vReturn.size(); i++)
+	{
+		vReturn[i].Stamps[4] += vReturn[i].Stamps[1];
+		vReturn[i].Stamps[3] += i + 1;
+		vReturn[i].Stamps[1] = (i + 1) * 100000;
+	}
+
+	std::sort(vReturn.begin(), vReturn.end(), comparePlayerField2);
+	for (unsigned int i = 0; i < vReturn.size(); i++)
+	{
+		vReturn[i].Stamps[4] += vReturn[i].Stamps[2];
+		vReturn[i].Stamps[3] += i + 1;
+		vReturn[i].Stamps[2] = (i + 1) * 100000;
+	}
+	/*
+	for (unsigned int i = 0; i < vReturn.size(); i++)
+	{
+		vReturn[i].Stamps[3] = vReturn[i].Stamps[0]
+			+ vReturn[i].Stamps[1]
+			+ vReturn[i].Stamps[2];
+	}*/
+	std::sort(vReturn.begin(), vReturn.end(), comparePlayerX);
+
+	//ROW TMP;
+	/*
+	std::vector<ROW> vRank0;
+	std::vector<ROW> vRank1;
+	std::vector<ROW> vRank2;
+
+	MISD("#2");
+	
+	for (const auto& rowPtrr : RankRows)
+	{
+		vRank0.push_back(*rowPtrr);
+		vRank1.push_back(*rowPtrr);
+		vRank2.push_back(*rowPtrr);
+	}
+	MISD("#3");
 	std::sort(vRank0.begin(), vRank0.end(), comparePlayerField0);
-
-	std::vector<ROW*> vRank1;
-	for (unsigned int i = 0; i < RankRows.size(); i++)
-		vRank1.push_back(RankRows[i]);
 	std::sort(vRank1.begin(), vRank1.end(), comparePlayerField1);
-
-	std::vector<ROW*> vRank2;
-	for (unsigned int i = 0; i < RankRows.size(); i++)
-		vRank2.push_back(RankRows[i]);
 	std::sort(vRank2.begin(), vRank2.end(), comparePlayerField2);
 
+	MISD("#4");
+	
 
-	std::vector<ROW*> vReturn;
-	for (unsigned int j = 0; j < RankRows.size(); j++)
+	for (const auto& rowPtr : RankRows)
 	{
-		vReturn.push_back(RankRows[j]);
+		vReturn.push_back(new ROW(rowPtr->ID, rowPtr->ReplayID));
+		//vReturn.push_back(*rowPtr);
+
+		
+		
 		for (unsigned int i = 0; i < vRank0.size(); i++)		
-			if (vReturn[j]->ID == vRank0[i]->ID && vReturn[j]->ReplayID == vRank0[i]->ReplayID)
-			{
-				vReturn[j]->Stamps[4] = vRank0[i]->Stamps[0];
-				vReturn[j]->Stamps[0] = i * 1000000;
-				vReturn[j]->Stamps[3] += i;				
+			if (vReturn.back()->ID == vRank0[i].ID && vReturn.back()->ReplayID == vRank0[i].ReplayID)
+			{				
+				vReturn.back()->Stamps[0] = (i + 1) * 1000000;
+				vReturn.back()->Stamps[3] += (i + 1);
+				vReturn.back()->Stamps[4] += vRank0[i].Stamps[0];
 			}
 
 		for (unsigned int i = 0; i < vRank1.size(); i++)
-			if (vReturn[j]->ID == vRank1[i]->ID && vReturn[j]->ReplayID == vRank1[i]->ReplayID)
+			if (vReturn.back()->ID == vRank1[i].ID && vReturn.back()->ReplayID == vRank1[i].ReplayID)
 			{
-				vReturn[j]->Stamps[4] = vRank1[i]->Stamps[1];
-				vReturn[j]->Stamps[0] = i * 1000000;
-				vReturn[j]->Stamps[3] += i;
+				vReturn.back()->Stamps[1] = (i + 1) * 1000000;
+				vReturn.back()->Stamps[3] += (i + 1);
+				vReturn.back()->Stamps[4] += vRank1[i].Stamps[1];				
+				
 			}
 
 		for (unsigned int i = 0; i < vRank2.size(); i++)
-			if (vReturn[j]->ID == vRank2[i]->ID && vReturn[j]->ReplayID == vRank2[i]->ReplayID)
+			if (vReturn.back()->ID == vRank2[i].ID && vReturn.back()->ReplayID == vRank2[i].ReplayID)
 			{
-				vReturn[j]->Stamps[4] = vRank2[i]->Stamps[2];
-				vReturn[j]->Stamps[0] = i * 1000000;
-				vReturn[j]->Stamps[3] += i;
+				vReturn.back()->Stamps[2] = (i + 1) * 1000000;
+				vReturn.back()->Stamps[3] += (i + 1);
+				vReturn.back()->Stamps[4] += vRank2[i].Stamps[2];				
+				
 			}	
-	}
+			
+		//vReturn.push_back(TMP);
 
-	std::sort(vReturn.begin(), vReturn.end(), comparePlayer);
+	}
+	*/
+	//MISD("#5");
+	//std::sort(vReturn.begin(), vReturn.end(), comparePlayerX);
+	//std::sort(vReturn.begin(), vReturn.end(), comparePlayer);
+	
 
 	MISE;
 	return vReturn;

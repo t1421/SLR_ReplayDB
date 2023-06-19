@@ -81,7 +81,7 @@ void WEB_MFA::WRefresh()
 	wtTabelle[1]->clear();
 	wtTabelle[2]->clear();
 	std::string sReturn = WR->Kalk_KOTG(wtTabelle, iTimes);
-	
+
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
 	else
 	{
@@ -92,7 +92,7 @@ void WEB_MFA::WRefresh()
 		Bro->AddPlayer(KOTGLISTX, sTeamID, WR->Actions.size(), iTimes);
 		//Bro->KOTGTotalRanking();
 
-		wtStatus->setText("<h3>Hello there Team " + Bro->GetTeamName(sTeamID) + ", nice run :-)</h3> ");
+		wtStatus->setText("<h3>Hello there Team " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->Actions.size()) + "), nice run :-)</h3> ");
 
 		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}

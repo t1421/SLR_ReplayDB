@@ -1,5 +1,8 @@
 #ifndef BROKER_H
 #define BROKER_H
+
+//#define DF_Debug
+
 #ifdef __linux__
 	#ifdef DF_Debug 
 		#define MISD(___Mes___) Bro->B_StatusNew(__PRETTY_FUNCTION__, ___Mes___);
@@ -41,7 +44,7 @@
 #define KOTGLIST4 4
 #define KOTGLISTX 5
 #define BOTXLIST 5
-#define RankRowStamps 3
+#define RankRowStamps 5
 
 class DEBUG;
 class SQL_MIS_New;
