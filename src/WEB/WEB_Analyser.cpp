@@ -856,3 +856,8 @@ int WEB_Analyser::switchKOTG_Amii(std::string sAmiiID)
 	MISE;
 	return 0;
 }
+
+unsigned long WEB_Analyser::getReplayHash()
+{
+	return R->Unknow3 * 1000 + R->Unknow4;
+}

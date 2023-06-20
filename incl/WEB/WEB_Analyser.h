@@ -33,6 +33,7 @@ public:
 	bool getData();
 	std::string GetPlayerName(unsigned long inPlayer);
 	unsigned long long getPlaytime();
+	unsigned long getReplayHash();
 	Replay* R;
 
 	WEB_Analyser();

@@ -89,7 +89,7 @@ void WEB_MFA::WRefresh()
 		std::string sTeamID = WR->GetTeamID();
 		//std::string sTeamName = Bro->GetTeamName(sTeamID);
 		
-		Bro->AddPlayer(KOTGLISTX, sTeamID, WR->Actions.size(), iTimes);
+		Bro->AddPlayer(KOTGLISTX, sTeamID, WR->getReplayHash(), iTimes);
 		//Bro->KOTGTotalRanking();
 
 		wtStatus->setText("<h3>Hello there Team " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->Actions.size()) + "), nice run :-)</h3> ");
