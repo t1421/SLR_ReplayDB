@@ -18,18 +18,7 @@ struct ROW {
 		ID(_ID), ReplayID(_ReplayID) {
 		for (unsigned int i = 0; i < RankRowStamps; i++)Stamps[i] = 0;
 	}
-	/*
-	//unsigned long long Player;
-	std::string Player;
-	unsigned long Time;
-	unsigned long Points;
-	unsigned long Order;
-	std::string Name;
-	
-	ROW() {}
-	ROW(std::string _Player, unsigned long _Time,	std::string _Name, unsigned long _Points, unsigned long _Order)  :
-		Player( _Player), Time ( _Time), Name (_Name), Points(_Points), Order(_Order){}
-		*/
+
 };
 
 
@@ -42,9 +31,7 @@ public:
 	void SaveList();
 	void SortList();
 	void CleanList();
-		
-	//int AddPlayer(std::string PMVPlayerID, double Playtime, std::string &sRankName);
-	//int AddPlayer(std::string PMVPlayerID, unsigned long _Order, std::string &sRankName, unsigned long _Points, unsigned long _Time);
+			
 	int AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
 	std::vector<ROW> getRankeROW(int iRanking);
 	std::vector<ROW> getRankeKOTG();

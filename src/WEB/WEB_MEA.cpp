@@ -13,7 +13,7 @@
 
 broker *(WEB_MEA::Bro) = NULL;
 
-WEB_MEA::WEB_MEA(WEB_Analyser *WA_) : WA(WA_)
+WEB_MEA::WEB_MEA(WEB_Analyser *WR_) : WR(WR_)
 {
 	MISS;
 
@@ -53,39 +53,21 @@ void WEB_MEA::WRefresh()
 {
 	MISS;
 	
-	double iPoints;
+	unsigned long iTimes[RankRowStamps] = {0};
 
 	wtTabelle->clear();
 	wtInfos->clear();
-	std::string sReturn = WA->Kalk_BOT4(wtTabelle, wtInfos);
+	std::string sReturn = WR->Kalk_BOT4(wtTabelle, wtInfos, iTimes);
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
 	else
 	{
-		//iPoints = WA->Kalk_BOT4(wtTabelle);
-		iPoints = WA->getPlaytime();
-		MISD("#2#" + std::to_string(iPoints));
-		std::string sRankName;
-		/*
-		switch (Bro->AddRankPlayer(BOT4LIST, std::to_string(WA->getPMVPlayerID()), iPoints, sRankName, iPoints, iPoints))
-		{
-		case 5: //Slower
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iPoints) + " -> but slower :-)</h3> ");
-			break;
-		case 9: //Same
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iPoints) + " -> same time as before :-)</h3> ");
-			break;
-		case 10: //Faster
-			wtStatus->setText("<h3>Welcome back " + sRankName + ", nice run: " + sTime(iPoints) + " -> faster then your last :-)</h3> ");
-			break;
-		case 15: //New Player
-			wtStatus->setText("<h3>Welcome to the Leaderboard " + sRankName + ": " + sTime(iPoints)  + ":-)</h3> ");
-			break;
-		default: //Should not happen
-			wtStatus->setText("<h3>WHAT HAPPEND?</h3> ");
-		}		
-		*/
-		//MISERROR(WSTRINGtoSTRING(wtStatus->text()));
+		
+		//iTimes[0] = WR->getPlaytime();		
+		std::string sTeamID = WR->GetTeamID();
+		Bro->AddPlayer(BOT4LIST, sTeamID, WR->getReplayHash(), iTimes);
+		wtStatus->setText("<h3>Hello there Team " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
+		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}
 	
 	MISE;

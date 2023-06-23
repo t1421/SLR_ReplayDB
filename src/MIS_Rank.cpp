@@ -230,6 +230,7 @@ std::vector<ROW> MIS_Rank::getRankeROW(int iRanking)
 	MISD(std::to_string(iRanking));
 	switch (iRanking)
 	{
+	case BOT4LIST:
 	case KOTGLIST1:
 		std::sort(vReturn.begin(), vReturn.end(), comparePlayerField0);
 		break;

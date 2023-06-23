@@ -9,7 +9,7 @@ class WEB_MEA: public WebRefresh
 {
 public:
 
-	WEB_Analyser *WA;
+	WEB_Analyser *WR;
 
 	Wt::WText		 *wtStatus;
 	
@@ -19,7 +19,7 @@ public:
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
-	WEB_MEA(WEB_Analyser *WA_);
+	WEB_MEA(WEB_Analyser *WR_);
 	void WRefresh();
 
 

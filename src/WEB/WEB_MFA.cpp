@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -75,7 +75,7 @@ void WEB_MFA::WRefresh()
 {
 	MISS;
 
-	unsigned long iTimes[RankRowStamps];
+	unsigned long iTimes[RankRowStamps] = { 0 };
 
 	wtTabelle[0]->clear();
 	wtTabelle[1]->clear();
@@ -92,7 +92,7 @@ void WEB_MFA::WRefresh()
 		Bro->AddPlayer(KOTGLISTX, sTeamID, WR->getReplayHash(), iTimes);
 		//Bro->KOTGTotalRanking();
 
-		wtStatus->setText("<h3>Hello there Team " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->Actions.size()) + "), nice run :-)</h3> ");
+		wtStatus->setText("<h3>Hello there Team " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
 
 		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}

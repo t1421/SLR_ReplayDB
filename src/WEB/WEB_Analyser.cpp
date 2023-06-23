@@ -450,7 +450,7 @@ unsigned long long WEB_Analyser::getPlaytime()
 }
 
 
-std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos)
+std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos, unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 
@@ -550,8 +550,10 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos)
 
 	wtInfos->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
 
+	iTimes[0] = getPlaytime();
 	for (unsigned int i = 1; i < Stamps.size(); i++)
 	{
+		if(i<RankRowStamps) iTimes[i] = Stamps[i].second - Stamps[i - 1].second;
 		wtInfos->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>Stamp " + std::to_string(i) + ":</h4>"))));
 		wtInfos->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Stamps[i].second - Stamps[i-1].second)))));
 	}	
