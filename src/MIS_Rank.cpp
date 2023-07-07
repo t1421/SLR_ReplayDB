@@ -8,7 +8,7 @@
 #include <fstream>
 #include <algorithm>
 
-#define MaxReplaysPerTeam 3
+#define MaxReplaysPerTeam 1
 
 broker *(MIS_Rank::Bro) = NULL;
 
