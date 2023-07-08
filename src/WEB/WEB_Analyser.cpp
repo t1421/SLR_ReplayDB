@@ -615,7 +615,7 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos, 
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
 	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), Orb.size() == 4);
+	AddIMG(wtTabelle->elementAt(iRow++, iCol++), Orb.size() >= 4);
 	
 
 	wtTabelle->columnAt(0)->setWidth(250);
