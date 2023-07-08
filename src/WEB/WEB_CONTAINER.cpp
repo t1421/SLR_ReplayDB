@@ -94,7 +94,7 @@ MISCONTAINER::MISCONTAINER(const Wt::WEnvironment& env)
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Acti", *this->Acti->cMain, this->Acti);
 	
 	//WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -1);	
-	if (Bro->L_getBOTRankMode(KOTGLIST1) <10 || sPARA == "KOTG")WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	if (Bro->L_getBOTRankMode(BOT4LIST) <10 || sPARA == "KOTG")WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	else WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() - 2);
 	WEB_Toolbar::updateToolbar();
 
