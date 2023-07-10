@@ -36,6 +36,7 @@ public:
 	std::vector<ROW> getRankeROW(int iRanking);
 	std::vector<ROW> getRankeKOTG();
 	int RankMode;
+	int RankList;
 
 	std::vector<ROW*> RankRows;
 	

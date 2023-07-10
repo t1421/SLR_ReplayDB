@@ -20,6 +20,7 @@ bool comparePlayer(const ROW * a, const ROW * b)
 	for (unsigned int i = 0; i < RankRowStamps; i++)bb += b->Stamps[i];
 	return aa < bb;
 }
+bool comparePlayerField0(const ROW * a, const ROW * b) { return a->Stamps[0] < b->Stamps[0]; }
 
 bool comparePlayerX(const ROW& a, const ROW& b)
 {
@@ -30,11 +31,11 @@ bool comparePlayerX(const ROW& a, const ROW& b)
 	return aa < bb;
 }
 
-bool comparePlayerField0(const ROW& a, const ROW& b) { return a.Stamps[0] < b.Stamps[0]; }
-bool comparePlayerField1(const ROW& a, const ROW& b) { return a.Stamps[1] < b.Stamps[1]; }
-bool comparePlayerField2(const ROW& a, const ROW& b) { return a.Stamps[2] < b.Stamps[2]; }
-bool comparePlayerField3(const ROW& a, const ROW& b) { return a.Stamps[3] < b.Stamps[3]; }
-bool comparePlayerField4(const ROW& a, const ROW& b) { return a.Stamps[4] < b.Stamps[4]; }
+bool comparePlayerXField0(const ROW& a, const ROW& b) { return a.Stamps[0] < b.Stamps[0]; }
+bool comparePlayerXField1(const ROW& a, const ROW& b) { return a.Stamps[1] < b.Stamps[1]; }
+bool comparePlayerXField2(const ROW& a, const ROW& b) { return a.Stamps[2] < b.Stamps[2]; }
+bool comparePlayerXField3(const ROW& a, const ROW& b) { return a.Stamps[3] < b.Stamps[3]; }
+bool comparePlayerXField4(const ROW& a, const ROW& b) { return a.Stamps[4] < b.Stamps[4]; }
 /*
 bool comparePair(std::pair<std::string, unsigned long> *a, std::pair<std::string, unsigned long> *b)
 {	
@@ -42,7 +43,7 @@ bool comparePair(std::pair<std::string, unsigned long> *a, std::pair<std::string
 }
 */
 
-MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList) + ".csv"), RankMode(_RankMode)
+MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList) + ".csv"), RankMode(_RankMode), RankList(iRankList)
 {
 	MISS;
 
@@ -111,7 +112,13 @@ void MIS_Rank::SortList()
 	MISS;
 
 	mtx.lock();
-	std::sort(RankRows.begin(), RankRows.end(), comparePlayer);
+	switch (RankList)
+	{
+	case BOT4LIST:
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0);
+	default:
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayer);
+	}
 	mtx.unlock();
 
 	MISE;
@@ -126,6 +133,7 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 	bool bUpdate = false;
 	//MISD(sRankName);
 	mtx.lock();
+	/*
 	for (i = 0; i < RankRows.size(); i++)
 	{
 		if (RankRows[i]->ID == _ID && RankRows[i]->ReplayID == _ReplayID)
@@ -150,15 +158,16 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 				iReturn = 9;
 				break;
 			}
-			/*
-			else
-			{
-				MISD("Player vorhanden, Time Slower");
-				iReturn = 5;
-				break;
-			}*/
+			
+			//else
+			//{
+			//	MISD("Player vorhanden, Time Slower");
+			//	iReturn = 5;
+			//	break;
+			//}
 		}
 	}
+	*/
 	if (iReturn == 0)
 	{
 		MISD("New Player");
@@ -232,13 +241,13 @@ std::vector<ROW> MIS_Rank::getRankeROW(int iRanking)
 	{
 	case BOT4LIST:
 	case KOTGLIST1:
-		std::sort(vReturn.begin(), vReturn.end(), comparePlayerField0);
+		std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField0);
 		break;
 	case KOTGLIST2:
-		std::sort(vReturn.begin(), vReturn.end(), comparePlayerField1);
+		std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField1);
 		break;
 	case KOTGLIST3:
-		std::sort(vReturn.begin(), vReturn.end(), comparePlayerField2);
+		std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField2);
 		break;
 	}
 	
@@ -256,7 +265,7 @@ std::vector<ROW> MIS_Rank::getRankeKOTG()
 
 	for (const auto& rowPtrr : RankRows)vReturn.push_back(*rowPtrr);
 	
-	std::sort(vReturn.begin(), vReturn.end(), comparePlayerField0);
+	std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField0);
 	for (unsigned int i = 0; i < vReturn.size(); i++)
 	{
 		vReturn[i].Stamps[4] = vReturn[i].Stamps[0];
@@ -264,7 +273,7 @@ std::vector<ROW> MIS_Rank::getRankeKOTG()
 		vReturn[i].Stamps[0] = (i + 1) * 100000;
 	}	
 
-	std::sort(vReturn.begin(), vReturn.end(), comparePlayerField1);
+	std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField1);
 	for (unsigned int i = 0; i < vReturn.size(); i++)
 	{
 		vReturn[i].Stamps[4] += vReturn[i].Stamps[1];
@@ -272,7 +281,7 @@ std::vector<ROW> MIS_Rank::getRankeKOTG()
 		vReturn[i].Stamps[1] = (i + 1) * 100000;
 	}
 
-	std::sort(vReturn.begin(), vReturn.end(), comparePlayerField2);
+	std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField2);
 	for (unsigned int i = 0; i < vReturn.size(); i++)
 	{
 		vReturn[i].Stamps[4] += vReturn[i].Stamps[2];
