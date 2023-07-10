@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -622,13 +622,14 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos, 
 	wtTabelle->columnAt(1)->setWidth(200);
 	wtTabelle->columnAt(2)->setWidth(BOT4_IMG_SIZE);
 
-	for (int i = 0; i < iRow - 1; i++)
+	for (int i = 0; i < iRow; i++)
 	{
 		if (dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, 2)->widget(0))->imageLink() == Wt::WLink("./resources/0.png"))
 		{		
-			MISEA("Error");
+			MISEA("Not all green");
 			return "ERROR";
-		}
+		}		
+		
 	}
 	MISE;
 	return "";
