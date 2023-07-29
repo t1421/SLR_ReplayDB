@@ -3,21 +3,6 @@
 
 //#define DF_Debug
 
-#ifdef __linux__
-	#ifdef DF_Debug 
-		#define MISD(___Mes___) Bro->B_StatusNew(__PRETTY_FUNCTION__, ___Mes___);
-		#define MISERROR(___Mes___)Bro->B_StatusE("E", __PRETTY_FUNCTION__, ___Mes___);
-		#define MISS MISD("-->");
-		#define MISE MISD("<--");
-		#define MISEA(___Mes___) MISD("<-- " ___Mes___);
-	#else
-		#define MISD(___Mes___); 
-		#define MISERROR(___Mes___)Bro->B_StatusE("E", __PRETTY_FUNCTION__, ___Mes___);
-		#define MISS
-		#define MISE
-		#define MISEA(___Mes___);
-	#endif
-#else
 	#ifdef DF_Debug 
 		#define MISD(___Mes___) Bro->B_StatusNew(__FUNCTION__, ___Mes___);
 		#define MISERROR(___Mes___)Bro->B_StatusE("E", __FUNCTION__, ___Mes___);
@@ -31,7 +16,7 @@
 		#define MISE
 		#define MISEA(___Mes___);
 	#endif
-#endif	
+
 
 #include <string>
 #include <mutex> 
@@ -103,9 +88,8 @@ public:
 	
 #endif	
 
-//#ifndef noWEB
+#ifndef noWEB
 	void INIT();
-	//int AddRankPlayer(unsigned int iRANK, std::string PMVPlayerID, unsigned long Playtime, std::string &sRankName, unsigned long _Points, unsigned long _Time);
 	int AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
 	
 	std::vector<std::string> FreeNames;
@@ -115,10 +99,9 @@ public:
 
 	std::string GetTeamName(std::string sTeamID);
 	void saveTeams();
-	//void KOTGTotalRanking();
 	std::vector<std::pair<std::string, std::string>> TeamNames;
 	std::mutex muxKOTG;
-//#endif
+#endif
 	
 
 	void B_StatusNew(std::string Fun, std::string Wert);

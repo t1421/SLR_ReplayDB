@@ -6,6 +6,7 @@
 
 #include "..\..\incl\Utility.h"
 #include "..\..\incl\WEB\WEB_Main.h"
+#include "..\..\incl\WEB\WEB_Server.h"
 #include "..\..\incl\WEB\WEB_CONTAINER.h"
 
 broker *(WEB_Main::Bro) = NULL;
@@ -31,13 +32,11 @@ void WEB_Main::Init_W()
 	ARGV[2] = (char*)sLog_path.c_str();
 
 	MISD("#1");
-	#ifdef __linux__
-	W = new Wt::WServer(3,ARGV, "./Release/wt_http_Linux.cfg");
-	#else
 	W = new Wt::WServer(3,ARGV, "./wt_http.cfg");
-	#endif
 	
 	MISD("#2");
+	WW = new WEB_Server(*W);
+	MISD("#3");
 	W->addEntryPoint(Wt::EntryPointType::Application, createApplicationW);
 
 	MISE;

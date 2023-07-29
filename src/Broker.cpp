@@ -12,11 +12,12 @@
 #endif
 
 
-//#ifndef noWEB
+#ifndef noWEB
 
 #include "..\incl\Utility.h"
 
 #include "..\incl\WEB\WEB_Main.h"
+#include "..\incl\WEB\WEB_Server.h"
 #include "..\incl\WEB\WEB_CONTAINER.h"
 
 #include "..\incl\WEB\WEB_ME.h"
@@ -31,7 +32,7 @@
 #include "..\incl\WEB\WEB_Analyser_Head.h"
 #include "..\incl\WEB\WEB_Analyser_Deck.h"
 #include "..\incl\WEB\WEB_Analyser_Acti.h"
-//#endif
+#endif
 
 
 #ifndef noSMJ
@@ -71,6 +72,7 @@ broker::broker()
 
 #ifndef noWEB
 	WEB_Main::learnBro(this);
+	WEB_Server::learnBro(this);
 	MISCONTAINER::learnBro(this);
 
 	WEB_ME::learnBro(this);
@@ -120,7 +122,7 @@ Imager::learnBro(this);
 
 }
 
-//#ifndef noWEB
+#ifndef noWEB
 void broker::INIT()
 {	
 	for (int i = 0; i <= BOTXLIST; i++)A[i] = new MIS_Rank(i,L->BOTRankMode[i]);
@@ -219,66 +221,8 @@ std::string broker::GetTeamName(std::string sTeamID)
 
 	return sName;
 }
-/*
-void broker::KOTGTotalRanking()
-{
-	muxKOTG.lock();
-	std::vector<ROW*> TempRows;
-	if (A[KOTGLIST1]->RankRows.size() != A[KOTGLIST2]->RankRows.size() ||
-		A[KOTGLIST1]->RankRows.size() != A[KOTGLIST3]->RankRows.size())
-	{
-		printf("ERROR #1 KOTGTotalRanking\n");
-		muxKOTG.unlock();
-		return;
-	}
 
-	for (unsigned int i = 0; i < A[KOTGLIST1]->RankRows.size(); i++)
-		TempRows.push_back(new ROW(
-			A[KOTGLIST1]->RankRows[i]->Player,
-			A[KOTGLIST1]->RankRows[i]->Time,
-			A[KOTGLIST1]->RankRows[i]->Name,
-			i + 1,
-			i + 1));
-	
-	if (A[KOTGLIST1]->RankRows.size() != TempRows.size())
-	{
-		printf("ERROR #2 KOTGTotalRanking\n");
-		muxKOTG.unlock();
-		return;
-	}
-
-	for (unsigned int i = 0; i < A[KOTGLIST2]->RankRows.size(); i++)
-		for (unsigned int j = 0; j < TempRows.size(); j++)
-			if (TempRows[j]->Player == A[KOTGLIST2]->RankRows[i]->Player)
-			{
-				TempRows[j]->Time += A[KOTGLIST2]->RankRows[i]->Time;
-				TempRows[j]->Points += i + 1;
-				TempRows[j]->Order += i + 1;
-			}
-				//TempRows[j]->Time += A[KOTGLIST2]->RankRows[i]->Time;
-
-	for (unsigned int i = 0; i < A[KOTGLIST3]->RankRows.size(); i++)
-		for (unsigned int j = 0; j < TempRows.size(); j++)
-			if (TempRows[j]->Player == A[KOTGLIST3]->RankRows[i]->Player)
-			{
-				TempRows[j]->Time += A[KOTGLIST3]->RankRows[i]->Time;
-				TempRows[j]->Points += i + 1;
-				TempRows[j]->Order += i + 1;
-			}
-				
-				//TempRows[j]->Time += A[KOTGLIST3]->RankRows[i]->Time;
-
-	A[KOTGLIST4]->RankRows.clear();
-
-	for (unsigned int j = 0; j < TempRows.size(); j++)
-		AddRankPlayer(KOTGLIST4, TempRows[j]->Player, TempRows[j]->Order * 1000000 + TempRows[j]->Time,TempRows[j]->Name, TempRows[j]->Points, TempRows[j]->Time);
-
-	muxKOTG.unlock();
-}
-*/
-
-
-//#endif
+#endif
 
 broker::~broker()
 {

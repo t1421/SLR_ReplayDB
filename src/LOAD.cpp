@@ -80,48 +80,7 @@ bool LOAD::INI_Value_Check(std::string &check, std::string name)
 		return false;
 	}
 }
-#ifdef CC_BOT2
-void LOAD::LoadCards()
-{
-	MISS;
-	std::string line;
-	#ifdef __linux__
-	std::string sName = "./Release/cards.csv";
-	#else
-	std::string sName = "./cards.csv";
-	#endif
 
-	std::ifstream ifFile;
-	ifFile.open(sName.c_str(), std::ios::binary);
-
-	if (ifFile.good())
-	{
-		MISD("good");
-
-		while (getline(ifFile, line))
-		{
-			CsvAllCards.emplace_back(new CsvCard(
-				atoi(entry(line, 0).c_str()),
-				atoi(entry(line, 1).c_str()),
-				atoi(entry(line, 2).c_str()),
-				atoi(entry(line, 3).c_str()),
-				atoi(entry(line, 4).c_str()),
-				atoi(entry(line, 5).c_str()),
-				atoi(entry(line, 6).c_str()),
-				atoi(entry(line, 7).c_str()),
-				atoi(entry(line, 8).c_str())
-			));
-
-			ifFile.clear();
-		}
-
-		ifFile.close();
-	}
-	else MISERROR("cant open .\\cards.csv");
-	
-	MISE;
-}
-#endif
 std::string LOAD::entry(std::string Liste, int pos)
 {
 	if (pos == 0)return Liste.substr(0, Liste.find(";"));

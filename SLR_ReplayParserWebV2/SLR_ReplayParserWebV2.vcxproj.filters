@@ -93,6 +93,9 @@
     <ClCompile Include="..\src\WEB\WEB_MFA.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Server.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h">
@@ -162,6 +165,9 @@
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_MFA.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Server.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
   </ItemGroup>

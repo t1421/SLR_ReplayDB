@@ -3,10 +3,6 @@
 
 #include "Reader.h" 
 #include "DataTypes.h" 
-#ifdef __linux__
-#include <tgmath.h> 
-#endif
-
 
 #include <sstream>
 

@@ -685,7 +685,7 @@ bool Replay::ReadActions()
 				///###
 			case 4044: // TW Unit Switch
 				Action_TEMP->ActionPlayer = readUnsignedLong();
-				readUnsignedLong(); // Ziel Card ID
+				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedLong()); // Ziel Card ID
 				readUnsignedLong(); // Unknow - �ndert sich - KP wann, BZW 1,3,4 bleiben gleich ? bei gleicher Ziel Unit?
 				readUnsignedShort(); // immer 0 und 255 ?
 				readUnsignedLong(); // Abbility ID

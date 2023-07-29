@@ -5,12 +5,15 @@
 
 #include <Wt/WServer.h>
 
+class WEB_Server;
+
 class WEB_Main: public Thread_MIS  //: public Wt::WApplication
 {
 
 public:
 
 	Wt::WServer *W;
+	WEB_Server *WW;
 
 	WEB_Main() :Thread_MIS("W?") {};
 

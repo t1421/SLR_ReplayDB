@@ -183,6 +183,7 @@
     <ClCompile Include="..\src\WEB\WEB_MF.cpp" />
     <ClCompile Include="..\src\WEB\WEB_MFA.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Rank.cpp" />
+    <ClCompile Include="..\src\WEB\WEB_Server.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Toolbar.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Utility.cpp" />
   </ItemGroup>
@@ -208,6 +209,7 @@
     <ClInclude Include="..\incl\WEB\WEB_MF.h" />
     <ClInclude Include="..\incl\WEB\WEB_MFA.h" />
     <ClInclude Include="..\incl\WEB\WEB_Rank.h" />
+    <ClInclude Include="..\incl\WEB\WEB_Server.h" />
     <ClInclude Include="..\incl\WEB\WEB_Toolbar.h" />
     <ClInclude Include="..\incl\WEB\WEB_Utility.h" />
   </ItemGroup>

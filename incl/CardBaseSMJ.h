@@ -6,11 +6,7 @@
 
 
 #include <curl/curl.h>
-#ifdef __linux__
-	#include <jsoncpp/json/json.h>
-#else
-	#include <json/json.h>
-#endif
+#include <json/json.h>
 
 #include "DataTypes.h" 
 

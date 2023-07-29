@@ -1,6 +1,7 @@
 #ifndef WEB_CONTAINER_H
 #define WEB_CONTAINER_H
 
+#include "WEB_Server.h"
 #include "WEB_Toolbar.h"
 #include "WEB_Analyser.h"
 #include "WEB_Analyser_Head.h"
@@ -14,13 +15,14 @@
 class WEB_ME;
 class WEB_MF;
 
-class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser
+class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser, public WEB_Server::Client
 
 {
 public:
 
 
-
+	void connect();
+	void processChatEvent(const MISEvent& event);
 
 	//----------------------------------------------------------------
 

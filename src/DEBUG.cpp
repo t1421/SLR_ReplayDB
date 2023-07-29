@@ -53,6 +53,7 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("SQL_MIS_New", "SendBLOB", "*", "false");
 				
 		Fill_DBArray("WEB_Main", "*", "*", "true");
+		Fill_DBArray("WEB_Server", "*", "*", "true");		
 		Fill_DBArray("WEB_Toolbar", "*", "*", "true");
 		Fill_DBArray("MISCONTAINER", "*", "*", "true");
 		
@@ -119,12 +120,7 @@ void DEBUG::StatusNew(std::string Fun, std::string Wert)
 		bFile == false)return;
 
 	t = time(NULL);	
-#ifdef __linux__
-	localtime_r( &t, &ts );
-#endif
-#ifdef _WIN32
 	localtime_s(&ts, &t);
-#endif
 
 	if (bFilter && (Wert == "-->" || Wert == "<--"))return;
 

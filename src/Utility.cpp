@@ -2,9 +2,7 @@
 #include <thread>
 #include <fstream>
 
-#ifdef __linux__
-#include <tgmath.h> 
-#endif
+
 
 void Sleep(int time)
 {
