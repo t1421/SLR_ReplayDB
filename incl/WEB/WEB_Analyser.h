@@ -43,17 +43,10 @@ public:
 
 	bool WA_Debug;
 
-	std::string  Check_BOT3();
-	double Kalk_BOT3(Wt::WTable *wtTabelle);
-
 	std::string Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos, unsigned long iTimes[RankRowStamps]);
 	void AddIMG(Wt::WTableCell *wtCell, bool bValue);
-
-	std::string Kalk_KOTG(Wt::WTable *wtTabelle[3], unsigned long iTimes[RankRowStamps]);
-	std::string GetTeamID();
-	int switchKOTG_Amii(std::string sAmiiID);
-	int switchKOTG_Wall(std::string sWallID);
-	int switchKOTG_Orb(std::string sOrbID);
+	
+	std::string GetTeamID();	
 
 	private:
 		double SwitchType(unsigned char ucType) 

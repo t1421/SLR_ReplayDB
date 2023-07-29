@@ -240,14 +240,7 @@ std::vector<ROW> MIS_Rank::getRankeROW(int iRanking)
 	switch (iRanking)
 	{
 	case BOT4LIST:
-	case KOTGLIST1:
 		std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField0);
-		break;
-	case KOTGLIST2:
-		std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField1);
-		break;
-	case KOTGLIST3:
-		std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField2);
 		break;
 	}
 	
@@ -256,11 +249,10 @@ std::vector<ROW> MIS_Rank::getRankeROW(int iRanking)
 }
 
 
-std::vector<ROW> MIS_Rank::getRankeKOTG()
+std::vector<ROW> MIS_Rank::getRankeMultiList()
 {
 	MISS;
 
-	//ROW* newRow;
 	std::vector<ROW> vReturn;
 
 	for (const auto& rowPtrr : RankRows)vReturn.push_back(*rowPtrr);
@@ -288,78 +280,8 @@ std::vector<ROW> MIS_Rank::getRankeKOTG()
 		vReturn[i].Stamps[3] += i + 1;
 		vReturn[i].Stamps[2] = (i + 1) * 100000;
 	}
-	/*
-	for (unsigned int i = 0; i < vReturn.size(); i++)
-	{
-		vReturn[i].Stamps[3] = vReturn[i].Stamps[0]
-			+ vReturn[i].Stamps[1]
-			+ vReturn[i].Stamps[2];
-	}*/
+
 	std::sort(vReturn.begin(), vReturn.end(), comparePlayerX);
-
-	//ROW TMP;
-	/*
-	std::vector<ROW> vRank0;
-	std::vector<ROW> vRank1;
-	std::vector<ROW> vRank2;
-
-	MISD("#2");
-	
-	for (const auto& rowPtrr : RankRows)
-	{
-		vRank0.push_back(*rowPtrr);
-		vRank1.push_back(*rowPtrr);
-		vRank2.push_back(*rowPtrr);
-	}
-	MISD("#3");
-	std::sort(vRank0.begin(), vRank0.end(), comparePlayerField0);
-	std::sort(vRank1.begin(), vRank1.end(), comparePlayerField1);
-	std::sort(vRank2.begin(), vRank2.end(), comparePlayerField2);
-
-	MISD("#4");
-	
-
-	for (const auto& rowPtr : RankRows)
-	{
-		vReturn.push_back(new ROW(rowPtr->ID, rowPtr->ReplayID));
-		//vReturn.push_back(*rowPtr);
-
-		
-		
-		for (unsigned int i = 0; i < vRank0.size(); i++)		
-			if (vReturn.back()->ID == vRank0[i].ID && vReturn.back()->ReplayID == vRank0[i].ReplayID)
-			{				
-				vReturn.back()->Stamps[0] = (i + 1) * 1000000;
-				vReturn.back()->Stamps[3] += (i + 1);
-				vReturn.back()->Stamps[4] += vRank0[i].Stamps[0];
-			}
-
-		for (unsigned int i = 0; i < vRank1.size(); i++)
-			if (vReturn.back()->ID == vRank1[i].ID && vReturn.back()->ReplayID == vRank1[i].ReplayID)
-			{
-				vReturn.back()->Stamps[1] = (i + 1) * 1000000;
-				vReturn.back()->Stamps[3] += (i + 1);
-				vReturn.back()->Stamps[4] += vRank1[i].Stamps[1];				
-				
-			}
-
-		for (unsigned int i = 0; i < vRank2.size(); i++)
-			if (vReturn.back()->ID == vRank2[i].ID && vReturn.back()->ReplayID == vRank2[i].ReplayID)
-			{
-				vReturn.back()->Stamps[2] = (i + 1) * 1000000;
-				vReturn.back()->Stamps[3] += (i + 1);
-				vReturn.back()->Stamps[4] += vRank2[i].Stamps[2];				
-				
-			}	
-			
-		//vReturn.push_back(TMP);
-
-	}
-	*/
-	//MISD("#5");
-	//std::sort(vReturn.begin(), vReturn.end(), comparePlayerX);
-	//std::sort(vReturn.begin(), vReturn.end(), comparePlayer);
-	
 
 	MISE;
 	return vReturn;

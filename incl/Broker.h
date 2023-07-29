@@ -23,12 +23,8 @@
 #include <vector>
 
 #define BOT4LIST 0
-#define KOTGLIST1 1
-#define KOTGLIST2 2
-#define KOTGLIST3 3
-#define KOTGLIST4 4
-#define KOTGLISTX 5
-#define BOTXLIST 5
+#define BOT6LIST 1
+#define BOTXLIST 2
 #define RankRowStamps 5
 
 class DEBUG;
@@ -100,7 +96,6 @@ public:
 	std::string GetTeamName(std::string sTeamID);
 	void saveTeams();
 	std::vector<std::pair<std::string, std::string>> TeamNames;
-	std::mutex muxKOTG;
 #endif
 	
 
