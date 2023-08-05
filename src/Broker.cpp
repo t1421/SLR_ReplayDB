@@ -3,21 +3,25 @@
 
 #include "..\incl\DEBUG.h"
 
+#if defined BrokerNormal || defined BrokerWeb  
 #include "..\incl\Replay.h" 
 #include "..\incl\Reader.h" 
+#endif
 
-#if defined BrokerNormal || defined BrokerWeb
+#if defined BrokerTome || defined BrokerNormal || defined BrokerWeb
 #include "..\incl\LOAD.h"
 #include "..\incl\Thread_MIS.h" 
 #endif
 
 
-#ifndef noWEB
-
+#if defined BrokerTome || defined BrokerWeb
 #include "..\incl\Utility.h"
 
 #include "..\incl\WEB\WEB_Main.h"
 #include "..\incl\WEB\WEB_Server.h"
+#endif
+
+#if defined BrokerWeb
 #include "..\incl\WEB\WEB_CONTAINER.h"
 
 #include "..\incl\WEB\WEB_ME.h"
@@ -32,6 +36,9 @@
 #include "..\incl\WEB\WEB_Analyser_Acti.h"
 #endif
 
+#if defined BrokerTome
+#include "..\incl\WEB\WEB_CONTAINER_Tome.h"
+#endif
 
 #ifndef noSMJ
 #include "..\incl\CardBaseSMJ.h" 
@@ -59,19 +66,27 @@ broker::broker()
 
 	DEBUG::learnBro(this);
 	B = NULL;	
+#if defined BrokerNormal || defined BrokerWeb
 	Replay::learnBro(this);
 	Reader::learnBro(this);
+#endif
 
-#if defined BrokerNormal || defined BrokerWeb
+#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome 
 	Thread_MIS::learnBro(this);
 	LOAD::learnBro(this);
 	L = NULL;
 #endif
 
-#ifndef noWEB
+#if defined BrokerTome || defined BrokerWeb
 	WEB_Main::learnBro(this);
 	WEB_Server::learnBro(this);
-	MISCONTAINER::learnBro(this);
+	
+	W = NULL;
+#endif
+
+
+#if defined BrokerWeb
+	WEB_Container::learnBro(this);
 
 	WEB_ME::learnBro(this);
 	WEB_MEA::learnBro(this);
@@ -83,15 +98,16 @@ broker::broker()
 	WEB_Analyser_Head::learnBro(this);
 	WEB_Analyser_Deck::learnBro(this);
 	WEB_Analyser_Acti::learnBro(this);
-	
-	W = NULL;	
+#endif
+
+#if defined BrokerTome
+	WEB_Container_Tome::learnBro(this);
 #endif
 
 #ifndef noSMJ
 	CardBaseSMJ::learnBro(this);
 	J = NULL;
 #endif
-
 
 #ifdef BrokerNormal	
 	Thread_MIS::learnBro(this);
@@ -118,7 +134,7 @@ Imager::learnBro(this);
 
 }
 
-#ifndef noWEB
+#if defined BrokerWeb
 void broker::INIT()
 {	
 	for (int i = 0; i <= BOTXLIST; i++)A[i] = new MIS_Rank(i,L->BOTRankMode[i]);
@@ -247,7 +263,7 @@ unsigned char broker::J_GetActionOrbForCardID(unsigned short CardID)
 }
 #endif
 
-#if defined BrokerNormal || defined BrokerWeb
+#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome 
 std::string broker::L_getSQL_Server()
 {
 	return L->sSQL_Server;

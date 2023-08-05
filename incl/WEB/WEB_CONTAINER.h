@@ -14,19 +14,15 @@
 
 class WEB_ME;
 
-class MISCONTAINER : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser, public WEB_Server::Client
+class WEB_Container : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser
 
 {
 public:
 
-
-	void connect();
-	void processChatEvent(const MISEvent& event);
-
 	//----------------------------------------------------------------
 
-	MISCONTAINER(const Wt::WEnvironment& env);
-	~MISCONTAINER();
+	WEB_Container(const Wt::WEnvironment& env);
+	~WEB_Container();
 
 	//BROKER
 	static broker* Bro;
@@ -42,12 +38,7 @@ private:
 	Wt::WText		 *wtStatus;
 	Wt::WContainerWidget *GlobaelContainer;
 
-
 	std::string sPARA;
-	std::string sBETA;
-
-	
-
 };
 
 #endif // WEB_CONTAINER_H

@@ -57,9 +57,7 @@ public:
 
 	bool bAktive;
 
-	unsigned char J_GetActionOrbForCardID(unsigned short CardID);
-
-#if defined BrokerNormal || defined BrokerWeb
+#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome 
 	std::string L_getSQL_Server();
 	std::string L_getSQL_User();
 	std::string L_getSQL_PW();
@@ -74,17 +72,19 @@ public:
 	std::string L_getSMJIMG_PATH();
 	std::string L_getSMJPICSMALL_PATH();
 	int L_getBOTRankMode(int _BOT);
+#endif	
 
 #ifndef noSMJ
 	std::string J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall);
+	unsigned char J_GetActionOrbForCardID(unsigned short CardID);
 	unsigned char J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges);
 	SMJCard* J_GetSMJCard(unsigned short _CardID);
 	std::string J_GetImgOnly(unsigned short CardID);
 #endif
 	
-#endif	
 
-#ifndef noWEB
+
+#if defined BrokerWeb
 	void INIT();
 	int AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
 	

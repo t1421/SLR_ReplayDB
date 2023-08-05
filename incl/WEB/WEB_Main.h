@@ -24,6 +24,7 @@ public:
 	//BROKER
 	static broker* Bro;
 	void teachW() { Bro->W = this; }
+	//void teachWT() { Bro->WT = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 };
