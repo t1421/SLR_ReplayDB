@@ -1,6 +1,7 @@
 #define DF_Debug
 
 #include "..\..\incl\Broker.h"
+#include "..\..\incl\DataTypes.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Logout.h"
 
 #include <Wt/WContainerWidget.h>
@@ -8,7 +9,7 @@
 
 broker *(WEB_Tome_Logout::Bro) = NULL;
 
-WEB_Tome_Logout::WEB_Tome_Logout()
+WEB_Tome_Logout::WEB_Tome_Logout(TomeStruct *TS)
 {
 	MISS;
 

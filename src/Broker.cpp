@@ -266,13 +266,6 @@ std::string broker::J_GetImgOnly(unsigned short CardID)
 #endif
 
 
-#if defined BrokerParser 
-unsigned char broker::J_GetActionOrbForCardID(unsigned short CardID)
-{
-	return 0;
-}
-#endif
-
 #if defined BrokerNormal || defined BrokerWeb || defined BrokerTome 
 std::string broker::L_getSQL_Server()
 {
@@ -339,8 +332,14 @@ int broker::L_getBOTRankMode(int _BOT)
 {
 	return L->BOTRankMode[_BOT];
 }
+#endif
 
-
+#if defined BrokerTome 
+TomeStruct broker::L_Load_TomeGameHead(std::string sGameID)
+{
+	return L->Load_TomeGameHead(sGameID);
+}
+#endif
 
 #ifndef noSMJ
 std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall)
@@ -357,7 +356,6 @@ SMJCard* broker::J_GetSMJCard(unsigned short _CardID)
 {
 	return J->GetSMJCard(_CardID);
 }
-#endif
 #endif
 
 void broker::B_StatusNew(std::string Fun, std::string Wert)

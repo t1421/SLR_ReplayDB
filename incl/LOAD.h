@@ -6,15 +6,15 @@
 #include <string>
 #include <vector>
 
+struct TomeStruct;
 
 class LOAD //: public Thread_MIS
 {
 public:
 
 	void StartUp();
+	TomeStruct Load_TomeGameHead(std::string sGameID);
 
-	
-	    	
 	std::string sSQL_Server;
 	std::string sSQL_User;
 	std::string sSQL_PW;

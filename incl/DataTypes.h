@@ -126,9 +126,14 @@ struct SMJCard {
 	char affinity;
 	char rarity;
 	char promo;
-	
-	
 };
+
+struct TomeStruct {
+	std::string GameID;
+	std::string AdminID;
+	std::vector <std::string> PlayerID;
+};
+
 #endif //DataTypes
 
 

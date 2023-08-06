@@ -1,8 +1,10 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\incl\Broker.h"
 
 #include "..\incl\LOAD.h"
+
+#include "..\incl\DataTypes.h"
 
 #include <fstream>
 
@@ -86,4 +88,42 @@ std::string LOAD::entry(std::string Liste, int pos)
 		Liste.erase(0, Liste.find(";") + 1);
 		return entry(Liste, pos - 1);
 	}
+}
+
+TomeStruct LOAD::Load_TomeGameHead(std::string sGameID)
+{
+	MISS;
+	std::string line;
+	std::string sName = sTOME_SAVE_PATH + sGameID;
+	TomeStruct *TSOUT = new TomeStruct;
+
+	std::ifstream ifFile;
+	ifFile.open(sName.c_str(), std::ios::binary);
+
+	if (ifFile.good())
+	{
+		MISD("good");
+
+		getline(ifFile, line);
+		line.erase(line.size() - 1);
+		TSOUT->GameID = line;
+		ifFile.clear();
+
+		getline(ifFile, line);
+		line.erase(line.size() - 1);
+		TSOUT->AdminID = line;
+		ifFile.clear();
+
+		while (getline(ifFile, line))
+		{
+			line.erase(line.size() - 1);
+			TSOUT->PlayerID.push_back(line);
+			ifFile.clear();
+		}
+
+		ifFile.close();
+	}
+
+	MISE;
+	return *TSOUT;
 }

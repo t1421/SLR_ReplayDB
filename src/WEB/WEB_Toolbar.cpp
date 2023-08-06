@@ -14,6 +14,7 @@ void WEB_Toolbar::ToolBarButton(int Index, std::string Name, Wt::WContainerWidge
 {
 	MISS;
 	bToolbar.push_back(new Wt::WPushButton());
+	bDisable.push_back(false);
 	wfToolbar.push_back(WF);
 	bToolbar[Index]->setText(Name);
 	tToolbar->addButton(std::unique_ptr<Wt::WPushButton>(bToolbar[Index]));
@@ -44,6 +45,7 @@ void WEB_Toolbar::updateToolbar()
 		else sCSS = "button0" + sCSS;
 
 		bToolbar[i]->setStyleClass(sCSS);
+		bToolbar[i]->setDisabled(bDisable[i]);
 	}
 	MISE;
 }

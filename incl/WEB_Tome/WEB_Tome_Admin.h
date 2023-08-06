@@ -3,11 +3,13 @@
 
 #include "..\WEB\WEB_Utility.h"
 
+struct TomeStruct;
+
 class WEB_Tome_Admin : public WebRefresh
 {
 public:
 
-	WEB_Tome_Admin();
+	WEB_Tome_Admin(TomeStruct *TS);
 
 	Wt::WText		     *wtStatus;
 	

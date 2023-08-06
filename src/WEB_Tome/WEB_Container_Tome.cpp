@@ -1,6 +1,8 @@
 //#define DF_Debug
 
 #include "..\..\incl\Broker.h" 
+#include "..\..\incl\DataTypes.h" 
+
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
 #include "..\..\incl\WEB\WEB_Utility.h"
@@ -69,13 +71,15 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)),3,0);
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)), 4, 0);
 	
+	GlobalTS = new TomeStruct;
+
 	MISD("#6");
 
-	Admin  = new WEB_Tome_Admin();
-	Login  = new WEB_Tome_Login();
-	Logout = new WEB_Tome_Logout();
-	Player = new WEB_Tome_Player();
-	Public = new WEB_Tome_Public();
+	Admin  = new WEB_Tome_Admin(GlobalTS);
+	Login  = new WEB_Tome_Login(this);
+	Logout = new WEB_Tome_Logout(GlobalTS);
+	Player = new WEB_Tome_Player(GlobalTS);
+	Public = new WEB_Tome_Public(GlobalTS);
 	
 	MISD("#7");
 
@@ -87,6 +91,11 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 
 	MISD("#8");
 
+	WEB_Toolbar::bDisable[0] = false;
+	WEB_Toolbar::bDisable[1] = true;
+	WEB_Toolbar::bDisable[2] = true;
+	WEB_Toolbar::bDisable[3] = true;
+	WEB_Toolbar::bDisable[4] = true;
 	WEB_Toolbar::sToolbar->setCurrentIndex(0);	
 	WEB_Toolbar::updateToolbar();
 	//if (Bro->L_getBOTRankMode(BOT4LIST) <10)WEB_Toolbar::sToolbar->setCurrentIndex(0); 
@@ -107,6 +116,7 @@ WEB_Container_Tome::~WEB_Container_Tome()
 void WEB_Container_Tome::WRefresh()
 {
 	MISS;
+	WEB_Toolbar::updateToolbar();
 	MISE;
 }
 

@@ -28,6 +28,7 @@ public:
 	Wt::WToolBar *tToolbar;
 	std::vector <Wt::WPushButton *> bToolbar;
 	std::vector <WebRefresh *> wfToolbar;
+	std::vector <bool> bDisable;
 protected:
 
 private:
