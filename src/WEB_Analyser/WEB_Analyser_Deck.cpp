@@ -2,9 +2,8 @@
 
 #include "..\..\incl\Broker.h"
 
-#include "..\..\incl\WEB\WEB_Analyser.h"
-#include "..\..\incl\WEB\WEB_Analyser_Deck.h"
-//#include "..\..\incl\Replay.h" 
+#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
+#include "..\..\incl\WEB_Analyser\WEB_Analyser_Deck.h"
 #include "..\..\incl\DataTypes.h" 
 
 #include <Wt/WContainerWidget.h>

@@ -4,9 +4,9 @@
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
 #include "..\..\incl\WEB\WEB_Utility.h"
-#include "..\..\incl\WEB\WEB_ME.h"
-#include "..\..\incl\WEB\WEB_Analyser.h"
-#include "..\..\incl\WEB\WEB_CONTAINER.h"
+#include "..\..\incl\WEB_Analyser\WEB_ME.h"
+#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
+#include "..\..\incl\WEB_Analyser\WEB_CONTAINER_Analyser.h"
 
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WText.h>

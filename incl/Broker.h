@@ -68,6 +68,7 @@ public:
 	std::string L_getTMP_PATH();
 	std::string L_getFFMPEG();
 	std::string L_getRANK_PATH();
+	std::string L_getTOME_SAVE_PATH();
 	std::string L_getSMJPIC_PATH();
 	std::string L_getSMJIMG_PATH();
 	std::string L_getSMJPICSMALL_PATH();

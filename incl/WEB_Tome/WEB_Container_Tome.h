@@ -1,25 +1,36 @@
 #ifndef WEB_CONTAINER_TOME_H
 #define WEB_CONTAINER_TOME_H
 
-#include "WEB_Server.h"
-#include "WEB_Toolbar.h"
+#include "..\WEB\WEB_Server.h"
+#include "..\WEB\WEB_Toolbar.h"
 
 #include <Wt/WText.h>
 #include <Wt/WFileUpload.h>
 #include <Wt/WApplication.h>
 
-class WEB_ME;
+class WEB_Tome_Admin;
+class WEB_Tome_Login;
+class WEB_Tome_Logout;
+class WEB_Tome_Player;
+class WEB_Tome_Public;
 
-class WEB_Container_Tome : public Wt::WApplication, public WEB_Server::Client
+class WEB_Container_Tome : public Wt::WApplication, public WEB_Server::Client, public WEB_Toolbar
 
 {
 public:
+	WEB_Tome_Admin  *Admin;
+	WEB_Tome_Login  *Login;
+	WEB_Tome_Logout *Logout;
+	WEB_Tome_Player *Player;
+	WEB_Tome_Public *Public;
 
 
 	void connect();
 	void processChatEvent(const MISEvent& event);
 
 	//----------------------------------------------------------------
+
+	void WRefresh();
 
 	WEB_Container_Tome(const Wt::WEnvironment& env);
 	~WEB_Container_Tome();
@@ -32,9 +43,6 @@ public:
 private:
 
 	Wt::WContainerWidget *GlobaelContainer;
-
-	void WRefresh();
-
 	std::string sPARA;
 
 };

@@ -6,27 +6,6 @@
 #include <string>
 #include <vector>
 
-struct CsvCard {
-	unsigned short CardID;
-	unsigned int   iFire;
-	unsigned int   iFrost;
-	unsigned int   iShadow;
-	unsigned int   iNature;
-	unsigned int   iNeutral;
-	bool		   bUnit;
-	bool		   bSpell;
-	bool		   bBuilding;
-	CsvCard(unsigned short _CardID,
-		unsigned int   _iFire,
-		unsigned int   _iFrost,
-		unsigned int   _iShadow,
-		unsigned int   _iNature,
-		unsigned int   _iNeutral,
-		bool		   _bUnit,
-		bool		   _bSpell,
-		bool		   _bBuilding) :
-		CardID(_CardID), iFire(_iFire), iFrost(_iFrost) , iShadow(_iShadow), iNature(_iNature), iNeutral(_iNeutral),bUnit(_bUnit),bSpell(_bSpell),bBuilding(_bBuilding) {}
-};
 
 class LOAD //: public Thread_MIS
 {
@@ -47,6 +26,8 @@ public:
 
 	std::string sRANK_PATH;
 
+	std::string sTOME_SAVE_PATH;
+
 	std::string sTMP_PATH;
 	std::string sSMJPIC_PATH;
 	std::string sSMJIMG_PATH;
@@ -55,10 +36,6 @@ public:
 
 	int BOTRankMode[BOTXLIST + 1];
 
-#ifdef CC_BOT2
-	std::vector <CsvCard*> CsvAllCards;
-	void LoadCards();
-#endif
 	//BROKER
 	static broker* Bro;
 	void teachL() { Bro->L = this; }

@@ -1,7 +1,7 @@
 #ifndef WEB_ME_H
 #define WEB_ME_H
 
-#include "WEB_Toolbar.h"
+#include "../WEB/WEB_Toolbar.h"
 
 class WEB_MEA;
 class WEB_Rank;

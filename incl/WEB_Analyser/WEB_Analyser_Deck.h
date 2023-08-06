@@ -1,7 +1,7 @@
 #ifndef WEB_Analyser_Deck_H
 #define WEB_Analyser_Deck_H
 
-#include "WEB_Utility.h"
+#include "../WEB/WEB_Utility.h"
 
 class WEB_Analyser;
 

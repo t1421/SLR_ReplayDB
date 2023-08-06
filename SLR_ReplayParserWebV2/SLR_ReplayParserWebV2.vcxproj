@@ -172,18 +172,18 @@
     <ClCompile Include="..\src\Replay.cpp" />
     <ClCompile Include="..\src\Thread_MIS.cpp" />
     <ClCompile Include="..\src\Utility.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Analyser.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Acti.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Deck.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Head.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_CONTAINER.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Main.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_ME.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_MEA.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Rank.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Server.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Toolbar.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Utility.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Acti.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Deck.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Head.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Container_Analyser.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_ME.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_MEA.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Rank.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h" />
@@ -196,18 +196,18 @@
     <ClInclude Include="..\incl\Replay.h" />
     <ClInclude Include="..\incl\Thread_MIS.h" />
     <ClInclude Include="..\incl\Utility.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Analyser.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Analyser_Acti.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Analyser_Deck.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Analyser_Head.h" />
-    <ClInclude Include="..\incl\WEB\WEB_CONTAINER.h" />
     <ClInclude Include="..\incl\WEB\WEB_Main.h" />
-    <ClInclude Include="..\incl\WEB\WEB_ME.h" />
-    <ClInclude Include="..\incl\WEB\WEB_MEA.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Rank.h" />
     <ClInclude Include="..\incl\WEB\WEB_Server.h" />
     <ClInclude Include="..\incl\WEB\WEB_Toolbar.h" />
     <ClInclude Include="..\incl\WEB\WEB_Utility.h" />
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser.h" />
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Acti.h" />
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Deck.h" />
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Head.h" />
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Container_Analyser.h" />
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_ME.h" />
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_MEA.h" />
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Rank.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

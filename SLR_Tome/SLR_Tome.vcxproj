@@ -127,6 +127,9 @@
       <AdditionalLibraryDirectories>K:\c++\Wt 4.5.2 msvs2015 x86\lib;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\lib;K:\Sound_Server\lib\jsoncpp-1.9.5\build2\lib\Release;K:\Sound_Server\lib\opencv3.4\lib\VC14_32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>wt.lib;wthttp.lib;libcurl.lib;jsoncpp.lib;opencv_imgcodecs340.lib;opencv_imgproc340.lib;opencv_core340.lib;opencv_highgui340.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>start "" taskkill /IM SLR_Tome.exe /F</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -156,9 +159,16 @@
     <ClCompile Include="..\src\LOAD.cpp" />
     <ClCompile Include="..\src\Thread_MIS.cpp" />
     <ClCompile Include="..\src\Utility.cpp" />
-    <ClCompile Include="..\src\WEB\WEB_Container_Tome.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Main.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Server.cpp" />
+    <ClCompile Include="..\src\WEB\WEB_Toolbar.cpp" />
+    <ClCompile Include="..\src\WEB\WEB_Utility.cpp" />
+    <ClCompile Include="..\src\WEB_Tome\WEB_Container_Tome.cpp" />
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Admin.cpp" />
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Login.cpp" />
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Logout.cpp" />
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Player.cpp" />
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Public.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h" />
@@ -167,9 +177,16 @@
     <ClInclude Include="..\incl\LOAD.h" />
     <ClInclude Include="..\incl\Thread_MIS.h" />
     <ClInclude Include="..\incl\Utility.h" />
-    <ClInclude Include="..\incl\WEB\WEB_Container_Tome.h" />
     <ClInclude Include="..\incl\WEB\WEB_Main.h" />
     <ClInclude Include="..\incl\WEB\WEB_Server.h" />
+    <ClInclude Include="..\incl\WEB\WEB_Toolbar.h" />
+    <ClInclude Include="..\incl\WEB\WEB_Utility.h" />
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Container_Tome.h" />
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Admin.h" />
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Login.h" />
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Logout.h" />
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Player.h" />
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Public.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -3,8 +3,8 @@
 #include "..\..\incl\Broker.h"
 
 #include "..\..\incl\Utility.h" 
-#include "..\..\incl\WEB\WEB_MEA.h"
-#include "..\..\incl\WEB\WEB_Analyser.h"
+#include "..\..\incl\WEB_Analyser\WEB_MEA.h"
+#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 
 #include <Wt/WTable.h>
 #include <Wt/WGridLayout.h>

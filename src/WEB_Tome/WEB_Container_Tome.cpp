@@ -4,7 +4,14 @@
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
 #include "..\..\incl\WEB\WEB_Utility.h"
-#include "..\..\incl\WEB\WEB_Container_Tome.h"
+
+#include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
+
+#include "..\..\incl\WEB_Tome\WEB_Tome_Admin.h"
+#include "..\..\incl\WEB_Tome\WEB_Tome_Login.h"
+#include "..\..\incl\WEB_Tome\WEB_Tome_Logout.h"
+#include "..\..\incl\WEB_Tome\WEB_Tome_Player.h"
+#include "..\..\incl\WEB_Tome\WEB_Tome_Public.h"
 
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WText.h>
@@ -42,40 +49,50 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	MISD("#2");
 
 	WApplication::instance()->setTheme(bootstrapTheme);
-	WApplication::instance()->setTitle("SLR - Replay Checker");
+	WApplication::instance()->setTitle("SLR - Tome Fight Maker");
 	WApplication::instance()->useStyleSheet(Wt::WLink("./resources/main.css"));
 
-	MISD("#3");	
+	MISD("#3");
 
+	Wt::WColor wTemp;
+	wTemp = Wt::WColor(222, 222, 222);
+	root()->decorationStyle().setForegroundColor(wTemp);
+	wTemp = Wt::WColor(20, 20, 20);
+	root()->decorationStyle().setBackgroundColor(wTemp);
+	
 	MISD("#4");
 	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	
 	GlobaelContainer->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
 	
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h2><b>Replay Checking</b></h2>"))),0,0);
-	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::tToolbar)),3,0);
-	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::sToolbar)), 4, 0);
-
-	MISD("#5");
-
-	Wt::WColor wTemp;
-
-	wTemp = Wt::WColor(222, 222, 222);
-	root()->decorationStyle().setForegroundColor(wTemp);
-
-	wTemp = Wt::WColor(20, 20, 20);
-	root()->decorationStyle().setBackgroundColor(wTemp);
-
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h2><b>Welcome to the Tome Fight Maker</b></h2>"))),0,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)),3,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)), 4, 0);
+	
 	MISD("#6");
 
-	//if (Bro->L_getBOTRankMode(BOT4LIST) <10
-	//	|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT4", *ME->cMain, ME);
+	Admin  = new WEB_Tome_Admin();
+	Login  = new WEB_Tome_Login();
+	Logout = new WEB_Tome_Logout();
+	Player = new WEB_Tome_Player();
+	Public = new WEB_Tome_Public();
+	
+	MISD("#7");
 
-	//WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
+	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Login",  *Login->cMain,  Login);
+	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Public", *Public->cMain, Public);
+	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Player", *Player->cMain, Player);
+	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Admin",  *Admin->cMain,  Admin);
+	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Logout", *Logout->cMain, Logout);
+
+	MISD("#8");
+
+	WEB_Toolbar::sToolbar->setCurrentIndex(0);	
+	WEB_Toolbar::updateToolbar();
 	//if (Bro->L_getBOTRankMode(BOT4LIST) <10)WEB_Toolbar::sToolbar->setCurrentIndex(0); 
 	//WEB_Toolbar::updateToolbar();
 
-	MISD("#7");
+	
 
 	MISE;
 }

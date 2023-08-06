@@ -35,6 +35,7 @@ void LOAD::Load_Settings()
 			if (INI_Value_Check(line, "PMV_ARCH_PATH"))sPMV_ARCH_PATH = line.c_str();
 
 			if (INI_Value_Check(line, "RANK_PATH"))sRANK_PATH = line.c_str();
+			if (INI_Value_Check(line, "TOME_SAVE_PATH"))sTOME_SAVE_PATH = line.c_str();
 
 			if (INI_Value_Check(line, "TMP_PATH"))sTMP_PATH = line.c_str();
 			if (INI_Value_Check(line, "SMJPIC_PATH"))sSMJPIC_PATH = line.c_str();

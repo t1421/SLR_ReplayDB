@@ -19,25 +19,30 @@
 
 #include "..\incl\WEB\WEB_Main.h"
 #include "..\incl\WEB\WEB_Server.h"
+#include "..\incl\WEB\WEB_Toolbar.h"
 #endif
 
 #if defined BrokerWeb
-#include "..\incl\WEB\WEB_CONTAINER.h"
+#include "..\incl\WEB_Analyser\WEB_CONTAINER_Analyser.h"
 
-#include "..\incl\WEB\WEB_ME.h"
-#include "..\incl\WEB\WEB_MEA.h"
-#include "..\incl\WEB\WEB_Rank.h"
-#include "..\incl\WEB\WEB_Toolbar.h"
+#include "..\incl\WEB_Analyser\WEB_ME.h"
+#include "..\incl\WEB_Analyser\WEB_MEA.h"
+#include "..\incl\WEB_Analyser\WEB_Rank.h"
 #include "..\incl\MIS_Rank.h"
 
-#include "..\incl\WEB\WEB_Analyser.h"
-#include "..\incl\WEB\WEB_Analyser_Head.h"
-#include "..\incl\WEB\WEB_Analyser_Deck.h"
-#include "..\incl\WEB\WEB_Analyser_Acti.h"
+#include "..\incl\WEB_Analyser\WEB_Analyser.h"
+#include "..\incl\WEB_Analyser\WEB_Analyser_Head.h"
+#include "..\incl\WEB_Analyser\WEB_Analyser_Deck.h"
+#include "..\incl\WEB_Analyser\WEB_Analyser_Acti.h"
 #endif
 
 #if defined BrokerTome
-#include "..\incl\WEB\WEB_CONTAINER_Tome.h"
+#include "..\incl\WEB_Tome\WEB_CONTAINER_Tome.h"
+#include "..\incl\WEB_Tome\WEB_Tome_Admin.h"
+#include "..\incl\WEB_Tome\WEB_Tome_Login.h"
+#include "..\incl\WEB_Tome\WEB_Tome_Logout.h"
+#include "..\incl\WEB_Tome\WEB_Tome_Player.h"
+#include "..\incl\WEB_Tome\WEB_Tome_Public.h"
 #endif
 
 #ifndef noSMJ
@@ -80,6 +85,7 @@ broker::broker()
 #if defined BrokerTome || defined BrokerWeb
 	WEB_Main::learnBro(this);
 	WEB_Server::learnBro(this);
+	WEB_Toolbar::learnBro(this);
 	
 	W = NULL;
 #endif
@@ -90,8 +96,7 @@ broker::broker()
 
 	WEB_ME::learnBro(this);
 	WEB_MEA::learnBro(this);
-	WEB_Rank::learnBro(this);
-	WEB_Toolbar::learnBro(this);
+	WEB_Rank::learnBro(this);	
 	MIS_Rank::learnBro(this);
 
 	WEB_Analyser::learnBro(this);
@@ -102,6 +107,11 @@ broker::broker()
 
 #if defined BrokerTome
 	WEB_Container_Tome::learnBro(this);
+	WEB_Tome_Admin::learnBro(this);
+	WEB_Tome_Login::learnBro(this);
+	WEB_Tome_Logout::learnBro(this);
+	WEB_Tome_Player::learnBro(this);
+	WEB_Tome_Public::learnBro(this);
 #endif
 
 #ifndef noSMJ
@@ -320,10 +330,17 @@ std::string broker::L_getRANK_PATH()
 	return L->sRANK_PATH;	
 }
 
+std::string broker::L_getTOME_SAVE_PATH()
+{
+	return L->sTOME_SAVE_PATH;
+}
+
 int broker::L_getBOTRankMode(int _BOT)
 {
 	return L->BOTRankMode[_BOT];
 }
+
+
 
 #ifndef noSMJ
 std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall)

@@ -19,6 +19,12 @@
     <Filter Include="Headerdateien\WEB">
       <UniqueIdentifier>{3d79b13d-511b-47e1-8537-e0b8509943d8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Analyser">
+      <UniqueIdentifier>{356b5e17-5809-486c-abff-99913e52e2e7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Analyser">
+      <UniqueIdentifier>{7caf374a-45b3-493c-91a2-b0e50d2ceb5a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -48,13 +54,7 @@
     <ClCompile Include="..\src\MIS_Rank.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_CONTAINER.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB\WEB_Main.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_Rank.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
     <ClCompile Include="..\src\WEB\WEB_Toolbar.cpp">
@@ -63,32 +63,38 @@
     <ClCompile Include="..\src\WEB\WEB_Utility.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_Analyser.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Head.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\CardBaseSMJ.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\SLR_ReplayParserWebV2.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Acti.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_Analyser_Deck.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_ME.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_MEA.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB\WEB_Server.cpp">
       <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Acti.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Deck.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Head.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Container_Analyser.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_ME.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_MEA.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Rank.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -116,13 +122,7 @@
     <ClInclude Include="..\incl\MIS_Rank.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_CONTAINER.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_Main.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_Rank.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_Toolbar.h">
@@ -131,32 +131,38 @@
     <ClInclude Include="..\incl\WEB\WEB_Utility.h">
       <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_Analyser.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_Analyser_Deck.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_Analyser_Head.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_Analyser_Acti.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
     <ClInclude Include="..\incl\CardBaseSMJ.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\DataTypes.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_ME.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_MEA.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_Server.h">
       <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Acti.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Deck.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Head.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Container_Analyser.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_ME.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_MEA.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Rank.h">
+      <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

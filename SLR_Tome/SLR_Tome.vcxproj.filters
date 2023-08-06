@@ -19,6 +19,12 @@
     <Filter Include="Headerdateien\WEB">
       <UniqueIdentifier>{e29618f7-1030-4463-88bb-84e2013616e9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\Tome">
+      <UniqueIdentifier>{fcd69564-3654-4546-a065-9b75f56969df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Tome">
+      <UniqueIdentifier>{d5545c3d-e430-4b48-b43a-c64b8397e143}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -48,11 +54,32 @@
     <ClCompile Include="..\src\CardBaseSMJ.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB\WEB_Container_Tome.cpp">
-      <Filter>Quelldateien\WEB</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\LOAD.cpp">
       <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Tome\WEB_Container_Tome.cpp">
+      <Filter>Quelldateien\Tome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Login.cpp">
+      <Filter>Quelldateien\Tome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Admin.cpp">
+      <Filter>Quelldateien\Tome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Logout.cpp">
+      <Filter>Quelldateien\Tome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Player.cpp">
+      <Filter>Quelldateien\Tome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Public.cpp">
+      <Filter>Quelldateien\Tome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Toolbar.cpp">
+      <Filter>Quelldateien\WEB</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB\WEB_Utility.cpp">
+      <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -77,11 +104,32 @@
     <ClInclude Include="..\incl\CardBaseSMJ.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
-    <ClInclude Include="..\incl\WEB\WEB_Container_Tome.h">
-      <Filter>Headerdateien\WEB</Filter>
-    </ClInclude>
     <ClInclude Include="..\incl\LOAD.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Container_Tome.h">
+      <Filter>Headerdateien\Tome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Login.h">
+      <Filter>Headerdateien\Tome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Admin.h">
+      <Filter>Headerdateien\Tome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Logout.h">
+      <Filter>Headerdateien\Tome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Player.h">
+      <Filter>Headerdateien\Tome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Public.h">
+      <Filter>Headerdateien\Tome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Utility.h">
+      <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB\WEB_Toolbar.h">
+      <Filter>Headerdateien\WEB</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

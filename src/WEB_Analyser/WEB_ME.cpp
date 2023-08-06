@@ -2,9 +2,9 @@
 
 #include "..\..\incl\Broker.h"
 
-#include "..\..\incl\WEB\WEB_ME.h"
-#include "..\..\incl\WEB\WEB_MEA.h"
-#include "..\..\incl\WEB\WEB_Rank.h"
+#include "..\..\incl\WEB_Analyser\WEB_ME.h"
+#include "..\..\incl\WEB_Analyser\WEB_MEA.h"
+#include "..\..\incl\WEB_Analyser\WEB_Rank.h"
 
 broker *(WEB_ME::Bro) = NULL;
 

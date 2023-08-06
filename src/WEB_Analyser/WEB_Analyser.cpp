@@ -5,10 +5,10 @@
 #include "..\..\incl\Replay.h" 
 #include "..\..\incl\Utility.h" 
 
-#include "..\..\incl\WEB\WEB_Analyser.h"
-#include "..\..\incl\WEB\WEB_Analyser_Head.h"
-#include "..\..\incl\WEB\WEB_Analyser_Deck.h"
-#include "..\..\incl\WEB\WEB_Analyser_Acti.h"
+#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
+#include "..\..\incl\WEB_Analyser\WEB_Analyser_Head.h"
+#include "..\..\incl\WEB_Analyser\WEB_Analyser_Deck.h"
+#include "..\..\incl\WEB_Analyser\WEB_Analyser_Acti.h"
 
 #include <Wt/WImage.h>
 #include <Wt/WColor.h>

@@ -55,8 +55,14 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("WEB_Main", "*", "*", "true");
 		Fill_DBArray("WEB_Server", "*", "*", "true");		
 		Fill_DBArray("WEB_Toolbar", "*", "*", "true");
-		Fill_DBArray("WEB_Container", "*", "*", "true");
+		Fill_DBArray("WEB_Container_Analyser", "*", "*", "true");
+		
 		Fill_DBArray("WEB_Container_Tome", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Admin", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Login", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Logout", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Player", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Public", "*", "*", "true");
 		
 		Fill_DBArray("WEB_ME", "*", "*", "true");
 		Fill_DBArray("WEB_MEA", "*", "*", "true");

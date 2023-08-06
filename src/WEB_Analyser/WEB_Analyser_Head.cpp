@@ -2,9 +2,9 @@
 
 #include "..\..\incl\Broker.h"
 
-#include "..\..\incl\WEB\WEB_Analyser.h"
+#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\..\incl\Replay.h"
-#include "..\..\incl\WEB\WEB_Analyser_Head.h"
+#include "..\..\incl\WEB_Analyser\WEB_Analyser_Head.h"
 #include "..\..\incl\Replay.h" 
 #include "..\..\incl\Utility.h" 
 

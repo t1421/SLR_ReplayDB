@@ -9,10 +9,10 @@
 #include "..\..\incl\WEB\WEB_Server.h"
 
 #if defined BrokerWeb
-#include "..\..\incl\WEB\WEB_CONTAINER.h"
+#include "..\..\incl\WEB_Analyser\WEB_Container_Analyser.h"
 #endif
 #if defined BrokerTome 
-#include "..\..\incl\WEB\WEB_CONTAINER_Tome.h"
+#include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
 #endif
 
 broker *(WEB_Main::Bro) = NULL;
