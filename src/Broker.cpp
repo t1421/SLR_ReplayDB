@@ -43,6 +43,7 @@
 #include "..\incl\WEB_Tome\WEB_Tome_Logout.h"
 #include "..\incl\WEB_Tome\WEB_Tome_Player.h"
 #include "..\incl\WEB_Tome\WEB_Tome_Public.h"
+#include "..\incl\WEB_Tome\Tome_Game.h"
 #endif
 
 #ifndef noSMJ
@@ -112,6 +113,8 @@ broker::broker()
 	WEB_Tome_Logout::learnBro(this);
 	WEB_Tome_Player::learnBro(this);
 	WEB_Tome_Public::learnBro(this);
+
+	Tome_Game::learnBro(this);
 #endif
 
 #ifndef noSMJ
@@ -331,13 +334,6 @@ std::string broker::L_getTOME_SAVE_PATH()
 int broker::L_getBOTRankMode(int _BOT)
 {
 	return L->BOTRankMode[_BOT];
-}
-#endif
-
-#if defined BrokerTome 
-TomeStruct broker::L_Load_TomeGameHead(std::string sGameID)
-{
-	return L->Load_TomeGameHead(sGameID);
 }
 #endif
 

@@ -8,7 +8,7 @@
 
 broker *(WEB_Tome_Admin::Bro) = NULL;
 
-WEB_Tome_Admin::WEB_Tome_Admin(TomeStruct *TS)
+WEB_Tome_Admin::WEB_Tome_Admin()
 {
 	MISS;
 

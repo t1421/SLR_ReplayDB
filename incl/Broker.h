@@ -100,10 +100,6 @@ public:
 	std::vector<std::pair<std::string, std::string>> TeamNames;
 #endif
 
-#if defined BrokerTome
-	TomeStruct L_Load_TomeGameHead(std::string sGameID);
-#endif
-
 	void B_StatusNew(std::string Fun, std::string Wert);
 	void B_StatusE(std::string Modul, std::string Funktion, std::string Wert);
 

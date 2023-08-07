@@ -22,6 +22,19 @@ bool Checker(std::string &check, std::string name)
 	}
 }
 
+bool INI_Value_Check(std::string &check, std::string name)
+{
+	if (check.substr(0, check.find("=")) == name)
+	{
+		check.erase(0, check.find("=") + 1);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 bool File_exists(const std::string& name) 
 {
 	std::ifstream f(name.c_str());

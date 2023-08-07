@@ -63,6 +63,9 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("WEB_Tome_Logout", "*", "*", "true");
 		Fill_DBArray("WEB_Tome_Player", "*", "*", "true");
 		Fill_DBArray("WEB_Tome_Public", "*", "*", "true");
+
+		Fill_DBArray("Tome_Game", "*", "*", "true");
+		
 		
 		Fill_DBArray("WEB_ME", "*", "*", "true");
 		Fill_DBArray("WEB_MEA", "*", "*", "true");

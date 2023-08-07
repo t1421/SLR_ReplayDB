@@ -1,7 +1,6 @@
 #define DF_Debug
 
 #include "..\..\incl\Broker.h"
-#include "..\..\incl\DataTypes.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Public.h"
 
 #include <Wt/WContainerWidget.h>
@@ -9,7 +8,7 @@
 
 broker *(WEB_Tome_Public::Bro) = NULL;
 
-WEB_Tome_Public::WEB_Tome_Public(TomeStruct *TS)
+WEB_Tome_Public::WEB_Tome_Public()
 {
 	MISS;
 

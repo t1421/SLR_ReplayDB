@@ -13,7 +13,6 @@ class LOAD //: public Thread_MIS
 public:
 
 	void StartUp();
-	TomeStruct Load_TomeGameHead(std::string sGameID);
 
 	std::string sSQL_Server;
 	std::string sSQL_User;
@@ -45,8 +44,6 @@ protected:
 	
 	void Load_Settings();
 private:
-
-	bool INI_Value_Check(std::string &check, std::string name);
 	std::string entry(std::string Liste, int pos);
 
 };

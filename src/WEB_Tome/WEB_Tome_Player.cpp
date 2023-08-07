@@ -1,7 +1,6 @@
 #define DF_Debug
 
 #include "..\..\incl\Broker.h"
-#include "..\..\incl\DataTypes.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Player.h"
 
 #include <Wt/WContainerWidget.h>
@@ -9,7 +8,7 @@
 
 broker *(WEB_Tome_Player::Bro) = NULL;
 
-WEB_Tome_Player::WEB_Tome_Player(TomeStruct *TS)
+WEB_Tome_Player::WEB_Tome_Player()
 {
 	MISS;
 

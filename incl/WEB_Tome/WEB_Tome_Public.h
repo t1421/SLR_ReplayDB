@@ -9,7 +9,7 @@ class WEB_Tome_Public : public WebRefresh
 {
 public:
 
-	WEB_Tome_Public(TomeStruct *TS);
+	WEB_Tome_Public();
 
 	Wt::WText		     *wtStatus;
 	

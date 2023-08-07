@@ -69,17 +69,15 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h2><b>Welcome to the Tome Fight Maker</b></h2>"))),0,0);
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)),3,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)), 4, 0);
-	
-	GlobalTS = new TomeStruct;
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)), 4, 0);	
 
 	MISD("#6");
 
-	Admin  = new WEB_Tome_Admin(GlobalTS);
+	Admin  = new WEB_Tome_Admin();
 	Login  = new WEB_Tome_Login(this);
-	Logout = new WEB_Tome_Logout(GlobalTS);
-	Player = new WEB_Tome_Player(GlobalTS);
-	Public = new WEB_Tome_Public(GlobalTS);
+	Logout = new WEB_Tome_Logout();
+	Player = new WEB_Tome_Player();
+	Public = new WEB_Tome_Public();
 	
 	MISD("#7");
 

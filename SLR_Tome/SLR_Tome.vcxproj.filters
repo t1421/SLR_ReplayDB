@@ -81,6 +81,9 @@
     <ClCompile Include="..\src\WEB\WEB_Utility.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\WEB_Tome\Tome_Game.cpp">
+      <Filter>Quelldateien\Tome</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\WEB\WEB_Main.h">
@@ -130,6 +133,12 @@
     </ClInclude>
     <ClInclude Include="..\incl\WEB\WEB_Toolbar.h">
       <Filter>Headerdateien\WEB</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Tome\Tome_Game.h">
+      <Filter>Headerdateien\Tome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\DataTypes.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

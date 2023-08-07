@@ -68,19 +68,21 @@ void WEB_Tome_Login::Check_Input(std::string sGameID, std::string sPlayerID, std
 	MISD(sGameID);
 	MISD(sPlayerID);
 	MISD(sAdminID);
+	
+	if (Con->bLoadGame(sGameID))Con->WEB_Toolbar::bDisable[1] = false;
+	else Con->WEB_Toolbar::bDisable[1] = true;
 
-	*Con->GlobalTS = Bro->L_Load_TomeGameHead(sGameID);
+	if (Con->sAdminID == sAdminID && sAdminID!="" && Con->bHasGame)Con->WEB_Toolbar::bDisable[3] = false;
+	else Con->WEB_Toolbar::bDisable[3] = true;
 
-	if (Con->GlobalTS->GameID == sGameID)
-		Con->WEB_Toolbar::bDisable[1] = false;
-
-	if (Con->GlobalTS->AdminID == sAdminID)
-		Con->WEB_Toolbar::bDisable[3] = false;
-
-	for(int i = 0; i < Con->GlobalTS->PlayerID.size();i++)
-		if(Con->GlobalTS->PlayerID[i] == sPlayerID)
+	for(int i = 0; i < Con->vPlayer.size();i++)
+		if (Con->vPlayer[i]->sPlayerID == sPlayerID)
+		{
 			Con->WEB_Toolbar::bDisable[2] = false;
-
+			break;
+		}
+		else Con->WEB_Toolbar::bDisable[2] = true;
+			
 	Con->WRefresh();
 
 	MISE;

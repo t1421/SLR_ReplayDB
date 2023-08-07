@@ -3,13 +3,11 @@
 
 #include "..\WEB\WEB_Utility.h"
 
-struct TomeStruct;
-
 class WEB_Tome_Player : public WebRefresh
 {
 public:
 
-	WEB_Tome_Player(TomeStruct *TS);
+	WEB_Tome_Player();
 
 	Wt::WText		     *wtStatus;
 	

@@ -163,6 +163,7 @@
     <ClCompile Include="..\src\WEB\WEB_Server.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Toolbar.cpp" />
     <ClCompile Include="..\src\WEB\WEB_Utility.cpp" />
+    <ClCompile Include="..\src\WEB_Tome\Tome_Game.cpp" />
     <ClCompile Include="..\src\WEB_Tome\WEB_Container_Tome.cpp" />
     <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Admin.cpp" />
     <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Login.cpp" />
@@ -173,6 +174,7 @@
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h" />
     <ClInclude Include="..\incl\CardBaseSMJ.h" />
+    <ClInclude Include="..\incl\DataTypes.h" />
     <ClInclude Include="..\incl\DEBUG.h" />
     <ClInclude Include="..\incl\LOAD.h" />
     <ClInclude Include="..\incl\Thread_MIS.h" />
@@ -181,6 +183,7 @@
     <ClInclude Include="..\incl\WEB\WEB_Server.h" />
     <ClInclude Include="..\incl\WEB\WEB_Toolbar.h" />
     <ClInclude Include="..\incl\WEB\WEB_Utility.h" />
+    <ClInclude Include="..\incl\WEB_Tome\Tome_Game.h" />
     <ClInclude Include="..\incl\WEB_Tome\WEB_Container_Tome.h" />
     <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Admin.h" />
     <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Login.h" />

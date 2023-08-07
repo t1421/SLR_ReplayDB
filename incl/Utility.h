@@ -6,6 +6,7 @@
 void Sleep(int time);
 
 bool Checker(std::string &check, std::string name);
+bool INI_Value_Check(std::string &check, std::string name);
 
 inline bool File_exists(const std::string& name);
 

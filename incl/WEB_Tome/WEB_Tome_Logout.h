@@ -3,12 +3,12 @@
 
 #include "..\WEB\WEB_Utility.h"
 
-struct TomeStruct;
+
 class WEB_Tome_Logout : public WebRefresh
 {
 public:
 
-	WEB_Tome_Logout(TomeStruct *TS);
+	WEB_Tome_Logout();
 
 	Wt::WText		     *wtStatus;
 	

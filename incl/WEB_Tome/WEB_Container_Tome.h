@@ -3,6 +3,7 @@
 
 #include "..\WEB\WEB_Server.h"
 #include "..\WEB\WEB_Toolbar.h"
+#include "..\WEB_Tome\Tome_Game.h"
 
 #include <Wt/WText.h>
 #include <Wt/WFileUpload.h>
@@ -14,9 +15,7 @@ class WEB_Tome_Logout;
 class WEB_Tome_Player;
 class WEB_Tome_Public;
 
-struct TomeStruct;
-
-class WEB_Container_Tome : public Wt::WApplication, public WEB_Server::Client, public WEB_Toolbar
+class WEB_Container_Tome : public Wt::WApplication, public WEB_Server::Client, public WEB_Toolbar, public Tome_Game
 
 {
 public:
@@ -25,9 +24,6 @@ public:
 	WEB_Tome_Logout *Logout;
 	WEB_Tome_Player *Player;
 	WEB_Tome_Public *Public;
-
-	TomeStruct *GlobalTS;
-
 
 	void connect();
 	void processChatEvent(const MISEvent& event);
