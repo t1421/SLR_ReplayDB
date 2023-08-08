@@ -1,7 +1,7 @@
 //#define DF_Debug
 
 #include "..\..\incl\Broker.h" 
-#include "..\..\incl\DataTypes.h" 
+//#include "..\..\incl\DataTypes.h" 
 
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
@@ -28,7 +28,7 @@
 broker *(WEB_Container_Tome::Bro) = NULL;
 
 WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
-	: WApplication(env)
+	: WApplication(env), BroGameID(-1)
 {
 	MISS;
 	if (!env.getParameterValues("PARAM").empty())

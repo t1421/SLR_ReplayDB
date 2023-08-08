@@ -37,7 +37,7 @@ class WEB_Main;
 class MIS_Rank;
 class CardBaseSMJ;
 struct SMJCard;
-struct TomeStruct;
+class Tome_Game;
 
 class broker
 {
@@ -103,6 +103,10 @@ public:
 	void B_StatusNew(std::string Fun, std::string Wert);
 	void B_StatusE(std::string Modul, std::string Funktion, std::string Wert);
 
+#if defined BrokerTome
+	std::vector <Tome_Game*> vTomeGames;
+	int getTomeGame(std::string sGameID);
+#endif
 
 protected:
 	

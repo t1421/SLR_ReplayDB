@@ -1,9 +1,10 @@
 #define DF_Debug
 
 #include "..\..\incl\Broker.h"
-#include "..\..\incl\DataTypes.h"
+//#include "..\..\incl\DataTypes.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Login.h"
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
+#include "..\..\incl\WEB_Tome\Tome_Game.h"
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WText.h>
@@ -69,22 +70,34 @@ void WEB_Tome_Login::Check_Input(std::string sGameID, std::string sPlayerID, std
 	MISD(sPlayerID);
 	MISD(sAdminID);
 	
-	if (Con->bLoadGame(sGameID))Con->WEB_Toolbar::bDisable[1] = false;
-	else Con->WEB_Toolbar::bDisable[1] = true;
+	Con->WEB_Toolbar::bDisable[1] = true;
+	Con->WEB_Toolbar::bDisable[2] = true;
+	Con->WEB_Toolbar::bDisable[3] = true;
+	wtStatus->setText(" ");
 
-	if (Con->sAdminID == sAdminID && sAdminID!="" && Con->bHasGame)Con->WEB_Toolbar::bDisable[3] = false;
-	else Con->WEB_Toolbar::bDisable[3] = true;
+	Con->BroGameID = Bro->getTomeGame(sGameID);
+	if (Con->BroGameID == -1)
+	{
+		wtStatus->setText("Wrong Game ID");
+		Con->WRefresh();
+		return;
+	}
+	else Con->WEB_Toolbar::bDisable[1] = false;
 
-	for(int i = 0; i < Con->vPlayer.size();i++)
-		if (Con->vPlayer[i]->sPlayerID == sPlayerID)
+	if (Bro->vTomeGames[Con->BroGameID]->sAdminID == sAdminID && sAdminID!="" )Con->WEB_Toolbar::bDisable[3] = false;
+	else if(sAdminID != "")wtStatus->setText("Wrong Admin ID ");
+
+	for(int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size();i++)
+		if (Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID == sPlayerID)
 		{
 			Con->WEB_Toolbar::bDisable[2] = false;
 			break;
 		}
-		else Con->WEB_Toolbar::bDisable[2] = true;
-			
-	Con->WRefresh();
+	if(Con->WEB_Toolbar::bDisable[2] == false)
+		wtStatus->setText(wtStatus->text() +  "Wrong Player ID ");
 
+	Con->WRefresh();
+	
 	MISE;
 }
 
@@ -92,7 +105,7 @@ void WEB_Tome_Login::WRefresh()
 {
 	MISS;
 	
-	wtStatus->setText("<h3>WEB_Tome_Login</h3>");
+	//wtStatus->setText("<h3>WEB_Tome_Login</h3>");
 
 	MISE;
 }

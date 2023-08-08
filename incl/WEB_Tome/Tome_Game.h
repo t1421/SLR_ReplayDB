@@ -24,6 +24,7 @@ public:
 	std::vector <Tome_Player*> vPlayer;
 
 	Tome_Game();
+	Tome_Game(std::string _sGameID);
 	void Init();
 
 	bool bLoadGame(std::string _sGameID);

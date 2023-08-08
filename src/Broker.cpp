@@ -363,3 +363,19 @@ void broker::B_StatusE(std::string Modul, std::string Funktion, std::string Wert
 {
 	B->StatusE(Modul, Funktion, Wert);
 }
+
+#if defined BrokerTome
+int broker::getTomeGame(std::string sGameID)
+{
+	for (unsigned int iTemp = 0; iTemp < vTomeGames.size(); iTemp++)
+		if (vTomeGames[iTemp]->sGameID == sGameID) return iTemp;
+	Tome_Game* tg = new Tome_Game(sGameID);
+	if (tg->sGameID == sGameID)
+	{
+		vTomeGames.push_back(tg);
+		return vTomeGames.size() - 1;
+	}
+
+	return -1;
+}
+#endif

@@ -11,9 +11,14 @@ broker *(Tome_Game::Bro) = NULL;
 Tome_Game::Tome_Game()
 {
 	MISS;
-
 	Init();
+	MISE;
+}
 
+Tome_Game::Tome_Game(std::string _sGameID)
+{
+	MISS;
+	bLoadGame(_sGameID);
 	MISE;
 }
 
