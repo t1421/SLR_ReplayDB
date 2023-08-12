@@ -31,9 +31,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 
 	std::ifstream ifFile;
 	ifFile.open(sName.c_str(), std::ios::binary);
-
-	unsigned int iPlayerCound = 0;
-
+	
 	Init();
 
 	if (ifFile.good())
@@ -45,18 +43,36 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 		{
 			line.erase(line.size() - 1);
 
-			if (INI_Value_Check(line, "GameID"))sGameID = line.c_str();
-			if (INI_Value_Check(line, "AdminID"))sAdminID = line.c_str();
-			if (INI_Value_Check(line, "ShowBoosters"))bShowBoosters = atoi(line.c_str());
-			if (INI_Value_Check(line, "ShowBoostersOfPlayer"))bShowBoostersOfPlayer = atoi(line.c_str());
-			if (INI_Value_Check(line, "ShowBoostersOpenStatus"))bShowBoostersOpenStatus = atoi(line.c_str());
+			//MISD(line);
 
-			if (INI_Value_Check(line, "Players"))
-			{
-				iPlayerCound = atoi(line.c_str());
-				ifFile.clear();
-				break;
+			//Game Settings
+			if (INI_Value_Check(line, "G"))
+			{												
+				sGameID = entry(line, 0);
+				sAdminID = entry(line, 1);
+				bShowBoosters = atoi(entry(line, 2).c_str());
+				bShowBoostersOfPlayer = atoi(entry(line, 3).c_str());
+				bShowBoostersOpenStatus = atoi(entry(line, 4).c_str());
 			}
+			//Player
+			if (INI_Value_Check(line, "P"))
+			{
+				vPlayer.push_back(new Tome_Player(entry(line, 0), entry(line, 1)));
+				for (unsigned int i = 0; i < 12;i++ )
+					vPlayer[vPlayer.size() - 1]->iMaxBoosters[i] = atoi(entry(line, 2 + i).c_str());				
+			}
+
+			//Player Booster
+			if (INI_Value_Check(line, "PB"))
+			{
+				vPlayer[vPlayer.size() - 1]->vBoosters.push_back(
+					new Tome_Booster(atoi(entry(line, 0).c_str())));
+
+				for (unsigned int i = 0; i < 8; i++)
+					vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->vCards.push_back(
+						Bro->J_GetSMJCard(atoi(entry(line, 1 + i).c_str())));
+			}
+				
 			ifFile.clear();
 		}
 

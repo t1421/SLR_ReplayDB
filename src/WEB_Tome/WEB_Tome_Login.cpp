@@ -76,7 +76,7 @@ void WEB_Tome_Login::Check_Input(std::string sGameID, std::string sPlayerID, std
 	wtStatus->setText(" ");
 
 	Con->BroGameID = Bro->getTomeGame(sGameID);
-	if (Con->BroGameID == -1)
+	if (Con->BroGameID == -1 || sGameID == "")
 	{
 		wtStatus->setText("Wrong Game ID");
 		Con->WRefresh();
@@ -85,7 +85,7 @@ void WEB_Tome_Login::Check_Input(std::string sGameID, std::string sPlayerID, std
 	else Con->WEB_Toolbar::bDisable[1] = false;
 
 	if (Bro->vTomeGames[Con->BroGameID]->sAdminID == sAdminID && sAdminID!="" )Con->WEB_Toolbar::bDisable[3] = false;
-	else if(sAdminID != "")wtStatus->setText("Wrong Admin ID ");
+	else if(sAdminID != "")wtStatus->setText(wtStatus->text() + "Wrong Player ID ");
 
 	for(int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size();i++)
 		if (Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID == sPlayerID)
@@ -93,7 +93,7 @@ void WEB_Tome_Login::Check_Input(std::string sGameID, std::string sPlayerID, std
 			Con->WEB_Toolbar::bDisable[2] = false;
 			break;
 		}
-	if(Con->WEB_Toolbar::bDisable[2] == false)
+	if(Con->WEB_Toolbar::bDisable[2] == true && sPlayerID != "")
 		wtStatus->setText(wtStatus->text() +  "Wrong Player ID ");
 
 	Con->WRefresh();
