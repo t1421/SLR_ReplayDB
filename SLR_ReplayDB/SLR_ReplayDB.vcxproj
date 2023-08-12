@@ -129,6 +129,9 @@
       <AdditionalLibraryDirectories>K:\Sound_Server\lib\opencv3.4\lib\VC14_32;K:\Sound_Server\lib\mysql-connector-c++-noinstall-1.1.9-win32\lib;K:\Sound_Server\lib\boost_1_68_0\stage\lib;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\lib;K:\Sound_Server\lib\jsoncpp-1.9.5\build2\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>mysqlcppconn.lib;libcurl.lib;jsoncpp.lib;opencv_imgcodecs340.lib;opencv_imgproc340.lib;opencv_core340.lib;opencv_highgui340.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>start "" taskkill /IM SLR_ReplayDB.exe /F</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>

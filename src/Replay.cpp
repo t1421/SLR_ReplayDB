@@ -237,6 +237,12 @@ bool Replay::ReadActions()
 	while (PMVPosition < length)
 	{
 		MainTime = readUnsignedLong();
+		if (MainTime == 2147483647)
+		{			
+			readUnsignedLong(); // 4
+			readUnsignedLong(); // 666
+			continue;
+		}
 		MainSize = readUnsignedLong();
 		SollPos = PMVPosition + MainSize;
 
@@ -246,7 +252,7 @@ bool Replay::ReadActions()
 			Action_TEMP->Time = MainTime;
 			Action_TEMP->Position = PMVPosition;
 			Action_TEMP->Type = readUnsignedLong();
-
+			//MISERROR(std::to_string(Action_TEMP->Type));
 			switch (Action_TEMP->Type)
 			{
 			case 4001: //SLR-TEAM: 4001 - Irrelevant (Ist bei mir einfach auskommentiert)
@@ -278,17 +284,11 @@ bool Replay::ReadActions()
 				break;
 				///###
 			case 4005: //SLR-TEAM: 4005 - Hat was mit Loot Verteilung zu tun					
-				//Action_TEMP->ActionPlayer = readUnsignedLong();
-				//readUnsignedLong(); //zero?
-				//readUnsignedLong(); //Unit?
-				//readUnsignedLong(); //zero?
-				MISERROR(FileName);
-				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					std::to_string(Action_TEMP->Type) + "#" +
-					std::to_string(Action_TEMP->Position) + " # " +
-					std::to_string(MainSize) +
-					" ???");
-				PMVPosition = SollPos;
+				Action_TEMP->ActionPlayer = readUnsignedLong(); //Player
+				readUnsignedLong(); //zero?
+				readUnsignedLong(); //loot_target
+				readUnsignedLong(); //map_loot_id
+				break;
 			case 4006: //GOLD	
 				Action_TEMP->PlayerID = readUnsignedLongLong(); // wer hat eingesammelt
 				readUnsignedLong(); // Unit
