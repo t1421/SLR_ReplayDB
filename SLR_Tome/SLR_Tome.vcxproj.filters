@@ -66,9 +66,6 @@
     <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Admin.cpp">
       <Filter>Quelldateien\Tome</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Logout.cpp">
-      <Filter>Quelldateien\Tome</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Player.cpp">
       <Filter>Quelldateien\Tome</Filter>
     </ClCompile>
@@ -82,6 +79,9 @@
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
     <ClCompile Include="..\src\WEB_Tome\Tome_Game.cpp">
+      <Filter>Quelldateien\Tome</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Debug.cpp">
       <Filter>Quelldateien\Tome</Filter>
     </ClCompile>
   </ItemGroup>
@@ -119,9 +119,6 @@
     <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Admin.h">
       <Filter>Headerdateien\Tome</Filter>
     </ClInclude>
-    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Logout.h">
-      <Filter>Headerdateien\Tome</Filter>
-    </ClInclude>
     <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Player.h">
       <Filter>Headerdateien\Tome</Filter>
     </ClInclude>
@@ -139,6 +136,9 @@
     </ClInclude>
     <ClInclude Include="..\incl\DataTypes.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Debug.h">
+      <Filter>Headerdateien\Tome</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

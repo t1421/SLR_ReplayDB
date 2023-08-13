@@ -40,7 +40,7 @@
 #include "..\incl\WEB_Tome\WEB_CONTAINER_Tome.h"
 #include "..\incl\WEB_Tome\WEB_Tome_Admin.h"
 #include "..\incl\WEB_Tome\WEB_Tome_Login.h"
-#include "..\incl\WEB_Tome\WEB_Tome_Logout.h"
+#include "..\incl\WEB_Tome\WEB_Tome_Debug.h"
 #include "..\incl\WEB_Tome\WEB_Tome_Player.h"
 #include "..\incl\WEB_Tome\WEB_Tome_Public.h"
 #include "..\incl\WEB_Tome\Tome_Game.h"
@@ -110,7 +110,7 @@ broker::broker()
 	WEB_Container_Tome::learnBro(this);
 	WEB_Tome_Admin::learnBro(this);
 	WEB_Tome_Login::learnBro(this);
-	WEB_Tome_Logout::learnBro(this);
+	WEB_Tome_Debug::learnBro(this);
 	WEB_Tome_Player::learnBro(this);
 	WEB_Tome_Public::learnBro(this);
 
@@ -367,6 +367,7 @@ void broker::B_StatusE(std::string Modul, std::string Funktion, std::string Wert
 #if defined BrokerTome
 int broker::getTomeGame(std::string sGameID)
 {
+	if (sGameID == "") return -1;
 	for (unsigned int iTemp = 0; iTemp < vTomeGames.size(); iTemp++)
 		if (vTomeGames[iTemp]->sGameID == sGameID) return iTemp;
 	Tome_Game* tg = new Tome_Game(sGameID);
@@ -377,5 +378,32 @@ int broker::getTomeGame(std::string sGameID)
 	}
 
 	return -1;
+}
+
+
+void broker::postChatEventMIS(std::string Value1)
+{
+	MISS;
+	postChatEventMIS(Value1, "", "", "");
+	MISE;
+}
+void broker::postChatEventMIS(std::string Value1, std::string Value2)
+{
+	MISS;
+	postChatEventMIS(Value1, Value2, "", "");
+	MISE;
+}
+void broker::postChatEventMIS(std::string Value1, std::string Value2, std::string Value3)
+{
+	MISS;
+	postChatEventMIS(Value1, Value2, Value3, "");
+	MISE;
+}
+void broker::postChatEventMIS(std::string Value1, std::string Value2, std::string Value3, std::string Value4)
+{
+	MISS;
+	MISD(Value1 + "-" + Value2 + "-" + Value3 + "-" + Value4);
+	if (W != NULL)if (W->WW)W->WW->postChatEventMIS(Value1, Value2, Value3, Value4);
+	MISE;
 }
 #endif

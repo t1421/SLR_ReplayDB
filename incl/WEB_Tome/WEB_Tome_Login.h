@@ -17,6 +17,7 @@ public:
 	Wt::WLineEdit	*wlAdminID;
 
 	Wt::WPushButton	*wbJoin;
+	Wt::WPushButton	*wbLeave;
 		
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

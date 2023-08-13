@@ -11,7 +11,7 @@
 
 class WEB_Tome_Admin;
 class WEB_Tome_Login;
-class WEB_Tome_Logout;
+class WEB_Tome_Debug;
 class WEB_Tome_Player;
 class WEB_Tome_Public;
 
@@ -21,13 +21,19 @@ class WEB_Container_Tome : public Wt::WApplication, public WEB_Server::Client, p
 public:
 	WEB_Tome_Admin  *Admin;
 	WEB_Tome_Login  *Login;
-	WEB_Tome_Logout *Logout;
 	WEB_Tome_Player *Player;
 	WEB_Tome_Public *Public;
+	WEB_Tome_Debug *Debug;
 
 	int BroGameID;
 
+	std::string sParamGameID;
+	std::string sParamAdminID;
+	std::string sParamPlayerID;
+	std::string sParamDebug;
+
 	void connect();
+	void disconnect();
 	void processChatEvent(const MISEvent& event);
 
 	//----------------------------------------------------------------
@@ -45,7 +51,8 @@ public:
 private:
 
 	Wt::WContainerWidget *GlobaelContainer;
-	std::string sPARA;
+	std::string sGetParam(const Wt::WEnvironment& env, std::string sParam);
+	//std::string sPARA;
 
 };
 

@@ -4,6 +4,8 @@
 #include "..\..\incl\WEB_Tome\Tome_Game.h"
 #include "..\..\incl\Utility.h"
 
+#include "..\..\incl\DataTypes.h"
+
 #include <fstream>
 
 broker *(Tome_Game::Bro) = NULL;
@@ -109,4 +111,53 @@ void Tome_Game::Init()
 
 	vPlayer.clear();
 	MISE;
+}
+
+
+
+bool Tome_Game::bSaveGame()
+{
+	MISS;
+	if (!bHasGame)
+	{
+		MISEA("No Game")
+		return false;
+	}
+	std::string line;
+	std::string sName = Bro->L_getTOME_SAVE_PATH() + sGameID;
+
+	std::ofstream ofFile;
+	ofFile.open(sName.c_str(), std::ios::binary);
+
+	if (ofFile.good())
+	{
+		MISD("good");
+		ofFile << "G=" << sGameID
+			<< ";" << sAdminID
+			<< ";" << bShowBoosters
+			<< ";" << bShowBoostersOfPlayer
+			<< ";" << bShowBoostersOpenStatus
+			<< "\n";
+		for (unsigned int i = 0; i < vPlayer.size(); i++)
+		{
+			ofFile << "P=" << vPlayer[i]->sPlayerID
+				<< ";" << vPlayer[i]->sPlayerName << ";";
+			for (unsigned int j = 0; j < 12; j++)
+				ofFile << vPlayer[i]->iMaxBoosters[j] << ";";
+			ofFile << "\n";
+
+			for (unsigned j = 0; j < vPlayer[i]->vBoosters.size(); j++)
+			{
+				ofFile << "PB=" << vPlayer[i]->vBoosters[j]->iType << ";";
+				for (unsigned k = 0; k < vPlayer[i]->vBoosters[j]->vCards.size(); k++)
+					ofFile << vPlayer[i]->vBoosters[j]->vCards[k]->cardId << ";";
+				ofFile << "\n";
+			}			
+		}
+
+		ofFile.close();
+	}
+	
+	MISE;
+	return true;
 }

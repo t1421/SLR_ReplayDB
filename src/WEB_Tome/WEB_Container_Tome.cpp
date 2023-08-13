@@ -11,7 +11,7 @@
 
 #include "..\..\incl\WEB_Tome\WEB_Tome_Admin.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Login.h"
-#include "..\..\incl\WEB_Tome\WEB_Tome_Logout.h"
+#include "..\..\incl\WEB_Tome\WEB_Tome_Debug.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Player.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Public.h"
 
@@ -31,17 +31,11 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	: WApplication(env), BroGameID(-1)
 {
 	MISS;
-	if (!env.getParameterValues("PARAM").empty())
-	{
-		const std::string *PARA = (env.getParameter("PARAM"));
-		sPARA.assign(PARA->c_str());
-	}
-	if (sPARA == "DEBUG")
-	{
-		MISERROR("DEBUG ON")
-		//WA_Debug = true;
-		//ReNewTaps();
-	}
+	sParamGameID = sGetParam(env, "gameID");
+	sParamAdminID = sGetParam(env, "adminID");
+	sParamPlayerID = sGetParam(env, "playerID");
+	sParamDebug = sGetParam(env, "debug");
+	
 	
 	MISD("#1");
 	auto bootstrapTheme = std::make_shared<Wt::WBootstrapTheme>();
@@ -75,9 +69,9 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 
 	Admin  = new WEB_Tome_Admin();
 	Login  = new WEB_Tome_Login(this);
-	Logout = new WEB_Tome_Logout();
 	Player = new WEB_Tome_Player();
 	Public = new WEB_Tome_Public();
+	
 	
 	MISD("#7");
 
@@ -85,7 +79,7 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Public", *Public->cMain, Public);
 	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Player", *Player->cMain, Player);
 	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Admin",  *Admin->cMain,  Admin);
-	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Logout", *Logout->cMain, Logout);
+	
 
 	MISD("#8");
 
@@ -93,13 +87,24 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	WEB_Toolbar::bDisable[1] = true;
 	WEB_Toolbar::bDisable[2] = true;
 	WEB_Toolbar::bDisable[3] = true;
-	WEB_Toolbar::bDisable[4] = true;
+	
+
+	if (sParamDebug == "1")
+	{
+		Debug = new WEB_Tome_Debug(this);
+		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Debug", *Debug->cMain, Debug);
+		WEB_Toolbar::bDisable[4] = false;		
+	}
+
 	WEB_Toolbar::sToolbar->setCurrentIndex(0);	
 	WEB_Toolbar::updateToolbar();
 	//if (Bro->L_getBOTRankMode(BOT4LIST) <10)WEB_Toolbar::sToolbar->setCurrentIndex(0); 
 	//WEB_Toolbar::updateToolbar();
 
 	
+	MISD("#9");
+	if(sParamGameID!="")
+		Login->Check_Input(sParamGameID, sParamPlayerID, sParamAdminID);
 
 	MISE;
 }
@@ -129,6 +134,16 @@ void WEB_Container_Tome::connect()
 	MISE;
 }
 
+void WEB_Container_Tome::disconnect()
+{
+	MISS;
+	if (Bro->W->WW->disconnect(this))
+	{
+		MISD("#1");
+		Wt::WApplication::instance()->enableUpdates(false);
+	}
+	MISE;
+}
 
 void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 {
@@ -284,8 +299,20 @@ void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 	}
 	*/
 	app->triggerUpdate();
-
-	//DB->UpdateMes(event.Value1_ + ";" + event.Value2_ + ";" + event.Value3_ + ";" + event.Value4_);
+	Debug->UpdateMes(event.Value1_ + ";" + event.Value2_ + ";" + event.Value3_ + ";" + event.Value4_);
 
 	MISE;
+}
+
+std::string WEB_Container_Tome::sGetParam(const Wt::WEnvironment& env, std::string sParam)
+{
+	MISS;
+	if (!env.getParameterValues(sParam).empty())
+	{
+		const std::string *PARA = (env.getParameter(sParam));
+		MISE;
+		return PARA->c_str();
+	}
+	MISEA("V2");
+	return "";
 }

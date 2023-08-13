@@ -37,6 +37,7 @@ public:
 	void Init();
 
 	bool bLoadGame(std::string _sGameID);
+	bool bSaveGame();
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
@@ -44,4 +45,4 @@ public:
 };
 
 
-#endif // WEB_Tome_Logout_H
+#endif // WEB_Tome_Debug_H

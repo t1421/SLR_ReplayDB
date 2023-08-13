@@ -106,6 +106,11 @@ public:
 #if defined BrokerTome
 	std::vector <Tome_Game*> vTomeGames;
 	int getTomeGame(std::string sGameID);
+
+	void postChatEventMIS(std::string Value1);
+	void postChatEventMIS(std::string Value1, std::string Value2);
+	void postChatEventMIS(std::string Value1, std::string Value2, std::string Value3);
+	void postChatEventMIS(std::string Value1, std::string Value2, std::string Value3, std::string Value4);
 #endif
 
 protected:
