@@ -28,7 +28,8 @@ private:
 	std::vector<std::pair<std::string, std::string>> EnumRarity;
 	std::vector<std::pair<std::string, std::string>> EnumAffinity;
 	std::vector<std::pair<std::string, std::string>> EnumType;
-
+	std::vector<std::pair<std::string, std::string>> EnumBoosters;
+	
 public:
 	unsigned char GetActionOrbForCardID(unsigned short CardID);	
 
@@ -37,6 +38,7 @@ public:
 	std::string SwitchColor(char _Color);
 	std::string SwitchRarity(char _Rarity);
 	SMJCard* GetSMJCard(unsigned short _CardID);
+	Tome_Booster* OpenBooster(int iType);
 
 	void EchoCard(std::string sCardID);
 	std::vector<SMJCard*> SMJMatrix;
@@ -47,6 +49,8 @@ public:
 	void AllIMGSmall();
 	void AllIMGImgOnly();
 	bool Init();
+
+	
 	
 
 #ifndef noSQL

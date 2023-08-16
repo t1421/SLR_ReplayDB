@@ -43,6 +43,9 @@
 #include "..\incl\WEB_Tome\WEB_Tome_Debug.h"
 #include "..\incl\WEB_Tome\WEB_Tome_Player.h"
 #include "..\incl\WEB_Tome\WEB_Tome_Public.h"
+#include "..\incl\WEB_Tome\WEB_Tome_PublicBoosters.h"
+#include "..\incl\WEB_Tome\WEB_Tome_PublicPlayers.h"
+#include "..\incl\WEB_Tome\WEB_Tome_PublicPlayersBooster.h"
 #include "..\incl\WEB_Tome\Tome_Game.h"
 #endif
 
@@ -113,6 +116,9 @@ broker::broker()
 	WEB_Tome_Debug::learnBro(this);
 	WEB_Tome_Player::learnBro(this);
 	WEB_Tome_Public::learnBro(this);
+	WEB_Tome_PublicBoosters::learnBro(this);
+	WEB_Tome_PublicPlayers::learnBro(this);
+	WEB_Tome_PublicPlayersBooster::learnBro(this);
 
 	Tome_Game::learnBro(this);
 #endif

@@ -60,7 +60,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			if (INI_Value_Check(line, "P"))
 			{
 				vPlayer.push_back(new Tome_Player(entry(line, 0), entry(line, 1)));
-				for (unsigned int i = 0; i < 12;i++ )
+				for (unsigned int i = 0; i < NumBoostersTypes;i++ )
 					vPlayer[vPlayer.size() - 1]->iMaxBoosters[i] = atoi(entry(line, 2 + i).c_str());				
 			}
 
@@ -142,7 +142,7 @@ bool Tome_Game::bSaveGame()
 		{
 			ofFile << "P=" << vPlayer[i]->sPlayerID
 				<< ";" << vPlayer[i]->sPlayerName << ";";
-			for (unsigned int j = 0; j < 12; j++)
+			for (unsigned int j = 0; j < NumBoostersTypes; j++)
 				ofFile << vPlayer[i]->iMaxBoosters[j] << ";";
 			ofFile << "\n";
 

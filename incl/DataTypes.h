@@ -126,8 +126,16 @@ struct SMJCard {
 	char affinity;
 	char rarity;
 	char promo;
+	std::vector <int> vBoosters;
 };
 
+
+struct Tome_Booster
+{
+	int iType;
+	std::vector <SMJCard*> vCards;
+	Tome_Booster(int _iType) :iType(_iType) {};
+};
 #endif //DataTypes
 
 

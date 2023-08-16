@@ -34,8 +34,18 @@ int main()
 		sbuf = buf;
 		if (Checker(sbuf, "exit"))Bro->bAktive = false;
 		if (Checker(sbuf, "x"))Bro->bAktive = false;
+	
+		if (Checker(sbuf, "J"))
+		{
+			if (Checker(sbuf, "booster"))
+			{
+				Tome_Booster* TB = J->OpenBooster(atoi(sbuf.c_str()));
+				for (int i = 0; i < TB->vCards.size(); i++)
+					printf("%i\n", TB->vCards[i]->cardId);
+					//MISD(TB->vCards[i]->cardId + "#" + TB->vCards[i]->cardName);
+			}
+		}
 	}
-
 	W->Stop_Thread();
 	return 0;    
 }

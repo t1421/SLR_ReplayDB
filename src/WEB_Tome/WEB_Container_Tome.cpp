@@ -70,7 +70,7 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	Admin  = new WEB_Tome_Admin();
 	Login  = new WEB_Tome_Login(this);
 	Player = new WEB_Tome_Player();
-	Public = new WEB_Tome_Public();
+	Public = new WEB_Tome_Public(this);
 	
 	
 	MISD("#7");
@@ -123,14 +123,14 @@ void WEB_Container_Tome::WRefresh()
 	MISE;
 }
 
-
 void WEB_Container_Tome::connect()
 {
-	MISS;
+	MISS;	
 	if (Bro->W->WW)
+		if(Wt::WApplication::instance()->updatesEnabled() == false)
 		if (Bro->W->WW->connect
 		(this, std::bind(&WEB_Container_Tome::processChatEvent, this, std::placeholders::_1)))
-			Wt::WApplication::instance()->enableUpdates(true);
+			Wt::WApplication::instance()->enableUpdates(true);	
 	MISE;
 }
 
