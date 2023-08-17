@@ -23,9 +23,9 @@ WEB_Tome_Public::WEB_Tome_Public(WEB_Container_Tome *Con_) : Con(Con_)
 		
 	MISD("#0");
 	
-	PB = new WEB_Tome_PublicBoosters(); 
+	PB = new WEB_Tome_PublicBoosters(Con);
 	PP = new WEB_Tome_PublicPlayers(Con);
-	PPB = new WEB_Tome_PublicPlayersBooster();
+	PPB = new WEB_Tome_PublicPlayersBooster(Con);
 	
 	MISD("#1");
 	
