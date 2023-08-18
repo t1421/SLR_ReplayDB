@@ -67,9 +67,9 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 
 	MISD("#6");
 
-	Admin  = new WEB_Tome_Admin();
+	Admin  = new WEB_Tome_Admin(this);
 	Login  = new WEB_Tome_Login(this);
-	Player = new WEB_Tome_Player();
+	Player = new WEB_Tome_Player(this);
 	Public = new WEB_Tome_Public(this);
 	
 	

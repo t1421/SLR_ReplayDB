@@ -29,7 +29,6 @@ public:
 	bool bHasGame;
 	bool bShowBoosters;
 	bool bShowBoostersOfPlayer;
-	bool bShowBoostersOpenStatus;
 	std::string sGameID;
 	std::string sAdminID;
 	std::string sPlayerID;

@@ -54,7 +54,6 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 				sAdminID = entry(line, 1);
 				bShowBoosters = atoi(entry(line, 2).c_str());
 				bShowBoostersOfPlayer = atoi(entry(line, 3).c_str());
-				bShowBoostersOpenStatus = atoi(entry(line, 4).c_str());
 			}
 			//Player
 			if (INI_Value_Check(line, "P"))
@@ -103,8 +102,7 @@ void Tome_Game::Init()
 	MISS;
 	bHasGame = false;
 	bShowBoosters = false;
-	bShowBoostersOfPlayer = false;
-	bShowBoostersOpenStatus = false;
+	bShowBoostersOfPlayer = false;;
 	sGameID = "";
 	sAdminID = "";
 	sPlayerID = "";
@@ -136,7 +134,6 @@ bool Tome_Game::bSaveGame()
 			<< ";" << sAdminID
 			<< ";" << bShowBoosters
 			<< ";" << bShowBoostersOfPlayer
-			<< ";" << bShowBoostersOpenStatus
 			<< "\n";
 		for (unsigned int i = 0; i < vPlayer.size(); i++)
 		{

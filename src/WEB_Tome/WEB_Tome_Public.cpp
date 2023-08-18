@@ -3,6 +3,7 @@
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Public.h"
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
+#include "..\..\incl\WEB_Tome\Tome_Game.h"
 
 #include "..\..\incl\WEB_Tome\WEB_Tome_PublicBoosters.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_PublicPlayers.h"
@@ -32,6 +33,15 @@ WEB_Tome_Public::WEB_Tome_Public(WEB_Container_Tome *Con_) : Con(Con_)
 	WEB_Toolbar::ToolBarButton(0, "Players", *PP->cMain, PP);
 	WEB_Toolbar::ToolBarButton(1, "Boosters", *PB->cMain, PB);
 	WEB_Toolbar::ToolBarButton(2, "Player Boosters", *PPB->cMain, PPB);
+
+	MISD("#2");
+
+	WEB_Toolbar::bDisable[0] = false;
+	WEB_Toolbar::bDisable[1] = true;
+	WEB_Toolbar::bDisable[2] = true;
+
+	MISD("#3");
+
 	WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 	
@@ -46,6 +56,9 @@ void WEB_Tome_Public::WRefresh()
 {
 	MISS;
 	
+	WEB_Toolbar::bDisable[1] = !Bro->vTomeGames[Con->BroGameID]->bShowBoosters;
+	WEB_Toolbar::bDisable[2] = !Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer;
+
 	updateFrame();
 
 	MISE;

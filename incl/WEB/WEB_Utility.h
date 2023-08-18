@@ -13,6 +13,7 @@ public:
 
 
 std::string WSTRINGtoSTRING(Wt::WString in);
+Wt::WImage* DrawImg(std::string sPath, int iX, int iY);
 
 #endif //Utility_H
 
