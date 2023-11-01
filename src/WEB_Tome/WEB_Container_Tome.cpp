@@ -14,6 +14,7 @@
 #include "..\..\incl\WEB_Tome\WEB_Tome_Debug.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Player.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Public.h"
+#include "..\..\incl\WEB_Tome\WEB_Tome_Leave.h"
 
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WText.h>
@@ -71,6 +72,7 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	Login  = new WEB_Tome_Login(this);
 	Player = new WEB_Tome_Player(this);
 	Public = new WEB_Tome_Public(this);
+	Leave = new WEB_Tome_Leave(this);
 	
 	
 	MISD("#7");
@@ -79,6 +81,7 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Public", *Public->cMain, Public);
 	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Player", *Player->cMain, Player);
 	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Admin",  *Admin->cMain,  Admin);
+	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Leave", *Leave->cMain, Leave);
 	
 
 	MISD("#8");
@@ -87,13 +90,14 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	WEB_Toolbar::bDisable[1] = true;
 	WEB_Toolbar::bDisable[2] = true;
 	WEB_Toolbar::bDisable[3] = true;
+	WEB_Toolbar::bDisable[4] = true;
 	
 
 	if (sParamDebug == "1")
 	{
 		Debug = new WEB_Tome_Debug(this);
 		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Debug", *Debug->cMain, Debug);
-		WEB_Toolbar::bDisable[4] = false;		
+		WEB_Toolbar::bDisable[5] = false;		
 	}
 
 	WEB_Toolbar::sToolbar->setCurrentIndex(0);	
@@ -103,8 +107,9 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 
 	
 	MISD("#9");
+	/*
 	if(sParamGameID!="")
-		Login->Check_Input(sParamGameID, sParamPlayerID, sParamAdminID);
+		Login->Check_Input(sParamGameID, sParamPlayerID, sParamAdminID);*/
 
 	MISE;
 }

@@ -105,7 +105,7 @@ void Tome_Game::Init()
 	bShowBoostersOfPlayer = false;;
 	sGameID = "";
 	sAdminID = "";
-	sPlayerID = "";
+	//sPlayerID = "";
 
 	vPlayer.clear();
 	MISE;
@@ -157,4 +157,17 @@ bool Tome_Game::bSaveGame()
 	
 	MISE;
 	return true;
+}
+
+bool Tome_Game::bCheckPlayer(std::string sPlayer)
+{
+	MISS;
+	for (unsigned int i = 0; i < vPlayer.size(); i++)
+		if (sPlayer == vPlayer[i]->sPlayerID)
+		{
+			MISEA("true");
+			return true;
+		}
+	MISEA("false");
+	return false;
 }

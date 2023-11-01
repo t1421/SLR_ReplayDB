@@ -31,12 +31,13 @@ public:
 	bool bShowBoostersOfPlayer;
 	std::string sGameID;
 	std::string sAdminID;
-	std::string sPlayerID;
+
 	std::vector <Tome_Player*> vPlayer;
 
 	Tome_Game();
 	Tome_Game(std::string _sGameID);
 	void Init();
+	bool bCheckPlayer(std::string sPlayer);
 
 	bool bLoadGame(std::string _sGameID);
 	bool bSaveGame();

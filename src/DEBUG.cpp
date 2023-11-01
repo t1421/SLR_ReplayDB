@@ -70,6 +70,9 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("WEB_Tome_PublicPlayers", "*", "*", "true");
 		Fill_DBArray("WEB_Tome_PublicPlayersBooster", "*", "*", "true");
 
+		Fill_DBArray("WEB_Tome_Leave", "*", "*", "true");
+		
+
 		Fill_DBArray("Tome_Game", "*", "*", "true");
 		
 		

@@ -93,6 +93,9 @@
     <ClCompile Include="..\src\WEB_Tome\WEB_Tome_PublicPlayersBooster.cpp">
       <Filter>Quelldateien\Tome</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Leave.cpp">
+      <Filter>Quelldateien\Tome</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\WEB\WEB_Main.h">
@@ -156,6 +159,9 @@
       <Filter>Headerdateien\Tome</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_PublicPlayersBooster.h">
+      <Filter>Headerdateien\Tome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Leave.h">
       <Filter>Headerdateien\Tome</Filter>
     </ClInclude>
   </ItemGroup>

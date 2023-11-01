@@ -166,6 +166,7 @@
     <ClCompile Include="..\src\WEB_Tome\Tome_Game.cpp" />
     <ClCompile Include="..\src\WEB_Tome\WEB_Container_Tome.cpp" />
     <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Admin.cpp" />
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Leave.cpp" />
     <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Login.cpp" />
     <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Debug.cpp" />
     <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Player.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="..\incl\WEB_Tome\Tome_Game.h" />
     <ClInclude Include="..\incl\WEB_Tome\WEB_Container_Tome.h" />
     <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Admin.h" />
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Leave.h" />
     <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Login.h" />
     <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Debug.h" />
     <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Player.h" />
