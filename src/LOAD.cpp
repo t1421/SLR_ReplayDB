@@ -42,7 +42,8 @@ void LOAD::Load_Settings()
 			if (INI_Value_Check(line, "SMJPIC_PATH"))sSMJPIC_PATH = line.c_str();
 			if (INI_Value_Check(line, "SMJIMG_PATH"))sSMJIMG_PATH = line.c_str();
 			if (INI_Value_Check(line, "SMJPICSMALL_PATH"))sSMJPICSMALL_PATH = line.c_str();
-
+			if (INI_Value_Check(line, "BOOSTER_PATH"))sBOOSTER_PATH = line.c_str();
+			
 			if (INI_Value_Check(line, "FFMPEG"))sFFMPEG = line.c_str();
 
 			if (INI_Value_Check(line, "BOT4RankMode"))BOTRankMode[BOT4LIST] = atoi(line.c_str());

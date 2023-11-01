@@ -7,6 +7,7 @@
 #include "..\..\incl\DataTypes.h"
 
 #include <fstream>
+#include <random>
 
 broker *(Tome_Game::Bro) = NULL;
 
@@ -20,10 +21,41 @@ Tome_Game::Tome_Game()
 Tome_Game::Tome_Game(std::string _sGameID)
 {
 	MISS;
-	bLoadGame(_sGameID);
+	if (_sGameID == "NEW")bNewGame();
+	else bLoadGame(_sGameID);
 	MISE;
 }
 
+bool Tome_Game::bNewGame()
+{
+	MISS;
+
+	Init();
+
+	std::ifstream ifFile;
+	std::string sName;
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> distr(100000, 999999 - 1);
+	//iRandome = distr(gen);
+
+	do
+	{
+		if (ifFile.good()) ifFile.close();
+		sGameID = std::to_string(distr(gen));
+		sName = Bro->L_getTOME_SAVE_PATH() + sGameID;
+		ifFile.open(sName.c_str(), std::ios::binary);
+	} while (ifFile.good());
+
+	sAdminID = std::to_string(distr(gen));
+
+	bHasGame = true;
+	bSaveGame();
+
+	MISE;
+	return true;
+}
 
 bool Tome_Game::bLoadGame(std::string _sGameID)
 {
@@ -52,8 +84,9 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			{												
 				sGameID = entry(line, 0);
 				sAdminID = entry(line, 1);
-				bShowBoosters = atoi(entry(line, 2).c_str());
-				bShowBoostersOfPlayer = atoi(entry(line, 3).c_str());
+				bShowPlayers = atoi(entry(line, 2).c_str());
+				bShowBoosters = atoi(entry(line, 3).c_str());
+				bShowBoostersOfPlayer = atoi(entry(line, 4).c_str());
 			}
 			//Player
 			if (INI_Value_Check(line, "P"))
@@ -68,10 +101,11 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			{
 				vPlayer[vPlayer.size() - 1]->vBoosters.push_back(
 					new Tome_Booster(atoi(entry(line, 0).c_str())));
+				vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->iLfdnr = atoi(entry(line,1).c_str());
 
 				for (unsigned int i = 0; i < 8; i++)
 					vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->vCards.push_back(
-						Bro->J_GetSMJCard(atoi(entry(line, 1 + i).c_str())));
+						Bro->J_GetSMJCard(atoi(entry(line, 2 + i).c_str())));
 			}
 				
 			ifFile.clear();
@@ -101,6 +135,7 @@ void Tome_Game::Init()
 {
 	MISS;
 	bHasGame = false;
+	bShowPlayers = false;
 	bShowBoosters = false;
 	bShowBoostersOfPlayer = false;;
 	sGameID = "";
@@ -132,6 +167,7 @@ bool Tome_Game::bSaveGame()
 		MISD("good");
 		ofFile << "G=" << sGameID
 			<< ";" << sAdminID
+			<< ";" << bShowPlayers
 			<< ";" << bShowBoosters
 			<< ";" << bShowBoostersOfPlayer
 			<< "\n";
@@ -145,7 +181,8 @@ bool Tome_Game::bSaveGame()
 
 			for (unsigned j = 0; j < vPlayer[i]->vBoosters.size(); j++)
 			{
-				ofFile << "PB=" << vPlayer[i]->vBoosters[j]->iType << ";";
+				ofFile << "PB=" << vPlayer[i]->vBoosters[j]->iType << ";"
+					<< ";" << vPlayer[i]->vBoosters[j]->iLfdnr << ";";
 				for (unsigned k = 0; k < vPlayer[i]->vBoosters[j]->vCards.size(); k++)
 					ofFile << vPlayer[i]->vBoosters[j]->vCards[k]->cardId << ";";
 				ofFile << "\n";
@@ -170,4 +207,28 @@ bool Tome_Game::bCheckPlayer(std::string sPlayer)
 		}
 	MISEA("false");
 	return false;
+}
+
+void Tome_Game::AddPlayer()
+{
+	MISS;
+
+	std::string sPlayerID;
+	bool bFound;
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> distr(100000, 999999 - 1);
+
+	do
+	{
+		bFound = false;
+		sPlayerID = std::to_string(distr(gen));
+		for (unsigned int i = 0; i < vPlayer.size(); i++)		
+			if (sPlayerID == vPlayer[i]->sPlayerID)bFound = true;		
+	} while (bFound);
+
+	vPlayer.push_back(new Tome_Player(sPlayerID, "New Player"));
+
+	MISE;
 }

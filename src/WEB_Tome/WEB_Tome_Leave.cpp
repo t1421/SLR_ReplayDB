@@ -38,6 +38,7 @@ void WEB_Tome_Leave::WRefresh()
 	Con->WEB_Toolbar::bDisable[3] = true;
 	Con->WEB_Toolbar::bDisable[4] = true;
 	Con->WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	Con->disconnect();
 	Con->WRefresh();
 
 	MISE;

@@ -1,7 +1,7 @@
 #ifndef Tome_Game_H
 #define Tome_Game_H
 
-#define NumBoostersTypes 12
+#define NumBoostersTypes 13
 
 struct Tome_Booster;
 
@@ -27,6 +27,7 @@ class Tome_Game
 public:
 
 	bool bHasGame;
+	bool bShowPlayers;
 	bool bShowBoosters;
 	bool bShowBoostersOfPlayer;
 	std::string sGameID;
@@ -36,7 +37,11 @@ public:
 
 	Tome_Game();
 	Tome_Game(std::string _sGameID);
+
 	void Init();
+	void AddPlayer();
+
+	bool bNewGame();	
 	bool bCheckPlayer(std::string sPlayer);
 
 	bool bLoadGame(std::string _sGameID);

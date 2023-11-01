@@ -135,6 +135,7 @@ struct Tome_Booster
 	int iType;
 	std::vector <SMJCard*> vCards;
 	Tome_Booster(int _iType) :iType(_iType) {};
+	unsigned int iLfdnr;
 };
 #endif //DataTypes
 

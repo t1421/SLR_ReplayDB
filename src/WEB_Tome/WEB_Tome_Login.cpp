@@ -163,96 +163,35 @@ WEB_Tome_Login::WEB_Tome_Login(WEB_Container_Tome *Con_): Con(Con_)
 		Con->WEB_Toolbar::bDisable[0] = true;
 		Con->WEB_Toolbar::sToolbar->setCurrentIndex(3);
 
-		Con->WRefresh();
+		Con->WRefresh();		
 		WRefresh(); //???
 	}));
 
 
 	wbNewGame->clicked().connect(std::bind([=]() {
-		/*
+		Con->BroGameID = Bro->getTomeGame("NEW");
+		MISD("Con->BroGameID:" )
 		wtStatus->setText("OK");
 		Con->WEB_Toolbar::bDisable[3] = false;
+		Con->WEB_Toolbar::bDisable[4] = false;
 		Con->WEB_Toolbar::bDisable[0] = true;
 		Con->WEB_Toolbar::sToolbar->setCurrentIndex(3);
-		*/
+
 		Con->WRefresh();
+		Con->updateFrame();
 		WRefresh(); //???
 	}));
-	/*
-	wbJoin->clicked().connect(std::bind([=]() {
-		Check_Input(WSTRINGtoSTRING(wlGameID->text()), WSTRINGtoSTRING(wlPlayerID->text()), WSTRINGtoSTRING(wlAdminID->text()));
-	}));
-
-	wbLeave->clicked().connect(std::bind([=]() {
-		wlGameID->setText("");
-		wlPlayerID->setText("");
-		wlAdminID->setText("");
-		Check_Input("", "", "");
-	}));
-	*/
+	
 	WRefresh();
 
 	MISE;
 }
-/*
-void WEB_Tome_Login::Check_Input(std::string sGameID, std::string sPlayerID, std::string sAdminID)
-{
-	MISS;
-	MISD(sGameID);
-	MISD(sPlayerID);
-	MISD(sAdminID);
-	wlGameID->setText(sGameID);
-	wlPlayerID->setText(sPlayerID);
-	wlAdminID->setText(sAdminID);
-	
-	Con->WEB_Toolbar::bDisable[1] = true;
-	Con->WEB_Toolbar::bDisable[2] = true;
-	Con->WEB_Toolbar::bDisable[3] = true;
-	wtStatus->setText(" ");
 
-	Con->BroGameID = Bro->getTomeGame(sGameID);
-	if (Con->BroGameID == -1 || sGameID == "")
-	{
-		wtStatus->setText("Wrong Game ID");
-		Con->WRefresh();
-		WRefresh();
-		MISEA("No Game ID")
-		return;
-	}
-	else Con->WEB_Toolbar::bDisable[1] = false;
-
-	if (Bro->vTomeGames[Con->BroGameID]->sAdminID == sAdminID && sAdminID!="" )Con->WEB_Toolbar::bDisable[3] = false;
-	else if(sAdminID != "")wtStatus->setText(wtStatus->text() + "Wrong Admin ID ");
-
-	for(int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size();i++)
-		if (Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID == sPlayerID)
-		{
-			Con->WEB_Toolbar::bDisable[2] = false;
-			break;
-		}
-	if(Con->WEB_Toolbar::bDisable[2] == true && sPlayerID != "")
-		wtStatus->setText(wtStatus->text() +  "Wrong Player ID ");
-
-	Con->WRefresh();
-	WRefresh();
-	
-	MISE;
-}
-*/
 void WEB_Tome_Login::WRefresh()
 {
 	MISS;
 	if (Con->BroGameID != -1)Con->connect();
 	else Con->disconnect();
-	
-	//wtStatus->setText("<h3>WEB_Tome_Login</h3>");
-	//MISD(std::to_string(Con->BroGameID));
-	/*
-	wbLeave->setEnabled(Con->BroGameID != -1);
-	wbJoin->setEnabled(Con->BroGameID == -1);
-	wlGameID->setEnabled(Con->BroGameID == -1);
-	wlPlayerID->setEnabled(Con->BroGameID == -1);
-	wlAdminID->setEnabled(Con->BroGameID == -1);*/
 	
 
 	MISE;

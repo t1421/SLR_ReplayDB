@@ -1,13 +1,42 @@
 #define DF_Debug
 
+#define Card_Size_X 32
+#define Card_Size_Y 38
+
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Admin.h"
+#include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
+#include "..\..\incl\WEB_Tome\Tome_Game.h"
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
 #include <Wt/WText.h>
+#include <Wt/WGridLayout.h>
+#include <Wt/WCheckBox.h>
+#include <Wt/WPushButton.h>
+#include <Wt/WLineEdit.h>
+
 
 broker *(WEB_Tome_Admin::Bro) = NULL;
+
+struct WEB_Tome_Player
+{
+	Wt::WText *wtPlayerID;
+	Wt::WLineEdit *wlPlayerName;
+	Wt::WLineEdit *iMaxBoosters[NumBoostersTypes];
+	Wt::WPushButton *wbSave;
+	Wt::WPushButton *wbDel;
+
+	WEB_Tome_Player(Tome_Player *Player)
+	{
+		wtPlayerID = new Wt::WText(Player->sPlayerID);
+		wlPlayerName = new Wt::WLineEdit(Player->sPlayerName);
+		for (unsigned int i = 0; i < NumBoostersTypes; i++)
+			iMaxBoosters[i] = new Wt::WLineEdit(std::to_string(Player->iMaxBoosters[i]));
+		wbSave = new Wt::WPushButton("Save");
+		wbDel = new Wt::WPushButton("Del");
+	};
+};
 
 WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 {
@@ -18,12 +47,61 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	MISD("#0");
 
 	cMain = new Wt::WContainerWidget();
-	wtTabelle = new Wt::WTable();
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
-
+	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
+	cMain->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
+	
 	MISD("#1");
 
-	//WRefresh();
+	wtTabelle = new Wt::WTable();
+
+	wcShowPlayers = new Wt::WCheckBox("Show Players");
+	wcShowBoosters = new Wt::WCheckBox("Show Boosters");
+	wcShowBoostersOfPlayer = new Wt::WCheckBox("Show Boosters per Player");
+
+	wtGameID = new Wt::WText("");
+	wtAdminID = new Wt::WText("");
+
+	wbAddPlayer = new Wt::WPushButton("Add Player");
+
+	MISD("#2");
+
+	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Game ID: </h4>"))), 0, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)), 0, 0);
+	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Admin ID: </h4>"))), 1, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdminID)), 1, 0);
+
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowPlayers)), 2, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoosters)), 3, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoostersOfPlayer)),4, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)), 5, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)), 6, 0);
+	
+
+	MISD("#3");
+	wcShowPlayers->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bShowPlayers = wcShowPlayers->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+	}));
+	wcShowBoosters->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bShowBoosters = wcShowBoosters->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+	}));
+	wcShowBoostersOfPlayer->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer = wcShowBoostersOfPlayer->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+	}));
+
+	wbAddPlayer->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->AddPlayer();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+	}));
+
+	MISD("#4");
+	WRefresh();
 
 	MISE;
 }
@@ -31,7 +109,86 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 void WEB_Tome_Admin::WRefresh()
 {
 	MISS;
-	
 
+	if (Con->BroGameID == -1)
+	{
+		MISEA("WTF !!!");
+		return;
+	}
+
+	unsigned int iCol = 0;
+	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
+	std::vector<WEB_Tome_Player *> Tabel_Player;
+
+	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
+	wtAdminID->setText("<h4> Admin ID: " + Bro->vTomeGames[Con->BroGameID]->sAdminID + "</h4>");
+
+	wcShowPlayers->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowPlayers);
+	wcShowBoosters->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoosters);
+	wcShowBoostersOfPlayer->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer);
+
+	wtTabelle->clear();
+
+	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayerID"))));
+	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Player Name"))));
+
+	for (unsigned int i = 0; i < EnumBoosters.size(); i++)
+	{
+		MISD(std::to_string(i));
+		wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
+			DrawImg(Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png", Card_Size_X, Card_Size_Y)
+		)));
+		/*
+		wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage(
+			Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png"
+		))));
+		wtTabelle->elementAt(0, iCol)->widget(0)->setHeight(Card_Size_Y);
+		wtTabelle->elementAt(0, iCol)->widget(0)->setWidth(Card_Size_X);
+		wtTabelle->elementAt(0, iCol)->widget(0)->resize(Card_Size_X, Card_Size_Y);
+		wtTabelle->elementAt(0, iCol)->widget(0)->setMaximumSize(Card_Size_X, Card_Size_Y);
+		*/
+		//iCol++;
+	}
+	//iCol += EnumBoosters.size();
+
+	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Save"))));
+	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Delete"))));
+
+	for (unsigned int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); i++)
+	{
+		iCol = 0;
+		Tabel_Player.push_back(new WEB_Tome_Player(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]));
+		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wtPlayerID)));
+		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wlPlayerName)));
+
+		for (unsigned int j = 0; j < NumBoostersTypes; j++)
+			wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->iMaxBoosters[j])));
+
+		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wbSave)));
+		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wbDel)));
+		
+		Tabel_Player[i]->wbSave->clicked().connect(std::bind([=]() {
+			Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerName = WSTRINGtoSTRING(Tabel_Player[i]->wlPlayerName->text());
+			for (unsigned int j = 0; j < NumBoostersTypes; j++)
+				Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->iMaxBoosters[j] = std::atoi(WSTRINGtoSTRING(Tabel_Player[i]->iMaxBoosters[j]->text()).c_str());			
+			Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+			WRefresh();
+		}));
+
+		Tabel_Player[i]->wbDel->clicked().connect(std::bind([=]() {
+			Bro->vTomeGames[Con->BroGameID]->vPlayer.erase(Bro->vTomeGames[Con->BroGameID]->vPlayer.begin() + i);
+			Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+			WRefresh();
+		}));
+
+	}
+
+
+	wtTabelle->columnAt(0)->setWidth(75);
+	wtTabelle->columnAt(1)->setWidth(200);
+	for (unsigned int j = 0; j < NumBoostersTypes; j++)
+	wtTabelle->columnAt(2 + j)->setWidth(50);
+	
 	MISE;
 }
+

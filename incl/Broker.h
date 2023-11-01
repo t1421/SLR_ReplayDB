@@ -73,6 +73,8 @@ public:
 	std::string L_getSMJPIC_PATH();
 	std::string L_getSMJIMG_PATH();
 	std::string L_getSMJPICSMALL_PATH();
+	std::string L_getBOOSTER_PATH();
+	
 	int L_getBOTRankMode(int _BOT);
 #endif	
 
@@ -82,6 +84,7 @@ public:
 	unsigned char J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges);
 	SMJCard* J_GetSMJCard(unsigned short _CardID);
 	std::string J_GetImgOnly(unsigned short CardID);
+	std::vector<std::pair<std::string, std::string>> J_GetEnum(std::string sEnumName);
 #endif
 	
 
@@ -105,7 +108,7 @@ public:
 
 #if defined BrokerTome
 	std::vector <Tome_Game*> vTomeGames;
-	int getTomeGame(std::string sGameID);
+	int getTomeGame(std::string sGameID);	
 
 	void postChatEventMIS(std::string Value1);
 	void postChatEventMIS(std::string Value1, std::string Value2);

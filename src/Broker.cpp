@@ -324,6 +324,10 @@ std::string broker::L_getSMJIMG_PATH()
 	return L->sSMJIMG_PATH;
 }
 
+std::string broker::L_getBOOSTER_PATH()
+{
+	return L->sBOOSTER_PATH;
+}
 std::string broker::L_getFFMPEG()
 {
 	return L->sFFMPEG;
@@ -360,6 +364,12 @@ SMJCard* broker::J_GetSMJCard(unsigned short _CardID)
 {
 	return J->GetSMJCard(_CardID);
 }
+
+std::vector<std::pair<std::string, std::string>> broker::J_GetEnum(std::string sEnumName)
+{
+	if (sEnumName == "EnumBoosters")return J->EnumBoosters;
+}
+
 #endif
 
 void broker::B_StatusNew(std::string Fun, std::string Wert)
@@ -379,7 +389,7 @@ int broker::getTomeGame(std::string sGameID)
 	for (unsigned int iTemp = 0; iTemp < vTomeGames.size(); iTemp++)
 		if (vTomeGames[iTemp]->sGameID == sGameID) return iTemp;
 	Tome_Game* tg = new Tome_Game(sGameID);
-	if (tg->sGameID == sGameID)
+	if (tg->sGameID == sGameID || sGameID == "NEW")
 	{
 		vTomeGames.push_back(tg);
 		return vTomeGames.size() - 1;

@@ -19,6 +19,8 @@
 
 broker *(WEB_Tome_PublicBoosters::Bro) = NULL;
 
+bool compareBoosters(const Tome_Booster * a, const Tome_Booster * b) { return a->iLfdnr > b->iLfdnr; }
+
 WEB_Tome_PublicBoosters::WEB_Tome_PublicBoosters(WEB_Container_Tome *Con_) : Con(Con_)
 {
 	MISS;
@@ -51,8 +53,7 @@ void WEB_Tome_PublicBoosters::WRefresh()
 		for (unsigned int j = 0; j < Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters.size(); j++)		
 			vAllBoosters.push_back(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters[j]);
 
-	auto rng = std::default_random_engine{};
-	std::shuffle(std::begin(vAllBoosters), std::end(vAllBoosters), rng);
+	std::sort(vAllBoosters.begin(), vAllBoosters.end(), compareBoosters);
 	
 	for (unsigned int j = 0; j <vAllBoosters.size(); j++)
 	{
