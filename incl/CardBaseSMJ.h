@@ -21,7 +21,7 @@ public:
 	void DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type);
 	
 private:
-	Json::Value SMJtoCHASH();
+	Json::Value CardBaseSMJ::WEBRequestToCHASH(std::string sURL);
 	CURL *curl;
 
 	std::vector<std::pair<std::string, std::string>> EnumColor;
@@ -29,6 +29,8 @@ private:
 	std::vector<std::pair<std::string, std::string>> EnumAffinity;
 	std::vector<std::pair<std::string, std::string>> EnumType;
 	std::vector<std::pair<std::string, std::string>> EnumBoosters;
+
+	std::mutex mutex_WEBRequest;
 	
 public:
 	unsigned char GetActionOrbForCardID(unsigned short CardID);	

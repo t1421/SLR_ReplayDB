@@ -4,9 +4,11 @@
 #include "..\incl\Broker.h" 
 
 #define SMJ_Cards "https://smj.cards/api/cards"
+#define SMJ_I_BOOSTER "https://smj.cards/api/random/booster"
 #define SMJ_S_IMG "https://smj.cards/api/images/basicCard/"
 #define SMJ_B_IMG "https://smj.cards/api/images/fullCard/"
 #define SMJ_I_IMG "https://smj.cards/api/images/cardArtwork/"
+
 
 #include "..\incl\CardBaseSMJ.h" 
 #include "..\incl\Utility.h" 
@@ -66,7 +68,7 @@ bool CardBaseSMJ::Init()
 
 	SMJCard * SMJCard_TEMP;
 
-	RawData = SMJtoCHASH();
+	RawData = WEBRequestToCHASH(SMJ_Cards);
 	AllCards = RawData["data"];
 	
 	MISD("AllCards:" + std::to_string(AllCards.size()));
@@ -192,7 +194,7 @@ void CardBaseSMJ::EchoCard(std::string sCardID)
 }
 
 
-Json::Value CardBaseSMJ::SMJtoCHASH()
+Json::Value CardBaseSMJ::WEBRequestToCHASH(std::string sURL)
 {
 	MISS;
 	
@@ -204,10 +206,11 @@ Json::Value CardBaseSMJ::SMJtoCHASH()
 
 	std::string readBuffer = "";
 
+	mutex_WEBRequest.lock();
 	curl = curl_easy_init();
 	if (curl)
 	{
-		curl_easy_setopt(curl, CURLOPT_URL, SMJ_Cards);
+		curl_easy_setopt(curl, CURLOPT_URL, sURL);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
 		curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
@@ -228,8 +231,9 @@ Json::Value CardBaseSMJ::SMJtoCHASH()
 
 		curl_easy_cleanup(curl);
 	}
-	MISE;
 
+	mutex_WEBRequest.unlock();
+	MISE;
 	return jsonData;
 }
 
@@ -628,7 +632,7 @@ bool CardBaseSMJ::Imager()
 
 #endif
 
-
+/*
 Tome_Booster* CardBaseSMJ::OpenBooster(int iType)
 {
 	MISS;
@@ -722,7 +726,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(int iType)
 
 	//Card8
 	iC++;
-	/*
+	
 	MISD("iPromos:" + std::to_string(iPromos));
 	MISD("iUR:" + std::to_string(iUR));
 	MISD("iR:" + std::to_string(iR));
@@ -734,7 +738,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(int iType)
 	MISD("vR:" + std::to_string(vR.size()));
 	MISD("vUC:" + std::to_string(vUC.size()));
 	MISD("vC:" + std::to_string(vC.size()));
-	*/
+	
 	
 	distr = std::uniform_int_distribution<int>(0, vPromo.size() - 1);
 	for (unsigned int i = 0; i < iPromos; i++)
@@ -814,6 +818,37 @@ Tome_Booster* CardBaseSMJ::OpenBooster(int iType)
 			continue;
 		}
 		Booster->vCards.push_back(vC[iRandome]);
+	}
+
+	MISD("Booster:" + std::to_string(Booster->vCards.size()));
+	MISE;
+	return Booster;
+}
+*/
+
+Tome_Booster* CardBaseSMJ::OpenBooster(int iType)
+{
+	MISS;
+	
+	Tome_Booster* Booster = new Tome_Booster(iType);
+
+	Json::Value RawData;
+	Json::Value BoosterCards;
+	Json::Value Card;
+	Json::Value jTEMP;
+
+	std::string sURL = SMJ_I_BOOSTER;
+	
+	RawData = WEBRequestToCHASH(sURL + "?type=" + std::to_string(iType));
+	BoosterCards = RawData["data"];
+
+	MISD("Card:" + std::to_string(BoosterCards.size()));
+	for (Json::ArrayIndex i = 0; i < BoosterCards.size(); i++)
+	{
+		Card = BoosterCards[i];
+		jTEMP = Card["officialCardIds"];
+		Booster->vCards.push_back(GetSMJCard(jTEMP[jTEMP.size() - 1].asInt()));
+		MISD("Card:" + std::to_string(jTEMP[jTEMP.size() - 1].asInt()));
 	}
 
 	MISD("Booster:" + std::to_string(Booster->vCards.size()));

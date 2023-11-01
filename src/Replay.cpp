@@ -717,6 +717,11 @@ bool Replay::ReadActions()
 					readUnsignedLong(); // Pause Time
 					break;
 
+					case 4: //Goal Checker
+					Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + readString() + ";"; // Goal Name
+					Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedChar()) + ";"; // Goal Status
+					break;
+
 					default:
 						MISERROR(FileName);
 						MISERROR(sTime(Action_TEMP->Time) + "#" +
