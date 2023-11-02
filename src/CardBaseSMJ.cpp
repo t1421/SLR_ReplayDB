@@ -258,6 +258,7 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 		}
 	}
 
+#ifndef noLoad
 	switch (_Type)
 	{
 	case ImgOnly:
@@ -276,7 +277,7 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 		OutFile.open(Bro->L_getSMJPIC_PATH() + sFile + ".webp", std::ostream::binary);
 		break;
 	}
-
+#endif
 	sURL += "?upgrades=";
 	sURL += std::to_string(Upgrade);
 	sURL += "&charges=";
@@ -351,6 +352,7 @@ std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, 
 	MISS;
 	std::string sFile;
 
+#ifndef noLoad
 	switch (_Type)
 	{
 	case Small:
@@ -367,7 +369,7 @@ std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, 
 		Charges = 0;
 		break;
 	}
-
+#endif
 
 	sFile += std::to_string(CardID) + "_" + std::to_string(Upgrade) + std::to_string(Charges);	
 	if (bSW)sFile += "SW";

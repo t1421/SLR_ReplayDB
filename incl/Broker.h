@@ -58,7 +58,7 @@ public:
 
 	bool bAktive;
 
-#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome 
+#ifndef noLoad
 	std::string L_getSQL_Server();
 	std::string L_getSQL_User();
 	std::string L_getSQL_PW();

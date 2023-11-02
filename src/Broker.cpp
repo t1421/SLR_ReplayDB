@@ -9,10 +9,8 @@
 #endif
 
 #if defined BrokerTome || defined BrokerNormal || defined BrokerWeb
-#include "..\incl\LOAD.h"
 #include "..\incl\Thread_MIS.h" 
 #endif
-
 
 #if defined BrokerTome || defined BrokerWeb
 #include "..\incl\Utility.h"
@@ -69,6 +67,10 @@
 #include "..\incl\Imager.h"
 #endif
 
+#ifndef noLoad
+#include "..\incl\LOAD.h"
+#endif
+
 broker::broker()
 {
 	bAktive = true;
@@ -83,8 +85,6 @@ broker::broker()
 
 #if defined BrokerNormal || defined BrokerWeb || defined BrokerTome 
 	Thread_MIS::learnBro(this);
-	LOAD::learnBro(this);
-	L = NULL;
 #endif
 
 #if defined BrokerTome || defined BrokerWeb
@@ -150,7 +150,10 @@ Imager::learnBro(this);
 	I = NULL;
 #endif	
 	
-
+#ifndef noLoad
+	LOAD::learnBro(this);
+	L = NULL;
+#endif
 	
 
 }
@@ -277,7 +280,7 @@ std::string broker::J_GetImgOnly(unsigned short CardID)
 #endif
 
 
-#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome 
+#ifndef noLoad
 std::string broker::L_getSQL_Server()
 {
 	return L->sSQL_Server;
@@ -294,7 +297,6 @@ std::string broker::L_getSQL_DB()
 {
 	return L->sSQL_DB;
 }
-
 std::string broker::L_getPMV_PATH()
 {
 	return L->sPMV_PATH;
@@ -348,6 +350,8 @@ int broker::L_getBOTRankMode(int _BOT)
 	return L->BOTRankMode[_BOT];
 }
 #endif
+
+
 
 #ifndef noSMJ
 std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall)
