@@ -27,12 +27,16 @@ public:
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
-	//void Check_Input(std::string sGameID, std::string sPlayerID, std::string sAdminID);
+	void Parameter(std::string sGameID, std::string sPlayerID, std::string sAdminID);
 
 	void WRefresh();
 
 private:
 	WEB_Container_Tome *Con;
+	void JoinPublic();
+	void JoinPlayer();
+	void JoinAdmin();
+	
 };
 
 

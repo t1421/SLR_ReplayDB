@@ -26,6 +26,7 @@ struct WEB_Tome_Player
 	Wt::WLineEdit *iMaxBoosters[NumBoostersTypes];
 	Wt::WPushButton *wbSave;
 	Wt::WPushButton *wbDel;
+	Wt::WPushButton *wbMes;
 
 	WEB_Tome_Player(Tome_Player *Player)
 	{
@@ -35,6 +36,7 @@ struct WEB_Tome_Player
 			iMaxBoosters[i] = new Wt::WLineEdit(std::to_string(Player->iMaxBoosters[i]));
 		wbSave = new Wt::WPushButton("Save");
 		wbDel = new Wt::WPushButton("Del");
+		wbMes = new Wt::WPushButton("Mes");
 	};
 };
 
@@ -153,6 +155,7 @@ void WEB_Tome_Admin::WRefresh()
 
 	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Save"))));
 	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Delete"))));
+	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Mesage"))));
 
 	for (unsigned int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); i++)
 	{
@@ -166,6 +169,7 @@ void WEB_Tome_Admin::WRefresh()
 
 		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wbSave)));
 		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wbDel)));
+		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wbMes)));
 		
 		Tabel_Player[i]->wbSave->clicked().connect(std::bind([=]() {
 			Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerName = WSTRINGtoSTRING(Tabel_Player[i]->wlPlayerName->text());
@@ -181,13 +185,26 @@ void WEB_Tome_Admin::WRefresh()
 			WRefresh();
 		}));
 
+		Tabel_Player[i]->wbMes->clicked().connect(std::bind([=]() {
+			Wt::WApplication::instance()->doJavaScript(Wt::WApplication::instance()->javaScriptClass() + ".CopyToClip('" + 
+				"Hello " + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerName + ", " + 
+				"welcome to the Tome Fight! The GameID is: " + Bro->vTomeGames[Con->BroGameID]->sGameID + " " +
+				"and you PlayerID is: " + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID + " " +
+				"But you can just use this link: " +
+				"https://localhost:8443/?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID  + "&playerID=" + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID +
+				"');");
+			
+		}));
 	}
 
-
-	wtTabelle->columnAt(0)->setWidth(75);
-	wtTabelle->columnAt(1)->setWidth(200);
+	iCol = 0;
+	wtTabelle->columnAt(iCol++)->setWidth(75);
+	wtTabelle->columnAt(iCol++)->setWidth(200);
 	for (unsigned int j = 0; j < NumBoostersTypes; j++)
-	wtTabelle->columnAt(2 + j)->setWidth(50);
+	wtTabelle->columnAt(iCol++)->setWidth(50);
+	wtTabelle->columnAt(iCol++)->setWidth(75);
+	wtTabelle->columnAt(iCol++)->setWidth(75);
+	wtTabelle->columnAt(iCol++)->setWidth(75);
 	
 	MISE;
 }

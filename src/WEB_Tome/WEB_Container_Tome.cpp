@@ -48,6 +48,8 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	WApplication::instance()->setTheme(bootstrapTheme);
 	WApplication::instance()->setTitle("SLR - Tome Fight Maker");
 	WApplication::instance()->useStyleSheet(Wt::WLink("./resources/main.css"));
+	WApplication::instance()->declareJavaScriptFunction("CopyToClip", 
+		"function(text) { navigator.clipboard.writeText(text) }");
 
 	MISD("#3");
 
@@ -107,9 +109,9 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 
 	
 	MISD("#9");
-	/*
+	
 	if(sParamGameID!="")
-		Login->Check_Input(sParamGameID, sParamPlayerID, sParamAdminID);*/
+		Login->Parameter(sParamGameID, sParamPlayerID, sParamAdminID);
 
 	MISE;
 }
