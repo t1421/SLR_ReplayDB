@@ -54,6 +54,7 @@ void WEB_Toolbar::updateToolbar()
 void WEB_Toolbar::updateFrame()
 {
 	MISS;
+	if(sToolbar->currentIndex() < bToolbar.size())
 	wfToolbar[sToolbar->currentIndex()]->WRefresh();	
 	MISE;
 }

@@ -23,10 +23,16 @@
 #include <Wt/WContainerWidget.h>
 #include <Wt/WApplication.h>
 #include <Wt/WEnvironment.h>
+#include <Wt/WTable.h>
 #include <string>
+#include <algorithm>
 
+#define Card_Size_X 93
+#define Card_Size_Y 128
 
 broker *(WEB_Container_Tome::Bro) = NULL;
+
+bool compareBoosters(const Tome_Booster * a, const Tome_Booster * b) { return a->iLfdnr > b->iLfdnr; }
 
 WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	: WApplication(env), BroGameID(-1)
@@ -322,4 +328,42 @@ std::string WEB_Container_Tome::sGetParam(const Wt::WEnvironment& env, std::stri
 	}
 	MISEA("V2");
 	return "";
+}
+
+void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Booster*> vAllBoosters)
+{
+	MISS;
+
+	std::sort(vAllBoosters.begin(), vAllBoosters.end(), compareBoosters);
+
+	for (unsigned int j = 0; j <vAllBoosters.size(); j++)
+	{
+		wtTabelle->elementAt(j, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
+			DrawImg("./resources/Boosters/" + std::to_string(vAllBoosters[j]->iType) + ".png",
+				Card_Size_X, Card_Size_Y
+			))));
+
+		for (unsigned int k = 0; k < vAllBoosters[j]->vCards.size(); k++)
+		{
+			wtTabelle->elementAt(j, k + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
+				DrawImg(Bro->J_GetImage(
+					vAllBoosters[j]->vCards[k]->cardId,
+					3,
+					4,
+					1,
+					false),
+					Card_Size_X, Card_Size_Y
+				))));
+		}
+	}
+
+	for (unsigned int i = 0; i < wtTabelle->columnCount(); i++) wtTabelle->columnAt(i)->setWidth(75);
+	MISE;
+}
+
+void WEB_Container_Tome::PublicReset()
+{
+	MISS;
+	Public->sToolbar->setCurrentIndex(3);
+	MISE;
 }

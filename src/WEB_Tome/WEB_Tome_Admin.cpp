@@ -103,7 +103,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	}));
 
 	MISD("#4");
-	WRefresh();
+	//WRefresh();
 
 	MISE;
 }

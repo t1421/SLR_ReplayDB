@@ -3,6 +3,7 @@
 
 #include "..\WEB\WEB_Server.h"
 #include "..\WEB\WEB_Toolbar.h"
+#include "..\..\incl\DataTypes.h" 
 
 #include <Wt/WText.h>
 #include <Wt/WFileUpload.h>
@@ -35,7 +36,10 @@ public:
 
 	void connect();
 	void disconnect();
+	void PublicReset();
 	void processChatEvent(const MISEvent& event);
+
+	void DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Booster*> vAllBoosters);
 
 	//----------------------------------------------------------------
 
@@ -53,7 +57,7 @@ private:
 
 	Wt::WContainerWidget *GlobaelContainer;
 	std::string sGetParam(const Wt::WEnvironment& env, std::string sParam);
-	//std::string sPARA;
+	
 
 };
 

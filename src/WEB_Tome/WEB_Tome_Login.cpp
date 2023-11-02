@@ -166,6 +166,7 @@ void WEB_Tome_Login::JoinPublic()
 	Con->WEB_Toolbar::bDisable[4] = false;
 	Con->WEB_Toolbar::bDisable[0] = true;
 	Con->WEB_Toolbar::sToolbar->setCurrentIndex(1);
+	Con->PublicReset();
 
 	Con->WRefresh();
 	WRefresh();

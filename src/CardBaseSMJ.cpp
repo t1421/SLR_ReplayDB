@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 //#define BrokerNormal
 
 #include "..\incl\Broker.h" 
@@ -150,7 +150,7 @@ bool CardBaseSMJ::Init()
 	Enum = AllCards["boosters"];
 	for (auto const& id : Enum.getMemberNames())
 	{
-		MISD(id + "#" + Enum[id].asString());
+		//MISD(id + "#" + Enum[id].asString());
 		EnumBoosters.push_back(std::make_pair(
 			id, Enum[id].asString()));
 	}

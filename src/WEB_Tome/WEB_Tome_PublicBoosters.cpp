@@ -7,9 +7,6 @@
 
 #include "..\..\incl\DataTypes.h"
 
-#include <algorithm>
-#include <random>
-
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
 #include <Wt/WText.h>
@@ -18,8 +15,6 @@
 #define Card_Size_Y 128
 
 broker *(WEB_Tome_PublicBoosters::Bro) = NULL;
-
-bool compareBoosters(const Tome_Booster * a, const Tome_Booster * b) { return a->iLfdnr > b->iLfdnr; }
 
 WEB_Tome_PublicBoosters::WEB_Tome_PublicBoosters(WEB_Container_Tome *Con_) : Con(Con_)
 {
@@ -52,32 +47,8 @@ void WEB_Tome_PublicBoosters::WRefresh()
 	for (unsigned int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); i++)
 		for (unsigned int j = 0; j < Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters.size(); j++)		
 			vAllBoosters.push_back(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters[j]);
-
-	std::sort(vAllBoosters.begin(), vAllBoosters.end(), compareBoosters);
 	
-	for (unsigned int j = 0; j <vAllBoosters.size(); j++)
-	{
-		wtTabelle->elementAt(j, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-			DrawImg("./resources/Boosters/" + std::to_string(vAllBoosters[j]->iType) + ".png",
-				Card_Size_X, Card_Size_Y
-			))));
-
-		for (unsigned int k = 0; k < vAllBoosters[j]->vCards.size(); k++)
-		{
-			wtTabelle->elementAt(j, k + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-				DrawImg(Bro->J_GetImage(
-				vAllBoosters[j]->vCards[k]->cardId,
-				3,
-				4,
-				1,
-				false),
-					Card_Size_X, Card_Size_Y
-			))));
-
-		}
-	}
-
-	for (unsigned int i = 0; i < wtTabelle->columnCount(); i++) wtTabelle->columnAt(i)->setWidth(75);
-
+	Con->DrawBooster(wtTabelle, vAllBoosters);
+	
 	MISE;
 }

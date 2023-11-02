@@ -42,38 +42,20 @@ void WEB_Tome_PublicPlayersBooster::WRefresh()
 	MISS;
 	
 	unsigned int iRow = 0;
+	Wt::WTable *wtTabelleTemp;
 
 	wtTabelle->clear();
 
 	for (unsigned int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); i++)
 	{
 		wtTabelle->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<H1>" + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerName + "</H1>"))));
-		wtTabelle->elementAt(iRow++, 0)->setColumnSpan(9);
+		//wtTabelle->elementAt(iRow++, 0)->setColumnSpan(9);
 
-		for (unsigned int j = 0; j < Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters.size(); j++)
-		{
-			wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-				DrawImg("./resources/Boosters/" + std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters[j]->iType) + ".png",
-					Card_Size_X, Card_Size_Y
-				))));
-
-			for (unsigned int k = 0; k < Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters[j]->vCards.size(); k++)
-			{
-				wtTabelle->elementAt(iRow, k + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-					DrawImg(Bro->J_GetImage(
-						Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters[j]->vCards[k]->cardId,
-						3,
-						4,
-						1,
-						false),
-						Card_Size_X, Card_Size_Y
-					))));
-			}
-			iRow++;
-		}
-		iRow++;
+		wtTabelleTemp = new Wt::WTable();
+		wtTabelle->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelleTemp)));
+		Con->DrawBooster(wtTabelleTemp, Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters);
+		wtTabelle->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<H1> </H1>"))));
 	}
 
-	for (unsigned int i = 0; i < wtTabelle->columnCount(); i++) wtTabelle->columnAt(i)->setWidth(75);
 	MISE;
 }

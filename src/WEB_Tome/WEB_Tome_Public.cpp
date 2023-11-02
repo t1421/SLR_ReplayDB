@@ -34,15 +34,18 @@ WEB_Tome_Public::WEB_Tome_Public(WEB_Container_Tome *Con_) : Con(Con_)
 	WEB_Toolbar::ToolBarButton(1, "Boosters", *PB->cMain, PB);
 	WEB_Toolbar::ToolBarButton(2, "Player Boosters", *PPB->cMain, PPB);
 
+	Wt::WContainerWidget *XXX = new Wt::WContainerWidget();
+	sToolbar->insertWidget(3, std::unique_ptr<Wt::WContainerWidget>(std::move(XXX)));
+	
+
 	MISD("#2");
 
-	WEB_Toolbar::bDisable[0] = false;
+	WEB_Toolbar::bDisable[0] = true;
 	WEB_Toolbar::bDisable[1] = true;
 	WEB_Toolbar::bDisable[2] = true;
 
 	MISD("#3");
-
-	WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	
 	WEB_Toolbar::updateToolbar();
 	
 	MISD("#2");
@@ -56,10 +59,12 @@ void WEB_Tome_Public::WRefresh()
 {
 	MISS;
 	
+	WEB_Toolbar::bDisable[0] = !Bro->vTomeGames[Con->BroGameID]->bShowPlayers;
 	WEB_Toolbar::bDisable[1] = !Bro->vTomeGames[Con->BroGameID]->bShowBoosters;
 	WEB_Toolbar::bDisable[2] = !Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer;
 
-	updateFrame();
+	WEB_Toolbar::updateToolbar();
+	//updateFrame();
 
 	MISE;
 }
