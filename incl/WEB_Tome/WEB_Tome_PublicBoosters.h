@@ -10,6 +10,7 @@ public:
 
 	WEB_Tome_PublicBoosters(WEB_Container_Tome *Con_);
 	Wt::WTable *wtTabelle;
+	Wt::WLineEdit *wlFilter;
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

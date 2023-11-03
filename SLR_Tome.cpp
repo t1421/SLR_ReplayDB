@@ -39,7 +39,7 @@ int main()
 		{
 			if (Checker(sbuf, "booster"))
 			{
-				Tome_Booster* TB = J->OpenBooster(atoi(sbuf.c_str()));
+				Tome_Booster* TB = J->OpenBooster(sbuf.c_str());
 				for (int i = 0; i < TB->vCards.size(); i++)
 					printf("%i\n", TB->vCards[i]->cardId);
 					//MISD(TB->vCards[i]->cardId + "#" + TB->vCards[i]->cardName);

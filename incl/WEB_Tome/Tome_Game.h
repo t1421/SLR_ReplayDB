@@ -2,6 +2,7 @@
 #define Tome_Game_H
 
 #define NumBoostersTypes 13
+#include "..\DataTypes.h"
 
 struct Tome_Booster;
 
@@ -20,6 +21,12 @@ struct Tome_Player
 		for (unsigned int i = 0; i < NumBoostersTypes; i++) iReturn += iMaxBoosters[i];
 		return iReturn;
 	};
+	unsigned int iOpenBoosterOfType(std::string _Type)
+	{
+		unsigned int iReturn = 0;
+		for (unsigned int i = 0; i < vBoosters.size(); i++) if(vBoosters[i]->sType == _Type)iReturn++;
+		return iReturn;
+	};
 };
 
 class Tome_Game
@@ -30,6 +37,7 @@ public:
 	bool bShowPlayers;
 	bool bShowBoosters;
 	bool bShowBoostersOfPlayer;
+	bool bAllowOpening;
 	std::string sGameID;
 	std::string sAdminID;
 
@@ -40,6 +48,7 @@ public:
 
 	void Init();
 	void AddPlayer();
+	unsigned int AllBoosters();
 
 	bool bNewGame();	
 	bool bCheckPlayer(std::string sPlayer);

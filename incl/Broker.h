@@ -38,6 +38,7 @@ class MIS_Rank;
 class CardBaseSMJ;
 struct SMJCard;
 class Tome_Game;
+struct Tome_Booster;
 
 class broker
 {
@@ -85,6 +86,7 @@ public:
 	SMJCard* J_GetSMJCard(unsigned short _CardID);
 	std::string J_GetImgOnly(unsigned short CardID);
 	std::vector<std::pair<std::string, std::string>> J_GetEnum(std::string sEnumName);
+	Tome_Booster* J_OpenBooster(std::string iType);
 #endif
 	
 

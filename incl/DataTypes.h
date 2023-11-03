@@ -132,9 +132,9 @@ struct SMJCard {
 
 struct Tome_Booster
 {
-	int iType;
+	std::string sType;
 	std::vector <SMJCard*> vCards;
-	Tome_Booster(int _iType) :iType(_iType) {};
+	Tome_Booster(std::string _sType) :sType(_sType) {};
 	unsigned int iLfdnr;
 };
 #endif //DataTypes

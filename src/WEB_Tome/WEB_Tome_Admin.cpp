@@ -1,8 +1,5 @@
 #define DF_Debug
 
-#define Card_Size_X 32
-#define Card_Size_Y 38
-
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Admin.h"
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
@@ -59,6 +56,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wcShowPlayers = new Wt::WCheckBox("Show Players");
 	wcShowBoosters = new Wt::WCheckBox("Show Boosters");
 	wcShowBoostersOfPlayer = new Wt::WCheckBox("Show Boosters per Player");
+	wcAllowOpening = new Wt::WCheckBox("Allow Opening Booster");
 
 	wtGameID = new Wt::WText("");
 	wtAdminID = new Wt::WText("");
@@ -72,11 +70,12 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Admin ID: </h4>"))), 1, 0);
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdminID)), 1, 0);
 
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowPlayers)), 2, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoosters)), 3, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoostersOfPlayer)),4, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)), 5, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)), 6, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowOpening)), 2, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowPlayers)), 3, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoosters)), 4, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoostersOfPlayer)),5, 0);	
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)), 6, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)), 7, 0);
 	
 
 	MISD("#3");
@@ -95,12 +94,18 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 	}));
-
+	wcAllowOpening->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bAllowOpening = wcAllowOpening->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+	}));
 	wbAddPlayer->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->AddPlayer();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 	}));
+
+	
 
 	MISD("#4");
 	//WRefresh();
@@ -128,6 +133,7 @@ void WEB_Tome_Admin::WRefresh()
 	wcShowPlayers->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowPlayers);
 	wcShowBoosters->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoosters);
 	wcShowBoostersOfPlayer->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer);
+	wcAllowOpening->setChecked(Bro->vTomeGames[Con->BroGameID]->bAllowOpening);
 
 	wtTabelle->clear();
 
@@ -136,22 +142,12 @@ void WEB_Tome_Admin::WRefresh()
 
 	for (unsigned int i = 0; i < EnumBoosters.size(); i++)
 	{
-		MISD(std::to_string(i));
 		wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-			DrawImg(Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png", Card_Size_X, Card_Size_Y)
+			DrawImg(Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png", Booster_Size_X, Booster_Size_Y)
 		)));
-		/*
-		wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage(
-			Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png"
-		))));
-		wtTabelle->elementAt(0, iCol)->widget(0)->setHeight(Card_Size_Y);
-		wtTabelle->elementAt(0, iCol)->widget(0)->setWidth(Card_Size_X);
-		wtTabelle->elementAt(0, iCol)->widget(0)->resize(Card_Size_X, Card_Size_Y);
-		wtTabelle->elementAt(0, iCol)->widget(0)->setMaximumSize(Card_Size_X, Card_Size_Y);
-		*/
-		//iCol++;
+		
 	}
-	//iCol += EnumBoosters.size();
+	
 
 	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Save"))));
 	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Delete"))));

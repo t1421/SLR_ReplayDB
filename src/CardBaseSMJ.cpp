@@ -828,7 +828,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(int iType)
 }
 */
 
-Tome_Booster* CardBaseSMJ::OpenBooster(int iType)
+Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 {
 	MISS;
 	
@@ -841,7 +841,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(int iType)
 
 	std::string sURL = SMJ_I_BOOSTER;
 	
-	RawData = WEBRequestToCHASH(sURL + "?type=" + std::to_string(iType));
+	RawData = WEBRequestToCHASH(sURL + "?type=" + iType);
 	BoosterCards = RawData["data"];
 
 	MISD("Card:" + std::to_string(BoosterCards.size()));

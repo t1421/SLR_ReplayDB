@@ -15,6 +15,7 @@
 #include "..\..\incl\WEB_Tome\WEB_Tome_Player.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Public.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Leave.h"
+#include "..\..\incl\WEB_Tome\Tome_Game.h"
 
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WText.h>
@@ -24,11 +25,9 @@
 #include <Wt/WApplication.h>
 #include <Wt/WEnvironment.h>
 #include <Wt/WTable.h>
+#include <Wt/WLineEdit.h>
 #include <string>
 #include <algorithm>
-
-#define Card_Size_X 93
-#define Card_Size_Y 128
 
 broker *(WEB_Container_Tome::Bro) = NULL;
 
@@ -339,11 +338,11 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 	for (unsigned int j = 0; j <vAllBoosters.size(); j++)
 	{
 		wtTabelle->elementAt(j, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-			DrawImg("./resources/Boosters/" + std::to_string(vAllBoosters[j]->iType) + ".png",
+			DrawImg("./resources/Boosters/" + vAllBoosters[j]->sType + ".png",
 				Card_Size_X, Card_Size_Y
 			))));
 
-		for (unsigned int k = 0; k < vAllBoosters[j]->vCards.size(); k++)
+		for (unsigned int k = 0; k < vAllBoosters[j]->vCards.size() && vAllBoosters[j]->vCards[k]->cardId != 0; k++)
 		{
 			wtTabelle->elementAt(j, k + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
 				DrawImg(Bro->J_GetImage(
@@ -361,9 +360,56 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 	MISE;
 }
 
+std::string WEB_Container_Tome::BoosterToFilter(std::vector <Tome_Booster*> vAllBoosters, std::string sName)
+{
+	MISS;
+
+	std::vector <unsigned int> iCards;
+	bool found;
+	std::stringstream ssOUT;
+
+	for (unsigned int j = 0; j <vAllBoosters.size(); j++)
+	{
+		for (unsigned int k = 0; k < vAllBoosters[j]->vCards.size() && vAllBoosters[j]->vCards[k]->cardId != 0; k++)
+		{
+			found = false;
+			for (unsigned int i = 0; i < iCards.size() && found == false; i++)
+				found = iCards[i] == vAllBoosters[j]->vCards[k]->cardId;
+			
+			if (found)continue;
+			iCards.push_back(vAllBoosters[j]->vCards[k]->cardId);
+
+		}
+	}
+
+	ssOUT << ",{ ";
+	ssOUT << "\"name\":\"" << sName << "\",";
+	ssOUT << "\"_comment\":\"Your cards for the Tome Event\",";
+	ssOUT << "\"text\" : \"ID=0";
+	for (unsigned int i = 0; i < iCards.size() ; i++)ssOUT << "|ID="<< iCards[i];
+	ssOUT << "\"}";
+	
+	MISE;
+	return ssOUT.str();
+}
+
 void WEB_Container_Tome::PublicReset()
 {
 	MISS;
 	Public->sToolbar->setCurrentIndex(3);
 	MISE;
+}
+
+std::string WEB_Container_Tome::getPlayerID()
+{
+	MISS;
+	if (Bro->vTomeGames[BroGameID]->bCheckPlayer(WSTRINGtoSTRING(Login->wlPlayerID->text())) == false
+		|| Login->wlPlayerID->text() == "")
+	{
+		MISEA("Not found");
+		return "";
+	}
+
+	MISE;
+	return WSTRINGtoSTRING(Login->wlPlayerID->text());
 }

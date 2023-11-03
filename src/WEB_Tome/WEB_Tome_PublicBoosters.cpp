@@ -10,6 +10,7 @@
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
 #include <Wt/WText.h>
+#include <Wt/WLineEdit.h>
 
 #define Card_Size_X 93
 #define Card_Size_Y 128
@@ -26,10 +27,19 @@ WEB_Tome_PublicBoosters::WEB_Tome_PublicBoosters(WEB_Container_Tome *Con_) : Con
 	
 	cMain = new Wt::WContainerWidget();
 	wtTabelle = new Wt::WTable();
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
+	wlFilter = new Wt::WLineEdit();
+
+	
 
 	
 	MISD("#2");
+	
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlFilter)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
+
+	wlFilter->setWidth(Card_Size_X * 9);
+
+	MISD("#3");
 
 	//WRefresh();
 
@@ -49,6 +59,8 @@ void WEB_Tome_PublicBoosters::WRefresh()
 			vAllBoosters.push_back(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters[j]);
 	
 	Con->DrawBooster(wtTabelle, vAllBoosters);
+
+	wlFilter->setText(Con->BoosterToFilter(vAllBoosters, "AllTome"));
 	
 	MISE;
 }

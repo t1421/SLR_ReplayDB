@@ -15,6 +15,8 @@ public:
 
 	Wt::WTable *wtTabelle;
 
+	Wt::WCheckBox *wcAllowOpening;
+
 	Wt::WCheckBox *wcShowPlayers;
 	Wt::WCheckBox *wcShowBoosters;
 	Wt::WCheckBox *wcShowBoostersOfPlayer;

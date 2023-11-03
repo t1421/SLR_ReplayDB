@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Login.h"
@@ -203,6 +203,7 @@ void WEB_Tome_Login::JoinPlayer()
 	Con->WEB_Toolbar::bDisable[4] = false;
 	Con->WEB_Toolbar::bDisable[0] = true;
 	Con->WEB_Toolbar::sToolbar->setCurrentIndex(2);
+	Con->PublicReset();
 
 	Con->WRefresh();
 	WRefresh();

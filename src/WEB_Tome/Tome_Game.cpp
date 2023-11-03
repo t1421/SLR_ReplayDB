@@ -87,6 +87,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 				bShowPlayers = atoi(entry(line, 2).c_str());
 				bShowBoosters = atoi(entry(line, 3).c_str());
 				bShowBoostersOfPlayer = atoi(entry(line, 4).c_str());
+				bAllowOpening = atoi(entry(line, 5).c_str());
 			}
 			//Player
 			if (INI_Value_Check(line, "P"))
@@ -100,7 +101,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			if (INI_Value_Check(line, "PB"))
 			{
 				vPlayer[vPlayer.size() - 1]->vBoosters.push_back(
-					new Tome_Booster(atoi(entry(line, 0).c_str())));
+					new Tome_Booster(entry(line, 0).c_str()));
 				vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->iLfdnr = atoi(entry(line,1).c_str());
 
 				for (unsigned int i = 0; i < 8; i++)
@@ -137,7 +138,8 @@ void Tome_Game::Init()
 	bHasGame = false;
 	bShowPlayers = false;
 	bShowBoosters = false;
-	bShowBoostersOfPlayer = false;;
+	bShowBoostersOfPlayer = false;
+	bAllowOpening = false;
 	sGameID = "";
 	sAdminID = "";
 	//sPlayerID = "";
@@ -170,7 +172,8 @@ bool Tome_Game::bSaveGame()
 			<< ";" << bShowPlayers
 			<< ";" << bShowBoosters
 			<< ";" << bShowBoostersOfPlayer
-			<< "\n";
+			<< ";" << bAllowOpening
+			<< ";\n";
 		for (unsigned int i = 0; i < vPlayer.size(); i++)
 		{
 			ofFile << "P=" << vPlayer[i]->sPlayerID
@@ -181,8 +184,9 @@ bool Tome_Game::bSaveGame()
 
 			for (unsigned j = 0; j < vPlayer[i]->vBoosters.size(); j++)
 			{
-				ofFile << "PB=" << vPlayer[i]->vBoosters[j]->iType << ";"
-					<< ";" << vPlayer[i]->vBoosters[j]->iLfdnr << ";";
+				//MISD(std::to_string(vPlayer[i]->vBoosters[j]->iLfdnr));
+				ofFile << "PB=" << vPlayer[i]->vBoosters[j]->sType << ";"
+					<< vPlayer[i]->vBoosters[j]->iLfdnr << ";";
 				for (unsigned k = 0; k < vPlayer[i]->vBoosters[j]->vCards.size(); k++)
 					ofFile << vPlayer[i]->vBoosters[j]->vCards[k]->cardId << ";";
 				ofFile << "\n";
@@ -231,4 +235,17 @@ void Tome_Game::AddPlayer()
 	vPlayer.push_back(new Tome_Player(sPlayerID, "New Player"));
 
 	MISE;
+}
+
+unsigned int Tome_Game::AllBoosters()
+{
+	MISS;
+	unsigned int iReturn = 0;
+	for (unsigned int i = 0; i < vPlayer.size(); i++)
+	{
+		MISD(std::to_string(vPlayer[i]->vBoosters.size()))
+		iReturn += vPlayer[i]->vBoosters.size();
+	}
+	MISE;
+	return iReturn;
 }

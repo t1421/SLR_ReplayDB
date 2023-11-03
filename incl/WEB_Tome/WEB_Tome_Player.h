@@ -10,6 +10,9 @@ class WEB_Tome_Player : public WebRefresh
 public:
 
 	WEB_Tome_Player(WEB_Container_Tome *Con_);
+	Wt::WTable *wtBooster;
+	Wt::WTable *wtHistory;
+	Wt::WLineEdit *wlFilter;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
