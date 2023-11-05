@@ -3,12 +3,9 @@
 
 #include "..\incl\DEBUG.h"
 
-#if defined BrokerNormal || defined BrokerWeb  
+#if defined BrokerTome || defined BrokerNormal || defined BrokerWeb
 #include "..\incl\Replay.h" 
 #include "..\incl\Reader.h" 
-#endif
-
-#if defined BrokerTome || defined BrokerNormal || defined BrokerWeb
 #include "..\incl\Thread_MIS.h" 
 #endif
 
@@ -18,6 +15,8 @@
 #include "..\incl\WEB\WEB_Main.h"
 #include "..\incl\WEB\WEB_Server.h"
 #include "..\incl\WEB\WEB_Toolbar.h"
+
+#include "..\incl\WEB_Analyser\WEB_Analyser.h"
 #endif
 
 #if defined BrokerWeb
@@ -28,7 +27,6 @@
 #include "..\incl\WEB_Analyser\WEB_Rank.h"
 #include "..\incl\MIS_Rank.h"
 
-#include "..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\incl\WEB_Analyser\WEB_Analyser_Head.h"
 #include "..\incl\WEB_Analyser\WEB_Analyser_Deck.h"
 #include "..\incl\WEB_Analyser\WEB_Analyser_Acti.h"
@@ -78,12 +76,10 @@ broker::broker()
 
 	DEBUG::learnBro(this);
 	B = NULL;	
-#if defined BrokerNormal || defined BrokerWeb
-	Replay::learnBro(this);
-	Reader::learnBro(this);
-#endif
 
 #if defined BrokerNormal || defined BrokerWeb || defined BrokerTome 
+	Replay::learnBro(this);
+	Reader::learnBro(this);
 	Thread_MIS::learnBro(this);
 #endif
 
@@ -91,6 +87,8 @@ broker::broker()
 	WEB_Main::learnBro(this);
 	WEB_Server::learnBro(this);
 	WEB_Toolbar::learnBro(this);
+
+	WEB_Analyser::learnBro(this);
 	
 	W = NULL;
 #endif
@@ -103,8 +101,7 @@ broker::broker()
 	WEB_MEA::learnBro(this);
 	WEB_Rank::learnBro(this);	
 	MIS_Rank::learnBro(this);
-
-	WEB_Analyser::learnBro(this);
+	
 	WEB_Analyser_Head::learnBro(this);
 	WEB_Analyser_Deck::learnBro(this);
 	WEB_Analyser_Acti::learnBro(this);
@@ -384,6 +381,11 @@ Tome_Booster* broker::J_OpenBooster(std::string iType)
 void broker::B_StatusNew(std::string Fun, std::string Wert)
 {
 	B->StatusNew(Fun, Wert);
+}
+
+void broker::B_StatusNew(std::string Fun, int Wert)
+{
+	B->StatusNew(Fun, std::to_string(Wert));
 }
 
 void broker::B_StatusE(std::string Modul, std::string Funktion, std::string Wert)

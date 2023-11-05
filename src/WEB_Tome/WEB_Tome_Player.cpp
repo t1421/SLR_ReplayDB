@@ -5,6 +5,8 @@
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
 #include "..\..\incl\WEB_Tome\Tome_Game.h"
 
+#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
+
 #include <Wt/WContainerWidget.h>
 #include <Wt/WText.h>
 #include <Wt/WTable.h>
@@ -24,25 +26,57 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	wtHistory = new Wt::WTable();
 	wlFilter = new Wt::WLineEdit();
 
-	//Wt::WVBoxLayout *wlLayou = new Wt::WVBoxLayout();
+	wfuDropZone = new Wt::WFileUpload();
+	wtStatus = new Wt::WText("Waiting for Replay");
+	WA = new WEB_Analyser();
 
 	MISD("#0");
 
-	//cMain->setLayout(std::unique_ptr<Wt::WVBoxLayout>(std::move(wlLayou)));
 	wlFilter->setWidth(Card_Size_X * 9);
 	
 	MISD("#1");
 
-	//wlLayou->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtBooster)));
-	//wlLayou->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlFilter)));
-	//wlLayou->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtHistory)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtBooster)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlFilter)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtHistory)));
 	
-	
 	MISD("#2");
+
+	wfuDropZone->setFilters(".pmv");
+
+	wfuDropZone->changed().connect([=]
+	{
+		MISD("#changed");
+		wfuDropZone->upload();
+		wtStatus->setText("New File \n");
+	});
+	wfuDropZone->fileTooLarge().connect([=]
+	{
+		MISD("#fileTooLarge");
+		wtStatus->setText("File is too large. \n");
+	});
+
+	wfuDropZone->uploaded().connect([=]
+	{
+		if (Con->BroGameID == -1)
+		{
+			MISEA("WTF !!!");
+			return;
+		}
+
+		MISD("#uploaded");
+		wtStatus->setText("Upload done \n");
+		
+		if (WA->NewReplay(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
+		{
+			if (WA->TomeAnalyser(new Wt::WTable(), Con->BroGameID))wtStatus->setText("<h3 style='color:Tomato;'>Error: Contact Admin with Replay File</h3>");
+			else wtStatus->setText("<h3 style='color:Green;'>All OK</h3>");
+		}
+		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");
+	});
 
 	MISD("#3");
 

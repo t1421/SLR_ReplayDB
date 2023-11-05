@@ -1,9 +1,13 @@
 #define DF_Debug
 
 #include "..\..\incl\Broker.h"
+#include "..\..\incl\Replay.h" 
+
 #include "..\..\incl\WEB_Tome\WEB_Tome_Admin.h"
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
 #include "..\..\incl\WEB_Tome\Tome_Game.h"
+
+#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
@@ -46,8 +50,8 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	MISD("#0");
 
 	cMain = new Wt::WContainerWidget();
-	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
-	cMain->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
+	//Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
+	//cMain->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
 	
 	MISD("#1");
 
@@ -63,19 +67,28 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 
 	wbAddPlayer = new Wt::WPushButton("Add Player");
 
+	MISD("#11");
+	wfuDropZone = new Wt::WFileUpload();
+	wtReplayResultCard = new Wt::WTable();
+	wtStatus = new Wt::WText("Waiting for Replay");
+	WA = new WEB_Analyser();
+
 	MISD("#2");
 
 	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Game ID: </h4>"))), 0, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)), 0, 0);
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)));
 	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Admin ID: </h4>"))), 1, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdminID)), 1, 0);
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdminID)));
 
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowOpening)), 2, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowPlayers)), 3, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoosters)), 4, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoostersOfPlayer)),5, 0);	
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)), 6, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)), 7, 0);
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowOpening)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowPlayers)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoosters)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoostersOfPlayer)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReplayResultCard)));
 	
 
 	MISD("#3");
@@ -108,7 +121,40 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	
 
 	MISD("#4");
-	//WRefresh();
+
+	wfuDropZone->setFilters(".pmv");
+
+	wfuDropZone->changed().connect([=]
+	{
+		MISD("#changed");
+		wfuDropZone->upload();
+		wtStatus->setText("New File \n");
+	});
+	wfuDropZone->fileTooLarge().connect([=]
+	{
+		MISD("#fileTooLarge");
+		wtStatus->setText("File is too large. \n");
+	});
+
+	wfuDropZone->uploaded().connect([=]
+	{
+		if (Con->BroGameID == -1)
+		{
+			MISEA("WTF !!!");
+			return;
+		}
+		
+		MISD("#uploaded");
+		wtStatus->setText("Upload done \n");
+		wtReplayResultCard->clear();
+
+		if (WA->NewReplay(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
+		{
+			if (WA->TomeAnalyser(wtReplayResultCard, Con->BroGameID ))wtStatus->setText("<h3 style='color:Tomato;'>Error: A not allowed Card was player</h3>");
+			else wtStatus->setText("<h3 style='color:Green;'>All OK</h3>");			
+		}
+		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");	
+	});
 
 	MISE;
 }
@@ -201,6 +247,8 @@ void WEB_Tome_Admin::WRefresh()
 	wtTabelle->columnAt(iCol++)->setWidth(75);
 	wtTabelle->columnAt(iCol++)->setWidth(75);
 	wtTabelle->columnAt(iCol++)->setWidth(75);
+
+	wbAddPlayer->setWidth(75 + 200 + NumBoostersTypes * 50 + 75 + 75 + 75);
 	
 	MISE;
 }

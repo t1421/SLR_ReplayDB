@@ -1,9 +1,11 @@
 #ifndef WEB_Analyser_H
 #define WEB_Analyser_H
 
+#if defined BrokerWeb
 class WEB_Analyser_Head;
 class WEB_Analyser_Deck;
 class WEB_Analyser_Acti;
+#endif
 class Replay;
 struct Player;
 struct ActionSum;
@@ -12,13 +14,20 @@ struct ActionWeb;
 #include <Wt/WTable.h>
 
 
+
 class WEB_Analyser 
 {
 public:
 
+#if defined BrokerWeb
 	WEB_Analyser_Head *Head;
 	WEB_Analyser_Deck *Deck;
 	WEB_Analyser_Acti *Acti;
+#endif
+
+#if defined BrokerTome
+	bool TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGameID);
+#endif
 
 	unsigned long long getPMVPlayerID();
 

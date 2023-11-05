@@ -25,6 +25,12 @@
     <Filter Include="Headerdateien\Tome">
       <UniqueIdentifier>{d5545c3d-e430-4b48-b43a-c64b8397e143}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Quelldateien\Analyer">
+      <UniqueIdentifier>{8a272779-6696-467a-90fb-910898d1527a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Headerdateien\Analyser">
+      <UniqueIdentifier>{8c386746-eba8-42dd-8fbc-5b55f8356e08}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -96,6 +102,15 @@
     <ClCompile Include="..\src\WEB_Tome\WEB_Tome_Leave.cpp">
       <Filter>Quelldateien\Tome</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser.cpp">
+      <Filter>Quelldateien\Analyer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Reader.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Replay.cpp">
+      <Filter>Quelldateien</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\WEB\WEB_Main.h">
@@ -163,6 +178,15 @@
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_Leave.h">
       <Filter>Headerdateien\Tome</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\Reader.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\Replay.h">
+      <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

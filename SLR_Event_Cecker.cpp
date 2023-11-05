@@ -12,6 +12,7 @@ int main(int argc, char **argv)
 	bool win = false;
 	unsigned long TierTwoTime = 0;
 	unsigned long WinTime = 0;
+	unsigned long gold = 0;
 	std::vector<std::pair<std::string, std::string>> Orbs;
 
 	if (argc > 1)
@@ -90,6 +91,7 @@ int main(int argc, char **argv)
 					Orbs.push_back(std::make_pair(
 						entry(RR->ActionMatrix[i]->AdditionalInfo, 0),
 						entry(RR->ActionMatrix[i]->AdditionalInfo, 1)));
+					if (Orbs[Orbs.size() - 1].second == Orbs[Orbs.size() - 1].first) Orbs[Orbs.size() - 1].second = "5997";
 
 					if (Orbs.size() == 2
 						&& TierTwoTime == 0)
@@ -98,14 +100,25 @@ int main(int argc, char **argv)
 
 					if (Orbs.size() == 4)WinTime = RR->ActionMatrix[i]->Time + 30 * 10;
 
+					Bro->B->StatusE("", "OrbsDetail", Orbs[Orbs.size() - 1].first + " # " + Orbs[Orbs.size() - 1].second + " # " + sTime(RR->ActionMatrix[i]->Time));
+				}
+				if (RR->ActionMatrix[i]->Type == 4041)
+				{
+					for (unsigned int l = 0; l < Orbs.size(); l++)
+					{
+						if (Orbs[l].second + ";" == RR->ActionMatrix[i]->AdditionalInfo)
+							Bro->B->StatusE("", "OrbSelfKill", Orbs[l].first + " # " + Orbs[l].second + " # " + sTime(RR->ActionMatrix[i]->Time));
+					}
 				}
 			}
 
-			//Setzen von Orb1 ID
-			for (unsigned int i = 0; i < Orbs.size(); i++) if (Orbs[i].second == Orbs[i].first) Orbs[i].second = "5997";
 
-			for (unsigned int i = 0; i < Orbs.size(); i++)
-				Bro->B->StatusE("", "Orbs", Orbs[i].first + "#" + Orbs[i].second);
+
+
+			//Setzen von Orb1 ID
+
+//			for (unsigned int i = 0; i < Orbs.size(); i++)
+//				Bro->B->StatusE("", "OrbsDetail", Orbs[i].first + "#" + Orbs[i].second);
 
 			// Orb Count
 			if (Orbs.size() == 4)Bro->B->StatusE("OK", "OrbsCount", std::to_string(Orbs.size()));
@@ -150,6 +163,17 @@ int main(int argc, char **argv)
 				}
 			}
 
+			//CheckGold
+			for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
+				if (RR->ActionMatrix[i]->Type == 4006)gold++;
+			if (gold==3)Bro->B->StatusE("OK", "Gold", std::to_string(gold));
+			else
+			{
+				Bro->B->StatusE("ERROR", "Gold", std::to_string(gold));
+				if (OneErrorLeave)return -8;
+				else error = -8;
+			}
+
 			//check if it is a win
 			for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
 				if (RR->ActionMatrix[i]->Type == 4045)
@@ -159,8 +183,8 @@ int main(int argc, char **argv)
 			else
 			{
 				Bro->B->StatusE("ERROR", "GameWon", "NO");
-				if (OneErrorLeave)return -8;
-				else error = -8;
+				if (OneErrorLeave)return -9;
+				else error = -9;
 			}
 
 			Bro->B->StatusE("", "WinTime",sTime(WinTime));
@@ -168,6 +192,9 @@ int main(int argc, char **argv)
 			
 		}
 		else Bro->B->StatusE("ERROR", "Cant_open_file", sFile);
+
+		Bro->B->StatusE("OK", "PlayerName", RR->PlayerMatrix[0]->Name);
+		Bro->B->StatusE("OK", "PlayTime", sTime(RR->Playtime));
 
 		if (error != 0) Bro->B->StatusE("ERROR", "NotAllChecksWhereOK", "!!!FAILED!!!");
 		else Bro->B->StatusE("OK", "AllChecksAreOK", "!!!VALID!!!");

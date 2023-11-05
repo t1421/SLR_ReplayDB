@@ -1,7 +1,7 @@
 #ifndef DataTypes_H
 #define DataTypes_H
 
-#ifdef BrokerWeb
+#if defined BrokerTome || defined BrokerWeb
 #include <Wt/WCheckBox.h>
 #endif
 
@@ -36,7 +36,7 @@ struct Player {
 	//unsigned char Cards;
 	unsigned short CardsTotal;
 	std::vector <Card*> Deck;
-#ifdef BrokerWeb
+#if defined BrokerTome || defined BrokerWeb
 	Wt::WCheckBox *wcBox;
 	unsigned int iActionCount;
 #endif 
@@ -83,7 +83,7 @@ struct ActionSum {
 	std::string sActionName;
 	unsigned long ActionID;
 	unsigned int iCount;
-#ifdef BrokerWeb
+#if defined BrokerTome || defined BrokerWeb
 	Wt::WCheckBox *wcBox;
 	unsigned int iActionCount;
 #endif 

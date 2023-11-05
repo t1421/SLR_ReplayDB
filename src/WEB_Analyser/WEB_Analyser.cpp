@@ -6,9 +6,16 @@
 #include "..\..\incl\Utility.h" 
 
 #include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
+#if defined BrokerWeb
 #include "..\..\incl\WEB_Analyser\WEB_Analyser_Head.h"
 #include "..\..\incl\WEB_Analyser\WEB_Analyser_Deck.h"
 #include "..\..\incl\WEB_Analyser\WEB_Analyser_Acti.h"
+#endif
+
+#if defined BrokerTome
+#include "..\..\incl\WEB_Tome\Tome_Game.h"
+#include "..\..\incl\WEB\WEB_Utility.h"
+#endif
 
 #include <Wt/WImage.h>
 #include <Wt/WColor.h>
@@ -43,22 +50,22 @@ WEB_Analyser::WEB_Analyser(): R(new Replay()), WA_Debug(false)
 	}
 	
 	MISD("#1");
-
+#if defined BrokerWeb
 	Head = new WEB_Analyser_Head(this);
 	Deck = new WEB_Analyser_Deck(this);
 	Acti = new WEB_Analyser_Acti(this);
-
+#endif
 	MISE;
 }
 
 void WEB_Analyser::ReNewTaps()
 {
 	MISS;
-
+#if defined BrokerWeb
 	Head = new WEB_Analyser_Head(this);
 	Deck = new WEB_Analyser_Deck(this);
 	Acti = new WEB_Analyser_Acti(this);
-
+#endif
 	MISE;
 }
 
@@ -78,7 +85,6 @@ bool WEB_Analyser::getData()
 {
 	MISS;
 
-	Players.clear();
 	Players.clear();
 	Actions.clear();
 
@@ -309,10 +315,11 @@ bool WEB_Analyser::getData()
 		ActionSums[R->ActionMatrix[i]->Type - 4000]->iCount++;
 	}
 	
-
+#if defined BrokerWeb
 	Head->newData = true;
 	Deck->newData = true;
 	Acti->newData = true;
+#endif
 
 	MISE;
 	return true;
@@ -557,3 +564,65 @@ unsigned long WEB_Analyser::getReplayHash()
 {
 	return R->Unknow3 * 1000 + R->Unknow4;
 }
+
+#if defined BrokerTome
+bool WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGameID)
+{
+	MISS;
+	unsigned int iRow;
+	unsigned int iCol = 0;
+	bool error = false;
+	bool CardOK;
+
+	for (unsigned int i = 0; i < Players.size(); i++)
+	{
+		if (Players[i]->Type != 1)continue;
+		iRow = 0;
+		wtReplayResultCard->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(Players[i]->Name))));
+		//for (unsigned int j = 0; j < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); j++)
+		for each (Tome_Player* TP in Bro->vTomeGames[iGameID]->vPlayer)
+		{
+			if (TP->sPlayerName == Players[i]->Name)
+			{
+				for each (Card* RD in Players[i]->Deck)
+				{
+					if (RD->count == 0)continue;
+					wtReplayResultCard->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
+						DrawImg(Bro->J_GetImage(
+							RD->CardID,
+							3,
+							4,
+							1,
+							false),
+							SCard_Size_X, SCard_Size_Y
+						))));
+
+					CardOK = false;
+					for each(Tome_Booster* TP_TB in TP->vBoosters)
+						for each(SMJCard* TP_TB_TC in TP_TB->vCards)
+						{
+							if (TP_TB_TC->cardId == RD->CardID)
+							{
+								CardOK = true;
+								break;
+							}
+						}
+					if (CardOK)wtReplayResultCard->elementAt(iRow, iCol + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3 style='color:Green;'>OK</h3>"))));
+					else wtReplayResultCard->elementAt(iRow, iCol + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3 style='color:Tomato;'>Error</h3>"))));
+					if (CardOK == false)error = true;
+
+					wtReplayResultCard->elementAt(iRow++, iCol + 1)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+				}
+			}
+		}
+
+		wtReplayResultCard->columnAt(iCol)->setWidth(SCard_Size_X);
+		wtReplayResultCard->columnAt(iCol + 1)->setWidth(25);
+		iCol += 2;
+
+	}
+
+	MISE;
+	return error;
+}
+#endif

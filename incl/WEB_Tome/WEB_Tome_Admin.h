@@ -3,9 +3,10 @@
 
 #include "..\WEB\WEB_Utility.h"
 
-
+#include <Wt/WFileUpload.h>
 
 class WEB_Container_Tome;
+class WEB_Analyser;
 
 class WEB_Tome_Admin : public WebRefresh
 {
@@ -25,6 +26,11 @@ public:
 	Wt::WText *wtAdminID;
 
 	Wt::WPushButton	*wbAddPlayer;
+
+	Wt::WFileUpload  *wfuDropZone;
+	Wt::WTable *wtReplayResultCard;
+	Wt::WText		 *wtStatus;
+	WEB_Analyser* WA;
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

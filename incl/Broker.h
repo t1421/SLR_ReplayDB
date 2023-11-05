@@ -106,6 +106,7 @@ public:
 #endif
 
 	void B_StatusNew(std::string Fun, std::string Wert);
+	void B_StatusNew(std::string Fun, int Wert);
 	void B_StatusE(std::string Modul, std::string Funktion, std::string Wert);
 
 #if defined BrokerTome

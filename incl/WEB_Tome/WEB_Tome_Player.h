@@ -4,6 +4,7 @@
 #include "..\WEB\WEB_Utility.h"
 
 class WEB_Container_Tome;
+class WEB_Analyser;
 
 class WEB_Tome_Player : public WebRefresh
 {
@@ -13,6 +14,10 @@ public:
 	Wt::WTable *wtBooster;
 	Wt::WTable *wtHistory;
 	Wt::WLineEdit *wlFilter;
+
+	Wt::WFileUpload  *wfuDropZone;	
+	Wt::WText		 *wtStatus;
+	WEB_Analyser* WA;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
