@@ -10,6 +10,8 @@
 #include <Wt/WLineEdit.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WTable.h>
+#include <Wt/WRadioButton.h>
+
 
 broker *(WEB_Tome_Login::Bro) = NULL;
 
@@ -24,23 +26,23 @@ WEB_Tome_Login::WEB_Tome_Login(WEB_Container_Tome *Con_): Con(Con_)
 	MISD("#0");
 
 	wtStatus = new Wt::WText;
-	wlGameIDPublic = new Wt::WLineEdit();
-	wlGameIDPlayer = new Wt::WLineEdit();
-	wlGameIDAdmin = new Wt::WLineEdit();
-	wlPlayerID = new Wt::WLineEdit();
-	wlAdminID = new Wt::WLineEdit();
-	wbJoinPublic = new Wt::WPushButton("Join as Public");
-	wbJoinPlayer = new Wt::WPushButton("Join as Player");
-	wbJoinAdmin = new Wt::WPushButton("Join as Admin");
+	wlGameID = new Wt::WLineEdit();
+	wlUserID = new Wt::WLineEdit();	
+	wbJoin = new Wt::WPushButton("Join");
 	wbNewGame = new Wt::WPushButton("Make new game");
-	//wbLeave = new Wt::WPushButton("Leave");
 
+	//wrType[0] = new Wt::WRadioButton();
+	//wrType[1] = new Wt::WRadioButton();
+	//wrType[2] = new Wt::WRadioButton();
+	gbJoinMode = std::make_shared<Wt::WButtonGroup>();
+	
+	/*
 	wbJoinPublic->setWidth(150);
 	wbJoinPlayer->setWidth(150);
 	wbJoinPlayer->setWidth(150);
 	wbJoinAdmin->setWidth(150);
 	wbNewGame->setWidth(150);
-
+	*/
 	//wbLeave->setDisabled(true);
 
 	MISD("#1");
@@ -49,52 +51,68 @@ WEB_Tome_Login::WEB_Tome_Login(WEB_Container_Tome *Con_): Con(Con_)
 
 	MISD("#2");
 	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Game ID: </h4>"))));
-	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlGameIDPublic)));
-	wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbJoinPublic)));
-
-	wtTabelle->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Game ID: </h4>"))));
-	wtTabelle->elementAt(1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlGameIDPlayer)));
-	wtTabelle->elementAt(1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Player ID: </h4>"))));
-	wtTabelle->elementAt(1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlPlayerID)));
-	wtTabelle->elementAt(1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbJoinPlayer)));
-
-	wtTabelle->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Game ID: </h4>"))));
-	wtTabelle->elementAt(2, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlGameIDAdmin)));
-	wtTabelle->elementAt(2, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Admin ID: </h4>"))));
-	wtTabelle->elementAt(2, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlAdminID)));
-	wtTabelle->elementAt(2, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbJoinAdmin)));
-
-	wtTabelle->elementAt(3, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbNewGame)));
-	/*
-	wtTabelle->elementAt(3, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbJoin)));
-	wtTabelle->elementAt(3, 0)->setColumnSpan(2);
+	wtTabelle->elementAt(0, 0)->setColumnSpan(3);
+	wtTabelle->elementAt(0, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 	
-	wtTabelle->elementAt(4, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbLeave)));
-	wtTabelle->elementAt(4, 0)->setColumnSpan(2);
-	*/
-	wtTabelle->elementAt(5, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
-	wtTabelle->elementAt(5, 0)->setColumnSpan(5);
+	wtTabelle->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlGameID)));
+	wtTabelle->elementAt(1, 0)->setColumnSpan(3);
+	wtTabelle->elementAt(1, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+
+	wtTabelle->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Public </h4>"))));
+	wtTabelle->elementAt(2, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Player </h4>"))));
+	wtTabelle->elementAt(2, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Admin </h4>"))));
+	wtTabelle->elementAt(2, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(2, 1)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(2, 2)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+
+	gbJoinMode->addButton(wtTabelle->elementAt(3, 0)->addWidget(Wt::cpp14::make_unique<Wt::WRadioButton>()), 0);
+	gbJoinMode->addButton(wtTabelle->elementAt(3, 1)->addWidget(Wt::cpp14::make_unique<Wt::WRadioButton>()), 1);
+	gbJoinMode->addButton(wtTabelle->elementAt(3, 2)->addWidget(Wt::cpp14::make_unique<Wt::WRadioButton>()), 2);
+	gbJoinMode->setCheckedButton(gbJoinMode->button(0));
+	wtTabelle->elementAt(3, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(3, 1)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+	wtTabelle->elementAt(3, 2)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+
+	wtTabelle->elementAt(4, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlUserID)));
+	wtTabelle->elementAt(4, 0)->setColumnSpan(3);
+	wtTabelle->elementAt(4, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+
+	wtTabelle->elementAt(5, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbJoin)));
+	wtTabelle->elementAt(5, 0)->setColumnSpan(3);
+	wtTabelle->elementAt(5, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+
+	wtTabelle->elementAt(6, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbNewGame)));
+	wtTabelle->elementAt(6, 0)->setColumnSpan(3);
+	wtTabelle->elementAt(6, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+
+	wtTabelle->elementAt(7, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
+	wtTabelle->elementAt(7, 0)->setColumnSpan(3);
+	wtTabelle->elementAt(7, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 	
 	wtTabelle->columnAt(0)->setWidth(100);
 	wtTabelle->columnAt(1)->setWidth(100);
 	wtTabelle->columnAt(2)->setWidth(100);
-	wtTabelle->columnAt(3)->setWidth(100);
-	wtTabelle->columnAt(4)->setWidth(150);
+
+	wbNewGame->setWidth(300);
+	wbJoin->setWidth(300);
 
 
 	MISD("#3");
-	wbJoinPublic->clicked().connect(std::bind([=]() {
-		JoinPublic();		
+	wbJoin->clicked().connect(std::bind([=]() {
+			//if toggel / switch toggel
+		switch (gbJoinMode->selectedButtonIndex())
+		{
+		case 0:
+			JoinPublic();
+			break;
+		case 1:
+			JoinPlayer();
+			break;
+		case 2:
+			JoinAdmin();
+			break;
+		}
 	}));
-
-	wbJoinPlayer->clicked().connect(std::bind([=]() {
-		JoinPlayer();		
-	}));
-
-	wbJoinAdmin->clicked().connect(std::bind([=]() {
-		JoinAdmin();		
-	}));
-
 
 	wbNewGame->clicked().connect(std::bind([=]() {
 		Con->BroGameID = Bro->getTomeGame("NEW");
@@ -109,7 +127,11 @@ WEB_Tome_Login::WEB_Tome_Login(WEB_Container_Tome *Con_): Con(Con_)
 		Con->updateFrame();
 		WRefresh(); //???
 	}));
-	
+
+	gbJoinMode->checkedChanged().connect(std::bind([=](Wt::WRadioButton *selection) {
+		wlUserID->setDisabled(gbJoinMode->selectedButtonIndex() == 0);
+	}, std::placeholders::_1));
+		
 	WRefresh();
 
 	MISE;
@@ -130,19 +152,22 @@ void WEB_Tome_Login::Parameter(std::string sGameID, std::string sPlayerID, std::
 	MISS;
 	if (sGameID != "" && sPlayerID == "" && sAdminID == "")
 	{
-		wlGameIDPublic->setText(sGameID);
+		gbJoinMode->setCheckedButton(gbJoinMode->button(0));
+		wlGameID->setText(sGameID);
 		JoinPublic();
 	}
 	else if (sGameID != "" && sPlayerID != "" && sAdminID == "")
 	{
-		wlGameIDPlayer->setText(sGameID);
-		wlPlayerID->setText(sPlayerID);
+		gbJoinMode->setCheckedButton(gbJoinMode->button(1));
+		wlGameID->setText(sGameID);
+		wlUserID->setText(sPlayerID);
 		JoinPlayer();
 	}
 	else if (sGameID != "" && sPlayerID == "" && sAdminID != "")
 	{
-		wlGameIDAdmin->setText(sGameID);
-		wlAdminID->setText(sAdminID);
+		gbJoinMode->setCheckedButton(gbJoinMode->button(2));
+		wlGameID->setText(sGameID);
+		wlUserID->setText(sAdminID);
 		JoinAdmin();
 	}
 	MISE;
@@ -151,8 +176,8 @@ void WEB_Tome_Login::Parameter(std::string sGameID, std::string sPlayerID, std::
 void WEB_Tome_Login::JoinPublic()
 {
 	MISS;
-	Con->BroGameID = Bro->getTomeGame(WSTRINGtoSTRING(wlGameIDPublic->text()));
-	if (Con->BroGameID == -1 || wlGameIDPublic->text() == "")
+	Con->BroGameID = Bro->getTomeGame(WSTRINGtoSTRING(wlGameID->text()));
+	if (Con->BroGameID == -1 || wlGameID->text() == "")
 	{
 		wtStatus->setText("Wrong Game ID");
 		Con->WRefresh();
@@ -177,8 +202,8 @@ void WEB_Tome_Login::JoinPublic()
 void WEB_Tome_Login::JoinPlayer()
 {
 	MISS;
-	Con->BroGameID = Bro->getTomeGame(WSTRINGtoSTRING(wlGameIDPlayer->text()));
-	if (Con->BroGameID == -1 || wlGameIDPlayer->text() == "")
+	Con->BroGameID = Bro->getTomeGame(WSTRINGtoSTRING(wlGameID->text()));
+	if (Con->BroGameID == -1 || wlGameID->text() == "")
 	{
 		wtStatus->setText("Wrong Game ID");
 		Con->WRefresh();
@@ -187,8 +212,8 @@ void WEB_Tome_Login::JoinPlayer()
 		return;
 	}
 
-	if (Bro->vTomeGames[Con->BroGameID]->bCheckPlayer(WSTRINGtoSTRING(wlPlayerID->text())) == false
-		|| wlPlayerID->text() == "")
+	if (Bro->vTomeGames[Con->BroGameID]->bCheckPlayer(WSTRINGtoSTRING(wlUserID->text())) == false
+		|| wlUserID->text() == "")
 	{
 		wtStatus->setText("Wrong Player ID");
 		Con->WRefresh();
@@ -214,8 +239,8 @@ void WEB_Tome_Login::JoinPlayer()
 void WEB_Tome_Login::JoinAdmin()
 {
 	MISS;
-	Con->BroGameID = Bro->getTomeGame(WSTRINGtoSTRING(wlGameIDAdmin->text()));
-	if (Con->BroGameID == -1 || wlGameIDAdmin->text() == "")
+	Con->BroGameID = Bro->getTomeGame(WSTRINGtoSTRING(wlGameID->text()));
+	if (Con->BroGameID == -1 || wlGameID->text() == "")
 	{
 		wtStatus->setText("Wrong Game ID");
 		Con->WRefresh();
@@ -224,8 +249,8 @@ void WEB_Tome_Login::JoinAdmin()
 		return;
 	}
 
-	if (Bro->vTomeGames[Con->BroGameID]->sAdminID != WSTRINGtoSTRING(wlAdminID->text())
-		|| wlAdminID->text() == "")
+	if (Bro->vTomeGames[Con->BroGameID]->sAdminID != WSTRINGtoSTRING(wlUserID->text())
+		|| wlUserID->text() == "")
 	{
 		wtStatus->setText("Wrong Admin ID");
 		Con->WRefresh();

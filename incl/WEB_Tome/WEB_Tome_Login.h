@@ -12,17 +12,12 @@ public:
 	WEB_Tome_Login(WEB_Container_Tome *Con_);
 
 	Wt::WText		*wtStatus;
-	Wt::WLineEdit   *wlGameIDPublic;
-	Wt::WLineEdit   *wlGameIDPlayer;
-	Wt::WLineEdit   *wlGameIDAdmin;
-	Wt::WLineEdit	*wlPlayerID;
-	Wt::WLineEdit	*wlAdminID;
-
-	Wt::WPushButton	*wbJoinPublic;
-	Wt::WPushButton	*wbJoinPlayer;
-	Wt::WPushButton	*wbJoinAdmin;
+	Wt::WLineEdit   *wlGameID;
+	Wt::WLineEdit   *wlUserID;
+	Wt::WPushButton	*wbJoin;
 	Wt::WPushButton	*wbNewGame;
-	//Wt::WPushButton	*wbLeave;
+	//Wt::WRadioButton *wrType[3];
+	std::shared_ptr<Wt::WButtonGroup> gbJoinMode;
 		
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

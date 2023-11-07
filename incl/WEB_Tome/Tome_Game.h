@@ -49,6 +49,7 @@ public:
 	void Init();
 	void AddPlayer();
 	unsigned int AllBoosters();
+	unsigned int AllBoostersMax();
 
 	bool bNewGame();	
 	bool bCheckPlayer(std::string sPlayer);

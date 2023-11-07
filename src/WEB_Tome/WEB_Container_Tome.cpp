@@ -26,6 +26,7 @@
 #include <Wt/WEnvironment.h>
 #include <Wt/WTable.h>
 #include <Wt/WLineEdit.h>
+#include <Wt/WButtonGroup.h>
 #include <string>
 #include <algorithm>
 
@@ -403,13 +404,14 @@ void WEB_Container_Tome::PublicReset()
 std::string WEB_Container_Tome::getPlayerID()
 {
 	MISS;
-	if (Bro->vTomeGames[BroGameID]->bCheckPlayer(WSTRINGtoSTRING(Login->wlPlayerID->text())) == false
-		|| Login->wlPlayerID->text() == "")
+	if (Bro->vTomeGames[BroGameID]->bCheckPlayer(WSTRINGtoSTRING(Login->wlUserID->text())) == false
+		|| Login->wlUserID->text() == ""
+		|| Login->gbJoinMode->checkedId() != 1)
 	{
 		MISEA("Not found");
 		return "";
 	}
 
 	MISE;
-	return WSTRINGtoSTRING(Login->wlPlayerID->text());
+	return WSTRINGtoSTRING(Login->wlUserID->text());
 }

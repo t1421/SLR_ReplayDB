@@ -243,8 +243,21 @@ unsigned int Tome_Game::AllBoosters()
 	unsigned int iReturn = 0;
 	for (unsigned int i = 0; i < vPlayer.size(); i++)
 	{
-		MISD(std::to_string(vPlayer[i]->vBoosters.size()))
+		//MISD(std::to_string(vPlayer[i]->vBoosters.size()))
 		iReturn += vPlayer[i]->vBoosters.size();
+	}
+	MISE;
+	return iReturn;
+}
+
+unsigned int Tome_Game::AllBoostersMax()
+{
+	MISS;
+	unsigned int iReturn = 0;
+	for (unsigned int i = 0; i < vPlayer.size(); i++)
+	{
+		//MISD(std::to_string(vPlayer[i]->vBoosters.size()))
+		iReturn += vPlayer[i]->iMaxBoostersSum();
 	}
 	MISE;
 	return iReturn;

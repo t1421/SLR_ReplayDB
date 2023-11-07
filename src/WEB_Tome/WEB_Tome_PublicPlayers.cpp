@@ -33,13 +33,13 @@ void WEB_Tome_PublicPlayers::WRefresh()
 	wtTabelle->clear();
 
 	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Player </h3>"))));
-	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Boosters Opend </h3>"))));
+	if(Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer)wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Boosters Opend </h3>"))));
 	wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> Max Boosters </h3>"))));
 
 	for (unsigned int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); i++)
 	{
 		wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerName))));
-		wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters.size())))));
+		if (Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters.size())))));
 		wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->iMaxBoostersSum())))));
 	}
 
