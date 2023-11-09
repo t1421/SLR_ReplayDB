@@ -125,14 +125,14 @@ WEB_Tome_Login::WEB_Tome_Login(WEB_Container_Tome *Con_): Con(Con_)
 
 		Con->WRefresh();
 		Con->updateFrame();
-		WRefresh(); //???
+		//WRefresh();
 	}));
 
 	gbJoinMode->checkedChanged().connect(std::bind([=](Wt::WRadioButton *selection) {
 		wlUserID->setDisabled(gbJoinMode->selectedButtonIndex() == 0);
 	}, std::placeholders::_1));
 		
-	WRefresh();
+	//WRefresh();
 
 	MISE;
 }
@@ -193,9 +193,9 @@ void WEB_Tome_Login::JoinPublic()
 	Con->WEB_Toolbar::sToolbar->setCurrentIndex(1);
 	Con->PublicReset();
 
-	Con->WRefresh();
-	WRefresh();
+	Con->WRefresh();	
 	Con->updateFrame();
+	WRefresh();
 	MISE;
 }
 
@@ -207,7 +207,6 @@ void WEB_Tome_Login::JoinPlayer()
 	{
 		wtStatus->setText("Wrong Game ID");
 		Con->WRefresh();
-		WRefresh();
 		MISEA("Player Game ID");
 		return;
 	}
@@ -217,7 +216,6 @@ void WEB_Tome_Login::JoinPlayer()
 	{
 		wtStatus->setText("Wrong Player ID");
 		Con->WRefresh();
-		WRefresh();
 		MISEA("Player Player ID");
 		return;
 	}
@@ -231,8 +229,8 @@ void WEB_Tome_Login::JoinPlayer()
 	Con->PublicReset();
 
 	Con->WRefresh();
-	WRefresh();
 	Con->updateFrame();
+	WRefresh();
 	MISE;
 }
 
@@ -244,7 +242,6 @@ void WEB_Tome_Login::JoinAdmin()
 	{
 		wtStatus->setText("Wrong Game ID");
 		Con->WRefresh();
-		WRefresh();
 		MISEA("Admin Game ID");
 		return;
 	}
@@ -254,7 +251,6 @@ void WEB_Tome_Login::JoinAdmin()
 	{
 		wtStatus->setText("Wrong Admin ID");
 		Con->WRefresh();
-		WRefresh();
 		MISEA("Admin Admin ID");
 		return;
 	}
@@ -266,7 +262,7 @@ void WEB_Tome_Login::JoinAdmin()
 	Con->WEB_Toolbar::sToolbar->setCurrentIndex(3);
 
 	Con->WRefresh();
-	WRefresh();
 	Con->updateFrame();
+	WRefresh();
 	MISE;
 }

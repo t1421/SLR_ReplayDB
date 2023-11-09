@@ -63,8 +63,6 @@ bool CardBaseSMJ::Init()
 	Json::Value jTEMP;
 
 	Json::Value Enum;
-	
-	Json::ArrayIndex IDs;
 
 	SMJCard * SMJCard_TEMP;
 
@@ -198,6 +196,7 @@ Json::Value CardBaseSMJ::WEBRequestToCHASH(std::string sURL)
 {
 	MISS;
 	
+	mutex_WEBRequest.lock();
 	CURLcode res;
 	long httpCode(0);
 
@@ -206,7 +205,7 @@ Json::Value CardBaseSMJ::WEBRequestToCHASH(std::string sURL)
 
 	std::string readBuffer = "";
 
-	mutex_WEBRequest.lock();
+	
 	curl = curl_easy_init();
 	if (curl)
 	{
@@ -233,6 +232,7 @@ Json::Value CardBaseSMJ::WEBRequestToCHASH(std::string sURL)
 	}
 
 	mutex_WEBRequest.unlock();
+
 	MISE;
 	return jsonData;
 }
@@ -258,6 +258,7 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 		}
 	}
 
+	
 #ifndef noLoad
 	switch (_Type)
 	{
@@ -285,6 +286,7 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 			
 	MISD(sURL);
 
+	mutex_WEBRequest.lock();
 	curl = curl_easy_init();
 	if (curl)
 	{
@@ -299,6 +301,8 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 		if (res != CURLE_OK)
 		{
 			Bro->B_StatusE("E", "DownloadImage #2 - curl_easy_perform", curl_easy_strerror(res));
+			OutFile.close();
+			mutex_WEBRequest.unlock();
 			MISEA("V5: Error curl_easy_perform Image");
 			return ;
 		}
@@ -307,19 +311,22 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 		curl_easy_cleanup(curl);
 		if (httpCode == 200 || httpCode == 201)
 		{
-			OutFile.close();
+			OutFile.close();			
+			mutex_WEBRequest.unlock();
 			MISE;
 			return;
-				//Bro->L_getSMJPIC_PATH() + sFile + ".png";
 		}
 		else
 		{
 			MISEA("V6: httpCode:" + std::to_string(httpCode));
+			OutFile.close();
+			mutex_WEBRequest.unlock();
 			return ;
 		}
 	}
 
 	OutFile.close();
+	mutex_WEBRequest.unlock();
 	MISEA("V5");
 	return ;
 }
@@ -638,7 +645,7 @@ bool CardBaseSMJ::Imager()
 Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 {
 	MISS;
-	
+
 	Tome_Booster* Booster = new Tome_Booster(iType);
 
 	Json::Value RawData;
@@ -648,7 +655,9 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 
 	std::string sURL = SMJ_I_BOOSTER;
 	
+	
 	RawData = WEBRequestToCHASH(sURL + "?type=" + iType);
+	
 	BoosterCards = RawData["data"];
 
 	MISD("Card:" + std::to_string(BoosterCards.size()));
@@ -662,5 +671,6 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 
 	MISD("Booster:" + std::to_string(Booster->vCards.size()));
 	MISE;
+
 	return Booster;
 }

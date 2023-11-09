@@ -136,6 +136,7 @@ void WEB_Tome_Player::WRefresh()
 						
 			Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 			WRefresh();
+			Bro->postChatEventMIS(std::to_string(Con->BroGameID), "booster");
 		}));
 
 		wtBooster->elementAt(0, i)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);

@@ -96,26 +96,32 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		Bro->vTomeGames[Con->BroGameID]->bShowPlayers = wcShowPlayers->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 	}));
 	wcShowBoosters->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->bShowBoosters = wcShowBoosters->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 		WRefresh();
 	}));
 	wcShowBoostersOfPlayer->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer = wcShowBoostersOfPlayer->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 	}));
 	wcAllowOpening->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->bAllowOpening = wcAllowOpening->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 	}));
 	wbAddPlayer->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->AddPlayer();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player",
+			Bro->vTomeGames[Con->BroGameID]->vPlayer[Bro->vTomeGames[Con->BroGameID]->vPlayer.size() - 1]->sPlayerID);
 	}));
 
 	
@@ -219,12 +225,15 @@ void WEB_Tome_Admin::WRefresh()
 				Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->iMaxBoosters[j] = std::atoi(WSTRINGtoSTRING(Tabel_Player[i]->iMaxBoosters[j]->text()).c_str());			
 			Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 			WRefresh();
+			Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player",
+				Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID);
 		}));
 
 		Tabel_Player[i]->wbDel->clicked().connect(std::bind([=]() {
 			Bro->vTomeGames[Con->BroGameID]->vPlayer.erase(Bro->vTomeGames[Con->BroGameID]->vPlayer.begin() + i);
 			Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 			WRefresh();
+			Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player");
 		}));
 
 		Tabel_Player[i]->wbMes->clicked().connect(std::bind([=]() {
