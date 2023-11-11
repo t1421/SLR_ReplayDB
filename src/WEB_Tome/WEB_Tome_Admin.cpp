@@ -242,7 +242,7 @@ void WEB_Tome_Admin::WRefresh()
 				"welcome to the Tome Fight! The GameID is: " + Bro->vTomeGames[Con->BroGameID]->sGameID + " " +
 				"and you PlayerID is: " + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID + " " +
 				"But you can just use this link: " +
-				"https://localhost:8443/?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID  + "&playerID=" + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID +
+				"https://t1421.tk/tome?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID  + "&playerID=" + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID +
 				"');");
 			
 		}));
