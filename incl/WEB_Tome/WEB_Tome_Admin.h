@@ -7,6 +7,7 @@
 
 class WEB_Container_Tome;
 class WEB_Analyser;
+struct WEB_Tome_Player;
 
 class WEB_Tome_Admin : public WebRefresh
 {
@@ -25,7 +26,8 @@ public:
 	Wt::WText *wtGameID;
 	Wt::WText *wtAdminID;
 
-	Wt::WPushButton	*wbAddPlayer;
+	Wt::WPushButton *wbSave;
+	Wt::WPushButton	*wbAddPlayer;	
 
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WTable *wtReplayResultCard;
@@ -38,6 +40,8 @@ public:
 	void WRefresh();
 private:
 	WEB_Container_Tome *Con;
+	void FixTable();
+	std::vector<WEB_Tome_Player *> Tabel_Player;
 };
 
 
