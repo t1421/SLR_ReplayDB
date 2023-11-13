@@ -204,8 +204,8 @@ void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 			&& Public->WEB_Toolbar::sToolbar->currentIndex() == 2
 			&& Bro->vTomeGames[BroGameID]->bShowBoostersOfPlayer)
 			Public->PPB->WRefresh();
-		if (WEB_Toolbar::sToolbar->currentIndex() == 2
-			&& getPlayerID() == event.Value3_)
+		if (WEB_Toolbar::sToolbar->currentIndex() == 2)
+			//&& getPlayerID() == event.Value3_
 			Player->WRefresh();
 	}
 	if (event.Value2_ == "global")

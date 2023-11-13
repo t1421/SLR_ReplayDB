@@ -25,19 +25,31 @@ struct WEB_Tome_Player
 	Wt::WText *wtPlayerID;
 	Wt::WLineEdit *wlPlayerName;
 	Wt::WLineEdit *iMaxBoosters[NumBoostersTypes];
-	Wt::WPushButton *wbSave;
+	//Wt::WPushButton *wbSave;
 	Wt::WPushButton *wbDel;
 	Wt::WPushButton *wbMes;
+	Wt::WTableRow *wrRow;
 
 	WEB_Tome_Player(Tome_Player *Player)
 	{
+		wrRow = new Wt::WTableRow();
 		wtPlayerID = new Wt::WText(Player->sPlayerID);
 		wlPlayerName = new Wt::WLineEdit(Player->sPlayerName);
-		for (unsigned int i = 0; i < NumBoostersTypes; i++)
-			iMaxBoosters[i] = new Wt::WLineEdit(std::to_string(Player->iMaxBoosters[i]));
-		wbSave = new Wt::WPushButton("Save");
 		wbDel = new Wt::WPushButton("Del");
 		wbMes = new Wt::WPushButton("Mes");
+		for (unsigned int i = 0; i < NumBoostersTypes; i++)
+			iMaxBoosters[i] = new Wt::WLineEdit(std::to_string(Player->iMaxBoosters[i]));
+	};
+	void FILL()
+	{
+		wrRow->elementAt(0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPlayerID)));
+		wrRow->elementAt(1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlPlayerName)));
+		for (unsigned int i = 0; i < NumBoostersTypes; i++)
+		{
+			wrRow->elementAt(2 + i)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(iMaxBoosters[i])));
+		}
+		wrRow->elementAt(NumBoostersTypes + 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbDel)));
+		wrRow->elementAt(NumBoostersTypes + 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbMes)));
 	};
 };
 
@@ -65,6 +77,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wtGameID = new Wt::WText("");
 	wtAdminID = new Wt::WText("");
 
+	wbSave = new Wt::WPushButton("Save");
 	wbAddPlayer = new Wt::WPushButton("Add Player");
 
 	MISD("#11");
@@ -72,6 +85,9 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wtReplayResultCard = new Wt::WTable();
 	wtStatus = new Wt::WText("Waiting for Replay");
 	WA = new WEB_Analyser();
+
+	unsigned int iCol = 0;
+	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
 
 	MISD("#2");
 
@@ -85,6 +101,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoosters)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoostersOfPlayer)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbSave)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
@@ -116,14 +133,49 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 	}));
+
+	wbSave->clicked().connect(std::bind([=]() {
+		for each(WEB_Tome_Player* iWTP in Tabel_Player)
+		{
+			for each (Tome_Player* iTP in Bro->vTomeGames[Con->BroGameID]->vPlayer)
+			{
+				if (iTP->sPlayerID == iWTP->wtPlayerID->text())
+				{
+					iTP->sPlayerName = WSTRINGtoSTRING(iWTP->wlPlayerName->text());
+					for (unsigned int j = 0; j < NumBoostersTypes; j++)
+						iTP->iMaxBoosters[j] = std::atoi(WSTRINGtoSTRING(iWTP->iMaxBoosters[j]->text()).c_str());
+				}
+			}
+		}
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		//WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player");
+		FixTable();		
+	}));
+
 	wbAddPlayer->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->AddPlayer();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
-		WRefresh();
+		FixTable();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player",
 			Bro->vTomeGames[Con->BroGameID]->vPlayer[Bro->vTomeGames[Con->BroGameID]->vPlayer.size() - 1]->sPlayerID);
 	}));
 
+	MISD("#4");
+
+
+	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayerID"))));
+	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Player Name"))));
+
+	for (unsigned int i = 0; i < EnumBoosters.size(); i++)
+	{
+		wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
+			DrawImg(Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png", Booster_Size_X, Booster_Size_Y)
+		)));
+
+	}
+	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Delete"))));
+	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Mesage"))));
 	
 
 	MISD("#4");
@@ -175,9 +227,9 @@ void WEB_Tome_Admin::WRefresh()
 		return;
 	}
 
-	unsigned int iCol = 0;
-	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
-	std::vector<WEB_Tome_Player *> Tabel_Player;
+	//unsigned int iCol = 0;
+	//std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
+	//std::vector<WEB_Tome_Player *> Tabel_Player;
 
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
 	wtAdminID->setText("<h4> Admin ID: " + Bro->vTomeGames[Con->BroGameID]->sAdminID + "</h4>");
@@ -187,78 +239,74 @@ void WEB_Tome_Admin::WRefresh()
 	wcShowBoostersOfPlayer->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer);
 	wcAllowOpening->setChecked(Bro->vTomeGames[Con->BroGameID]->bAllowOpening);
 
-	wtTabelle->clear();
+	FixTable();
 
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayerID"))));
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Player Name"))));
-
-	for (unsigned int i = 0; i < EnumBoosters.size(); i++)
-	{
-		wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-			DrawImg(Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png", Booster_Size_X, Booster_Size_Y)
-		)));
-		
-	}
-	
-
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Save"))));
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Delete"))));
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Mesage"))));
-
-	for (unsigned int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); i++)
-	{
-		iCol = 0;
-		Tabel_Player.push_back(new WEB_Tome_Player(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]));
-		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wtPlayerID)));
-		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wlPlayerName)));
-
-		for (unsigned int j = 0; j < NumBoostersTypes; j++)
-			wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->iMaxBoosters[j])));
-
-		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wbSave)));
-		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wbDel)));
-		wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Tabel_Player[i]->wbMes)));
-		
-		Tabel_Player[i]->wbSave->clicked().connect(std::bind([=]() {
-			Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerName = WSTRINGtoSTRING(Tabel_Player[i]->wlPlayerName->text());
-			for (unsigned int j = 0; j < NumBoostersTypes; j++)
-				Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->iMaxBoosters[j] = std::atoi(WSTRINGtoSTRING(Tabel_Player[i]->iMaxBoosters[j]->text()).c_str());			
-			Bro->vTomeGames[Con->BroGameID]->bSaveGame();
-			WRefresh();
-			Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player",
-				Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID);
-		}));
-
-		Tabel_Player[i]->wbDel->clicked().connect(std::bind([=]() {
-			Bro->vTomeGames[Con->BroGameID]->vPlayer.erase(Bro->vTomeGames[Con->BroGameID]->vPlayer.begin() + i);
-			Bro->vTomeGames[Con->BroGameID]->bSaveGame();
-			WRefresh();
-			Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player");
-		}));
-
-		Tabel_Player[i]->wbMes->clicked().connect(std::bind([=]() {
-			Wt::WApplication::instance()->doJavaScript(Wt::WApplication::instance()->javaScriptClass() + ".CopyToClip('" + 
-				"Hello " + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerName + ", " + 
-				"welcome to the Tome Fight! The GameID is: " + Bro->vTomeGames[Con->BroGameID]->sGameID + " " +
-				"and you PlayerID is: " + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID + " " +
-				"But you can just use this link: " +
-				"https://t1421.tk/tome?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID  + "&playerID=" + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerID +
-				"');");
-			
-		}));
-	}
-
-	iCol = 0;
-	wtTabelle->columnAt(iCol++)->setWidth(75);
-	wtTabelle->columnAt(iCol++)->setWidth(200);
-	for (unsigned int j = 0; j < NumBoostersTypes; j++)
-	wtTabelle->columnAt(iCol++)->setWidth(50);
-	wtTabelle->columnAt(iCol++)->setWidth(75);
-	wtTabelle->columnAt(iCol++)->setWidth(75);
-	wtTabelle->columnAt(iCol++)->setWidth(75);
-
-	wbAddPlayer->setWidth(75 + 200 + NumBoostersTypes * 50 + 75 + 75 + 75);
-	
 	MISE;
 }
 
+void WEB_Tome_Admin::FixTable()
+{	
+	MISS;
+	bool bFound;
+
+	//Add New 
+	for each(Tome_Player* iTP in Bro->vTomeGames[Con->BroGameID]->vPlayer)
+	{
+		bFound = false;
+		for each(WEB_Tome_Player* iWTP in Tabel_Player)
+			if (iTP->sPlayerID == iWTP->wtPlayerID->text())
+			{
+				bFound = true;
+				break;
+			}
+		if (bFound == true)continue;
+		else
+		{
+			Tabel_Player.push_back(new WEB_Tome_Player(iTP));	
+			wtTabelle->insertRow(wtTabelle->rowCount(), std::unique_ptr<Wt::WTableRow>(std::move(Tabel_Player[Tabel_Player.size() - 1]->wrRow)));
+			Tabel_Player[Tabel_Player.size() - 1]->FILL();
+			Tabel_Player[Tabel_Player.size() - 1]->wbDel->clicked().connect(std::bind([=]() {
+				for (std::vector<Tome_Player*>::iterator it = Bro->vTomeGames[Con->BroGameID]->vPlayer.begin(); it != Bro->vTomeGames[Con->BroGameID]->vPlayer.end();)
+					if (iTP->sPlayerID == (*it)->sPlayerID)
+					{
+						Bro->vTomeGames[Con->BroGameID]->vPlayer.erase(it);						
+					}
+					else  ++it;
+
+				Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+				FixTable();
+				Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player");
+			}));
+
+			Tabel_Player[Tabel_Player.size() - 1]->wbMes->clicked().connect(std::bind([=]() {
+				Wt::WApplication::instance()->doJavaScript(Wt::WApplication::instance()->javaScriptClass() + ".CopyToClip('" +
+					"Hello " + iTP->sPlayerName + ", " +
+					"welcome to the Tome Fight! The GameID is: " + Bro->vTomeGames[Con->BroGameID]->sGameID + " " +
+					"and you PlayerID is: " + iTP->sPlayerID + " " +
+					"But you can just use this link: " +
+					"https://t1421.tk/tome?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID +
+					"');");
+			}));
+		}		
+	}
+	MISD("###");
+	//remove Dell
+	for (std::vector<WEB_Tome_Player*>::iterator it= Tabel_Player.begin(); it!= Tabel_Player.end();)
+	{
+		MISD(WSTRINGtoSTRING( (*it)->wtPlayerID->text()));
+		bFound = false;
+		for each(Tome_Player* iTP in Bro->vTomeGames[Con->BroGameID]->vPlayer)
+			if (iTP->sPlayerID == (*it)->wtPlayerID->text())
+			{
+				bFound = true;
+				break;
+			}
+		if (bFound == false)
+		{
+			wtTabelle->removeRow((*it)->wrRow->rowNum());
+			it = Tabel_Player.erase(it);			
+		}
+		else  ++it;
+	}
+	MISE;
+}

@@ -87,11 +87,14 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>BrokerTome;noImager;noManager;noSQL;WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>K:\Sound_Server\lib\boost_1_68_0;K:\c++\Wt 4.5.2 msvs2015 x86\include;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\include;K:\Sound_Server\lib\jsoncpp-1.9.5\install\include;K:\Sound_Server\lib\opencv3.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>K:\c++\Wt 4.5.2 msvs2015 x86\lib;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\lib;K:\Sound_Server\lib\jsoncpp-1.9.5\build2\lib\Release;K:\Sound_Server\lib\opencv3.4\lib\VC14_32;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wtd.lib;wthttpd.lib;libcurl.lib;jsoncpp.lib;opencv_imgcodecs340d.lib;opencv_imgproc340d.lib;opencv_core340d.lib;opencv_highgui340d.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
