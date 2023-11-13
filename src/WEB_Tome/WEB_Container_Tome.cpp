@@ -1,7 +1,6 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h" 
-//#include "..\..\incl\DataTypes.h" 
 
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
@@ -266,7 +265,7 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 				DrawImg(Bro->J_GetImage(
 					vAllBoosters[j]->vCards[k]->cardId,
 					3,
-					4,
+					3,
 					1,
 					false),
 					Card_Size_X, Card_Size_Y

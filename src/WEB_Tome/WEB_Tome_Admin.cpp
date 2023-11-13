@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\Replay.h" 
@@ -25,7 +25,6 @@ struct WEB_Tome_Player
 	Wt::WText *wtPlayerID;
 	Wt::WLineEdit *wlPlayerName;
 	Wt::WLineEdit *iMaxBoosters[NumBoostersTypes];
-	//Wt::WPushButton *wbSave;
 	Wt::WPushButton *wbDel;
 	Wt::WPushButton *wbMes;
 	Wt::WTableRow *wrRow;

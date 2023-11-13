@@ -17,11 +17,18 @@ broker *(WEB_Tome_Public::Bro) = NULL;
 WEB_Tome_Public::WEB_Tome_Public(WEB_Container_Tome *Con_) : Con(Con_)
 {
 	MISS;
+	
+	wtGameID = new Wt::WText("");	
+
+	MISD("#A");
 
 	cMain = new Wt::WContainerWidget();	
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)));
-		
+	
+
+
 	MISD("#0");
 	
 	PB = new WEB_Tome_PublicBoosters(Con);
@@ -58,7 +65,9 @@ WEB_Tome_Public::WEB_Tome_Public(WEB_Container_Tome *Con_) : Con(Con_)
 void WEB_Tome_Public::WRefresh()
 {
 	MISS;
-	
+
+	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
+
 	WEB_Toolbar::bDisable[0] = !Bro->vTomeGames[Con->BroGameID]->bShowPlayers;
 	WEB_Toolbar::bDisable[1] = !Bro->vTomeGames[Con->BroGameID]->bShowBoosters;
 	WEB_Toolbar::bDisable[2] = !Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer;

@@ -15,6 +15,9 @@ public:
 	Wt::WTable *wtHistory;
 	Wt::WLineEdit *wlFilter;
 
+	Wt::WText *wtGameID;
+	Wt::WText *wtPlayerID;
+
 	Wt::WFileUpload  *wfuDropZone;	
 	Wt::WText		 *wtStatus;
 	WEB_Analyser* WA;

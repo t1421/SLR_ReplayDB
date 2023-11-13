@@ -19,6 +19,8 @@ public:
 	WEB_Tome_PublicPlayers *PP;
 	WEB_Tome_PublicPlayersBooster *PPB;
 
+	Wt::WText *wtGameID;
+
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 

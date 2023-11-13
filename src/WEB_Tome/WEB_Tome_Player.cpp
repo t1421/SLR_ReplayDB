@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Player.h"
@@ -21,6 +21,8 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 {
 	MISS;
 
+	wtGameID = new Wt::WText("");
+	wtPlayerID = new Wt::WText("");
 	cMain = new Wt::WContainerWidget();
 	wtBooster = new Wt::WTable();
 	wtHistory = new Wt::WTable();
@@ -35,6 +37,9 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	wlFilter->setWidth(Card_Size_X * 9);
 	
 	MISD("#1");
+
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPlayerID)));
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
@@ -92,6 +97,7 @@ void WEB_Tome_Player::WRefresh()
 	unsigned int PlayerIndex;
 	unsigned int FreeBoosterIndex;
 	std::string playerID = Con->getPlayerID();
+
 		
 	for (PlayerIndex = 0; PlayerIndex < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); PlayerIndex++)
 		if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->sPlayerID == playerID)break;
@@ -100,6 +106,9 @@ void WEB_Tome_Player::WRefresh()
 		MISEA("V2 !!!")
 			return;
 	}
+
+	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
+	wtPlayerID->setText("<h4> Player ID: " + playerID + "</h4>");
 
 	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
 	for (unsigned int i = 0; i < EnumBoosters.size(); i++)if (EnumBoosters[i].first == "-3")FreeBoosterIndex = i;
