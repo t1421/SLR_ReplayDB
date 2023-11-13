@@ -12,6 +12,9 @@ public:
 	WEB_Tome_Login(WEB_Container_Tome *Con_);
 
 	Wt::WText		*wtStatus;
+	Wt::WText		*wtPublic;
+	Wt::WText		*wtPlayer;
+	Wt::WText		*wtAdmin;
 	Wt::WLineEdit   *wlGameID;
 	Wt::WLineEdit   *wlUserID;
 	Wt::WPushButton	*wbJoin;
@@ -36,3 +39,4 @@ private:
 
 
 #endif // WEB_Tome_Login_H
+

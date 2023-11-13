@@ -13,7 +13,7 @@
 #include <Wt/WLineEdit.h>
 #include <Wt/WVBoxLayout.h>
 #include <Wt/WPushButton.h>
-
+#include <Wt/WBreak.h>
 
 broker *(WEB_Tome_Player::Bro) = NULL;
 
@@ -43,6 +43,9 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
+
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtBooster)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlFilter)));
@@ -77,7 +80,7 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 		
 		if (WA->NewReplay(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
 		{
-			if (WA->TomeAnalyser(new Wt::WTable(), Con->BroGameID))wtStatus->setText("<h3 style='color:Tomato;'>Error: Contact Admin with Replay File</h3>");
+			if (WA->TomeAnalyser(new Wt::WTable(), Con->BroGameID))wtStatus->setText("<h3 style='color:Tomato;'>Error: An unallowed Card was played</h3>");
 			else wtStatus->setText("<h3 style='color:Green;'>All OK</h3>");
 		}
 		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");

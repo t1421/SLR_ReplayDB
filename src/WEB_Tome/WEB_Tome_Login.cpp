@@ -28,22 +28,13 @@ WEB_Tome_Login::WEB_Tome_Login(WEB_Container_Tome *Con_): Con(Con_)
 	wtStatus = new Wt::WText;
 	wlGameID = new Wt::WLineEdit();
 	wlUserID = new Wt::WLineEdit();	
+	wtPublic = new Wt::WText("<h4> Public </h4>");
+	wtPlayer = new Wt::WText("<h4> Player </h4>");
+	wtAdmin = new Wt::WText("<h4> Admin </h4>");
 	wbJoin = new Wt::WPushButton("Join");
 	wbNewGame = new Wt::WPushButton("Make new game");
 
-	//wrType[0] = new Wt::WRadioButton();
-	//wrType[1] = new Wt::WRadioButton();
-	//wrType[2] = new Wt::WRadioButton();
 	gbJoinMode = std::make_shared<Wt::WButtonGroup>();
-	
-	/*
-	wbJoinPublic->setWidth(150);
-	wbJoinPlayer->setWidth(150);
-	wbJoinPlayer->setWidth(150);
-	wbJoinAdmin->setWidth(150);
-	wbNewGame->setWidth(150);
-	*/
-	//wbLeave->setDisabled(true);
 
 	MISD("#1");
 
@@ -58,9 +49,9 @@ WEB_Tome_Login::WEB_Tome_Login(WEB_Container_Tome *Con_): Con(Con_)
 	wtTabelle->elementAt(1, 0)->setColumnSpan(3);
 	wtTabelle->elementAt(1, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 
-	wtTabelle->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Public </h4>"))));
-	wtTabelle->elementAt(2, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Player </h4>"))));
-	wtTabelle->elementAt(2, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Admin </h4>"))));
+	wtTabelle->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPublic)));
+	wtTabelle->elementAt(2, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPlayer)));
+	wtTabelle->elementAt(2, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdmin)));
 	wtTabelle->elementAt(2, 0)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 	wtTabelle->elementAt(2, 1)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 	wtTabelle->elementAt(2, 2)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
@@ -98,6 +89,17 @@ WEB_Tome_Login::WEB_Tome_Login(WEB_Container_Tome *Con_): Con(Con_)
 
 
 	MISD("#3");
+
+	wtPublic->clicked().connect(std::bind([=]() {
+		gbJoinMode->setCheckedButton(gbJoinMode->button(0));
+	}));
+	wtPlayer->clicked().connect(std::bind([=]() {
+		gbJoinMode->setCheckedButton(gbJoinMode->button(1));
+	}));
+	wtAdmin->clicked().connect(std::bind([=]() {
+		gbJoinMode->setCheckedButton(gbJoinMode->button(2));
+	}));
+
 	wbJoin->clicked().connect(std::bind([=]() {
 			//if toggel / switch toggel
 		switch (gbJoinMode->selectedButtonIndex())

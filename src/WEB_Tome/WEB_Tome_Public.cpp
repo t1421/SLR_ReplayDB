@@ -71,9 +71,12 @@ void WEB_Tome_Public::WRefresh()
 	WEB_Toolbar::bDisable[0] = !Bro->vTomeGames[Con->BroGameID]->bShowPlayers;
 	WEB_Toolbar::bDisable[1] = !Bro->vTomeGames[Con->BroGameID]->bShowBoosters;
 	WEB_Toolbar::bDisable[2] = !Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer;
-
+	
+	if (!WEB_Toolbar::bDisable[0])WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	else if (!WEB_Toolbar::bDisable[1])WEB_Toolbar::sToolbar->setCurrentIndex(1);
+	else if (!WEB_Toolbar::bDisable[2])WEB_Toolbar::sToolbar->setCurrentIndex(2);
 	WEB_Toolbar::updateToolbar();
-	//updateFrame();
+	updateFrame();
 
 	MISE;
 }

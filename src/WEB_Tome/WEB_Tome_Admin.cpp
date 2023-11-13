@@ -16,7 +16,8 @@
 #include <Wt/WCheckBox.h>
 #include <Wt/WPushButton.h>
 #include <Wt/WLineEdit.h>
-
+#include <Wt/WBreak.h>
+#include <Wt/WLength.h>
 
 broker *(WEB_Tome_Admin::Bro) = NULL;
 
@@ -61,6 +62,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	MISD("#0");
 
 	cMain = new Wt::WContainerWidget();
+	cMain->setMaximumSize(900, Wt::WLength::Auto);
 	//Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
 	//cMain->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
 	
@@ -96,12 +98,19 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdminID)));
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowOpening)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowPlayers)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoosters)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoostersOfPlayer)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbSave)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbSave)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReplayResultCard)));
@@ -175,9 +184,12 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	}
 	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Delete"))));
 	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Mesage"))));
-	
 
 	MISD("#4");
+
+	wtTabelle->columnAt(1)->setWidth(160);
+
+	MISD("#5");
 
 	wfuDropZone->setFilters(".pmv");
 
@@ -212,6 +224,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		}
 		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");	
 	});
+
 
 	MISE;
 }
