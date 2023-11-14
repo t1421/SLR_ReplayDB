@@ -18,6 +18,8 @@ public:
 	Wt::WText *wtGameID;
 	Wt::WText *wtPlayerID;
 
+	Wt::WAnchor *waLink;
+
 	Wt::WFileUpload  *wfuDropZone;	
 	Wt::WText		 *wtStatus;
 	WEB_Analyser* WA;

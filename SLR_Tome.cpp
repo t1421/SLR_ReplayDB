@@ -35,8 +35,28 @@ int main()
 		if (Checker(sbuf, "exit"))Bro->bAktive = false;
 		if (Checker(sbuf, "x"))Bro->bAktive = false;
 	
+		if (Checker(sbuf, "?"))
+		{
+			printf("####################|###########################################\n");
+			printf("J;img               | Download needed Img Files\n");
+			printf("J;booster;[ID]      | Opens a Booster\n");			
+			printf("####################|###########################################\n\n");
+		}
+
 		if (Checker(sbuf, "J"))
 		{
+			if (Checker(sbuf, "img"))		
+				for each (SMJCard* iCard in J->SMJMatrix)
+				{
+					printf("%i\n", iCard->cardId);
+					Bro->J_GetImage(
+						iCard->cardId,
+						3,
+						3,
+						1,
+						false);
+				}
+
 			if (Checker(sbuf, "booster"))
 			{
 				Tome_Booster* TB = J->OpenBooster(sbuf.c_str());

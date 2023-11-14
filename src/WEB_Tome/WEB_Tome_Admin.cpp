@@ -18,6 +18,9 @@
 #include <Wt/WLineEdit.h>
 #include <Wt/WBreak.h>
 #include <Wt/WLength.h>
+#include <Wt/WLink.h>
+#include <Wt/WAnchor.h>
+
 
 broker *(WEB_Tome_Admin::Bro) = NULL;
 
@@ -48,8 +51,8 @@ struct WEB_Tome_Player
 		{
 			wrRow->elementAt(2 + i)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(iMaxBoosters[i])));
 		}
-		wrRow->elementAt(NumBoostersTypes + 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbDel)));
-		wrRow->elementAt(NumBoostersTypes + 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbMes)));
+		wrRow->elementAt(NumBoostersTypes + 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbDel)));
+		wrRow->elementAt(NumBoostersTypes + 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbMes)));
 	};
 };
 
@@ -58,14 +61,14 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	MISS;
 
 	cMain = new Wt::WContainerWidget();
+	waLink = new Wt::WAnchor();
+	waLink->setText("<h5> Your Admin Link </h5>");
 
 	MISD("#0");
 
 	cMain = new Wt::WContainerWidget();
 	cMain->setMaximumSize(900, Wt::WLength::Auto);
-	//Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
-	//cMain->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
-	
+		
 	MISD("#1");
 
 	wtTabelle = new Wt::WTable();
@@ -96,6 +99,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)));
 	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Admin ID: </h4>"))), 1, 0);
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdminID)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowOpening)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
@@ -245,6 +249,7 @@ void WEB_Tome_Admin::WRefresh()
 
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
 	wtAdminID->setText("<h4> Admin ID: " + Bro->vTomeGames[Con->BroGameID]->sAdminID + "</h4>");
+	waLink->setLink(Wt::WLink("https://t1421.tk/tome?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&adminID=" + Bro->vTomeGames[Con->BroGameID]->sAdminID));
 
 	wcShowPlayers->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowPlayers);
 	wcShowBoosters->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoosters);

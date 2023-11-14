@@ -25,6 +25,7 @@ public:
 
 	Wt::WText *wtGameID;
 	Wt::WText *wtAdminID;
+	Wt::WAnchor *waLink;
 
 	Wt::WPushButton *wbSave;
 	Wt::WPushButton	*wbAddPlayer;	

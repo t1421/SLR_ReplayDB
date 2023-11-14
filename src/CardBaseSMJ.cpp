@@ -205,10 +205,11 @@ Json::Value CardBaseSMJ::WEBRequestToCHASH(std::string sURL)
 
 	std::string readBuffer = "";
 
-	
+	MISD("#1");
 	curl = curl_easy_init();
 	if (curl)
 	{
+		MISD("#2");
 		curl_easy_setopt(curl, CURLOPT_URL, sURL);
 		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
@@ -217,9 +218,11 @@ Json::Value CardBaseSMJ::WEBRequestToCHASH(std::string sURL)
 		res = curl_easy_perform(curl);
 		if (res != CURLE_OK)Bro->B_StatusE("E", "GetJsonFromWeb - curl_easy_perform", curl_easy_strerror(res));
 		
+		MISD("#2");
 		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
 		if (httpCode == 200)
 		{
+			MISD("#3");
 			if (jsonReader.parse(readBuffer, jsonData))
 			{
 				MISD("Json Request - Sucess")
@@ -230,7 +233,7 @@ Json::Value CardBaseSMJ::WEBRequestToCHASH(std::string sURL)
 
 		curl_easy_cleanup(curl);
 	}
-
+	MISD("#4");
 	mutex_WEBRequest.unlock();
 
 	MISE;
@@ -641,7 +644,7 @@ bool CardBaseSMJ::Imager()
 
 #endif
 
-
+/*
 Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 {
 	MISS;
@@ -672,5 +675,198 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 	MISD("Booster:" + std::to_string(Booster->vCards.size()));
 	MISE;
 
+	return Booster;
+}
+*/
+
+Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
+{
+	MISS;
+
+	//Card 1: 0.5% Promo, 19.5% Ultra Rare, 80 % Rare
+	//Card 2 : 15 % Rare, 85 % Uncommon
+	//Card 3 : 20 % Uncommon, 80 % Common
+	//Card 4 : 100 % Uncommon
+	//Cards 5, 6, 7 and 8 : 100 % Common
+
+	Tome_Booster* Booster = new Tome_Booster(iType);
+
+	std::vector <SMJCard*> vPromo;
+	std::vector <SMJCard*> vUR;
+	std::vector <SMJCard*> vR;
+	std::vector <SMJCard*> vUC;
+	std::vector <SMJCard*> vC;
+
+	unsigned int iPromos = 0;
+	unsigned int iUR = 0;
+	unsigned int iR = 0;
+	unsigned int iUC = 0;
+	unsigned int iC = 0;
+
+	int iRandome = 0;
+
+	bool bCheck;
+	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
+	{
+		bCheck = false;
+		for (unsigned int j = 0; j < SMJMatrix[i]->vBoosters.size() && bCheck == false; j++)
+			if (std::to_string(SMJMatrix[i]->vBoosters[j]) == iType) bCheck = true;
+		if (bCheck == false)continue;
+
+		if (SMJMatrix[i]->promo == 1)
+		{
+			vPromo.push_back(SMJMatrix[i]);
+			continue;
+		}
+
+		switch (SMJMatrix[i]->rarity)
+		{
+		case 0:
+			vC.push_back(SMJMatrix[i]);
+			break;
+		case 1:
+			vUC.push_back(SMJMatrix[i]);
+			break;
+		case 2:
+			vR.push_back(SMJMatrix[i]);
+			break;
+		case 3:
+			vUR.push_back(SMJMatrix[i]);
+			break;
+		}
+	}
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> distr(0, 1000 - 1);
+
+
+	//Card1	
+	iRandome = distr(gen);
+	MISD("iRandome:" + std::to_string(iRandome));
+	if (iRandome < 5) iPromos++;
+	else if (iRandome < 200) iUR++;
+	else iR++;
+
+	//Card2	
+	iRandome = distr(gen);
+	if (iRandome < 150) iR++;
+	else iUC++;
+
+	//Card3
+	iRandome = distr(gen);
+	if (iRandome < 200) iUC++;
+	else iC++;
+
+	//Card4
+	iUC++;
+
+	//Card5
+	iC++;
+
+	//Card6
+	iC++;
+
+	//Card7
+	iC++;
+
+	//Card8
+	iC++;
+
+	MISD("iPromos:" + std::to_string(iPromos));
+	MISD("iUR:" + std::to_string(iUR));
+	MISD("iR:" + std::to_string(iR));
+	MISD("iUC:" + std::to_string(iUC));
+	MISD("iC:" + std::to_string(iC));
+
+	MISD("vPromo:" + std::to_string(vPromo.size()));
+	MISD("vUR:" + std::to_string(vUR.size()));
+	MISD("vR:" + std::to_string(vR.size()));
+	MISD("vUC:" + std::to_string(vUC.size()));
+	MISD("vC:" + std::to_string(vC.size()));
+
+
+	distr = std::uniform_int_distribution<int>(0, vPromo.size() - 1);
+	for (unsigned int i = 0; i < iPromos; i++)
+	{
+		iRandome = distr(gen);
+		MISD("vPromo:" + std::to_string(iRandome) + "/" + std::to_string(vPromo.size()));
+		bCheck = false;
+		for (unsigned int j = 0; j < Booster->vCards.size(); j++)
+			if (Booster->vCards[j]->cardId == vPromo[iRandome]->cardId)bCheck = true;
+		if (bCheck)
+		{
+			i--;
+			continue;
+		}
+		Booster->vCards.push_back(vPromo[iRandome]);
+	}
+
+	distr = std::uniform_int_distribution<int>(0, vUR.size() - 1);
+	for (unsigned int i = 0; i < iUR; i++)
+	{
+		iRandome = distr(gen);
+		MISD("vUR:" + std::to_string(iRandome) + "/" + std::to_string(vUR.size()));
+		bCheck = false;
+		for (unsigned int j = 0; j < Booster->vCards.size(); j++)
+			if (Booster->vCards[j]->cardId == vUR[iRandome]->cardId)bCheck = true;
+		if (bCheck)
+		{
+			i--;
+			continue;
+		}
+		Booster->vCards.push_back(vUR[iRandome]);
+	}
+
+	distr = std::uniform_int_distribution<int>(0, vR.size() - 1);
+	for (unsigned int i = 0; i < iR; i++)
+	{
+		iRandome = distr(gen);
+		MISD("vR:" + std::to_string(iRandome) + "/" + std::to_string(vR.size()));
+		bCheck = false;
+		for (unsigned int j = 0; j < Booster->vCards.size(); j++)
+			if (Booster->vCards[j]->cardId == vR[iRandome]->cardId)bCheck = true;
+		if (bCheck)
+		{
+			i--;
+			continue;
+		}
+		Booster->vCards.push_back(vR[iRandome]);
+	}
+
+	distr = std::uniform_int_distribution<int>(0, vUC.size() - 1);
+	for (unsigned int i = 0; i < iUC; i++)
+	{
+		iRandome = distr(gen);
+		MISD("vUC:" + std::to_string(iRandome) + "/" + std::to_string(vUC.size()));
+		bCheck = false;
+		for (unsigned int j = 0; j < Booster->vCards.size(); j++)
+			if (Booster->vCards[j]->cardId == vUC[iRandome]->cardId)bCheck = true;
+		if (bCheck)
+		{
+			i--;
+			continue;
+		}
+		Booster->vCards.push_back(vUC[iRandome]);
+	}
+
+	distr = std::uniform_int_distribution<int>(0, vC.size() - 1);
+	for (unsigned int i = 0; i < iC; i++)
+	{
+		iRandome = distr(gen);
+		MISD("vC:" + std::to_string(iRandome) + "/" + std::to_string(vC.size()));
+		bCheck = false;
+		for (unsigned int j = 0; j < Booster->vCards.size(); j++)
+			if (Booster->vCards[j]->cardId == vC[iRandome]->cardId)bCheck = true;
+		if (bCheck)
+		{
+			i--;
+			continue;
+		}
+		Booster->vCards.push_back(vC[iRandome]);
+	}
+
+	MISD("Booster:" + std::to_string(Booster->vCards.size()));
+	MISE;
 	return Booster;
 }

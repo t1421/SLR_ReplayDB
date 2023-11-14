@@ -9,8 +9,8 @@
 #include "..\..\incl\WEB_Tome\WEB_Tome_PublicPlayers.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_PublicPlayersBooster.h"
 
-//#include <Wt/WContainerWidget.h>
-//#include <Wt/WText.h>
+#include <Wt/WLink.h>
+#include <Wt/WAnchor.h>
 
 broker *(WEB_Tome_Public::Bro) = NULL;
 
@@ -19,11 +19,14 @@ WEB_Tome_Public::WEB_Tome_Public(WEB_Container_Tome *Con_) : Con(Con_)
 	MISS;
 	
 	wtGameID = new Wt::WText("");	
+	waLink = new Wt::WAnchor();
+	waLink->setText("<h5> PublicLink </h5>");
 
 	MISD("#A");
 
 	cMain = new Wt::WContainerWidget();	
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)));
 	
@@ -67,6 +70,7 @@ void WEB_Tome_Public::WRefresh()
 	MISS;
 
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
+	waLink->setLink(Wt::WLink("https://t1421.tk/tome?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID));
 
 	WEB_Toolbar::bDisable[0] = !Bro->vTomeGames[Con->BroGameID]->bShowPlayers;
 	WEB_Toolbar::bDisable[1] = !Bro->vTomeGames[Con->BroGameID]->bShowBoosters;
