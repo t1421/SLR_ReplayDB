@@ -33,9 +33,9 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	waLink = new Wt::WAnchor();
 	waLink->setText("<h5> Your Player Link </h5>");
 
-	wfuDropZone = new Wt::WFileUpload();
-	wtStatus = new Wt::WText("Waiting for Replay");
-	WA = new WEB_Analyser();
+	//wfuDropZone = new Wt::WFileUpload();
+	//wtStatus = new Wt::WText("Waiting for Replay");
+	//WA = new WEB_Analyser();
 
 	MISD("#0");
 
@@ -48,8 +48,8 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
 	
 
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
+	//cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
+	//cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
@@ -59,7 +59,7 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtHistory)));
 	
 	MISD("#2");
-
+	/*
 	wfuDropZone->setFilters(".pmv");
 
 	wfuDropZone->changed().connect([=]
@@ -94,7 +94,7 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	});
 
 	MISD("#3");
-
+	*/
 	
 	//WRefresh();
 

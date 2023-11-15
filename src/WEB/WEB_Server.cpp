@@ -56,15 +56,6 @@ void WEB_Server::postChatEvent(const MISEvent& event)
 void WEB_Server::postChatEventMIS(std::string Value1, std::string Value2, std::string Value3, std::string Value4)
 {
 	MISS;
-	/*
-	if (Value1 == "SYS")
-	{
-		if (Value2 == "SAVE")
-		{
-			//Bro->L_TriggerSave();
-		}
-	}
-	else */
 	postChatEvent(MISEvent(Value1, Value2, Value3, Value4));
 	MISE;
 }

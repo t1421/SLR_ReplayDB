@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -566,6 +566,7 @@ unsigned long WEB_Analyser::getReplayHash()
 }
 
 #if defined BrokerTome
+/*
 bool WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGameID)
 {
 	MISS;
@@ -625,4 +626,5 @@ bool WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGa
 	MISE;
 	return error;
 }
+*/
 #endif

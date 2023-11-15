@@ -7,7 +7,7 @@
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
 #include "..\..\incl\WEB_Tome\Tome_Game.h"
 
-#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
+//#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
@@ -83,12 +83,12 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 
 	wbSave = new Wt::WPushButton("Save");
 	wbAddPlayer = new Wt::WPushButton("Add Player");
-
-	MISD("#11");
-	wfuDropZone = new Wt::WFileUpload();
-	wtReplayResultCard = new Wt::WTable();
-	wtStatus = new Wt::WText("Waiting for Replay");
-	WA = new WEB_Analyser();
+	
+	//MISD("#11");
+	//wfuDropZone = new Wt::WFileUpload();
+	//wtReplayResultCard = new Wt::WTable();
+	//wtStatus = new Wt::WText("Waiting for Replay");
+	//WA = new WEB_Analyser();
 
 	unsigned int iCol = 0;
 	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
@@ -115,9 +115,9 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbSave)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReplayResultCard)));
+	//cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
+	//cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
+	//cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReplayResultCard)));
 	
 
 	MISD("#3");
@@ -185,7 +185,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wtTabelle->columnAt(1)->setWidth(160);
 
 	MISD("#5");
-
+	/*
 	wfuDropZone->setFilters(".pmv");
 
 	wfuDropZone->changed().connect([=]
@@ -219,7 +219,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		}
 		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");	
 	});
-
+	*/
 
 	MISE;
 }
