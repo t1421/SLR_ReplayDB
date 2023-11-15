@@ -131,7 +131,8 @@ int main(int argc, char **argv)
 
 			//Orb Colors
 			if ((Orbs[0].first == "1" || Orbs[0].first == "3")
-				&& (Orbs[1].first == "1" || Orbs[1].first == "3"))Bro->B->StatusE("OK", "OrbColors", Orbs[0].first + "&" + Orbs[1].first);
+				&& (Orbs[1].first == "1" || Orbs[1].first == "3")
+				&& Orbs[0].first != Orbs[1].first )Bro->B->StatusE("OK", "OrbColors", Orbs[0].first + "&" + Orbs[1].first);
 			else
 			{
 				Bro->B->StatusE("ERROR", "OrbColors", Orbs[0].first + "&" + Orbs[1].first);

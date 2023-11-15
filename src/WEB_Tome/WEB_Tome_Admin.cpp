@@ -147,18 +147,8 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	}));
 
 	wbSave->clicked().connect(std::bind([=]() {
-		for each(WEB_Tome_Player* iWTP in Tabel_Player)
-		{
-			for each (Tome_Player* iTP in Bro->vTomeGames[Con->BroGameID]->vPlayer)
-			{
-				if (iTP->sPlayerID == iWTP->wtPlayerID->text())
-				{
-					iTP->sPlayerName = WSTRINGtoSTRING(iWTP->wlPlayerName->text());
-					for (unsigned int j = 0; j < NumBoostersTypes; j++)
-						iTP->iMaxBoosters[j] = std::atoi(WSTRINGtoSTRING(iWTP->iMaxBoosters[j]->text()).c_str());
-				}
-			}
-		}
+		
+		TabelToBro();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		//WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player");
@@ -166,6 +156,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	}));
 
 	wbAddPlayer->clicked().connect(std::bind([=]() {
+		TabelToBro();
 		Bro->vTomeGames[Con->BroGameID]->AddPlayer();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		FixTable();
@@ -324,6 +315,24 @@ void WEB_Tome_Admin::FixTable()
 			it = Tabel_Player.erase(it);			
 		}
 		else  ++it;
+	}
+	MISE;
+}
+
+void WEB_Tome_Admin::TabelToBro()
+{
+	MISS;
+	for each(WEB_Tome_Player* iWTP in Tabel_Player)
+	{
+		for each (Tome_Player* iTP in Bro->vTomeGames[Con->BroGameID]->vPlayer)
+		{
+			if (iTP->sPlayerID == iWTP->wtPlayerID->text())
+			{
+				iTP->sPlayerName = WSTRINGtoSTRING(iWTP->wlPlayerName->text());
+				for (unsigned int j = 0; j < NumBoostersTypes; j++)
+					iTP->iMaxBoosters[j] = std::atoi(WSTRINGtoSTRING(iWTP->iMaxBoosters[j]->text()).c_str());
+			}
+		}
 	}
 	MISE;
 }

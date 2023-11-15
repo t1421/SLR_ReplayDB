@@ -42,6 +42,7 @@ public:
 private:
 	WEB_Container_Tome *Con;
 	void FixTable();
+	void TabelToBro();
 	std::vector<WEB_Tome_Player *> Tabel_Player;
 };
 

@@ -740,38 +740,62 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 	std::mt19937 gen(rd());
 	std::uniform_int_distribution<int> distr(0, 1000 - 1);
 
+	//Normal Booster
+	if (iType != "-2")
+	{
+		//Card1		
+		iRandome = distr(gen);
+		if (iRandome < 5) iPromos++;
+		else if (iRandome < 200) iUR++;
+		else iR++;
 
-	//Card1	
-	iRandome = distr(gen);
-	MISD("iRandome:" + std::to_string(iRandome));
-	if (iRandome < 5) iPromos++;
-	else if (iRandome < 200) iUR++;
-	else iR++;
+		//Card2	
+		iRandome = distr(gen);
+		if (iRandome < 150) iR++;
+		else iUC++;
 
-	//Card2	
-	iRandome = distr(gen);
-	if (iRandome < 150) iR++;
-	else iUC++;
+		//Card3
+		iRandome = distr(gen);
+		if (iRandome < 200) iUC++;
+		else iC++;
 
-	//Card3
-	iRandome = distr(gen);
-	if (iRandome < 200) iUC++;
-	else iC++;
+		//Card4
+		iUC++;
 
-	//Card4
-	iUC++;
+		//Card5
+		iC++;
 
-	//Card5
-	iC++;
+		//Card6
+		iC++;
 
-	//Card6
-	iC++;
+		//Card7
+		iC++;
 
-	//Card7
-	iC++;
+		//Card8
+		iC++;
+	}
+	//MINI Booster
+	else
+	{
+		//Card1		
+		iRandome = distr(gen);
+		if (iRandome < 195) iR++;		
+		else iUC++;
 
-	//Card8
-	iC++;
+		//Card2	
+		iUC++;
+
+		//Card3
+		iRandome = distr(gen);
+		if (iRandome < 150) iUC++;
+		else iC++;
+
+		//Card4
+		iC++;
+
+		//Card5
+		iC++;
+	}
 
 	MISD("iPromos:" + std::to_string(iPromos));
 	MISD("iUR:" + std::to_string(iUR));
