@@ -98,7 +98,7 @@ int main(int argc, char **argv)
 			printf("####################|###########################################\n");
 			printf("J;full              | Updates all cards in MYSQL\n");
 			printf("J;update            | Adds neu cards to MYSQL\n");
-			printf("J;IMGtoQSL;[ID]     | Loads images for CARDID from SMJ in MYSQL\n");
+			printf("J;IMGtoSQL;[ID]     | Loads images for CARDID from SMJ in MYSQL\n");
 			printf("J;imager            | Loads all images from SMJ in MYSQL\n");
 			printf("####################|###########################################\n\n");
 
@@ -138,7 +138,7 @@ int main(int argc, char **argv)
 		{
 			if (Checker(sbuf, "update"))J->SMJtoSQL(false);
 			if (Checker(sbuf, "full"))J->SMJtoSQL(true);
-			if (Checker(sbuf, "IMGtoQSL"))J->IMGtoQSL(atoi(sbuf.c_str()));
+			if (Checker(sbuf, "IMGtoSQL"))J->IMGtoQSL(atoi(sbuf.c_str()));
 			if (Checker(sbuf, "imager"))J->Imager();
 			/*if (Checker(sbuf, "upload"))C->UploadFromTemp(atoi(sbuf.c_str()));
 			if (Checker(sbuf, "download"))C->DownloadPNG(atoi(sbuf.c_str()));

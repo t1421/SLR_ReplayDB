@@ -64,6 +64,8 @@ public:
 private:
 
 	Wt::WContainerWidget *GlobaelContainer;
+	Wt::WAnchor *waLink;
+	Wt::WAnchor *waLink2;
 	std::string sGetParam(const Wt::WEnvironment& env, std::string sParam);
 	
 

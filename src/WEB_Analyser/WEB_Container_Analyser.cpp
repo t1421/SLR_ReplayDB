@@ -44,7 +44,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	MISD("#2");
 
 	WApplication::instance()->setTheme(bootstrapTheme);
-	WApplication::instance()->setTitle("SLR - Replay Checker");
+	WApplication::instance()->setTitle("SLR - Replay Analyser");
 	WApplication::instance()->useStyleSheet(Wt::WLink("./resources/main.css"));
 
 	MISD("#3");	
@@ -55,14 +55,18 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	
 	MISD("#4");
 	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
+	waLink = new Wt::WAnchor();
+	waLink->setText("Switch to Tome Fight Maker");
+	waLink->setLink(Wt::WLink("https://t1421.tk/tome"));
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	
 	GlobaelContainer->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
 	
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h2><b>Replay Checking</b></h2>"))),0,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)),1,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)),2,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::tToolbar)),3,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::sToolbar)), 4, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h2><b>Replay Analyser</b></h2>"))),0,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)), 1, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)),2,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)),3,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::tToolbar)),4,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::sToolbar)), 5, 0);
 
 	MISD("#5");
 

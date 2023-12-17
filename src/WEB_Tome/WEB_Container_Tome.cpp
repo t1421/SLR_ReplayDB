@@ -70,10 +70,19 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	
 	MISD("#4");
 	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
+	waLink = new Wt::WAnchor();
+	waLink2 = new Wt::WAnchor();
+	waLink->setText("Switch to Replay Analyser");
+	waLink2->setText("How to Use Tome Fight Maker");
+	waLink->setLink(Wt::WLink("https://t1421.tk/"));
+	waLink2->setLink(Wt::WLink("https://youtu.be/sMLBZydTQPE"));
+
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	
 	GlobaelContainer->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
-	
+
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)), 1, 0);
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h2><b>Welcome to the Tome Fight Maker</b></h2>"))),0,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink2)), 2, 0);
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)),3,0);
 	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sToolbar)), 4, 0);	
 

@@ -37,6 +37,7 @@ private:
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
 	Wt::WContainerWidget *GlobaelContainer;
+	Wt::WAnchor *waLink;
 
 	std::string sPARA;
 };
