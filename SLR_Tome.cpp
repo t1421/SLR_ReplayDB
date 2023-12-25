@@ -56,7 +56,7 @@ int main()
 						1,
 						false);
 				}
-
+			/*
 			if (Checker(sbuf, "booster"))
 			{
 				Tome_Booster* TB = J->OpenBooster(sbuf.c_str());
@@ -64,6 +64,7 @@ int main()
 					printf("%i\n", TB->vCards[i]->cardId);
 					//MISD(TB->vCards[i]->cardId + "#" + TB->vCards[i]->cardName);
 			}
+			*/
 		}
 	}
 	W->Stop_Thread();

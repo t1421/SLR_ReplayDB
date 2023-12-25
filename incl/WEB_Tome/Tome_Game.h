@@ -38,6 +38,7 @@ public:
 	bool bShowBoosters;
 	bool bShowBoostersOfPlayer;
 	bool bAllowOpening;
+	bool bNoDouble;
 	std::string sGameID;
 	std::string sAdminID;
 

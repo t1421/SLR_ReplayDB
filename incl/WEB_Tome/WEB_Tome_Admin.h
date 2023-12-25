@@ -22,6 +22,7 @@ public:
 	Wt::WCheckBox *wcShowPlayers;
 	Wt::WCheckBox *wcShowBoosters;
 	Wt::WCheckBox *wcShowBoostersOfPlayer;
+	Wt::WCheckBox *wcNoDouble;
 
 	Wt::WText *wtGameID;
 	Wt::WText *wtAdminID;

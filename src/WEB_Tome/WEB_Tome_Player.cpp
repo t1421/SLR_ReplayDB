@@ -153,7 +153,9 @@ void WEB_Tome_Player::WRefresh()
 			)wtBooster->elementAt(3, i + 1)->widget(0)->disable();
 
 		dynamic_cast<Wt::WPushButton *>(wtBooster->elementAt(3, i + 1)->widget(0))->clicked().connect(std::bind([=]() {
-			Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.push_back(Bro->J_OpenBooster(EnumBoosters[i].first));
+			//Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.push_back(Bro->J_OpenBooster(EnumBoosters[i].first));
+			Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.push_back(Bro->J_OpenBooster(EnumBoosters[i].first,
+				Bro->vTomeGames[Con->BroGameID]->bNoDouble, Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters));
 
 			if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iMaxBoosters[i] < Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iOpenBoosterOfType(EnumBoosters[i].first))
 				Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters[Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.size() - 1]->sType = "-3";

@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\incl\Broker.h" 
 
@@ -702,25 +702,29 @@ bool Replay::ReadActions()
 				switch (this->readUnsignedChar()) //ID of inner Data
 				{
 					case 2: // Desync
-					readUnsignedLongLong(); // state health_hasher
-					readUnsignedLongLong(); // state position_hasher
-					readUnsignedLongLong(); // state power_hasher
-					readUnsignedLongLong(); // state health_rounded_hasher
-					readUnsignedLongLong(); // state position_rounded_hasher
-					readUnsignedLongLong(); // state power_rounded_hasher
-					Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Count figures on map
-					Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Count entities on map
-					readUnsignedLong(); // Steps
-					break;
+						readUnsignedLongLong(); // state health_hasher
+						readUnsignedLongLong(); // state position_hasher
+						readUnsignedLongLong(); // state power_hasher
+						readUnsignedLongLong(); // state health_rounded_hasher
+						readUnsignedLongLong(); // state position_rounded_hasher
+						readUnsignedLongLong(); // state power_rounded_hasher
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Count figures on map
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Count entities on map
+						readUnsignedLong(); // Steps
+						break;
 
 					case 3: //Pause tracker
-					readUnsignedLong(); // Pause Time
-					break;
+						readUnsignedLong(); // Pause Time
+						break;
 
 					case 4: //Goal Checker
-					Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + readString() + ";"; // Goal Name
-					Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedChar()) + ";"; // Goal Status
-					break;
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + readString() + ";"; // Goal Name
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedChar()) + ";"; // Goal Status
+						break;
+					case 5: //MapModifirer?
+						Action_TEMP->AdditionalInfo = std::to_string(this->readUnsignedLong()) + ";"; // Player ID
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // NO IDEA
+						break;
 
 					default:
 						MISERROR(FileName);
@@ -728,7 +732,7 @@ bool Replay::ReadActions()
 							std::to_string(Action_TEMP->Type) + "#" +
 							std::to_string(PMVPosition) + " # " +
 							std::to_string(MainSize) +
-							"NEW SLR KEY");
+							"NEW SLR KEY: ");
 						PMVPosition = SollPos;
 
 				}
@@ -978,7 +982,7 @@ void Replay::EchoAction(std::string sAction)
 	printf("count # Time # Position # Type # ActionPlayer # PlayerID # Card # AdditionalInfo \n");
 	for (unsigned int i = 0; i < ActionMatrix.size(); i++)
 	{
-		if (ActionMatrix[i]->Type == 4045)continue;
+		if (ActionMatrix[i]->Type == 4045 && sAction != std::to_string(4045))continue;
 		if (std::to_string(ActionMatrix[i]->Type) == sAction || sAction == "*")
 		{
 			printf("%u # %s # %u # %lu  # %lu # %llu  # %lu # %s \n", 

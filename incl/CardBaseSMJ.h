@@ -41,7 +41,8 @@ public:
 	std::string SwitchColor(char _Color);
 	std::string SwitchRarity(char _Rarity);
 	SMJCard* GetSMJCard(unsigned short _CardID);
-	Tome_Booster* OpenBooster(std::string iType);
+	//Tome_Booster* OpenBooster(std::string iType);
+	Tome_Booster* OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
 
 	void EchoCard(std::string sCardID);
 	std::vector<SMJCard*> SMJMatrix;

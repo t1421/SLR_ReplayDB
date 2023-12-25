@@ -370,10 +370,16 @@ std::vector<std::pair<std::string, std::string>> broker::J_GetEnum(std::string s
 {
 	if (sEnumName == "EnumBoosters")return J->EnumBoosters;
 }
-
+/*
 Tome_Booster* broker::J_OpenBooster(std::string iType)
 {
-	return J->OpenBooster(iType);
+	std::vector<Tome_Booster*> X;
+	return J->OpenBooster(iType, false, X);
+}*/
+
+Tome_Booster* broker::J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster)
+{
+	return J->OpenBooster(iType, bNoDouble, vOpendBooster);
 }
 
 #endif

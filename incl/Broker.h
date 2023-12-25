@@ -86,7 +86,8 @@ public:
 	SMJCard* J_GetSMJCard(unsigned short _CardID);
 	std::string J_GetImgOnly(unsigned short CardID);
 	std::vector<std::pair<std::string, std::string>> J_GetEnum(std::string sEnumName);
-	Tome_Booster* J_OpenBooster(std::string iType);
+	//Tome_Booster* J_OpenBooster(std::string iType);
+	Tome_Booster* J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
 #endif
 	
 

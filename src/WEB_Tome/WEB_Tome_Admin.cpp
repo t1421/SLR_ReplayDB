@@ -77,6 +77,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wcShowBoosters = new Wt::WCheckBox("Show Boosters");
 	wcShowBoostersOfPlayer = new Wt::WCheckBox("Show Boosters per Player");
 	wcAllowOpening = new Wt::WCheckBox("Allow Opening Booster");
+	wcNoDouble = new Wt::WCheckBox("No Duplicate Cards");
 
 	wtGameID = new Wt::WText("");
 	wtAdminID = new Wt::WText("");
@@ -108,6 +109,8 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoosters)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoostersOfPlayer)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoDouble)));	
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
@@ -141,6 +144,12 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	}));
 	wcAllowOpening->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->bAllowOpening = wcAllowOpening->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+	}));
+	wcNoDouble->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bNoDouble = wcNoDouble->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
@@ -246,6 +255,7 @@ void WEB_Tome_Admin::WRefresh()
 	wcShowBoosters->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoosters);
 	wcShowBoostersOfPlayer->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer);
 	wcAllowOpening->setChecked(Bro->vTomeGames[Con->BroGameID]->bAllowOpening);
+	wcNoDouble->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoDouble);
 
 	FixTable();
 

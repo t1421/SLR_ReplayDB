@@ -678,8 +678,14 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 	return Booster;
 }
 */
-
+/*
 Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
+{
+	std::vector<Tome_Booster*> X;
+	return OpenBooster(iType, false, X);
+}*/
+
+Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster)
 {
 	MISS;
 
@@ -713,6 +719,17 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 			if (std::to_string(SMJMatrix[i]->vBoosters[j]) == iType) bCheck = true;
 		if (bCheck == false)continue;
 
+		if (bNoDouble)
+		{
+			for (Tome_Booster* B : vOpendBooster)
+			{
+				for (SMJCard* C : B->vCards)
+				{
+					if (C->cardId == SMJMatrix[i]->cardId)goto SkipCard;
+				}
+			}
+		}
+
 		if (SMJMatrix[i]->promo == 1)
 		{
 			vPromo.push_back(SMJMatrix[i]);
@@ -734,7 +751,10 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 			vUR.push_back(SMJMatrix[i]);
 			break;
 		}
+	SkipCard:;
 	}
+
+
 
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -811,7 +831,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 
 
 	distr = std::uniform_int_distribution<int>(0, vPromo.size() - 1);
-	for (unsigned int i = 0; i < iPromos; i++)
+	for (unsigned int i = 0; i < iPromos && i < vPromo.size(); i++)
 	{
 		iRandome = distr(gen);
 		MISD("vPromo:" + std::to_string(iRandome) + "/" + std::to_string(vPromo.size()));
@@ -827,7 +847,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 	}
 
 	distr = std::uniform_int_distribution<int>(0, vUR.size() - 1);
-	for (unsigned int i = 0; i < iUR; i++)
+	for (unsigned int i = 0; i < iUR && i < vUR.size(); i++)
 	{
 		iRandome = distr(gen);
 		MISD("vUR:" + std::to_string(iRandome) + "/" + std::to_string(vUR.size()));
@@ -843,7 +863,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 	}
 
 	distr = std::uniform_int_distribution<int>(0, vR.size() - 1);
-	for (unsigned int i = 0; i < iR; i++)
+	for (unsigned int i = 0; i < iR && i < vR.size(); i++)
 	{
 		iRandome = distr(gen);
 		MISD("vR:" + std::to_string(iRandome) + "/" + std::to_string(vR.size()));
@@ -859,7 +879,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 	}
 
 	distr = std::uniform_int_distribution<int>(0, vUC.size() - 1);
-	for (unsigned int i = 0; i < iUC; i++)
+	for (unsigned int i = 0; i < iUC && i < vUC.size(); i++)
 	{
 		iRandome = distr(gen);
 		MISD("vUC:" + std::to_string(iRandome) + "/" + std::to_string(vUC.size()));
@@ -875,7 +895,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
 	}
 
 	distr = std::uniform_int_distribution<int>(0, vC.size() - 1);
-	for (unsigned int i = 0; i < iC; i++)
+	for (unsigned int i = 0; i < iC && i < vC.size(); i++)
 	{
 		iRandome = distr(gen);
 		MISD("vC:" + std::to_string(iRandome) + "/" + std::to_string(vC.size()));
