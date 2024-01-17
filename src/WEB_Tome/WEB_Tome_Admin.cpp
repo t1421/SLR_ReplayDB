@@ -176,14 +176,48 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	MISD("#4");
 
 
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayerID"))));
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Player Name"))));
+	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayerID"))));	
+
+	wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Player Name"))));
+	wtTabelle->elementAt(1, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Multi Add"))));
+	wtTabelle->elementAt(2, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Multi Rem"))));
 
 	for (unsigned int i = 0; i < EnumBoosters.size(); i++)
 	{
-		wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
+		wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
 			DrawImg(Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png", Booster_Size_X, Booster_Size_Y)
 		)));
+
+		wtTabelle->elementAt(1, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("+"))));
+		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(1, iCol)->widget(0))->setWidth(Booster_Size_X * 1.5);
+		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(1, iCol)->widget(0))->clicked().connect(std::bind([=]() {
+			for each(WEB_Tome_Player* iWTP in Tabel_Player)
+			{
+				iWTP->iMaxBoosters[i]->setText(
+					std::to_string(atoi(WSTRINGtoSTRING(iWTP->iMaxBoosters[i]->text()).c_str()) + 1));
+			}
+			TabelToBro();
+			Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+			Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player");
+			FixTable();
+		}));
+
+		wtTabelle->elementAt(2, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("-"))));
+		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(2, iCol)->widget(0))->setWidth(Booster_Size_X * 1.5);
+		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(2, iCol)->widget(0))->clicked().connect(std::bind([=]() {
+			for each(WEB_Tome_Player* iWTP in Tabel_Player)
+			{
+				if(atoi(WSTRINGtoSTRING(iWTP->iMaxBoosters[i]->text()).c_str()) - 1 >= 0)
+					iWTP->iMaxBoosters[i]->setText(
+						std::to_string(atoi(WSTRINGtoSTRING(iWTP->iMaxBoosters[i]->text()).c_str()) - 1));
+			}
+			TabelToBro();
+			Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+			Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player");
+			FixTable();
+		}));
+
+		iCol++;
 
 	}
 	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Delete"))));
@@ -332,15 +366,25 @@ void WEB_Tome_Admin::FixTable()
 void WEB_Tome_Admin::TabelToBro()
 {
 	MISS;
+	int iTemp;
 	for each(WEB_Tome_Player* iWTP in Tabel_Player)
 	{
+		//MISD(WSTRINGtoSTRING(iWTP->wlPlayerName->text()));
 		for each (Tome_Player* iTP in Bro->vTomeGames[Con->BroGameID]->vPlayer)
 		{
+			//MISD(iTP->sPlayerName);
 			if (iTP->sPlayerID == iWTP->wtPlayerID->text())
 			{
+				//MISD("XX")
 				iTP->sPlayerName = WSTRINGtoSTRING(iWTP->wlPlayerName->text());
 				for (unsigned int j = 0; j < NumBoostersTypes; j++)
-					iTP->iMaxBoosters[j] = std::atoi(WSTRINGtoSTRING(iWTP->iMaxBoosters[j]->text()).c_str());
+				{
+					iTemp = std::atoi(WSTRINGtoSTRING(iWTP->iMaxBoosters[j]->text()).c_str());
+					if (iTemp < 0)iTemp = 0;
+					iTP->iMaxBoosters[j] = iTemp;
+				}
+					
+				
 			}
 		}
 	}

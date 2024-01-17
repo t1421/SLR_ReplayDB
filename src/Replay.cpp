@@ -723,7 +723,7 @@ bool Replay::ReadActions()
 						break;
 					case 5: //MapModifirer?
 						Action_TEMP->AdditionalInfo = std::to_string(this->readUnsignedLong()) + ";"; // Player ID
-						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // NO IDEA
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // SPELL ID
 						break;
 
 					default:
