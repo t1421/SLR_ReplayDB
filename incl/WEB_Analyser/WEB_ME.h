@@ -13,7 +13,7 @@ class WEB_ME : public WEB_Toolbar , public WebRefresh
 public:
 
 	WEB_MEA *A;
-	WEB_Rank *B;
+	//WEB_Rank *B;
 
 	//Wt::WContainerWidget *cMain;
 	

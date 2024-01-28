@@ -22,10 +22,9 @@
 #include <mutex> 
 #include <vector>
 
-#define BOT4LIST 0
-#define BOT6LIST 1
-#define BOTXLIST 2
-#define RankRowStamps 5
+#define BOT6LIST 0
+#define BOTXLIST 1
+#define RankRowStamps 10
 
 class DEBUG;
 class SQL_MIS_New;

@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -343,7 +343,7 @@ unsigned long long WEB_Analyser::getPlaytime()
 	return R->Playtime;
 }
 
-
+/*
 std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos, unsigned long iTimes[RankRowStamps])
 {
 	MISS;
@@ -528,6 +528,7 @@ std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos, 
 	MISE;
 	return "";
 }
+*/
 
 void  WEB_Analyser::AddIMG(Wt::WTableCell *wtCell, bool bValue)
 {
@@ -628,3 +629,73 @@ bool WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGa
 }
 */
 #endif
+
+std::string WEB_Analyser::Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+
+
+	
+	if (!R->OK)return "No Replay";
+
+	if (R->MapName != "bot6.map")return "Wrong Map";
+	if (R->DifficultyID != 1)return "Wrong Difficulty";
+
+	for each(Action* A in R->ActionMatrix)
+	{
+		if (A->Type == 4045)
+		{
+			if (entry(A->AdditionalInfo, 0) == "4")
+			{
+				//MISD(entry(A->AdditionalInfo, 1) + "X");
+				if (entry(A->AdditionalInfo, 1) == "CrystalCyan")iTimes[1] = A->Time;
+				else if (entry(A->AdditionalInfo, 1)  == "CrystalBlue")iTimes[2] = A->Time;
+				else if (entry(A->AdditionalInfo, 1)  == "CrystalBlack")iTimes[3] = A->Time;
+				else if (entry(A->AdditionalInfo, 1)  == "CrystalGreen")iTimes[4] = A->Time;
+				else if (entry(A->AdditionalInfo, 1)  == "CrystalYellow")iTimes[5] = A->Time;
+				else if (entry(A->AdditionalInfo, 1)  == "CrystalMagenta")iTimes[6] = A->Time;
+				else if (entry(A->AdditionalInfo, 1) == "CrystalRed")iTimes[7] = A->Time;
+				else if (entry(A->AdditionalInfo, 1)  == "CrystalWhite")iTimes[8] = A->Time;
+				
+			}
+		}
+	}
+
+	for (unsigned int i = 1; i <= 8; i++)
+		if (iTimes[i] == 0)
+		{
+			MISD(i);
+			MISD(iTimes[i]) ;
+			MISEA("no Crystal");
+			return "You didnt destroyed all Crystals";
+		}
+
+	iTimes[0] = getPlaytime();
+
+	//FIll Infos
+	unsigned iRow = 0;
+	unsigned iCol = 0;
+	wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4><font color = 'cyan' >CrystalCyan:</font></h4>"))));
+	wtTabelle->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(iTimes[1])))));
+	wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4><font color = 'blue'>CrystalBlue:</font></h4>"))));
+	wtTabelle->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(iTimes[2])))));
+	wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4><font color = 'silver'>CrystalBlack:</font></h4>"))));
+	wtTabelle->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(iTimes[3])))));
+	wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4><font color = 'green'>CrystalGreen:</font></h4>"))));
+	wtTabelle->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(iTimes[4])))));
+
+	wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4><font color = 'yellow'>CrystalYellow:</font></h4>"))));
+	wtTabelle->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(iTimes[5])))));
+	wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4><font color = 'magenta'>CrystalMagenta:</font></h4>"))));
+	wtTabelle->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(iTimes[6])))));
+	wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4><font color = 'red'>CrystalRed:</font></h4>"))));
+	wtTabelle->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(iTimes[7])))));
+	wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4><font color = 'white'>CrystalWhite:</font></h4>"))));
+	wtTabelle->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(iTimes[8])))));
+
+	wtTabelle->columnAt(0)->setWidth(250);
+	wtTabelle->columnAt(1)->setWidth(200);
+
+	MISE;
+	return "";
+}

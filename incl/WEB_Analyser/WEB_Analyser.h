@@ -52,12 +52,14 @@ public:
 
 	bool WA_Debug;
 
-	std::string Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos, unsigned long iTimes[RankRowStamps]);
+	//std::string Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos, unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps]);
 	void AddIMG(Wt::WTableCell *wtCell, bool bValue);
 	
 	std::string GetTeamID();	
 
 	private:
+		/*
 		double SwitchType(unsigned char ucType) 
 		{
 			switch (ucType)
@@ -66,7 +68,7 @@ public:
 			case(1): return 1.50;
 			case(2): return 1.00;
 			}
-		};
+		};*/
 };
 
 

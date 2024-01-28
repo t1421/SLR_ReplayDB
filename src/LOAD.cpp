@@ -45,8 +45,7 @@ void LOAD::Load_Settings()
 			if (INI_Value_Check(line, "BOOSTER_PATH"))sBOOSTER_PATH = line.c_str();
 			
 			if (INI_Value_Check(line, "FFMPEG"))sFFMPEG = line.c_str();
-
-			if (INI_Value_Check(line, "BOT4RankMode"))BOTRankMode[BOT4LIST] = atoi(line.c_str());
+			
 			if (INI_Value_Check(line, "BOT6RankMode"))BOTRankMode[BOT6LIST] = atoi(line.c_str());			
 			
 			ifFile.clear();

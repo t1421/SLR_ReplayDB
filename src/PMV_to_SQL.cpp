@@ -143,16 +143,18 @@ bool PMV_to_SQL::NewMasterData()
 
 	for (unsigned int i = 0; i < RR->PlayerMatrix.size(); i++)
 	{
-		NN->ssSQL << "SELECT ID FROM player WHERE ID = " << int(RR->PlayerMatrix[i]->PlayerID);
-		if (NN->send() <= 0)
-		{
+		//NN->ssSQL << "SELECT ID FROM player WHERE ID = " << int(RR->PlayerMatrix[i]->PlayerID);
+		//if (NN->send() <= 0)
+		//{
 			MISD("New Player:" + RR->PlayerMatrix[i]->Name);
 			NN->ssSQL << "INSERT INTO player (ID,Name) ";
 			NN->ssSQL << "VALUES(" << int(RR->PlayerMatrix[i]->PlayerID) << ", '";
-			NN->ssSQL << RR->PlayerMatrix[i]->Name << "')";
+			NN->ssSQL << RR->PlayerMatrix[i]->Name << "') ";
+			NN->ssSQL << "ON DUPLICATE KEY UPDATE Name = '";
+			NN->ssSQL << RR->PlayerMatrix[i]->Name << "' ";			
 			NN->send();
-			bReturn = true;
-		}
+			//bReturn = true;
+		//}
 	}
 
 	MISE;

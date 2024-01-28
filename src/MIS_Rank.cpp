@@ -114,7 +114,7 @@ void MIS_Rank::SortList()
 	mtx.lock();
 	switch (RankList)
 	{
-	case BOT4LIST:
+	case BOT6LIST:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0);
 	default:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayer);
@@ -239,7 +239,7 @@ std::vector<ROW> MIS_Rank::getRankeROW(int iRanking)
 	MISD(std::to_string(iRanking));
 	switch (iRanking)
 	{
-	case BOT4LIST:
+	case BOT6LIST:
 		std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField0);
 		break;
 	}

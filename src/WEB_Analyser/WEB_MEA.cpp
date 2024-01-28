@@ -26,7 +26,6 @@ WEB_MEA::WEB_MEA(WEB_Analyser *WR_) : WR(WR_)
 
 	wtStatus	= new Wt::WText(" ");
 	wtTabelle   = new Wt::WTable();
-	wtInfos		= new Wt::WTable();
 
 	cTempContainer->setLayout(std::unique_ptr<Wt::WHBoxLayout>(std::move(TempBox)));
 	
@@ -38,7 +37,6 @@ WEB_MEA::WEB_MEA(WEB_Analyser *WR_) : WR(WR_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(cTempContainer)));
 	TempBox->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
 	TempBox->addWidget(std::unique_ptr<Wt::WWidget>(std::move(cSpacerContainer)));
-	TempBox->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtInfos)));
 	
 	//cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
 	MISD("#2");
@@ -56,8 +54,7 @@ void WEB_MEA::WRefresh()
 	unsigned long iTimes[RankRowStamps] = {0};
 
 	wtTabelle->clear();
-	wtInfos->clear();
-	std::string sReturn = WR->Kalk_BOT4(wtTabelle, wtInfos, iTimes);
+	std::string sReturn = WR->Kalk_BOT6(wtTabelle, iTimes);
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
 	else
@@ -65,7 +62,7 @@ void WEB_MEA::WRefresh()
 		
 		//iTimes[0] = WR->getPlaytime();		
 		std::string sTeamID = WR->GetTeamID();
-		Bro->AddPlayer(BOT4LIST, sTeamID, WR->getReplayHash(), iTimes);
+		Bro->AddPlayer(BOT6LIST, sTeamID, WR->getReplayHash(), iTimes);
 		wtStatus->setText("<h3>Hello there Team " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
 		MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}

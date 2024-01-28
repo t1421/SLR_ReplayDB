@@ -702,6 +702,7 @@ bool Replay::ReadActions()
 				switch (this->readUnsignedChar()) //ID of inner Data
 				{
 					case 2: // Desync
+						Action_TEMP->AdditionalInfo = "2;";
 						readUnsignedLongLong(); // state health_hasher
 						readUnsignedLongLong(); // state position_hasher
 						readUnsignedLongLong(); // state power_hasher
@@ -714,14 +715,17 @@ bool Replay::ReadActions()
 						break;
 
 					case 3: //Pause tracker
+						Action_TEMP->AdditionalInfo = "3;";
 						readUnsignedLong(); // Pause Time
 						break;
 
 					case 4: //Goal Checker
+						Action_TEMP->AdditionalInfo = "4;";
 						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + readString() + ";"; // Goal Name
 						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedChar()) + ";"; // Goal Status
 						break;
 					case 5: //MapModifirer?
+						Action_TEMP->AdditionalInfo = "5;";
 						Action_TEMP->AdditionalInfo = std::to_string(this->readUnsignedLong()) + ";"; // Player ID
 						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // SPELL ID
 						break;

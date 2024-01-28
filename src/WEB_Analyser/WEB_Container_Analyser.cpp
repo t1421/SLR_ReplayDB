@@ -80,15 +80,15 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 
 	MISD("#6");
 
-	//if (Bro->L_getBOTRankMode(BOT4LIST) <10
-	//	|| sPARA == "BOT4")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT4", *ME->cMain, ME);
+	if (Bro->L_getBOTRankMode(BOT6LIST) <10
+		|| sPARA == "BOT6")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT6", *ME->cMain, ME);
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Acti", *this->Acti->cMain, this->Acti);
 	
 	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
-	//if (Bro->L_getBOTRankMode(BOT4LIST) <10)WEB_Toolbar::sToolbar->setCurrentIndex(0); 
+	if (Bro->L_getBOTRankMode(BOT6LIST) <10)WEB_Toolbar::sToolbar->setCurrentIndex(0); 
 	WEB_Toolbar::updateToolbar();
 
 	MISD("#7");

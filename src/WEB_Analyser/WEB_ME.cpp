@@ -20,12 +20,12 @@ WEB_ME::WEB_ME(WEB_Analyser *WA_)
 
 	A = new WEB_MEA(WA_);
 	MISD("#100");
-	B = new WEB_Rank(BOT4LIST); 
+	//B = new WEB_Rank(BOT6LIST); 
 	
 	MISD("#11");	
 
 	WEB_Toolbar::ToolBarButton(0, "Replay", *A->cMain, A);	
-	WEB_Toolbar::ToolBarButton(1, "Rank", *B->cMain, B);
+	//WEB_Toolbar::ToolBarButton(1, "Rank", *B->cMain, B);
 	WEB_Toolbar::sToolbar->setCurrentIndex(0);	
 	WEB_Toolbar::updateToolbar();
 	
