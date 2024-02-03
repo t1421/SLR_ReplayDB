@@ -41,6 +41,7 @@ int main(int argc, char **argv)
 	LOAD* L = new LOAD();
 	L->teachL();
 	L->StartUp();
+	L->Load_Settings("Private.ini");
 
 #ifndef noSQL
 	PMV_to_SQL* P = new PMV_to_SQL();

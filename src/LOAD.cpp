@@ -9,11 +9,10 @@
 
 broker *(LOAD::Bro) = NULL;
 
-void LOAD::Load_Settings()
+void LOAD::Load_Settings(std::string sName)
 {
 	MISS;
-	std::string line;
-	std::string sName = "Settings.ini";
+	std::string line;	
 
 	std::ifstream ifFile;
 	ifFile.open(sName.c_str(), std::ios::binary);
@@ -59,7 +58,7 @@ void LOAD::Load_Settings()
 void LOAD::StartUp()
 {
 	MISS;
-	Load_Settings();
+	Load_Settings("Settings.ini");
 	MISE;
 }
 

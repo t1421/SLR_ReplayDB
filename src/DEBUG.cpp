@@ -102,6 +102,9 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 
 		Fill_DBArray("broker", "*", "*", "true");
 
+		Fill_DBArray("WEB_Container_Lotto", "*", "*", "true");
+
+		
 		/////////////////////////////////////////////////////
 
 		if (bFile)ofB.open(Log_path + sLogName + ".log", std::ios::binary);

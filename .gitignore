@@ -9,6 +9,7 @@ SLR_ReplayDB/Release/
 SLR_ReplayParserWebV2/Release/
 SLR_Tome/Release/
 SLR_Event_Cecker/Release/
+SLR_Lotto/Release/
 Release/SLR_ReplayDB.iobj
 Release/SLR_ReplayDB.ipdb
 Release/SLR_ReplayDB.pdb
@@ -21,6 +22,9 @@ Release/SLR_Tome.pdb
 Release/SLR_Event_Cecker.iobj
 Release/SLR_Event_Cecker.ipdb
 Release/SLR_Event_Cecker.pdb
+Release/SLR_Lotto.iobj
+Release/SLR_Lotto.ipdb
+Release/SLR_Lotto.pdb
 
 *.mov
 *.cer

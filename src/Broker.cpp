@@ -3,19 +3,21 @@
 
 #include "..\incl\DEBUG.h"
 
-#if defined BrokerTome || defined BrokerNormal || defined BrokerWeb
+#if defined BrokerTome || defined BrokerNormal || defined BrokerWeb || defined BrokerLotto
 #include "..\incl\Replay.h" 
 #include "..\incl\Reader.h" 
 #include "..\incl\Thread_MIS.h" 
 #endif
 
-#if defined BrokerTome || defined BrokerWeb
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 #include "..\incl\Utility.h"
 
 #include "..\incl\WEB\WEB_Main.h"
 #include "..\incl\WEB\WEB_Server.h"
 #include "..\incl\WEB\WEB_Toolbar.h"
+#endif
 
+#if defined BrokerTome || defined BrokerWeb
 #include "..\incl\WEB_Analyser\WEB_Analyser.h"
 #endif
 
@@ -44,6 +46,10 @@
 #include "..\incl\WEB_Tome\WEB_Tome_PublicPlayersBooster.h"
 #include "..\incl\WEB_Tome\WEB_Tome_Leave.h"
 #include "..\incl\WEB_Tome\Tome_Game.h"
+#endif
+
+#if defined  BrokerLotto
+#include "..\incl\WEB_Lotto\WEB_Container_Lotto.h"
 #endif
 
 #ifndef noSMJ
@@ -77,22 +83,21 @@ broker::broker()
 	DEBUG::learnBro(this);
 	B = NULL;	
 
-#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome 
+#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome || defined BrokerLotto
 	Replay::learnBro(this);
 	Reader::learnBro(this);
 	Thread_MIS::learnBro(this);
 #endif
 
-#if defined BrokerTome || defined BrokerWeb
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 	WEB_Main::learnBro(this);
 	WEB_Server::learnBro(this);
 	WEB_Toolbar::learnBro(this);
-
-	WEB_Analyser::learnBro(this);
-	
 	W = NULL;
 #endif
-
+#if defined BrokerTome || defined BrokerWeb
+	WEB_Analyser::learnBro(this);
+#endif
 
 #if defined BrokerWeb
 	WEB_Container::learnBro(this);
@@ -120,6 +125,10 @@ broker::broker()
 	WEB_Tome_Leave::learnBro(this);
 	
 	Tome_Game::learnBro(this);
+#endif
+
+#if defined BrokerLotto
+	WEB_Container_Lotto::learnBro(this);
 #endif
 
 #ifndef noSMJ

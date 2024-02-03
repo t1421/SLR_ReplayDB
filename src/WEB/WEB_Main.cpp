@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h" 
 
@@ -15,6 +15,10 @@
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
 #endif
 
+#if defined BrokerLotto 
+#include "..\..\incl\WEB_Lotto\WEB_Container_Lotto.h"
+#endif
+
 broker *(WEB_Main::Bro) = NULL;
 
 std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment& env)
@@ -24,6 +28,9 @@ std::unique_ptr<Wt::WApplication> createApplication(const Wt::WEnvironment& env)
 #endif
 #if defined BrokerTome 
 	return std::make_unique<WEB_Container_Tome>(env);
+#endif
+#if defined BrokerLotto 
+	return std::make_unique<WEB_Container_Lotto>(env);
 #endif
 }
 
@@ -37,6 +44,9 @@ void WEB_Main::Init_W()
 #endif
 #if defined BrokerTome 
 		sThreadName = "WT";
+#endif
+#if defined BrokerLotto
+		sThreadName = "WL";
 #endif
 
 		std::string sLog_path = Log_path;

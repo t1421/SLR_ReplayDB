@@ -36,6 +36,8 @@ public:
 
 	int BOTRankMode[BOTXLIST + 1];
 
+	void Load_Settings(std::string sName);
+
 	//BROKER
 	static broker* Bro;
 	void teachL() { Bro->L = this; }
@@ -43,7 +45,7 @@ public:
 
 protected:
 	
-	void Load_Settings();
+	
 private:
 	std::string entry(std::string Liste, int pos);
 

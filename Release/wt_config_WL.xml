@@ -1,0 +1,11 @@
+<server>
+     <application-settings location="*">
+		<max-request-size>512</max-request-size> 
+		<log-file>./LOG/WWL.log</log-file>
+		<web-sockets>false</web-sockets>
+		<session-management>
+			<tracking>URL</tracking>
+			<!-- <reload-is-new-session>false</reload-is-new-session> -->
+		</session-management>
+    </application-settings>
+</server>
