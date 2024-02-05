@@ -10,11 +10,14 @@
 //#include "WEB_Analyser_Deck.h"
 //#include "WEB_Analyser_Acti.h"
 
+
+
 #include <Wt/WText.h>
 #include <Wt/WFileUpload.h>
 #include <Wt/WApplication.h>
 
 //class WEB_ME;
+class Replay;
 
 class WEB_Container_Lotto : public Wt::WApplication, public WEB_Toolbar //, public WEB_Analyser
 
@@ -42,6 +45,8 @@ private:
 	Wt::WAnchor *waLink;
 
 	std::string sPARA;
+
+	Replay *R;
 };
 
 #endif // WEB_CONTAINER_H

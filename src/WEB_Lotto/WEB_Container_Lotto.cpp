@@ -8,6 +8,8 @@
 //#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\..\incl\WEB_Lotto\WEB_Container_Lotto.h"
 
+#include "..\..\incl\Replay.h" 
+
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WText.h>
 #include <Wt/WFileUpload.h>
@@ -48,6 +50,8 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 	WApplication::instance()->useStyleSheet(Wt::WLink("./resources/main.css"));
 
 	MISD("#3");	
+
+	R = new Replay();
 
 	//ME = new WEB_ME(this);
 	wfuDropZone = new Wt::WFileUpload();
@@ -112,12 +116,13 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 		MISD("#uploaded");
 		wtStatus->setText("Upload done \n");
 
-		//if (NewReplay(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
-		//{
-		//	MISD("#NewReplay");
-		//	wtStatus->setText("PMV OK \n");
-		//}
-		//else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");
+		if (R->LoadPMV(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
+		{
+			MISD("#NewReplay");
+			//wtStatus->setText("PMV OK \n");
+			wtStatus->setText(R->MapName);
+		}
+		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");
 
 		WRefresh();
 		WEB_Toolbar::updateFrame();

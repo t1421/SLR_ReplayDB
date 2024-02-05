@@ -133,7 +133,7 @@
       <AdditionalDependencies>mysqlcppconn.lib;wt.lib;wthttp.lib;libcurl.lib;jsoncpp.lib;opencv_imgcodecs340.lib;opencv_imgproc340.lib;opencv_core340.lib;opencv_highgui340.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
-      <Command>start "" taskkill /IM SLR_ReplayParserWebV2.exe /F</Command>
+      <Command>start "" taskkill /IM SLR_Lotto.exe /F</Command>
     </PreBuildEvent>
     <PostBuildEvent>
       <Command>
