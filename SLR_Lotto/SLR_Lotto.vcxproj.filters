@@ -66,9 +66,6 @@
     <ClCompile Include="..\src\WEB\WEB_Server.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
-    <ClCompile Include="..\SLR_Lotto.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB_Lotto\WEB_Container_Lotto.cpp">
       <Filter>Quelldateien\Lotto</Filter>
     </ClCompile>
@@ -78,6 +75,7 @@
     <ClCompile Include="..\src\PMV_to_SQL.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\SLR_Lotto.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h">

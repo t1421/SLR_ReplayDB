@@ -101,24 +101,25 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 
 	wfuDropZone->changed().connect([=] 
 	{
-		MISD("#changed");
+		MISERROR("#changed");
 		wfuDropZone->upload();
 		wtStatus->setText("New File \n");
 	});
 	wfuDropZone->fileTooLarge().connect([=] 
 	{
-		MISD("#fileTooLarge");
+		MISERROR("#fileTooLarge");
 		wtStatus->setText("File is too large. \n");
 	});
 
 	wfuDropZone->uploaded().connect([=] 
 	{
-		MISD("#uploaded");
+		MISERROR("#uploaded");
 		wtStatus->setText("Upload done \n");
 
 		if (R->LoadPMV(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
 		{
-			MISD("#NewReplay");
+			
+			MISERROR("#NewReplay");
 			//wtStatus->setText("PMV OK \n");
 			wtStatus->setText(R->MapName);
 		}

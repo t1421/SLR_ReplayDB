@@ -102,6 +102,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 
 		Fill_DBArray("broker", "*", "*", "true");
 
+		Fill_DBArray("()", "*", "*", "true"); //lambda
+
 		Fill_DBArray("WEB_Container_Lotto", "*", "*", "true");
 
 		
