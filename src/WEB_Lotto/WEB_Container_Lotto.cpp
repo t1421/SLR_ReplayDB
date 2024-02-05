@@ -1,5 +1,7 @@
 #define DF_Debug
 
+#define _CRT_SECURE_NO_WARNINGS
+
 #include "..\..\incl\Broker.h" 
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
@@ -103,6 +105,12 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 	{
 		MISERROR("#changed");
 		wfuDropZone->upload();
+		
+		char* pPath;
+		pPath = getenv("WT_TMP_DIR");
+		if (pPath != NULL)
+			printf(">>> environment WT_TMP_DIR: %s\n", pPath);
+
 		wtStatus->setText("New File \n");
 	});
 	wfuDropZone->fileTooLarge().connect([=] 
