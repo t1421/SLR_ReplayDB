@@ -26,7 +26,7 @@ public:
 #endif
 
 #if defined BrokerTome
-	//bool TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGameID);
+	int TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGameID);
 #endif
 
 	unsigned long long getPMVPlayerID();

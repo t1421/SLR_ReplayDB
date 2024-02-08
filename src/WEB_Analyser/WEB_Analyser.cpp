@@ -567,13 +567,15 @@ unsigned long WEB_Analyser::getReplayHash()
 }
 
 #if defined BrokerTome
-/*
-bool WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGameID)
+
+int WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGameID)
 {
 	MISS;
 	unsigned int iRow;
 	unsigned int iCol = 0;
-	bool error = false;
+	bool CardError = false;
+	int PlayerError = 0;
+	std::string sPlayer = "";
 	bool CardOK;
 
 	for (unsigned int i = 0; i < Players.size(); i++)
@@ -611,9 +613,15 @@ bool WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGa
 						}
 					if (CardOK)wtReplayResultCard->elementAt(iRow, iCol + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3 style='color:Green;'>OK</h3>"))));
 					else wtReplayResultCard->elementAt(iRow, iCol + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3 style='color:Tomato;'>Error</h3>"))));
-					if (CardOK == false)error = true;
+					if (CardOK == false)CardError = true;
 
 					wtReplayResultCard->elementAt(iRow++, iCol + 1)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+
+					if (sPlayer != Players[i]->Name)
+					{
+						sPlayer = Players[i]->Name;
+						PlayerError++;
+					}
 				}
 			}
 		}
@@ -624,10 +632,22 @@ bool WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGa
 
 	}
 
+	
+	if (PlayerError<2)
+	{
+		MISEA("Player");
+		return 1;
+	}
+	if (CardError)
+	{
+		MISEA("Card");
+		return 2;
+	}
+
 	MISE;
-	return error;
+	return 0;
 }
-*/
+
 #endif
 
 std::string WEB_Analyser::Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps])

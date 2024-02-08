@@ -4,7 +4,7 @@
 #include "..\WEB\WEB_Utility.h"
 
 class WEB_Container_Tome;
-//class WEB_Analyser;
+class WEB_Analyser;
 
 class WEB_Tome_Player : public WebRefresh
 {
@@ -20,9 +20,9 @@ public:
 
 	Wt::WAnchor *waLink;
 
-	//Wt::WFileUpload  *wfuDropZone;	
-	//Wt::WText		 *wtStatus;
-	//WEB_Analyser* WA;
+	Wt::WFileUpload  *wfuDropZone;	
+	Wt::WText		 *wtStatus;
+	WEB_Analyser* WA;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

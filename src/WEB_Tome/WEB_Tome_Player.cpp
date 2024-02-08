@@ -33,9 +33,9 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	waLink = new Wt::WAnchor();
 	waLink->setText("<h5> Your Player Link </h5>");
 
-	//wfuDropZone = new Wt::WFileUpload();
-	//wtStatus = new Wt::WText("Waiting for Replay");
-	//WA = new WEB_Analyser();
+	wfuDropZone = new Wt::WFileUpload();
+	wtStatus = new Wt::WText("Waiting for Replay");
+	WA = new WEB_Analyser();
 
 	MISD("#0");
 
@@ -48,8 +48,8 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
 	
 
-	//cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
-	//cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
@@ -59,7 +59,7 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtHistory)));
 	
 	MISD("#2");
-	/*
+	
 	wfuDropZone->setFilters(".pmv");
 
 	wfuDropZone->changed().connect([=]
@@ -87,14 +87,21 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 		
 		if (WA->NewReplay(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
 		{
-			if (WA->TomeAnalyser(new Wt::WTable(), Con->BroGameID))wtStatus->setText("<h3 style='color:Tomato;'>Error: An unallowed Card was played</h3>");
-			else wtStatus->setText("<h3 style='color:Green;'>All OK</h3>");
+			switch (WA->TomeAnalyser(new Wt::WTable(), Con->BroGameID))
+			{
+			case 0: wtStatus->setText("<h3 style='color:Green;'>All OK</h3>");
+				break;
+			case 1: wtStatus->setText("<h3 style='color:Tomato;'>Error: Could not match Players</h3>");
+				break;
+			case 2: wtStatus->setText("<h3 style='color:Tomato;'>Error: A not allowed Card was player</h3>");
+				break;
+			}
 		}
-		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");
+
 	});
 
 	MISD("#3");
-	*/
+	
 	
 	//WRefresh();
 
