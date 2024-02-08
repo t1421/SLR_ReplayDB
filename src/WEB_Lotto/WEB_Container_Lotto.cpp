@@ -63,7 +63,7 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
 	waLink = new Wt::WAnchor();
 	waLink->setText("Switch to Tome Fight Maker");
-	waLink->setLink(Wt::WLink("https://t1421.tk/tome"));
+	waLink->setLink(Wt::WLink(WebTome));
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	
 	GlobaelContainer->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
 	
@@ -105,12 +105,6 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 	{
 		MISERROR("#changed");
 		wfuDropZone->upload();
-		
-		char* pPath;
-		pPath = getenv("WT_TMP_DIR");
-		if (pPath != NULL)
-			printf(">>> environment WT_TMP_DIR: %s\n", pPath);
-
 		wtStatus->setText("New File \n");
 	});
 	wfuDropZone->fileTooLarge().connect([=] 

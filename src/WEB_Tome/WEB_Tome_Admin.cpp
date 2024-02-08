@@ -283,7 +283,9 @@ void WEB_Tome_Admin::WRefresh()
 
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
 	wtAdminID->setText("<h4> Admin ID: " + Bro->vTomeGames[Con->BroGameID]->sAdminID + "</h4>");
-	waLink->setLink(Wt::WLink("https://t1421.tk/tome?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&adminID=" + Bro->vTomeGames[Con->BroGameID]->sAdminID));
+	std::stringstream sLink; 
+	sLink<<WebTome<<"?gameID="<<Bro->vTomeGames[Con->BroGameID]->sGameID<<"&adminID="<<Bro->vTomeGames[Con->BroGameID]->sAdminID;
+	waLink->setLink(Wt::WLink(sLink.str()));
 
 	wcShowPlayers->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowPlayers);
 	wcShowBoosters->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoosters);
@@ -336,7 +338,7 @@ void WEB_Tome_Admin::FixTable()
 					"welcome to the Tome Fight! The GameID is: " + Bro->vTomeGames[Con->BroGameID]->sGameID + " " +
 					"and you PlayerID is: " + iTP->sPlayerID + " " +
 					"But you can just use this link: " +
-					"https://t1421.tk/tome?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID +
+					WebTome + "gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID +
 					"');");
 			}));
 		}		

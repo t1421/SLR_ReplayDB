@@ -63,6 +63,7 @@ void WEB_Main::Init_W()
 		MISD("#2");
 		WW = new WEB_Server(*W);
 		MISD("#3");
+		//W->addEntryPoint(Wt::EntryPointType::Application, createApplication, "/lotto");
 		W->addEntryPoint(Wt::EntryPointType::Application, createApplication);
 
 		MISE;

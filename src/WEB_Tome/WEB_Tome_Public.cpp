@@ -70,7 +70,9 @@ void WEB_Tome_Public::WRefresh()
 	MISS;
 
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
-	waLink->setLink(Wt::WLink("https://t1421.tk/tome?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID));
+	std::stringstream sLink;
+	sLink << WebTome << "?gameID=" << Bro->vTomeGames[Con->BroGameID]->sGameID;
+	waLink->setLink(Wt::WLink(sLink.str()));
 
 	WEB_Toolbar::bDisable[0] = !Bro->vTomeGames[Con->BroGameID]->bShowPlayers;
 	WEB_Toolbar::bDisable[1] = !Bro->vTomeGames[Con->BroGameID]->bShowBoosters;

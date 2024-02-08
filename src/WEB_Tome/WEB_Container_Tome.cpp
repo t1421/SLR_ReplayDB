@@ -74,7 +74,7 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	waLink2 = new Wt::WAnchor();
 	waLink->setText("Switch to Replay Analyser");
 	waLink2->setText("How to Use Tome Fight Maker");
-	waLink->setLink(Wt::WLink("https://t1421.tk/"));
+	waLink->setLink(Wt::WLink(WebAnalyser));
 	waLink2->setLink(Wt::WLink("https://youtu.be/sMLBZydTQPE"));
 
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	

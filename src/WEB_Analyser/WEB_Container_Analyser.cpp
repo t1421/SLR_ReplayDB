@@ -57,7 +57,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
 	waLink = new Wt::WAnchor();
 	waLink->setText("Switch to Tome Fight Maker");
-	waLink->setLink(Wt::WLink("https://t1421.tk/tome"));
+	waLink->setLink(Wt::WLink(WebTome));
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	
 	GlobaelContainer->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
 	

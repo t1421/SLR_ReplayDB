@@ -2,6 +2,14 @@
      <application-settings location="*">
 		<max-request-size>512</max-request-size> 
 		<log-file>./LOG/WWL.log</log-file>
+		
+		<trusted-proxy-config>
+			<original-ip-header>X-Forwarded-For</original-ip-header>
+			<trusted-proxies>
+				<proxy>127.0.0.1/8</proxy>
+			</trusted-proxies>
+        </trusted-proxy-config>
+		
 		<web-sockets>false</web-sockets>
 		<session-management>
 			<tracking>URL</tracking>

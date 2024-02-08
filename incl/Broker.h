@@ -26,6 +26,10 @@
 #define BOTXLIST 1
 #define RankRowStamps 10
 
+#define WebAnalyser "https://t1421.tk/"
+#define WebTome "https://tome.t1421.tk/"
+#define WebLotto "https://lotto.t1421.tk/"
+
 class DEBUG;
 class SQL_MIS_New;
 class Replay;
