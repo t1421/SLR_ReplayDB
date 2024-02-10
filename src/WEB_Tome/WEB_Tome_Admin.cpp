@@ -345,7 +345,7 @@ void WEB_Tome_Admin::FixTable()
 					"welcome to the Tome Fight! The GameID is: " + Bro->vTomeGames[Con->BroGameID]->sGameID + " " +
 					"and you PlayerID is: " + iTP->sPlayerID + " " +
 					"But you can just use this link: " +
-					WebTome + "gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID +
+					WebTome + "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID +
 					"');");
 			}));
 		}		
