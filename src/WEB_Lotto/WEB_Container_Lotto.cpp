@@ -132,6 +132,11 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 
 	});
 
+
+	Wt::WImage* WWW = SimpelIMG("Worldbreaker Gun", 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WWW)), 6, 0);
+
+
 	MISE;
 }
 
@@ -148,3 +153,27 @@ void WEB_Container_Lotto::WRefresh()
 	MISE;
 }
 
+
+ 
+Wt::WImage* WEB_Container_Lotto::SimpelIMG(std::string cardNameSimple, unsigned int iColor)
+{
+	MISS;
+
+	for each (SMJLottoCard* C in SMJLottoMatrix)
+	{
+		if (C->cardNameSimple == cardNameSimple)
+		{
+			MISEA("Found");
+			return C->Img[iColor];
+		}
+	}
+
+	SMJLottoMatrix.push_back(new SMJLottoCard(
+		cardNameSimple,
+		DrawImg(Bro->J_GetLottoImg(cardNameSimple, 0), 185, 255),
+		DrawImg(Bro->J_GetLottoImg(cardNameSimple, 1), 185, 255)
+	));
+
+	MISEA("NEW");
+	return SMJLottoMatrix[SMJLottoMatrix.size() - 1]->Img[iColor];;
+}

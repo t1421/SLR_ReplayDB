@@ -273,18 +273,6 @@ broker::~broker()
 	//MISE;
 }
 
-#ifndef noSMJ
-unsigned char broker::J_GetActionOrbForCardID(unsigned short CardID)
-{
-	return J->GetActionOrbForCardID(CardID);
-}
-
-std::string broker::J_GetImgOnly(unsigned short CardID)
-{
-	return J->GetImage(CardID,0,0, ImgOnly,false);
-}
-#endif
-
 
 #ifndef noLoad
 std::string broker::L_getSQL_Server()
@@ -331,6 +319,10 @@ std::string broker::L_getSMJIMG_PATH()
 {
 	return L->sSMJIMG_PATH;
 }
+std::string broker::L_getLOTTOPIC_PATH()
+{
+	return L->sLOTTOPIC_PATH;
+}
 
 std::string broker::L_getBOOSTER_PATH()
 {
@@ -360,6 +352,16 @@ int broker::L_getBOTRankMode(int _BOT)
 
 
 #ifndef noSMJ
+unsigned char broker::J_GetActionOrbForCardID(unsigned short CardID)
+{
+	return J->GetActionOrbForCardID(CardID);
+}
+
+std::string broker::J_GetImgOnly(unsigned short CardID)
+{
+	return J->GetImage(CardID, 0, 0, ImgOnly, false);
+}
+
 std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall)
 {
 	return J->GetImage(_CardID, _Upgrade, _Charges, Big, _Count==0);
@@ -391,6 +393,15 @@ Tome_Booster* broker::J_OpenBooster(std::string iType, bool bNoDouble, std::vect
 	return J->OpenBooster(iType, bNoDouble, vOpendBooster);
 }
 
+std::string broker::J_GetLottoImg(std::string cardNameSimple, unsigned int iColor)
+{
+	for each (SMJCard* C in J->SMJMatrix)
+	{
+		if(C->cardNameSimple == cardNameSimple && C->promo == 0)
+			return J->GetImage(C->cardId, 0, 0, Big, iColor == 0);
+	}
+	return "";
+}
 #endif
 
 void broker::B_StatusNew(std::string Fun, std::string Wert)

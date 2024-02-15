@@ -10,19 +10,20 @@
 //#include "WEB_Analyser_Deck.h"
 //#include "WEB_Analyser_Acti.h"
 
-
-
 #include <Wt/WText.h>
 #include <Wt/WFileUpload.h>
 #include <Wt/WApplication.h>
 
-//class WEB_ME;
+
 class Replay;
+struct  SMJLottoCard;
 
 class WEB_Container_Lotto : public Wt::WApplication, public WEB_Toolbar //, public WEB_Analyser
 
 {
 public:
+	
+	Wt::WImage* SimpelIMG(std::string cardNameSimple, unsigned int iColor);
 
 	//----------------------------------------------------------------
 
@@ -37,6 +38,8 @@ public:
 private:
 
 	void WRefresh();
+
+	std::vector<SMJLottoCard*> SMJLottoMatrix;
 
 	//WEB_ME *ME;
 	Wt::WFileUpload  *wfuDropZone;

@@ -78,7 +78,8 @@ public:
 	std::string L_getSMJIMG_PATH();
 	std::string L_getSMJPICSMALL_PATH();
 	std::string L_getBOOSTER_PATH();
-	
+	std::string L_getLOTTOPIC_PATH();
+
 	int L_getBOTRankMode(int _BOT);
 #endif	
 
@@ -91,6 +92,7 @@ public:
 	std::vector<std::pair<std::string, std::string>> J_GetEnum(std::string sEnumName);
 	//Tome_Booster* J_OpenBooster(std::string iType);
 	Tome_Booster* J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
+	std::string J_GetLottoImg(std::string cardNameSimple, unsigned int iColor);
 #endif
 	
 

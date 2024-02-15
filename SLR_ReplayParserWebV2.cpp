@@ -56,6 +56,7 @@ int main(int argc, char **argv)
 			printf("J;IC                | ImgOnly Color\n");
 			printf("J;IS                | ImgOnly SW\n");
 			printf("J;ALL_Big           | Downloads all Cards BIG \n");
+			printf("J;ALL_BigSW         | Downloads all Cards BIG in SW \n");
 			printf("J;ALL_Small         | Downloads all Cards SMALL \n");
 			printf("J;ALL_ImgOnly       | Downloads all Cards IMG ONLY \n");
 			printf("####################|###########################################\n\n");
@@ -73,6 +74,7 @@ int main(int argc, char **argv)
 			if (Checker(sbuf, "IC"))J->GetImage(1348, 2, 1, ImgOnly, false);
 			if (Checker(sbuf, "IS"))J->GetImage(290, 2, 1, ImgOnly, true);
 			if (Checker(sbuf, "ALL_Big"))J->AllIMGBig();
+			if (Checker(sbuf, "ALL_BigSW"))J->AllIMGBigSW();
 			if (Checker(sbuf, "ALL_Small"))J->AllIMGSmall();
 			if (Checker(sbuf, "ALL_ImgOnly"))J->AllIMGImgOnly();
 			

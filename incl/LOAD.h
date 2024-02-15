@@ -31,6 +31,7 @@ public:
 	std::string sSMJPIC_PATH;
 	std::string sSMJIMG_PATH;
 	std::string sSMJPICSMALL_PATH;
+	std::string sLOTTOPIC_PATH;
 	std::string sBOOSTER_PATH;
 	std::string sFFMPEG;
 
@@ -52,4 +53,5 @@ private:
 };
 
 #endif //LOAD_H
+
 

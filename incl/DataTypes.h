@@ -5,6 +5,10 @@
 #include <Wt/WCheckBox.h>
 #endif
 
+#if defined BrokerLotto
+#include <Wt/WImage.h>
+#endif
+
 struct Allied {
 	unsigned char i;
 	unsigned char j;
@@ -137,6 +141,20 @@ struct Tome_Booster
 	Tome_Booster(std::string _sType) :sType(_sType) {};
 	unsigned int iLfdnr;
 };
+
+#if defined BrokerLotto
+struct SMJLottoCard {
+	std::string cardNameSimple;	
+	Wt::WImage* Img[2];
+	SMJLottoCard(std::string _cardNameSimple, Wt::WImage* Img0, Wt::WImage* Img1) :cardNameSimple(_cardNameSimple)
+	{
+		Img[0] = Img0;
+		Img[1] = Img1;
+	}
+};
+#endif 
+
+
 #endif //DataTypes
 
 

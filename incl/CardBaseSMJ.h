@@ -10,7 +10,7 @@
 
 #include "DataTypes.h" 
 
-enum SMJPicType {Small, Big, ImgOnly};
+enum SMJPicType {Small, Big, ImgOnly, Lotto};
 
 class CardBaseSMJ
 {
@@ -50,8 +50,10 @@ public:
 	//std::string GetSWImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, bool bSmall);
 	void ConvertImage(std::string sFile);
 	void AllIMGBig();
+	void AllIMGBigSW();
 	void AllIMGSmall();
 	void AllIMGImgOnly();
+	void AllIMGLotto();
 	bool Init();
 
 	
@@ -62,8 +64,6 @@ public:
 	bool IMGtoQSL(int iCardID);
 	bool Imager();
 #endif
-
-
 
 	//BROKER
 	static broker* Bro;
