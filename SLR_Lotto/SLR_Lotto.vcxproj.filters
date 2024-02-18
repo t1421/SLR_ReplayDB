@@ -25,6 +25,12 @@
     <Filter Include="Quelldateien\Lotto">
       <UniqueIdentifier>{7caf374a-45b3-493c-91a2-b0e50d2ceb5a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Headerdateien\Analyer">
+      <UniqueIdentifier>{a5f4d4b6-71b0-4724-a10c-c325a5a9d959}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Quelldateien\Analyser">
+      <UniqueIdentifier>{f692e5e7-c399-46a2-8b08-e78ec0258053}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -76,6 +82,18 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\SLR_Lotto.cpp" />
+    <ClCompile Include="..\src\WEB_Lotto\LottoWeek.cpp">
+      <Filter>Quelldateien\Lotto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Admin.cpp">
+      <Filter>Quelldateien\Lotto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Week.cpp">
+      <Filter>Quelldateien\Lotto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h">
@@ -125,6 +143,18 @@
     </ClInclude>
     <ClInclude Include="..\incl\PMV_to_SQL.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Lotto\LottoWeek.h">
+      <Filter>Headerdateien\Lotto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Week.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser.h">
+      <Filter>Headerdateien\Analyer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -40,7 +40,7 @@ struct Player {
 	//unsigned char Cards;
 	unsigned short CardsTotal;
 	std::vector <Card*> Deck;
-#if defined BrokerTome || defined BrokerWeb
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 	Wt::WCheckBox *wcBox;
 	unsigned int iActionCount;
 #endif 
@@ -87,7 +87,7 @@ struct ActionSum {
 	std::string sActionName;
 	unsigned long ActionID;
 	unsigned int iCount;
-#if defined BrokerTome || defined BrokerWeb
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 	Wt::WCheckBox *wcBox;
 	unsigned int iActionCount;
 #endif 

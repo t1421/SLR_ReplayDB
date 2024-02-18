@@ -14,6 +14,7 @@ public:
 
 std::string WSTRINGtoSTRING(Wt::WString in);
 Wt::WImage* DrawImg(std::string sPath, int iX, int iY);
+std::string sGetParam(const Wt::WEnvironment& env, std::string sParam);
 
 #endif //Utility_H
 

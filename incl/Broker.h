@@ -42,6 +42,7 @@ class CardBaseSMJ;
 struct SMJCard;
 class Tome_Game;
 struct Tome_Booster;
+class LottoWeek;
 
 class broker
 {
@@ -67,6 +68,7 @@ public:
 	std::string L_getSQL_User();
 	std::string L_getSQL_PW();
 	std::string L_getSQL_DB();
+	std::string L_getAdminKey();
 	std::string L_getPMV_PATH();
 	std::string L_getPMV_AUTO_PATH();
 	std::string L_getPMV_ARCH_PATH();
@@ -79,6 +81,7 @@ public:
 	std::string L_getSMJPICSMALL_PATH();
 	std::string L_getBOOSTER_PATH();
 	std::string L_getLOTTOPIC_PATH();
+	std::string L_getLOTTO_SAVE_PATH();
 
 	int L_getBOTRankMode(int _BOT);
 #endif	
@@ -115,15 +118,21 @@ public:
 	void B_StatusNew(std::string Fun, int Wert);
 	void B_StatusE(std::string Modul, std::string Funktion, std::string Wert);
 
-#if defined BrokerTome
-	std::vector <Tome_Game*> vTomeGames;
-	int getTomeGame(std::string sGameID);	
-
+#if defined BrokerTome || defined BrokerLotto
 	void postChatEventMIS(std::string Value1);
 	void postChatEventMIS(std::string Value1, std::string Value2);
 	void postChatEventMIS(std::string Value1, std::string Value2, std::string Value3);
 	void postChatEventMIS(std::string Value1, std::string Value2, std::string Value3, std::string Value4);
+#endif
 
+#if defined BrokerTome
+	std::vector <Tome_Game*> vTomeGames;
+	int getTomeGame(std::string sGameID);	
+#endif
+
+#if defined BrokerLotto
+	void INIT();
+	std::vector <LottoWeek*> vWeek;
 #endif
 
 protected:

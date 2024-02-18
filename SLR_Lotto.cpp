@@ -34,7 +34,7 @@ int main(int argc, char **argv)
 	W->Init_W();
 	W->Start_Thread();
 
-	//Bro->INIT();
+	Bro->INIT();
 
 	
 

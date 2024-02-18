@@ -18,6 +18,7 @@
 #endif
 
 #include <Wt/WImage.h>
+#include <Wt/WCheckBox.h>
 #include <Wt/WColor.h>
 #include <Wt/WCssDecorationStyle.h>
 #include <algorithm>
@@ -306,7 +307,7 @@ bool WEB_Analyser::getData()
 				   //Action_Temp->WImage = TW ICON
 			break;
 		case 4045: // SLR Data
-			Action_Temp->Info = "figures/entities: " + R->ActionMatrix[i]->AdditionalInfo;
+			Action_Temp->Info = R->ActionMatrix[i]->AdditionalInfo;
 			break;
 		}
 
@@ -342,193 +343,6 @@ unsigned long long WEB_Analyser::getPlaytime()
 	if (!R->OK)return 0;
 	return R->Playtime;
 }
-
-/*
-std::string WEB_Analyser::Kalk_BOT4(Wt::WTable *wtTabelle, Wt::WTable *wtInfos, unsigned long iTimes[RankRowStamps])
-{
-	MISS;
-
-	unsigned iRow = 0;
-	unsigned iCol = 0;
-	std::string sColorError = "";
-	std::string sCountError = "";
-	std::string sAffinError = "";
-	std::string sFlyerError = "";
-	bool dublette = false;
-
-	unsigned int iNumberOfCardsPlayed = 0;
-	unsigned int iNumberOfTransforms = 0;
-	unsigned int iActionsPlayer = 0;
-	std::vector<std::pair<std::string, unsigned long>> Stamps;
-
-	if (!R->OK)return "No Replay";
-
-	
-
-	
-	for (unsigned int i = 0; i < Players.size(); i++)
-	{
-		
-		if(Players[i]->PlayerID == getPMVPlayerID() && Players[i]->Type == 1)
-		for (unsigned int j = 0; j < Players[i]->Deck.size(); j++)
-		{
-			
-			if (Players[i]->Deck[j]->count == 0) continue;
-			MISD("###" + std::to_string(Players[i]->Deck[j]->CardID));
-			MISD("1#" + std::to_string(Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->color));
-			MISD("2#" + std::to_string(Players[i]->Deck[j]->count));
-
-			if (Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->color =! 6) 
-				sColorError += Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardName + ",";
-			if (Players[i]->Deck[j]->count > 1) 
-				sCountError += Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardName + ",";
-
-			if (   Players[i]->Deck[j]->CardID == 1486 //Deathglider [B]
-				|| Players[i]->Deck[j]->CardID == 1224 //Deathglider [G]
-				|| Players[i]->Deck[j]->CardID == 1487 //Skycatcher [B]
-				|| Players[i]->Deck[j]->CardID == 1226 //Skycatcher [G]				
-				)
-				sFlyerError += Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardName + ",";
-
-			for (unsigned int k = j + 1; k < Players[i]->Deck.size(); k++)
-			{
-				if (Players[i]->Deck[k]->count == 0) continue;
-				if (Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardNameSimple == Bro->J_GetSMJCard(Players[i]->Deck[k]->CardID)->cardNameSimple)
-					sAffinError += Bro->J_GetSMJCard(Players[i]->Deck[j]->CardID)->cardName + ",";
-			}
-
-			iNumberOfCardsPlayed += Players[i]->Deck[j]->count;
-			
-		}
-	}
-
-	std::vector<std::pair<std::string, unsigned long>> Orb;
-	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
-	{
-		if (R->ActionMatrix[i]->Type != 4031) continue;
-		MISD(R->ActionMatrix[i]->AdditionalInfo);
-		if (entry(R->ActionMatrix[i]->AdditionalInfo, 2) == "0") continue; // STart Orbs
-		dublette = false;
-		for (unsigned int j = 0; j < Orb.size(); j++)
-			if (entry(R->ActionMatrix[i]->AdditionalInfo, 2) == Orb[j].first)
-			dublette = true;
-
-		if (!dublette)Orb.push_back(std::make_pair(entry(R->ActionMatrix[i]->AdditionalInfo, 2), R->ActionMatrix[i]->Time));		
-	}
-
-	// Info Collection	
-	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
-	{
-		if (R->ActionMatrix[i]->Type == 4044)iNumberOfTransforms++;
-		if (R->ActionMatrix[i]->Type == 4004)Stamps.push_back(std::make_pair(R->ActionMatrix[i]->AdditionalInfo, R->ActionMatrix[i]->Time));
-		if (R->ActionMatrix[i]->PlayerID == getPMVPlayerID())iActionsPlayer++;
-	}
-	
-	for (unsigned int i = 0; i < Stamps.size(); i++)
-	{
-		if (Stamps[i].first == "0")Stamps[i].second = 0;
-		if (Stamps[i].first == "40")Stamps[i].second = R->Playtime;
-	}
-
-	//FIll Infos
-	iCol = 0;
-	iRow = 0;
-	wtInfos->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>Cards Played:</h4>"))));
-	wtInfos->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(iNumberOfCardsPlayed)))));
-	
-	wtInfos->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>Transformations:</h4>"))));
-	wtInfos->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(iNumberOfTransforms)))));
-	
-	wtInfos->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>Actions:</h4>"))));
-	wtInfos->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(iActionsPlayer)))));
-
-	wtInfos->elementAt(iRow++, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
-
-	iTimes[0] = getPlaytime();
-	for (unsigned int i = 1; i < Stamps.size(); i++)
-	{
-		if(i<RankRowStamps) iTimes[i] = Stamps[i].second - Stamps[i - 1].second;
-		wtInfos->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>Stamp " + std::to_string(i) + ":</h4>"))));
-		wtInfos->elementAt(iRow++, iCol--)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(Stamps[i].second - Stamps[i-1].second)))));
-	}	
-
-	//Fill Table
-	iCol = 0;
-	iRow = 0;
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Gameversion:</h3>"))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(R->GameVersion)))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->GameVersion == 400042);
-
-	iCol = 0;
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Map:</h3>"))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	//wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(R->MapName))));
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->MapName == "11441_pve_12p_passagetodarkness.map");
-
-	iCol = 0;
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Difficulty:</h3>"))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(R->DifficultyID)))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), R->DifficultyID == 2);
-	
-	iCol = 0;
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Only TW Cards:</h3>"))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sColorError))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), sColorError == "");
-
-	iCol = 0;
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Play Cards only once:</h3>"))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sCountError))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), sCountError == "");
-
-	iCol = 0;
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Only one affinity:</h3>"))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sAffinError))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), sAffinError == "");
-
-	iCol = 0;
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>No Flyers:</h3>"))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sFlyerError))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), sFlyerError == "");
-
-	iCol = 0;
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Win:</h3>"))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" "))));
-	wtTabelle->elementAt(iRow, iCol++)->setContentAlignment(Wt::AlignmentFlag::Middle);
-	AddIMG(wtTabelle->elementAt(iRow++, iCol++), Orb.size() >= 4);
-	
-
-	wtTabelle->columnAt(0)->setWidth(250);
-	wtTabelle->columnAt(1)->setWidth(200);
-	wtTabelle->columnAt(2)->setWidth(BOT4_IMG_SIZE);
-
-	for (int i = 0; i < iRow; i++)
-	{
-		if (dynamic_cast<Wt::WImage *>(wtTabelle->elementAt(i, 2)->widget(0))->imageLink() == Wt::WLink("./resources/0.png"))
-		{		
-			MISEA("Not all green");
-			return "ERROR";
-		}		
-		
-	}
-	MISE;
-	return "";
-}
-*/
 
 void  WEB_Analyser::AddIMG(Wt::WTableCell *wtCell, bool bValue)
 {
@@ -719,3 +533,11 @@ std::string WEB_Analyser::Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[
 	MISE;
 	return "";
 }
+
+#if defined BrokerLotto
+std::vector<std::string> WEB_Analyser::getSimpelDeck()
+{
+	MISS;
+	MISE;
+}
+#endif

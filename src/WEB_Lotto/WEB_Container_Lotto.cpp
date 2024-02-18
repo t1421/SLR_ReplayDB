@@ -1,6 +1,7 @@
 #define DF_Debug
 
 #define _CRT_SECURE_NO_WARNINGS
+#define LottoMaxWeeks 3
 
 #include "..\..\incl\Broker.h" 
 #include "..\..\incl\WEB\WEB_Main.h"
@@ -28,17 +29,7 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 	: WApplication(env)
 {
 	MISS;
-	if (!env.getParameterValues("PARAM").empty())
-	{
-		const std::string *PARA = (env.getParameter("PARAM"));
-		sPARA.assign(PARA->c_str());
-	}
-	if (sPARA == "DEBUG")
-	{
-		MISERROR("DEBUG ON")
-		//WA_Debug = true;
-		//ReNewTaps();
-	}
+	std::string sAdmin = sGetParam(env, "Admin");	
 	
 	MISD("#1");
 	auto bootstrapTheme = std::make_shared<Wt::WBootstrapTheme>();
@@ -48,31 +39,23 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 	MISD("#2");
 
 	WApplication::instance()->setTheme(bootstrapTheme);
-	WApplication::instance()->setTitle("SLR - Replay Analyser");
+	WApplication::instance()->setTitle("Lotto");
 	WApplication::instance()->useStyleSheet(Wt::WLink("./resources/main.css"));
 
 	MISD("#3");	
 
-	R = new Replay();
-
-	//ME = new WEB_ME(this);
-	wfuDropZone = new Wt::WFileUpload();
-	wtStatus = new Wt::WText("Waiting for Replay");
+	Admin = new WEB_Lotto_Admin(this);
+	for each (LottoWeek* W in Bro->vWeek)
+		Weeks.push_back(new WEB_Lotto_Week(this, W));
 	
 	MISD("#4");
-	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
-	waLink = new Wt::WAnchor();
-	waLink->setText("Switch to Tome Fight Maker");
-	waLink->setLink(Wt::WLink(WebTome));
+	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();	
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	
 	GlobaelContainer->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
 	
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h2><b>Replay Analyser</b></h2>"))),0,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)), 1, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)),2,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)),3,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::tToolbar)),4,0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::sToolbar)), 5, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h2><b>Lotto</b></h2>"))),0,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::tToolbar)),1,0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WEB_Toolbar::sToolbar)), 2, 0);
 
 	MISD("#5");
 
@@ -86,57 +69,17 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 
 	MISD("#6");
 
-	//if (Bro->L_getBOTRankMode(BOT6LIST) <10
-	//	|| sPARA == "BOT6")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT6", *ME->cMain, ME);
-
-	//ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
-	//ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);
-	//ToolBarButton(WEB_Toolbar::bToolbar.size(), "Acti", *this->Acti->cMain, this->Acti);
+	if (sAdmin == Bro->L_getAdminKey())WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Admin", *Admin->cMain, Admin);
+	for (unsigned int i = Weeks.size(); i > 0 && i > Weeks.size() - LottoMaxWeeks; i--)
+		ToolBarButton(WEB_Toolbar::bToolbar.size(), std::to_string(i), *Weeks[i]->cMain, Weeks[i]);
 	
-	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
-	if (Bro->L_getBOTRankMode(BOT6LIST) <10)WEB_Toolbar::sToolbar->setCurrentIndex(0); 
+		
+	//WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
+	if(WEB_Toolbar::bToolbar.size()>0)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 
 	MISD("#7");
-
-	wfuDropZone->setFilters(".pmv");
-
-	wfuDropZone->changed().connect([=] 
-	{
-		MISERROR("#changed");
-		wfuDropZone->upload();
-		wtStatus->setText("New File \n");
-	});
-	wfuDropZone->fileTooLarge().connect([=] 
-	{
-		MISERROR("#fileTooLarge");
-		wtStatus->setText("File is too large. \n");
-	});
-
-	wfuDropZone->uploaded().connect([=] 
-	{
-		MISERROR("#uploaded");
-		wtStatus->setText("Upload done \n");
-
-		if (R->LoadPMV(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
-		{
-			
-			MISERROR("#NewReplay");
-			//wtStatus->setText("PMV OK \n");
-			wtStatus->setText(R->MapName);
-		}
-		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");
-
-		WRefresh();
-		WEB_Toolbar::updateFrame();
-
-	});
-
-
-	Wt::WImage* WWW = SimpelIMG("Worldbreaker Gun", 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(WWW)), 6, 0);
-
-
+	
 	MISE;
 }
 
@@ -153,8 +96,6 @@ void WEB_Container_Lotto::WRefresh()
 	MISE;
 }
 
-
- 
 Wt::WImage* WEB_Container_Lotto::SimpelIMG(std::string cardNameSimple, unsigned int iColor)
 {
 	MISS;

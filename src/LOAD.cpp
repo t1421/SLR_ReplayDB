@@ -29,6 +29,7 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "SQL_User"))sSQL_User = line.c_str();
 			if (INI_Value_Check(line, "SQL_PW"))sSQL_PW = line.c_str();
 			if (INI_Value_Check(line, "SQL_DB"))sSQL_DB = line.c_str();
+			if (INI_Value_Check(line, "AdminKey"))sAdminKey = line.c_str();
 
 			if (INI_Value_Check(line, "PMV_PATH"))sPMV_PATH = line.c_str();
 			if (INI_Value_Check(line, "PMV_AUTO_PATH"))sPMV_AUTO_PATH = line.c_str();
@@ -36,6 +37,8 @@ void LOAD::Load_Settings(std::string sName)
 
 			if (INI_Value_Check(line, "RANK_PATH"))sRANK_PATH = line.c_str();
 			if (INI_Value_Check(line, "TOME_SAVE_PATH"))sTOME_SAVE_PATH = line.c_str();
+			if (INI_Value_Check(line, "LOTTO_SAVE_PATH"))sLOTTO_SAVE_PATH = line.c_str();
+			
 
 			if (INI_Value_Check(line, "TMP_PATH"))sTMP_PATH = line.c_str();
 			if (INI_Value_Check(line, "SMJPIC_PATH"))sSMJPIC_PATH = line.c_str();

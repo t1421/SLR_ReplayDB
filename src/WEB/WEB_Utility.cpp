@@ -2,6 +2,7 @@
 
 #include <sstream>
 #include <Wt/WImage.h>
+#include <Wt/WEnvironment.h>
 
 std::string WSTRINGtoSTRING(Wt::WString in)
 {
@@ -18,4 +19,14 @@ Wt::WImage* DrawImg(std::string sPath, int iX, int iY)
 	IMG->resize(iX, iY);
 	IMG->setMaximumSize(iX, iY);
 	return IMG;
+}
+
+std::string sGetParam(const Wt::WEnvironment& env, std::string sParam)
+{
+	if (!env.getParameterValues(sParam).empty())
+	{
+		const std::string *PARA = (env.getParameter(sParam));
+		return PARA->c_str();
+	}
+	return "";
 }

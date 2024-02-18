@@ -17,7 +17,7 @@
 #include "..\incl\WEB\WEB_Toolbar.h"
 #endif
 
-#if defined BrokerTome || defined BrokerWeb
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 #include "..\incl\WEB_Analyser\WEB_Analyser.h"
 #endif
 
@@ -50,6 +50,9 @@
 
 #if defined  BrokerLotto
 #include "..\incl\WEB_Lotto\WEB_Container_Lotto.h"
+#include "..\incl\WEB_Lotto\LottoWeek.h"
+#include "..\incl\WEB_Lotto\WEB_Lotto_Admin.h"
+#include "..\incl\WEB_Lotto\WEB_Lotto_Week.h"
 #endif
 
 #ifndef noSMJ
@@ -95,7 +98,7 @@ broker::broker()
 	WEB_Toolbar::learnBro(this);
 	W = NULL;
 #endif
-#if defined BrokerTome || defined BrokerWeb
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 	WEB_Analyser::learnBro(this);
 #endif
 
@@ -129,6 +132,9 @@ broker::broker()
 
 #if defined BrokerLotto
 	WEB_Container_Lotto::learnBro(this);
+	LottoWeek::learnBro(this);	
+	WEB_Lotto_Admin::learnBro(this);
+	WEB_Lotto_Week::learnBro(this);	
 #endif
 
 #ifndef noSMJ
@@ -291,6 +297,10 @@ std::string broker::L_getSQL_DB()
 {
 	return L->sSQL_DB;
 }
+std::string broker::L_getAdminKey()
+{
+	return L->sAdminKey;
+}
 std::string broker::L_getPMV_PATH()
 {
 	return L->sPMV_PATH;
@@ -346,6 +356,10 @@ std::string broker::L_getTOME_SAVE_PATH()
 int broker::L_getBOTRankMode(int _BOT)
 {
 	return L->BOTRankMode[_BOT];
+}
+std::string broker::L_getLOTTO_SAVE_PATH()
+{
+	return L->sLOTTO_SAVE_PATH;
 }
 #endif
 
@@ -434,8 +448,9 @@ int broker::getTomeGame(std::string sGameID)
 
 	return -1;
 }
+#endif
 
-
+#if defined BrokerTome || defined BrokerLotto
 void broker::postChatEventMIS(std::string Value1)
 {
 	MISS;
@@ -460,5 +475,18 @@ void broker::postChatEventMIS(std::string Value1, std::string Value2, std::strin
 	MISD(Value1 + "-" + Value2 + "-" + Value3 + "-" + Value4);
 	if (W != NULL)if (W->WW)W->WW->postChatEventMIS(Value1, Value2, Value3, Value4);
 	MISE;
+}
+#endif
+
+
+#if defined BrokerLotto
+void broker::INIT()
+{
+	bool OK = true;
+	for (unsigned int i = 0; i < 50 && OK; i++)
+	{
+		vWeek.push_back(new LottoWeek);
+		OK = vWeek[vWeek.size() - 1]->bLoadGame(i);
+	}
 }
 #endif

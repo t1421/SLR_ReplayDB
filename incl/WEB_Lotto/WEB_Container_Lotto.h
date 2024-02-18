@@ -5,13 +5,11 @@
 
 #include "../WEB/WEB_Server.h"
 #include "../WEB/WEB_Toolbar.h"
-//#include "WEB_Analyser.h"
-//#include "WEB_Analyser_Head.h"
-//#include "WEB_Analyser_Deck.h"
-//#include "WEB_Analyser_Acti.h"
+
+#include "../WEB_Lotto/WEB_Lotto_Admin.h"
+#include "../WEB_Lotto/WEB_Lotto_Week.h"
 
 #include <Wt/WText.h>
-#include <Wt/WFileUpload.h>
 #include <Wt/WApplication.h>
 
 
@@ -36,20 +34,14 @@ public:
 
 
 private:
-
 	void WRefresh();
 
 	std::vector<SMJLottoCard*> SMJLottoMatrix;
 
-	//WEB_ME *ME;
-	Wt::WFileUpload  *wfuDropZone;
-	Wt::WText		 *wtStatus;
+	WEB_Lotto_Admin *Admin;
+	std::vector<WEB_Lotto_Week *> Weeks;
+
 	Wt::WContainerWidget *GlobaelContainer;
-	Wt::WAnchor *waLink;
-
-	std::string sPARA;
-
-	Replay *R;
 };
 
 #endif // WEB_CONTAINER_H
