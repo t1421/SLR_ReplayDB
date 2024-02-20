@@ -13,19 +13,7 @@ public:
 
 	Wt::WTable *wtTabelle;
 
-	Wt::WCheckBox *wcAllowOpening;
-
-	Wt::WCheckBox *wcShowPlayers;
-	Wt::WCheckBox *wcShowBoosters;
-	Wt::WCheckBox *wcShowBoostersOfPlayer;
-	Wt::WCheckBox *wcNoDouble;
-
-	Wt::WText *wtGameID;
-	Wt::WText *wtAdminID;
-	Wt::WAnchor *waLink;
-
-	Wt::WPushButton *wbSave;
-	Wt::WPushButton	*wbAddPlayer;	
+	Wt::WPushButton *wbAddWeek;
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

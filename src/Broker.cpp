@@ -488,5 +488,6 @@ void broker::INIT()
 		vWeek.push_back(new LottoWeek);
 		OK = vWeek[vWeek.size() - 1]->bLoadGame(i);
 	}
+	vWeek.pop_back();
 }
 #endif

@@ -70,8 +70,11 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 	MISD("#6");
 
 	if (sAdmin == Bro->L_getAdminKey())WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Admin", *Admin->cMain, Admin);
-	for (unsigned int i = Weeks.size(); i > 0 && i > Weeks.size() - LottoMaxWeeks; i--)
+	for (int i = Weeks.size() - 1; i > 0 && i > Weeks.size() - LottoMaxWeeks; i--)
+	{
+		MISD(i);
 		ToolBarButton(WEB_Toolbar::bToolbar.size(), std::to_string(i), *Weeks[i]->cMain, Weeks[i]);
+	}
 	
 		
 	//WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	

@@ -88,7 +88,7 @@ bool LottoWeek::bSaveGame()
 	MISS;
 
 	std::string line;
-	std::string sName = Bro->L_getTOME_SAVE_PATH() + std::to_string(iWeek);
+	std::string sName = Bro->L_getLOTTO_SAVE_PATH() + std::to_string(iWeek);
 	
 	std::ofstream ofFile;
 	ofFile.open(sName.c_str(), std::ios::binary);
@@ -96,7 +96,7 @@ bool LottoWeek::bSaveGame()
 	if (ofFile.good())
 	{
 		MISD("good");
-		ofFile << "G=" << iWeek
+		ofFile << "W=" << iWeek
 			<< ";" << iBFP
 			<< ";" << iStatus
 			<< ";\n";
