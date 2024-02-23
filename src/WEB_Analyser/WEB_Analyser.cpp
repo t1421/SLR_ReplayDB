@@ -495,14 +495,7 @@ std::string WEB_Analyser::Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[
 		}
 	}
 
-	for (unsigned int i = 1; i <= 8; i++)
-		if (iTimes[i] == 0)
-		{
-			MISD(i);
-			MISD(iTimes[i]) ;
-			MISEA("no Crystal");
-			return "You didnt destroyed all Crystals";
-		}
+
 
 	iTimes[0] = getPlaytime();
 
@@ -529,6 +522,15 @@ std::string WEB_Analyser::Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[
 
 	wtTabelle->columnAt(0)->setWidth(250);
 	wtTabelle->columnAt(1)->setWidth(200);
+
+	for (unsigned int i = 1; i <= 8; i++)
+		if (iTimes[i] == 0)
+		{
+			MISD(i);
+			MISD(iTimes[i]);
+			MISEA("no Crystal");
+			return "You didnt destroyed all Crystals";
+		}
 
 	MISE;
 	return "";
