@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -15,6 +15,10 @@
 #if defined BrokerTome
 #include "..\..\incl\WEB_Tome\Tome_Game.h"
 #include "..\..\incl\WEB\WEB_Utility.h"
+#endif
+
+#if defined BrokerLotto
+#include "..\..\incl\WEB_Lotto\LottoWeek.h"
 #endif
 
 #include <Wt/WImage.h>
@@ -344,6 +348,12 @@ unsigned long long WEB_Analyser::getPlaytime()
 	return R->Playtime;
 }
 
+std::string WEB_Analyser::getMapName()
+{
+	if (!R->OK)return "";
+	return R->MapName;
+}
+
 void  WEB_Analyser::AddIMG(Wt::WTableCell *wtCell, bool bValue)
 {
 	wtCell->setHeight(BOT4_IMG_SIZE);
@@ -537,9 +547,43 @@ std::string WEB_Analyser::Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[
 }
 
 #if defined BrokerLotto
-std::vector<std::string> WEB_Analyser::getSimpelDeck()
+Lotto_Player *WEB_Analyser::getLottoPlayer()
 {
 	MISS;
+	
+	if (!R->OK)
+	{
+		MISEA("No replay");
+		return new Lotto_Player();
+	}
+
+	Lotto_Player *lpReturn = new Lotto_Player(
+		std::to_string(R->PMVPlayerID),
+		GetPlayerName(R->PMVPlayerID),
+		std::to_string(getReplayHash()),
+		R->MapName);
+
+	for (unsigned int i = 0; i < Players.size(); i++)
+	{
+		if (Players[i]->Type != 1)continue;
+		if (Players[i]->PlayerID != getPMVPlayerID())continue;
+		
+		for each (Card* C in Players[i]->Deck)
+		{
+			lpReturn->vSimpleDeck.push_back(Bro->J_GetSMJCard(C->CardID)->cardNameSimple);
+		}
+	}
+
+	std::sort(lpReturn->vSimpleDeck.begin(), lpReturn->vSimpleDeck.end());
+	lpReturn->vSimpleDeck.erase(std::unique(lpReturn->vSimpleDeck.begin(), lpReturn->vSimpleDeck.end()), lpReturn->vSimpleDeck.end());
+	
+	MISD(lpReturn->sPlayerID);
+	MISD(lpReturn->sPlayerName);
+	MISD(lpReturn->sGameID);
+	MISD(lpReturn->sMapName);
+	MISD(lpReturn->vSimpleDeck.size());
+	
 	MISE;
+	return lpReturn;
 }
 #endif

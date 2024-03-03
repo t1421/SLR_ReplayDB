@@ -10,6 +10,7 @@ class Replay;
 struct Player;
 struct ActionSum;
 struct ActionWeb;
+struct Lotto_Player;
 
 #include <Wt/WTable.h>
 
@@ -30,7 +31,7 @@ public:
 #endif
 
 #if defined BrokerLotto
-	std::vector<std::string> getSimpelDeck();
+	Lotto_Player *getLottoPlayer();
 #endif
 
 	unsigned long long getPMVPlayerID();
@@ -47,6 +48,7 @@ public:
 	std::string GetPlayerName(unsigned long inPlayer);
 	unsigned long long getPlaytime();
 	unsigned long getReplayHash();
+	std::string getMapName();
 	Replay* R;
 
 	WEB_Analyser();

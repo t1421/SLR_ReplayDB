@@ -10,6 +10,7 @@
 //#include "..\..\incl\WEB_Analyser\WEB_ME.h"
 //#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\..\incl\WEB_Lotto\WEB_Container_Lotto.h"
+#include "..\..\incl\WEB_Lotto\LottoWeek.h"
 
 #include "..\..\incl\Replay.h" 
 
@@ -46,6 +47,7 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 
 	Admin = new WEB_Lotto_Admin(this);
 	for each (LottoWeek* W in Bro->vWeek)
+		if(W->iStatus > 0)
 		Weeks.push_back(new WEB_Lotto_Week(this, W));
 	
 	MISD("#4");
@@ -70,10 +72,11 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 	MISD("#6");
 
 	if (sAdmin == Bro->L_getAdminKey())WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Admin", *Admin->cMain, Admin);
-	for (int i = Weeks.size() - 1; i > 0 && i > Weeks.size() - LottoMaxWeeks; i--)
-	{
+	//for (int i = Weeks.size() - 1; i > 0 && i > Weeks.size() - LottoMaxWeeks; i--)
+	for (int i = Weeks.size() - 1; i >= 0; i--)
+	{		
 		MISD(i);
-		ToolBarButton(WEB_Toolbar::bToolbar.size(), std::to_string(i), *Weeks[i]->cMain, Weeks[i]);
+		ToolBarButton(WEB_Toolbar::bToolbar.size(), std::to_string(Weeks[i]->BroWeek->iWeek), *Weeks[i]->cMain, Weeks[i]);
 	}
 	
 		
@@ -98,7 +101,7 @@ void WEB_Container_Lotto::WRefresh()
 	MISS;
 	MISE;
 }
-
+/*
 Wt::WImage* WEB_Container_Lotto::SimpelIMG(std::string cardNameSimple, unsigned int iColor)
 {
 	MISS;
@@ -108,16 +111,17 @@ Wt::WImage* WEB_Container_Lotto::SimpelIMG(std::string cardNameSimple, unsigned 
 		if (C->cardNameSimple == cardNameSimple)
 		{
 			MISEA("Found");
-			return C->Img[iColor];
+			return &C->Img[iColor];
 		}
 	}
 
 	SMJLottoMatrix.push_back(new SMJLottoCard(
 		cardNameSimple,
-		DrawImg(Bro->J_GetLottoImg(cardNameSimple, 0), 185, 255),
-		DrawImg(Bro->J_GetLottoImg(cardNameSimple, 1), 185, 255)
+		DrawImg(Bro->J_GetLottoImg(cardNameSimple, 0), 185/4, 255/4),
+		DrawImg(Bro->J_GetLottoImg(cardNameSimple, 1), 185/4, 255/4)
 	));
 
 	MISEA("NEW");
-	return SMJLottoMatrix[SMJLottoMatrix.size() - 1]->Img[iColor];;
+	return &SMJLottoMatrix[SMJLottoMatrix.size() - 1]->Img[iColor];
 }
+*/

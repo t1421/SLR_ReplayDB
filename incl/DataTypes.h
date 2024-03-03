@@ -142,18 +142,6 @@ struct Tome_Booster
 	unsigned int iLfdnr;
 };
 
-#if defined BrokerLotto
-struct SMJLottoCard {
-	std::string cardNameSimple;	
-	Wt::WImage* Img[2];
-	SMJLottoCard(std::string _cardNameSimple, Wt::WImage* Img0, Wt::WImage* Img1) :cardNameSimple(_cardNameSimple)
-	{
-		Img[0] = Img0;
-		Img[1] = Img1;
-	}
-};
-#endif 
-
 
 #endif //DataTypes
 

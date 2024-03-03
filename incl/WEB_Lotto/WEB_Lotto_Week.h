@@ -7,6 +7,7 @@
 
 class WEB_Container_Lotto;
 class WEB_Analyser;
+struct Lotto_Player;
 
 class WEB_Lotto_Week : public WebRefresh
 {
@@ -18,16 +19,21 @@ public:
 
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WTable *wtReplayResultCard;
+	//std::vector<std::string> SimpelDeck;
+	Lotto_Player *myPlayer;
 	Wt::WText		 *wtStatus;
+	Wt::WPushButton *wtJoin;
 	WEB_Analyser* WA;
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
+	LottoWeek *BroWeek;
 
 	void WRefresh();
 private:
+	void DrawDeck(Wt::WTable *wtTabelle, Lotto_Player *Player);
 	WEB_Container_Lotto *Con;
-	LottoWeek *BroWeek;
+	
 };
 
 

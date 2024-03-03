@@ -18,9 +18,10 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 	ifFile.open(sName.c_str(), std::ios::binary);
 	unsigned int iCountSemi;
 	
-
+	mx.lock();
 	if (ifFile.good())
 	{
+		
 		MISD("good");
 
 		while (getline(ifFile, line))
@@ -53,7 +54,8 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 				vPlayer.push_back(new Lotto_Player(
 					entry(line, 0), 
 					entry(line, 1),
-					entry(line, 2)));				
+					entry(line, 2),
+					entry(line, 3)));
 			}
 
 			//Player Cards
@@ -71,14 +73,17 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 			ifFile.clear();
 		}
 		ifFile.close();
+		
 	}
 	else
 	{
 		MISEA("No Game");
+		mx.unlock();
 		return false;
 	}
 	
 	MISE;
+	mx.unlock();
 	return true;
 }
 
@@ -93,8 +98,10 @@ bool LottoWeek::bSaveGame()
 	std::ofstream ofFile;
 	ofFile.open(sName.c_str(), std::ios::binary);
 
+	mx.lock();
 	if (ofFile.good())
 	{
+		
 		MISD("good");
 		ofFile << "W=" << iWeek
 			<< ";" << iBFP
@@ -110,6 +117,7 @@ bool LottoWeek::bSaveGame()
 			ofFile << "P=" << vPlayer[i]->sPlayerID
 				<< ";" << vPlayer[i]->sPlayerName 
 				<< ";" << vPlayer[i]->sGameID
+				<< ";" << vPlayer[i]->sMapName
 			    << ";\n";
 #
 			ofFile << "PC=";
@@ -120,5 +128,46 @@ bool LottoWeek::bSaveGame()
 	}
 	
 	MISE;
+	mx.unlock();
 	return true;
+}
+
+
+bool LottoWeek::CheckPlayer(std::string PlayerID)
+{
+	for each(Lotto_Player* P in vPlayer)
+		if (P->sPlayerID == PlayerID)
+			return false;		
+	return true;
+}
+
+
+std::string LottoWeek::JoinWeek(Lotto_Player *inPlayer)
+{
+	MISS;
+	
+	if (!CheckPlayer(inPlayer->sPlayerID))
+	{
+		MISEA("Already Joined");
+		return "Already Joined this Week";
+	}
+
+	if(iStatus != 1)
+	{
+		MISEA("Wrong Status to Join");
+		return "Week is Inactiv";
+	}
+
+	mx.lock();
+	vPlayer.push_back(inPlayer);
+	
+	//for each(std::string C in Deck)
+	//	vPlayer[vPlayer.size() - 1]->vSimpleDeck.push_back(C);
+	
+	mx.unlock();
+
+	bSaveGame();
+	
+	MISE;
+	return "";
 }

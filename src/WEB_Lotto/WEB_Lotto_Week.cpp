@@ -3,6 +3,7 @@
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\Replay.h" 
 
+#include "..\..\incl\WEB_Lotto\LottoWeek.h"
 #include "..\..\incl\WEB_Lotto\WEB_Lotto_Week.h"
 #include "..\..\incl\WEB_Lotto\WEB_Container_Lotto.h"
 
@@ -45,6 +46,7 @@ WEB_Lotto_Week::WEB_Lotto_Week(WEB_Container_Lotto *Con_, LottoWeek *BroWeek_)
 	wtReplayResultCard = new Wt::WTable();
 	wtStatus = new Wt::WText("Waiting for Replay");
 	WA = new WEB_Analyser();
+	wtJoin = new Wt::WPushButton("Join with replay");
 
 	unsigned int iCol = 0;
 	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
@@ -54,23 +56,25 @@ WEB_Lotto_Week::WEB_Lotto_Week(WEB_Container_Lotto *Con_, LottoWeek *BroWeek_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReplayResultCard)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtJoin)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
+	
 	
 
 	MISD("#3");
 	
-
 	MISD("#4");
 
-
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayerID"))));	
-
-	wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Player Name"))));
-	wtTabelle->elementAt(1, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Multi Add"))));
-	wtTabelle->elementAt(2, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Multi Rem"))));
-
 	MISD("#4");
-
-	wtTabelle->columnAt(1)->setWidth(160);
+	wtJoin->clicked().connect(std::bind([=]() {
+		MISD("Click wtJoin");
+		BroWeek->JoinWeek(myPlayer);
+		wtReplayResultCard->clear();
+		wtStatus->setText("<h3 style='color:Green;'>Happy to have you :-)</h3>");
+		wtJoin->disable();
+		WRefresh();
+	}));
+	wtJoin->disable();
 
 	MISD("#5");
 	
@@ -90,24 +94,38 @@ WEB_Lotto_Week::WEB_Lotto_Week(WEB_Container_Lotto *Con_, LottoWeek *BroWeek_)
 
 	wfuDropZone->uploaded().connect([=]
 	{
-		
-		
-		MISD("#uploaded");
+		wtJoin->disable();
+		MISD("#uploaded1");
 		wtStatus->setText("Upload done \n");
+		MISD("#uploaded2");
 		wtReplayResultCard->clear();
-
+		MISD("#uploaded3");
+		
 		if (WA->NewReplay(WSTRINGtoSTRING(wfuDropZone->spoolFileName())))
 		{
-			//switch (WA->TomeAnalyser(wtReplayResultCard, Con->BroGameID))
-			switch(1)
+			/*
+			if ((WA->R->DifficultyID != 2 && WA->R->DifficultyID != 3)
+				|| WA->R->PlayModeID != 1
+				|| WA->R->MapID > 100)
 			{
-			case 0: wtStatus->setText("<h3 style='color:Green;'>All OK</h3>");	
-				break;
-			case 1: wtStatus->setText("<h3 style='color:Tomato;'>Error: Could not match Players</h3>");
-				break;
-			case 2: wtStatus->setText("<h3 style='color:Tomato;'>Error: A not allowed Card was player</h3>");
-				break;
-			}	
+				wtStatus->setText("<h3 style='color:Tomato;'>Error: You need to play Adv or Exp on a campain map</h3>");
+				return;
+			}
+			*/
+			if (!BroWeek->CheckPlayer(std::to_string(WA->getPMVPlayerID())))
+			{
+				wtStatus->setText("<h3 style='color:Tomato;'>Error: You already joind this week</h3>");
+				return;
+			}
+
+			myPlayer = WA->getLottoPlayer();
+			if(myPlayer->vSimpleDeck.size()!= 20)wtStatus->setText("<h3 style='color:Orange;'>Error: You dont have 20 unice Cards in your deck</h3>");
+			else wtStatus->setText("<h3 style='color:Green;'>All OK -> Press Join</h3>");	
+			
+			//wtReplayResultCard
+			DrawDeck(wtReplayResultCard, myPlayer);
+			wtJoin->enable();
+
 		}
 		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");	
 	});
@@ -120,16 +138,42 @@ void WEB_Lotto_Week::WRefresh()
 {
 	MISS;
 
-	//if (Con->BroGameID == -1)
-	//{
-		//MISEA("WTF !!!");
-		//return;
-	//}
+	switch (BroWeek->iStatus)
+	{
+	case 0: break; //Hidden
+	case 1:        //Active
+		wtTabelle->clear();
+		for each(Lotto_Player *P in BroWeek->vPlayer)
+			DrawDeck(wtTabelle, P);
+		break;
+	case 2:        //Inactiv
+	case 3:        //Pull
 
-	//unsigned int iCol = 0;
-	//std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
-	//std::vector<WEB_Tome_Player *> Tabel_Player;
+		///Calc Pulls + sort
+		///for each Stage  (Draw Line)
+		/// Each Plyer matching Stage (Draw Player)
+		
+		
+		break;
+
+	default:
+		break;
+	}
 
 	MISE;
 }
+
+void WEB_Lotto_Week::DrawDeck(Wt::WTable *wtTabelle, Lotto_Player *Player)
+{
+	MISS;
+	//MISD(Player->vSimpleDeck.size());
+	//Player Name + Map
+	unsigned int iRow = wtTabelle->rowCount();
+	for(unsigned int i = 0; i < Player->vSimpleDeck.size(); i++)
+	{
+		wtTabelle->elementAt(iRow, i)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetLottoImg(Player->vSimpleDeck[i], 1), 185 / 4, 255 / 4))));
+	}	
+	MISE;
+}
+
 
