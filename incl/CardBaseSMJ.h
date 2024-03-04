@@ -53,7 +53,7 @@ public:
 	void AllIMGBigSW();
 	void AllIMGSmall();
 	void AllIMGImgOnly();
-	void AllIMGLotto();
+	void AllIMGSimpel();
 	bool Init();
 
 	

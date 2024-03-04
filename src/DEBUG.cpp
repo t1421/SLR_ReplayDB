@@ -31,6 +31,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("CardBaseSMJ", "*", "*", "true");		
 		Fill_DBArray("CardBaseSMJ", "OpenBooster", "*", "true");
 		Fill_DBArray("CardBaseSMJ", "GetImage", "*", "false");
+		Fill_DBArray("CardBaseSMJ", "ConvertImage", "*", "false");
+		Fill_DBArray("CardBaseSMJ", "DownloadImage", "*", "false");
 		
 
 		Fill_DBArray("Replay", "*", "*", "true");

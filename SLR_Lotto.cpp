@@ -47,15 +47,15 @@ int main(int argc, char **argv)
 
 		if (Checker(sbuf, "?"))
 		{
-			printf("####################|###########################################\n");
-			printf("J;Lotto             | Download Lotto IMGs (inkl SW) \n");			
+			printf("####################|###########################################\n");			
 			printf("J;echo;[ID]         | print Card data\n");
+			printf("J;ALL_S             | Downloads all Cards Simpel (incl SW) \n");
 			printf("####################|###########################################\n\n");
 		}
 		if (Checker(sbuf, "J"))
 		{
-			if (Checker(sbuf, "Lotto"))J->AllIMGLotto();
-			if (Checker(sbuf, "echo"))J->EchoCard(sbuf);
+			if (Checker(sbuf, "echo"))J->EchoCard(sbuf);			
+			if (Checker(sbuf, "ALL_S"))J->AllIMGSimpel();
 		}
 		
 	}

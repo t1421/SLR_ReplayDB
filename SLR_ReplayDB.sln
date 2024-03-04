@@ -18,6 +18,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_Event_Cecker", "SLR_Eve
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_Lotto", "SLR_Lotto\SLR_Lotto.vcxproj", "{7B3D3976-2A53-468E-85C1-8C033570986B}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_LivePVP", "SLR_LivePVP\SLR_LivePVP.vcxproj", "{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -66,6 +68,14 @@ Global
 		{7B3D3976-2A53-468E-85C1-8C033570986B}.Release|x64.Build.0 = Release|x64
 		{7B3D3976-2A53-468E-85C1-8C033570986B}.Release|x86.ActiveCfg = Release|Win32
 		{7B3D3976-2A53-468E-85C1-8C033570986B}.Release|x86.Build.0 = Release|Win32
+		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Debug|x64.ActiveCfg = Debug|x64
+		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Debug|x64.Build.0 = Debug|x64
+		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Debug|x86.ActiveCfg = Debug|Win32
+		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Debug|x86.Build.0 = Debug|Win32
+		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Release|x64.ActiveCfg = Release|x64
+		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Release|x64.Build.0 = Release|x64
+		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Release|x86.ActiveCfg = Release|Win32
+		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

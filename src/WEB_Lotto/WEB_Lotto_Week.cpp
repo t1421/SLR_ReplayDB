@@ -130,6 +130,7 @@ WEB_Lotto_Week::WEB_Lotto_Week(WEB_Container_Lotto *Con_, LottoWeek *BroWeek_)
 		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");	
 	});
 	
+	WRefresh();
 
 	MISE;
 }

@@ -8,7 +8,6 @@
 #define SMJ_S_IMG "https://smj.cards/api/images/basicCard/"
 #define SMJ_B_IMG "https://smj.cards/api/images/fullCard/"
 #define SMJ_I_IMG "https://smj.cards/api/images/cardArtwork/"
-#define SMJ_L_IMG "https://smj.cards/creator"
 
 
 #include "..\incl\CardBaseSMJ.h" 
@@ -262,8 +261,7 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 		{
 			SMJID = SMJMatrix[i]->SMJid;
 			SMJColor = std::to_string(SMJMatrix[i]->color);
-			SMJName = SMJMatrix[i]->cardNameSimple;
-			boost::erase_all(SMJName, " ");
+			SMJName = SMJMatrix[i]->cardNameSimple;			
 			break;
 		}
 	}
@@ -289,19 +287,16 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 		break;
 	case Lotto:
 		sFile = SMJName;
-		sURL = SMJ_L_IMG;
-		sURL += "?cardArtwork=";
+		sURL = SMJ_B_IMG;		
 		sURL += SMJID;
-		sURL += "&color=";
-		sURL += SMJColor;
-		sURL += "&name=";
-		sURL += SMJName;
+		sURL += "?simple";		
 		OutFile.open(Bro->L_getLOTTOPIC_PATH() + sFile + ".webp", std::ostream::binary);
 		break;
 	}
 #endif
 	if (_Type != Lotto)
 	{
+		boost::erase_all(SMJName, " ");
 		sURL += "?upgrades=";
 		sURL += std::to_string(Upgrade);
 		sURL += "&charges=";
@@ -399,17 +394,18 @@ std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, 
 		Charges = 0;
 		break;
 	case Lotto:
-		sFile = GetSMJCard(CardID)->cardNameSimple;
+		sFile = Bro->L_getLOTTOPIC_PATH();		
 		break;
 	}
 #endif
 
 	if (_Type != Lotto)sFile += std::to_string(CardID) + "_" + std::to_string(Upgrade) + std::to_string(Charges);		
+	else sFile += GetSMJCard(CardID)->cardNameSimple;
 	
 	if (bSW)sFile += "SW";
 
 	sFile += ".webp";
-	
+	MISD(sFile);
 	if (!File_exists(sFile))
 	{
 		MISD("Download: " + sFile);
@@ -425,7 +421,7 @@ void CardBaseSMJ::ConvertImage(std::string sFile)
 	MISS;
 	std::string sFileIn = sFile;
 	sFileIn.replace(sFileIn.find("SW.webp"), 7, ".webp");
-	//MISD(sFile);
+	MISD(sFile);
 	//MISD(sFileIn);
 
 	cv::Mat image = cv::imread(sFileIn, cv::IMREAD_COLOR);
@@ -576,7 +572,7 @@ void CardBaseSMJ::AllIMGImgOnly()
 	MISE;
 }
 
-void CardBaseSMJ::AllIMGLotto()
+void CardBaseSMJ::AllIMGSimpel()
 {
 	MISS;
 	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
