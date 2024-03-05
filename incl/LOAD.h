@@ -36,6 +36,7 @@ public:
 	std::string sSMJPICSMALL_PATH;
 	std::string sLOTTOPIC_PATH;
 	std::string sBOOSTER_PATH;
+	std::string sMAPPIC_PATH;
 	std::string sFFMPEG;
 
 	int BOTRankMode[BOTXLIST + 1];

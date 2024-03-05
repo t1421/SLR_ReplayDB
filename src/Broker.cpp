@@ -353,6 +353,12 @@ std::string broker::L_getTOME_SAVE_PATH()
 	return L->sTOME_SAVE_PATH;
 }
 
+std::string broker::L_getMAPPIC_PATH()
+{
+	return L->sMAPPIC_PATH;
+}
+
+
 int broker::L_getBOTRankMode(int _BOT)
 {
 	return L->BOTRankMode[_BOT];
@@ -489,5 +495,12 @@ void broker::INIT()
 		OK = vWeek[vWeek.size() - 1]->bLoadGame(i);
 	}
 	vWeek.pop_back();
+
+	//Wie viel przent vom Preis | Wie viele richtige
+	LottoStages.push_back(std::make_pair(0.50, 20));
+	LottoStages.push_back(std::make_pair(0.20, 19));
+	LottoStages.push_back(std::make_pair(0.15, 17));
+	LottoStages.push_back(std::make_pair(0.10, 15));
+	LottoStages.push_back(std::make_pair(0.05, 10));
 }
 #endif

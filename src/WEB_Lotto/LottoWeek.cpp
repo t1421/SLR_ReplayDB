@@ -5,8 +5,11 @@
 #include "..\..\incl\Utility.h"
 
 #include <fstream>
+#include <algorithm>
 
 broker *(LottoWeek::Bro) = NULL;
+
+bool comparePlayer(Lotto_Player * a, Lotto_Player * b) { return a->iPoints() < b->iPoints(); }
 
 bool LottoWeek::bLoadGame(unsigned int _iWeek)
 {
@@ -34,6 +37,7 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 				iWeek = atoi(entry(line, 0).c_str()); 
 				iBFP = atoi(entry(line, 1).c_str());
 				iStatus = atoi(entry(line, 2).c_str());
+				iMapPull = atoi(entry(line, 3).c_str());
 			}
 
 			//PulledCards
@@ -55,7 +59,7 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 					entry(line, 0), 
 					entry(line, 1),
 					entry(line, 2),
-					entry(line, 3)));
+					atoi(entry(line, 3).c_str())));
 			}
 
 			//Player Cards
@@ -67,7 +71,10 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 						iCountSemi++;
 
 				for (unsigned int i = 0; i < iCountSemi - 1; i++)
+				{
 					vPlayer[vPlayer.size() - 1]->vSimpleDeck.push_back(entry(line, 2 + i).c_str());
+					vPlayer[vPlayer.size() - 1]->vPoints.push_back(0);
+				}
 			}
 				
 			ifFile.clear();
@@ -81,9 +88,11 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 		mx.unlock();
 		return false;
 	}
-	
-	MISE;
 	mx.unlock();
+
+	CalcPulls();
+	
+	MISE;	
 	return true;
 }
 
@@ -106,6 +115,7 @@ bool LottoWeek::bSaveGame()
 		ofFile << "W=" << iWeek
 			<< ";" << iBFP
 			<< ";" << iStatus
+			<< ";" << iMapPull
 			<< ";\n";
 
 		ofFile << "C=";
@@ -117,7 +127,7 @@ bool LottoWeek::bSaveGame()
 			ofFile << "P=" << vPlayer[i]->sPlayerID
 				<< ";" << vPlayer[i]->sPlayerName 
 				<< ";" << vPlayer[i]->sGameID
-				<< ";" << vPlayer[i]->sMapName
+				<< ";" << vPlayer[i]->iMapID
 			    << ";\n";
 #
 			ofFile << "PC=";
@@ -170,4 +180,24 @@ std::string LottoWeek::JoinWeek(Lotto_Player *inPlayer)
 	
 	MISE;
 	return "";
+}
+
+
+void LottoWeek::CalcPulls()
+{
+	MISS;
+	for each(Lotto_Player* P in vPlayer)
+	{
+		for (unsigned int i = 0; i < P->vSimpleDeck.size(); i++)
+		{
+			for each(std::string C in vCardsPulled)
+			{
+				if (P->vSimpleDeck[i] == C)P->vPoints[i] = 1;
+			}
+		}
+		if (P->iMapID == iMapPull)P->iMapPoint = 1;
+	}
+
+	std::sort(vPlayer.begin(), vPlayer.end(), comparePlayer);
+	MISE;
 }

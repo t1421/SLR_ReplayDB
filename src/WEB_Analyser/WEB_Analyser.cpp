@@ -561,7 +561,7 @@ Lotto_Player *WEB_Analyser::getLottoPlayer()
 		std::to_string(R->PMVPlayerID),
 		GetPlayerName(R->PMVPlayerID),
 		std::to_string(getReplayHash()),
-		R->MapName);
+		R->MapID);
 
 	for (unsigned int i = 0; i < Players.size(); i++)
 	{
@@ -571,18 +571,19 @@ Lotto_Player *WEB_Analyser::getLottoPlayer()
 		for each (Card* C in Players[i]->Deck)
 		{
 			lpReturn->vSimpleDeck.push_back(Bro->J_GetSMJCard(C->CardID)->cardNameSimple);
+			lpReturn->vPoints.push_back(0);
 		}
 	}
 
 	std::sort(lpReturn->vSimpleDeck.begin(), lpReturn->vSimpleDeck.end());
 	lpReturn->vSimpleDeck.erase(std::unique(lpReturn->vSimpleDeck.begin(), lpReturn->vSimpleDeck.end()), lpReturn->vSimpleDeck.end());
-	
+	/*
 	MISD(lpReturn->sPlayerID);
 	MISD(lpReturn->sPlayerName);
 	MISD(lpReturn->sGameID);
-	MISD(lpReturn->sMapName);
+	MISD(lpReturn->iMapID);
 	MISD(lpReturn->vSimpleDeck.size());
-	
+	*/
 	MISE;
 	return lpReturn;
 }

@@ -31,7 +31,7 @@ public:
 
 	void WRefresh();
 private:
-	void DrawDeck(Wt::WTable *wtTabelle, Lotto_Player *Player);
+	void DrawDeck(Wt::WTable *wtTabelle, Lotto_Player *Player, bool bColore);
 	WEB_Container_Lotto *Con;
 	
 };

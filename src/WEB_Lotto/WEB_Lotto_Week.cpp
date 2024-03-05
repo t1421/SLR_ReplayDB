@@ -21,6 +21,8 @@
 #include <Wt/WLink.h>
 #include <Wt/WAnchor.h>
 
+#define Card_Size_X 45
+#define Card_Size_Y 62
 
 broker *(WEB_Lotto_Week::Bro) = NULL;
 
@@ -106,7 +108,8 @@ WEB_Lotto_Week::WEB_Lotto_Week(WEB_Container_Lotto *Con_, LottoWeek *BroWeek_)
 			/*
 			if ((WA->R->DifficultyID != 2 && WA->R->DifficultyID != 3)
 				|| WA->R->PlayModeID != 1
-				|| WA->R->MapID > 100)
+				|| WA->R->MapID > 100
+				|| WA->R->MapID == 67) //tutorial
 			{
 				wtStatus->setText("<h3 style='color:Tomato;'>Error: You need to play Adv or Exp on a campain map</h3>");
 				return;
@@ -123,7 +126,7 @@ WEB_Lotto_Week::WEB_Lotto_Week(WEB_Container_Lotto *Con_, LottoWeek *BroWeek_)
 			else wtStatus->setText("<h3 style='color:Green;'>All OK -> Press Join</h3>");	
 			
 			//wtReplayResultCard
-			DrawDeck(wtReplayResultCard, myPlayer);
+			DrawDeck(wtReplayResultCard, myPlayer, false);
 			wtJoin->enable();
 
 		}
@@ -139,18 +142,56 @@ void WEB_Lotto_Week::WRefresh()
 {
 	MISS;
 
+	unsigned int iPlayer = 0;
+	unsigned int iStageRow = 0;
+
+
 	switch (BroWeek->iStatus)
 	{
 	case 0: break; //Hidden
 	case 1:        //Active
 		wtTabelle->clear();
+		wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Player</h3>"))));
+		wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Map</h3>"))));
+		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Deck</h3>"))));
+		wtTabelle->elementAt(iStageRow, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Total BFP Pool: " + std::to_string(int(BroWeek->iBFP)) + "</h3>"))));
+		wtTabelle->elementAt(0, 2)->setColumnSpan(5);
+		wtTabelle->elementAt(0, 7)->setColumnSpan(5);
 		for each(Lotto_Player *P in BroWeek->vPlayer)
-			DrawDeck(wtTabelle, P);
+			DrawDeck(wtTabelle, P, false);
+		for (unsigned int iStage = 0; iStage < Bro->LottoStages.size(); iStage++)
+		{
+			iStageRow = wtTabelle->rowCount();
+			wtTabelle->elementAt(iStageRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>Points " + std::to_string(Bro->LottoStages[iStage].second) + "</h4>"))));
+			wtTabelle->elementAt(iStageRow, 0)->setColumnSpan(3);
+			wtTabelle->elementAt(iStageRow, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>BFP: " + std::to_string(int(Bro->LottoStages[iStage].first * BroWeek->iBFP)) + "</h4>"))));
+			wtTabelle->elementAt(iStageRow, 4)->setColumnSpan(5);
+		}
 		break;
 	case 2:        //Inactiv
 	case 3:        //Pull
-
+		//BroWeek->CalcPulls();
 		///Calc Pulls + sort
+		wtTabelle->clear();
+		for (unsigned int iStage = 0; iStage < Bro->LottoStages.size(); iStage++)
+		{
+			MISD(iStage);
+			iStageRow = wtTabelle->rowCount();
+			wtTabelle->elementAt(iStageRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Points " + std::to_string(Bro->LottoStages[iStage].second) + "</h3>"))));
+			wtTabelle->elementAt(iStageRow, 0)->setColumnSpan(3);
+
+			for(; iPlayer < BroWeek->vPlayer.size() && BroWeek->vPlayer[iPlayer]->iPoints() > Bro->LottoStages[iStage].second; iPlayer++)
+				DrawDeck(wtTabelle, BroWeek->vPlayer[iPlayer], true);
+
+			wtTabelle->elementAt(iStageRow, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>BFP Total: " + std::to_string(int(Bro->LottoStages[iStage].first * BroWeek->iBFP )) + "</h3>"))));
+			wtTabelle->elementAt(iStageRow, 4)->setColumnSpan(5);
+			wtTabelle->elementAt(iStageRow, 10)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Per Player: " + std::to_string(int(Bro->LottoStages[iStage].first * BroWeek->iBFP / (wtTabelle->rowCount() - iStageRow))) + "</h3>"))));			
+			wtTabelle->elementAt(iStageRow, 10)->setColumnSpan(5);
+		}
+		//NO prizes
+		wtTabelle->elementAt(iStageRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>NO Prizes</h3>"))));
+		for (; iPlayer < BroWeek->vPlayer.size(); iPlayer++)
+			DrawDeck(wtTabelle, BroWeek->vPlayer[iPlayer], true);
 		///for each Stage  (Draw Line)
 		/// Each Plyer matching Stage (Draw Player)
 		
@@ -161,18 +202,23 @@ void WEB_Lotto_Week::WRefresh()
 		break;
 	}
 
+
 	MISE;
 }
 
-void WEB_Lotto_Week::DrawDeck(Wt::WTable *wtTabelle, Lotto_Player *Player)
+void WEB_Lotto_Week::DrawDeck(Wt::WTable *wtTabelle, Lotto_Player *Player, bool bColore)
 {
 	MISS;
-	//MISD(Player->vSimpleDeck.size());
-	//Player Name + Map
+	
+	//MISD(Player->iPoints());
 	unsigned int iRow = wtTabelle->rowCount();
+	wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h5>" + Player->sPlayerName + "</h5>"))));
+	if (bColore)wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->L_getMAPPIC_PATH() + std::to_string(Player->iMapPoint) + std::to_string(Player->iMapID) + ".jpg", Card_Size_Y, Card_Size_Y))));
+	else wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->L_getMAPPIC_PATH() + "1" + std::to_string(Player->iMapID) + ".jpg", Card_Size_Y, Card_Size_Y))));
 	for(unsigned int i = 0; i < Player->vSimpleDeck.size(); i++)
-	{
-		wtTabelle->elementAt(iRow, i)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetLottoImg(Player->vSimpleDeck[i], 1), 185 / 4, 255 / 4))));
+	{		
+		if(bColore)wtTabelle->elementAt(iRow, i + 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetLottoImg(Player->vSimpleDeck[i], Player->vPoints[i]), Card_Size_X, Card_Size_Y))));
+		else wtTabelle->elementAt(iRow, i + 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetLottoImg(Player->vSimpleDeck[i], 1), Card_Size_X, Card_Size_Y))));
 	}	
 	MISE;
 }

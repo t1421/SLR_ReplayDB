@@ -6,6 +6,8 @@
 #include "..\incl\PMV_to_SQL.h" 
 #include "..\incl\Replay.h" 
 
+#include "..\incl\Utility.h"
+
 broker *(PMV_to_SQL::Bro) = NULL;
 
 PMV_to_SQL::PMV_to_SQL()
@@ -143,6 +145,7 @@ bool PMV_to_SQL::NewMasterData()
 
 	for (unsigned int i = 0; i < RR->PlayerMatrix.size(); i++)
 	{
+		if (RR->PlayerMatrix[i]->Type != 1)continue; //KI �berspringen
 		//NN->ssSQL << "SELECT ID FROM player WHERE ID = " << int(RR->PlayerMatrix[i]->PlayerID);
 		//if (NN->send() <= 0)
 		//{
@@ -269,7 +272,8 @@ bool PMV_to_SQL::UploadActions(std::string iNewHeadID)
 
 	for (unsigned int i = 0; i < RR->ActionMatrix.size(); i++)
 	{
-		if (RR->ActionMatrix[i]->Type == 4045) continue;
+		if (RR->ActionMatrix[i]->Type == 4045 &&
+			entry(RR->ActionMatrix[i]->AdditionalInfo,0) == "2") continue;
 		NN->ssSQL << "INSERT INTO action (";
 		NN->ssSQL << "  gameID , ";
 		NN->ssSQL << "  Time  , ";

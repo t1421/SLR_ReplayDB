@@ -82,6 +82,7 @@ public:
 	std::string L_getBOOSTER_PATH();
 	std::string L_getLOTTOPIC_PATH();
 	std::string L_getLOTTO_SAVE_PATH();
+	std::string L_getMAPPIC_PATH();
 
 	int L_getBOTRankMode(int _BOT);
 #endif	
@@ -133,6 +134,7 @@ public:
 #if defined BrokerLotto
 	void INIT();
 	std::vector <LottoWeek*> vWeek;
+	std::vector<std::pair<float,unsigned int>> LottoStages;
 #endif
 
 protected:
