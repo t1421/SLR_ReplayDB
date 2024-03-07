@@ -94,6 +94,15 @@
     <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser.cpp">
       <Filter>Quelldateien\Analyser</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Admin_Copy.cpp">
+      <Filter>Quelldateien\Lotto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Admin_Main.cpp">
+      <Filter>Quelldateien\Lotto</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Admin_Pull.cpp">
+      <Filter>Quelldateien\Lotto</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h">
@@ -147,14 +156,23 @@
     <ClInclude Include="..\incl\WEB_Lotto\LottoWeek.h">
       <Filter>Headerdateien\Lotto</Filter>
     </ClInclude>
-    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Week.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser.h">
       <Filter>Headerdateien\Analyer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin_Copy.h">
+      <Filter>Headerdateien\Lotto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin_Main.h">
+      <Filter>Headerdateien\Lotto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin_Pull.h">
+      <Filter>Headerdateien\Lotto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Week.h">
+      <Filter>Headerdateien\Lotto</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin.h">
+      <Filter>Headerdateien\Lotto</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

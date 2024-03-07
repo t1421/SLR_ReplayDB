@@ -52,6 +52,9 @@
 #include "..\incl\WEB_Lotto\WEB_Container_Lotto.h"
 #include "..\incl\WEB_Lotto\LottoWeek.h"
 #include "..\incl\WEB_Lotto\WEB_Lotto_Admin.h"
+#include "..\incl\WEB_Lotto\WEB_Lotto_Admin_Copy.h"
+#include "..\incl\WEB_Lotto\WEB_Lotto_Admin_Main.h"
+#include "..\incl\WEB_Lotto\WEB_Lotto_Admin_Pull.h"
 #include "..\incl\WEB_Lotto\WEB_Lotto_Week.h"
 #endif
 
@@ -134,6 +137,9 @@ broker::broker()
 	WEB_Container_Lotto::learnBro(this);
 	LottoWeek::learnBro(this);	
 	WEB_Lotto_Admin::learnBro(this);
+	WEB_Lotto_Admin_Copy::learnBro(this);
+	WEB_Lotto_Admin_Main::learnBro(this);
+	WEB_Lotto_Admin_Pull::learnBro(this);
 	WEB_Lotto_Week::learnBro(this);	
 #endif
 
