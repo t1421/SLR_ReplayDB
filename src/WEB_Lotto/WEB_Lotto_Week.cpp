@@ -167,6 +167,8 @@ void WEB_Lotto_Week::WRefresh()
 			wtTabelle->elementAt(iStageRow, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>BFP: " + std::to_string(int(Bro->LottoStages[iStage].first * BroWeek->iBFP)) + "</h4>"))));
 			wtTabelle->elementAt(iStageRow, 4)->setColumnSpan(5);
 		}
+
+		wfuDropZone->enable();
 		break;
 	case 2:        //Inactiv
 	case 3:        //Pull
@@ -195,7 +197,8 @@ void WEB_Lotto_Week::WRefresh()
 		///for each Stage  (Draw Line)
 		/// Each Plyer matching Stage (Draw Player)
 		
-		
+		wfuDropZone->disable();
+				
 		break;
 
 	default:

@@ -201,3 +201,52 @@ void LottoWeek::CalcPulls()
 	std::sort(vPlayer.begin(), vPlayer.end(), comparePlayer);
 	MISE;
 }
+
+void LottoWeek::setStatus(unsigned int iIN)
+{
+	MISS;
+	if (iIN == 3)	for each (LottoWeek *W in Bro->vWeek)if (W->iStatus == 3)
+	{
+		W->iStatus = 2;
+		W->bSaveGame();
+	}
+	iStatus = iIN;
+	MISE;
+}
+
+void LottoWeek::RemovePull(std::string sRmoveCard)
+{
+	MISS;	
+	for (std::vector<std::string>::iterator it = vCardsPulled.begin(); it != vCardsPulled.end();)
+	{
+		if((*it) == sRmoveCard)it = vCardsPulled.erase(it);
+	}
+	bSaveGame();
+	MISE;
+}
+
+void LottoWeek::setBFP(unsigned int iIN)
+{
+	MISS;
+	iBFP = iIN;
+	bSaveGame();
+	MISE;
+}
+
+void LottoWeek::AddPull(std::string sRmoveCard)
+{
+	MISS;
+	vCardsPulled.push_back(sRmoveCard);
+	bSaveGame();
+	CalcPulls();
+	MISE;
+}
+
+void LottoWeek::setMap(unsigned int iIN)
+{
+	MISS;
+	iMapPull = iIN;
+	bSaveGame();
+	CalcPulls();
+	MISE;
+}

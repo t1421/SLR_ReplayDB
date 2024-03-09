@@ -45,9 +45,9 @@ WEB_Lotto_Admin_Main::WEB_Lotto_Admin_Main(WEB_Container_Lotto *Con_) : Con(Con_
 	MISD("#3");
 	
 	wbAddWeek->clicked().connect(std::bind([=]() {
-		Bro->vWeek.push_back(new LottoWeek);
-		Bro->vWeek[Bro->vWeek.size() - 1]->iWeek = Bro->vWeek.size() - 1;
-		Bro->vWeek[Bro->vWeek.size() - 1]->bSaveGame();
+		Bro->vWeek.push_back(new LottoWeek(Bro->vWeek.size()));
+		//Bro->vWeek[Bro->vWeek.size() - 1]->iWeek = Bro->vWeek.size() - 1;
+		//Bro->vWeek[Bro->vWeek.size() - 1]->bSaveGame();
 		WRefresh();
 	}));
 
@@ -104,9 +104,10 @@ void WEB_Lotto_Admin_Main::WRefresh()
 		wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPB)));
 
 		wtPB->clicked().connect(std::bind([=]() {
-			L->iBFP = std::atoi(WSTRINGtoSTRING(wtLE->text()).c_str());
-			L->iStatus = wtCB->currentIndex();
-			L->bSaveGame();
+			L->setBFP(std::atoi(WSTRINGtoSTRING(wtLE->text()).c_str()));
+			//L->iStatus = wtCB->currentIndex();
+			L->setStatus(wtCB->currentIndex());
+			//L->bSaveGame();
 			WRefresh();
 		}));
 

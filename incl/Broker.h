@@ -133,6 +133,7 @@ public:
 
 #if defined BrokerLotto
 	void INIT();
+	LottoWeek* getPullWeek();
 	std::vector <LottoWeek*> vWeek;
 	std::vector<std::pair<float,unsigned int>> LottoStages;
 #endif

@@ -30,6 +30,11 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 	: WApplication(env)
 {
 	MISS;
+
+	FillMapVector();
+
+	MISD("#0");
+
 	std::string sAdmin = sGetParam(env, "Admin");	
 	
 	MISD("#1");
@@ -84,7 +89,7 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 	if(WEB_Toolbar::bToolbar.size()>0)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 
-	MISD("#7");
+	MISD("#7");	
 	
 	MISE;
 }
@@ -101,27 +106,35 @@ void WEB_Container_Lotto::WRefresh()
 	MISS;
 	MISE;
 }
-/*
-Wt::WImage* WEB_Container_Lotto::SimpelIMG(std::string cardNameSimple, unsigned int iColor)
+
+void WEB_Container_Lotto::FillMapVector()
 {
 	MISS;
-
-	for each (SMJLottoCard* C in SMJLottoMatrix)
-	{
-		if (C->cardNameSimple == cardNameSimple)
-		{
-			MISEA("Found");
-			return &C->Img[iColor];
-		}
-	}
-
-	SMJLottoMatrix.push_back(new SMJLottoCard(
-		cardNameSimple,
-		DrawImg(Bro->J_GetLottoImg(cardNameSimple, 0), 185/4, 255/4),
-		DrawImg(Bro->J_GetLottoImg(cardNameSimple, 1), 185/4, 255/4)
-	));
-
-	MISEA("NEW");
-	return &SMJLottoMatrix[SMJLottoMatrix.size() - 1]->Img[iColor];
+	vMaps.push_back("0; None");
+	vMaps.push_back("8; Siege of Hope");
+	vMaps.push_back("20; The Treasure Fleet");
+	vMaps.push_back("22; The Soultree");
+	vMaps.push_back("32; Behind Enemy Lines");
+	vMaps.push_back("45; Encounters with Twilight");
+	vMaps.push_back("57; Defending Hope");
+	vMaps.push_back("9; Crusade");
+	vMaps.push_back("18; Sunbridge");
+	vMaps.push_back("21; The Insane God");
+	vMaps.push_back("24; Nightmare Shard");
+	vMaps.push_back("44; Nightmare's End");
+	vMaps.push_back("10; Bad Harvest");
+	vMaps.push_back("19; The Dwarven Riddle");
+	vMaps.push_back("25; The Guns of Lyr");
+	vMaps.push_back("26; King of the Giants");
+	vMaps.push_back("29; Titans");
+	vMaps.push_back("37; Ascension");
+	vMaps.push_back("60; Passage to Darkness");
+	vMaps.push_back("88; Mo");
+	vMaps.push_back("84; Ocean");
+	vMaps.push_back("99; Orecle");
+	vMaps.push_back("56; Convoy");
+	vMaps.push_back("35; Slave Master");
+	vMaps.push_back("74; Blight");
+	vMaps.push_back("98; Raven's End");
+	vMaps.push_back("100; Empire");
 }
-*/

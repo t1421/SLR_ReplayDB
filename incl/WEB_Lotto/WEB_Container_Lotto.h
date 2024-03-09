@@ -21,7 +21,8 @@ class WEB_Container_Lotto : public Wt::WApplication, public WEB_Toolbar //, publ
 {
 public:
 	
-	//Wt::WImage* SimpelIMG(std::string cardNameSimple, unsigned int iColor);
+	void FillMapVector();
+	std::vector<std::string> vMaps;
 
 	//----------------------------------------------------------------
 

@@ -3,6 +3,7 @@
 #include "..\..\incl\Broker.h" 
 
 #include "..\..\incl\WEB_Lotto\WEB_Lotto_Admin_Copy.h"
+#include "..\..\incl\WEB_Lotto\WEB_Container_Lotto.h"
 #include "..\..\incl\Utility.h"
 #include "..\..\incl\CardBaseSMJ.h"
 
@@ -92,35 +93,8 @@ void WEB_Lotto_Admin_Copy::FillMaps()
 	wtTabelle2->clear();
 	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>MAPS</h3>"))));
 	wtTabelle2->setMaximumSize(500, 750);
+	for each(std::string sMap in Con->vMaps)
+		if(sMap!="0; None")wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sMap))));
 	
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("8; Siege of Hope"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("20; The Treasure Fleet"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("22; The Soultree"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("32; Behind Enemy Lines"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("45; Encounters with Twilight"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("57; Defending Hope"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("9; Crusade"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("18; Sunbridge"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("21; The Insane God"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("24; Nightmare Shard"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("44; Nightmare's End"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("10; Bad Harvest"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("19; The Dwarven Riddle"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("25; The Guns of Lyr"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("26; King of the Giants"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("29; Titans"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("37; Ascension"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("60; Passage to Darkness"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("88; Mo"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("84; Ocean"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("99; Orecle"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("56; Convoy"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("35; Slave Master"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("74; Blight"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("98; Raven's End"))));
-	wtTabelle2->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("100; Empire"))));
-
-
-
 	MISE;
 }

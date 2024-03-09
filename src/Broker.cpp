@@ -509,4 +509,11 @@ void broker::INIT()
 	LottoStages.push_back(std::make_pair(0.10, 15));
 	LottoStages.push_back(std::make_pair(0.05, 10));
 }
+
+LottoWeek* broker::getPullWeek()
+{
+	for each(LottoWeek *W in vWeek)
+		if (W->iStatus == 3)return W;
+	return new LottoWeek();
+}
 #endif

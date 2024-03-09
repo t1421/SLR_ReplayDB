@@ -12,13 +12,19 @@ public:
 	WEB_Lotto_Admin_Pull(WEB_Container_Lotto *Con_);
 
 	Wt::WTable *wtTabelle;
+
+	Wt::WPushButton *wbAddCard;
+	Wt::WLineEdit *wlCardName;
+	Wt::WComboBox *wcMaps;
+	Wt::WText *wtPullWeek;
+
+	void CardPulled();
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 	void WRefresh();
 private:
-	LottoWeek *BroWeek;
 	WEB_Container_Lotto *Con;
 };
 

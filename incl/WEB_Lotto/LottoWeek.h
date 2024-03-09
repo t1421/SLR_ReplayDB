@@ -38,10 +38,17 @@ public:
 	unsigned int iStatus;
 
 	LottoWeek() : iWeek(0), iBFP(0), iStatus(0){};
+	LottoWeek(unsigned int iWeek) : iWeek(iWeek), iBFP(0), iStatus(0) { bSaveGame(); };
 	
 	bool bLoadGame(unsigned int _iWeek);
-	bool bSaveGame();
+	
 	std::mutex mx;
+
+	void setBFP(unsigned int iIN);
+	void setStatus(unsigned int iIN);
+	void setMap(unsigned int iIN);
+	void AddPull(std::string sRmoveCard);
+	void RemovePull(std::string sRmoveCard);
 	
 	bool CheckPlayer(std::string PlayerID);
 	std::string JoinWeek(Lotto_Player *inPlayer);
@@ -50,6 +57,9 @@ public:
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
+private:
+	bool bSaveGame();
+	
 };
 
 
