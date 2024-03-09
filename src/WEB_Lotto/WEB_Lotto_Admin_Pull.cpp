@@ -90,7 +90,7 @@ void WEB_Lotto_Admin_Pull::WRefresh()
 	
 		
 
-	wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Card</h3>"))));
+	wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Card " + std::to_string(PullWeek->vCardsPulled.size()) +  "</h3>"))));
 	wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Remove</h3>"))));
 
 	for each(std::string sCard in PullWeek->vCardsPulled)

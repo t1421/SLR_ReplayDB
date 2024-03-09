@@ -9,7 +9,7 @@
 
 broker *(LottoWeek::Bro) = NULL;
 
-bool comparePlayer(Lotto_Player * a, Lotto_Player * b) { return a->iPoints() < b->iPoints(); }
+bool comparePlayer(Lotto_Player * a, Lotto_Player * b) { return a->iPoints() > b->iPoints(); }
 
 bool LottoWeek::bLoadGame(unsigned int _iWeek)
 {
@@ -48,8 +48,9 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 					if (character == ';')
 						iCountSemi++;
 
-				for (unsigned int i = 0; i < iCountSemi; i++)
+				for (unsigned int i = 0; i < iCountSemi +1; i++)
 					vCardsPulled.push_back(entry(line, 0 + i).c_str());
+				
 			}
 
 			//Player
@@ -70,9 +71,9 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 					if (character == ';') 
 						iCountSemi++;
 
-				for (unsigned int i = 0; i < iCountSemi - 1; i++)
+				for (unsigned int i = 0; i < iCountSemi + 1; i++)
 				{
-					vPlayer[vPlayer.size() - 1]->vSimpleDeck.push_back(entry(line, 2 + i).c_str());
+					vPlayer[vPlayer.size() - 1]->vSimpleDeck.push_back(entry(line, 0 + i).c_str());
 					vPlayer[vPlayer.size() - 1]->vPoints.push_back(0);
 				}
 			}
@@ -91,6 +92,8 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 	mx.unlock();
 
 	CalcPulls();
+
+	
 	
 	MISE;	
 	return true;
@@ -190,12 +193,14 @@ void LottoWeek::CalcPulls()
 	{
 		for (unsigned int i = 0; i < P->vSimpleDeck.size(); i++)
 		{
+			P->vPoints[i] = 0;
 			for each(std::string C in vCardsPulled)
 			{
 				if (P->vSimpleDeck[i] == C)P->vPoints[i] = 1;
 			}
 		}
 		if (P->iMapID == iMapPull)P->iMapPoint = 1;
+		else P->iMapPoint = 0;
 	}
 
 	std::sort(vPlayer.begin(), vPlayer.end(), comparePlayer);
@@ -220,8 +225,10 @@ void LottoWeek::RemovePull(std::string sRmoveCard)
 	for (std::vector<std::string>::iterator it = vCardsPulled.begin(); it != vCardsPulled.end();)
 	{
 		if((*it) == sRmoveCard)it = vCardsPulled.erase(it);
+		else  ++it;
 	}
 	bSaveGame();
+	CalcPulls();
 	MISE;
 }
 
@@ -236,6 +243,11 @@ void LottoWeek::setBFP(unsigned int iIN)
 void LottoWeek::AddPull(std::string sRmoveCard)
 {
 	MISS;
+	for (std::string C : vCardsPulled)if (C == sRmoveCard)
+	{
+		MISEA("Dubeltte")
+		return;
+	}
 	vCardsPulled.push_back(sRmoveCard);
 	bSaveGame();
 	CalcPulls();

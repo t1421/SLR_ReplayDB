@@ -16,6 +16,7 @@ public:
 	WEB_Lotto_Week(WEB_Container_Lotto *Con_, LottoWeek *BroWeek_);
 
 	Wt::WTable *wtTabelle;
+	Wt::WTable *wtPulls;
 
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WTable *wtReplayResultCard;
