@@ -120,7 +120,13 @@ bool Reader::Open(std::string sFile)
 	PMVbuffer.reserve(length);
 	PMVFile.read(&PMVbuffer[0], length);
 	PMVFile.clear();
+#if defined BrokerPVP
+	lastRead = length;
+#else
 	PMVFile.close();
+#endif // BrokerPVP
+
+	
 
 	if (length <= 0)
 	{
@@ -155,3 +161,33 @@ std::string Reader::sAddDoubleBackslash(std::string changeString)
 	MISE;
 	return changeString;
 }
+
+#if defined BrokerPVP
+int Reader::readDeltaPMV()
+{
+	MISS;
+	PMVFile.seekg(0, std::ios_base::end);
+	length = PMVFile.tellg();
+	//MISD(length);
+
+	if (length == lastRead)
+	{
+		MISEA("nichts neues");
+		return 0;
+	}
+	else if (length < lastRead)
+	{
+		MISEA("new File");
+		return -1;
+	}
+
+	PMVFile.seekg(lastRead);
+	PMVbuffer.resize(length);
+	PMVFile.read(&PMVbuffer[lastRead], length - lastRead);
+	PMVFile.clear();
+	lastRead = length;
+
+	MISE;
+	return 1;
+}
+#endif

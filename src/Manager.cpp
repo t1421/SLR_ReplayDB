@@ -1,26 +1,31 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\incl\Broker.h" 
-
 #include "..\incl\Manager.h"
 #include "..\incl\Replay.h" 
-#include "..\incl\PMV_to_SQL.h" 
-#include "..\incl\SQL_MIS_New.h" 
-
 #include "..\incl\Utility.h"
 
+#ifndef noSQL
+#include "..\incl\PMV_to_SQL.h" 
+#include "..\incl\SQL_MIS_New.h" 
+#endif
+
+#ifdef BrokerNormal
 #include <boost/filesystem.hpp>
 using namespace boost::filesystem;
+#endif
 
 broker *(Manager::Bro) = NULL;
 
 Manager::Manager() :Thread_MIS("Manager")
 {
 	MISS;
+#ifndef noSQL
 	NN = new SQL_MIS_New("Manager");	
+#endif
 	MISE;
 }
-
+#ifdef BrokerNormal
 void Manager::Thread_Function()
 {
 	MISS;
@@ -77,4 +82,31 @@ void Manager::Thread_Function()
 	}	
 	MISE;
 }
+#endif
 
+
+#if defined BrokerPVP
+void Manager::Thread_Function()
+{
+	MISS;
+
+	std::stringstream ssCMD;
+
+	while (bRunning)
+	{
+		RR = new Replay();
+		if (RR->LoadPMV(Bro->L_getLivePvPPMV()))
+		{
+			Sleep(1000);
+			while (RR->readDelta() != -1)
+			{
+				MISD(RR->CountActions());
+				Sleep(1000);
+			}
+			RR->close();
+		}
+		Sleep(1000);
+	}
+	MISE;
+}
+#endif

@@ -26,6 +26,11 @@ public:
 
 	unsigned int PMVPosition;
 	size_t length;
+#if defined BrokerPVP
+	size_t lastRead;
+	void closeFile() { PMVFile.close(); };
+	int readDeltaPMV();
+#endif
 protected:
 	std::string sAddDoubleBackslash(std::string changeString);
 

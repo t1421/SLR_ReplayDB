@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-struct TomeStruct;
+
 
 class LOAD //: public Thread_MIS
 {
@@ -38,6 +38,9 @@ public:
 	std::string sBOOSTER_PATH;
 	std::string sMAPPIC_PATH;
 	std::string sFFMPEG;
+
+	std::string sLivePvPPMV;
+	std::string sLivePvP_OBS_Export;
 
 	int BOTRankMode[BOTXLIST + 1];
 

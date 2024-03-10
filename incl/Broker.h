@@ -83,6 +83,10 @@ public:
 	std::string L_getLOTTOPIC_PATH();
 	std::string L_getLOTTO_SAVE_PATH();
 	std::string L_getMAPPIC_PATH();
+	std::string L_getLivePvPPMV();
+	std::string L_getLivePvP_OBS_Export();
+
+	
 
 	int L_getBOTRankMode(int _BOT);
 #endif	

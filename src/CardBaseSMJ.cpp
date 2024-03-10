@@ -154,8 +154,8 @@ bool CardBaseSMJ::Init()
 			id, Enum[id].asString()));
 	}
 
-	return true;
 	MISE;
+	return true;	
 }
 
 

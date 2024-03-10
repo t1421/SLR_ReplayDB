@@ -3,7 +3,7 @@
 
 #include "..\incl\DEBUG.h"
 
-#if defined BrokerTome || defined BrokerNormal || defined BrokerWeb || defined BrokerLotto
+#if defined BrokerTome || defined BrokerNormal || defined BrokerWeb || defined BrokerLotto || defined BrokerPVP
 #include "..\incl\Replay.h" 
 #include "..\incl\Reader.h" 
 #include "..\incl\Thread_MIS.h" 
@@ -89,7 +89,7 @@ broker::broker()
 	DEBUG::learnBro(this);
 	B = NULL;	
 
-#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome || defined BrokerLotto
+#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome || defined BrokerLotto  || defined BrokerPVP
 	Replay::learnBro(this);
 	Reader::learnBro(this);
 	Thread_MIS::learnBro(this);
@@ -148,7 +148,7 @@ broker::broker()
 	J = NULL;
 #endif
 
-#ifdef BrokerNormal	
+#ifdef BrokerNormal	 || defined BrokerPVP
 	Thread_MIS::learnBro(this);
 #endif
 
@@ -363,8 +363,6 @@ std::string broker::L_getMAPPIC_PATH()
 {
 	return L->sMAPPIC_PATH;
 }
-
-
 int broker::L_getBOTRankMode(int _BOT)
 {
 	return L->BOTRankMode[_BOT];
@@ -373,6 +371,17 @@ std::string broker::L_getLOTTO_SAVE_PATH()
 {
 	return L->sLOTTO_SAVE_PATH;
 }
+
+std::string broker::L_getLivePvPPMV()
+{
+	return L->sLivePvPPMV;
+}
+std::string broker::L_getLivePvP_OBS_Export()
+{
+	return L->sLivePvP_OBS_Export;
+}
+
+
 #endif
 
 

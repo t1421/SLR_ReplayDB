@@ -1,9 +1,5 @@
-// SLR_ReplayDB.cpp : Definiert den Einstiegspunkt f�r die Konsolenanwendung.
-//
-
 #include "incl\Broker.h" 
 #include "incl\DEBUG.h" 
-//#include "incl\CardBase.h" 
 #include "incl\CardBaseSMJ.h" 
 #include "incl\LOAD.h" 
 #include "incl\Replay.h" 

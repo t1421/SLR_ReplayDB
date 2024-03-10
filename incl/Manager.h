@@ -4,8 +4,10 @@
 #include "Thread_MIS.h"
 
 class Replay;
+#ifndef noSQL
 class PMV_to_SQL;
 class SQL_MIS_New;
+#endif
 
 class Manager : public Thread_MIS
 {
@@ -24,8 +26,11 @@ private:
 	void Thread_Function();
 
 	Replay * RR;
+
+#ifndef noSQL
 	PMV_to_SQL * PP;
 	SQL_MIS_New * NN;
+#endif
 
 
 };

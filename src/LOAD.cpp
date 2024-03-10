@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\incl\Broker.h"
 
@@ -49,6 +49,9 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "MAPPIC_PATH"))sMAPPIC_PATH = line.c_str();
 			
 			if (INI_Value_Check(line, "FFMPEG"))sFFMPEG = line.c_str();
+			if (INI_Value_Check(line, "LivePvPPMV"))sLivePvPPMV = line.c_str();
+			if (INI_Value_Check(line, "LivePvP_OBS_Export"))sLivePvP_OBS_Export = line.c_str();
+			
 			
 			if (INI_Value_Check(line, "BOT6RankMode"))BOTRankMode[BOT6LIST] = atoi(line.c_str());			
 			

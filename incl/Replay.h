@@ -11,8 +11,8 @@
 //unsigned short		///16
 //unsigned long			///32
 //unsigned long long	///64
-
 class Replay : private Reader
+
 {
 public:
 	Replay();
@@ -60,6 +60,11 @@ public:
 
 	std::stringstream ssPMVFile;
 	std::string sSQLGameID;
+
+#if defined BrokerPVP
+	int readDelta();
+	void close() { closeFile(); };
+#endif
 protected:
 
 private:

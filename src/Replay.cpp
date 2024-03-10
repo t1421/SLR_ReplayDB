@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\incl\Broker.h" 
 
@@ -21,6 +21,7 @@ Replay::~Replay()
 	MISE;
 }
 
+#ifndef BrokerPVP
 bool Replay::LoadPMV(std::string sFile)
 {
 	MISS;
@@ -97,6 +98,7 @@ bool Replay::LoadPMV(std::string sFile)
 	MISE;
 	return OK;
 }
+#endif 
 
 bool Replay::ReadHeader()
 {
@@ -1246,3 +1248,79 @@ int Replay::CountActions(std::string sAction)
 	return iOut;
 }
 
+#if defined BrokerPVP
+int Replay::readDelta()
+{
+	MISS;
+	int PMVReturn = 0;
+	
+	if (!OK)
+	{
+		MISEA("Kein Delat befor head");
+		return -1;
+	}
+
+	PMVReturn = readDeltaPMV();
+	if (PMVReturn == 0 || PMVReturn == -1)
+	{
+		MISEA("Nichts neues");
+		return PMVReturn;
+	}
+	//PMVPosition = 0;
+
+	ReadActions();
+
+
+	MISE;
+	return 1;
+}
+
+bool Replay::LoadPMV(std::string sFile)
+{
+	MISS;
+
+	OK = true;
+
+	if (!Open(sFile))
+	{
+		MISERROR("<-- error opening PMV");
+		OK = false;
+		return false;
+	}
+	
+	if (ReadHeader() == false)
+	{
+		MISERROR("<-- ReadHeader faild");
+		OK = false;
+		return false;
+	}
+
+	if (ReadActions() == false)
+	{
+		MISERROR("<-- ReadActions faild");
+		OK = false;
+		return false;
+	}
+	/*
+	if (ConnectActionToPlayer() == false)
+	{
+		MISERROR("<-- ConnectActionToPlayer faild");
+		OK = false;
+		return false;
+	}
+	*/
+	/*
+	if (FillPlayerIDInAction() == false)
+	{
+		MISERROR("<-- FillPlayerIDInAction faild");
+		OK = false;
+		return false;
+	}
+	*/
+
+	//WinningTeam = FindWinningTeam();
+
+	MISE;
+	return OK;
+}
+#endif
