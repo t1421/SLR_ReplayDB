@@ -15,6 +15,8 @@
 using namespace boost::filesystem;
 #endif
 
+#include <fstream>
+
 broker *(Manager::Bro) = NULL;
 
 Manager::Manager() :Thread_MIS("Manager")
@@ -23,6 +25,7 @@ Manager::Manager() :Thread_MIS("Manager")
 #ifndef noSQL
 	NN = new SQL_MIS_New("Manager");	
 #endif
+
 	MISE;
 }
 #ifdef BrokerNormal
@@ -94,19 +97,156 @@ void Manager::Thread_Function()
 
 	while (bRunning)
 	{
+		
 		RR = new Replay();
+		iLastAction = 0;		
+		minActionPlayer = 0;
+		maxActionPlayer = 0;
 		if (RR->LoadPMV(Bro->L_getLivePvPPMV()))
-		{
-			Sleep(1000);
+		{			
+			ResteLiveFiles();
+			while(!RR->ConnectActionToPlayer())
+			{
+				MISD("Wait for Actions to Connect");
+				Sleep(1000);
+				RR->readDelta();
+			}
+			
+			minActionPlayer = RR->PlayerMatrix[0]->ActionPlayer;
+			maxActionPlayer = RR->PlayerMatrix[RR->PlayerMatrix.size() - 1]->ActionPlayer;
+						
 			while (RR->readDelta() != -1)
 			{
-				MISD(RR->CountActions());
+				switch (processActions())
+				{
+				case -1: //Re Calc
+					goto exit_loop;
+					break;
+				case 0: //Nichts
+					break;
+				case 1: //Karrte gespielt
+					UpdateFiles();
+					break;
+				
+				}
+
+				//MISD(RR->CountActions());
 				Sleep(1000);
 			}
+
+		exit_loop:;
 			RR->close();
 		}
 		Sleep(1000);
 	}
 	MISE;
 }
+
+void Manager::ResteLiveFiles()
+{
+	MISS;
+	for(unsigned int i = 0;i<6;i++)
+		for (unsigned int j = 0; j < 20; j++)
+		{
+			SetCard(i * 100 + j, 0, 0, 0, 0);
+		}
+
+	MISE;
+}
+
+void Manager::UpdateFiles()
+{
+	MISS;
+	for(unsigned int i = 0; i < RR->PlayerMatrix.size();i++)
+		for (unsigned int j = 0; j < RR->PlayerMatrix[i]->Deck.size(); j++)
+			SetCard(
+				i * 100 + j, 
+				RR->PlayerMatrix[i]->Deck[j]->CardID, 
+				RR->PlayerMatrix[i]->Deck[j]->Upgrade, 
+				RR->PlayerMatrix[i]->Deck[j]->Charges, 
+				RR->PlayerMatrix[i]->Deck[j]->count);
+	MISE;
+}
+
+int Manager::processActions()
+{
+	MISS;
+	int iReturn = 0;
+
+	for (unsigned int i = iLastAction; i < RR->ActionMatrix.size(); i++)
+	{
+		if (RR->ActionMatrix[i]->ActionPlayer != 0
+			&& (RR->ActionMatrix[i]->ActionPlayer < minActionPlayer ||
+				RR->ActionMatrix[i]->ActionPlayer > maxActionPlayer))
+		{
+			MISEA("Re Calc Players");
+			return -1;
+		}
+
+		if (RR->ActionMatrix[i]->Type == 4009 ||
+			RR->ActionMatrix[i]->Type == 4010 ||
+			RR->ActionMatrix[i]->Type == 4011 ||
+			RR->ActionMatrix[i]->Type == 4012)
+		{
+			AddCardToPlayer(RR->ActionMatrix[i]);
+			iReturn = 1;
+		}
+		
+	}
+	iLastAction = RR->ActionMatrix.size();
+
+	MISE;
+	return iReturn;
+}
+
+void Manager::AddCardToPlayer(Action *Import)
+{
+	MISS;
+	bool bFound = false;
+	Card* Card_TEMP = new Card;
+	for each (Player *P in RR->PlayerMatrix)
+	{
+		if (P->ActionPlayer == Import->ActionPlayer)
+		{
+			for each(Card *C in P->Deck)
+			{
+				if (C->CardID == Import->Card)
+				{
+					bFound = true;
+					C->count++;
+				}
+			}
+
+			if (!bFound)
+			{
+				Card_TEMP->CardFull = Import->CardFull;
+				Card_TEMP->CardID = Import->Card;
+				Card_TEMP->Charges = Import->Charges;
+				Card_TEMP->Upgrade = Import->Upgrade;
+				Card_TEMP->DeckCardID = P->Deck.size();
+				Card_TEMP->count = 1;
+				P->Deck.push_back(Card_TEMP);
+			}
+		}
+	}	
+	MISE;
+}
+
+void Manager::SetCard(unsigned int POS, unsigned short CardID, unsigned char Upgrade, unsigned char Charges, unsigned int Count)
+{
+	MISS;
+	std::ifstream  src(Bro->J_GetImage(CardID, Upgrade, Charges, Big, false), std::ios::binary);
+	std::ofstream  dst(Bro->L_getLivePvP_OBS_Export() + std::to_string(POS) + ".webp", std::ios::binary);
+	dst << src.rdbuf();
+	src.close();
+	dst.close();
+
+	dst.open(Bro->L_getLivePvP_OBS_Export() + std::to_string(POS) + ".txt", std::ios::binary);
+	dst << Count;
+	dst.close();	
+	MISE;
+}
+
+
 #endif
+

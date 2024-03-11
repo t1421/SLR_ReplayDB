@@ -61,6 +61,7 @@ public:
 	std::stringstream ssPMVFile;
 	std::string sSQLGameID;
 
+	bool ConnectActionToPlayer();
 #if defined BrokerPVP
 	int readDelta();
 	void close() { closeFile(); };
@@ -70,7 +71,7 @@ protected:
 private:
 	bool ReadHeader();
 	bool ReadActions();
-	bool ConnectActionToPlayer();
+	
 	bool AddFirstOrb();
 	bool SetMinLeaveTime();
 	bool SetCharges();

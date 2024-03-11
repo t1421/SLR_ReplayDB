@@ -192,6 +192,7 @@ MISD("#10");
 		MISD("Player_TEMP->CardsTotal" + std::to_string(Player_TEMP->CardsTotal));*/
 
 MISD("PlayerX");
+
 		for (int i = 0; i < PlayerMatrix[PlayerMatrix.size() - 1]->CardsTotal; i++)
 		{
 			//MISD(std::to_string(i) + " / " + std::to_string(PlayerMatrix[PlayerMatrix.size() - 1]->CardsTotal));
@@ -207,7 +208,9 @@ MISD("PlayerX");
 			PlayerMatrix[PlayerMatrix.size() - 1]->Deck.push_back(Card_TEMP);
 
 		}	
-		
+#if defined BrokerPVP
+		PlayerMatrix[PlayerMatrix.size() - 1]->Deck.clear();
+#endif 
 	}
 
 	if (ActionBlock != PMVPosition)

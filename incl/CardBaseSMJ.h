@@ -10,7 +10,7 @@
 
 #include "DataTypes.h" 
 
-enum SMJPicType {Small, Big, ImgOnly, Lotto};
+
 
 class CardBaseSMJ
 {

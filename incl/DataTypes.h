@@ -9,6 +9,8 @@
 #include <Wt/WImage.h>
 #endif
 
+enum SMJPicType { Small, Big, ImgOnly, Lotto };
+
 struct Allied {
 	unsigned char i;
 	unsigned char j;
