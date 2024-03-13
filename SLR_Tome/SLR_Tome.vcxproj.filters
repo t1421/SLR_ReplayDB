@@ -36,9 +36,6 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\SLR_Tome.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB\WEB_Main.cpp">
       <Filter>Quelldateien\WEB</Filter>
     </ClCompile>
@@ -111,6 +108,7 @@
     <ClCompile Include="..\src\Replay.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
+    <ClCompile Include="..\SLR_Tome.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\WEB\WEB_Main.h">

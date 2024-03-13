@@ -1,5 +1,3 @@
-// SLR_ReplayParserWeb.cpp : Definiert den Einstiegspunkt f�r die Konsolenanwendung.
-//
 #define DF_Debug
 
 #include "incl\Broker.h"

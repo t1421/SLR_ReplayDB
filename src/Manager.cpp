@@ -94,6 +94,7 @@ void Manager::Thread_Function()
 	MISS;
 
 	std::stringstream ssCMD;
+	unsigned int iSaveNr;
 
 	while (bRunning)
 	{
@@ -114,6 +115,16 @@ void Manager::Thread_Function()
 			
 			minActionPlayer = RR->PlayerMatrix[0]->ActionPlayer;
 			maxActionPlayer = RR->PlayerMatrix[RR->PlayerMatrix.size() - 1]->ActionPlayer;
+
+			iSaveNr = 0 ;
+			for (unsigned int i = 0; i < RR->PlayerMatrix.size(); i++)
+			{
+				if (i > 0)if (RR->PlayerMatrix[i]->GroupID != RR->PlayerMatrix[i - 1]->GroupID)iSaveNr = 3;
+				RR->PlayerMatrix[i]->iSaveID = iSaveNr;
+				iSaveNr++;
+			}
+
+			for each (Player *P in RR->PlayerMatrix)SetPlayer(P->iSaveID, P->Name);
 						
 			while (RR->readDelta() != -1)
 			{
@@ -145,11 +156,14 @@ void Manager::Thread_Function()
 void Manager::ResteLiveFiles()
 {
 	MISS;
-	for(unsigned int i = 0;i<6;i++)
+	for (unsigned int i = 0; i < 6; i++)
+	{
+		SetPlayer(i, "");
 		for (unsigned int j = 0; j < 20; j++)
 		{
 			SetCard(i * 100 + j, 0, 0, 0, 0);
 		}
+	}
 
 	MISE;
 }
@@ -160,7 +174,7 @@ void Manager::UpdateFiles()
 	for(unsigned int i = 0; i < RR->PlayerMatrix.size();i++)
 		for (unsigned int j = 0; j < RR->PlayerMatrix[i]->Deck.size(); j++)
 			SetCard(
-				i * 100 + j, 
+				RR->PlayerMatrix[i]->iSaveID * 100 + j,
 				RR->PlayerMatrix[i]->Deck[j]->CardID, 
 				RR->PlayerMatrix[i]->Deck[j]->Upgrade, 
 				RR->PlayerMatrix[i]->Deck[j]->Charges, 
@@ -175,6 +189,7 @@ int Manager::processActions()
 
 	for (unsigned int i = iLastAction; i < RR->ActionMatrix.size(); i++)
 	{
+
 		if (RR->ActionMatrix[i]->ActionPlayer != 0
 			&& (RR->ActionMatrix[i]->ActionPlayer < minActionPlayer ||
 				RR->ActionMatrix[i]->ActionPlayer > maxActionPlayer))
@@ -242,8 +257,18 @@ void Manager::SetCard(unsigned int POS, unsigned short CardID, unsigned char Upg
 	dst.close();
 
 	dst.open(Bro->L_getLivePvP_OBS_Export() + std::to_string(POS) + ".txt", std::ios::binary);
-	dst << Count;
+	if(Count>0)dst << Count;
+	else dst << " ";
 	dst.close();	
+	MISE;
+}
+
+void Manager::SetPlayer(unsigned int POS, std::string sName)
+{
+	MISS;	
+	std::ofstream  dst(Bro->L_getLivePvP_OBS_Export() + "P" + std::to_string(POS) + ".txt", std::ios::binary);	
+	dst << sName;
+	dst.close();
 	MISE;
 }
 

@@ -241,20 +241,7 @@ void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 
 	MISE;
 }
-/*
-std::string WEB_Container_Tome::sGetParam(const Wt::WEnvironment& env, std::string sParam)
-{
-	MISS;
-	if (!env.getParameterValues(sParam).empty())
-	{
-		const std::string *PARA = (env.getParameter(sParam));
-		MISE;
-		return PARA->c_str();
-	}
-	MISEA("V2");
-	return "";
-}
-*/
+
 void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Booster*> vAllBoosters)
 {
 	MISS;

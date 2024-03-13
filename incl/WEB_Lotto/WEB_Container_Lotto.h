@@ -14,9 +14,8 @@
 
 
 class Replay;
-struct  SMJLottoCard;
 
-class WEB_Container_Lotto : public Wt::WApplication, public WEB_Toolbar //, public WEB_Analyser
+class WEB_Container_Lotto : public Wt::WApplication, public WEB_Server::Client, public WEB_Toolbar
 
 {
 public:
@@ -29,6 +28,10 @@ public:
 	WEB_Container_Lotto(const Wt::WEnvironment& env);
 	~WEB_Container_Lotto();
 
+	void connect();
+	void disconnect();
+	void processChatEvent(const MISEvent& event);
+
 	//BROKER
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
@@ -36,8 +39,6 @@ public:
 
 private:
 	void WRefresh();
-
-	std::vector<SMJLottoCard*> SMJLottoMatrix;
 
 	WEB_Lotto_Admin *Admin;
 	std::vector<WEB_Lotto_Week *> Weeks;

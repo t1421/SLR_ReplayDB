@@ -46,6 +46,9 @@ struct Player {
 	Wt::WCheckBox *wcBox;
 	unsigned int iActionCount;
 #endif 
+#if defined BrokerPVP
+	unsigned int iSaveID;
+#endif 
 };
 
 struct Action {

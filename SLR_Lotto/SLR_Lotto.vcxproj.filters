@@ -75,12 +75,6 @@
     <ClCompile Include="..\src\WEB_Lotto\WEB_Container_Lotto.cpp">
       <Filter>Quelldateien\Lotto</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\SQL_MIS_New.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\PMV_to_SQL.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\SLR_Lotto.cpp" />
     <ClCompile Include="..\src\WEB_Lotto\LottoWeek.cpp">
       <Filter>Quelldateien\Lotto</Filter>
@@ -146,12 +140,6 @@
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Lotto\WEB_Container_Lotto.h">
       <Filter>Headerdateien\Lotto</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\SQL_MIS_New.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\PMV_to_SQL.h">
-      <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Lotto\LottoWeek.h">
       <Filter>Headerdateien\Lotto</Filter>

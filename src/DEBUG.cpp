@@ -40,6 +40,7 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Replay", "SwitchType", "*", "false"); 
 		Fill_DBArray("Replay", "FindWinningTeam", "*", "false");
 		Fill_DBArray("Replay", "CountActions", "*", "false");
+		Fill_DBArray("Replay", "readDelta", "*", "false");
 		
 		
 		Fill_DBArray("Reader", "*", "*", "false");
@@ -54,9 +55,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Thread_MIS", "*", "*", "true");
 
 		
-		Fill_DBArray("Manager", "*", "*", "true");
-		Fill_DBArray("Manager", "*", "*", "false");
-		Fill_DBArray("Manager", "*", "*", "true");
+		Fill_DBArray("Manager", "*", "*", "true");	
+		Fill_DBArray("Manager", "processActions", "*", "false");
 
 		Fill_DBArray("SQL_MIS_New", "*", "*", "true");
 		Fill_DBArray("SQL_MIS_New", "send", "*", "false");

@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\incl\Broker.h" 
 
@@ -703,6 +703,11 @@ bool Replay::ReadActions()
 				readUnsignedLong(); // Y	
 				break;
 			case 4045: // SLR desync
+#if defined BrokerPVP
+				PMVPosition = SollPos;
+				goto SKIP;
+#else
+
 				readUnsignedShort(); //Size of Data
 				switch (this->readUnsignedChar()) //ID of inner Data
 				{
@@ -746,7 +751,7 @@ bool Replay::ReadActions()
 
 				}
 				break;
-			
+#endif
 			default:
 				MISERROR(FileName);
 				MISERROR(sTime(Action_TEMP->Time) + "#" +
@@ -758,6 +763,7 @@ bool Replay::ReadActions()
 				OK = false;								
 			}			
 			ActionMatrix.push_back(Action_TEMP);
+		SKIP:;
 		}			
 
 	}

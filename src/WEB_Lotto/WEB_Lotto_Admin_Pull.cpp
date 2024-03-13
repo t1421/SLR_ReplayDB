@@ -62,6 +62,7 @@ WEB_Lotto_Admin_Pull::WEB_Lotto_Admin_Pull(WEB_Container_Lotto *Con_) : Con(Con_
 	wcMaps->changed().connect(std::bind([=]() {
 		Bro->getPullWeek()->setMap(atoi(entry(WSTRINGtoSTRING(wcMaps->currentText()),0).c_str()));
 		WRefresh();
+		Bro->postChatEventMIS("Pull");
 	}));
 	MISD("#5");
 
@@ -102,6 +103,7 @@ void WEB_Lotto_Admin_Pull::WRefresh()
 		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(iRow, 1)->widget(0))->clicked().connect(std::bind([=]() {
 			PullWeek->RemovePull(sCard);
 			WRefresh();
+			Bro->postChatEventMIS("Pull");
 		}));
 	}
 	MISE;
@@ -115,5 +117,6 @@ void WEB_Lotto_Admin_Pull::CardPulled()
 	Bro->getPullWeek()->AddPull(WSTRINGtoSTRING(wlCardName->text()));
 	wlCardName->setText("");
 	WRefresh();
+	Bro->postChatEventMIS("Pull");
 	MISE;
 }

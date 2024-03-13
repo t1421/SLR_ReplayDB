@@ -1,14 +1,11 @@
 #define DF_Debug
 
 #define _CRT_SECURE_NO_WARNINGS
-#define LottoMaxWeeks 3
 
 #include "..\..\incl\Broker.h" 
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
 #include "..\..\incl\WEB\WEB_Utility.h"
-//#include "..\..\incl\WEB_Analyser\WEB_ME.h"
-//#include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\..\incl\WEB_Lotto\WEB_Container_Lotto.h"
 #include "..\..\incl\WEB_Lotto\LottoWeek.h"
 
@@ -76,21 +73,18 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 
 	MISD("#6");
 
-	if (sAdmin == Bro->L_getAdminKey())WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Admin", *Admin->cMain, Admin);
-	//for (int i = Weeks.size() - 1; i > 0 && i > Weeks.size() - LottoMaxWeeks; i--)
 	for (int i = Weeks.size() - 1; i >= 0; i--)
 	{		
 		MISD(i);
 		ToolBarButton(WEB_Toolbar::bToolbar.size(), std::to_string(Weeks[i]->BroWeek->iWeek), *Weeks[i]->cMain, Weeks[i]);
 	}
-	
+	if (sAdmin == Bro->L_getAdminKey())WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Admin", *Admin->cMain, Admin);
 		
-	//WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
 	if(WEB_Toolbar::bToolbar.size()>0)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 
 	MISD("#7");	
-	
+	connect();
 	MISE;
 }
 
@@ -98,6 +92,7 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 WEB_Container_Lotto::~WEB_Container_Lotto()
 {
 	MISS;
+	disconnect();
 	MISE;
 }
 
@@ -137,4 +132,61 @@ void WEB_Container_Lotto::FillMapVector()
 	vMaps.push_back("74; Blight");
 	vMaps.push_back("98; Raven's End");
 	vMaps.push_back("100; Empire");
+}
+
+void WEB_Container_Lotto::connect()
+{
+	MISS;
+	if (Bro->W->WW)
+		if (Wt::WApplication::instance()->updatesEnabled() == false)
+			if (Bro->W->WW->connect
+			(this, std::bind(&WEB_Container_Lotto::processChatEvent, this, std::placeholders::_1)))
+				Wt::WApplication::instance()->enableUpdates(true);
+	MISE;
+}
+
+void WEB_Container_Lotto::disconnect()
+{
+	MISS;
+	if (Bro->W->WW->disconnect(this))
+	{
+		MISD("#1");
+		Wt::WApplication::instance()->enableUpdates(false);
+	}
+	MISE;
+}
+
+
+
+void WEB_Container_Lotto::processChatEvent(const MISEvent& event)
+{
+	MISS;
+	MISD(event.Value1_ + ";" + event.Value2_ + ";" + event.Value3_ + ";" + event.Value4_);
+
+	if (event.Value1_ == "Pull" && WEB_Toolbar::sToolbar->currentIndex() < Weeks.size())
+	{
+		if (WEB_Toolbar::bToolbar[WEB_Toolbar::sToolbar->currentIndex()]->text() == std::to_string(Bro->getPullWeek()->iWeek))
+		{
+			updateFrame();
+		}
+	}
+
+	if (event.Value1_ == "UpdateWeek" && WEB_Toolbar::sToolbar->currentIndex() < Weeks.size())
+	{
+		MISD(WSTRINGtoSTRING(WEB_Toolbar::bToolbar[WEB_Toolbar::sToolbar->currentIndex()]->text()));
+		
+		if (WEB_Toolbar::bToolbar[WEB_Toolbar::sToolbar->currentIndex()]->text() == event.Value2_)
+		{
+			updateFrame();
+		}
+	}
+
+	//if (event.Value1_ == "AddDellWeek")
+
+	WApplication *app = WApplication::instance();
+	app->triggerUpdate();
+
+	//if (sParamDebug == "1")Debug->UpdateMes(event.Value1_ + ";" + event.Value2_ + ";" + event.Value3_ + ";" + event.Value4_);
+
+	MISE;
 }

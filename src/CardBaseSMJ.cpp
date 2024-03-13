@@ -1,5 +1,4 @@
-#define DF_Debug
-//#define BrokerNormal
+//#define DF_Debug
 
 #include "..\incl\Broker.h" 
 

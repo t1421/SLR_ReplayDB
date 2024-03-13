@@ -46,9 +46,8 @@ WEB_Lotto_Admin_Main::WEB_Lotto_Admin_Main(WEB_Container_Lotto *Con_) : Con(Con_
 	
 	wbAddWeek->clicked().connect(std::bind([=]() {
 		Bro->vWeek.push_back(new LottoWeek(Bro->vWeek.size()));
-		//Bro->vWeek[Bro->vWeek.size() - 1]->iWeek = Bro->vWeek.size() - 1;
-		//Bro->vWeek[Bro->vWeek.size() - 1]->bSaveGame();
 		WRefresh();
+		//Bro->postChatEventMIS("AddDellWeek");
 	}));
 
 
@@ -109,6 +108,9 @@ void WEB_Lotto_Admin_Main::WRefresh()
 			L->setStatus(wtCB->currentIndex());
 			//L->bSaveGame();
 			WRefresh();
+			Bro->postChatEventMIS("UpdateWeek",std::to_string(L->iWeek));
+			//if(wtCB->currentIndex()==0)Bro->postChatEventMIS("AddDellWeek");
+				
 		}));
 
 
