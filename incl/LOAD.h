@@ -41,6 +41,7 @@ public:
 
 	std::string sLivePvPPMV;
 	std::string sLivePvP_OBS_Export;
+	std::string sLivePvP_Pics;
 
 	int BOTRankMode[BOTXLIST + 1];
 

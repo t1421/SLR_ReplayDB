@@ -85,6 +85,7 @@ public:
 	std::string L_getMAPPIC_PATH();
 	std::string L_getLivePvPPMV();
 	std::string L_getLivePvP_OBS_Export();
+	std::string L_getLivePvP_Pics();
 
 	
 
@@ -92,6 +93,7 @@ public:
 #endif	
 
 #ifndef noSMJ
+	std::string J_GetImageSmall(unsigned short _CardID);
 	std::string J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall);
 	unsigned char J_GetActionOrbForCardID(unsigned short CardID);
 	unsigned char J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges);

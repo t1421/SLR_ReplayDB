@@ -159,6 +159,7 @@ void Manager::ResteLiveFiles()
 	for (unsigned int i = 0; i < 6; i++)
 	{
 		SetPlayer(i, "");
+		SetCardBack(i, 0);
 		for (unsigned int j = 0; j < 20; j++)
 		{
 			SetCard(i * 100 + j, 0, 0, 0, 0);
@@ -171,14 +172,17 @@ void Manager::ResteLiveFiles()
 void Manager::UpdateFiles()
 {
 	MISS;
-	for(unsigned int i = 0; i < RR->PlayerMatrix.size();i++)
+	for (unsigned int i = 0; i < RR->PlayerMatrix.size(); i++)
+	{
+		SetCardBack(RR->PlayerMatrix[i]->iSaveID, RR->PlayerMatrix[i]->Deck.size());
 		for (unsigned int j = 0; j < RR->PlayerMatrix[i]->Deck.size(); j++)
 			SetCard(
 				RR->PlayerMatrix[i]->iSaveID * 100 + j,
-				RR->PlayerMatrix[i]->Deck[j]->CardID, 
-				RR->PlayerMatrix[i]->Deck[j]->Upgrade, 
-				RR->PlayerMatrix[i]->Deck[j]->Charges, 
+				RR->PlayerMatrix[i]->Deck[j]->CardID,
+				RR->PlayerMatrix[i]->Deck[j]->Upgrade,
+				RR->PlayerMatrix[i]->Deck[j]->Charges,
 				RR->PlayerMatrix[i]->Deck[j]->count);
+	}
 	MISE;
 }
 
@@ -250,7 +254,8 @@ void Manager::AddCardToPlayer(Action *Import)
 void Manager::SetCard(unsigned int POS, unsigned short CardID, unsigned char Upgrade, unsigned char Charges, unsigned int Count)
 {
 	MISS;
-	std::ifstream  src(Bro->J_GetImage(CardID, Upgrade, Charges, Big, false), std::ios::binary);
+	//std::ifstream  src(Bro->J_GetImage(CardID, Upgrade, Charges, Big, false), std::ios::binary);
+	std::ifstream  src(Bro->J_GetImageSmall(CardID), std::ios::binary);
 	std::ofstream  dst(Bro->L_getLivePvP_OBS_Export() + std::to_string(POS) + ".webp", std::ios::binary);
 	dst << src.rdbuf();
 	src.close();
@@ -260,6 +265,18 @@ void Manager::SetCard(unsigned int POS, unsigned short CardID, unsigned char Upg
 	if(Count>0)dst << Count;
 	else dst << " ";
 	dst.close();	
+	MISE;
+}
+
+void Manager::SetCardBack(unsigned int POS, unsigned int iCount)
+{
+	MISS;
+	std::ifstream src(Bro->L_getLivePvP_Pics() + std::to_string(iCount) + ".webp", std::ios::binary);
+	std::ofstream dst(Bro->L_getLivePvP_OBS_Export() + "B" + std::to_string(POS) + ".webp", std::ios::binary);
+	dst << src.rdbuf();
+	src.close();
+	dst.close();
+
 	MISE;
 }
 

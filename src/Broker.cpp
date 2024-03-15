@@ -380,7 +380,10 @@ std::string broker::L_getLivePvP_OBS_Export()
 {
 	return L->sLivePvP_OBS_Export;
 }
-
+std::string broker::L_getLivePvP_Pics()
+{
+	return L->sLivePvP_Pics;
+}
 
 #endif
 
@@ -397,6 +400,11 @@ std::string broker::J_GetImgOnly(unsigned short CardID)
 	return J->GetImage(CardID, 0, 0, ImgOnly, false);
 }
 
+std::string broker::J_GetImageSmall(unsigned short _CardID)
+{
+	return J->GetImage(_CardID, 0, 0, Small,false);
+
+}
 std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall)
 {
 	return J->GetImage(_CardID, _Upgrade, _Charges, Big, _Count==0);
