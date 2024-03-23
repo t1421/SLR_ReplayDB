@@ -226,11 +226,11 @@ void WEB_Lotto_Week::WRefresh()
 		wtPulls->elementAt(iStageRow, 7)->setColumnSpan(6);
 		for(unsigned int i = 0; i < BroWeek->vCardsPulled.size();i++)
 		{
-			if (i == 0 || i == 20)
+			if (i == 0 || i == 8)
 			{
 				iStageRow++;
 			}
-			wtPulls->elementAt(iStageRow, i + 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetLottoImg(BroWeek->vCardsPulled[i], 1), Card_Size_X, Card_Size_Y))));
+			wtPulls->elementAt(iStageRow, i % 8)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetLottoImg(BroWeek->vCardsPulled[i], 1), Card_Size_X * 2.5, Card_Size_Y * 2.5))));
 		}
 	}
 

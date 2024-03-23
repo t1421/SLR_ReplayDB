@@ -6,7 +6,6 @@
 
 class WEB_Container_Lotto;
 class WEB_Lotto_Admin_Main;
-class WEB_Lotto_Admin_Copy;
 class WEB_Lotto_Admin_Pull;
 
 class WEB_Lotto_Admin : public WebRefresh, public WEB_Toolbar
@@ -16,7 +15,6 @@ public:
 	WEB_Lotto_Admin(WEB_Container_Lotto *Con_);
 
 	WEB_Lotto_Admin_Main *Main;
-	WEB_Lotto_Admin_Copy *Copy;
 	WEB_Lotto_Admin_Pull *Pull;
 	
 	static broker* Bro;

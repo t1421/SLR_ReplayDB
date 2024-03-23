@@ -52,7 +52,6 @@
 #include "..\incl\WEB_Lotto\WEB_Container_Lotto.h"
 #include "..\incl\WEB_Lotto\LottoWeek.h"
 #include "..\incl\WEB_Lotto\WEB_Lotto_Admin.h"
-#include "..\incl\WEB_Lotto\WEB_Lotto_Admin_Copy.h"
 #include "..\incl\WEB_Lotto\WEB_Lotto_Admin_Main.h"
 #include "..\incl\WEB_Lotto\WEB_Lotto_Admin_Pull.h"
 #include "..\incl\WEB_Lotto\WEB_Lotto_Week.h"
@@ -137,7 +136,6 @@ broker::broker()
 	WEB_Container_Lotto::learnBro(this);
 	LottoWeek::learnBro(this);	
 	WEB_Lotto_Admin::learnBro(this);
-	WEB_Lotto_Admin_Copy::learnBro(this);
 	WEB_Lotto_Admin_Main::learnBro(this);
 	WEB_Lotto_Admin_Pull::learnBro(this);
 	WEB_Lotto_Week::learnBro(this);	
@@ -444,6 +442,15 @@ std::string broker::J_GetLottoImg(std::string cardNameSimple, unsigned int iColo
 			return J->GetImage(C->cardId, 0, 0, Lotto, iColor == 0);
 	}
 	return "";
+}
+
+std::vector <std::string> broker::J_getSimpelCardPool()
+{
+	std::vector <std::string> vReturn;
+	for each (SMJCard* C in J->SMJMatrix)vReturn.push_back(C->cardNameSimple);
+	sort(vReturn.begin(), vReturn.end());
+	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
+	return vReturn;
 }
 #endif
 

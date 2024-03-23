@@ -4,7 +4,6 @@
 
 #include "..\..\incl\WEB_Lotto\WEB_Lotto_Admin.h"
 #include "..\..\incl\WEB_Lotto\WEB_Lotto_Admin_Main.h"
-#include "..\..\incl\WEB_Lotto\WEB_Lotto_Admin_Copy.h"
 #include "..\..\incl\WEB_Lotto\WEB_Lotto_Admin_Pull.h"
 #include "..\..\incl\WEB_Lotto\WEB_Container_Lotto.h"
 #include "..\..\incl\WEB_Lotto\LottoWeek.h"
@@ -26,7 +25,6 @@ WEB_Lotto_Admin::WEB_Lotto_Admin(WEB_Container_Lotto *Con_) : Con(Con_)
 		
 	MISD("#1");
 	Main = new WEB_Lotto_Admin_Main(Con);
-	Copy = new WEB_Lotto_Admin_Copy(Con);
 	Pull = new WEB_Lotto_Admin_Pull(Con);
 	
 	MISD("#2");
@@ -38,7 +36,6 @@ WEB_Lotto_Admin::WEB_Lotto_Admin(WEB_Container_Lotto *Con_) : Con(Con_)
 	MISD("#3");
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Main", *Main->cMain, Main);
-	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Copy", *Copy->cMain, Copy);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Pull", *Pull->cMain, Pull);
 
 	MISD("#4");

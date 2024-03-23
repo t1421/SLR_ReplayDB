@@ -36,9 +36,10 @@ public:
 	unsigned int iWeek;
 	unsigned int iBFP;
 	unsigned int iStatus;
+	unsigned int iNumBoosters;
 
-	LottoWeek() : iWeek(0), iBFP(0), iStatus(0){};
-	LottoWeek(unsigned int iWeek) : iWeek(iWeek), iBFP(0), iStatus(0) { bSaveGame(); };
+	LottoWeek() : iWeek(0), iBFP(0), iStatus(0), iNumBoosters(0){};
+	LottoWeek(unsigned int iWeek) : iWeek(iWeek), iBFP(0), iStatus(0), iNumBoosters(0){ bSaveGame(); };
 	
 	bool bLoadGame(unsigned int _iWeek);
 	
@@ -47,18 +48,24 @@ public:
 	void setBFP(unsigned int iIN);
 	void setStatus(unsigned int iIN);
 	void setMap(unsigned int iIN);
-	void AddPull(std::string sRmoveCard);
-	void RemovePull(std::string sRmoveCard);
+	//void AddPull(std::string sRmoveCard);
+	//void RemovePull(std::string sRmoveCard);
+	void OpenBooster();
+	std::string OpenMap(std::vector<std::string> vMaps);
+	void RemoveFromPool(std::string sRemove);
 	
 	bool CheckPlayer(std::string PlayerID);
 	std::string JoinWeek(Lotto_Player *inPlayer);
 	void CalcPulls();
+	bool PullCard();
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 private:
 	bool bSaveGame();
+
+	std::vector <std::string> vCardPool;
 	
 };
 

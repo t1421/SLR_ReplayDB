@@ -179,7 +179,6 @@
     <ClCompile Include="..\src\WEB_Lotto\LottoWeek.cpp" />
     <ClCompile Include="..\src\WEB_Lotto\WEB_Container_Lotto.cpp" />
     <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Admin.cpp" />
-    <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Admin_Copy.cpp" />
     <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Admin_Main.cpp" />
     <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Admin_Pull.cpp" />
     <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Week.cpp" />
@@ -202,7 +201,6 @@
     <ClInclude Include="..\incl\WEB_Lotto\LottoWeek.h" />
     <ClInclude Include="..\incl\WEB_Lotto\WEB_Container_Lotto.h" />
     <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin.h" />
-    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin_Copy.h" />
     <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin_Main.h" />
     <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin_Pull.h" />
     <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Week.h" />

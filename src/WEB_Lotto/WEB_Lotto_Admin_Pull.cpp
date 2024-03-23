@@ -14,6 +14,8 @@
 #include <Wt/WComboBox.h>
 #include <Wt/WText.h>
 
+#define Card_Size_X 185 / 2
+#define Card_Size_Y 255 / 2
 
 broker *(WEB_Lotto_Admin_Pull::Bro) = NULL;
 
@@ -30,40 +32,50 @@ WEB_Lotto_Admin_Pull::WEB_Lotto_Admin_Pull(WEB_Container_Lotto *Con_) : Con(Con_
 
 	wtTabelle = new Wt::WTable();
 
-	wbAddCard = new Wt::WPushButton("Add Card");
-	wlCardName = new Wt::WLineEdit();
-	wcMaps = new Wt::WComboBox();
+	wbBooster = new Wt::WPushButton("Open Booster");
+	wbMap = new Wt::WPushButton("Pull Map");
+	wlMapName = new Wt::WLineEdit();
+	
 	wtPullWeek = new Wt::WText();;
 
 	MISD("#2");
 	
 	
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPullWeek)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcMaps)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddCard)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlCardName)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbMap)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlMapName)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbBooster)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
 	
 	
 	MISD("#3");
 	
-	for each(std::string sMap in Con->vMaps)wcMaps->addItem(sMap);
+	//for each(std::string sMap in Con->vMaps)wcMaps->addItem(sMap);
 	
 
 	MISD("#4");
-
+	/*
 	wbAddCard->clicked().connect(std::bind([=]() {
 		CardPulled();
 	}));
 	wlCardName->enterPressed().connect(std::bind([=]() {
 		CardPulled();
 	}));
-
+	*/
+	wbBooster->clicked().connect(std::bind([=]() {
+		PullBooster();
+	}));
+	wbMap->clicked().connect(std::bind([=]() {
+		PullMap();
+	}));
+	/*
 	wcMaps->changed().connect(std::bind([=]() {
 		Bro->getPullWeek()->setMap(atoi(entry(WSTRINGtoSTRING(wcMaps->currentText()),0).c_str()));
 		WRefresh();
 		Bro->postChatEventMIS("Pull");
 	}));
+	*/
 	MISD("#5");
 
 	WRefresh();
@@ -77,6 +89,7 @@ void WEB_Lotto_Admin_Pull::WRefresh()
 {
 	MISS;
 	unsigned int iRow = 0;
+	unsigned int iCol = 0;
 
 	wtTabelle->clear();
 
@@ -86,36 +99,51 @@ void WEB_Lotto_Admin_Pull::WRefresh()
 
 	wtPullWeek->setText("Pull Week" + std::to_string(PullWeek->iWeek));
 
-	wcMaps->setCurrentIndex(0);
-	for (unsigned int i = 0; i < Con->vMaps.size(); i++)if (atoi(entry(Con->vMaps[i], 0).c_str()) == PullWeek->iMapPull) wcMaps->setCurrentIndex(i);
-	
-		
-
-	wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Card " + std::to_string(PullWeek->vCardsPulled.size()) +  "</h3>"))));
-	wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>Remove</h3>"))));
+	//wcMaps->setCurrentIndex(0);
+	for (unsigned int i = 0; i < Con->vMaps.size(); i++)if (atoi(entry(Con->vMaps[i], 0).c_str()) == PullWeek->iMapPull) wlMapName->setText(Con->vMaps[i]);
 
 	for each(std::string sCard in PullWeek->vCardsPulled)
 	{
-		iRow++;
-
-		wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4>" + sCard + "</h4>"))));
-		wtTabelle->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("Remove"))));
-		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(iRow, 1)->widget(0))->clicked().connect(std::bind([=]() {
-			PullWeek->RemovePull(sCard);
-			WRefresh();
-			Bro->postChatEventMIS("Pull");
-		}));
+		//MISD(std::to_string(iCol) + sCard);
+		wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetLottoImg(sCard, 1), Card_Size_X, Card_Size_Y))));
+				
+		if (iCol == 8)
+		{
+			iCol = 0;
+			iRow++;
+		}
+		//else iCol++;
 	}
 	MISE;
 }
 
+/*
 void WEB_Lotto_Admin_Pull::CardPulled()
 {
 	MISS;
 	if (wlCardName->text() == "") return;
-
+	
 	Bro->getPullWeek()->AddPull(WSTRINGtoSTRING(wlCardName->text()));
 	wlCardName->setText("");
+	WRefresh();
+	Bro->postChatEventMIS("Pull");
+	MISE;
+}
+*/
+
+void WEB_Lotto_Admin_Pull::PullBooster()
+{
+	MISS;
+	Bro->getPullWeek()->OpenBooster();
+	WRefresh();
+	Bro->postChatEventMIS("Pull");
+	MISE;
+}
+
+void WEB_Lotto_Admin_Pull::PullMap()
+{
+	MISS;
+	Bro->getPullWeek()->setMap(atoi(entry(Bro->getPullWeek()->OpenMap(Con->vMaps), 0).c_str()));
 	WRefresh();
 	Bro->postChatEventMIS("Pull");
 	MISE;

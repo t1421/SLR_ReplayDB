@@ -6,6 +6,7 @@
 
 #include <fstream>
 #include <algorithm>
+#include <random>
 
 broker *(LottoWeek::Bro) = NULL;
 
@@ -38,6 +39,7 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 				iBFP = atoi(entry(line, 1).c_str());
 				iStatus = atoi(entry(line, 2).c_str());
 				iMapPull = atoi(entry(line, 3).c_str());
+				iNumBoosters = atoi(entry(line, 4).c_str());
 			}
 
 			//PulledCards
@@ -119,6 +121,7 @@ bool LottoWeek::bSaveGame()
 			<< ";" << iBFP
 			<< ";" << iStatus
 			<< ";" << iMapPull
+			<< ";" << iNumBoosters
 			<< ";\n";
 
 		ofFile << "C=";
@@ -216,9 +219,10 @@ void LottoWeek::setStatus(unsigned int iIN)
 		W->bSaveGame();
 	}
 	iStatus = iIN;
+	bSaveGame();
 	MISE;
 }
-
+/*
 void LottoWeek::RemovePull(std::string sRmoveCard)
 {
 	MISS;	
@@ -231,7 +235,7 @@ void LottoWeek::RemovePull(std::string sRmoveCard)
 	CalcPulls();
 	MISE;
 }
-
+*/
 void LottoWeek::setBFP(unsigned int iIN)
 {
 	MISS;
@@ -239,7 +243,7 @@ void LottoWeek::setBFP(unsigned int iIN)
 	bSaveGame();
 	MISE;
 }
-
+/*
 void LottoWeek::AddPull(std::string sRmoveCard)
 {
 	MISS;
@@ -253,7 +257,7 @@ void LottoWeek::AddPull(std::string sRmoveCard)
 	CalcPulls();
 	MISE;
 }
-
+*/
 void LottoWeek::setMap(unsigned int iIN)
 {
 	MISS;
@@ -261,4 +265,64 @@ void LottoWeek::setMap(unsigned int iIN)
 	bSaveGame();
 	CalcPulls();
 	MISE;
+}
+
+bool LottoWeek::PullCard()
+{
+	MISS;
+	int iRandome;
+	if (vCardPool.size() == 0)
+	{
+		vCardPool = Bro->J_getSimpelCardPool();
+		for each(std::string C in vCardsPulled)RemoveFromPool(C);
+	}
+	if (vCardPool.size() == 0)
+	{
+		MISEA("You pulled all cards xD");
+		return false;
+	}
+
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> distr(0, vCardPool.size() - 1);
+
+	iRandome = distr(gen);
+	vCardsPulled.push_back(vCardPool[iRandome]);
+	RemoveFromPool(vCardPool[iRandome]);
+
+	MISE;
+	return true;
+}
+
+void LottoWeek::RemoveFromPool(std::string sRemove)
+{
+	MISS;
+	for (std::vector<std::string>::iterator it = vCardPool.begin(); it != vCardPool.end();)
+	{
+		if ((*it) == sRemove)it = vCardPool.erase(it);
+		else  ++it;
+	}
+	MISE;
+}
+
+void LottoWeek::OpenBooster()
+{
+	MISS;
+	
+	for (unsigned int i = 0; i < 8; i++)PullCard();
+
+	bSaveGame();
+	CalcPulls();
+	MISE;
+}
+
+
+std::string LottoWeek::OpenMap(std::vector<std::string> vMaps)
+{
+	MISS;
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> distr(1, vMaps.size() - 1);
+	MISE;
+	return vMaps[distr(gen)];
 }

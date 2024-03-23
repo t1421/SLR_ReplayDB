@@ -103,6 +103,7 @@ public:
 	//Tome_Booster* J_OpenBooster(std::string iType);
 	Tome_Booster* J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
 	std::string J_GetLottoImg(std::string cardNameSimple, unsigned int iColor);
+	std::vector <std::string> J_getSimpelCardPool();
 #endif
 	
 
@@ -141,7 +142,7 @@ public:
 	void INIT();
 	LottoWeek* getPullWeek();
 	std::vector <LottoWeek*> vWeek;
-	std::vector<std::pair<float,unsigned int>> LottoStages;
+	std::vector<std::pair<float,unsigned int>> LottoStages;	
 #endif
 
 protected:

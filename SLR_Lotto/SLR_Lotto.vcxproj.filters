@@ -88,9 +88,6 @@
     <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser.cpp">
       <Filter>Quelldateien\Analyser</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Admin_Copy.cpp">
-      <Filter>Quelldateien\Lotto</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB_Lotto\WEB_Lotto_Admin_Main.cpp">
       <Filter>Quelldateien\Lotto</Filter>
     </ClCompile>
@@ -146,9 +143,6 @@
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser.h">
       <Filter>Headerdateien\Analyer</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin_Copy.h">
-      <Filter>Headerdateien\Lotto</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Lotto\WEB_Lotto_Admin_Main.h">
       <Filter>Headerdateien\Lotto</Filter>

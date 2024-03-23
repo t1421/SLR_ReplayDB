@@ -116,7 +116,6 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("LottoWeek", "*", "*", "true");
 		Fill_DBArray("WEB_Container_Lotto", "*", "*", "true");
 		Fill_DBArray("WEB_Lotto_Admin", "*", "*", "true");
-		Fill_DBArray("WEB_Lotto_Admin_Copy", "*", "*", "true");
 		Fill_DBArray("WEB_Lotto_Admin_Main", "*", "*", "true");
 		Fill_DBArray("WEB_Lotto_Admin_Pull", "*", "*", "true");
 		Fill_DBArray("WEB_Lotto_Week", "*", "*", "true");
