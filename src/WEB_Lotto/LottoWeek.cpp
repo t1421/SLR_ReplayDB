@@ -124,9 +124,12 @@ bool LottoWeek::bSaveGame()
 			<< ";" << iNumBoosters
 			<< ";\n";
 
-		ofFile << "C=";
-		for each(std::string C in vCardsPulled) ofFile << C << ";";
-		ofFile << "\n";
+		if (vCardsPulled.size() > 0)
+		{
+			ofFile << "C=";
+			for each(std::string C in vCardsPulled) ofFile << C << ";";
+			ofFile << "\n";
+		}
 
 		for (unsigned int i = 0; i < vPlayer.size(); i++)
 		{
