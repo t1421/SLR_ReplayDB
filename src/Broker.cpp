@@ -438,7 +438,9 @@ std::string broker::J_GetLottoImg(std::string cardNameSimple, unsigned int iColo
 {
 	for each (SMJCard* C in J->SMJMatrix)
 	{
-		if(C->cardNameSimple == cardNameSimple && C->promo == 0)
+		if(C->cardNameSimple == cardNameSimple && 
+			(C->promo == 0 || C->cardNameSimple == "Easter Egg" || C->cardNameSimple == "Santa Claus")
+			)
 			return J->GetImage(C->cardId, 0, 0, Lotto, iColor == 0);
 	}
 	return "";

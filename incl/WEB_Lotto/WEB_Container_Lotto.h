@@ -22,6 +22,7 @@ public:
 	
 	void FillMapVector();
 	std::vector<std::string> vMaps;
+	std::string getMapName(unsigned int iMap);
 
 	//----------------------------------------------------------------
 

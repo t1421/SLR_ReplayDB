@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\Replay.h" 
@@ -21,8 +21,8 @@
 #include <Wt/WLink.h>
 #include <Wt/WAnchor.h>
 
-#define Card_Size_X 40
-#define Card_Size_Y 55
+#define Card_Size_X 185 / 5
+#define Card_Size_Y 255 / 5
 
 broker *(WEB_Lotto_Week::Bro) = NULL;
 
@@ -220,9 +220,14 @@ void WEB_Lotto_Week::WRefresh()
 	{
 		iStageRow = 0;
 		wtPulls->elementAt(iStageRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>The Pulls</h3>"))));
-		wtPulls->elementAt(iStageRow, 0)->setColumnSpan(6);
+		wtPulls->elementAt(iStageRow, 0)->setColumnSpan(2);
 
-		if(BroWeek->iMapPull!=0)wtPulls->elementAt(iStageRow, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->L_getMAPPIC_PATH() + "1" + std::to_string(BroWeek->iMapPull) + ".jpg", Card_Size_Y, Card_Size_Y))));
+		if (BroWeek->iMapPull != 0)
+		{
+			wtPulls->elementAt(iStageRow, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>" + Con->getMapName(BroWeek->iMapPull) + "</h3>"))));
+			wtPulls->elementAt(iStageRow, 5)->setColumnSpan(2);
+			wtPulls->elementAt(iStageRow, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->L_getMAPPIC_PATH() + "1" + std::to_string(BroWeek->iMapPull) + ".jpg", Card_Size_Y * 2, Card_Size_Y * 2))));
+		}
 		wtPulls->elementAt(iStageRow, 7)->setColumnSpan(6);
 		for(unsigned int i = 0; i < BroWeek->vCardsPulled.size();i++)
 		{

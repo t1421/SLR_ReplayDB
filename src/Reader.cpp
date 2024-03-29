@@ -78,7 +78,6 @@ std::string Reader::readString()
 	return ssOUT.str();
 }
 
-
 std::string Reader::readWString()
 {
 	MISS;
@@ -99,6 +98,7 @@ std::string Reader::readWString()
 	MISEA("" + sOut);
 	return sOut;
 }
+
 
 bool Reader::Open(std::string sFile)
 {

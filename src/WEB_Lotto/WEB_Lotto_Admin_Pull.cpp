@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h" 
 
@@ -50,32 +50,16 @@ WEB_Lotto_Admin_Pull::WEB_Lotto_Admin_Pull(WEB_Container_Lotto *Con_) : Con(Con_
 	
 	
 	MISD("#3");
-	
-	//for each(std::string sMap in Con->vMaps)wcMaps->addItem(sMap);
-	
 
 	MISD("#4");
-	/*
-	wbAddCard->clicked().connect(std::bind([=]() {
-		CardPulled();
-	}));
-	wlCardName->enterPressed().connect(std::bind([=]() {
-		CardPulled();
-	}));
-	*/
+
 	wbBooster->clicked().connect(std::bind([=]() {
 		PullBooster();
 	}));
 	wbMap->clicked().connect(std::bind([=]() {
 		PullMap();
 	}));
-	/*
-	wcMaps->changed().connect(std::bind([=]() {
-		Bro->getPullWeek()->setMap(atoi(entry(WSTRINGtoSTRING(wcMaps->currentText()),0).c_str()));
-		WRefresh();
-		Bro->postChatEventMIS("Pull");
-	}));
-	*/
+
 	MISD("#5");
 
 	WRefresh();
@@ -97,14 +81,19 @@ void WEB_Lotto_Admin_Pull::WRefresh()
 	
 	if (PullWeek->iWeek == 0)return;
 
-	wtPullWeek->setText("Pull Week" + std::to_string(PullWeek->iWeek));
+	wtPullWeek->setText("Pull Week " + std::to_string(PullWeek->iWeek)
+		+ " Pulled Cards: " + std::to_string(PullWeek->vCardsPulled.size())
+		+ " (" + std::to_string(PullWeek->vCardsPulled.size() / 8) + ")"
+	);
+	
 
 	//wcMaps->setCurrentIndex(0);
 	for (unsigned int i = 0; i < Con->vMaps.size(); i++)if (atoi(entry(Con->vMaps[i], 0).c_str()) == PullWeek->iMapPull) wlMapName->setText(Con->vMaps[i]);
 
 	for each(std::string sCard in PullWeek->vCardsPulled)
 	{
-		//MISD(std::to_string(iCol) + sCard);
+		MISD(std::to_string(iCol) + sCard);
+		MISD(Bro->J_GetLottoImg(sCard, 1));
 		wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetLottoImg(sCard, 1), Card_Size_X, Card_Size_Y))));
 				
 		if (iCol == 8)

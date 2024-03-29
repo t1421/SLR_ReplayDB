@@ -113,7 +113,7 @@ bool CardBaseSMJ::Init()
 
 		SMJMatrix.push_back(SMJCard_TEMP);
 	}
-	
+	for each (SMJCard* C in SMJMatrix)if (C->cardNameSimple == "Kobold Inc.")C->cardNameSimple = "Kobold Inc"; 
 	
 	AllCards = RawData["enums"];
 	

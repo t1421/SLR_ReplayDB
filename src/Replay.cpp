@@ -739,6 +739,19 @@ bool Replay::ReadActions()
 						Action_TEMP->AdditionalInfo = std::to_string(this->readUnsignedLong()) + ";"; // Player ID
 						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // SPELL ID
 						break;
+					case 6: //BotsStats 
+						Action_TEMP->AdditionalInfo = "6;";
+						tempCount = this->readUnsignedChar(); // BotCount
+						MISD(tempCount);
+						for (unsigned int i = 0; i < tempCount; i++)
+						{
+							Action_TEMP->AdditionalInfo += readString() + ";"; //BOT NAME
+							readUnsignedLong(); //Time Spend
+							readUnsignedLong(); //Actions
+							readUnsignedLong(); //InvActions
+							this->readUnsignedChar(); //Errors
+						}						
+						break;
 
 					default:
 						MISERROR(FileName);

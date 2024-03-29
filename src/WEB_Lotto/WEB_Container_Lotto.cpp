@@ -3,6 +3,7 @@
 #define _CRT_SECURE_NO_WARNINGS
 
 #include "..\..\incl\Broker.h" 
+#include "..\..\incl\Utility.h"
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
 #include "..\..\incl\WEB\WEB_Utility.h"
@@ -189,4 +190,11 @@ void WEB_Container_Lotto::processChatEvent(const MISEvent& event)
 	//if (sParamDebug == "1")Debug->UpdateMes(event.Value1_ + ";" + event.Value2_ + ";" + event.Value3_ + ";" + event.Value4_);
 
 	MISE;
+}
+
+
+std::string WEB_Container_Lotto::getMapName(unsigned int iMap)
+{
+	for (std::string M : vMaps)	if (atoi(entry(M, 0).c_str()) == iMap)return M;
+	return "";
 }
