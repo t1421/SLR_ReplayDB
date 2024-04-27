@@ -20,6 +20,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_Lotto", "SLR_Lotto\SLR_
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_LivePVP", "SLR_LivePVP\SLR_LivePVP.vcxproj", "{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_Challonge", "SLR_Challonge\SLR_Challonge.vcxproj", "{0078A5DB-2826-4A82-94D6-4574F02EB64D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -76,6 +78,14 @@ Global
 		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Release|x64.Build.0 = Release|x64
 		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Release|x86.ActiveCfg = Release|Win32
 		{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}.Release|x86.Build.0 = Release|Win32
+		{0078A5DB-2826-4A82-94D6-4574F02EB64D}.Debug|x64.ActiveCfg = Debug|x64
+		{0078A5DB-2826-4A82-94D6-4574F02EB64D}.Debug|x64.Build.0 = Debug|x64
+		{0078A5DB-2826-4A82-94D6-4574F02EB64D}.Debug|x86.ActiveCfg = Debug|Win32
+		{0078A5DB-2826-4A82-94D6-4574F02EB64D}.Debug|x86.Build.0 = Debug|Win32
+		{0078A5DB-2826-4A82-94D6-4574F02EB64D}.Release|x64.ActiveCfg = Release|x64
+		{0078A5DB-2826-4A82-94D6-4574F02EB64D}.Release|x64.Build.0 = Release|x64
+		{0078A5DB-2826-4A82-94D6-4574F02EB64D}.Release|x86.ActiveCfg = Release|Win32
+		{0078A5DB-2826-4A82-94D6-4574F02EB64D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -15,9 +15,7 @@
 #include "..\incl\WEB\WEB_Main.h"
 #include "..\incl\WEB\WEB_Server.h"
 #include "..\incl\WEB\WEB_Toolbar.h"
-#endif
 
-#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 #include "..\incl\WEB_Analyser\WEB_Analyser.h"
 #endif
 
@@ -55,6 +53,10 @@
 #include "..\incl\WEB_Lotto\WEB_Lotto_Admin_Main.h"
 #include "..\incl\WEB_Lotto\WEB_Lotto_Admin_Pull.h"
 #include "..\incl\WEB_Lotto\WEB_Lotto_Week.h"
+#endif
+
+#if defined  BrokerChallonge
+#include "..\incl\Challonge.h"
 #endif
 
 #ifndef noSMJ
@@ -97,11 +99,10 @@ broker::broker()
 #if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 	WEB_Main::learnBro(this);
 	WEB_Server::learnBro(this);
-	WEB_Toolbar::learnBro(this);
-	W = NULL;
-#endif
-#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
+	WEB_Toolbar::learnBro(this);	
 	WEB_Analyser::learnBro(this);
+
+	W = NULL;
 #endif
 
 #if defined BrokerWeb
@@ -132,6 +133,10 @@ broker::broker()
 	Tome_Game::learnBro(this);
 #endif
 
+#ifdef BrokerNormal	 || defined BrokerPVP
+	Thread_MIS::learnBro(this);
+#endif
+
 #if defined BrokerLotto
 	WEB_Container_Lotto::learnBro(this);
 	LottoWeek::learnBro(this);	
@@ -141,19 +146,20 @@ broker::broker()
 	WEB_Lotto_Week::learnBro(this);	
 #endif
 
+#if defined BrokerChallonge
+	Challonge::learnBro(this);
+	C = NULL;
+#endif
+
 #ifndef noSMJ
 	CardBaseSMJ::learnBro(this);
 	J = NULL;
 #endif
 
-#ifdef BrokerNormal	 || defined BrokerPVP
-	Thread_MIS::learnBro(this);
-#endif
-
 #ifndef noSQL
-SQL_MIS_New::learnBro(this);
-PMV_to_SQL::learnBro(this);
-N = NULL;
+	SQL_MIS_New::learnBro(this);
+	PMV_to_SQL::learnBro(this);
+	N = NULL;
 #endif
 
 #ifndef noManager
@@ -162,7 +168,7 @@ N = NULL;
 #endif
 	
 #ifndef noImager	
-Imager::learnBro(this);	
+	Imager::learnBro(this);	
 	I = NULL;
 #endif	
 	

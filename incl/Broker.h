@@ -43,6 +43,7 @@ struct SMJCard;
 class Tome_Game;
 struct Tome_Booster;
 class LottoWeek;
+class Challonge;
 
 class broker
 {
@@ -58,6 +59,7 @@ public:
 	WEB_Main *W;
 	CardBaseSMJ *J;
 	MIS_Rank* A[BOTXLIST + 1];
+	Challonge* C;
 
 	broker* Bro;
 

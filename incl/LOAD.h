@@ -43,6 +43,10 @@ public:
 	std::string sLivePvP_OBS_Export;
 	std::string sLivePvP_Pics;
 
+	std::string sChallongeUser;
+	std::string sChallongeAPIKEY;
+	std::string sChallongeSaveDir;
+
 	int BOTRankMode[BOTXLIST + 1];
 
 	void Load_Settings(std::string sName);

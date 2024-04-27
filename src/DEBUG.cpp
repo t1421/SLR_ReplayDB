@@ -120,6 +120,9 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("WEB_Lotto_Admin_Pull", "*", "*", "true");
 		Fill_DBArray("WEB_Lotto_Week", "*", "*", "true");
 
+		Fill_DBArray("Challonge", "*", "*", "true");
+		Fill_DBArray("Challonge", "WEBRequestToCHASH", "*", "false");
+
 		
 		/////////////////////////////////////////////////////
 
