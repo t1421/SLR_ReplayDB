@@ -33,9 +33,6 @@
     <ClCompile Include="..\src\LOAD.cpp">
       <Filter>Quelldateien</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Manager.cpp">
-      <Filter>Quelldateien</Filter>
-    </ClCompile>
     <ClCompile Include="..\SLR_Challonge.cpp" />
     <ClCompile Include="..\src\Challonge.cpp">
       <Filter>Quelldateien</Filter>
@@ -55,9 +52,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\LOAD.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\Manager.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\Challonge.h">

@@ -1,7 +1,7 @@
 #ifndef Tome_Game_H
 #define Tome_Game_H
 
-#define NumBoostersTypes 13
+#define NumBoostersTypes 14
 #include "..\DataTypes.h"
 
 struct Tome_Booster;

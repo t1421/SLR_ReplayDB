@@ -1,6 +1,8 @@
 #ifndef Challonge_H
 #define Challonge_H
 
+#include "Thread_MIS.h"
+
 #include <fstream>
 #include <vector>
 
@@ -26,14 +28,15 @@ struct Match
 
 struct Player
 {
-	Player(std::string _sID, std::string _display_name) :
-		id(_sID), display_name(_display_name) {};
+	Player(std::string _sID, std::string _display_name, std::string _group_player_ids) :
+		id(_sID), display_name(_display_name), group_player_ids(_group_player_ids){};
 	std::string id;
 	std::string display_name;
-	std::vector<std::string> group_player_ids;	
+	std::string group_player_ids;
+	//std::vector<std::string> group_player_ids;	
 };
 
-class Challonge
+class Challonge : public Thread_MIS
 {
 public:
 	Challonge();
@@ -51,6 +54,9 @@ public:
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 private:
+
+	void Thread_Function();
+
 	Json::Value WEBRequestToCHASH(std::string sURL);
 	CURL *curl;
 	std::mutex mutex_WEBRequest;
@@ -62,6 +68,7 @@ private:
 	//std::vector<Match> vLastMatches;
 	void MakeMassage(Match M);
 	std::chrono::system_clock::time_point lastUpdate;
+	unsigned int iMaxGames;
 	
 };
 

@@ -3,10 +3,16 @@
 #include <fstream>
 
 
+std::string formatString(const std::string& text, int length) 
+{
+	std::string formattedText = text.substr(0, length);
+	formattedText.resize(length, ' ');
+	return formattedText;
+}
 
 void Sleep(int time)
 {
-	std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+	std::this_thread::sleep_for(std::chrono::milliseconds(time));
 }
 
 bool Checker(std::string &check, std::string name)

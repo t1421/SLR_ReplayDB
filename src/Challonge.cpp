@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\incl\Broker.h" 
 #include "..\incl\Load.h" 
@@ -40,7 +40,7 @@ bool compareLastUpdate(Match a, Match b)
 	return parseISO8601(a.completed_at) > parseISO8601(b.completed_at);
 }
 
-Challonge::Challonge()
+Challonge::Challonge() :Thread_MIS("Challonge")
 {
 	MISS;
 	curl_global_init(CURL_GLOBAL_DEFAULT);	
@@ -52,6 +52,7 @@ void Challonge::Init()
 	MISS;
 	sEventID = "";
 	lastUpdate = std::chrono::system_clock::now();
+	iMaxGames = 0;
 	MISE;
 }
 
@@ -87,22 +88,23 @@ bool Challonge::getPlayers()
 		return false;
 	}
 	
-	Players.empty();
+	Players.clear();
 	std::string sURL = 
 		"https://" + Bro->L->sChallongeUser + 
 		":" + Bro->L->sChallongeAPIKEY +
 		"@" + API_URL + sEventID + "/participants.json";
 	Json::Value JsonReturn = WEBRequestToCHASH(sURL);
 	
-	//saveJson(JsonReturn, "participants.json");	
+	saveJson(JsonReturn, "participants.json");	
 
 	for (auto J : JsonReturn)
 	{
 		Players.push_back(Player(
 			J["participant"]["id"].asString(),
-			J["participant"]["display_name"].asString()));
-		for (auto JJ : J["participant"]["group_player_ids"])
-			Players[Players.size() - 1].group_player_ids.push_back(JJ.asString());
+			J["participant"]["display_name"].asString(),
+			J["participant"]["group_player_ids"][0].asString()
+			)
+		);
 	}
 
 	//MISD(Players.size());
@@ -127,7 +129,7 @@ bool Challonge::getMatches()
 		"@" + API_URL + sEventID + "/matches.json";
 	Json::Value JsonReturn = WEBRequestToCHASH(sURL);
 
-	//saveJson(JsonReturn, "matches.json");
+	saveJson(JsonReturn, "matches.json");
 
 	for (auto J : JsonReturn)
 		vNewMatches.push_back(Match(
@@ -151,14 +153,15 @@ bool Challonge::getMatches()
 	{
 		if (M.scores_csv == "")continue;
 		
-		for (auto P : Players)for(auto PP : P.group_player_ids) if (PP == M.player1_id)ssUpdates << P.display_name << " ";
-		ssUpdates << M.scores_csv << " ";
-		for (auto P : Players)for (auto PP : P.group_player_ids) if (PP == M.player2_id)ssUpdates << P.display_name << "\n";
+		for (auto P : Players)if (P.group_player_ids == M.player1_id || P.id == M.player1_id)ssUpdates << formatString(P.display_name, 10) << " vs ";
+		for (auto P : Players)if (P.group_player_ids == M.player2_id || P.id == M.player2_id)ssUpdates << formatString(P.display_name, 10) << ": ";
+		ssUpdates << M.scores_csv << "\n";
 		
 		if (++iCount >= 5)break;
 	}
 	std::ofstream Stream(Bro->L->sChallongeSaveDir + "Stream", std::ios::trunc);
 	Stream << "Matches: " << iMatchesDone << " / " << vNewMatches.size() << "\n";
+	Stream << "______________________________\n";
 	Stream << ssUpdates.str() << "\n";
 	Stream.close();
 	
@@ -170,6 +173,14 @@ bool Challonge::getMatches()
 	}
 		
 	lastUpdate = std::chrono::system_clock::now();
+	/*
+	if (iMaxGames != vNewMatches.size())
+	{
+		MISD("Refresh Players");
+		getPlayers();
+		iMaxGames = vNewMatches.size();
+	}*/
+	
 	MISE;
 	return vNewMatches.size() > 0;
 }
@@ -190,9 +201,9 @@ void Challonge::MakeMassage(Match M)
 	MISS;
 	std::stringstream ssMessage;
 	ssMessage << "Update: ";
-	for (auto P : Players)for (auto PP : P.group_player_ids) if (PP == M.player1_id)ssMessage << P.display_name << " ";
+	for (auto P : Players) if (P.group_player_ids == M.player1_id || P.id == M.player1_id) ssMessage << P.display_name << " ";
 	ssMessage << M.scores_csv << " ";
-	for (auto P : Players)for (auto PP : P.group_player_ids) if (PP == M.player2_id)ssMessage << P.display_name << " ";
+	for (auto P : Players)if (P.group_player_ids == M.player2_id || P.id == M.player2_id)ssMessage << P.display_name << " ";
 
 	std::ofstream Massage(Bro->L->sChallongeSaveDir + "MES" + M.id, std::ios::trunc);
 	Massage << ssMessage.str() << "\n";
@@ -247,4 +258,22 @@ Json::Value Challonge::WEBRequestToCHASH(std::string sURL)
 
 	MISE;
 	return jsonData;
+}
+
+
+void Challonge::Thread_Function()
+{
+	MISS;
+
+	while (bRunning)
+	{
+		
+		if (sEventID != "")
+		{
+			getMatches();
+		}
+		
+		Sleep(10000);
+	}
+	MISE;
 }

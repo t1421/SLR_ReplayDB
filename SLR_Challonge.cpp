@@ -24,6 +24,9 @@ int main(int argc, char **argv)
 	Challonge* C = new Challonge();
 	C->teachC();
 	C->Init();
+	C->Start_Thread();
+
+
 
 	while (Bro->bAktive)
 	{
@@ -47,7 +50,8 @@ int main(int argc, char **argv)
 		{
 			printf("####################|###########################################\n");
 			printf("C;set;[ID]          | Set the Challonge ID to track\n");
-			printf("C;update            | Set the Challonge ID to track\n");
+			printf("C;update            | Updates Matches\n");
+			printf("C;players           | Updates Players\n");
 			printf("####################|###########################################\n\n");
 		}
 
@@ -57,34 +61,12 @@ int main(int argc, char **argv)
 				C->setID(sbuf.c_str());
 			if (Checker(sbuf, "update"))
 				C->getMatches();
-
-
-			/// if new stage then getPlayers();
-
-			/*
-			if (Checker(sbuf, "img"))		
-				for each (SMJCard* iCard in J->SMJMatrix)
-				{
-					printf("%i\n", iCard->cardId);
-					Bro->J_GetImage(
-						iCard->cardId,
-						3,
-						3,
-						1,
-						false);
-				}
-			*/
-			/*
-			if (Checker(sbuf, "booster"))
-			{
-				Tome_Booster* TB = J->OpenBooster(sbuf.c_str());
-				for (int i = 0; i < TB->vCards.size(); i++)
-					printf("%i\n", TB->vCards[i]->cardId);
-					//MISD(TB->vCards[i]->cardId + "#" + TB->vCards[i]->cardName);
-			}
-			*/
+			if (Checker(sbuf, "players"))
+				C->getPlayers();
 		}
 	}
+
+	C->Stop_Thread();
 	
 	return 0;    
 }

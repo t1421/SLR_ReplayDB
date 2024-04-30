@@ -183,13 +183,13 @@ MISD("#10");
 		Player_TEMP->CardsTotal = readUnsignedShort();
 
 		PlayerMatrix.push_back(Player_TEMP);	
-		/*
+		
 		MISD("Player_TEMP->Name    " + Player_TEMP->Name);
 		MISD("Player_TEMP->PlayerID" + std::to_string(Player_TEMP->PlayerID));
 		MISD("Player_TEMP->GroupID" + std::to_string(Player_TEMP->GroupID));
 		MISD("Player_TEMP->IDinGroup" + std::to_string(Player_TEMP->IDinGroup));
 		MISD("Player_TEMP->Type" + std::to_string(Player_TEMP->Type));
-		MISD("Player_TEMP->CardsTotal" + std::to_string(Player_TEMP->CardsTotal));*/
+		MISD("Player_TEMP->CardsTotal" + std::to_string(Player_TEMP->CardsTotal));
 
 MISD("PlayerX");
 

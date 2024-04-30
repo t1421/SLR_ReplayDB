@@ -292,16 +292,3 @@ void Manager::SetPlayer(unsigned int POS, std::string sName)
 
 #endif
 
-
-
-#if defined BrokerChallonge
-void Manager::Thread_Function()
-{
-	MISS;
-	while (bRunning)
-	{		
-		Sleep(1000);
-	}
-	MISE;
-}
-#endif

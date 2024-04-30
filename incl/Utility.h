@@ -5,6 +5,8 @@
 
 void Sleep(int time);
 
+std::string formatString(const std::string& text, int length);
+
 bool Checker(std::string &check, std::string name);
 bool INI_Value_Check(std::string &check, std::string name);
 
