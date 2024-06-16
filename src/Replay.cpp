@@ -22,6 +22,27 @@ Replay::~Replay()
 }
 
 #ifndef BrokerPVP
+bool Replay::SavePMV(std::string sFile)
+{
+	MISS;
+	if (!OK)return false;
+
+	std::ofstream PMVFile;
+	sFile = sAddDoubleBackslash(sFile);
+	PMVFile.open(sFile, std::ios_base::binary);
+	if (!PMVFile)
+	{
+		MISEA("V1 " + sFile);
+		return false;
+	}
+	MISD(ssPMVFile.size());
+	PMVFile << ssPMVFile.str();
+	PMVFile.close();
+
+	MISE;
+	return true;	
+}
+
 bool Replay::LoadPMV(std::string sFile)
 {
 	MISS;

@@ -10,7 +10,7 @@ public:
 	Wt::WContainerWidget *cMain;
 	Wt::WTable *wtTabelle;
 
-	unsigned int iBOTLIST;
+	unsigned int iRankList;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

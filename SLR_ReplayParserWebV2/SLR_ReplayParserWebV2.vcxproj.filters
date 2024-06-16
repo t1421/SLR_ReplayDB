@@ -87,13 +87,13 @@
     <ClCompile Include="..\src\WEB_Analyser\WEB_Container_Analyser.cpp">
       <Filter>Quelldateien\Analyser</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB_Analyser\WEB_ME.cpp">
-      <Filter>Quelldateien\Analyser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB_Analyser\WEB_MEA.cpp">
-      <Filter>Quelldateien\Analyser</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB_Analyser\WEB_Rank.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_EEE.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_EEE_Check.cpp">
       <Filter>Quelldateien\Analyser</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,13 +155,13 @@
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Container_Analyser.h">
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
-    <ClInclude Include="..\incl\WEB_Analyser\WEB_ME.h">
-      <Filter>Headerdateien\Analyser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB_Analyser\WEB_MEA.h">
-      <Filter>Headerdateien\Analyser</Filter>
-    </ClInclude>
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Rank.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_EEE.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_EEE_Check.h">
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
   </ItemGroup>

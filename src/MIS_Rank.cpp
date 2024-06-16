@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\incl\Broker.h" 
 #include "..\incl\Utility.h"
@@ -112,6 +112,8 @@ void MIS_Rank::SortList()
 	MISS;
 
 	mtx.lock();
+	std::sort(RankRows.begin(), RankRows.end(), comparePlayer);
+	/*
 	switch (RankList)
 	{
 	case BOT6LIST:
@@ -119,6 +121,7 @@ void MIS_Rank::SortList()
 	default:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayer);
 	}
+	*/
 	mtx.unlock();
 
 	MISE;
@@ -171,13 +174,14 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 	if (iReturn == 0)
 	{
 		MISD("New Player");
+		MISD(RankMode);
 		ROW* R_Temp = new ROW();
 		R_Temp->ID = _ID;
 		R_Temp->ReplayID = _ReplayID;
 		for (unsigned int j = 0; j < RankRowStamps; j++) R_Temp->Stamps[j] = _Stamps[j];		
 		
 		//Team name definieren
-		if (RankMode != 1)Bro->GetTeamName(_ID);
+		//if (RankMode != 1)Bro->GetTeamName(_ID);
 		/*
 		if (RankMode == 1)sRankName = "Player"; 
 		else
@@ -203,8 +207,13 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 		SortList();
 		CleanList();
 		SaveList();
+
+		iReturn = 0;
+		for (auto R : RankRows) if (R->ReplayID == _ReplayID)iReturn = 1;
 	}
+	else iReturn = 0;
 	
+	MISD(std::to_string(iReturn));
 	MISE;
 	return iReturn;
 }
@@ -229,21 +238,14 @@ void MIS_Rank::CleanList()
 }
 
 
-std::vector<ROW> MIS_Rank::getRankeROW(int iRanking)
+std::vector<ROW> MIS_Rank::getRankeROW()
 {	
 	MISS;
-	std::vector<ROW> vReturn;
-	
+	std::vector<ROW> vReturn;	
 	for (const auto& rowPtr : RankRows) vReturn.push_back(*rowPtr);
 	
-	MISD(std::to_string(iRanking));
-	switch (iRanking)
-	{
-	case BOT6LIST:
-		std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField0);
-		break;
-	}
-	
+	std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField0);
+
 	MISE;
 	return vReturn;
 }

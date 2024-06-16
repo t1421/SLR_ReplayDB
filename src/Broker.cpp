@@ -22,8 +22,8 @@
 #if defined BrokerWeb
 #include "..\incl\WEB_Analyser\WEB_CONTAINER_Analyser.h"
 
-#include "..\incl\WEB_Analyser\WEB_ME.h"
-#include "..\incl\WEB_Analyser\WEB_MEA.h"
+#include "..\incl\WEB_Analyser\WEB_EEE.h"
+#include "..\incl\WEB_Analyser\WEB_EEE_Check.h"
 #include "..\incl\WEB_Analyser\WEB_Rank.h"
 #include "..\incl\MIS_Rank.h"
 
@@ -108,8 +108,8 @@ broker::broker()
 #if defined BrokerWeb
 	WEB_Container::learnBro(this);
 
-	WEB_ME::learnBro(this);
-	WEB_MEA::learnBro(this);
+	WEB_EEE::learnBro(this);
+	WEB_EEE_Check::learnBro(this);
 	WEB_Rank::learnBro(this);	
 	MIS_Rank::learnBro(this);
 	
@@ -183,7 +183,7 @@ broker::broker()
 #if defined BrokerWeb
 void broker::INIT()
 {	
-	for (int i = 0; i <= BOTXLIST; i++)A[i] = new MIS_Rank(i,L->BOTRankMode[i]);
+	for (int i = 0; i <= EEESize + 1; i++)A[i] = new MIS_Rank(i,0);
 
 	std::ifstream ifFile;
 	std::string line;
@@ -323,6 +323,10 @@ std::string broker::L_getPMV_ARCH_PATH()
 {
 	return L->sPMV_ARCH_PATH;
 }
+std::string broker::L_getPMV_WEB_PATH()
+{
+	return L->sPMV_WEB_PATH;
+}
 std::string broker::L_getTMP_PATH()
 {
 	return L->sTMP_PATH;
@@ -367,9 +371,9 @@ std::string broker::L_getMAPPIC_PATH()
 {
 	return L->sMAPPIC_PATH;
 }
-int broker::L_getBOTRankMode(int _BOT)
+int broker::L_getEEEStatus()
 {
-	return L->BOTRankMode[_BOT];
+	return L->EEEStatus;
 }
 std::string broker::L_getLOTTO_SAVE_PATH()
 {
@@ -387,6 +391,41 @@ std::string broker::L_getLivePvP_OBS_Export()
 std::string broker::L_getLivePvP_Pics()
 {
 	return L->sLivePvP_Pics;
+}
+int broker::L_getEEE_RankMode(unsigned int iEEE)
+{
+	unsigned long int now = L_getEEE_Now();
+	
+	// Not Started / Dont show
+	if(now < L->EEE_Start[iEEE])return 10;
+
+	// Has Ended / Show + dont add
+	if (now > L->EEE_End[iEEE])return 1;
+
+	// is running // show + add
+	if (now > L->EEE_Start[iEEE])return 2;
+
+	//ERROR
+	return 99;
+}
+unsigned long int broker::L_getEEE_Now()
+{
+	const auto UNIX = std::chrono::system_clock::now();
+	return std::chrono::duration_cast<std::chrono::seconds>(UNIX.time_since_epoch()).count();
+}
+
+unsigned long int broker::L_getEEE_Start(unsigned int iEEE)
+{
+	return L->EEE_Start[iEEE];
+}
+unsigned long int broker::L_getEEE_End(unsigned int iEEE)
+{
+	return L->EEE_End[iEEE];
+}
+void broker::EEEUpdateRankModes()
+{
+	for (unsigned int i = 0; i < EEESize; i++)
+		A[i]->RankMode = L_getEEE_RankMode(i);
 }
 
 #endif

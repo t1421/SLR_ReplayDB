@@ -34,6 +34,7 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "PMV_PATH"))sPMV_PATH = line.c_str();
 			if (INI_Value_Check(line, "PMV_AUTO_PATH"))sPMV_AUTO_PATH = line.c_str();
 			if (INI_Value_Check(line, "PMV_ARCH_PATH"))sPMV_ARCH_PATH = line.c_str();
+			if (INI_Value_Check(line, "PMV_WEB_PATH"))sPMV_WEB_PATH = line.c_str();
 
 			if (INI_Value_Check(line, "RANK_PATH"))sRANK_PATH = line.c_str();
 			if (INI_Value_Check(line, "TOME_SAVE_PATH"))sTOME_SAVE_PATH = line.c_str();
@@ -57,9 +58,15 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "ChallongeAPIKEY"))sChallongeAPIKEY = line.c_str();
 			if (INI_Value_Check(line, "ChallongeSaveDir"))sChallongeSaveDir = line.c_str();
 			
-			
-			if (INI_Value_Check(line, "BOT6RankMode"))BOTRankMode[BOT6LIST] = atoi(line.c_str());			
-			
+			if (INI_Value_Check(line, "EEEStatus"))EEEStatus = atoi(line.c_str());
+
+			for (unsigned int i = 0; i < EEESize; i++)
+			if (INI_Value_Check(line, "EEE" + std::to_string(i)))
+			{
+				EEE_Start[i] = atoi(entry(line.c_str(), 0).c_str());
+				EEE_End[i] = atoi(entry(line.c_str(), 1).c_str());
+			}
+
 			ifFile.clear();
 		}
 		

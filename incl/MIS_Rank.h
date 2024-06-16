@@ -33,7 +33,7 @@ public:
 	void CleanList();
 			
 	int AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
-	std::vector<ROW> getRankeROW(int iRanking);
+	std::vector<ROW> getRankeROW();
 	std::vector<ROW> getRankeMultiList();
 	int RankMode;
 	int RankList;

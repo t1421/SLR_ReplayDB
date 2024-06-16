@@ -43,6 +43,7 @@ public:
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
+	bool SaveReplay(std::string sFile);
 	bool NewReplay(std::string sFile);
 	bool getData();
 	std::string GetPlayerName(unsigned long inPlayer);
@@ -58,7 +59,16 @@ public:
 
 	bool WA_Debug;
 	
-	std::string Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps]);
+	//std::string Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_EEE0(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_EEE1(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_EEE2(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_EEE3(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_EEE4(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_EEE5(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_EEE6(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_EEE7(unsigned long iTimes[RankRowStamps]);
+
 	void AddIMG(Wt::WTableCell *wtCell, bool bValue);
 	
 	std::string GetTeamID();	

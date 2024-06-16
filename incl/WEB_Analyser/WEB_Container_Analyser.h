@@ -12,7 +12,7 @@
 #include <Wt/WFileUpload.h>
 #include <Wt/WApplication.h>
 
-class WEB_ME;
+class WEB_EEE;
 
 class WEB_Container : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser
 
@@ -33,7 +33,7 @@ private:
 
 	void WRefresh();
 
-	WEB_ME *ME;
+	WEB_EEE *EEE;
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
 	Wt::WContainerWidget *GlobaelContainer;

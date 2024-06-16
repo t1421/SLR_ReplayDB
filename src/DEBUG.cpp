@@ -44,6 +44,7 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		
 		
 		Fill_DBArray("Reader", "*", "*", "false");
+		Fill_DBArray("Reader", "SaveFile", "*", "true");
 		
 		Fill_DBArray("PMV_to_SQL", "*", "*", "true");
 
@@ -96,8 +97,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		
 		
 		
-		Fill_DBArray("WEB_ME", "*", "*", "true");
-		Fill_DBArray("WEB_MEA", "*", "*", "true");
+		Fill_DBArray("WEB_EEE", "*", "*", "true");
+		Fill_DBArray("WEB_EEE_Check", "*", "*", "true");
 
 		Fill_DBArray("WEB_Rank", "*", "*", "true");
 

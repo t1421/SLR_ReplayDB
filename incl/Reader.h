@@ -13,6 +13,7 @@ public:
 	~Reader();
 
 	bool Open(std::string sFile);
+	//bool SaveFile(std::string sFile);
 	unsigned long readUnsignedLong();
 	unsigned char readUnsignedChar();	
 	unsigned short readUnsignedShort();

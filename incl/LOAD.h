@@ -6,8 +6,6 @@
 #include <string>
 #include <vector>
 
-
-
 class LOAD //: public Thread_MIS
 {
 public:
@@ -23,6 +21,8 @@ public:
 	std::string sPMV_PATH;
 	std::string sPMV_AUTO_PATH;
 	std::string sPMV_ARCH_PATH;
+	std::string sPMV_WEB_PATH;
+	
 
 	std::string sRANK_PATH;
 
@@ -47,8 +47,11 @@ public:
 	std::string sChallongeAPIKEY;
 	std::string sChallongeSaveDir;
 
-	int BOTRankMode[BOTXLIST + 1];
-
+	//int BOTRankMode[BOTXLIST + 1];
+	int EEEStatus;
+	unsigned long int EEE_Start[EEESize];
+	unsigned long int EEE_End[EEESize];
+	
 	void Load_Settings(std::string sName);
 
 	//BROKER

@@ -4,7 +4,7 @@
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
 #include "..\..\incl\WEB\WEB_Utility.h"
-#include "..\..\incl\WEB_Analyser\WEB_ME.h"
+#include "..\..\incl\WEB_Analyser\WEB_EEE.h"
 #include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\..\incl\WEB_Analyser\WEB_CONTAINER_Analyser.h"
 
@@ -49,7 +49,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 
 	MISD("#3");	
 
-	ME = new WEB_ME(this);
+	EEE = new WEB_EEE(this);
 	wfuDropZone = new Wt::WFileUpload();
 	wtStatus = new Wt::WText("Waiting for Replay");
 	
@@ -80,15 +80,15 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 
 	MISD("#6");
 
-	if (Bro->L_getBOTRankMode(BOT6LIST) <10
-		|| sPARA == "BOT6")WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT6", *ME->cMain, ME);
+	if (Bro->L_getEEEStatus() != 1 || sPARA == "EEE")
+		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "EEE", *EEE->cMain, EEE);
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Acti", *this->Acti->cMain, this->Acti);
 	
 	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
-	if (Bro->L_getBOTRankMode(BOT6LIST) <10)WEB_Toolbar::sToolbar->setCurrentIndex(0); 
+	if (Bro->L_getEEEStatus() != 1)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 
 	MISD("#7");

@@ -22,9 +22,11 @@
 #include <mutex> 
 #include <vector>
 
-#define BOT6LIST 0
-#define BOTXLIST 1
+//#define BOT6LIST 0
+//#define BOTXLIST 1
 #define RankRowStamps 10
+
+#define EEESize 8
 
 #define WebAnalyser "https://t1421.de/"
 #define WebTome "https://tome.t1421.de/"
@@ -58,7 +60,7 @@ public:
 	Imager* I;
 	WEB_Main *W;
 	CardBaseSMJ *J;
-	MIS_Rank* A[BOTXLIST + 1];
+	MIS_Rank* A[EEESize + 1];
 	Challonge* C;
 
 	broker* Bro;
@@ -74,6 +76,7 @@ public:
 	std::string L_getPMV_PATH();
 	std::string L_getPMV_AUTO_PATH();
 	std::string L_getPMV_ARCH_PATH();
+	std::string L_getPMV_WEB_PATH();
 	std::string L_getTMP_PATH();
 	std::string L_getFFMPEG();
 	std::string L_getRANK_PATH();
@@ -91,7 +94,13 @@ public:
 
 	
 
-	int L_getBOTRankMode(int _BOT);
+	int L_getEEEStatus();
+	int L_getEEE_RankMode(unsigned int iEEE);
+	unsigned long int L_getEEE_Start(unsigned int iEEE);
+	unsigned long int L_getEEE_End(unsigned int iEEE);
+	unsigned long int L_getEEE_Now();
+	void EEEUpdateRankModes();
+
 #endif	
 
 #ifndef noSMJ
@@ -155,5 +164,6 @@ private:
 };
 
 #endif //BROKER_H
+
 
 

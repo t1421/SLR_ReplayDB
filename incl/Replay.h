@@ -20,6 +20,7 @@ public:
 
 	bool OK;	
 
+	bool SavePMV(std::string sFile);
 	bool LoadPMV(std::string sFile);
 	void EchoHead();
 	void EchoAllied();

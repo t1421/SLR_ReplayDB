@@ -98,8 +98,26 @@ std::string Reader::readWString()
 	MISEA("" + sOut);
 	return sOut;
 }
+/*
+bool Reader::SaveFile(std::string sFile)
+{
+	MISS;
+	std::ofstream PMVFile;
+	sFile = sAddDoubleBackslash(sFile);
+	PMVFile.open(sFile, std::ios_base::binary);
+	if (!PMVFile)
+	{
+		MISEA("V1 " + sFile);
+		return false;
+	}
+	MISD(PMVbuffer.size());
+	for(auto c: PMVbuffer) PMVFile << c;
+	PMVFile.close();
 
-
+	MISE;
+	return false;
+}
+*/
 bool Reader::Open(std::string sFile)
 {
 	MISS;
