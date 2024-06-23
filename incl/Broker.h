@@ -115,6 +115,7 @@ public:
 	Tome_Booster* J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
 	std::string J_GetLottoImg(std::string cardNameSimple, unsigned int iColor);
 	std::vector <std::string> J_getSimpelCardPool();
+	unsigned int J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade);
 #endif
 	
 
@@ -131,6 +132,7 @@ public:
 	std::string GetTeamName(std::string sTeamID);
 	void saveTeams();
 	std::vector<std::pair<std::string, std::string>> TeamNames;
+	bool broker::ReCalTotalEEE();
 #endif
 
 	void B_StatusNew(std::string Fun, std::string Wert);

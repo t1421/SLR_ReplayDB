@@ -11,7 +11,7 @@
 #define MaxReplaysPerTeam 1
 
 broker *(MIS_Rank::Bro) = NULL;
-
+/*
 bool comparePlayer(const ROW * a, const ROW * b)
 {
 	unsigned long aa = 0;
@@ -20,7 +20,7 @@ bool comparePlayer(const ROW * a, const ROW * b)
 	for (unsigned int i = 0; i < RankRowStamps; i++)bb += b->Stamps[i];
 	return aa < bb;
 }
-bool comparePlayerField0(const ROW * a, const ROW * b) { return a->Stamps[0] < b->Stamps[0]; }
+
 
 bool comparePlayerX(const ROW& a, const ROW& b)
 {
@@ -30,18 +30,73 @@ bool comparePlayerX(const ROW& a, const ROW& b)
 	for (unsigned int i = 0; i < RankRowStamps; i++)bb += b.Stamps[i];
 	return aa < bb;
 }
+*/
 
+bool comparePlayerField0(const ROW * a, const ROW * b) { return a->Stamps[0] < b->Stamps[0]; }
+/*
 bool comparePlayerXField0(const ROW& a, const ROW& b) { return a.Stamps[0] < b.Stamps[0]; }
 bool comparePlayerXField1(const ROW& a, const ROW& b) { return a.Stamps[1] < b.Stamps[1]; }
 bool comparePlayerXField2(const ROW& a, const ROW& b) { return a.Stamps[2] < b.Stamps[2]; }
 bool comparePlayerXField3(const ROW& a, const ROW& b) { return a.Stamps[3] < b.Stamps[3]; }
 bool comparePlayerXField4(const ROW& a, const ROW& b) { return a.Stamps[4] < b.Stamps[4]; }
-/*
-bool comparePair(std::pair<std::string, unsigned long> *a, std::pair<std::string, unsigned long> *b)
-{	
-	return a->second < b->second;
-}
 */
+
+bool comparePlayerFieldEEE_DEF(const ROW * a, const ROW * b)
+{ 
+	if (a->Stamps[0] < b->Stamps[0]) return true;
+	else if (a->Stamps[0] > b->Stamps[0]) return false;
+
+	if (a->Stamps[2] < b->Stamps[2]) return true;
+	else if (a->Stamps[2] > b->Stamps[2]) return false;
+
+	return true;
+}
+
+bool comparePlayerFieldEEE_3_5(const ROW * a, const ROW * b)
+{
+	if (a->Stamps[0] > b->Stamps[0]) return true;
+	else if (a->Stamps[0] < b->Stamps[0]) return false;
+
+	if (a->Stamps[2] < b->Stamps[2]) return true;
+	else if (a->Stamps[2] > b->Stamps[2]) return false;
+
+	return true;
+}
+
+bool comparePlayerFieldEEE_7(const ROW * a, const ROW * b)
+{
+	if (a->Stamps[0] > b->Stamps[0]) return true;
+	else if (a->Stamps[0] < b->Stamps[0]) return false;
+
+	if (a->Stamps[1] < b->Stamps[1]) return true;
+	else if (a->Stamps[1] > b->Stamps[1]) return false;
+
+	if (a->Stamps[2] < b->Stamps[2]) return true;
+	else if (a->Stamps[2] > b->Stamps[2]) return false;
+
+	return true;
+}
+
+
+unsigned int RANKtoPOINTS(unsigned int iRank)
+{
+	switch (iRank)	{
+	case 1: return 15;
+	case 2: return 13;
+	case 3: return 11;
+	case 4: return 9;
+	case 5: return 8;
+	case 6: return 7;
+	case 7: return 6;
+	case 8: return 5;
+	case 9: return 4;
+	case 10: return 3;
+	case 11: return 2;
+	case 12: return 1;
+	}
+	return 0;
+}
+
 
 MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList) + ".csv"), RankMode(_RankMode), RankList(iRankList)
 {
@@ -110,20 +165,26 @@ void MIS_Rank::SaveList()
 void MIS_Rank::SortList()
 {
 	MISS;
-
+	
 	mtx.lock();
-	std::sort(RankRows.begin(), RankRows.end(), comparePlayer);
-	/*
 	switch (RankList)
 	{
-	case BOT6LIST:
+	case 0:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0);
+		break;
+	case 3:
+	case 5:
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_3_5);
+		break;
+	case 7:
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_7);
+		break;
 	default:
-		std::sort(RankRows.begin(), RankRows.end(), comparePlayer);
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_DEF);
+		break;
 	}
-	*/
 	mtx.unlock();
-
+	
 	MISE;
 }
 
@@ -242,15 +303,13 @@ std::vector<ROW> MIS_Rank::getRankeROW()
 {	
 	MISS;
 	std::vector<ROW> vReturn;	
-	for (const auto& rowPtr : RankRows) vReturn.push_back(*rowPtr);
-	
-	std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField0);
-
+	SortList();
+	for (const auto& rowPtr : RankRows) vReturn.push_back(*rowPtr);	
 	MISE;
 	return vReturn;
 }
 
-
+/*
 std::vector<ROW> MIS_Rank::getRankeMultiList()
 {
 	MISS;
@@ -287,4 +346,62 @@ std::vector<ROW> MIS_Rank::getRankeMultiList()
 
 	MISE;
 	return vReturn;
+}
+*/
+bool MIS_Rank::ReCalTotalEEE()
+{
+	MISS;
+	if (RankList != 0)
+	{
+		MISEA("Not list 0");
+		return false;
+	}
+	//std::vector<ROW> vReturn;
+	std::vector<ROW> vRanks;
+	bool bAdd;
+
+	mtx.lock();
+	RankRows.empty();
+
+	for (unsigned int iEEE = 1; iEEE < EEESize; iEEE++)
+	{
+		vRanks.empty();
+		vRanks = Bro->A[iEEE]->getRankeROW();
+
+		//for (auto RvRanks : vRanks)
+		for(unsigned int iRanks = 0; iRanks < vRanks.size() && iRanks < 10 ; iRanks++)
+		{
+			bAdd = true;
+			for (auto RvReturn : RankRows)
+			{
+				if (RvReturn->ID == vRanks[iRanks].ID)
+				{
+					bAdd = false;
+					RvReturn->Stamps[iEEE] = RANKtoPOINTS(iRanks + 1);
+				}
+			}
+			if (bAdd)
+			{
+				ROW* R_Temp = new ROW();
+				R_Temp->ID = vRanks[iRanks].ID;
+				R_Temp->ReplayID = 0;
+				for (unsigned int j = 0; j < RankRowStamps; j++) R_Temp->Stamps[j] = 0;
+				R_Temp->Stamps[iEEE] = RANKtoPOINTS(iRanks + 1);
+				RankRows.push_back(R_Temp);
+			}
+		}
+	}
+
+	for (auto RvReturn : RankRows)
+		for (unsigned int iEEE = 1; iEEE < EEESize; iEEE++)
+			RvReturn->Stamps[0] += RvReturn->Stamps[iEEE];
+
+	mtx.unlock();
+
+	SortList();
+	CleanList();
+	SaveList();
+
+	MISE;
+	return true;
 }

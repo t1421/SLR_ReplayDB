@@ -43,26 +43,29 @@ WEB_EEE::WEB_EEE(WEB_Analyser *WA_)
 
 	MISD("#10");
 
-	for (unsigned int i = 0; i < EEESize; i++)
+	ALL = new WEB_EEE_Check(WA_, 0);
+	WEB_Toolbar::ToolBarButton(0, "Total", *ALL->cMain, ALL);
+
+	MISD("#11");
+	for (unsigned int i = 1; i < EEESize; i++)
 	{
 		Check[i] = new WEB_EEE_Check(WA_, i);
-		WEB_Toolbar::ToolBarButton(i, std::to_string(i + 1), *Check[i]->cMain, Check[i]);
+		WEB_Toolbar::ToolBarButton(i, std::to_string(i), *Check[i]->cMain, Check[i]);
 		WEB_Toolbar::bDisable[i] = (Bro->L_getEEE_RankMode(i) == 10);
 		if(!WEB_Toolbar::bDisable[i]) WEB_Toolbar::sToolbar->setCurrentIndex(i);
 	}
 	MISD("#100");
 
-	ALL = new WEB_EEE_Check(WA_, 8);
-	WEB_Toolbar::ToolBarButton(8, "Total", *ALL->cMain, ALL);
+
 
 	MISD("#101");
 
-	for (unsigned int i = 0; i < EEESize; i++)if (Bro->L_getEEE_RankMode(i) == 2)
+	for (unsigned int i = 1; i < EEESize; i++)if (Bro->L_getEEE_RankMode(i) == 2)
 	{
 		std::time_t timestampS = Bro->L_getEEE_Start(i);
 		std::time_t timestampE = Bro->L_getEEE_End(i);
 		std::stringstream Text;
-		Text << "EEE " << std::to_string(i + 1	) << " Timeframe: " << TimeToText(timestampS) << " - " << TimeToText(timestampE);
+		Text << "EEE " << std::to_string(i) << " Timeframe: " << TimeToText(timestampS) << " - " << TimeToText(timestampE);
 		sliderText->setText(Text.str());
 		slider->resize(300, 50);
 		slider->setRange(timestampS, timestampE);

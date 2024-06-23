@@ -10,6 +10,7 @@
 #include <Wt/WTable.h>
 #include <Wt/WGridLayout.h>
 #include <Wt/WText.h>
+#include <Wt/WBreak.h>
 #include <Wt/WHBoxLayout.h>
 
 broker *(WEB_EEE_Check::Bro) = NULL;
@@ -24,6 +25,7 @@ WEB_EEE_Check::WEB_EEE_Check(WEB_Analyser *WR_, unsigned int iEEE_NR_) : WR(WR_)
 
 	wtStatus	= new Wt::WText(" ");
 	wtTime = new Wt::WText(" ");
+	wtPower = new Wt::WText(" ");
 	
 	MISD("#1");
 	
@@ -33,6 +35,8 @@ WEB_EEE_Check::WEB_EEE_Check(WEB_Analyser *WR_, unsigned int iEEE_NR_) : WR(WR_)
 	
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTime)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPower)));	
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Rank->cMain)));
 	
 	MISD("#3");
@@ -53,30 +57,47 @@ void WEB_EEE_Check::WRefresh()
 
 	switch (EEENR)
 	{
-	case 0: sReturn = WR->Kalk_EEE0(iTimes); break;
-	case 1: sReturn = WR->Kalk_EEE1(iTimes); break;
-	case 2: sReturn = WR->Kalk_EEE2(iTimes); break;
+	case 0: Rank->WRefresh(); return;
+	case 1: sReturn = WR->Kalk_EEE_Def(iTimes, "sss1.map"); break;
+	case 2: sReturn = WR->Kalk_EEE_Def(iTimes, "sss2.map"); break;
 	case 3: sReturn = WR->Kalk_EEE3(iTimes); break;
-	case 4: sReturn = WR->Kalk_EEE4(iTimes); break;
+	case 4: sReturn = WR->Kalk_EEE_Def(iTimes, "sss4.map"); break;
 	case 5: sReturn = WR->Kalk_EEE5(iTimes); break;
-	case 6: sReturn = WR->Kalk_EEE6(iTimes); break;
+	case 6: sReturn = WR->Kalk_EEE_Def(iTimes, "sss6.map"); break;	
 	case 7: sReturn = WR->Kalk_EEE7(iTimes); break;	
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
 	else
-	{
-		
-		//iTimes[0] = WR->getPlaytime();		
+	{	
 		std::string sPlayer = WR->GetPlayerName(WR->getPMVPlayerID());
 		if (Bro->AddPlayer(EEENR, sPlayer, WR->getReplayHash(), iTimes) == 1)
 		{
-			
 			WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(EEENR) + sPlayer + ".pmv");
+			Bro->ReCalTotalEEE();
+		}
+		
+		wtStatus->setText("<h3>Hello there " + sPlayer + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
+
+		switch (EEENR)
+		{
+		case 3:
+			wtTime->setText("Buildings: " + std::to_string(iTimes[0])); 
+			break;
+		case 5:
+			wtTime->setText("Units: " + std::to_string(iTimes[0]));
+			break;
+		case 7:
+			wtTime->setText("Score: " + std::to_string(iTimes[0]) + "/" + std::to_string(iTimes[1]));
+			break;
+		default:
+			wtTime->setText("Time: " + sTime(iTimes[0]));
 		}
 
-		wtStatus->setText("<h3>Hello there " + sPlayer + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
-		wtTime->setText(sTime(iTimes[0]));
+		wtPower->setText("Power: " + std::to_string(iTimes[2]));
+
+		
+		
 
 		//MISERROR(WSTRINGtoSTRING(wtStatus->text()));
 	}

@@ -73,3 +73,10 @@ std::string entry(std::string Liste, int pos)
 		return entry(Liste, pos - 1);
 	}
 }
+
+unsigned long long STRtoNUM(std::string sIN)
+{
+	std::string sOUT;
+	for (char c : sIN) if (isdigit(c)) sOUT += c;
+	return atoi(sOUT.c_str());
+}

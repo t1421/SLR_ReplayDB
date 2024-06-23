@@ -18,6 +18,8 @@ std::string sTime(unsigned long ulTime);
 
 std::string entry(std::string Liste, int pos);
 
+unsigned long long STRtoNUM(std::string sIN);
+
 #endif //Utility_H
 
 

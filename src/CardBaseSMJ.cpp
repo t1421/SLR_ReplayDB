@@ -973,4 +973,3 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::v
 	return Booster;
 }
 
-

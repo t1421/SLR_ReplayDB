@@ -280,6 +280,11 @@ std::string broker::GetTeamName(std::string sTeamID)
 	return sName;
 }
 
+bool broker::ReCalTotalEEE()
+{
+	return A[0]->ReCalTotalEEE();
+}
+
 #endif
 
 broker::~broker()
@@ -498,6 +503,11 @@ std::vector <std::string> broker::J_getSimpelCardPool()
 	sort(vReturn.begin(), vReturn.end());
 	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
 	return vReturn;
+}
+
+unsigned int broker::J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade)
+{
+	return J_GetSMJCard(iCard)->powerCost[iUpgrade];
 }
 #endif
 

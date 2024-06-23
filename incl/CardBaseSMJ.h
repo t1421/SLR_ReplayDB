@@ -43,6 +43,7 @@ public:
 	SMJCard* GetSMJCard(unsigned short _CardID);
 	//Tome_Booster* OpenBooster(std::string iType);
 	Tome_Booster* OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
+	unsigned int J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade);
 
 	void EchoCard(std::string sCardID);
 	std::vector<SMJCard*> SMJMatrix;

@@ -14,6 +14,7 @@ public:
 	WEB_Analyser *WR;
 
 	Wt::WText		 *wtStatus;	
+	Wt::WText		 *wtPower;
 	Wt::WText		 *wtTime;
 
 	unsigned int EEENR;

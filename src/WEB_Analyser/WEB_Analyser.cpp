@@ -484,75 +484,109 @@ int WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGam
 std::string WEB_Analyser::Kalk_EEE0(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
-	if (!R->OK)return "No Replay";
-	if (R->MapName != "eee1.map")return "Wrong Map";
-	//if (R->DifficultyID != 1)return "Wrong Difficulty";
 
-	///Is a wain?
-	bool bWin = false;
-	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;WIN;1;")bWin = true;
 
-	if(bWin==false)return "Was not a win";
+	MISE;
+	return "XXX";
+}
 
+std::string WEB_Analyser::Kalk_EEE_Def(unsigned long iTimes[RankRowStamps],std::string sMapName)
+{
 	
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != sMapName)return "Wrong Map";
+	if (!isEEEwin() )return "Was not a win";
 
 	iTimes[0] = getPlaytime();
-
+	iTimes[2] = usedPower();
 	MISE;
 	return "";
 }
 
-std::string WEB_Analyser::Kalk_EEE1(unsigned long iTimes[RankRowStamps])
-{
-	return "X";
-	MISS;
-	MISE;
-	return "";
-}
-std::string WEB_Analyser::Kalk_EEE2(unsigned long iTimes[RankRowStamps])
-{
-	return "X";
-	MISS;
-	MISE;
-	return "";
-}
 std::string WEB_Analyser::Kalk_EEE3(unsigned long iTimes[RankRowStamps])
 {
-	return "X";
 	MISS;
-	MISE;
-	return "";
-}
-std::string WEB_Analyser::Kalk_EEE4(unsigned long iTimes[RankRowStamps])
-{
-	return "X";
-	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "sss3.map")return "Wrong Map";
+	if (!isEEEwin())return "Was not a win";
 
-	///No more after the game eded
+	for (auto A : R->ActionMatrix)
+	{
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_WIN;1;")break;
+		if (A->Type == 4045 && entry(A->AdditionalInfo, 0) == "4")
+			if (entry(A->AdditionalInfo, 1)[0] == 'G')iTimes[0] = STRtoNUM(entry(A->AdditionalInfo, 1));
+	}
+
+	iTimes[2] = usedPower();
 	MISE;
 	return "";
 }
+
 std::string WEB_Analyser::Kalk_EEE5(unsigned long iTimes[RankRowStamps])
 {
-	return "X";
 	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "sss5.map")return "Wrong Map";
+	if (!isEEEwin())return "Was not a win";
+
+	for (auto A : R->ActionMatrix)
+		if (A->Type == 4045 && entry(A->AdditionalInfo, 0) == "2")
+			if(STRtoNUM(entry(A->AdditionalInfo, 1)) > iTimes[0]) iTimes[0] = STRtoNUM(entry(A->AdditionalInfo, 1));
+
+	iTimes[2] = usedPower();
 	MISE;
 	return "";
 }
-std::string WEB_Analyser::Kalk_EEE6(unsigned long iTimes[RankRowStamps])
-{
-	return "X";
-	MISS;
-	MISE;
-	return "";
-}
+
 std::string WEB_Analyser::Kalk_EEE7(unsigned long iTimes[RankRowStamps])
 {
-	return "X";
 	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "sss7.map")return "Wrong Map";
+	if (!isEEEwin())return "Was not a win";
+
+	for (auto A : R->ActionMatrix)
+		if (A->Type == 4045 && entry(A->AdditionalInfo, 0) == "4")
+		{
+			if (entry(A->AdditionalInfo, 1)[0] == 'M')
+				iTimes[0] = STRtoNUM(entry(A->AdditionalInfo, 1));
+			if (entry(A->AdditionalInfo, 1)[0] == 'O')
+				iTimes[1] = STRtoNUM(entry(A->AdditionalInfo, 1));
+		}
+
+	iTimes[2] = usedPower();
+
 	MISE;
 	return "";
 }
+
+
+bool WEB_Analyser::isEEEwin()
+{
+	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_WIN;1;")return true;
+	return false;
+}
+
+unsigned long long WEB_Analyser::usedPower()
+{
+	MISS;
+
+	unsigned long long ullReturn = 0;
+
+	for (unsigned int i = 0; i < Players.size(); i++)
+	{
+		if (Players[i]->Type != 1)continue;
+		if (Players[i]->PlayerID != getPMVPlayerID())continue;
+
+		for each (Card* C in Players[i]->Deck)
+			ullReturn += Bro->J_GetSMJCard(C->CardID)->powerCost[C->Upgrade] * C->count;
+	}
+
+	MISE;
+	return ullReturn;
+}
+
 
 #if defined BrokerLotto
 Lotto_Player *WEB_Analyser::getLottoPlayer()
