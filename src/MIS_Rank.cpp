@@ -393,8 +393,11 @@ bool MIS_Rank::ReCalTotalEEE()
 	}
 
 	for (auto RvReturn : RankRows)
+	{
+		RvReturn->Stamps[0] = 0;
 		for (unsigned int iEEE = 1; iEEE < EEESize; iEEE++)
 			RvReturn->Stamps[0] += RvReturn->Stamps[iEEE];
+	}
 
 	mtx.unlock();
 

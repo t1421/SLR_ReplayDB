@@ -60,7 +60,7 @@ void LOAD::Load_Settings(std::string sName)
 			
 			if (INI_Value_Check(line, "EEEStatus"))EEEStatus = atoi(line.c_str());
 
-			for (unsigned int i = 0; i < EEESize; i++)
+			for (unsigned int i = 1; i < EEESize; i++)
 			if (INI_Value_Check(line, "EEE" + std::to_string(i)))
 			{
 				EEE_Start[i] = atoi(entry(line.c_str(), 0).c_str());

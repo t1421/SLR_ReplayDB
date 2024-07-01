@@ -15,6 +15,7 @@ public:
 	
 	Wt::WSlider *slider;
 	Wt::WText *sliderText;
+	Wt::WText *sliderTextLow;
 
 	std::string TimeToText(std::time_t timestamp);
 	

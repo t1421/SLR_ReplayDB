@@ -31,10 +31,13 @@ WEB_EEE::WEB_EEE(WEB_Analyser *WA_)
 
 	slider = new Wt::WSlider();
 	sliderText = new Wt::WText();
+	sliderTextLow = new Wt::WText();
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sliderText)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(slider)));	
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sliderTextLow)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	
 
@@ -56,29 +59,13 @@ WEB_EEE::WEB_EEE(WEB_Analyser *WA_)
 	}
 	MISD("#100");
 
-
-
-	MISD("#101");
-
-	for (unsigned int i = 1; i < EEESize; i++)if (Bro->L_getEEE_RankMode(i) == 2)
-	{
-		std::time_t timestampS = Bro->L_getEEE_Start(i);
-		std::time_t timestampE = Bro->L_getEEE_End(i);
-		std::stringstream Text;
-		Text << "EEE " << std::to_string(i) << " Timeframe: " << TimeToText(timestampS) << " - " << TimeToText(timestampE);
-		sliderText->setText(Text.str());
-		slider->resize(300, 50);
-		slider->setRange(timestampS, timestampE);
-		slider->setValue(Bro->L_getEEE_Now());
-
-		WEB_Toolbar::sToolbar->setCurrentIndex(i);
-	}
-
+	slider->resize(300, 50);
 	slider->disable();
 
 	MISD("#102");
 
 	WEB_Toolbar::updateToolbar();
+	WRefresh();
 	
 	MISE;
 }
@@ -86,6 +73,52 @@ WEB_EEE::WEB_EEE(WEB_Analyser *WA_)
 void WEB_EEE::WRefresh()
 {
 	MISS;
+
+	std::time_t timestampS;
+	std::time_t timestampE;
+
+	sliderText->setText(" ");
+	sliderTextLow->setText("Now: " + TimeToText(Bro->L_getEEE_Now()));
+	slider->setRange(0, 0);
+	slider->setValue(0);
+
+	MISD("#11");
+	for (unsigned int i = 1; i < EEESize; i++)
+	{
+		WEB_Toolbar::bDisable[i] = (Bro->L_getEEE_RankMode(i) == 10);
+		if (!WEB_Toolbar::bDisable[i]) WEB_Toolbar::sToolbar->setCurrentIndex(i);
+
+		if (Bro->L_getEEE_RankMode(i) == 2)
+		{
+			timestampS = Bro->L_getEEE_Start(i);
+			timestampE = Bro->L_getEEE_End(i);
+			std::stringstream Text;
+			Text << "SSS " << std::to_string(i) << " Timeframe: " << TimeToText(timestampS) << " - " << TimeToText(timestampE);
+			sliderText->setText(Text.str());
+			
+			slider->setRange(timestampS, timestampE);
+			slider->setValue(Bro->L_getEEE_Now());
+
+			WEB_Toolbar::sToolbar->setCurrentIndex(i);
+		}
+	}
+
+	if (sliderText->text() == " ")for (unsigned int i = 1; i < EEESize; i++)
+		{
+			timestampS = Bro->L_getEEE_Start(i);
+			if (timestampS > Bro->L_getEEE_Now())
+				sliderText->setText("Next SSS is " + std::to_string(i) + " starting at " + TimeToText(timestampS));
+		}
+
+	if (sliderText->text() == " ")
+	{
+		sliderText->setText("SSS is over, THX for joining");
+		slider->setHidden(true);
+		sliderTextLow->setHidden(true);
+	}
+
+	MISD("#101");
+
 	updateFrame();
 	MISE;
 }
