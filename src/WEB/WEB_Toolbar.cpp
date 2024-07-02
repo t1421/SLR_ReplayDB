@@ -41,7 +41,11 @@ void WEB_Toolbar::updateToolbar()
 		if (sCSS.find("button1") != sCSS.npos)sCSS.erase(sCSS.find("button1"), 7);
 		if (sCSS.find("button0") != sCSS.npos)sCSS.erase(sCSS.find("button0"), 7);
 
-		if (i == sToolbar->currentIndex())sCSS = "button1 " + sCSS;
+		if (i == sToolbar->currentIndex())
+		{
+			MISD("###");
+			sCSS = "button1 " + sCSS;
+		}
 		else sCSS = "button0" + sCSS;
 
 		bToolbar[i]->setStyleClass(sCSS);
@@ -54,6 +58,7 @@ void WEB_Toolbar::updateToolbar()
 void WEB_Toolbar::updateFrame()
 {
 	MISS;
+	MISD(sToolbar->currentIndex());
 	if(sToolbar->currentIndex() < bToolbar.size())
 	wfToolbar[sToolbar->currentIndex()]->WRefresh();	
 	MISE;

@@ -86,7 +86,7 @@ void WEB_EEE::WRefresh()
 	for (unsigned int i = 1; i < EEESize; i++)
 	{
 		WEB_Toolbar::bDisable[i] = (Bro->L_getEEE_RankMode(i) == 10);
-		if (!WEB_Toolbar::bDisable[i]) WEB_Toolbar::sToolbar->setCurrentIndex(i);
+		//if (!WEB_Toolbar::bDisable[i]) WEB_Toolbar::sToolbar->setCurrentIndex(i);
 
 		if (Bro->L_getEEE_RankMode(i) == 2)
 		{
@@ -99,7 +99,7 @@ void WEB_EEE::WRefresh()
 			slider->setRange(timestampS, timestampE);
 			slider->setValue(Bro->L_getEEE_Now());
 
-			WEB_Toolbar::sToolbar->setCurrentIndex(i);
+			//WEB_Toolbar::sToolbar->setCurrentIndex(i);
 		}
 	}
 
@@ -118,6 +118,7 @@ void WEB_EEE::WRefresh()
 	}
 
 	MISD("#101");
+	//MISD(sToolbar->currentIndex());
 
 	updateFrame();
 	MISE;

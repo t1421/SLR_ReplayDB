@@ -80,8 +80,8 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 
 	MISD("#6");
 
-	if (Bro->L_getEEEStatus() != 1 || sPARA == "EEE")
-		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "EEE", *EEE->cMain, EEE);
+	if (Bro->L_getEEEStatus() != 1 || sPARA == "SSS")
+		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "SSS", *EEE->cMain, EEE);
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);
