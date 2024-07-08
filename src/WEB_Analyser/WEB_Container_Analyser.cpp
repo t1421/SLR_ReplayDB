@@ -7,6 +7,7 @@
 #include "..\..\incl\WEB_Analyser\WEB_EEE.h"
 #include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\..\incl\WEB_Analyser\WEB_CONTAINER_Analyser.h"
+#include "..\..\incl\WEB_Analyser\WEB_Event.h"
 
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WText.h>
@@ -31,7 +32,15 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	}
 	if (sPARA == "DEBUG")
 	{
-		MISERROR("DEBUG ON")
+		MISERROR("DEBUG ON");
+		WA_Debug = true;
+		ReNewTaps();
+	}
+	if (sPARA == "ADMIN")
+	{
+		MISERROR("ADMIN ON");
+		MISERROR("DEBUG ON");
+		WA_Admin = true;
 		WA_Debug = true;
 		ReNewTaps();
 	}
@@ -50,6 +59,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	MISD("#3");	
 
 	EEE = new WEB_EEE(this);
+	Event = new WEB_Event(this, 100); //EVENT NR
 	wfuDropZone = new Wt::WFileUpload();
 	wtStatus = new Wt::WText("Waiting for Replay");
 	
@@ -80,15 +90,19 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 
 	MISD("#6");
 
-	if (Bro->L_getEEEStatus() != 1 || sPARA == "SSS")
+	if (Bro->L_getEEEStatus() != 10 || sPARA == "SSS")
 		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "SSS", *EEE->cMain, EEE);
+
+	if (Bro->L_getEventStatus(0) < 10 || sPARA == "EVENT") //EVENT NR
+		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "EVENT", *Event->cMain, Event);
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Acti", *this->Acti->cMain, this->Acti);
 	
 	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
-	if (Bro->L_getEEEStatus() != 1)WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	if (Bro->L_getEEEStatus() != 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	if (Bro->L_getEventStatus(0) < 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 
 	MISD("#7");

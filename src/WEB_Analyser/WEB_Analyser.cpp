@@ -38,7 +38,7 @@ bool comparePlayerID(const unsigned long long a, const unsigned long long b)
 
 broker *(WEB_Analyser::Bro) = NULL;
 
-WEB_Analyser::WEB_Analyser(): R(new Replay()), WA_Debug(false)
+WEB_Analyser::WEB_Analyser(): R(new Replay()), WA_Debug(false), WA_Admin(false)
 {
 	MISS;
 	
@@ -577,7 +577,7 @@ unsigned long long WEB_Analyser::usedPower()
 	for (unsigned int i = 0; i < Players.size(); i++)
 	{
 		if (Players[i]->Type != 1)continue;
-		if (Players[i]->PlayerID != getPMVPlayerID())continue;
+		//if (Players[i]->PlayerID != getPMVPlayerID())continue;
 
 		for each (Card* C in Players[i]->Deck)
 			ullReturn += Bro->J_GetSMJCard(C->CardID)->powerCost[C->Upgrade] * C->count;
@@ -585,6 +585,22 @@ unsigned long long WEB_Analyser::usedPower()
 
 	MISE;
 	return ullReturn;
+}
+
+std::string WEB_Analyser::Kalk_Event0(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "restoringlyr_4.map")return "Wrong Map";
+	if (R->DifficultyID != 2)return "Wrong Difficulty";
+	bool bWin = false;
+	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;Goal5;1;")bWin = true;
+	if (!bWin)return "Was not a win";
+
+	iTimes[0] = getPlaytime();
+	iTimes[1] = usedPower();
+	MISE;
+	return "";
 }
 
 

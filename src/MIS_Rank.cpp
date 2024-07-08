@@ -1,7 +1,8 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\incl\Broker.h" 
 #include "..\incl\Utility.h"
+#include "..\incl\DataTypes.h"
 
 #include "..\incl\MIS_Rank.h" 
 
@@ -33,6 +34,7 @@ bool comparePlayerX(const ROW& a, const ROW& b)
 */
 
 bool comparePlayerField0(const ROW * a, const ROW * b) { return a->Stamps[0] < b->Stamps[0]; }
+bool comparePlayerField0Rev(const ROW * a, const ROW * b) { return a->Stamps[0] > b->Stamps[0]; }
 /*
 bool comparePlayerXField0(const ROW& a, const ROW& b) { return a.Stamps[0] < b.Stamps[0]; }
 bool comparePlayerXField1(const ROW& a, const ROW& b) { return a.Stamps[1] < b.Stamps[1]; }
@@ -40,6 +42,16 @@ bool comparePlayerXField2(const ROW& a, const ROW& b) { return a.Stamps[2] < b.S
 bool comparePlayerXField3(const ROW& a, const ROW& b) { return a.Stamps[3] < b.Stamps[3]; }
 bool comparePlayerXField4(const ROW& a, const ROW& b) { return a.Stamps[4] < b.Stamps[4]; }
 */
+
+bool comparePlayerFieldStage(const ROW * a, const ROW * b)
+{
+	for (unsigned int i = 0; i < RankRowStamps; i++)
+	{
+		if (a->Stamps[i] > b->Stamps[i]) return true;
+		else if (a->Stamps[i] < b->Stamps[i]) return false;
+	}	
+	return true;
+}
 
 bool comparePlayerFieldEEE_DEF(const ROW * a, const ROW * b)
 { 
@@ -101,7 +113,8 @@ unsigned int RANKtoPOINTS(unsigned int iRank)
 MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList) + ".csv"), RankMode(_RankMode), RankList(iRankList)
 {
 	MISS;
-
+	MISD("RankList:" + std::to_string(iRankList));
+	MISD("RankMode:" + std::to_string(_RankMode));
 	//Load List
 	std::string line;
 	ROW* R_Temp;
@@ -170,7 +183,7 @@ void MIS_Rank::SortList()
 	switch (RankList)
 	{
 	case 0:
-		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0);
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0Rev);
 		break;
 	case 3:
 	case 5:
@@ -179,8 +192,14 @@ void MIS_Rank::SortList()
 	case 7:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_7);
 		break;
-	default:
+	case 1:
+	case 2:
+	case 4:
+	case 6:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_DEF);
+		break;
+	default:
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldStage);
 		break;
 	}
 	mtx.unlock();
@@ -193,77 +212,22 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 {
 	MISS;
 	int iReturn = 0;
-	unsigned int i;
 	bool bUpdate = false;
-	//MISD(sRankName);
 	mtx.lock();
-	/*
-	for (i = 0; i < RankRows.size(); i++)
-	{
-		if (RankRows[i]->ID == _ID && RankRows[i]->ReplayID == _ReplayID)
-		{
-			for (unsigned int j = 0; j < RankRowStamps; j++) if (RankRows[i]->Stamps[j] > _Stamps[j]) bUpdate = true;
-			if (bUpdate)
-			{
-				MISD("Player vorhanden, Time Updated");
-				if (RankMode != 1)
-				{
-					for (unsigned int j = 0; j < RankRowStamps; j++) RankRows[i]->Stamps[j] = _Stamps[j];
-				}
-				iReturn = 10;
-				break;
-			}
-			else //if (RankRows[i]->Order == _Order)
-			{
-				MISD("Player vorhanden, Time Gleich / schlechtere zeit");
-				//RankRows[i]->Order = _Order;
-				//RankRows[i]->Time = _Time;
-				//RankRows[i]->Points = _Points;
-				iReturn = 9;
-				break;
-			}
-			
-			//else
-			//{
-			//	MISD("Player vorhanden, Time Slower");
-			//	iReturn = 5;
-			//	break;
-			//}
-		}
-	}
-	*/
-	if (iReturn == 0)
-	{
-		MISD("New Player");
-		MISD(RankMode);
-		ROW* R_Temp = new ROW();
-		R_Temp->ID = _ID;
-		R_Temp->ReplayID = _ReplayID;
-		for (unsigned int j = 0; j < RankRowStamps; j++) R_Temp->Stamps[j] = _Stamps[j];		
-		
-		//Team name definieren
-		//if (RankMode != 1)Bro->GetTeamName(_ID);
-		/*
-		if (RankMode == 1)sRankName = "Player"; 
-		else
-		{
-			if (sRankName == "")R_Temp->Name = Bro->getName();
-			else R_Temp->Name = sRankName;
-			sRankName = R_Temp->Name;
-			
-		}
-		*/
-		RankRows.push_back(R_Temp);
-		i = RankRows.size() - 1;
-		iReturn = 15;
-	}
-	//else if(sRankName=="")sRankName = RankRows[i]->Name;
-	if (RankMode == 1 && iReturn == 15)RankRows.pop_back();
+
+	MISD("New Player");
+	MISD(RankMode);
+	ROW* R_Temp = new ROW();
+	R_Temp->ID = _ID;
+	R_Temp->ReplayID = _ReplayID;
+	for (unsigned int j = 0; j < RankRowStamps; j++) R_Temp->Stamps[j] = _Stamps[j];			
+	RankRows.push_back(R_Temp);	
+
+	if (RankMode == 1)RankRows.pop_back();
 
 	mtx.unlock();
 
-	if (iReturn > 9
-		&& RankMode != 1)
+	if (RankMode != 1)
 	{	
 		SortList();
 		CleanList();
@@ -272,7 +236,6 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 		iReturn = 0;
 		for (auto R : RankRows) if (R->ReplayID == _ReplayID)iReturn = 1;
 	}
-	else iReturn = 0;
 	
 	MISD(std::to_string(iReturn));
 	MISE;

@@ -9,13 +9,14 @@ public:
 	
 	Wt::WContainerWidget *cMain;
 	Wt::WTable *wtTabelle;
+	WEB_Analyser *WR;
 
 	unsigned int iRankList;
 
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
-	WEB_Rank(unsigned int _iBOTLIST);
+	WEB_Rank(WEB_Analyser *WR_, unsigned int _iBOTLIST);
 	void WRefresh();
 };
 

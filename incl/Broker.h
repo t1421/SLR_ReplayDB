@@ -27,6 +27,7 @@
 #define RankRowStamps 10
 
 #define EEESize 8
+#define SLR_Events 1
 
 #define WebAnalyser "https://t1421.de/"
 #define WebTome "https://tome.t1421.de/"
@@ -41,11 +42,13 @@ class Imager;
 class WEB_Main;
 class MIS_Rank;
 class CardBaseSMJ;
-struct SMJCard;
 class Tome_Game;
-struct Tome_Booster;
 class LottoWeek;
 class Challonge;
+
+struct Tome_Booster;
+struct SMJCard;
+struct ROW;
 
 class broker
 {
@@ -61,6 +64,7 @@ public:
 	WEB_Main *W;
 	CardBaseSMJ *J;
 	MIS_Rank* A[EEESize + 1];
+	MIS_Rank* AA[SLR_Events];
 	Challonge* C;
 
 	broker* Bro;
@@ -101,6 +105,8 @@ public:
 	unsigned long int L_getEEE_Now();
 	void EEEUpdateRankModes();
 
+	int L_getEventStatus(unsigned int iEvent);
+
 #endif	
 
 #ifndef noSMJ
@@ -123,6 +129,8 @@ public:
 #if defined BrokerWeb
 	void INIT();
 	int AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
+	int A_getRankMode(unsigned int iRANK);
+	std::vector<ROW> A_getRankeROW(unsigned int iRANK);
 	
 	std::vector<std::string> FreeNames;
 	std::string getName();

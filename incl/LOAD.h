@@ -51,6 +51,8 @@ public:
 	int EEEStatus;
 	unsigned long int EEE_Start[EEESize];
 	unsigned long int EEE_End[EEESize];
+
+	int EventStatus[SLR_Events];
 	
 	void Load_Settings(std::string sName);
 

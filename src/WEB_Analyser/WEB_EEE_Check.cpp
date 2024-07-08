@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -29,7 +29,7 @@ WEB_EEE_Check::WEB_EEE_Check(WEB_Analyser *WR_, unsigned int iEEE_NR_) : WR(WR_)
 	
 	MISD("#1");
 	
-	Rank = new WEB_Rank(EEENR);
+	Rank = new WEB_Rank(WR,EEENR);
 	
 	MISD("#2");
 	
@@ -73,7 +73,7 @@ void WEB_EEE_Check::WRefresh()
 		std::string sPlayer = WR->GetPlayerName(WR->getPMVPlayerID());
 		if (Bro->AddPlayer(EEENR, sPlayer, WR->getReplayHash(), iTimes) == 1)
 		{
-			WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(EEENR) + sPlayer + ".pmv");
+			WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(EEENR) + "_" + sPlayer + ".pmv");
 			Bro->ReCalTotalEEE();
 		}
 		

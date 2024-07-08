@@ -24,6 +24,7 @@
 
 #include "..\incl\WEB_Analyser\WEB_EEE.h"
 #include "..\incl\WEB_Analyser\WEB_EEE_Check.h"
+#include "..\incl\WEB_Analyser\WEB_Event.h"
 #include "..\incl\WEB_Analyser\WEB_Rank.h"
 #include "..\incl\MIS_Rank.h"
 
@@ -110,6 +111,7 @@ broker::broker()
 
 	WEB_EEE::learnBro(this);
 	WEB_EEE_Check::learnBro(this);
+	WEB_Event::learnBro(this);
 	WEB_Rank::learnBro(this);	
 	MIS_Rank::learnBro(this);
 	
@@ -183,7 +185,8 @@ broker::broker()
 #if defined BrokerWeb
 void broker::INIT()
 {	
-	for (int i = 0; i <= EEESize + 1; i++)A[i] = new MIS_Rank(i,0);
+	for (int i = 0; i < EEESize; i++)A[i] = new MIS_Rank(i, 0);
+	for (int i = 0; i < SLR_Events; i++)AA[i] = new MIS_Rank(i + 100 , L->EventStatus[i]);
 
 	std::ifstream ifFile;
 	std::string line;
@@ -213,7 +216,20 @@ void broker::INIT()
 
 int broker::AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps])
 {
-	return A[iRANK]->AddPlayer(_ID, _ReplayID, _Stamps);
+	if(iRANK<100)return A[iRANK]->AddPlayer(_ID, _ReplayID, _Stamps);
+	else return AA[iRANK - 100]->AddPlayer(_ID, _ReplayID, _Stamps);
+}
+
+int broker::A_getRankMode(unsigned int iRANK)
+{
+	if (iRANK < 100)return A[iRANK]->RankMode;
+	else return AA[iRANK - 100]->RankMode;
+}
+
+std::vector<ROW> broker::A_getRankeROW(unsigned int iRANK)
+{
+	if (iRANK < 100)return A[iRANK]->getRankeROW();
+	else return AA[iRANK - 100]->getRankeROW();
 }
 
 std::string broker::getName()
@@ -433,6 +449,10 @@ void broker::EEEUpdateRankModes()
 		A[i]->RankMode = L_getEEE_RankMode(i);
 }
 
+int broker::L_getEventStatus(unsigned int iEvent)
+{
+	return L->EventStatus[iEvent];
+}
 #endif
 
 

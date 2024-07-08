@@ -147,6 +147,21 @@ struct Tome_Booster
 	unsigned int iLfdnr;
 };
 
+struct ROW {
+	std::string ID;
+	unsigned long ReplayID;
+	unsigned long Stamps[RankRowStamps];
+	ROW() {}
+	ROW(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]) :
+		ID(_ID), ReplayID(_ReplayID) {
+		for (unsigned int i = 0; i < RankRowStamps; i++)Stamps[i] = _Stamps[i];
+	}
+	ROW(std::string _ID, unsigned long _ReplayID) :
+		ID(_ID), ReplayID(_ReplayID) {
+		for (unsigned int i = 0; i < RankRowStamps; i++)Stamps[i] = 0;
+	}
+
+};
 
 #endif //DataTypes
 

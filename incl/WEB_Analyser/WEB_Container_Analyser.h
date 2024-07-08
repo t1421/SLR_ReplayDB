@@ -13,6 +13,7 @@
 #include <Wt/WApplication.h>
 
 class WEB_EEE;
+class WEB_Event;
 
 class WEB_Container : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser
 
@@ -34,6 +35,7 @@ private:
 	void WRefresh();
 
 	WEB_EEE *EEE;
+	WEB_Event *Event;
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
 	Wt::WContainerWidget *GlobaelContainer;

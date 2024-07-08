@@ -67,6 +67,12 @@ void LOAD::Load_Settings(std::string sName)
 				EEE_End[i] = atoi(entry(line.c_str(), 1).c_str());
 			}
 
+			for (unsigned int i = 0; i < SLR_Events; i++)
+				if (INI_Value_Check(line, "Event" + std::to_string(i)))
+				{
+					EventStatus[i] = atoi(line.c_str());
+				}
+
 			ifFile.clear();
 		}
 		

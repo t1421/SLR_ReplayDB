@@ -58,6 +58,7 @@ public:
 	bool isOK();
 
 	bool WA_Debug;
+	bool WA_Admin;
 	
 	//std::string Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE0(unsigned long iTimes[RankRowStamps]);
@@ -65,6 +66,8 @@ public:
 	std::string Kalk_EEE3(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE5(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE7(unsigned long iTimes[RankRowStamps]);
+
+	std::string Kalk_Event0(unsigned long iTimes[RankRowStamps]);
 
 	bool isEEEwin();
 	unsigned long long usedPower();

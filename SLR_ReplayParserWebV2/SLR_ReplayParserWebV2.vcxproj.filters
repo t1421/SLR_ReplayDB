@@ -96,6 +96,9 @@
     <ClCompile Include="..\src\WEB_Analyser\WEB_EEE_Check.cpp">
       <Filter>Quelldateien\Analyser</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Event.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h">
@@ -162,6 +165,9 @@
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Analyser\WEB_EEE_Check.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Event.h">
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
   </ItemGroup>
