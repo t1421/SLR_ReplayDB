@@ -34,6 +34,7 @@ bool comparePlayerX(const ROW& a, const ROW& b)
 */
 
 bool comparePlayerField0(const ROW * a, const ROW * b) { return a->Stamps[0] < b->Stamps[0]; }
+bool comparePlayerField1(const ROW * a, const ROW * b) { return a->Stamps[1] < b->Stamps[1]; }
 bool comparePlayerField0Rev(const ROW * a, const ROW * b) { return a->Stamps[0] > b->Stamps[0]; }
 /*
 bool comparePlayerXField0(const ROW& a, const ROW& b) { return a.Stamps[0] < b.Stamps[0]; }
@@ -199,7 +200,7 @@ void MIS_Rank::SortList()
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_DEF);
 		break;
 	case 100:
-		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0);
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField1);
 		break;		
 	default:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldStage);

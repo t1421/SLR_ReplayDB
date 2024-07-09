@@ -593,6 +593,7 @@ std::string WEB_Analyser::Kalk_Event0(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "restoringlyr_4.map")return "Wrong Map";
 	if (R->DifficultyID != 2)return "Wrong Difficulty";
+	if (R->GameVersion != 400047)return "Wrong GameVersion";
 	bool bWin = false;
 	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;Goal5;1;")bWin = true;
 	if (!bWin)return "Was not a win";
