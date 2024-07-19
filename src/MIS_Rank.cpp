@@ -44,6 +44,12 @@ bool comparePlayerXField3(const ROW& a, const ROW& b) { return a.Stamps[3] < b.S
 bool comparePlayerXField4(const ROW& a, const ROW& b) { return a.Stamps[4] < b.Stamps[4]; }
 */
 
+bool comparePlayerField1_0(const ROW * a, const ROW * b) 
+{ 
+	if(a->Stamps[1] < b->Stamps[1]) return true;
+	else return a->Stamps[0] < b->Stamps[0];
+}
+
 bool comparePlayerFieldStage(const ROW * a, const ROW * b)
 {
 	for (unsigned int i = 0; i < RankRowStamps; i++)
@@ -95,17 +101,15 @@ unsigned int RANKtoPOINTS(unsigned int iRank)
 {
 	switch (iRank)	{
 	case 1: return 15;
-	case 2: return 13;
-	case 3: return 11;
-	case 4: return 9;
-	case 5: return 8;
-	case 6: return 7;
-	case 7: return 6;
-	case 8: return 5;
-	case 9: return 4;
-	case 10: return 3;
-	case 11: return 2;
-	case 12: return 1;
+	case 2: return 12;
+	case 3: return 10;
+	case 4: return 8;
+	case 5: return 6;
+	case 6: return 5;
+	case 7: return 4;
+	case 8: return 3;
+	case 9: return 2;
+	case 10: return 1;
 	}
 	return 0;
 }
@@ -200,7 +204,7 @@ void MIS_Rank::SortList()
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_DEF);
 		break;
 	case 100:
-		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField1);
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField1_0);
 		break;		
 	default:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldStage);
