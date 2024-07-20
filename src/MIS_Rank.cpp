@@ -46,8 +46,13 @@ bool comparePlayerXField4(const ROW& a, const ROW& b) { return a.Stamps[4] < b.S
 
 bool comparePlayerField1_0(const ROW * a, const ROW * b) 
 { 
-	if(a->Stamps[1] < b->Stamps[1]) return true;
-	else return a->Stamps[0] < b->Stamps[0];
+	if (a->Stamps[1] < b->Stamps[1]) return true;
+	else if (a->Stamps[1] > b->Stamps[1]) return false;
+
+	if (a->Stamps[0] < b->Stamps[0]) return true;
+	else if (a->Stamps[0] > b->Stamps[0]) return false;
+
+	return true;
 }
 
 bool comparePlayerFieldStage(const ROW * a, const ROW * b)
