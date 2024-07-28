@@ -66,7 +66,8 @@ bool Imager::MakeIMG()
 		if (RR->ActionMatrix[i]->Type == 4009 //Unit
 			|| RR->ActionMatrix[i]->Type == 4010 //Spell
 			|| RR->ActionMatrix[i]->Type == 4011 //Line Spell
-			|| RR->ActionMatrix[i]->Type == 4012) //Building			
+			|| RR->ActionMatrix[i]->Type == 4012 //Building			
+			|| RR->ActionMatrix[i]->Type == 4044) //TW Switch 
 		{
 			if (!File_exists(Bro->L_getSMJIMG_PATH() + std::to_string(RR->ActionMatrix[i]->Card) + ".png"))
 			{
@@ -174,6 +175,7 @@ CvScalar Imager::SwitchTypeColor(unsigned long inType)
 	case 4012://"Cast building";	
 	case 4030://"Build well";
 	case 4031://"Build orb";
+	case 4044://"TW SWITCH";
 		return cvScalar((255), (0), (0), 255);		
 	
 	//GR�N
@@ -195,7 +197,7 @@ CvScalar Imager::SwitchTypeColor(unsigned long inType)
 	case 4039://"Switch tunnel";
 	case 4040://"Deaktiviert Nexus exit";
 	case 4042://"Placing Altar Of Chaos Totem";	
-	case 4044://"Switch TW";
+	//case 4044://"Switch TW";
 		return cvScalar((255), (255), (0), 255);
 
 	//Transparent

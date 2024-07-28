@@ -27,18 +27,38 @@ WEB_EEE::WEB_EEE(WEB_Analyser *WA_)
 
 	Bro->EEEUpdateRankModes();
 
+	std::time_t timestampS;
+	std::time_t timestampE;
+
 	cMain = new Wt::WContainerWidget();
 
-	slider = new Wt::WSlider();
-	sliderText = new Wt::WText();
 	sliderTextLow = new Wt::WText();
-
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sliderText)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(slider)));	
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sliderTextLow)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+
+	for (unsigned int i = 1; i < EEESize; i++)
+	{
+		timestampS = Bro->L_getEEE_Start(i);
+		timestampE = Bro->L_getEEE_End(i);
+
+
+		slider[i] = new Wt::WSlider();
+		slider[i]->resize(390, 5);
+		slider[i]->disable();
+		slider[i]->setRange(timestampS, timestampE);
+		sliderText[i] = new Wt::WText("SSS " + std::to_string(i) + " Timeframe: " + TimeToText(timestampS) + " - " + TimeToText(timestampE));
+		
+
+		cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sliderText[i])));
+		cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+		cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(slider[i])));
+		cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+		cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+		
+	}
+
+	
 	
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(tToolbar)));
@@ -59,8 +79,7 @@ WEB_EEE::WEB_EEE(WEB_Analyser *WA_)
 	}
 	MISD("#100");
 
-	slider->resize(300, 50);
-	slider->disable();
+	
 
 	MISD("#102");
 
@@ -74,35 +93,37 @@ void WEB_EEE::WRefresh()
 {
 	MISS;
 
-	std::time_t timestampS;
-	std::time_t timestampE;
+	//std::time_t timestampS;
+	//std::time_t timestampE;
 
-	sliderText->setText(" ");
-	sliderTextLow->setText("Now: " + TimeToText(Bro->L_getEEE_Now()));
-	slider->setRange(0, 0);
-	slider->setValue(0);
+	//sliderText->setText(" ")
+	//slider->setRange(0, 0);
+	//slider->setValue(0);
+	sliderTextLow->setText("<b> Now: " + TimeToText(Bro->L_getEEE_Now()) + "</b>");
+	
 
 	MISD("#11");
 	for (unsigned int i = 1; i < EEESize; i++)
 	{
 		WEB_Toolbar::bDisable[i] = (Bro->L_getEEE_RankMode(i) == 10);
+		slider[i]->setValue(Bro->L_getEEE_Now());
 		//if (!WEB_Toolbar::bDisable[i]) WEB_Toolbar::sToolbar->setCurrentIndex(i);
 
-		if (Bro->L_getEEE_RankMode(i) == 2)
-		{
-			timestampS = Bro->L_getEEE_Start(i);
-			timestampE = Bro->L_getEEE_End(i);
-			std::stringstream Text;
-			Text << "SSS " << std::to_string(i) << " Timeframe: " << TimeToText(timestampS) << " - " << TimeToText(timestampE);
-			sliderText->setText(Text.str());
+		//if (Bro->L_getEEE_RankMode(i) == 2)
+		//{
+			//timestampS = Bro->L_getEEE_Start(i);
+			//timestampE = Bro->L_getEEE_End(i);
+			//std::stringstream Text;
+			//Text << "SSS " << std::to_string(i) << " Timeframe: " << TimeToText(timestampS) << " - " << TimeToText(timestampE);
+			//sliderText->setText(Text.str());
 			
-			slider->setRange(timestampS, timestampE);
-			slider->setValue(Bro->L_getEEE_Now());
+			//slider->setRange(timestampS, timestampE);
+			//slider->setValue(Bro->L_getEEE_Now());
 
 			//WEB_Toolbar::sToolbar->setCurrentIndex(i);
-		}
+		//}
 	}
-
+	/*
 	if (sliderText->text() == " ")for (unsigned int i = 1; i < EEESize; i++)
 		{
 			timestampS = Bro->L_getEEE_Start(i);
@@ -116,7 +137,7 @@ void WEB_EEE::WRefresh()
 		slider->setHidden(true);
 		sliderTextLow->setHidden(true);
 	}
-
+	*/
 	MISD("#101");
 	//MISD(sToolbar->currentIndex());
 

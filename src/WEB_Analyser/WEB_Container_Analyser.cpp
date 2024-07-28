@@ -59,7 +59,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	MISD("#3");	
 
 	EEE = new WEB_EEE(this);
-	Event = new WEB_Event(this, 100); //EVENT NR
+	//Event = new WEB_Event(this, 100); //EVENT NR
 	wfuDropZone = new Wt::WFileUpload();
 	wtStatus = new Wt::WText("Waiting for Replay");
 	
@@ -93,8 +93,8 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	if (Bro->L_getEEEStatus() != 10 || sPARA == "SSS")
 		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "SSS", *EEE->cMain, EEE);
 
-	if (Bro->L_getEventStatus(0) < 10 || sPARA == "EVENT") //EVENT NR
-		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "EVENT", *Event->cMain, Event);
+//	if (Bro->L_getEventStatus(0) < 10 || sPARA == "EVENT") //EVENT NR
+//		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "EVENT", *Event->cMain, Event);
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);

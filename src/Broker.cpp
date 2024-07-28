@@ -301,6 +301,11 @@ bool broker::ReCalTotalEEE()
 	return A[0]->ReCalTotalEEE();
 }
 
+void broker::EEEUpdateRankModes()
+{
+	for (unsigned int i = 0; i < EEESize; i++)
+		A[i]->RankMode = L_getEEE_RankMode(i);
+}
 #endif
 
 broker::~broker()
@@ -443,11 +448,7 @@ unsigned long int broker::L_getEEE_End(unsigned int iEEE)
 {
 	return L->EEE_End[iEEE];
 }
-void broker::EEEUpdateRankModes()
-{
-	for (unsigned int i = 0; i < EEESize; i++)
-		A[i]->RankMode = L_getEEE_RankMode(i);
-}
+
 
 int broker::L_getEventStatus(unsigned int iEvent)
 {

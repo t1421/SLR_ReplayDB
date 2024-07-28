@@ -122,6 +122,7 @@ bool WEB_Analyser::getData()
 				&& R->ActionMatrix[j]->Type != 4011 //Spell 2
 				&& R->ActionMatrix[j]->Type != 4010 //Spell 1
 				&& R->ActionMatrix[j]->Type != 4009 //Unit
+				&& R->ActionMatrix[j]->Type != 4044 //TW SWITCH
 				)continue;
 
 			Found = false;
@@ -230,6 +231,7 @@ bool WEB_Analyser::getData()
 		case 4010: //cast spell
 		case 4011: //cast line spell
 		case 4012: //cast building
+		case 4044: // TW Unit Switch
 			//Action_Temp->WImage Card
 			Action_Temp->Info = Bro->J_GetSMJCard(R->ActionMatrix[i]->Card)->cardName;
 			break;
@@ -307,8 +309,8 @@ bool WEB_Analyser::getData()
 		case 4043: // go to Gold but not able to collect
 				   //Action_Temp->WImage = Gold mit X
 			break;
-		case 4044: // TW Unit Switch
-				   //Action_Temp->WImage = TW ICON
+		//case 4044: // TW Unit Switch
+		//		   //Action_Temp->WImage = TW ICON
 			break;
 		case 4045: // SLR Data
 			Action_Temp->Info = R->ActionMatrix[i]->AdditionalInfo;

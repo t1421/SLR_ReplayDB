@@ -103,7 +103,7 @@ public:
 	unsigned long int L_getEEE_Start(unsigned int iEEE);
 	unsigned long int L_getEEE_End(unsigned int iEEE);
 	unsigned long int L_getEEE_Now();
-	void EEEUpdateRankModes();
+	
 
 	int L_getEventStatus(unsigned int iEvent);
 
@@ -141,6 +141,7 @@ public:
 	void saveTeams();
 	std::vector<std::pair<std::string, std::string>> TeamNames;
 	bool broker::ReCalTotalEEE();
+	void EEEUpdateRankModes();
 #endif
 
 	void B_StatusNew(std::string Fun, std::string Wert);

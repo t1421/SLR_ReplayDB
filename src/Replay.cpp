@@ -711,7 +711,9 @@ bool Replay::ReadActions()
 				///###
 			case 4044: // TW Unit Switch
 				Action_TEMP->ActionPlayer = readUnsignedLong();
-				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedLong()); // Ziel Card ID
+				Action_TEMP->CardFull = readUnsignedLong(); //Targed CARD
+				Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
+				Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
 				readUnsignedLong(); // Unknow - �ndert sich - KP wann, BZW 1,3,4 bleiben gleich ? bei gleicher Ziel Unit?
 				readUnsignedShort(); // immer 0 und 255 ?
 				readUnsignedLong(); // Abbility ID
@@ -901,6 +903,7 @@ bool Replay::SetCharges()
 			    || ActionMatrix[iActionMain]->Type == 4011 //Spell 2
 				|| ActionMatrix[iActionMain]->Type == 4010 //Spell 1
 				|| ActionMatrix[iActionMain]->Type == 4009 //Unit
+				|| ActionMatrix[iActionMain]->Type == 4044 //TW Switch
 			  ) && ActionMatrix[iActionMain]->Charges == 255)
 		{
 			for (unsigned iActionSub = 0; iActionSub < iActionMain; iActionSub++)

@@ -30,6 +30,9 @@ int main(int argc, char **argv)
 	L->teachL();
 	L->StartUp();
 	L->Load_Settings("Private.ini");
+	L->ProcessArg(argc, argv);
+
+	printf("%s\n", L->sLivePvPPMV);
 
 #ifndef noManager
 	Manager* M = new Manager();
@@ -41,6 +44,7 @@ int main(int argc, char **argv)
 	
 	while (Bro->bAktive)
 	{
+		/*
 		if (argc > 1 && argc > iArcCout)
 		{
 
@@ -48,11 +52,13 @@ int main(int argc, char **argv)
 			iArcCout++;
 			std::cout << "ARG:" << sbuf << std::endl;
 		}
-		else
+		else */
 		{
 			std::cin >> buf;
 			sbuf = buf;
 		}
+
+		
 
 		if (Checker(sbuf, "?"))
 		{

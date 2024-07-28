@@ -5,6 +5,9 @@
 #include "..\incl\LOAD.h"
 #include "..\incl\Utility.h"
 
+#ifdef BrokerPVP
+#include "..\incl\CLI11.hpp"
+#endif
 #include <fstream>
 
 broker *(LOAD::Bro) = NULL;
@@ -97,3 +100,19 @@ std::string LOAD::entry(std::string Liste, int pos)
 		return entry(Liste, pos - 1);
 	}
 }
+
+#ifdef BrokerPVP
+int LOAD::ProcessArg(int argc, char** argv)
+{
+	MISS;
+	CLI::App app{ "Live PVP" };
+
+	app.add_option("--PMV", sLivePvPPMV, "PMV File to Oopen");
+
+	CLI11_PARSE(app, argc, argv);
+
+	MISE;
+	if (sLivePvPPMV != "")return 1;
+	return 0;
+}
+#endif

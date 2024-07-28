@@ -205,7 +205,8 @@ int Manager::processActions()
 		if (RR->ActionMatrix[i]->Type == 4009 ||
 			RR->ActionMatrix[i]->Type == 4010 ||
 			RR->ActionMatrix[i]->Type == 4011 ||
-			RR->ActionMatrix[i]->Type == 4012)
+			RR->ActionMatrix[i]->Type == 4012 ||
+			RR->ActionMatrix[i]->Type == 4044)
 		{
 			AddCardToPlayer(RR->ActionMatrix[i]);
 			iReturn = 1;

@@ -35,7 +35,7 @@ private:
 	void WRefresh();
 
 	WEB_EEE *EEE;
-	WEB_Event *Event;
+	//WEB_Event *Event;
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
 	Wt::WContainerWidget *GlobaelContainer;

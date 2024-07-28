@@ -13,8 +13,8 @@ public:
 	WEB_EEE_Check *Check[EEESize];
 	WEB_EEE_Check *ALL;
 	
-	Wt::WSlider *slider;
-	Wt::WText *sliderText;
+	Wt::WSlider *slider[EEESize];
+	Wt::WText *sliderText[EEESize];
 	Wt::WText *sliderTextLow;
 
 	std::string TimeToText(std::time_t timestamp);

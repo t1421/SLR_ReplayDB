@@ -56,10 +56,16 @@ public:
 	
 	void Load_Settings(std::string sName);
 
+#ifdef BrokerPVP
+	int LOAD::ProcessArg(int argc, char** argv);
+#endif
+
 	//BROKER
 	static broker* Bro;
 	void teachL() { Bro->L = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
+
+
 
 protected:
 	
