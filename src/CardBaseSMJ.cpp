@@ -527,6 +527,8 @@ SMJCard* CardBaseSMJ::GetSMJCard(unsigned short _CardID)
 	{
 		if (SMJMatrix[i]->cardId == _CardID)return SMJMatrix[i];
 	}
+
+	return new SMJCard();
 }
 
 void CardBaseSMJ::AllIMGBig()
