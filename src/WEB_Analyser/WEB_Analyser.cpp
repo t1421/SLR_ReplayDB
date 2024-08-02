@@ -497,7 +497,7 @@ std::string WEB_Analyser::Kalk_EEE_Def(unsigned long iTimes[RankRowStamps],std::
 	
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != 265)return "Wrong Client";
+	if (R->FileVersion != 266)return "Wrong Client";
 	if (R->MapName != sMapName)return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!isEEEwin() )return "Was not a win";
@@ -512,7 +512,7 @@ std::string WEB_Analyser::Kalk_EEE3(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != 265)return "Wrong Client";
+	if (R->FileVersion != 266)return "Wrong Client";
 	if (R->MapName != "sss3.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!isEEEwin())return "Was not a win";
@@ -533,7 +533,7 @@ std::string WEB_Analyser::Kalk_EEE5(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != 265)return "Wrong Client";
+	if (R->FileVersion != 266)return "Wrong Client";
 	if (R->MapName != "sss5.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!isEEEwin())return "Was not a win";
@@ -551,7 +551,7 @@ std::string WEB_Analyser::Kalk_EEE7(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != 265)return "Wrong Client";
+	if (R->FileVersion != 266)return "Wrong Client";
 	if (R->MapName != "sss7.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!isEEEwin())return "Was not a win";
