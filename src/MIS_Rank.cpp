@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\incl\Broker.h" 
 #include "..\incl\Utility.h"
@@ -337,16 +337,16 @@ bool MIS_Rank::ReCalTotalEEE()
 	bool bAdd;
 
 	mtx.lock();
-	RankRows.empty();
+	RankRows.clear();
 
 	for (unsigned int iEEE = 1; iEEE < EEESize; iEEE++)
 	{
-		vRanks.empty();
+		vRanks.clear();
 		vRanks = Bro->A[iEEE]->getRankeROW();
 
 		//for (auto RvRanks : vRanks)
 		for(unsigned int iRanks = 0; iRanks < vRanks.size() && iRanks < 10 ; iRanks++)
-		{
+		{			
 			bAdd = true;
 			for (auto RvReturn : RankRows)
 			{
@@ -366,6 +366,7 @@ bool MIS_Rank::ReCalTotalEEE()
 				RankRows.push_back(R_Temp);
 			}
 		}
+		
 	}
 
 	for (auto RvReturn : RankRows)
