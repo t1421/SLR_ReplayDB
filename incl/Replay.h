@@ -31,6 +31,7 @@ public:
 	std::string SwitchType(unsigned long inType);
 	int CountActions(std::string sAction);
 	int CountActions() { return CountActions("*"); }
+	bool TestStriker();
 
 	//BROKER
 	static broker* Bro;

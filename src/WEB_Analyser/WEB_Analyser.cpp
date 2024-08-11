@@ -501,6 +501,7 @@ std::string WEB_Analyser::Kalk_EEE_Def(unsigned long iTimes[RankRowStamps],std::
 	if (R->MapName != sMapName)return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!isEEEwin() )return "Was not a win";
+	if (R->TestStriker())return "please do not abuse your power";
 
 	iTimes[0] = getPlaytime();
 	iTimes[2] = usedPower();
@@ -516,6 +517,7 @@ std::string WEB_Analyser::Kalk_EEE3(unsigned long iTimes[RankRowStamps])
 	if (R->MapName != "sss3.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!isEEEwin())return "Was not a win";
+	if (R->TestStriker())return "please do not abuse your power";
 
 	for (auto A : R->ActionMatrix)
 	{
@@ -537,6 +539,7 @@ std::string WEB_Analyser::Kalk_EEE5(unsigned long iTimes[RankRowStamps])
 	if (R->MapName != "sss5.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!isEEEwin())return "Was not a win";
+	if (R->TestStriker())return "please do not abuse your power";
 
 	for (auto A : R->ActionMatrix)
 		if (A->Type == 4045 && entry(A->AdditionalInfo, 0) == "2")
@@ -555,6 +558,7 @@ std::string WEB_Analyser::Kalk_EEE7(unsigned long iTimes[RankRowStamps])
 	if (R->MapName != "sss7.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!isEEEwin())return "Was not a win";
+	if (R->TestStriker())return "please do not abuse your power";
 
 	for (auto A : R->ActionMatrix)
 		if (A->Type == 4045 && entry(A->AdditionalInfo, 0) == "4")
@@ -607,6 +611,7 @@ std::string WEB_Analyser::Kalk_Event0(unsigned long iTimes[RankRowStamps])
 	bool bWin = false;
 	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;Goal5;1;")bWin = true;
 	if (!bWin)return "Was not a win";
+	if (R->TestStriker())return "please do not abuse your power";
 
 	iTimes[0] = getPlaytime();
 	iTimes[1] = usedPower();

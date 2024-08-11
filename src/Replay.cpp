@@ -1294,6 +1294,12 @@ int Replay::CountActions(std::string sAction)
 	return iOut;
 }
 
+bool Replay::TestStriker()
+{
+	for (auto A : ActionMatrix)if (A->Type == 4009 && A->Card == 4051)return true;	
+	return false;
+}
+
 #if defined BrokerPVP
 int Replay::readDelta()
 {
