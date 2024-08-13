@@ -101,6 +101,17 @@ bool comparePlayerFieldEEE_7(const ROW * a, const ROW * b)
 	return true;
 }
 
+bool comparePlayerFieldEEE_2(const ROW * a, const ROW * b)
+{
+	if (a->Stamps[0] + a->Stamps[2] < b->Stamps[0] + b->Stamps[2]) return true;
+	else if (a->Stamps[0] + a->Stamps[2] > b->Stamps[0] + b->Stamps[2]) return false;
+
+	if (a->Stamps[0] < b->Stamps[0]) return true;
+	else if (a->Stamps[0] > b->Stamps[0]) return false;
+
+	return true;
+}
+
 
 unsigned int RANKtoPOINTS(unsigned int iRank)
 {
@@ -195,6 +206,9 @@ void MIS_Rank::SortList()
 	case 0:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0Rev);
 		break;
+	case 2:
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_2);
+		break;
 	case 3:
 	case 5:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_3_5);
@@ -202,8 +216,7 @@ void MIS_Rank::SortList()
 	case 7:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_7);
 		break;
-	case 1:
-	case 2:
+	case 1:	
 	case 4:
 	case 6:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_DEF);

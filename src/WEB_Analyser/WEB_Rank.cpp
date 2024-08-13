@@ -67,6 +67,10 @@ void WEB_Rank::WRefresh()
 	case 0:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Points </h4>"))));			
 		break;
+	case 2:		
+		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Score </h4>"))));
+		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
+		break;
 	case 3:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Buildings </h4>"))));
 		break;
@@ -98,8 +102,12 @@ void WEB_Rank::WRefresh()
 		case 0:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[0])))));
 			break;
-		case 1:
 		case 2:
+			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[0] + vListe[i].Stamps[2])))));
+			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[2])))));
+			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
+			break;
+		case 1:		
 		case 4:
 		case 6:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));

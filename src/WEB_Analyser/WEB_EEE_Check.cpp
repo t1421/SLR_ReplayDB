@@ -26,6 +26,7 @@ WEB_EEE_Check::WEB_EEE_Check(WEB_Analyser *WR_, unsigned int iEEE_NR_) : WR(WR_)
 	wtStatus	= new Wt::WText(" ");
 	wtTime = new Wt::WText(" ");
 	wtPower = new Wt::WText(" ");
+	wtAddInfo = new Wt::WText(" ");
 	
 	MISD("#1");
 	
@@ -34,6 +35,8 @@ WEB_EEE_Check::WEB_EEE_Check(WEB_Analyser *WR_, unsigned int iEEE_NR_) : WR(WR_)
 	MISD("#2");
 	
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAddInfo)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTime)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPower)));	
@@ -50,6 +53,8 @@ void WEB_EEE_Check::WRefresh()
 	MISS;
 	
 	wtTime->setText(" ");
+	wtAddInfo->setText(" ");
+	wtPower->setText(" ");
 
 	unsigned long iTimes[RankRowStamps] = {0};
 
@@ -81,19 +86,23 @@ void WEB_EEE_Check::WRefresh()
 
 		switch (EEENR)
 		{
+		case 2:
+			wtAddInfo->setText("Score: " + std::to_string(iTimes[0] + iTimes[2]));
+			break;
 		case 3:
-			wtTime->setText("Buildings: " + std::to_string(iTimes[0])); 
+			wtAddInfo->setText("Buildings: " + std::to_string(iTimes[0]));
 			break;
 		case 5:
-			wtTime->setText("Units: " + std::to_string(iTimes[0]));
+			wtAddInfo->setText("Units: " + std::to_string(iTimes[0]));
 			break;
 		case 7:
-			wtTime->setText("Score: " + std::to_string(iTimes[0]) + "/" + std::to_string(iTimes[1]));
+			wtAddInfo->setText("Score: " + std::to_string(iTimes[0]) + "/" + std::to_string(iTimes[1]));
 			break;
-		default:
-			wtTime->setText("Time: " + sTime(iTimes[0]));
+		//default:
+		//	wtTime->setText("Time: " + sTimeFull(iTimes[0]));
 		}
 
+		wtTime->setText("Time: " + sTimeFull(iTimes[0]));
 		wtPower->setText("Power: " + std::to_string(iTimes[2]));
 
 		

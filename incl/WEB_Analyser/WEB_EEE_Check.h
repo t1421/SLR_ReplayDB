@@ -16,7 +16,8 @@ public:
 	Wt::WText		 *wtStatus;	
 	Wt::WText		 *wtPower;
 	Wt::WText		 *wtTime;
-
+	Wt::WText		 *wtAddInfo;
+	
 	unsigned int EEENR;
 
 	static broker* Bro;
