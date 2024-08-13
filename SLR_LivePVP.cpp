@@ -29,8 +29,9 @@ int main(int argc, char **argv)
 	LOAD* L = new LOAD();
 	L->teachL();
 	L->StartUp();
-	L->Load_Settings("Private.ini");
+	L->Load_Settings("Private.ini");	
 	L->ProcessArg(argc, argv);
+	if (L->sSetting != "")L->Load_Settings(L->sSetting);
 
 	printf("%s\n", L->sLivePvPPMV);
 

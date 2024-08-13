@@ -141,14 +141,20 @@ void Manager::Thread_Function()
 				
 				}
 
+				if (Bro->L_getLivePvPActionLog() == 1 && vsActionLog.size() > 0)
+				{
+					for (auto A: vsActionLog)SetActionLog(A);
+					vsActionLog.clear();
+				}
+
 				//MISD(RR->CountActions());
-				Sleep(1000);
+				Sleep(Bro->L_getLivePvPRefreshRate());
 			}
 
 		exit_loop:;
 			RR->close();
 		}
-		Sleep(1000);
+		Sleep(Bro->L_getLivePvPRefreshRate());
 	}
 	MISE;
 }
@@ -165,6 +171,8 @@ void Manager::ResteLiveFiles()
 			SetCard(i * 100 + j, 0, 0, 0, 0);
 		}
 	}
+
+	SetActionLog("");
 
 	MISE;
 }
@@ -211,6 +219,10 @@ int Manager::processActions()
 			AddCardToPlayer(RR->ActionMatrix[i]);
 			iReturn = 1;
 		}
+
+		if(Bro->L_getLivePvPActionLog() == 1)
+			FillActionLog(RR->ActionMatrix[i]);
+
 		
 	}
 	iLastAction = RR->ActionMatrix.size();
@@ -290,6 +302,63 @@ void Manager::SetPlayer(unsigned int POS, std::string sName)
 	MISE;
 }
 
+void Manager::FillActionLog(Action *Import)
+{
+	MISS;
+
+	std::string sAdd;
+
+	switch (Import->Type)
+	{
+	case 4001:
+	case 4003:
+	case 4004:
+	case 4005:
+	case 4008:
+	case 4016:
+	case 4017:
+	case 4018:
+	case 4021:
+	case 4022:
+	case 4023:
+	case 4024:
+	case 4025:
+	case 4026:
+	case 4027:
+	case 4032:
+	case 4045:
+		return;
+	default:
+		sAdd += sTimeFull(Import->Time) + ": ";
+		sAdd += formatString(RR->SwitchType(Import->Type), 10) + " | ";
+	}
+
+	switch (Import->Type)
+	{
+	case 4009:
+	case 4010:
+	case 4011:
+	case 4012:
+	case 4044:
+		sAdd += formatString(Bro->J_GetSMJCard(Import->Card)->cardName,15);
+	}
+
+	vsActionLog.push_back(sAdd);
+
+	MISE;
+}
+
+void Manager::SetActionLog(std::string sIN)
+{
+	MISS;	
+	std::ofstream  dst;
+	if(sIN=="")dst.open(Bro->L_getLivePvP_OBS_Export() + "ActionLog.txt", std::ios::binary);
+	else dst.open(Bro->L_getLivePvP_OBS_Export() + "ActionLog.txt", std::ios::binary | std::ios::app);	
+	dst << sIN<<"\n";
+	dst.close();
+	MISE;
+}
 
 #endif
+
 

@@ -418,6 +418,14 @@ std::string broker::L_getLivePvP_Pics()
 {
 	return L->sLivePvP_Pics;
 }
+int broker::L_getLivePvPRefreshRate()
+{
+	return L->iLivePvPRefreshRate;
+}
+int broker::L_getLivePvPActionLog()
+{
+	return L->iLivePvPActionLog;
+}
 int broker::L_getEEE_RankMode(unsigned int iEEE)
 {
 	unsigned long int now = L_getEEE_Now();

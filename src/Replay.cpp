@@ -1182,21 +1182,21 @@ std::string Replay::SwitchType(unsigned long inType)
 	switch(inType)
 	{
 	case 4001: 	
-		return "?4001 ?";
+		return "4001";
 	case 4002: 
-		return "Surrender ";
+		return "leave game";
 	case 4003:
 		return "Desync";
 	case 4004: 
 		return "12Player sync";
 	case 4005: 
-		return "?4005 Loot";
+		return "4005 Loot";
 	case 4006: 
 		return "Open Gold";
 	case 4007: 
 		return "Objective OK";
 	case 4008: 
-		return "?4008 Map Debug";
+		return "4008 Map Debug";
 	case 4009: 
 		return "Summon unit";
 	case 4010: 
@@ -1212,9 +1212,9 @@ std::string Replay::SwitchType(unsigned long inType)
 	case 4015: 
 		return "Attack";
 	case 4016:
-		return "?4016 ?";
+		return "4016";
 	case 4017:
-		return "?4017 GM Stuf";
+		return "4017";
 	case 4018:
 		return "old KillEntity";
 	case 4019: 

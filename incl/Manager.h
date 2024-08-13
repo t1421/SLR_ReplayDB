@@ -39,13 +39,17 @@ private:
 	void UpdateFiles();
 	int processActions();
 	void AddCardToPlayer(Action *Import);
+	void FillActionLog(Action *Import);
 	void SetCard(unsigned int POS, unsigned short CardID, unsigned char Upgrade, unsigned char Charges, unsigned int Count);
 	void SetCardBack(unsigned int POS, unsigned int iCount);
 	void SetPlayer(unsigned int POS, std::string sName);
+	void SetActionLog(std::string);
 		
 	unsigned int iLastAction;
 	unsigned long minActionPlayer;
 	unsigned long maxActionPlayer;
+
+	std::vector<std::string> vsActionLog;
 	
 #endif
 };

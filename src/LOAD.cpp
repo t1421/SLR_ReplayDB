@@ -15,6 +15,7 @@ broker *(LOAD::Bro) = NULL;
 void LOAD::Load_Settings(std::string sName)
 {
 	MISS;
+	MISERROR(sName);
 	std::string line;	
 
 	std::ifstream ifFile;
@@ -56,6 +57,8 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "LivePvPPMV"))sLivePvPPMV = line.c_str();
 			if (INI_Value_Check(line, "LivePvP_OBS_Export"))sLivePvP_OBS_Export = line.c_str();
 			if (INI_Value_Check(line, "LivePvP_Pics"))sLivePvP_Pics = line.c_str();
+			if (INI_Value_Check(line, "LivePvPRefreshRate"))iLivePvPRefreshRate = atoi(line.c_str());
+			if (INI_Value_Check(line, "LivePvPActionLog"))iLivePvPActionLog = atoi(line.c_str());
 
 			if (INI_Value_Check(line, "ChallongeUser"))sChallongeUser = line.c_str();
 			if (INI_Value_Check(line, "ChallongeAPIKEY"))sChallongeAPIKEY = line.c_str();
@@ -108,6 +111,7 @@ int LOAD::ProcessArg(int argc, char** argv)
 	CLI::App app{ "Live PVP" };
 
 	app.add_option("--PMV", sLivePvPPMV, "PMV File to Oopen");
+	app.add_option("--SETTING", sSetting, "SETTING");
 
 	CLI11_PARSE(app, argc, argv);
 

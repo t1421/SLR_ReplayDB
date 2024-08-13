@@ -42,10 +42,14 @@ public:
 	std::string sLivePvPPMV;
 	std::string sLivePvP_OBS_Export;
 	std::string sLivePvP_Pics;
+	int iLivePvPRefreshRate;
+	int iLivePvPActionLog;
 
 	std::string sChallongeUser;
 	std::string sChallongeAPIKEY;
 	std::string sChallongeSaveDir;
+
+	std::string sSetting;
 
 	//int BOTRankMode[BOTXLIST + 1];
 	int EEEStatus;

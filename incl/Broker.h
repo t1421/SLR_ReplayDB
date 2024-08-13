@@ -95,6 +95,8 @@ public:
 	std::string L_getLivePvPPMV();
 	std::string L_getLivePvP_OBS_Export();
 	std::string L_getLivePvP_Pics();
+	int L_getLivePvPRefreshRate();
+	int L_getLivePvPActionLog();
 
 	
 
