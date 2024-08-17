@@ -142,7 +142,7 @@ void WEB_Analyser_Acti::UpdateTabelle()
 	for (unsigned int i = 0; i < WA->Actions.size(); i++)
 	{
 		if (DoSkip(WA->Actions[i]->sActionName, WA->Actions[i]->sPlayerName)) continue;
-		wtActions->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTime(WA->Actions[i]->Time)))));
+		wtActions->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(WA->Actions[i]->Time)))));
 		wtActions->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(WA->Actions[i]->sActionName))));
 		wtActions->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(WA->Actions[i]->sPlayerName))));
 		wtActions->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(WA->Actions[i]->Info))));

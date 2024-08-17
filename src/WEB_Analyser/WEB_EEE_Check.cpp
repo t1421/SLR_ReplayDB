@@ -64,7 +64,7 @@ void WEB_EEE_Check::WRefresh()
 	{
 	case 0: Rank->WRefresh(); return;
 	case 1: sReturn = WR->Kalk_EEE_Def(iTimes, "sss1.map"); break;
-	case 2: sReturn = WR->Kalk_EEE_Def(iTimes, "sss2.map"); break;
+	case 2: sReturn = WR->Kalk_EEE2(iTimes); break;
 	case 3: sReturn = WR->Kalk_EEE3(iTimes); break;
 	case 4: sReturn = WR->Kalk_EEE_Def(iTimes, "sss4.map"); break;
 	case 5: sReturn = WR->Kalk_EEE5(iTimes); break;
@@ -87,7 +87,7 @@ void WEB_EEE_Check::WRefresh()
 		switch (EEENR)
 		{
 		case 2:
-			wtAddInfo->setText("Score: " + std::to_string(iTimes[0] + iTimes[2]));
+			wtAddInfo->setText("Score: " + std::to_string(iTimes[1]));
 			break;
 		case 3:
 			wtAddInfo->setText("Buildings: " + std::to_string(iTimes[0]));

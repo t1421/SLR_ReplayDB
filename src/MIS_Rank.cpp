@@ -103,11 +103,14 @@ bool comparePlayerFieldEEE_7(const ROW * a, const ROW * b)
 
 bool comparePlayerFieldEEE_2(const ROW * a, const ROW * b)
 {
-	if (a->Stamps[0] + a->Stamps[2] < b->Stamps[0] + b->Stamps[2]) return true;
-	else if (a->Stamps[0] + a->Stamps[2] > b->Stamps[0] + b->Stamps[2]) return false;
+	if (a->Stamps[1] < b->Stamps[1]) return true;
+	else if (a->Stamps[1] > b->Stamps[1]) return false;
 
 	if (a->Stamps[0] < b->Stamps[0]) return true;
 	else if (a->Stamps[0] > b->Stamps[0]) return false;
+
+	if (a->Stamps[2] < b->Stamps[2]) return true;
+	else if (a->Stamps[2] > b->Stamps[2]) return false;
 
 	return true;
 }

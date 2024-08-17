@@ -63,6 +63,7 @@ public:
 	//std::string Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE0(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE_Def(unsigned long iTimes[RankRowStamps], std::string sMapName);
+	std::string Kalk_EEE2(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE3(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE5(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE7(unsigned long iTimes[RankRowStamps]);

@@ -509,6 +509,24 @@ std::string WEB_Analyser::Kalk_EEE_Def(unsigned long iTimes[RankRowStamps],std::
 	return "";
 }
 
+std::string WEB_Analyser::Kalk_EEE2(unsigned long iTimes[RankRowStamps])
+{
+
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->FileVersion != 266)return "Wrong Client";
+	if (R->MapName != "sss2.map")return "Wrong Map";
+	if (R->DifficultyID != 1)return "Wrong Difficulty";
+	if (!isEEEwin())return "Was not a win";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	iTimes[0] = getPlaytime();	
+	iTimes[2] = usedPower();
+	iTimes[1] = iTimes[0] + iTimes[2] / 10;
+	MISE;
+	return "";
+}
+
 std::string WEB_Analyser::Kalk_EEE3(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
