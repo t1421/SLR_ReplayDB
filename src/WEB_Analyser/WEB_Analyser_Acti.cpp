@@ -150,7 +150,7 @@ void WEB_Analyser_Acti::UpdateTabelle()
 		//iImage >0 = card | <0 stuff
 	}
 
-	wtActions->columnAt(0)->setWidth(50);
+	wtActions->columnAt(0)->setWidth(60);
 	wtActions->columnAt(1)->setWidth(100);
 	wtActions->columnAt(2)->setWidth(100);
 	wtActions->columnAt(2)->setWidth(200);

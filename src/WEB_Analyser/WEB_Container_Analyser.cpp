@@ -130,6 +130,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 		{
 			MISD("#NewReplay");
 			wtStatus->setText("PMV OK \n");
+			Bro->L_ReplayPlus();
 		}
 		else wtStatus->setText("<h4> An error has occurred </h4> <h4> You may want to contact Ultralord </h4> \n");
 

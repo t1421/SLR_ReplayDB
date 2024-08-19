@@ -43,6 +43,10 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 	Playtime2 = new Wt::WText(" ");
 	PlayModeID2 = new Wt::WText(" ");
 	PMVPlayerID2 = new Wt::WText(" ");
+
+	SSS3 = new Wt::WText(" ");
+	SSS5 = new Wt::WText(" ");
+	SSS7 = new Wt::WText(" ");
 		
 
 
@@ -115,7 +119,16 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Unknow3)), x++, y--);
 
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Unknow4: "))), x, y++);
-		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Unknow4)), x++, y--);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Unknow4)), x++, y--);		
+
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("SSS3 Score: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(SSS3)), x++, y--);
+
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("SSS5 Score: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(SSS5)), x++, y--);
+
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("SSS7 Score: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(SSS7)), x++, y--);
 	}
 
 
@@ -199,6 +212,17 @@ void WEB_Analyser_Head::WRefresh()
 	Unknow3->setText(std::to_string(WA->R->Unknow3));
 	Unknow4->setText(std::to_string(WA->R->Unknow4));
 	MapID->setText(std::to_string(WA->R->MapID));
+
+	unsigned long iTimes3[RankRowStamps] = { 0 };
+	unsigned long iTimes5[RankRowStamps] = { 0 };
+	unsigned long iTimes7[RankRowStamps] = { 0 };
+	WA->Kalk_EEE3(iTimes3);
+	WA->Kalk_EEE5(iTimes5);
+	WA->Kalk_EEE7(iTimes7);
+
+	SSS3->setText(std::to_string(iTimes3[0]));
+	SSS5->setText(std::to_string(iTimes5[0]));
+	SSS7->setText(std::to_string(iTimes7[0]) + "/" + std::to_string(iTimes7[1]));
 	
 	newData = !newData;
 	MISE;

@@ -627,3 +627,10 @@ LottoWeek* broker::getPullWeek()
 	return new LottoWeek();
 }
 #endif
+
+#ifdef MIS_Count
+void broker::L_ReplayPlus()
+{
+	L->ReplayPlus();
+}
+#endif

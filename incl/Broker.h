@@ -169,6 +169,9 @@ public:
 	std::vector<std::pair<float,unsigned int>> LottoStages;	
 #endif
 
+#ifdef MIS_Count 
+	void L_ReplayPlus();;
+#endif
 protected:
 	
 

@@ -36,6 +36,10 @@ int main(int argc, char **argv)
 
 	Bro->INIT();
 
+#ifdef MIS_Count
+	L->Load_Count();
+#endif
+
 	while (Bro->bAktive)
 	{
 		std::cin >> buf;

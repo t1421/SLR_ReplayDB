@@ -64,10 +64,19 @@ public:
 	int LOAD::ProcessArg(int argc, char** argv);
 #endif
 
+#ifdef MIS_Count
+	unsigned int iReplay;
+	std::mutex mtxCount;
+	void Load_Count();
+	void Save_Count();
+	void ReplayPlus() { mtxCount.lock(); iReplay++; mtxCount.unlock(); Save_Count(); };
+#endif
+
 	//BROKER
 	static broker* Bro;
 	void teachL() { Bro->L = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
+
 
 
 

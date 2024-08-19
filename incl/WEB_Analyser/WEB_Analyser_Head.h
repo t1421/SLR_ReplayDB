@@ -48,6 +48,10 @@ public:
 		
 		Wt::WText		 *MatrixCount;
 		Wt::WText		 *TeamCount;
+
+		Wt::WText		 *SSS3;
+		Wt::WText		 *SSS5;
+		Wt::WText		 *SSS7;
 		
 			
 	

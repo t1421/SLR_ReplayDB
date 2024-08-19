@@ -120,3 +120,48 @@ int LOAD::ProcessArg(int argc, char** argv)
 	return 0;
 }
 #endif
+
+
+#ifdef MIS_Count
+
+void LOAD::Load_Count()
+{
+	MISS;
+
+	mtxCount.lock();
+	std::string line;
+	std::string sName;
+	std::ifstream ifFile;
+
+	sName = "ReplayCount.ini";
+	ifFile.open(sName.c_str(), std::ios::binary);
+	if (ifFile.good())
+	{
+		getline(ifFile, line);
+		iReplay = atoi(line.c_str());
+		ifFile.clear();
+		ifFile.close();
+	}
+
+	mtxCount.unlock();
+	MISE;
+}
+void LOAD::Save_Count()
+{
+	MISS;
+	mtxCount.lock();
+	std::string sName;
+	std::ofstream ofFile;
+
+	sName = "ReplayCount.ini";
+	ofFile.open(sName.c_str(), std::ios::binary);
+	if (ofFile.good())
+	{
+		ofFile << iReplay;
+		ofFile.close();
+	}
+
+	mtxCount.unlock();
+	MISE;
+}
+#endif
