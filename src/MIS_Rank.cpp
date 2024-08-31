@@ -33,6 +33,7 @@ bool comparePlayerX(const ROW& a, const ROW& b)
 }
 */
 
+bool comparePlayerFieldID(const ROW * a, const ROW * b) { return atoi(a->ID.c_str()) < atoi(b->ID.c_str()); }
 bool comparePlayerField0(const ROW * a, const ROW * b) { return a->Stamps[0] < b->Stamps[0]; }
 bool comparePlayerField1(const ROW * a, const ROW * b) { return a->Stamps[1] < b->Stamps[1]; }
 bool comparePlayerField0Rev(const ROW * a, const ROW * b) { return a->Stamps[0] > b->Stamps[0]; }
@@ -227,6 +228,9 @@ void MIS_Rank::SortList()
 	case 100:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField1_0);
 		break;		
+	case 101:
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldID);
+		break;
 	default:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldStage);
 		break;
@@ -259,6 +263,7 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 	if (RankMode != 1)
 	{	
 		SortList();
+		if (RankList == 101)FusionList();
 		CleanList();
 		SaveList();
 
@@ -400,4 +405,27 @@ bool MIS_Rank::ReCalTotalEEE()
 
 	MISE;
 	return true;
+}
+
+void MIS_Rank::FusionList()
+{
+	MISS;
+
+	for (unsigned int i = 0; i < RankRows.size(); i++)
+	{
+		for (unsigned int j = i; j < RankRows.size(); j++)
+		{
+			if (RankRows[i]->ID == RankRows[j]->ID)
+			{
+				RankRows[i]->Stamps[0] = (RankRows[i]->Stamps[0] == 1 || RankRows[j]->Stamps[0] == 1);
+				RankRows[i]->Stamps[1] = (RankRows[i]->Stamps[1] == 1 || RankRows[j]->Stamps[1] == 1);
+				RankRows[i]->Stamps[2] = (RankRows[i]->Stamps[2] == 1 || RankRows[j]->Stamps[2] == 1);
+				RankRows[i]->Stamps[3] = (RankRows[i]->Stamps[3] == 1 || RankRows[j]->Stamps[3] == 1);
+				RankRows[i]->Stamps[4] = (RankRows[i]->Stamps[4] == 1 || RankRows[j]->Stamps[4] == 1);
+				RankRows[i]->Stamps[5] = (RankRows[i]->Stamps[5] == 1 || RankRows[j]->Stamps[5] == 1);
+				RankRows.erase(RankRows.begin() + j);
+			}
+		}
+	}
+	MISE;
 }

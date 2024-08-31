@@ -17,6 +17,7 @@ public:
 	void SaveList();
 	void SortList();
 	void CleanList();
+	void FusionList();
 			
 	int AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
 	std::vector<ROW> getRankeROW();

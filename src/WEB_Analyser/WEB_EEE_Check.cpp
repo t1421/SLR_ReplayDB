@@ -87,6 +87,7 @@ void WEB_EEE_Check::WRefresh()
 		switch (EEENR)
 		{
 		case 2:
+			wtTime->setText("Time: " + sTimeFull(iTimes[0]));
 			wtAddInfo->setText("Score: " + std::to_string(iTimes[1]));
 			break;
 		case 3:
@@ -98,11 +99,11 @@ void WEB_EEE_Check::WRefresh()
 		case 7:
 			wtAddInfo->setText("Score: " + std::to_string(iTimes[0]) + "/" + std::to_string(iTimes[1]));
 			break;
-		//default:
-		//	wtTime->setText("Time: " + sTimeFull(iTimes[0]));
+		default:
+			wtTime->setText("Time: " + sTimeFull(iTimes[0]));
 		}
 
-		wtTime->setText("Time: " + sTimeFull(iTimes[0]));
+		
 		wtPower->setText("Power: " + std::to_string(iTimes[2]));
 
 		

@@ -68,7 +68,9 @@ public:
 	std::string Kalk_EEE5(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE7(unsigned long iTimes[RankRowStamps]);
 
-	std::string Kalk_Event0(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event100(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event101();
+	void AddPlayers101();
 
 	bool isEEEwin();
 	unsigned long long usedPower();

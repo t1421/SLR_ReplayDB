@@ -50,6 +50,7 @@ void WEB_Event::WRefresh()
 	MISS;
 	
 	wtTime->setText(" ");
+	std::string sTeamID;
 
 	unsigned long iTimes[RankRowStamps] = {0};
 
@@ -57,26 +58,32 @@ void WEB_Event::WRefresh()
 
 	switch (iEventNr)
 	{
-		case 100: sReturn = WR->Kalk_Event0(iTimes); break;
+		case 100: sReturn = WR->Kalk_Event100(iTimes); break;
+		case 101: sReturn = WR->Kalk_Event101(); break;
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
 	else
 	{	
-		//std::string sPlayer = WR->GetPlayerName(WR->getPMVPlayerID());
-		std::string sTeamID = WR->GetTeamID();
-		if (Bro->AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes) == 1)
-		{
-			WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
-		}
-		
-		wtStatus->setText("<h3>Hello there " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
-
 		switch (iEventNr)
 		{
 		case 100:
+			sTeamID = WR->GetTeamID();
+			if (Bro->AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes) == 1)
+				WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+
+			wtStatus->setText("<h3>Hello there " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
 			wtTime->setText("Time: " + sTime(iTimes[0]));
 			wtPower->setText("Power: " + std::to_string(iTimes[1]));
+			break;
+		case 101:
+			WR->AddPlayers101();
+			//if (Bro->AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes) == 1)
+			//	WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+
+			wtStatus->setText("<h3>Nice run :-)</h3> ");
+			//wtTime->setText("Time: " + sTime(iTimes[0]));
+			//wtPower->setText("Power: " + std::to_string(iTimes[1]));
 			break;
 		}
 
@@ -85,3 +92,4 @@ void WEB_Event::WRefresh()
 	Rank->WRefresh();
 	MISE;
 }
+
