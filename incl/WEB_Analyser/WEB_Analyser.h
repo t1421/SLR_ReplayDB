@@ -13,6 +13,7 @@ struct ActionWeb;
 struct Lotto_Player;
 
 #include <Wt/WTable.h>
+#include <Wt/WStandardItem.h>
 
 
 
@@ -24,6 +25,7 @@ public:
 	WEB_Analyser_Head *Head;
 	WEB_Analyser_Deck *Deck;
 	WEB_Analyser_Acti *Acti;
+
 #endif
 
 #if defined BrokerTome
@@ -65,7 +67,7 @@ public:
 	std::string Kalk_EEE_Def(unsigned long iTimes[RankRowStamps], std::string sMapName);
 	std::string Kalk_EEE2(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE3(unsigned long iTimes[RankRowStamps]);
-	std::string Kalk_EEE5(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_EEE5(unsigned long iTimes[RankRowStamps], Wt::Chart::WCartesianChart *chart);
 	std::string Kalk_EEE7(unsigned long iTimes[RankRowStamps]);
 
 	std::string Kalk_Event100(unsigned long iTimes[RankRowStamps]);

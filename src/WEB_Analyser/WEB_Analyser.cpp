@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -26,6 +26,34 @@
 #include <Wt/WColor.h>
 #include <Wt/WCssDecorationStyle.h>
 #include <algorithm>
+#include <Wt/WStandardItemModel.h>
+
+
+class NumericItem : public Wt::WStandardItem {
+public:
+	virtual std::unique_ptr<Wt::WStandardItem> clone() const override {
+		return std::make_unique<NumericItem>();
+	}
+
+	virtual void setData(const Wt::cpp17::any &data, Wt::ItemDataRole role = Wt::ItemDataRole::User) override {
+		Wt::cpp17::any dt;
+
+		if (role == Wt::ItemDataRole::Edit) {
+			std::string s = Wt::asString(data).toUTF8();
+			char *endptr;
+			double d = strtod(s.c_str(), &endptr);
+			if (*endptr == 0)
+				dt = Wt::cpp17::any(d);
+			else
+				dt = data;
+		}
+
+		Wt::WStandardItem::setData(data, role);
+	}
+};
+
+
+
 
 #define SCard_Size_X 92
 #define SCard_Size_Y 127
@@ -549,9 +577,10 @@ std::string WEB_Analyser::Kalk_EEE3(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
-std::string WEB_Analyser::Kalk_EEE5(unsigned long iTimes[RankRowStamps])
+std::string WEB_Analyser::Kalk_EEE5(unsigned long iTimes[RankRowStamps], Wt::Chart::WCartesianChart *chart)
 {
 	MISS;
+	chart->setHidden(true);
 	if (!R->OK)return "No Replay";
 	if (R->FileVersion != 266)return "Wrong Client";
 	if (R->MapName != "sss5.map")return "Wrong Map";
@@ -559,11 +588,50 @@ std::string WEB_Analyser::Kalk_EEE5(unsigned long iTimes[RankRowStamps])
 	if (!isEEEwin())return "Was not a win";
 	if (R->TestStriker())return "please do not abuse your power";
 
+	std::vector <std::pair<int, int>> vpChartData;
+
 	for (auto A : R->ActionMatrix)
 		if (A->Type == 4045 && entry(A->AdditionalInfo, 0) == "2")
-			if(STRtoNUM(entry(A->AdditionalInfo, 1)) > iTimes[0]) iTimes[0] = STRtoNUM(entry(A->AdditionalInfo, 1));
-
+		{
+			vpChartData.push_back(std::make_pair(int(A->Time / 10), STRtoNUM(entry(A->AdditionalInfo, 1))));
+			if (STRtoNUM(entry(A->AdditionalInfo, 1)) > iTimes[0]) iTimes[0] = STRtoNUM(entry(A->AdditionalInfo, 1));
+		}
+	
 	iTimes[2] = usedPower();
+	
+	chart->setHidden(false);
+	std::shared_ptr<Wt::WStandardItemModel> model = std::make_shared<Wt::WStandardItemModel>(vpChartData.size(), 2);
+	std::unique_ptr<NumericItem> prototype = std::make_unique<NumericItem>();
+	model->setHeaderData(0, Wt::WString("Time"));
+	model->setHeaderData(1, Wt::WString("Units"));
+
+	for (unsigned int iRow = 0; iRow < vpChartData.size(); iRow++)
+	{
+		model->setData(iRow, 0, vpChartData[iRow].first);
+		model->setData(iRow, 1, vpChartData[iRow].second);
+	}
+
+	chart->setModel(model);        // set the model
+	chart->setXSeriesColumn(0);    // set the column that holds the X data
+	chart->setLegendEnabled(true); // enable the legend
+	chart->setZoomEnabled(true);
+	chart->setPanEnabled(true);
+	chart->setCrosshairEnabled(true);
+	chart->setAutoLayoutEnabled(true);
+
+	chart->setBackground(Wt::WColor(200, 200, 200));
+	
+	chart->setType(Wt::Chart::ChartType::Scatter);   // set type to ScatterPlot
+
+	//std::unique_ptr<Wt::Chart::WDataSeries> s = std::make_unique<Wt::Chart::WDataSeries>(1, Wt::Chart::SeriesType::Curve);
+	std::unique_ptr<Wt::Chart::WDataSeries> s = std::make_unique<Wt::Chart::WDataSeries>(1, Wt::Chart::SeriesType::Bar);
+	s->setShadow(Wt::WShadow(3, 3, Wt::WColor(0, 0, 0, 127), 3));
+	chart->addSeries(std::move(s));
+
+	chart->resize(800, 300); // WPaintedWidget must be given explicit size
+	//chart->setMargin(10, Wt::Side::Top | Wt::Side::Bottom);
+	//chart->setMargin(Wt::WLength::Auto, Wt::Side::Left | Wt::Side::Right);
+
 	MISE;
 	return "";
 }
@@ -704,6 +772,8 @@ void WEB_Analyser::AddPlayers101()
 	}
 	MISE;
 }
+
+
 
 #if defined BrokerLotto
 Lotto_Player *WEB_Analyser::getLottoPlayer()

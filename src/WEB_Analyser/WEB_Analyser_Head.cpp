@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -11,6 +11,7 @@
 #include <Wt/WContainerWidget.h>
 #include <Wt/WGridLayout.h>
 #include <Wt/WText.h>
+
 
 broker *(WEB_Analyser_Head::Bro) = NULL;
 
@@ -47,14 +48,20 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 	SSS3 = new Wt::WText(" ");
 	SSS5 = new Wt::WText(" ");
 	SSS7 = new Wt::WText(" ");
+	Chart = new Wt::Chart::WCartesianChart();
 		
 
 
 	MISD("#2");
 	Wt::WGridLayout *CLGrid = new Wt::WGridLayout();
-	Wt::WContainerWidget *CWGrid = new Wt::WContainerWidget();	
+	Wt::WContainerWidget *CWGrid = new Wt::WContainerWidget();
 	CWGrid->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(CLGrid)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(CWGrid)));
+	Wt::WContainerWidget *wcChart = new Wt::WContainerWidget();
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcChart)));
+	wcChart->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Chart)));
+	wcChart->setStyleClass("yChart");
+	wcChart->setWidth(800);
 	
 	
 	int x = 0;
@@ -129,6 +136,10 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("SSS7 Score: "))), x, y++);
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(SSS7)), x++, y--);
+
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("SSS5 Chart: "))), x, y++);
+		//CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Chart)), x++, y--);
+		
 	}
 
 
@@ -213,17 +224,20 @@ void WEB_Analyser_Head::WRefresh()
 	Unknow4->setText(std::to_string(WA->R->Unknow4));
 	MapID->setText(std::to_string(WA->R->MapID));
 
-	unsigned long iTimes3[RankRowStamps] = { 0 };
-	unsigned long iTimes5[RankRowStamps] = { 0 };
-	unsigned long iTimes7[RankRowStamps] = { 0 };
-	WA->Kalk_EEE3(iTimes3);
-	WA->Kalk_EEE5(iTimes5);
-	WA->Kalk_EEE7(iTimes7);
+	if (WA->WA_Debug)
+	{
+		unsigned long iTimes3[RankRowStamps] = { 0 };
+		unsigned long iTimes5[RankRowStamps] = { 0 };
+		unsigned long iTimes7[RankRowStamps] = { 0 };
+		WA->Kalk_EEE3(iTimes3);
+		WA->Kalk_EEE5(iTimes5, Chart);
+		WA->Kalk_EEE7(iTimes7);
 
-	SSS3->setText(std::to_string(iTimes3[0]));
-	SSS5->setText(std::to_string(iTimes5[0]));
-	SSS7->setText(std::to_string(iTimes7[0]) + "/" + std::to_string(iTimes7[1]));
-	
+		SSS3->setText(std::to_string(iTimes3[0]));
+		SSS5->setText(std::to_string(iTimes5[0]));
+		SSS7->setText(std::to_string(iTimes7[0]) + "/" + std::to_string(iTimes7[1]));
+		//Chart
+	}
 	newData = !newData;
 	MISE;
 }

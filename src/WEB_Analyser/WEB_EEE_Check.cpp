@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -13,6 +13,8 @@
 #include <Wt/WBreak.h>
 #include <Wt/WHBoxLayout.h>
 
+
+
 broker *(WEB_EEE_Check::Bro) = NULL;
 
 WEB_EEE_Check::WEB_EEE_Check(WEB_Analyser *WR_, unsigned int iEEE_NR_) : WR(WR_), EEENR(iEEE_NR_)
@@ -23,10 +25,12 @@ WEB_EEE_Check::WEB_EEE_Check(WEB_Analyser *WR_, unsigned int iEEE_NR_) : WR(WR_)
 		
 	MISD("#0");
 
-	wtStatus	= new Wt::WText(" ");
+	wtStatus = new Wt::WText(" ");
 	wtTime = new Wt::WText(" ");
 	wtPower = new Wt::WText(" ");
 	wtAddInfo = new Wt::WText(" ");
+	Chart = new Wt::Chart::WCartesianChart();
+	Wt::WContainerWidget *wcChart = new Wt::WContainerWidget();
 	
 	MISD("#1");
 	
@@ -39,10 +43,19 @@ WEB_EEE_Check::WEB_EEE_Check(WEB_Analyser *WR_, unsigned int iEEE_NR_) : WR(WR_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTime)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPower)));	
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtPower)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	if (iEEE_NR_ == 5)
+	{
+		cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcChart)));
+		wcChart->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Chart)));
+		wcChart->setStyleClass("yChart");
+		wcChart->setWidth(800);
+	}
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Rank->cMain)));
 	
 	MISD("#3");
+
 	Rank->WRefresh();
 
 	MISE;
@@ -67,7 +80,7 @@ void WEB_EEE_Check::WRefresh()
 	case 2: sReturn = WR->Kalk_EEE2(iTimes); break;
 	case 3: sReturn = WR->Kalk_EEE3(iTimes); break;
 	case 4: sReturn = WR->Kalk_EEE_Def(iTimes, "sss4.map"); break;
-	case 5: sReturn = WR->Kalk_EEE5(iTimes); break;
+	case 5: sReturn = WR->Kalk_EEE5(iTimes, Chart); break;
 	case 6: sReturn = WR->Kalk_EEE_Def(iTimes, "sss6.map"); break;	
 	case 7: sReturn = WR->Kalk_EEE7(iTimes); break;	
 	}

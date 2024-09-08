@@ -2,6 +2,7 @@
 #define WEB_EEE_Check_H
 
 #include "../WEB/WEB_Utility.h"
+#include <Wt/Chart/WCartesianChart.h>
 
 class WEB_Analyser;
 class WEB_Rank;
@@ -17,6 +18,7 @@ public:
 	Wt::WText		 *wtPower;
 	Wt::WText		 *wtTime;
 	Wt::WText		 *wtAddInfo;
+	Wt::Chart::WCartesianChart *Chart;
 	
 	unsigned int EEENR;
 

@@ -2,6 +2,7 @@
 #define WEB_Analyser_Head_H
 
 #include "../WEB/WEB_Utility.h"
+#include <Wt/Chart/WCartesianChart.h>
 
 class WEB_Analyser;
 
@@ -51,6 +52,7 @@ public:
 
 		Wt::WText		 *SSS3;
 		Wt::WText		 *SSS5;
+		Wt::Chart::WCartesianChart *Chart;
 		Wt::WText		 *SSS7;
 		
 			
