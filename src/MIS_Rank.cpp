@@ -413,7 +413,7 @@ void MIS_Rank::FusionList()
 
 	for (unsigned int i = 0; i < RankRows.size(); i++)
 	{
-		for (unsigned int j = i; j < RankRows.size(); j++)
+		for (unsigned int j = i + 1; j < RankRows.size(); j++)
 		{
 			if (RankRows[i]->ID == RankRows[j]->ID)
 			{

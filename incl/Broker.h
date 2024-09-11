@@ -27,7 +27,7 @@
 #define RankRowStamps 10
 
 #define EEESize 8
-#define SLR_Events 1
+#define SLR_Events 2
 
 #define WebAnalyser "https://t1421.de/"
 #define WebTome "https://tome.t1421.de/"

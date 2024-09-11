@@ -101,7 +101,7 @@ void WEB_Rank::WRefresh()
 	for (unsigned int i = 0; i <vListe.size(); i++)
 	{	
 		wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(i + 1)))));
-		if(iRankList<100)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(vListe[i].ID + "#" + std::to_string(vListe[i].ReplayID)))));  //Bro->GetTeamName(vListe[i].ID)
+		if(iRankList<100 || iRankList==101)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(vListe[i].ID + "#" + std::to_string(vListe[i].ReplayID)))));  //Bro->GetTeamName(vListe[i].ID)
 		else wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(Bro->GetTeamName(vListe[i].ID) + "#" + std::to_string(vListe[i].ReplayID)))));  
 		//if (iRankList != 0)wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string( vListe[i].Stamps[2])))));
 		switch (iRankList)
@@ -144,12 +144,12 @@ void WEB_Rank::WRefresh()
 			wtTabelle->elementAt(i + 1, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[3])))));
 			wtTabelle->elementAt(i + 1, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[4])))));
 			wtTabelle->elementAt(i + 1, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[5])))));
-			wtTabelle->columnAt(2)->setWidth(50);
-			wtTabelle->columnAt(3)->setWidth(50);
-			wtTabelle->columnAt(4)->setWidth(50);
-			wtTabelle->columnAt(5)->setWidth(50);
-			wtTabelle->columnAt(6)->setWidth(50);
-			wtTabelle->columnAt(7)->setWidth(50);
+			wtTabelle->columnAt(2)->setWidth(100);
+			wtTabelle->columnAt(3)->setWidth(100);
+			wtTabelle->columnAt(4)->setWidth(100);
+			wtTabelle->columnAt(5)->setWidth(100);
+			wtTabelle->columnAt(6)->setWidth(100);
+			wtTabelle->columnAt(7)->setWidth(100);
 			wtTabelle->removeColumn(0);
 			break;
 		default:

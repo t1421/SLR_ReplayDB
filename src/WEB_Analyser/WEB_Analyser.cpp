@@ -709,13 +709,14 @@ std::string WEB_Analyser::Kalk_Event101()
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->MapName != "AAA.map" && R->MapName != "BBB.map")return "Wrong Map";
+	if (R->MapName != "20002_pve_02p_into_the_jungle.map" && R->MapName != "20001_pve_02p_unexpected_visitors.map")return "Wrong Map";
 	if (R->DifficultyID != 2 && R->DifficultyID != 3)return "Wrong Difficulty";
-	if (R->GameVersion != 400047)return "Wrong GameVersion";
+	if (R->GameVersion != 400048)return "Wrong GameVersion";
 	bool bWin = false;
-	for (auto A : R->ActionMatrix)if (A->Type == 4045 && (A->AdditionalInfo == "4;AAA;1;" || A->AdditionalInfo == "4;BBB;1;"))bWin = true;
+	for (auto A : R->ActionMatrix)if (A->Type == 4007 && (  A->AdditionalInfo == "1025" && R->MapName == "20002_pve_02p_into_the_jungle.map"
+		                                                 || A->AdditionalInfo == "1009" && R->MapName == "20001_pve_02p_unexpected_visitors.map"))bWin = true;
 	if (!bWin)return "Was not a win";
-	if (R->TestStriker())return "please do not abuse your power";
+	///if (R->TestStriker())return "please do not abuse your power";
 
 
 	
@@ -726,9 +727,16 @@ std::string WEB_Analyser::Kalk_Event101()
 void WEB_Analyser::AddPlayers101()
 {
 	MISS;
+	bool skip;
 	SMJCard *cTemp;
 	for (auto P : Players)
 	{
+		if (P->Type != 1)continue;
+
+		skip = false;
+		for (auto A : R->ActionMatrix)if (A->Type == 4002 && A->PlayerID == P->PlayerID)skip = true;
+		if (skip)continue;
+
 		unsigned long iTimes[RankRowStamps] = { 0 };
 		bool bUVCheck = true;
 		bool bIJCheck = true;
@@ -736,39 +744,45 @@ void WEB_Analyser::AddPlayers101()
 		{
 			if (C->count > 0)
 			{
+
 				cTemp = Bro->J_GetSMJCard(C->CardID);
-				if (cTemp->orbsFire > 0
-					|| cTemp->orbsFrost > 0
-					|| cTemp->orbsNature > 0
-					|| cTemp->orbsShadow > 0
-					|| cTemp->orbsFireFrost > 0
-					|| cTemp->orbsFireNature > 0
-					|| cTemp->orbsFireShadow > 0
-					|| cTemp->orbsNatureFrost > 0
-					|| cTemp->orbsShadowFrost > 0
-					|| cTemp->orbsShadowNature > 0) bUVCheck = false;
-				if (cTemp->orbsFire > 0
-					|| cTemp->orbsFrost > 0
-					|| cTemp->orbsNature > 0
-					|| cTemp->orbsShadow > 0
-					|| cTemp->orbsFireFrost > 0
-					|| cTemp->orbsFireNature > 0
-					|| cTemp->orbsFireShadow > 0
-					|| cTemp->orbsNatureFrost > 0
-					|| cTemp->orbsShadowFrost > 0
-					|| cTemp->orbsShadowNature > 0) bIJCheck = false;
+				if(cTemp->color == 0 //FIre
+					//|| cTemp->color == 1 // Shadow
+					|| cTemp->color == 2 //Nature
+					|| cTemp->color == 3 //Frost
+					|| cTemp->color == 4 //Bandid
+					|| cTemp->color == 5 //SK
+					|| cTemp->color == 6 //TW
+					|| cTemp->color == 7 //LS
+					//|| cTemp->color == 8 //Amii
+					|| cTemp->color == 9 //FF
+					|| cTemp->color == -1 //Neutal
+					)bUVCheck = false;
+
+				if (cTemp->color == 0 //FIre
+					|| cTemp->color == 1 // Shadow
+					//|| cTemp->color == 2 //Nature
+					|| cTemp->color == 3 //Frost
+					|| cTemp->color == 4 //Bandid
+					|| cTemp->color == 5 //SK
+					|| cTemp->color == 6 //TW
+					|| cTemp->color == 7 //LS
+					//|| cTemp->color == 8 //Amii
+					|| cTemp->color == 9 //FF
+					|| cTemp->color == -1 //Neutal
+					)bIJCheck = false;
 			}
 		}
 
-		if (R->MapName == "AAA.map" && R->DifficultyID >= 2)iTimes[0] = 1;		
-		if (R->MapName == "AAA.map" && R->DifficultyID >= 3)iTimes[1] = 1;
-		if (R->MapName == "AAA.map" && bUVCheck)iTimes[2] = 1;
+		if (R->MapName == "20001_pve_02p_unexpected_visitors.map" && R->DifficultyID >= 2)iTimes[0] = 1;		
+		if (R->MapName == "20001_pve_02p_unexpected_visitors.map" && R->DifficultyID >= 3)iTimes[1] = 1;
+		if (R->MapName == "20001_pve_02p_unexpected_visitors.map" && bUVCheck)iTimes[2] = 1;
 
-		if (R->MapName == "BBB.map" && R->DifficultyID >= 2)iTimes[3] = 1;
-		if (R->MapName == "BBB.map" && R->DifficultyID >= 3)iTimes[4] = 1;
-		if (R->MapName == "BBB.map" && bIJCheck)iTimes[5] = 1;
+		if (R->MapName == "20002_pve_02p_into_the_jungle.map" && R->DifficultyID >= 2)iTimes[3] = 1;
+		if (R->MapName == "20002_pve_02p_into_the_jungle.map" && R->DifficultyID >= 3)iTimes[4] = 1;
+		if (R->MapName == "20002_pve_02p_into_the_jungle.map" && bIJCheck)iTimes[5] = 1;
 
-		Bro->AddPlayer(101, P->Name, P->PlayerID, iTimes);
+		Bro->AddPlayer(101, P->Name, P->PlayerID, iTimes);		
 	}
 	MISE;
 }
