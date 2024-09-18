@@ -84,12 +84,18 @@ void WEB_Rank::WRefresh()
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
 		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Power </h4>"))));
 	case 101:
-		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> UV-ADV </h4>"))));
-		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> UV-EXP </h4>"))));
-		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> UV-DEC </h4>"))));
-		wtTabelle->elementAt(0, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> IJ-ADV </h4>"))));
-		wtTabelle->elementAt(0, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> IJ-EXP </h4>"))));
-		wtTabelle->elementAt(0, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> IJ-DEC </h4>"))));
+		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> UV-Adv </h4>"))));
+		wtTabelle->elementAt(0, 2)->widget(0)->setToolTip("Finish Unexpected Visitors on advanced difficulty or higher");
+		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> UV-Exp </h4>"))));
+		wtTabelle->elementAt(0, 3)->widget(0)->setToolTip("Finish Unexpected Visitors on expert difficulty");
+		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> UV-Deck </h4>"))));
+		wtTabelle->elementAt(0, 3)->widget(0)->setToolTip("Finish Unexpected Visitors with only shadow or amii cards");
+		wtTabelle->elementAt(0, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> IJ-Adv </h4>"))));
+		wtTabelle->elementAt(0, 3)->widget(0)->setToolTip("Finish Into the Jungle on advanced difficulty or higher");
+		wtTabelle->elementAt(0, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> IJ-Exp </h4>"))));
+		wtTabelle->elementAt(0, 3)->widget(0)->setToolTip("Finish Into the Jungle on expert difficulty");
+		wtTabelle->elementAt(0, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> IJ-Deck </h4>"))));
+		wtTabelle->elementAt(0, 3)->widget(0)->setToolTip("Finish Into the Jungle with only nature or amii cards");
 		break;
 	default:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));		
@@ -138,12 +144,26 @@ void WEB_Rank::WRefresh()
 			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[1])))));
 			break;
 		case 101:
-			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[0])))));
+			if (vListe[i].Stamps[0] == 1)wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:ForestGreen ;'>Done</span>"))));
+			else wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:Tomato;'>ToDo</span>"))));
+			if (vListe[i].Stamps[1] == 1)wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:ForestGreen ;'>Done</span>"))));
+			else wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:Tomato;'>ToDo</span>"))));
+			if (vListe[i].Stamps[2] == 1)wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:ForestGreen ;'>Done</span>"))));
+			else wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:Tomato;'>ToDo</span>"))));
+			if (vListe[i].Stamps[3] == 1)wtTabelle->elementAt(i + 1, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:ForestGreen ;'>Done</span>"))));
+			else wtTabelle->elementAt(i + 1, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:Tomato;'>ToDo</span>"))));
+			if (vListe[i].Stamps[4] == 1)wtTabelle->elementAt(i + 1, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:ForestGreen ;'>Done</span>"))));
+			else wtTabelle->elementAt(i + 1, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:Tomato;'>ToDo</span>"))));
+			if (vListe[i].Stamps[5] == 1)wtTabelle->elementAt(i + 1, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:ForestGreen ;'>Done</span>"))));
+			else wtTabelle->elementAt(i + 1, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:Tomato;'>ToDo</span>"))));
+
+			/*
 			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[1])))));
 			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[2])))));
 			wtTabelle->elementAt(i + 1, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[3])))));
 			wtTabelle->elementAt(i + 1, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[4])))));
 			wtTabelle->elementAt(i + 1, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[5])))));
+			*/
 			wtTabelle->columnAt(2)->setWidth(100);
 			wtTabelle->columnAt(3)->setWidth(100);
 			wtTabelle->columnAt(4)->setWidth(100);
