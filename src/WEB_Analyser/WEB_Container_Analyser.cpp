@@ -88,13 +88,13 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	wTemp = Wt::WColor(20, 20, 20);
 	root()->decorationStyle().setBackgroundColor(wTemp);
 
-	MISD("#6");
-
-	if (Bro->L_getEEEStatus() != 10 || sPARA == "SSS")
-		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "SSS", *EEE->cMain, EEE);
+	MISD("#6");	
 
 	if (Bro->L_getEventStatus(1) < 10 || sPARA == "EVENT") //EVENT NR
 		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "EVENT", *Event->cMain, Event);
+
+	if (Bro->L_getEEEStatus() != 10 || sPARA == "SSS")
+		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "SSS", *EEE->cMain, EEE);
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);

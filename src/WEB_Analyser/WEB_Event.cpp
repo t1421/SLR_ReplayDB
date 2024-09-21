@@ -78,12 +78,9 @@ void WEB_Event::WRefresh()
 			break;
 		case 101:
 			WR->AddPlayers101();
-			//if (Bro->AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes) == 1)
-			//	WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + WR->GetPlayerName(WR->getPMVPlayerID()) + "_" + WR->getMapName() + "_" + std::to_string(WR->getReplayHash()) + ".pmv");
 
 			wtStatus->setText("<h3>Nice run :-)</h3> ");
-			//wtTime->setText("Time: " + sTime(iTimes[0]));
-			//wtPower->setText("Power: " + std::to_string(iTimes[1]));
 			break;
 		}
 
