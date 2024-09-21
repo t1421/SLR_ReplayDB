@@ -171,11 +171,11 @@ void WEB_Rank::WRefresh()
 			wtTabelle->columnAt(5)->setWidth(100);
 			wtTabelle->columnAt(6)->setWidth(100);
 			wtTabelle->columnAt(7)->setWidth(100);
-			wtTabelle->removeColumn(0);
+			
 			break;
 		default:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
-		}	
+		}			
 
 		if (WR->WA_Admin)
 		{
@@ -185,5 +185,6 @@ void WEB_Rank::WRefresh()
 			wtTabelle->elementAt(i + 1, 9)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
 		}
 	}	
+	if (iRankList == 101)wtTabelle->removeColumn(0);
 	MISE;
 }
