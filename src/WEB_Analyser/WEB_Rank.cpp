@@ -89,13 +89,13 @@ void WEB_Rank::WRefresh()
 		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> UV-Exp </h4>"))));
 		wtTabelle->elementAt(0, 3)->widget(0)->setToolTip("Finish Unexpected Visitors on expert difficulty");
 		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> UV-Deck </h4>"))));
-		wtTabelle->elementAt(0, 3)->widget(0)->setToolTip("Finish Unexpected Visitors with only shadow or amii cards");
+		wtTabelle->elementAt(0, 4)->widget(0)->setToolTip("Finish Unexpected Visitors with only shadow or amii cards");
 		wtTabelle->elementAt(0, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> IJ-Adv </h4>"))));
-		wtTabelle->elementAt(0, 3)->widget(0)->setToolTip("Finish Into the Jungle on advanced difficulty or higher");
+		wtTabelle->elementAt(0, 5)->widget(0)->setToolTip("Finish Into the Jungle on advanced difficulty or higher");
 		wtTabelle->elementAt(0, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> IJ-Exp </h4>"))));
-		wtTabelle->elementAt(0, 3)->widget(0)->setToolTip("Finish Into the Jungle on expert difficulty");
+		wtTabelle->elementAt(0, 6)->widget(0)->setToolTip("Finish Into the Jungle on expert difficulty");
 		wtTabelle->elementAt(0, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> IJ-Deck </h4>"))));
-		wtTabelle->elementAt(0, 3)->widget(0)->setToolTip("Finish Into the Jungle with only nature or amii cards");
+		wtTabelle->elementAt(0, 7)->widget(0)->setToolTip("Finish Into the Jungle with only nature or amii cards");
 		break;
 	default:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));		
@@ -165,12 +165,7 @@ void WEB_Rank::WRefresh()
 			wtTabelle->elementAt(i + 1, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[4])))));
 			wtTabelle->elementAt(i + 1, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[5])))));
 			*/
-			wtTabelle->columnAt(2)->setWidth(100);
-			wtTabelle->columnAt(3)->setWidth(100);
-			wtTabelle->columnAt(4)->setWidth(100);
-			wtTabelle->columnAt(5)->setWidth(100);
-			wtTabelle->columnAt(6)->setWidth(100);
-			wtTabelle->columnAt(7)->setWidth(100);
+
 			
 			break;
 		default:
@@ -185,6 +180,15 @@ void WEB_Rank::WRefresh()
 			wtTabelle->elementAt(i + 1, 9)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
 		}
 	}	
-	if (iRankList == 101)wtTabelle->removeColumn(0);
+	if (iRankList == 101)
+	{
+		wtTabelle->removeColumn(0);
+		wtTabelle->columnAt(2)->setWidth(100);
+		wtTabelle->columnAt(3)->setWidth(100);
+		wtTabelle->columnAt(4)->setWidth(100);
+		wtTabelle->columnAt(5)->setWidth(100);
+		wtTabelle->columnAt(6)->setWidth(100);
+		wtTabelle->columnAt(7)->setWidth(100);
+	}
 	MISE;
 }
