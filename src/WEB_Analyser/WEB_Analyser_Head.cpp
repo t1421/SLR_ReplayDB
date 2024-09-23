@@ -37,6 +37,7 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 	//FileName = new Wt::WText(" ");
 	Unknow3 = new Wt::WText(" ");
 	Unknow4 = new Wt::WText(" ");
+	Power = new Wt::WText(" ");
 
 	MatrixCount = new Wt::WText(" ");
 	TeamCount = new Wt::WText(" ");
@@ -126,7 +127,10 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Unknow3)), x++, y--);
 
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Unknow4: "))), x, y++);
-		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Unknow4)), x++, y--);		
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Unknow4)), x++, y--);
+
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Power*: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Power)), x++, y--);
 
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("SSS3 Score: "))), x, y++);
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(SSS3)), x++, y--);
@@ -223,6 +227,7 @@ void WEB_Analyser_Head::WRefresh()
 	Unknow3->setText(std::to_string(WA->R->Unknow3));
 	Unknow4->setText(std::to_string(WA->R->Unknow4));
 	MapID->setText(std::to_string(WA->R->MapID));
+	Power->setText(std::to_string(WA->usedPower()));
 
 	if (WA->WA_Debug)
 	{

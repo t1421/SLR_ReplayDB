@@ -46,6 +46,7 @@ public:
 		Wt::WText		 *ActionBlock;
 		Wt::WText		 *Unknow3;
 		Wt::WText		 *Unknow4;
+		Wt::WText		 *Power;
 		
 		Wt::WText		 *MatrixCount;
 		Wt::WText		 *TeamCount;
