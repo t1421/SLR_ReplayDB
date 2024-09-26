@@ -119,14 +119,14 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;CardBaseUpdater;BrokerNormal;noWEB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>K:\Sound_Server\lib\opencv3.4\include;K:\Sound_Server\lib\mysql-connector-c++-noinstall-1.1.9-win32\include;K:\Sound_Server\lib\boost_1_68_0;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\include;K:\Sound_Server\lib\jsoncpp-1.9.5\install\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>K:\c++\LIBS\opencv3.4\include;K:\c++\LIBS\mysql-connector-c++-noinstall-1.1.9-win32\include;K:\c++\LIBS\boost_1_68_0;K:\c++\LIBS\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\include;K:\c++\LIBS\jsoncpp-1.9.5\install\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>K:\Sound_Server\lib\opencv3.4\lib\VC14_32;K:\Sound_Server\lib\mysql-connector-c++-noinstall-1.1.9-win32\lib;K:\Sound_Server\lib\boost_1_68_0\stage\lib;K:\Sound_Server\lib\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\lib;K:\Sound_Server\lib\jsoncpp-1.9.5\build2\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>K:\c++\LIBS\opencv3.4\lib\VC14_32;K:\c++\LIBS\mysql-connector-c++-noinstall-1.1.9-win32\lib;K:\c++\LIBS\boost_1_68_0\stage\lib;K:\c++\LIBS\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\lib;K:\c++\LIBS\jsoncpp-1.9.5\build2\lib\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>mysqlcppconn.lib;libcurl.lib;jsoncpp.lib;opencv_imgcodecs340.lib;opencv_imgproc340.lib;opencv_core340.lib;opencv_highgui340.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>

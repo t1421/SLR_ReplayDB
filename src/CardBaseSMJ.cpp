@@ -643,24 +643,28 @@ bool CardBaseSMJ::SMJtoSQL(bool bUpdate)
 bool CardBaseSMJ::IMGtoQSL(int iCardID)
 {
 	MISS;
-
-	std::ifstream ifs;
+	std::vector<uchar> buffer;
 	std::stringstream ss;
 
-	std::string sFile = GetImage(iCardID, 0, 0, ImgOnly, false);
+	std::string sFile = GetImage(iCardID, 0, 0, ImgOnly, false); //WEBP
+	cv::Mat image = cv::imread(sFile, cv::IMREAD_UNCHANGED);
 
-	ifs.open(sFile, std::ifstream::binary | std::ifstream::in);
-	if (ifs)
+	if (image.empty()) 
 	{
-		ss << ifs.rdbuf();
-		ifs.close();
+		MISEA("Error Opening: " + sFile);
+		return false;
 	}
-	else Bro->B_StatusE("E", "IMGtoQSL", "Error opening File");
 
+	if (!cv::imencode(".png", image, buffer)) {
+		MISEA("Error Converting: " + sFile);
+		return false;
+	}
+
+	ss.write(reinterpret_cast<const char*>(buffer.data()), buffer.size());
+	
 	Bro->N->ssSQL << " UPDATE cards SET IMG = ?";
 	Bro->N->ssSQL << " WHERE ID = " << iCardID;
 	Bro->N->SendBLOB(ss.str());
-
 
 	MISE;
 	return true;
