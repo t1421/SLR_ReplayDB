@@ -3,6 +3,11 @@
 
 #include "..\incl\DEBUG.h"
 
+#if defined BrokerQuiz
+#include "..\incl\Thread_MIS.h" 
+#include "..\incl\Quiz.h" 
+#endif
+
 #if defined BrokerTome || defined BrokerNormal || defined BrokerWeb || defined BrokerLotto || defined BrokerPVP
 #include "..\incl\Replay.h" 
 #include "..\incl\Reader.h" 
@@ -135,7 +140,7 @@ broker::broker()
 	Tome_Game::learnBro(this);
 #endif
 
-#ifdef BrokerNormal	 || defined BrokerPVP
+#ifdef BrokerNormal	 || defined BrokerPVP || defined BrokerQuiz
 	Thread_MIS::learnBro(this);
 #endif
 
@@ -151,6 +156,11 @@ broker::broker()
 #if defined BrokerChallonge
 	Challonge::learnBro(this);
 	C = NULL;
+#endif
+
+#if defined BrokerQuiz
+	Quiz::learnBro(this);
+	Q = NULL;
 #endif
 
 #ifndef noSMJ
@@ -426,6 +436,10 @@ int broker::L_getLivePvPActionLog()
 {
 	return L->iLivePvPActionLog;
 }
+std::string broker::L_getQuizPath()
+{
+	return L->sQuizPath;
+}
 int broker::L_getEEE_RankMode(unsigned int iEEE)
 {
 	unsigned long int now = L_getEEE_Now();
@@ -599,7 +613,6 @@ void broker::postChatEventMIS(std::string Value1, std::string Value2, std::strin
 	MISE;
 }
 #endif
-
 
 #if defined BrokerLotto
 void broker::INIT()

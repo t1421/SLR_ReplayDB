@@ -130,6 +130,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Challonge", "*", "*", "true");
 		Fill_DBArray("Challonge", "WEBRequestToCHASH", "*", "false");
 
+		Fill_DBArray("Quiz", "*", "*", "true");
+
 		
 		/////////////////////////////////////////////////////
 

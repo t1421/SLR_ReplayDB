@@ -45,6 +45,7 @@ class CardBaseSMJ;
 class Tome_Game;
 class LottoWeek;
 class Challonge;
+class Quiz;
 
 struct Tome_Booster;
 struct SMJCard;
@@ -66,6 +67,7 @@ public:
 	MIS_Rank* A[EEESize + 1];
 	MIS_Rank* AA[SLR_Events];
 	Challonge* C;
+	Quiz* Q;
 
 	broker* Bro;
 
@@ -95,6 +97,7 @@ public:
 	std::string L_getLivePvPPMV();
 	std::string L_getLivePvP_OBS_Export();
 	std::string L_getLivePvP_Pics();
+	std::string L_getQuizPath();
 	int L_getLivePvPRefreshRate();
 	int L_getLivePvPActionLog();
 

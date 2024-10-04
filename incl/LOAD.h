@@ -49,6 +49,8 @@ public:
 	std::string sChallongeAPIKEY;
 	std::string sChallongeSaveDir;
 
+	std::string sQuizPath;
+
 	std::string sSetting;
 
 	//int BOTRankMode[BOTXLIST + 1];

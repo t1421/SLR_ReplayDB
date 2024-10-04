@@ -12,6 +12,7 @@ SLR_Event_Cecker/Release/
 SLR_Lotto/Release/
 SLR_LivePVP/Release/
 SLR_Challonge/Release/
+SLR_Quiz/Release/
 Release/SLR_ReplayDB.iobj
 Release/SLR_ReplayDB.ipdb
 Release/SLR_ReplayDB.pdb
@@ -33,6 +34,9 @@ Release/SLR_LivePVP.pdb
 Release/SLR_Challonge.iobj
 Release/SLR_Challonge.ipdb
 Release/SLR_Challonge.pdb
+Release/SLR_Quiz.iobj
+Release/SLR_Quiz.ipdb
+Release/SLR_Quiz.pdb
 
 *.mov
 *.cer
