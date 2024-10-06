@@ -1,7 +1,8 @@
 #include <chrono>
 #include <thread>
 #include <fstream>
-
+#include <sstream>
+#include <random>
 
 std::string formatString(const std::string& text, int length) 
 {
@@ -86,4 +87,38 @@ unsigned long long STRtoNUM(std::string sIN)
 	std::string sOUT;
 	for (char c : sIN) if (isdigit(c)) sOUT += c;
 	return atoi(sOUT.c_str());
+}
+
+void Twitch_Message(std::string ID, std::string Line1, std::string Line2, std::string Line3, std::string Line4, std::string Line5)
+{
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> distr(100000, 999999 - 1);
+
+	std::stringstream ssMessage;
+	ssMessage << Line1 << "\n";
+	ssMessage << Line2 << "\n";
+	ssMessage << Line3 << "\n";
+	ssMessage << Line4 << "\n";
+	ssMessage << Line5 << "\n";
+
+	std::ofstream Massage(".\\Twitch\\MES" + ID + "_" + std::to_string(distr(gen)), std::ios::trunc);
+	Massage << ssMessage.str() << "\n";
+	Massage.close();
+}
+void Twitch_Message(std::string ID, std::string Line1, std::string Line2, std::string Line3, std::string Line4)
+{
+	Twitch_Message(ID, Line1, Line2, Line3, Line4, "");
+}
+void Twitch_Message(std::string ID, std::string Line1, std::string Line2, std::string Line3)
+{
+	Twitch_Message(ID, Line1, Line2, Line3, "");
+}
+void Twitch_Message(std::string ID, std::string Line1, std::string Line2)
+{
+	Twitch_Message(ID, Line1, Line2, "");
+}
+void Twitch_Message(std::string ID, std::string Line1)
+{
+	Twitch_Message(ID, Line1, "");
 }

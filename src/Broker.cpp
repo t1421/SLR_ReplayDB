@@ -6,6 +6,7 @@
 #if defined BrokerQuiz
 #include "..\incl\Thread_MIS.h" 
 #include "..\incl\Quiz.h" 
+#include "..\incl\Question.h" 
 #endif
 
 #if defined BrokerTome || defined BrokerNormal || defined BrokerWeb || defined BrokerLotto || defined BrokerPVP
@@ -160,6 +161,7 @@ broker::broker()
 
 #if defined BrokerQuiz
 	Quiz::learnBro(this);
+	Question::learnBro(this);
 	Q = NULL;
 #endif
 

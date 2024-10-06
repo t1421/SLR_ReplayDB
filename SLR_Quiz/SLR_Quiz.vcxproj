@@ -157,6 +157,7 @@
     <ClCompile Include="..\src\Broker.cpp" />
     <ClCompile Include="..\src\DEBUG.cpp" />
     <ClCompile Include="..\src\LOAD.cpp" />
+    <ClCompile Include="..\src\Question.cpp" />
     <ClCompile Include="..\src\Quiz.cpp" />
     <ClCompile Include="..\src\Thread_MIS.cpp" />
     <ClCompile Include="..\src\Utility.cpp" />
@@ -165,6 +166,7 @@
     <ClInclude Include="..\incl\Broker.h" />
     <ClInclude Include="..\incl\DEBUG.h" />
     <ClInclude Include="..\incl\LOAD.h" />
+    <ClInclude Include="..\incl\Question.h" />
     <ClInclude Include="..\incl\Quiz.h" />
     <ClInclude Include="..\incl\Thread_MIS.h" />
     <ClInclude Include="..\incl\Utility.h" />

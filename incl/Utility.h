@@ -21,6 +21,12 @@ std::string entry(std::string Liste, int pos);
 
 unsigned long long STRtoNUM(std::string sIN);
 
+void Twitch_Message(std::string ID, std::string Line1, std::string Line2, std::string Line3, std::string Line4, std::string Line5);
+void Twitch_Message(std::string ID, std::string Line1, std::string Line2, std::string Line3, std::string Line4);
+void Twitch_Message(std::string ID, std::string Line1, std::string Line2, std::string Line3);
+void Twitch_Message(std::string ID, std::string Line1, std::string Line2);
+void Twitch_Message(std::string ID, std::string Line1);
+
 #endif //Utility_H
 
 
