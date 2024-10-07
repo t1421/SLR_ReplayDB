@@ -4,22 +4,14 @@
 
 #include "..\..\incl\WEB_Analyser\WEB_EEE.h"
 #include "..\..\incl\WEB_Analyser\WEB_EEE_Check.h"
+#include "..\..\incl\Utility.h" 
 
 #include <Wt/WSlider.h>
 #include <Wt/WBreak.h>
-#include <iomanip>
+
 
 broker *(WEB_EEE::Bro) = NULL;
 
-
-std::string WEB_EEE::TimeToText(std::time_t timestamp)
-{
-	std::tm localTime;
-	localtime_s(&localTime, &timestamp);
-	std::ostringstream oss;
-	oss << std::put_time(&localTime, "%d.%m.%Y %H:%M:%S");
-	return oss.str();
-}
 
 WEB_EEE::WEB_EEE(WEB_Analyser *WA_)
 {

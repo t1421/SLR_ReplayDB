@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <random>
+#include <iomanip>
 
 std::string formatString(const std::string& text, int length) 
 {
@@ -121,4 +122,14 @@ void Twitch_Message(std::string ID, std::string Line1, std::string Line2)
 void Twitch_Message(std::string ID, std::string Line1)
 {
 	Twitch_Message(ID, Line1, "");
+}
+
+
+std::string TimeToText(std::time_t timestamp)
+{
+	std::tm localTime;
+	localtime_s(&localTime, &timestamp);
+	std::ostringstream oss;
+	oss << std::put_time(&localTime, "%d.%m.%Y %H:%M:%S");
+	return oss.str();
 }

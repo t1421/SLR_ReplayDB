@@ -2,6 +2,7 @@
 #define Question_H
 
 #include "Thread_MIS.h"
+#include "Quiz.h"
 /*
 class Question;
 class Demon_Answers : public Thread_MIS
@@ -13,12 +14,13 @@ public:
 };
 */
 
-#define CountDown 30
+#define CountDown 60
 
 struct Answer
 {
-	Answer(std::string _Twitch, int _iAnswer, unsigned long int _tTime) :Twitch(_Twitch), iAnswer(_iAnswer), tTime(_tTime){};
-	std::string Twitch;
+	Answer(Player* _Pl, int _iAnswer, unsigned long int _tTime) :Pl(_Pl), iAnswer(_iAnswer), tTime(_tTime){};
+	//std::string Twitch;
+	Player* Pl;
 	int iAnswer;
 	unsigned long int tTime;
 };
@@ -33,6 +35,7 @@ public:
 	std::string Titel;
 	std::string Question_Twitch;
 	int iAnswer;
+	std::vector <Answer*> Answers;
 
 	void echo();
 	void Start();
@@ -53,7 +56,7 @@ private:
 	void SetCountDown(unsigned int iii);
 
 	Answer* getWinningAnswer();
-	std::vector <Answer*> Answers;
+	
 
 	//Demon_Answers* DA;
 

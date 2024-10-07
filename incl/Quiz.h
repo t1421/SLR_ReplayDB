@@ -33,6 +33,9 @@ public:
 	void Start(unsigned int iQuestion);
 	void Winner(unsigned int iQuestion);
 	void Winner() { Winner(ActivQuiz); };
+	void ResetWinner();
+	void End(unsigned int iQuestion);
+	void End() { End(ActivQuiz); };
 
 	//BROKER
 	static broker* Bro;
@@ -43,8 +46,8 @@ public:
 	unsigned int ActivQuiz;
 	std::vector <Question*> vQuestion;
 	void LoadPlayers(std::string sName);
-	bool CheckPlayerName(std::string sName);
-	bool CheckPlayerWon(std::string sName);
+	Player* Quiz::GetPlayer(std::string sName);
+	void UpdateHTML();
 
 private:
 	std::vector<Player*> Players;

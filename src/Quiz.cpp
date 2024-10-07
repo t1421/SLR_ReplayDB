@@ -7,6 +7,7 @@
 #include "..\incl\Utility.h" 
 #include <iostream> 
 #include <fstream>
+#include <sstream>
 
 #include <boost/filesystem.hpp>
 using namespace boost::filesystem;
@@ -91,6 +92,8 @@ void Quiz::LoadPlayers(std::string sName)
 	}
 	ifFile.close();
 
+	UpdateHTML();
+
 	MISE;
 }
 
@@ -105,6 +108,8 @@ void Quiz::SavePlayers()
 		ofFile.close();
 	}
 	else MISEA("Error Saving Players");
+
+	//UpdateHTML();
 	MISE;
 }
 
@@ -115,6 +120,7 @@ void Quiz::AddUpdatePlayers(std::string _Twitch, std::string _Ingame, std::strin
 	{
 		P->Ingame = _Ingame;
 		SavePlayers();
+		//UpdateHTML();
 		MISEA("Update");
 		return;
 	}
@@ -167,6 +173,7 @@ void Quiz::Start(unsigned int iQuestion)
 	if (iQuestion >= vQuestion.size())return;
 	ActivQuiz = iQuestion;
 	vQuestion[ActivQuiz]->Start();
+	UpdateHTML();
 
 	MISE;
 }
@@ -175,14 +182,33 @@ void Quiz::Start(unsigned int iQuestion)
 void Quiz::Winner(unsigned int iQuestion)
 {
 	MISS;
-
 	if (iQuestion >= vQuestion.size())return;
-	vQuestion[iQuestion]->Winner();
+	vQuestion[iQuestion]->Winner() ;
+	SavePlayers();
+	UpdateHTML();
+	MISE;
+}
+
+void Quiz::End(unsigned int iQuestion)
+{
+	MISS;
+	if (iQuestion >= vQuestion.size())return;
+	vQuestion[iQuestion]->bRunning = false;
+	MISE;
+}
+
+void Quiz::ResetWinner()
+{
+	MISS;
+
+	for (auto P : Players)P->WonID = "";
+	SavePlayers();
+	UpdateHTML();
 
 	MISE;
 }
 
-bool Quiz::CheckPlayerName(std::string sName)
+Player* Quiz::GetPlayer(std::string sName)
 {
 	MISS;
 
@@ -190,25 +216,25 @@ bool Quiz::CheckPlayerName(std::string sName)
 	for (auto P : Players)if (P->Twitch == sName && P->Ingame != "")
 	{
 		MISEA("X1");
-		return true;
+		return P;
 	}
 
 	//in list but no name
 	for (auto P : Players)if (P->Twitch == sName && P->Ingame == "")
 	{
-		Twitch_Message(sName, "/w " + sName + " you still need to set you ingame name, use '!name [Your IG Name]");
+		Twitch_Message(sName, "/w " + sName + " you still need to set you ingame name, use '!name [Your IG Name]'");
 		MISEA("X2");
-		return false;
+		return P;
 	}
 	MISD("#1");
 	//New player
-	Players.push_back(new Player(sName, "???", "?"));
-	Twitch_Message(sName, "/w " + sName + " welcome to the quiz, dont forget to set your ingame name - use '!name [Your IG Name]");
+	AddUpdatePlayers(sName, "???", "");
+	Twitch_Message(sName, "/w " + sName + " welcome to the quiz, dont forget to set your ingame name - use '!name [Your IG Name]'");
 	
 	MISEA("X3");
-	return false;
+	return Players[Players.size() - 1];
 }
-
+/*
 bool Quiz::CheckPlayerWon(std::string sName)
 {
 	MISS;
@@ -217,7 +243,7 @@ bool Quiz::CheckPlayerWon(std::string sName)
 	MISE;
 	return false;
 }
-
+*/
 
 void Quiz::Thread_Function()
 {
@@ -243,6 +269,44 @@ void Quiz::Thread_Function()
 		}
 		Sleep(1000);
 	}
+	MISE;
+}
+
+void Quiz::UpdateHTML()
+{
+	MISS;
+	std::stringstream ssTable;
+	std::ifstream ifFile;
+	std::ofstream ofFile;
+	std::string line;
+
+	if (ActivQuiz == 0)return;
+	MISD(ActivQuiz);
+	MISD(vQuestion[ActivQuiz]->Answers.size());
+	for (auto A : vQuestion[ActivQuiz]->Answers)
+		ssTable << "<tr>"
+		<< "<td>" << A->Pl->WonID << "</td>"
+		<< "<td>" << A->Pl->Twitch << "</td>"
+		<< "<td>" << A->Pl->Ingame << "</td>"
+		<< "<td>" << A->iAnswer << "</td>"
+		<< "<td>" << TimeToText(A->tTime) << "<td></td>\n";
+
+	ifFile.open(Bro->L_getQuizPath() + "TEMPQuiz.HTML", std::ios::binary);
+	ofFile.open(Bro->L_getQuizPath() + "Quiz.HTML", std::ios::binary);
+	if (ifFile.good() && ofFile.good())while (getline(ifFile, line))
+	{
+		line = ReplaceString(line, "%TITEL%", vQuestion[ActivQuiz]->Titel);
+		line = ReplaceString(line, "%QUESTION%", vQuestion[ActivQuiz]->Question_Twitch);
+		line = ReplaceString(line, "%TABLE%", ssTable.str());
+		
+		ofFile << line;
+		ifFile.clear();
+	} 
+	else MISEA("Error with HTML");
+
+	ifFile.close();
+	ofFile.close();
+
 	MISE;
 }
 

@@ -16,8 +16,6 @@ public:
 	Wt::WSlider *slider[EEESize];
 	Wt::WText *sliderText[EEESize];
 	Wt::WText *sliderTextLow;
-
-	std::string TimeToText(std::time_t timestamp);
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }

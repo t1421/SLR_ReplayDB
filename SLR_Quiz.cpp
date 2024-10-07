@@ -49,9 +49,12 @@ int main(int argc, char **argv)
 		{
 			printf("####################|###########################################\n");
 			printf("echo;[ID]           | Echo Quiz Vars\n");
-			printf("start;[ID]          | Start Quit with ID\n");
-			printf("winX;[ID]           | Shows winner of ID\n");
+			printf("start;[ID]          | Start Quit with ID\n");			
 			printf("win                 | Shows winner of current quiz\n");
+			printf("reset               | Resets Winner\n");
+			printf("end                 | End Quiz\n");
+			printf("endX;[ID]           | End Quiz of ID\n");
+			printf("winX;[ID]           | Shows winner of ID\n");
 			printf("####################|###########################################\n\n");
 		}
 		
@@ -60,6 +63,9 @@ int main(int argc, char **argv)
 		if (Checker(sbuf, "start"))Q->Start(atoi(sbuf.c_str()));
 		if (Checker(sbuf, "winX"))Q->Winner(atoi(sbuf.c_str()));
 		if (Checker(sbuf, "win"))Q->Winner();
+		if (Checker(sbuf, "reset"))Q->ResetWinner();
+		if (Checker(sbuf, "end"))Q->End();
+		if (Checker(sbuf, "endX"))Q->End(atoi(sbuf.c_str()));
 		
 	}
 

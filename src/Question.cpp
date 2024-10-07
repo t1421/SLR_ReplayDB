@@ -98,16 +98,18 @@ void Question::Winner()
 	MISS;
 	std::string sTemp = "copy " + Bro->L_getQuizPath() + "Q.txt " + Bro->L_getQuizPath() + "Q" + ID + ".txt";
 	system(sTemp.c_str());
-	 sTemp = "copy " + Bro->L_getQuizPath() + "QQ.txt " + Bro->L_getQuizPath() + "QQ" + ID + ".txt";
+	sTemp = "copy " + Bro->L_getQuizPath() + "QQ.txt " + Bro->L_getQuizPath() + "QQ" + ID + ".txt";
 	system(sTemp.c_str());
 	
 	Answer* Winner = getWinningAnswer();
-	Bro->Q->CheckPlayerName(Winner->Twitch);
+	if (Winner != nullptr)
+	{
+		Winner->Pl->WonID = ID;
+		Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch +  " With " + std::to_string(Winner->iAnswer), "The correct answer was: " + std::to_string(iAnswer));
+		if (Winner->Pl->Ingame == "") Twitch_Message(Winner->Pl->Twitch, "/w " + Winner->Pl->Twitch + " still need '!name [Your IG Name]'");
+	}
+	else Twitch_Message(ID, "No winner :-|");
 
-	Twitch_Message(ID, "ultral34Booster ultral34Booster ultral34Booster", "The winner is: @" + Winner->Twitch, "With " + std::to_string(Winner->iAnswer), "The correct answer was: " + std::to_string(iAnswer), "ultral34Booster ultral34Booster ultral34Booster");
-
-
-	
 
 	MISE;
 }
@@ -124,7 +126,8 @@ Answer* Question::getWinningAnswer()
 	//Remove players who won befor
 	for (std::vector<Answer*>::iterator it = LocalAnswers.begin(); it != LocalAnswers.end();)
 	{		
-		if (Bro->Q->CheckPlayerWon((*it)->Twitch))it = LocalAnswers.erase(it);
+		//if (Bro->Q->CheckPlayerWon((*it)->Pl->Twitch))it = LocalAnswers.erase(it);
+		if ((*it)->Pl->WonID != "") it = LocalAnswers.erase(it);
 		else  ++it;
 	}
 
@@ -134,8 +137,9 @@ Answer* Question::getWinningAnswer()
 
 	for (const auto& A : LocalAnswers) 
 	{
-		int distance = std::abs(int(A->tTime - iAnswer)); // Berechne den Abstand
-
+		int distance = std::abs(int(A->iAnswer - iAnswer)); // Berechne den Abstand
+		MISD(A->Pl->Twitch);
+		MISD(distance);
 		// Falls der Abstand kleiner ist oder gleich ist, aber mit höherem order
 		if (distance < minDistance) {
 			minDistance = distance; // Aktualisiere den minimalen Abstand
@@ -200,17 +204,22 @@ void Question::LoadAnswers()
 	while (getline(ifFile, line))
 	{
 		Update = false;
-		for (auto A : Answers)if (A->Twitch == entry(line, 0))
+		for (auto A : Answers)if (A->Pl->Twitch == entry(line, 0))
 		{
-			A->iAnswer = atoi(entry(line, 1).c_str());
-			A->tTime = Bro->L_getEEE_Now();
+			if (A->iAnswer != atoi(entry(line, 1).c_str()))
+			{
+				A->iAnswer = atoi(entry(line, 1).c_str());
+				A->tTime = Bro->L_getEEE_Now();
+				Bro->Q->UpdateHTML();
+			}
 			Update = true;
 		}
 
 		if (Update == false)
 		{
-			Answers.push_back(new Answer(entry(line, 0), atoi(entry(line, 1).c_str()), Bro->L_getEEE_Now()));
-			Bro->Q->CheckPlayerName(entry(line, 0));
+			Answers.push_back(new Answer(Bro->Q->GetPlayer(entry(line, 0)), atoi(entry(line, 1).c_str()), Bro->L_getEEE_Now()));
+			Bro->Q->UpdateHTML();
+			//Bro->Q->CheckPlayerName(entry(line, 0));
 		}
 
 		ifFile.clear();
@@ -229,7 +238,7 @@ void Question::SaveAnswers()
 	ofFile.open(Bro->L_getQuizPath() + "QQ" + ID + ".txt", std::ios::binary);
 	if (ofFile.good())
 	{
-		for (auto A : Answers)ofFile << A->Twitch << ";" << A->iAnswer << ";"  << A->tTime << ";" << std::endl;
+		for (auto A : Answers)ofFile << A->Pl->Twitch << ";" << A->iAnswer << ";"  << A->tTime << ";" << std::endl;
 		ofFile.close();
 	}
 	else MISEA("Error Saving QQ");

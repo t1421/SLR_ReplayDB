@@ -2,6 +2,7 @@
 #define Utility_H
 
 #include <string>
+#include <ctime>
 
 void Sleep(int time);
 
@@ -26,6 +27,8 @@ void Twitch_Message(std::string ID, std::string Line1, std::string Line2, std::s
 void Twitch_Message(std::string ID, std::string Line1, std::string Line2, std::string Line3);
 void Twitch_Message(std::string ID, std::string Line1, std::string Line2);
 void Twitch_Message(std::string ID, std::string Line1);
+
+std::string TimeToText(std::time_t timestamp);
 
 #endif //Utility_H
 
