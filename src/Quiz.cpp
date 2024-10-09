@@ -59,6 +59,9 @@ void Quiz::Init()
 	sTemp = "del .\\Twitch\\MES* /S /Q";
 	system(sTemp.c_str());
 
+	sTemp = "copy " + Bro->L_getQuizPath() + "TEMPQuiz.HTML " + Bro->L_getQuizPath() + "Quiz.HTML";
+	system(sTemp.c_str());
+
 	Load_Question();
 
 	MISE;
@@ -151,7 +154,10 @@ void Quiz::Load_Question()
 				entry(line, 0),
 				entry(line, 1),
 				entry(line, 2),
-				atoi(entry(line, 3).c_str())
+				atoi(entry(line, 3).c_str()),
+				entry(line, 4), 
+				atoi(entry(line, 5).c_str()),
+				atoi(entry(line, 6).c_str())
 			));
 
 			ifFile.clear();
@@ -281,15 +287,25 @@ void Quiz::UpdateHTML()
 	std::string line;
 
 	if (ActivQuiz == 0)return;
-	MISD(ActivQuiz);
-	MISD(vQuestion[ActivQuiz]->Answers.size());
+	//MISD(ActivQuiz);
+	//MISD(vQuestion[ActivQuiz]->Answers.size());
+
+	ssTable << "<thead>" << "<tr>" << "<td style = 'width: 100; '>QUIZ WON</td>" << "<td >Twitch</td>" << "<td >Ingame</td>";
+	if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3) ssTable << "<td >Guess N</td>";
+	if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4) ssTable << "<td >Guess T</td>";
+	ssTable << "<td >Time</td>"	<< "</tr>"<< "</thead><tbody>";
+	
 	for (auto A : vQuestion[ActivQuiz]->Answers)
+	{
 		ssTable << "<tr>"
-		<< "<td>" << A->Pl->WonID << "</td>"
-		<< "<td>" << A->Pl->Twitch << "</td>"
-		<< "<td>" << A->Pl->Ingame << "</td>"
-		<< "<td>" << A->iAnswer << "</td>"
-		<< "<td>" << TimeToText(A->tTime) << "<td></td>\n";
+			<< "<td>" << A->Pl->WonID << "</td>"
+			<< "<td>" << A->Pl->Twitch << "</td>"
+			<< "<td>" << A->Pl->Ingame << "</td>";
+		if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3)ssTable << "<td>" << A->iAnswer << "</td>";
+		if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4) ssTable << "<td>" << A->sAnswer << "</td>";
+		ssTable << "<td>" << TimeToText(A->tTime) << "<td></td>\n";
+	}
+	ssTable << "</tbody>";
 
 	ifFile.open(Bro->L_getQuizPath() + "TEMPQuiz.HTML", std::ios::binary);
 	ofFile.open(Bro->L_getQuizPath() + "Quiz.HTML", std::ios::binary);

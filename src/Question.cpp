@@ -9,11 +9,13 @@
 #include <fstream>
 #include <iostream> 
 #include <sstream>
+#include <cctype>
 
 #include <boost/filesystem.hpp>
 using namespace boost::filesystem;
 
 bool compare_iAnswer(const Answer* a, const Answer* b) { return a->iAnswer < b->iAnswer; }
+bool compare_tTime(const Answer* a, const Answer* b) { return a->tTime < b->tTime; }
 
 broker* (Question::Bro) = NULL;
 /*
@@ -43,8 +45,8 @@ void Demon_Answers::Thread_Function()
 };
 */
 
-Question::Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer) :
-	ID(_ID), Titel(_Titel), Question_Twitch(_Question_Twitch), iAnswer(_iAnswer)
+Question::Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer, std::string _sAnswer, unsigned int _AnswerType, unsigned int _SpellCheck) :
+	ID(_ID), Titel(_Titel), Question_Twitch(_Question_Twitch), iAnswer(_iAnswer), sAnswer(_sAnswer), AnswerType(_AnswerType), SpellCheck(_SpellCheck)
 {
 	//DA = new Demon_Answers(this);
 };
@@ -64,6 +66,9 @@ void Question::echo()
 	printf("Titel:    %s\n", Titel.c_str());
 	printf("Question: %s\n", Question_Twitch.c_str());
 	printf("Int:      %i\n", iAnswer);	
+	printf("String:   %s\n", sAnswer.c_str());
+	printf("Type:     %i\n", AnswerType);
+	printf("Spell:    %i\n", SpellCheck);
 	printf("########################################\n");
 	MISE;
 }
@@ -105,7 +110,9 @@ void Question::Winner()
 	if (Winner != nullptr)
 	{
 		Winner->Pl->WonID = ID;
-		Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch +  " With " + std::to_string(Winner->iAnswer), "The correct answer was: " + std::to_string(iAnswer));
+		if( AnswerType == 1)Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch +  " With " + std::to_string(Winner->iAnswer), "The correct answer was: " + std::to_string(iAnswer));
+		if (AnswerType == 2 || AnswerType == 4)Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch + " With " + Winner->sAnswer, "The correct answer was: " + sAnswer);
+		if (AnswerType == 3)Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch + " With " +  Winner->sAnswer + " " + std::to_string(Winner->iAnswer), "The correct answer was: " + sAnswer + " " + std::to_string(iAnswer));
 		if (Winner->Pl->Ingame == "") Twitch_Message(Winner->Pl->Twitch, "/w " + Winner->Pl->Twitch + " still need '!name [Your IG Name]'");
 	}
 	else Twitch_Message(ID, "No winner :-|");
@@ -132,26 +139,48 @@ Answer* Question::getWinningAnswer()
 	}
 
 	//sort by number
-	//std::sort(LocalAnswers.begin(), LocalAnswers.end(), [](const Answer& a, const Answer& b) {return a.iAnswer < b.iAnswer; });
-	std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_iAnswer);
-
-	for (const auto& A : LocalAnswers) 
+	switch (AnswerType)
 	{
-		int distance = std::abs(int(A->iAnswer - iAnswer)); // Berechne den Abstand
-		MISD(A->Pl->Twitch);
-		MISD(distance);
-		// Falls der Abstand kleiner ist oder gleich ist, aber mit höherem order
-		if (distance < minDistance) {
-			minDistance = distance; // Aktualisiere den minimalen Abstand
-			result = A; // Setze das aktuelle Ergebnis
+	case 3:
+		//Remove All Wrong
+		for (std::vector<Answer*>::iterator it = LocalAnswers.begin(); it != LocalAnswers.end();)
+		{
+			if ((*it)->sAnswer != sAnswer) it = LocalAnswers.erase(it);
+			else  ++it;
 		}
-		else if (distance == minDistance) {
-			// Wenn die Abstände gleich sind, vergleiche die Order-Werte
-			if (result != nullptr && A->tTime < result->tTime) {
-				result = A; // Setze das Ergebnis, wenn der order kleiner ist
+		// Then default Int Logic
+
+	case 1: //INT VALUE
+		std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_iAnswer);
+
+		for (const auto& A : LocalAnswers)
+		{
+			int distance = std::abs(int(A->iAnswer - iAnswer)); // Berechne den Abstand
+
+			// Falls der Abstand kleiner ist oder gleich ist, aber mit höherem order
+			if (distance < minDistance) {
+				minDistance = distance; // Aktualisiere den minimalen Abstand
+				result = A; // Setze das aktuelle Ergebnis
+			}
+			else if (distance == minDistance) {
+				// Wenn die Abstände gleich sind, vergleiche die Order-Werte
+				if (result != nullptr && A->tTime < result->tTime) {
+					result = A; // Setze das Ergebnis, wenn der order kleiner ist
+				}
 			}
 		}
+		break;
+	case 2:
+	case 4:
+		//Sort Time
+		std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_tTime);
+		//First with correct answer
+		for (const auto& A : LocalAnswers)if (result == nullptr && A->sAnswer == sAnswer)result = A; 
+		
+		break;
 	}
+
+	
 
 	MISE;
 	return result;
@@ -162,8 +191,9 @@ void Question::Thread_Function()
 	MISS;
 	
 	std::time_t tLastCheck = 0;
+	Answer* Winner = nullptr;
 
-	while (bRunning && tStart + CountDown > Bro->L_getEEE_Now())
+	while (bRunning && (AnswerType != 4 && tStart + CountDown > Bro->L_getEEE_Now() || AnswerType == 4 && Winner == nullptr))
 	{
 		path p(Bro->L_getQuizPath() + "Q.txt");
 		if (exists(p))
@@ -172,17 +202,24 @@ void Question::Thread_Function()
 			{
 				tLastCheck = last_write_time(p);
 				LoadAnswers();
+				Winner = getWinningAnswer();
 			}
 		}
 		Sleep(10);
 
-		SetCountDown(tStart + CountDown - Bro->L_getEEE_Now());
+		if(AnswerType != 4)SetCountDown(tStart + CountDown - Bro->L_getEEE_Now());  //Count Down
+		else SetCountDown(Bro->L_getEEE_Now() - tStart); //Count Up
 	}
 
-	SetCountDown(0);
-	Twitch_Message(ID, "ultral34Booster ultral34Booster ultral34Booster ", "TIME IS UP");
-	Sleep(1000);
-	LoadAnswers();	
+	if (AnswerType != 4)
+	{
+		SetCountDown(0);
+		Twitch_Message(ID, "ultral34Booster ultral34Booster ultral34Booster ", "TIME IS UP");
+		Sleep(1000);
+		LoadAnswers();
+	}
+	else Twitch_Message(ID, "ultral34Booster ultral34Booster ultral34Booster ", "We have a winner");
+
 	MISE;
 }
 
@@ -192,6 +229,9 @@ void Question::LoadAnswers()
 	MISS;
 	std::string line;
 	std::ifstream ifFile;
+
+	std::string localsAnswer;
+	int localiAnswer;
 
 	ifFile.open(Bro->L_getQuizPath() + "Q.txt", std::ios::binary);
 	if (!ifFile.good())
@@ -206,9 +246,14 @@ void Question::LoadAnswers()
 		Update = false;
 		for (auto A : Answers)if (A->Pl->Twitch == entry(line, 0))
 		{
-			if (A->iAnswer != atoi(entry(line, 1).c_str()))
+			splitString(entry(line, 1).c_str(), localiAnswer, localsAnswer);
+
+			if (   (AnswerType == 1 || AnswerType == 3) && A->iAnswer != localiAnswer
+				|| (AnswerType == 2 || AnswerType == 3) && A->sAnswer != localsAnswer
+				|| AnswerType == 4 && (A->iAnswer != localiAnswer || A->sAnswer != localsAnswer) && A->tTime + CoolDown < Bro->L_getEEE_Now())
 			{
-				A->iAnswer = atoi(entry(line, 1).c_str());
+				A->iAnswer = localiAnswer;
+				A->sAnswer = localsAnswer;
 				A->tTime = Bro->L_getEEE_Now();
 				Bro->Q->UpdateHTML();
 			}
@@ -217,9 +262,10 @@ void Question::LoadAnswers()
 
 		if (Update == false)
 		{
-			Answers.push_back(new Answer(Bro->Q->GetPlayer(entry(line, 0)), atoi(entry(line, 1).c_str()), Bro->L_getEEE_Now()));
+			splitString(entry(line, 1).c_str(), localiAnswer, localsAnswer);
+
+			Answers.push_back(new Answer(Bro->Q->GetPlayer(entry(line, 0)), localiAnswer, localsAnswer, Bro->L_getEEE_Now()));
 			Bro->Q->UpdateHTML();
-			//Bro->Q->CheckPlayerName(entry(line, 0));
 		}
 
 		ifFile.clear();
@@ -238,7 +284,7 @@ void Question::SaveAnswers()
 	ofFile.open(Bro->L_getQuizPath() + "QQ" + ID + ".txt", std::ios::binary);
 	if (ofFile.good())
 	{
-		for (auto A : Answers)ofFile << A->Pl->Twitch << ";" << A->iAnswer << ";"  << A->tTime << ";" << std::endl;
+		for (auto A : Answers)ofFile << A->Pl->Twitch << ";" << A->iAnswer << ";" << A->sAnswer << ";" << A->tTime << ";" << std::endl;
 		ofFile.close();
 	}
 	else MISEA("Error Saving QQ");
@@ -256,6 +302,31 @@ void Question::SetCountDown(unsigned int iii)
 		ofFile.close();
 	}
 	else MISEA("Error Saving CountDown");
+
+	MISE;
+}
+
+
+void Question::splitString(const std::string& input, int& number, std::string& text) 
+{
+	MISS;
+	std::stringstream ss(input);
+	std::string temp;
+	text.clear();
+	number = 0;
+
+	while (ss >> temp) 
+	{
+		bool isNumber = true;
+		for (char c : temp) if (!std::isdigit(c)) 
+		{
+				isNumber = false;
+				break;
+		}
+
+		if (isNumber) number = std::stoi(temp);		
+		else for (char c : temp) if (std::isalpha(c)) text += std::toupper(c);
+	}
 
 	MISE;
 }

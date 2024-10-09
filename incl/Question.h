@@ -15,26 +15,30 @@ public:
 */
 
 #define CountDown 60
+#define CoolDown 30
 
 struct Answer
 {
-	Answer(Player* _Pl, int _iAnswer, unsigned long int _tTime) :Pl(_Pl), iAnswer(_iAnswer), tTime(_tTime){};
-	//std::string Twitch;
+	Answer(Player* _Pl, int _iAnswer, std::string _sAnswer, unsigned long int _tTime) :Pl(_Pl), iAnswer(_iAnswer), sAnswer(_sAnswer), tTime(_tTime) {};
 	Player* Pl;
 	int iAnswer;
+	std::string sAnswer;
 	unsigned long int tTime;
 };
 
 class Question : public Thread_MIS
 {
 public:
-	Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer);
+	Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer, std::string _sAnswer,	unsigned int _AnswerType,unsigned int _SpellCheck);
 	~Question();
 
 	std::string ID;
 	std::string Titel;
 	std::string Question_Twitch;
 	int iAnswer;
+	std::string sAnswer;
+	unsigned int AnswerType;
+	unsigned int SpellCheck;
 	std::vector <Answer*> Answers;
 
 	void echo();
@@ -54,6 +58,7 @@ private:
 	unsigned long int tStart;
 	void Thread_Function();
 	void SetCountDown(unsigned int iii);
+	void splitString(const std::string& input, int& number, std::string& text);
 
 	Answer* getWinningAnswer();
 	
