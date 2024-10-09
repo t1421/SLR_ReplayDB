@@ -128,7 +128,7 @@ void Quiz::AddUpdatePlayers(std::string _Twitch, std::string _Ingame, std::strin
 		return;
 	}
 	
-	Players.push_back(new Player(_Twitch, _Ingame, _WonID));
+	Players.push_back(new QuizPlayer(_Twitch, _Ingame, _WonID));
 	SavePlayers();
 	MISEA("New");
 }
@@ -214,7 +214,7 @@ void Quiz::ResetWinner()
 	MISE;
 }
 
-Player* Quiz::GetPlayer(std::string sName)
+QuizPlayer* Quiz::GetPlayer(std::string sName)
 {
 	MISS;
 

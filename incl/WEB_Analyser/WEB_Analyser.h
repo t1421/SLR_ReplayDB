@@ -7,7 +7,7 @@ class WEB_Analyser_Deck;
 class WEB_Analyser_Acti;
 #endif
 class Replay;
-struct Player;
+//struct Player;
 struct ActionSum;
 struct ActionWeb;
 struct Lotto_Player;

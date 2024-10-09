@@ -17,8 +17,7 @@ class CardBaseSMJ
 public:
 	CardBaseSMJ();
 	~CardBaseSMJ();
-
-	void DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type);
+	bool Init();
 	
 	std::vector<std::pair<std::string, std::string>> EnumColor;
 	std::vector<std::pair<std::string, std::string>> EnumRarity;
@@ -26,11 +25,8 @@ public:
 	std::vector<std::pair<std::string, std::string>> EnumType;
 	std::vector<std::pair<std::string, std::string>> EnumBoosters;
 private:
-	Json::Value CardBaseSMJ::WEBRequestToCHASH(std::string sURL);
+	Json::Value WEBRequestToCHASH(std::string sURL);
 	CURL *curl;
-
-
-
 	std::mutex mutex_WEBRequest;
 	
 public:
@@ -47,16 +43,19 @@ public:
 
 	void EchoCard(std::string sCardID);
 	std::vector<SMJCard*> SMJMatrix;
+
+#ifndef noSMJImages
+	void DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type);
+
 	std::string GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type, bool bSW);
-	//std::string GetSWImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, bool bSmall);
 	void ConvertImage(std::string sFile);
 	void AllIMGBig();
 	void AllIMGBigSW();
 	void AllIMGSmall();
 	void AllIMGImgOnly();
 	void AllIMGSimpel();
-	bool Init();
-
+	
+#endif
 	
 	
 

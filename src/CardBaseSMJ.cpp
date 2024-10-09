@@ -15,7 +15,9 @@
 #include "..\incl\SQL_MIS_New.h"
 #endif
 
+#ifndef noSMJImages
 #include <opencv2/opencv.hpp>
+#endif
 #include <random>
 #include <boost/algorithm/string.hpp>
 
@@ -56,6 +58,7 @@ CardBaseSMJ::~CardBaseSMJ()
 
 bool CardBaseSMJ::Init()
 {
+	
 	MISS;
 	Json::Value RawData;
 	Json::Value AllCards;
@@ -113,7 +116,7 @@ bool CardBaseSMJ::Init()
 
 		SMJMatrix.push_back(SMJCard_TEMP);
 	}
-	for each (SMJCard* C in SMJMatrix)if (C->cardNameSimple == "Kobold Inc.")C->cardNameSimple = "Kobold Inc"; 
+	for (SMJCard* CC : SMJMatrix)if (CC->cardNameSimple == "Kobold Inc.")CC->cardNameSimple = "Kobold Inc"; 
 	
 	AllCards = RawData["enums"];
 	
@@ -154,6 +157,7 @@ bool CardBaseSMJ::Init()
 	}
 
 	MISE;
+	
 	return true;	
 }
 
@@ -240,118 +244,6 @@ Json::Value CardBaseSMJ::WEBRequestToCHASH(std::string sURL)
 	return jsonData;
 }
 
-void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type)
-{
-	MISS;
-
-	std::ofstream OutFile;
-	CURLcode res;
-	long httpCode(0);
-	std::string sURL;
-	std::string SMJID;
-	std::string SMJColor;
-	std::string SMJName;
-	std::string sFile = std::to_string(CardID) + "_" + std::to_string(Upgrade) + std::to_string(Charges);
-
-	
-	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
-	{
-		if (SMJMatrix[i]->cardId == CardID)
-		{
-			SMJID = SMJMatrix[i]->SMJid;
-			SMJColor = std::to_string(SMJMatrix[i]->color);
-			SMJName = SMJMatrix[i]->cardNameSimple;			
-			break;
-		}
-	}
-
-	
-#ifndef noLoad
-	switch (_Type)
-	{
-	case ImgOnly:
-		sURL = SMJ_I_IMG;
-		sURL += std::to_string(CardID);
-		OutFile.open(Bro->L_getSMJIMG_PATH() + sFile + ".webp", std::ostream::binary);
-		break;
-	case Small: 
-		sURL = SMJ_S_IMG;
-		sURL += SMJID;
-		OutFile.open(Bro->L_getSMJPICSMALL_PATH() + sFile + ".webp", std::ostream::binary);
-		break;
-	case Big:
-		sURL = SMJ_B_IMG;
-		sURL += SMJID;
-		OutFile.open(Bro->L_getSMJPIC_PATH() + sFile + ".webp", std::ostream::binary);
-		break;
-	case Lotto:
-		sFile = SMJName;
-		sURL = SMJ_B_IMG;		
-		sURL += SMJID;
-		sURL += "?simple";		
-		OutFile.open(Bro->L_getLOTTOPIC_PATH() + sFile + ".webp", std::ostream::binary);
-		break;
-	}
-#endif
-	if (_Type != Lotto)
-	{
-		boost::erase_all(SMJName, " ");
-		sURL += "?upgrades=";
-		sURL += std::to_string(Upgrade);
-		sURL += "&charges=";
-		sURL += std::to_string(Charges);
-	}
-	MISD(sURL);
-
-	mutex_WEBRequest.lock();
-	curl = curl_easy_init();
-	if (curl)
-	{
-		curl_easy_setopt(curl, CURLOPT_URL, sURL);		
-		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &FileCallback);
-		curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
-		curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-		curl_easy_setopt(curl, CURLOPT_FILE, &OutFile);
-		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
-		
-		res = curl_easy_perform(curl);
-		if (res != CURLE_OK)
-		{
-			Bro->B_StatusE("E", "DownloadImage #2 - curl_easy_perform", curl_easy_strerror(res));
-			OutFile.close();
-			mutex_WEBRequest.unlock();
-			MISEA("V5: Error curl_easy_perform Image");
-			return ;
-		}
-
-		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
-		curl_easy_cleanup(curl);
-		if (httpCode == 200 || httpCode == 201)
-		{
-			OutFile.close();			
-			mutex_WEBRequest.unlock();
-			MISE;
-			return;
-		}
-		else
-		{
-			MISEA("V6: httpCode:" + std::to_string(httpCode));
-			OutFile.close();
-			mutex_WEBRequest.unlock();
-			return ;
-		}
-	}
-
-	OutFile.close();
-	mutex_WEBRequest.unlock();
-	MISEA("V5");
-	return ;
-}
-
-
-
-
-
 unsigned char CardBaseSMJ::GetActionOrbForCardID(unsigned short CardID)
 {
 	MISS;
@@ -370,70 +262,6 @@ unsigned char CardBaseSMJ::GetActionOrbForCardID(unsigned short CardID)
 	return 99;
 }
 
-
-std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type, bool bSW)
-{
-	MISS;
-	std::string sFile;
-
-#ifndef noLoad
-	switch (_Type)
-	{
-	case Small:
-		sFile = Bro->L_getSMJPICSMALL_PATH();
-		Upgrade = 0;
-		Charges = 0;
-		break;
-	case Big:
-		sFile = Bro->L_getSMJPIC_PATH();
-		break;
-	case ImgOnly:
-		sFile = Bro->L_getSMJIMG_PATH();
-		Upgrade = 0;
-		Charges = 0;
-		break;
-	case Lotto:
-		sFile = Bro->L_getLOTTOPIC_PATH();		
-		break;
-	}
-#endif
-
-	if (_Type != Lotto)sFile += std::to_string(CardID) + "_" + std::to_string(Upgrade) + std::to_string(Charges);		
-	else sFile += GetSMJCard(CardID)->cardNameSimple;
-	
-	if (bSW)sFile += "SW";
-
-	sFile += ".webp";
-	MISD(sFile);
-	if (!File_exists(sFile))
-	{
-		MISD("Download: " + sFile);
-		DownloadImage(CardID, Upgrade, Charges, _Type);
-		if (bSW)ConvertImage(sFile);
-	}
-	MISE;
-	return sFile;
-}
-
-void CardBaseSMJ::ConvertImage(std::string sFile)
-{
-	MISS;
-	std::string sFileIn = sFile;
-	sFileIn.replace(sFileIn.find("SW.webp"), 7, ".webp");
-	MISD(sFile);
-	//MISD(sFileIn);
-
-	cv::Mat image = cv::imread(sFileIn, cv::IMREAD_COLOR);
-	if (image.empty()) {
-		MISEA("Cant open " + sFileIn);
-		return ;
-	}
-	cv::Mat grayImage;
-	cv::cvtColor(image, grayImage, cv::COLOR_BGR2GRAY);
-	cv::imwrite(sFile, grayImage);
-
-	MISE;
-}
 
 unsigned char CardBaseSMJ::SwitchCharges(unsigned short CardID, unsigned char IstCharges)
 {
@@ -531,6 +359,179 @@ SMJCard* CardBaseSMJ::GetSMJCard(unsigned short _CardID)
 	return new SMJCard();
 }
 
+#ifndef noSMJImages
+void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type)
+{
+	MISS;
+
+	std::ofstream OutFile;
+	CURLcode res;
+	long httpCode(0);
+	std::string sURL;
+	std::string SMJID;
+	std::string SMJColor;
+	std::string SMJName;
+	std::string sFile = std::to_string(CardID) + "_" + std::to_string(Upgrade) + std::to_string(Charges);
+
+
+	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
+	{
+		if (SMJMatrix[i]->cardId == CardID)
+		{
+			SMJID = SMJMatrix[i]->SMJid;
+			SMJColor = std::to_string(SMJMatrix[i]->color);
+			SMJName = SMJMatrix[i]->cardNameSimple;
+			break;
+		}
+	}
+
+
+#ifndef noLoad
+	switch (_Type)
+	{
+	case ImgOnly:
+		sURL = SMJ_I_IMG;
+		sURL += std::to_string(CardID);
+		OutFile.open(Bro->L_getSMJIMG_PATH() + sFile + ".webp", std::ostream::binary);
+		break;
+	case Small:
+		sURL = SMJ_S_IMG;
+		sURL += SMJID;
+		OutFile.open(Bro->L_getSMJPICSMALL_PATH() + sFile + ".webp", std::ostream::binary);
+		break;
+	case Big:
+		sURL = SMJ_B_IMG;
+		sURL += SMJID;
+		OutFile.open(Bro->L_getSMJPIC_PATH() + sFile + ".webp", std::ostream::binary);
+		break;
+	case Lotto:
+		sFile = SMJName;
+		sURL = SMJ_B_IMG;
+		sURL += SMJID;
+		sURL += "?simple";
+		OutFile.open(Bro->L_getLOTTOPIC_PATH() + sFile + ".webp", std::ostream::binary);
+		break;
+	}
+#endif
+	if (_Type != Lotto)
+	{
+		boost::erase_all(SMJName, " ");
+		sURL += "?upgrades=";
+		sURL += std::to_string(Upgrade);
+		sURL += "&charges=";
+		sURL += std::to_string(Charges);
+	}
+	MISD(sURL);
+
+	mutex_WEBRequest.lock();
+	curl = curl_easy_init();
+	if (curl)
+	{
+		curl_easy_setopt(curl, CURLOPT_URL, sURL);
+		curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, &FileCallback);
+		curl_easy_setopt(curl, CURLOPT_NOPROGRESS, 1L);
+		curl_easy_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
+		curl_easy_setopt(curl, CURLOPT_FILE, &OutFile);
+		curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
+
+		res = curl_easy_perform(curl);
+		if (res != CURLE_OK)
+		{
+			Bro->B_StatusE("E", "DownloadImage #2 - curl_easy_perform", curl_easy_strerror(res));
+			OutFile.close();
+			mutex_WEBRequest.unlock();
+			MISEA("V5: Error curl_easy_perform Image");
+			return;
+		}
+
+		curl_easy_getinfo(curl, CURLINFO_RESPONSE_CODE, &httpCode);
+		curl_easy_cleanup(curl);
+		if (httpCode == 200 || httpCode == 201)
+		{
+			OutFile.close();
+			mutex_WEBRequest.unlock();
+			MISE;
+			return;
+		}
+		else
+		{
+			MISEA("V6: httpCode:" + std::to_string(httpCode));
+			OutFile.close();
+			mutex_WEBRequest.unlock();
+			return;
+		}
+	}
+
+	OutFile.close();
+	mutex_WEBRequest.unlock();
+	MISEA("V5");
+	return;
+}
+
+std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type, bool bSW)
+{
+	MISS;
+	std::string sFile;
+
+#ifndef noLoad
+	switch (_Type)
+	{
+	case Small:
+		sFile = Bro->L_getSMJPICSMALL_PATH();
+		Upgrade = 0;
+		Charges = 0;
+		break;
+	case Big:
+		sFile = Bro->L_getSMJPIC_PATH();
+		break;
+	case ImgOnly:
+		sFile = Bro->L_getSMJIMG_PATH();
+		Upgrade = 0;
+		Charges = 0;
+		break;
+	case Lotto:
+		sFile = Bro->L_getLOTTOPIC_PATH();
+		break;
+	}
+#endif
+
+	if (_Type != Lotto)sFile += std::to_string(CardID) + "_" + std::to_string(Upgrade) + std::to_string(Charges);
+	else sFile += GetSMJCard(CardID)->cardNameSimple;
+
+	if (bSW)sFile += "SW";
+
+	sFile += ".webp";
+	MISD(sFile);
+	if (!File_exists(sFile))
+	{
+		MISD("Download: " + sFile);
+		DownloadImage(CardID, Upgrade, Charges, _Type);
+		if (bSW)ConvertImage(sFile);
+	}
+	MISE;
+	return sFile;
+}
+
+void CardBaseSMJ::ConvertImage(std::string sFile)
+{
+	MISS;
+	std::string sFileIn = sFile;
+	sFileIn.replace(sFileIn.find("SW.webp"), 7, ".webp");
+	MISD(sFile);
+	//MISD(sFileIn);
+
+	cv::Mat image = cv::imread(sFileIn, cv::IMREAD_COLOR);
+	if (image.empty()) {
+		MISEA("Cant open " + sFileIn);
+		return;
+	}
+	cv::Mat grayImage;
+	cv::cvtColor(image, grayImage, cv::COLOR_BGR2GRAY);
+	cv::imwrite(sFile, grayImage);
+
+	MISE;
+}
+
 void CardBaseSMJ::AllIMGBig()
 {
 	MISS;
@@ -584,8 +585,7 @@ void CardBaseSMJ::AllIMGSimpel()
 
 	MISE;
 }
-
-
+#endif
 
 #ifndef noSQL
 bool CardBaseSMJ::SMJtoSQL(bool bUpdate)
@@ -692,46 +692,6 @@ bool CardBaseSMJ::Imager()
 
 #endif
 
-/*
-Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
-{
-	MISS;
-
-	Tome_Booster* Booster = new Tome_Booster(iType);
-
-	Json::Value RawData;
-	Json::Value BoosterCards;
-	Json::Value Card;
-	Json::Value jTEMP;
-
-	std::string sURL = SMJ_I_BOOSTER;
-	
-	
-	RawData = WEBRequestToCHASH(sURL + "?type=" + iType);
-	
-	BoosterCards = RawData["data"];
-
-	MISD("Card:" + std::to_string(BoosterCards.size()));
-	for (Json::ArrayIndex i = 0; i < BoosterCards.size(); i++)
-	{
-		Card = BoosterCards[i];
-		jTEMP = Card["officialCardIds"];
-		Booster->vCards.push_back(GetSMJCard(jTEMP[jTEMP.size() - 1].asInt()));
-		MISD("Card:" + std::to_string(jTEMP[jTEMP.size() - 1].asInt()));
-	}
-
-	MISD("Booster:" + std::to_string(Booster->vCards.size()));
-	MISE;
-
-	return Booster;
-}
-*/
-/*
-Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType)
-{
-	std::vector<Tome_Booster*> X;
-	return OpenBooster(iType, false, X);
-}*/
 
 Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster)
 {

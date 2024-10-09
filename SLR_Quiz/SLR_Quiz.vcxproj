@@ -22,7 +22,7 @@
     <ProjectGuid>{3687C4AE-4E8E-4F9B-ABB4-2F23B036CA0B}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SLR_Tome</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>SLR_Quiz</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -35,7 +35,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -116,17 +116,18 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;BrokerQuiz;noImager;noSQL;noSMJ;noManager;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>K:\c++\LIBS\boost_1_68_0;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;BrokerQuiz;noImager;noSQL;noManager;noSMJImages;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>K:\c++\LIBS\jsoncpp-1.9.5\install\include;K:\c++\LIBS\rapidfuzz-cpp;K:\c++\LIBS\boost_1_78_0;K:\c++\LIBS\curl-7.83.0\builds\libcurl-vc15-x64-debug-static-ipv6-sspi-schannel\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
+      <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>K:\c++\LIBS\boost_1_68_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>K:\Sound_Server\lib\curl-7.83.0\builds\libcurl-vc15-x64-debug-static-ipv6-sspi-schannel\lib;K:\c++\LIBS\boost_1_78_0\stage\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>libcurl_a_debug.lib;Ws2_32.lib;Crypt32.lib;Wldap32.lib;Normaliz.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PreBuildEvent>
       <Command>start "" taskkill /IM SLR_Quiz.exe /F</Command>
@@ -155,6 +156,7 @@
   <ItemGroup>
     <ClCompile Include="..\SLR_Quiz.cpp" />
     <ClCompile Include="..\src\Broker.cpp" />
+    <ClCompile Include="..\src\CardBaseSMJ.cpp" />
     <ClCompile Include="..\src\DEBUG.cpp" />
     <ClCompile Include="..\src\LOAD.cpp" />
     <ClCompile Include="..\src\Question.cpp" />
@@ -164,6 +166,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h" />
+    <ClInclude Include="..\incl\CardBaseSMJ.h" />
+    <ClInclude Include="..\incl\DataTypes.h" />
     <ClInclude Include="..\incl\DEBUG.h" />
     <ClInclude Include="..\incl\LOAD.h" />
     <ClInclude Include="..\incl\Question.h" />

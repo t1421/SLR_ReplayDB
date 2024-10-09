@@ -19,8 +19,8 @@ public:
 
 struct Answer
 {
-	Answer(Player* _Pl, int _iAnswer, std::string _sAnswer, unsigned long int _tTime) :Pl(_Pl), iAnswer(_iAnswer), sAnswer(_sAnswer), tTime(_tTime) {};
-	Player* Pl;
+	Answer(QuizPlayer* _Pl, int _iAnswer, std::string _sAnswer, unsigned long int _tTime) :Pl(_Pl), iAnswer(_iAnswer), sAnswer(_sAnswer), tTime(_tTime) {};
+	QuizPlayer* Pl;
 	int iAnswer;
 	std::string sAnswer;
 	unsigned long int tTime;
@@ -29,7 +29,7 @@ struct Answer
 class Question : public Thread_MIS
 {
 public:
-	Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer, std::string _sAnswer,	unsigned int _AnswerType,unsigned int _SpellCheck);
+	Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer, std::string _sAnswer,	unsigned int _AnswerType,unsigned int _SpellCheckType);
 	~Question();
 
 	std::string ID;
@@ -38,7 +38,7 @@ public:
 	int iAnswer;
 	std::string sAnswer;
 	unsigned int AnswerType;
-	unsigned int SpellCheck;
+	unsigned int SpellCheckType;
 	std::vector <Answer*> Answers;
 
 	void echo();
@@ -59,6 +59,7 @@ private:
 	void Thread_Function();
 	void SetCountDown(unsigned int iii);
 	void splitString(const std::string& input, int& number, std::string& text);
+	bool SpellCheck(std::string input);
 
 	Answer* getWinningAnswer();
 	

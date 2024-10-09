@@ -488,6 +488,7 @@ unsigned char broker::J_GetActionOrbForCardID(unsigned short CardID)
 	return J->GetActionOrbForCardID(CardID);
 }
 
+#ifndef noSMJImages
 std::string broker::J_GetImgOnly(unsigned short CardID)
 {
 	return J->GetImage(CardID, 0, 0, ImgOnly, false);
@@ -503,6 +504,19 @@ std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, u
 	return J->GetImage(_CardID, _Upgrade, _Charges, Big, _Count==0);
 	
 }
+std::string broker::J_GetLottoImg(std::string cardNameSimple, unsigned int iColor)
+{
+	for each (SMJCard * C in J->SMJMatrix)
+	{
+		if (C->cardNameSimple == cardNameSimple &&
+			(C->promo == 0 || C->cardNameSimple == "Easter Egg" || C->cardNameSimple == "Santa Claus")
+			)
+			return J->GetImage(C->cardId, 0, 0, Lotto, iColor == 0);
+	}
+	return "";
+}
+#endif
+
 unsigned char broker::J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges)
 {
 	return J->SwitchCharges(_CardID,_IstCharges);
@@ -529,22 +543,12 @@ Tome_Booster* broker::J_OpenBooster(std::string iType, bool bNoDouble, std::vect
 	return J->OpenBooster(iType, bNoDouble, vOpendBooster);
 }
 
-std::string broker::J_GetLottoImg(std::string cardNameSimple, unsigned int iColor)
-{
-	for each (SMJCard* C in J->SMJMatrix)
-	{
-		if(C->cardNameSimple == cardNameSimple && 
-			(C->promo == 0 || C->cardNameSimple == "Easter Egg" || C->cardNameSimple == "Santa Claus")
-			)
-			return J->GetImage(C->cardId, 0, 0, Lotto, iColor == 0);
-	}
-	return "";
-}
+
 
 std::vector <std::string> broker::J_getSimpelCardPool()
 {
 	std::vector <std::string> vReturn;
-	for each (SMJCard* C in J->SMJMatrix)vReturn.push_back(C->cardNameSimple);
+	for (SMJCard* C : J->SMJMatrix)vReturn.push_back(C->cardNameSimple);
 	sort(vReturn.begin(), vReturn.end());
 	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
 	return vReturn;

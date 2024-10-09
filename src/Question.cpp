@@ -10,9 +10,12 @@
 #include <iostream> 
 #include <sstream>
 #include <cctype>
+#include <algorithm>
 
 #include <boost/filesystem.hpp>
 using namespace boost::filesystem;
+
+#include <rapidfuzz/fuzz.hpp>
 
 bool compare_iAnswer(const Answer* a, const Answer* b) { return a->iAnswer < b->iAnswer; }
 bool compare_tTime(const Answer* a, const Answer* b) { return a->tTime < b->tTime; }
@@ -45,8 +48,8 @@ void Demon_Answers::Thread_Function()
 };
 */
 
-Question::Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer, std::string _sAnswer, unsigned int _AnswerType, unsigned int _SpellCheck) :
-	ID(_ID), Titel(_Titel), Question_Twitch(_Question_Twitch), iAnswer(_iAnswer), sAnswer(_sAnswer), AnswerType(_AnswerType), SpellCheck(_SpellCheck)
+Question::Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer, std::string _sAnswer, unsigned int _AnswerType, unsigned int _SpellCheckType) :
+	ID(_ID), Titel(_Titel), Question_Twitch(_Question_Twitch), iAnswer(_iAnswer), sAnswer(_sAnswer), AnswerType(_AnswerType), SpellCheckType(_SpellCheckType)
 {
 	//DA = new Demon_Answers(this);
 };
@@ -68,7 +71,7 @@ void Question::echo()
 	printf("Int:      %i\n", iAnswer);	
 	printf("String:   %s\n", sAnswer.c_str());
 	printf("Type:     %i\n", AnswerType);
-	printf("Spell:    %i\n", SpellCheck);
+	printf("Spell:    %i\n", SpellCheckType);
 	printf("########################################\n");
 	MISE;
 }
@@ -329,4 +332,12 @@ void Question::splitString(const std::string& input, int& number, std::string& t
 	}
 
 	MISE;
+}
+
+bool Question::SpellCheck(std::string input)
+{
+	MISS;
+
+	MISE;
+	return true;
 }

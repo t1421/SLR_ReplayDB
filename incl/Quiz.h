@@ -15,11 +15,11 @@ public:
 };
 */
 
-struct Player
+struct QuizPlayer
 {
 	std::string Twitch;
 	std::string Ingame;
-	Player(std::string _Twitch, std::string _Ingame, std::string _WonID): Twitch(_Twitch), Ingame(_Ingame), WonID(_WonID){};
+	QuizPlayer(std::string _Twitch, std::string _Ingame, std::string _WonID): Twitch(_Twitch), Ingame(_Ingame), WonID(_WonID){};
 	std::string WonID;
 };
 
@@ -46,11 +46,11 @@ public:
 	unsigned int ActivQuiz;
 	std::vector <Question*> vQuestion;
 	void LoadPlayers(std::string sName);
-	Player* Quiz::GetPlayer(std::string sName);
+	QuizPlayer* GetPlayer(std::string sName);
 	void UpdateHTML();
 
 private:
-	std::vector<Player*> Players;
+	std::vector<QuizPlayer*> Players;
 	
 
 	void LoadPlayers();
