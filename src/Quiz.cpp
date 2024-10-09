@@ -13,32 +13,13 @@
 using namespace boost::filesystem;
 
 broker *(Quiz::Bro) = NULL;
-/*
-Demon_Player::Demon_Player(Quiz* _QQ) : QQ(_QQ) {};
-void Demon_Player::Thread_Function()
-{
-	std::time_t tLastCheck = 0;
-	while (bRunning)
-	{
-		path p(Bro->L_getQuizPath() + "Name.txt");
-		if (exists(p))
-		{
-			if (tLastCheck < last_write_time(p))
-			{
-				tLastCheck = last_write_time(p);
-				Bro->Q->LoadPlayers("Name.txt");
-			}
-		}
-		Sleep(1000);
-	}
-};
-*/
+
 
 Quiz::Quiz() :Thread_MIS("Quiz")
 {
 	MISS;
 	ActivQuiz = 0;
-	//DP = new Demon_Player(this);
+
 	MISE;
 }
 
@@ -240,26 +221,12 @@ QuizPlayer* Quiz::GetPlayer(std::string sName)
 	MISEA("X3");
 	return Players[Players.size() - 1];
 }
-/*
-bool Quiz::CheckPlayerWon(std::string sName)
-{
-	MISS;
-	bool OK = false;
-	for (auto P : Players)if (P->Twitch == sName && P->WonID != "")return true;	
-	MISE;
-	return false;
-}
-*/
+
 
 void Quiz::Thread_Function()
 {
 	MISS;
-	/*
-	DP->Start_Thread();
-	while (bRunning)Sleep(1000);
-	DP->Stop_Thread();
-	*/
-	
+		
 	std::time_t tLastCheck = 0;
 
 	while (bRunning)
@@ -287,9 +254,7 @@ void Quiz::UpdateHTML()
 	std::string line;
 
 	if (ActivQuiz == 0)return;
-	//MISD(ActivQuiz);
-	//MISD(vQuestion[ActivQuiz]->Answers.size());
-
+	
 	ssTable << "<thead>" << "<tr>" << "<td style = 'width: 100; '>QUIZ WON</td>" << "<td >Twitch</td>" << "<td >Ingame</td>";
 	if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3) ssTable << "<td >Guess N</td>";
 	if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4) ssTable << "<td >Guess T</td>";

@@ -1,7 +1,7 @@
 #include "incl\Broker.h"
 #include "incl\DEBUG.h" 
 #include "incl\LOAD.h" 
-//#include "incl\CardBaseSMJ.h" 
+#include "incl\CardBaseSMJ.h" 
 #include <curl/curl.h>
 #include "incl\Utility.h" 
 #include "incl\Quiz.h" 
@@ -24,9 +24,9 @@ int main(int argc, char **argv)
 	L->StartUp();
 	L->Load_Settings("Private.ini");
 
-	//CardBaseSMJ* J = new CardBaseSMJ();
-	//J->teachJ();
-	//J->Init();
+	CardBaseSMJ* J = new CardBaseSMJ();
+	J->teachJ();
+	J->Init();
 
 	Quiz* Q = new Quiz();
 	Q->teachQ();

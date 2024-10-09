@@ -133,6 +133,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Quiz", "*", "*", "true");
 		Fill_DBArray("Question", "*", "*", "true");
 		Fill_DBArray("Question", "SetCountDown", "*", "false");
+		Fill_DBArray("Question", "CleanString", "*", "false");
+		Fill_DBArray("Question", "splitString", "*", "false");
 
 		
 		/////////////////////////////////////////////////////

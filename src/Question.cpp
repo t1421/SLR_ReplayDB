@@ -21,43 +21,17 @@ bool compare_iAnswer(const Answer* a, const Answer* b) { return a->iAnswer < b->
 bool compare_tTime(const Answer* a, const Answer* b) { return a->tTime < b->tTime; }
 
 broker* (Question::Bro) = NULL;
-/*
-Demon_Answers::Demon_Answers(Question* _QQ) : QQ(_QQ) {};
-
-void Demon_Answers::Thread_Function()
-{
-	std::time_t tLastCheck = 0;
-
-	while (bRunning)
-	{
-		
-		//if (Bro->Q->Running())
-		//{
-		//	path p(Bro->L_getQuizPath() + "Q.txt");
-		//	if (exists(p))
-		//	{
-		//		if (tLastCheck < last_write_time(p))
-		//		{
-		//			tLastCheck = last_write_time(p);
-		//			//Bro->Q->LoadPlayers("Q.txt");
-		//		}
-		//	}
-		//}
-		//Sleep(10);
-	}
-};
-*/
 
 Question::Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer, std::string _sAnswer, unsigned int _AnswerType, unsigned int _SpellCheckType) :
 	ID(_ID), Titel(_Titel), Question_Twitch(_Question_Twitch), iAnswer(_iAnswer), sAnswer(_sAnswer), AnswerType(_AnswerType), SpellCheckType(_SpellCheckType)
 {
-	//DA = new Demon_Answers(this);
+	MISS;
+	MISE;
 };
 
 Question::~Question()
 {
 	MISS;
-
 	MISE;
 }
 
@@ -82,10 +56,20 @@ void Question::Start()
 	echo();
 
 	tStart = Bro->L_getEEE_Now();
+	lastQPos = 0;
+	CheckPool.clear();
+	switch (SpellCheckType)
+	{
+	case 1: //Card Names
+		for (auto S : Bro->J_getSimpelCardPool())CheckPool.push_back(CleanString(S));
+		break;
+	case 2: //Color / Faction
+		for (auto S : Bro->J_getColorPool())CheckPool.push_back(CleanString(S));
+		break;
+	}
 
 	ResetAnswers();
-	Twitch_Message(ID,"ultral34Spitfire2 ultral34Spitfire2 ultral34Spitfire2 ", Titel, Question_Twitch, "ultral34Booster ultral34Booster ultral34Booster ");		
-	//Answers.push_back(new Answer("Twitch", 0, Bro->L_getEEE_Now()));
+	Twitch_Message(ID,"ultral34Spitfire2 ultral34Spitfire2 ultral34Spitfire2 ", Titel, Question_Twitch, "ultral34Booster ultral34Booster ultral34Booster ");
 	Start_Thread();
 
 	MISE;
@@ -243,9 +227,13 @@ void Question::LoadAnswers()
 		return;
 	}
 	
+	ifFile.seekg(lastQPos);
+	
 	bool Update;
 	while (getline(ifFile, line))
 	{
+		if (line.length() <= 1)continue;
+
 		Update = false;
 		for (auto A : Answers)if (A->Pl->Twitch == entry(line, 0))
 		{
@@ -255,10 +243,17 @@ void Question::LoadAnswers()
 				|| (AnswerType == 2 || AnswerType == 3) && A->sAnswer != localsAnswer
 				|| AnswerType == 4 && (A->iAnswer != localiAnswer || A->sAnswer != localsAnswer) && A->tTime + CoolDown < Bro->L_getEEE_Now())
 			{
-				A->iAnswer = localiAnswer;
-				A->sAnswer = localsAnswer;
-				A->tTime = Bro->L_getEEE_Now();
-				Bro->Q->UpdateHTML();
+				if (SpellCheck(localsAnswer) == false)
+				{
+					Twitch_Message(entry(line, 0), "/w " + entry(line, 0) + " did you mean " + localsAnswer + "?");
+				}
+				else
+				{
+					A->iAnswer = localiAnswer;
+					A->sAnswer = localsAnswer;
+					A->tTime = Bro->L_getEEE_Now();
+					Bro->Q->UpdateHTML();
+				}
 			}
 			Update = true;
 		}
@@ -266,13 +261,24 @@ void Question::LoadAnswers()
 		if (Update == false)
 		{
 			splitString(entry(line, 1).c_str(), localiAnswer, localsAnswer);
-
-			Answers.push_back(new Answer(Bro->Q->GetPlayer(entry(line, 0)), localiAnswer, localsAnswer, Bro->L_getEEE_Now()));
-			Bro->Q->UpdateHTML();
+			if (SpellCheck(localsAnswer) == false)
+			{
+				Twitch_Message(entry(line, 0), "/w " + entry(line, 0) + " did you mean " + localsAnswer + "?");
+			}
+			else
+			{
+				Answers.push_back(new Answer(Bro->Q->GetPlayer(entry(line, 0)), localiAnswer, localsAnswer, Bro->L_getEEE_Now()));
+				Bro->Q->UpdateHTML();
+			}
 		}
 
 		ifFile.clear();
 	}
+
+	ifFile.clear();
+	ifFile.seekg(0, std::ios::end);
+	lastQPos = ifFile.tellg();
+	
 	ifFile.close();
 
 	SaveAnswers();
@@ -309,6 +315,15 @@ void Question::SetCountDown(unsigned int iii)
 	MISE;
 }
 
+std::string Question::CleanString(std::string text)
+{
+	MISS;
+	std::string sReturn;
+	int iTemp;
+	splitString(text, iTemp, sReturn);
+	MISE;
+	return sReturn;
+}
 
 void Question::splitString(const std::string& input, int& number, std::string& text) 
 {
@@ -320,6 +335,7 @@ void Question::splitString(const std::string& input, int& number, std::string& t
 
 	while (ss >> temp) 
 	{
+		
 		bool isNumber = true;
 		for (char c : temp) if (!std::isdigit(c)) 
 		{
@@ -334,10 +350,45 @@ void Question::splitString(const std::string& input, int& number, std::string& t
 	MISE;
 }
 
-bool Question::SpellCheck(std::string input)
+bool Question::SpellCheck(std::string& input)
 {
 	MISS;
 
-	MISE;
+	if(SpellCheckType==0)return true;
+	std::string Orginput = input;
+
+	
+
+		     if (input == "LS")input = "LOSTSOULS";
+		else if (input == "TW")input = "TWILIGHT";
+		else if (input == "SK")input = "STONEKIN";
+		else if (input == "BD")input = "BANDITS";
+		else if (input == "FF")input = "FIREFROST";
+		else if (input == "NONE")input = "NEUTRAL";
+
+
+
+	MISD("#2");
+	std::string closestMatch;
+	double highestScore = 0.0;
+
+	for (const auto& word : CheckPool) {
+		double score = rapidfuzz::fuzz::ratio(input, word);
+		if (score > highestScore) 
+		{
+			highestScore = score;
+			closestMatch = word;
+		}
+	}
+
+	MISD("#3");
+	if (closestMatch != input)
+	{
+		input = closestMatch;
+		MISEA("no Match");
+		return false;
+	}
+
+	MISEA("MATCH");
 	return true;
 }

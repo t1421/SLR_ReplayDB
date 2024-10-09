@@ -3,16 +3,6 @@
 
 #include "Thread_MIS.h"
 #include "Quiz.h"
-/*
-class Question;
-class Demon_Answers : public Thread_MIS
-{
-public:
-	Question* QQ;
-	Demon_Answers(Question* _QQ);
-	void Thread_Function();
-};
-*/
 
 #define CountDown 60
 #define CoolDown 30
@@ -56,17 +46,16 @@ public:
 
 private:
 	unsigned long int tStart;
+	std::streampos lastQPos;
 	void Thread_Function();
 	void SetCountDown(unsigned int iii);
 	void splitString(const std::string& input, int& number, std::string& text);
-	bool SpellCheck(std::string input);
+	std::string CleanString(std::string text);
+	bool SpellCheck(std::string& input);
+	std::vector <std::string> CheckPool;
 
 	Answer* getWinningAnswer();
 	
-
-	//Demon_Answers* DA;
-
-
 };
 #endif //Question_H
 
