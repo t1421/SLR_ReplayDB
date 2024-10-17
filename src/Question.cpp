@@ -23,9 +23,10 @@ bool compare_tTime(const Answer* a, const Answer* b) { return a->tTime < b->tTim
 broker* (Question::Bro) = NULL;
 
 Question::Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer, std::string _sAnswer, unsigned int _AnswerType, unsigned int _SpellCheckType) :
-	ID(_ID), Titel(_Titel), Question_Twitch(_Question_Twitch), iAnswer(_iAnswer), sAnswer(_sAnswer), AnswerType(_AnswerType), SpellCheckType(_SpellCheckType)
+	ID(_ID), Titel(_Titel), Question_Twitch(_Question_Twitch), iAnswer(_iAnswer), sAnswer(CleanString(_sAnswer)), AnswerType(_AnswerType), SpellCheckType(_SpellCheckType)
 {
 	MISS;
+	
 	MISE;
 };
 
@@ -65,6 +66,9 @@ void Question::Start()
 		break;
 	case 2: //Color / Faction
 		for (auto S : Bro->J_getColorPool())CheckPool.push_back(CleanString(S));
+		break;
+	case 3: //Maps
+		for (auto S : Bro->J_getUpgradeMaps())CheckPool.push_back(CleanString(S));
 		break;
 	}
 
@@ -358,13 +362,38 @@ bool Question::SpellCheck(std::string& input)
 	std::string Orginput = input;
 
 	
+	switch (SpellCheckType)
+	{
 
-		     if (input == "LS")input = "LOSTSOULS";
+	case 2:
+		if (input == "LS")input = "LOSTSOULS";
 		else if (input == "TW")input = "TWILIGHT";
 		else if (input == "SK")input = "STONEKIN";
 		else if (input == "BD")input = "BANDITS";
 		else if (input == "FF")input = "FIREFROST";
 		else if (input == "NONE")input = "NEUTRAL";
+		break;
+	case 3:
+		if (input == "SOULTREE")input = "THESOULTREE";
+		else if (input == "TREASUREFLEET")input = "THETREASUREFLEET";
+		else if (input == "TF")input = "THETREASUREFLEET";
+		else if (input == "SOH")input = "SIEGEOFHOPE";
+		else if (input == "DH")input = "DEFENDINGHOPE";
+		else if (input == "SHARD")input = "NIGHTMARESHARD";
+		else if (input == "INSANEGOD")input = "THEINSANEGOD";
+		else if (input == "UV")input = "UNEXPECTEDVISITORS";
+		else if (input == "ITJ")input = "INTOTHEJUNGLE";
+		else if (input == "IJ")input = "INTOTHEJUNGLE";
+		else if (input == "BH")input = "BADHARVEST";
+		else if (input == "KOTG")input = "KINGOFTHEGIANTS";
+		else if (input == "KOG")input = "KINGOFTHEGIANTS";
+		else if (input == "DWARVENRIDDLE")input = "THEDWARVENRIDDLE";
+		else if (input == "GOL")input = "THEGUNSOFLYR";
+		else if (input == "GUNSOFLYR")input = "THEGUNSOFLYR";
+		else if (input == "PTD")input = "PASSAGETODARKNESS";
+		break;
+
+	}
 
 
 

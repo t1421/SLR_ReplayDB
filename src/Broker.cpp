@@ -563,6 +563,15 @@ std::vector <std::string> broker::J_getColorPool()
 	return vReturn;
 }
 
+std::vector <std::string> broker::J_getUpgradeMaps()
+{
+	std::vector <std::string> vReturn;
+	for (auto C : J->EnumUpgradeMaps)vReturn.push_back(C.second);
+	sort(vReturn.begin(), vReturn.end());
+	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
+	return vReturn;
+}
+
 unsigned int broker::J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade)
 {
 	return J_GetSMJCard(iCard)->powerCost[iUpgrade];

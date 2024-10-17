@@ -151,10 +151,21 @@ bool CardBaseSMJ::Init()
 	Enum = AllCards["boosters"];
 	for (auto const& id : Enum.getMemberNames())
 	{
-		//MISD(id + "#" + Enum[id].asString());
 		EnumBoosters.push_back(std::make_pair(
 			id, Enum[id].asString()));
 	}
+
+	Enum = AllCards["upgradeMaps"];
+	for (auto const& id : Enum.getMemberNames())
+	{
+		EnumUpgradeMaps.push_back(std::make_pair(
+			id, Enum[id].asString()));
+	}
+	EnumUpgradeMaps.push_back(std::make_pair(
+		"XXX", "Passage to Darkness"));
+	EnumUpgradeMaps.push_back(std::make_pair(
+		"YYY", "Ascension"));
+	
 
 	MISE;
 	

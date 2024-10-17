@@ -127,6 +127,7 @@ public:
 	std::string J_GetLottoImg(std::string cardNameSimple, unsigned int iColor);
 	std::vector <std::string> J_getSimpelCardPool();
 	std::vector <std::string> J_getColorPool();
+	std::vector <std::string> J_getUpgradeMaps();
 	unsigned int J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade);
 #endif
 	

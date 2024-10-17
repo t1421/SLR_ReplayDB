@@ -4,7 +4,7 @@
 #include "Thread_MIS.h"
 #include "Quiz.h"
 
-#define CountDown 60
+#define CountDown 90
 #define CoolDown 30
 
 struct Answer
