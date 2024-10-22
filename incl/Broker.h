@@ -128,6 +128,7 @@ public:
 	std::vector <std::string> J_getSimpelCardPool();
 	std::vector <std::string> J_getColorPool();
 	std::vector <std::string> J_getUpgradeMaps();
+	std::vector <std::string> J_getTiers();
 	unsigned int J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade);
 #endif
 	

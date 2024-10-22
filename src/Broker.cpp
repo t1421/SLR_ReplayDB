@@ -572,6 +572,15 @@ std::vector <std::string> broker::J_getUpgradeMaps()
 	return vReturn;
 }
 
+std::vector <std::string> broker::J_getTiers()
+{
+	std::vector <std::string> vReturn;
+	for (auto C : J->EnumTier)vReturn.push_back(C.second);
+	sort(vReturn.begin(), vReturn.end());
+	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
+	return vReturn;
+}
+
 unsigned int broker::J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade)
 {
 	return J_GetSMJCard(iCard)->powerCost[iUpgrade];

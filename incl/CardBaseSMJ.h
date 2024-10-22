@@ -25,6 +25,7 @@ public:
 	std::vector<std::pair<std::string, std::string>> EnumType;
 	std::vector<std::pair<std::string, std::string>> EnumBoosters;
 	std::vector<std::pair<std::string, std::string>> EnumUpgradeMaps;
+	std::vector<std::pair<std::string, std::string>> EnumTier;
 private:
 	Json::Value WEBRequestToCHASH(std::string sURL);
 	CURL *curl;

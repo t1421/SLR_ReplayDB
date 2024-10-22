@@ -165,6 +165,15 @@ bool CardBaseSMJ::Init()
 		"XXX", "Passage to Darkness"));
 	EnumUpgradeMaps.push_back(std::make_pair(
 		"YYY", "Ascension"));
+
+	EnumTier.push_back(std::make_pair(
+		"1", "TierOne"));
+	EnumTier.push_back(std::make_pair(
+		"2", "TierTwo"));
+	EnumTier.push_back(std::make_pair(
+		"3", "TierThree "));
+	EnumTier.push_back(std::make_pair(
+		"4", "TierFour"));
 	
 
 	MISE;

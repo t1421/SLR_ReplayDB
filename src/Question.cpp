@@ -70,6 +70,9 @@ void Question::Start()
 	case 3: //Maps
 		for (auto S : Bro->J_getUpgradeMaps())CheckPool.push_back(CleanString(S));
 		break;
+	case 4: //Tier
+		for (auto S : Bro->J_getTiers())CheckPool.push_back(CleanString(S));
+		break;
 	}
 
 	ResetAnswers();
@@ -391,6 +394,12 @@ bool Question::SpellCheck(std::string& input)
 		else if (input == "GOL")input = "THEGUNSOFLYR";
 		else if (input == "GUNSOFLYR")input = "THEGUNSOFLYR";
 		else if (input == "PTD")input = "PASSAGETODARKNESS";
+		break;
+	case 4:
+		if (input == "ONE")input = "TIERONE";
+		else if (input == "TWO")input = "TIERTWO";
+		else if (input == "THREE")input = "TIERTHREE";
+		else if (input == "FOUR")input = "TIERFOUR";
 		break;
 
 	}
