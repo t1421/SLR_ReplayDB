@@ -11,6 +11,7 @@
 #include <sstream>
 #include <cctype>
 #include <algorithm>
+#include <regex>
 
 #include <boost/filesystem.hpp>
 using namespace boost::filesystem;
@@ -332,6 +333,7 @@ std::string Question::CleanString(std::string text)
 	return sReturn;
 }
 
+/*
 void Question::splitString(const std::string& input, int& number, std::string& text) 
 {
 	MISS;
@@ -356,6 +358,27 @@ void Question::splitString(const std::string& input, int& number, std::string& t
 
 	MISE;
 }
+*/
+void Question::splitString(const std::string& input, int& number, std::string& text)
+{
+	MISS;
+
+	text.clear();
+	number = 0;
+
+	// Regulärer Ausdruck, um die erste durchgehende Zahlenfolge zu finden
+	std::regex numberRegex("(\\d+)");
+	std::smatch match;
+
+	// Die erste Zahl im String suchen
+	if (std::regex_search(input, match, numberRegex)) number = std::stoi(match.str());  // Die gefundene Zahl konvertieren
+	
+	// Nur die Buchstaben in Großbuchstaben zum Text hinzufügen
+	for (char c : input) if (std::isalpha(c)) text += std::toupper(c);
+
+	MISE;
+}
+
 
 bool Question::SpellCheck(std::string& input)
 {

@@ -654,9 +654,11 @@ std::string WEB_Analyser::Kalk_EEE7(unsigned long iTimes[RankRowStamps])
 	for (auto A : R->ActionMatrix)
 		if (A->Type == 4045 && entry(A->AdditionalInfo, 0) == "4")
 		{
-			if (entry(A->AdditionalInfo, 1)[0] == 'M')
+			if (A->AdditionalInfo == "4;MIS_WIN;1;") break;
+
+			if (entry(A->AdditionalInfo, 1)[0] == 'M' && entry(A->AdditionalInfo, 1)[1] == 'Y')
 				iTimes[0] = STRtoNUM(entry(A->AdditionalInfo, 1));
-			if (entry(A->AdditionalInfo, 1)[0] == 'O')
+			if (entry(A->AdditionalInfo, 1)[0] == 'O' && entry(A->AdditionalInfo, 1)[1] == 'P')
 				iTimes[1] = STRtoNUM(entry(A->AdditionalInfo, 1));
 		}
 
