@@ -10,6 +10,7 @@ void Thread_MIS::Start_Thread()
 {
 	MISD("--> " + sThreadName);
 	bRunning = true;
+	if(tThread.joinable())tThread.join();
 	tThread = std::thread(&Thread_MIS::Thread_Function, this);
 	MISD("<-- " + sThreadName);
 }

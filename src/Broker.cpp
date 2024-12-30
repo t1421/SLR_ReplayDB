@@ -442,6 +442,14 @@ std::string broker::L_getQuizPath()
 {
 	return L->sQuizPath;
 }
+int broker::L_getCountDown()
+{
+	return L->iCountDown;
+}
+int broker::L_getCoolDown()
+{
+	return L->iCoolDown;
+}
 int broker::L_getEEE_RankMode(unsigned int iEEE)
 {
 	unsigned long int now = L_getEEE_Now();

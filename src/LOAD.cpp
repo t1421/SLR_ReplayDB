@@ -65,6 +65,8 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "ChallongeSaveDir"))sChallongeSaveDir = line.c_str();
 
 			if (INI_Value_Check(line, "QuizPath"))sQuizPath = line.c_str();
+			if (INI_Value_Check(line, "QuizCountDown"))iCountDown = atoi(line.c_str());
+			if (INI_Value_Check(line, "QuizCoolDown"))iCoolDown = atoi(line.c_str());
 
 			if (INI_Value_Check(line, "EEEStatus"))EEEStatus = atoi(line.c_str());
 

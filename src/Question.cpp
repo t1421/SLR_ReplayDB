@@ -18,8 +18,16 @@ using namespace boost::filesystem;
 
 #include <rapidfuzz/fuzz.hpp>
 
-bool compare_iAnswer(const Answer* a, const Answer* b) { return a->iAnswer < b->iAnswer; }
-bool compare_tTime(const Answer* a, const Answer* b) { return a->tTime < b->tTime; }
+bool compare_iAnswer_tTime(const Answer* a, const Answer* b)
+{
+	if (a->iAnswer == b->iAnswer)return a->tTime < b->tTime;
+	else return a->iAnswer < b->iAnswer;
+}
+bool compare_sAnswer_tTime(const Answer* a, const Answer* b)
+{
+	if (a->sAnswer == b->sAnswer)return a->tTime < b->tTime;
+	else return a->sAnswer < b->sAnswer;
+}
 
 broker* (Question::Bro) = NULL;
 
@@ -110,8 +118,12 @@ void Question::Winner()
 		if (AnswerType == 3)Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch + " With " +  Winner->sAnswer + " " + std::to_string(Winner->iAnswer), "The correct answer was: " + sAnswer + " " + std::to_string(iAnswer));
 		if (Winner->Pl->Ingame == "") Twitch_Message(Winner->Pl->Twitch, "/w " + Winner->Pl->Twitch + " still need '!name [Your IG Name]'");
 	}
-	else Twitch_Message(ID, "No winner :-|");
-
+	else
+	{
+		if (AnswerType == 1)Twitch_Message(ID, "No winner :-|", "The correct answer was: " + std::to_string(iAnswer));
+		if (AnswerType == 2 || AnswerType == 4)Twitch_Message(ID, "No winner :-|", "The correct answer was: " + sAnswer);
+		if (AnswerType == 3)Twitch_Message(ID, "No winner :-|", "The correct answer was: " + sAnswer + " " + std::to_string(iAnswer));
+	}
 
 	MISE;
 }
@@ -146,7 +158,7 @@ Answer* Question::getWinningAnswer()
 		// Then default Int Logic
 
 	case 1: //INT VALUE
-		std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_iAnswer);
+		std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_iAnswer_tTime);
 
 		for (const auto& A : LocalAnswers)
 		{
@@ -168,7 +180,7 @@ Answer* Question::getWinningAnswer()
 	case 2:
 	case 4:
 		//Sort Time
-		std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_tTime);
+		std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_sAnswer_tTime);
 		//First with correct answer
 		for (const auto& A : LocalAnswers)if (result == nullptr && A->sAnswer == sAnswer)result = A; 
 		
@@ -188,7 +200,7 @@ void Question::Thread_Function()
 	std::time_t tLastCheck = 0;
 	Answer* Winner = nullptr;
 
-	while (bRunning && (AnswerType != 4 && tStart + CountDown > Bro->L_getEEE_Now() || AnswerType == 4 && Winner == nullptr))
+	while (bRunning && (AnswerType != 4 && tStart + Bro->L_getCountDown() > Bro->L_getEEE_Now() || AnswerType == 4 && Winner == nullptr))
 	{
 		path p(Bro->L_getQuizPath() + "Q.txt");
 		if (exists(p))
@@ -202,7 +214,7 @@ void Question::Thread_Function()
 		}
 		Sleep(10);
 
-		if(AnswerType != 4)SetCountDown(tStart + CountDown - Bro->L_getEEE_Now());  //Count Down
+		if(AnswerType != 4)SetCountDown(tStart + Bro->L_getCountDown() - Bro->L_getEEE_Now());  //Count Down
 		else SetCountDown(Bro->L_getEEE_Now() - tStart); //Count Up
 	}
 
@@ -249,7 +261,7 @@ void Question::LoadAnswers()
 
 			if (   (AnswerType == 1 || AnswerType == 3) && A->iAnswer != localiAnswer
 				|| (AnswerType == 2 || AnswerType == 3) && A->sAnswer != localsAnswer
-				|| AnswerType == 4 && (A->iAnswer != localiAnswer || A->sAnswer != localsAnswer) && A->tTime + CoolDown < Bro->L_getEEE_Now())
+				|| AnswerType == 4 && (A->iAnswer != localiAnswer || A->sAnswer != localsAnswer) && A->tTime + Bro->L_getCoolDown() < Bro->L_getEEE_Now())
 			{
 				if (SpellCheck(localsAnswer) == false)
 				{

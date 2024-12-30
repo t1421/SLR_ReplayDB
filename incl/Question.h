@@ -4,9 +4,6 @@
 #include "Thread_MIS.h"
 #include "Quiz.h"
 
-#define CountDown 90
-#define CoolDown 30
-
 struct Answer
 {
 	Answer(QuizPlayer* _Pl, int _iAnswer, std::string _sAnswer, unsigned long int _tTime) :Pl(_Pl), iAnswer(_iAnswer), sAnswer(_sAnswer), tTime(_tTime) {};

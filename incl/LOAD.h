@@ -50,6 +50,8 @@ public:
 	std::string sChallongeSaveDir;
 
 	std::string sQuizPath;
+	int iCountDown;
+	int iCoolDown;
 
 	std::string sSetting;
 

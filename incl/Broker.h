@@ -100,7 +100,8 @@ public:
 	std::string L_getQuizPath();
 	int L_getLivePvPRefreshRate();
 	int L_getLivePvPActionLog();
-
+	int L_getCountDown();
+	int L_getCoolDown();
 	
 
 	int L_getEEEStatus();

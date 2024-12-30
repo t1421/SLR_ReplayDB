@@ -8,12 +8,22 @@
 #include <iostream> 
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #include <boost/filesystem.hpp>
 using namespace boost::filesystem;
 
 broker *(Quiz::Bro) = NULL;
 
+bool compare_sAnswer_iAnswer_tTime(const Answer* a, const Answer* b)
+{
+	if (a->sAnswer == b->sAnswer)
+	{
+		if (a->iAnswer == b->iAnswer)return a->tTime < b->tTime;
+		else return a->iAnswer < b->iAnswer;
+	}
+	else return a->sAnswer < b->sAnswer;
+}
 
 Quiz::Quiz() :Thread_MIS("Quiz")
 {
@@ -245,6 +255,7 @@ void Quiz::Thread_Function()
 	MISE;
 }
 
+
 void Quiz::UpdateHTML()
 {
 	MISS;
@@ -260,12 +271,17 @@ void Quiz::UpdateHTML()
 	if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4) ssTable << "<td >Guess T</td>";
 	ssTable << "<td >Time</td>"	<< "</tr>"<< "</thead><tbody>";
 	
+	std::sort(vQuestion[ActivQuiz]->Answers.begin(), vQuestion[ActivQuiz]->Answers.end(), compare_sAnswer_iAnswer_tTime);
+	
 	for (auto A : vQuestion[ActivQuiz]->Answers)
 	{
-		ssTable << "<tr>"
-			<< "<td>" << A->Pl->WonID << "</td>"
-			<< "<td>" << A->Pl->Twitch << "</td>"
-			<< "<td>" << A->Pl->Ingame << "</td>";
+		ssTable << "<tr>";
+		if (A->Pl->WonID == vQuestion[ActivQuiz]->ID)ssTable << "<td style='background-color: #8B6914;'>" << A->Pl->WonID << "</td>";
+		else if (A->Pl->WonID != "")ssTable << "<td style='background-color: #333333;'>" << A->Pl->WonID << "</td>";
+		else ssTable << "<td>" << A->Pl->WonID << "</td>";
+		ssTable << "<td>" << A->Pl->Twitch << "</td>";
+		ssTable << "<td>" << A->Pl->Ingame << "</td>";
+
 		if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3)ssTable << "<td>" << A->iAnswer << "</td>";
 		if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4) ssTable << "<td>" << A->sAnswer << "</td>";
 		ssTable << "<td>" << TimeToText(A->tTime) << "<td></td>\n";
