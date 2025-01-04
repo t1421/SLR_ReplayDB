@@ -472,6 +472,27 @@ unsigned long int broker::L_getEEE_Now()
 	return std::chrono::duration_cast<std::chrono::seconds>(UNIX.time_since_epoch()).count();
 }
 
+unsigned long int broker::L_StringToUNIXTime(const std::string &date)
+{
+	std::tm timeStruct = {};
+	std::istringstream dateStream(date);
+
+	// Parsen des Datums
+	dateStream >> std::get_time(&timeStruct, "%d.%m.%Y");
+	if (dateStream.fail()) return 0;
+	
+	// Zeit in Sekunden seit der Epoche umwandeln
+	timeStruct.tm_hour = 0;  // Stunde auf Mitternacht setzen
+	timeStruct.tm_min = 0;   // Minute auf 0 setzen
+	timeStruct.tm_sec = 0;   // Sekunde auf 0 setzen
+	timeStruct.tm_isdst = -1; // Sommerzeit automatisch bestimmen
+
+	std::time_t epochTime = std::mktime(&timeStruct);
+	if (epochTime == -1) return 0;	
+
+	return static_cast<unsigned long int>(epochTime);
+}
+
 unsigned long int broker::L_getEEE_Start(unsigned int iEEE)
 {
 	return L->EEE_Start[iEEE];

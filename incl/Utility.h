@@ -29,6 +29,7 @@ void Twitch_Message(std::string ID, std::string Line1, std::string Line2);
 void Twitch_Message(std::string ID, std::string Line1);
 
 std::string TimeToText(std::time_t timestamp);
+std::string TimeToDate(std::time_t timestamp);
 
 #endif //Utility_H
 

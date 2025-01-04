@@ -109,26 +109,31 @@ void Question::Winner()
 	sTemp = "copy " + Bro->L_getQuizPath() + "QQ.txt " + Bro->L_getQuizPath() + "QQ" + ID + ".txt";
 	system(sTemp.c_str());
 	
-	Answer* Winner = getWinningAnswer();
+	Answer* Winner = getWinningAnswer( false);
+	Answer* BestGuess = getWinningAnswer(true);
 	if (Winner != nullptr)
 	{
 		Winner->Pl->WonID = ID;
 		if( AnswerType == 1)Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch +  " With " + std::to_string(Winner->iAnswer), "The correct answer was: " + std::to_string(iAnswer));
 		if (AnswerType == 2 || AnswerType == 4)Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch + " With " + Winner->sAnswer, "The correct answer was: " + sAnswer);
 		if (AnswerType == 3)Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch + " With " +  Winner->sAnswer + " " + std::to_string(Winner->iAnswer), "The correct answer was: " + sAnswer + " " + std::to_string(iAnswer));
+		if (AnswerType == 5)Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch + " With " + TimeToDate(Winner->iAnswer), "The correct answer was: " + TimeToDate(iAnswer));
 		if (Winner->Pl->Ingame == "") Twitch_Message(Winner->Pl->Twitch, "/w " + Winner->Pl->Twitch + " still need '!name [Your IG Name]'");
+		if (BestGuess != nullptr && BestGuess->Pl->Twitch != Winner->Pl->Twitch)Twitch_Message(ID, "Best Guess was: " + BestGuess->Pl->Twitch + " With " + std::to_string(BestGuess->iAnswer));
 	}
 	else
 	{
 		if (AnswerType == 1)Twitch_Message(ID, "No winner :-|", "The correct answer was: " + std::to_string(iAnswer));
 		if (AnswerType == 2 || AnswerType == 4)Twitch_Message(ID, "No winner :-|", "The correct answer was: " + sAnswer);
 		if (AnswerType == 3)Twitch_Message(ID, "No winner :-|", "The correct answer was: " + sAnswer + " " + std::to_string(iAnswer));
+		if (AnswerType == 5)Twitch_Message(ID, "No winner :-|", "The correct answer was: " + TimeToDate(iAnswer));
+		if (BestGuess != nullptr)Twitch_Message(ID, "Best Guess was: " + BestGuess->Pl->Twitch + " With " + std::to_string(BestGuess->iAnswer));
 	}
 
 	MISE;
 }
 
-Answer* Question::getWinningAnswer()
+Answer* Question::getWinningAnswer(bool all)
 {
 	MISS;
 
@@ -138,12 +143,12 @@ Answer* Question::getWinningAnswer()
 	std::vector <Answer*> LocalAnswers = Answers;
 
 	//Remove players who won befor
-	for (std::vector<Answer*>::iterator it = LocalAnswers.begin(); it != LocalAnswers.end();)
-	{		
-		//if (Bro->Q->CheckPlayerWon((*it)->Pl->Twitch))it = LocalAnswers.erase(it);
+	if (all == false) for (std::vector<Answer*>::iterator it = LocalAnswers.begin(); it != LocalAnswers.end();)
+	{
 		if ((*it)->Pl->WonID != "") it = LocalAnswers.erase(it);
 		else  ++it;
 	}
+		
 
 	//sort by number
 	switch (AnswerType)
@@ -158,6 +163,7 @@ Answer* Question::getWinningAnswer()
 		// Then default Int Logic
 
 	case 1: //INT VALUE
+	case 5: //Date Value
 		std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_iAnswer_tTime);
 
 		for (const auto& A : LocalAnswers)
@@ -209,7 +215,7 @@ void Question::Thread_Function()
 			{
 				tLastCheck = last_write_time(p);
 				LoadAnswers();
-				Winner = getWinningAnswer();
+				Winner = getWinningAnswer(false);
 			}
 		}
 		Sleep(10);
@@ -238,6 +244,7 @@ void Question::LoadAnswers()
 	std::ifstream ifFile;
 
 	std::string localsAnswer;
+	std::string localdAnswer;
 	int localiAnswer;
 
 	ifFile.open(Bro->L_getQuizPath() + "Q.txt", std::ios::binary);
@@ -257,15 +264,24 @@ void Question::LoadAnswers()
 		Update = false;
 		for (auto A : Answers)if (A->Pl->Twitch == entry(line, 0))
 		{
-			splitString(entry(line, 1).c_str(), localiAnswer, localsAnswer);
+			splitString(entry(line, 1).c_str(), localiAnswer, localsAnswer, localdAnswer);
+			//MISD(localiAnswer);
+			//MISD(localsAnswer);
+			//MISD(localdAnswer);
+			if (AnswerType == 5)localiAnswer = Bro->L_StringToUNIXTime(localdAnswer);
 
-			if (   (AnswerType == 1 || AnswerType == 3) && A->iAnswer != localiAnswer
+
+			if (   (AnswerType == 1 || AnswerType == 3 || AnswerType == 5) && A->iAnswer != localiAnswer
 				|| (AnswerType == 2 || AnswerType == 3) && A->sAnswer != localsAnswer
 				|| AnswerType == 4 && (A->iAnswer != localiAnswer || A->sAnswer != localsAnswer) && A->tTime + Bro->L_getCoolDown() < Bro->L_getEEE_Now())
 			{
 				if (SpellCheck(localsAnswer) == false)
 				{
 					Twitch_Message(entry(line, 0), "/w " + entry(line, 0) + " did you mean " + localsAnswer + "?");
+				}
+				else if (AnswerType == 5 && localiAnswer == 0)
+				{
+					Twitch_Message(entry(line, 0), "/w " + entry(line, 0) + " the format is DD.MM.YYYY");
 				}
 				else
 				{
@@ -280,10 +296,19 @@ void Question::LoadAnswers()
 
 		if (Update == false)
 		{
-			splitString(entry(line, 1).c_str(), localiAnswer, localsAnswer);
+			splitString(entry(line, 1).c_str(), localiAnswer, localsAnswer, localdAnswer);
+			if (AnswerType == 5)localiAnswer = Bro->L_StringToUNIXTime(localdAnswer);
+			//MISD(localiAnswer);
+			//MISD(localsAnswer);
+			//MISD("#" + localdAnswer + "#");
+
 			if (SpellCheck(localsAnswer) == false)
 			{
 				Twitch_Message(entry(line, 0), "/w " + entry(line, 0) + " did you mean " + localsAnswer + "?");
+			}
+			else if (AnswerType == 5 && localiAnswer == 0)
+			{
+				Twitch_Message(entry(line, 0), "/w " + entry(line, 0) + " the format is DD.MM.YYYY");
 			}
 			else
 			{
@@ -339,8 +364,9 @@ std::string Question::CleanString(std::string text)
 {
 	MISS;
 	std::string sReturn;
+	std::string sTemp;
 	int iTemp;
-	splitString(text, iTemp, sReturn);
+	splitString(text, iTemp, sReturn, sTemp);
 	MISE;
 	return sReturn;
 }
@@ -371,7 +397,7 @@ void Question::splitString(const std::string& input, int& number, std::string& t
 	MISE;
 }
 */
-void Question::splitString(const std::string& input, int& number, std::string& text)
+void Question::splitString(const std::string& input, int& number, std::string& text, std::string& date)
 {
 	MISS;
 
@@ -380,6 +406,7 @@ void Question::splitString(const std::string& input, int& number, std::string& t
 
 	// Regulärer Ausdruck, um die erste durchgehende Zahlenfolge zu finden
 	std::regex numberRegex("(\\d+)");
+	std::regex dateRegex(R"(\b\d{2}\.\d{2}\.\d{4}\b)");
 	std::smatch match;
 
 	// Die erste Zahl im String suchen
@@ -388,6 +415,9 @@ void Question::splitString(const std::string& input, int& number, std::string& t
 	// Nur die Buchstaben in Großbuchstaben zum Text hinzufügen
 	for (char c : input) if (std::isalpha(c)) text += std::toupper(c);
 
+	// Regulärer Ausdruck für Datum im Format DD.MM.YYYY
+	if (std::regex_search(input, match, dateRegex)) date = match.str();
+	
 	MISE;
 }
 

@@ -267,7 +267,7 @@ void Quiz::UpdateHTML()
 	if (ActivQuiz == 0)return;
 	
 	ssTable << "<thead>" << "<tr>" << "<td style = 'width: 100; '>QUIZ WON</td>" << "<td >Twitch</td>" << "<td >Ingame</td>";
-	if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3) ssTable << "<td >Guess N</td>";
+	if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 5) ssTable << "<td >Guess N</td>";
 	if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4) ssTable << "<td >Guess T</td>";
 	ssTable << "<td >Time</td>"	<< "</tr>"<< "</thead><tbody>";
 	
@@ -283,6 +283,7 @@ void Quiz::UpdateHTML()
 		ssTable << "<td>" << A->Pl->Ingame << "</td>";
 
 		if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3)ssTable << "<td>" << A->iAnswer << "</td>";
+		if (vQuestion[ActivQuiz]->AnswerType == 5)ssTable << "<td>" << TimeToDate(A->iAnswer) << "</td>";
 		if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4) ssTable << "<td>" << A->sAnswer << "</td>";
 		ssTable << "<td>" << TimeToText(A->tTime) << "<td></td>\n";
 	}

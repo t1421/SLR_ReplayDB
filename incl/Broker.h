@@ -109,6 +109,7 @@ public:
 	unsigned long int L_getEEE_Start(unsigned int iEEE);
 	unsigned long int L_getEEE_End(unsigned int iEEE);
 	unsigned long int L_getEEE_Now();
+	unsigned long int L_StringToUNIXTime(const std::string& date);
 	
 
 	int L_getEventStatus(unsigned int iEvent);

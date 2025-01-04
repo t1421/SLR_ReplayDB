@@ -6,9 +6,10 @@
 
 struct Answer
 {
-	Answer(QuizPlayer* _Pl, int _iAnswer, std::string _sAnswer, unsigned long int _tTime) :Pl(_Pl), iAnswer(_iAnswer), sAnswer(_sAnswer), tTime(_tTime) {};
+	Answer(QuizPlayer* _Pl, unsigned long int _iAnswer, std::string _sAnswer, unsigned long int _tTime) :Pl(_Pl), iAnswer(_iAnswer), sAnswer(_sAnswer), tTime(_tTime) {};
 	QuizPlayer* Pl;
-	int iAnswer;
+	//int iAnswer;
+	unsigned long int iAnswer;
 	std::string sAnswer;
 	unsigned long int tTime;
 };
@@ -46,12 +47,12 @@ private:
 	std::streampos lastQPos;
 	void Thread_Function();
 	void SetCountDown(unsigned int iii);
-	void splitString(const std::string& input, int& number, std::string& text);
+	void splitString(const std::string& input, int& number, std::string& text, std::string& date);
 	std::string CleanString(std::string text);
 	bool SpellCheck(std::string& input);
 	std::vector <std::string> CheckPool;
 
-	Answer* getWinningAnswer();
+	Answer* getWinningAnswer(bool all);
 	
 };
 #endif //Question_H

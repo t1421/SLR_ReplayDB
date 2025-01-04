@@ -133,3 +133,12 @@ std::string TimeToText(std::time_t timestamp)
 	oss << std::put_time(&localTime, "%d.%m.%Y %H:%M:%S");
 	return oss.str();
 }
+
+std::string TimeToDate(std::time_t timestamp)
+{
+	std::tm localTime;
+	localtime_s(&localTime, &timestamp);
+	std::ostringstream oss;
+	oss << std::put_time(&localTime, "%d.%m.%Y");
+	return oss.str();
+}
