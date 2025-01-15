@@ -52,7 +52,7 @@ private:
 	bool SpellCheck(std::string& input);
 	std::vector <std::string> CheckPool;
 
-	Answer* getWinningAnswer(bool all);
+	Answer* getWinningAnswer(bool all, std::vector<Answer*>& outLocalAnswers);
 	
 };
 #endif //Question_H

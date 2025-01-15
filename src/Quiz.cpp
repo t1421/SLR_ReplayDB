@@ -81,7 +81,7 @@ void Quiz::LoadPlayers(std::string sName)
 	ifFile.open(Bro->L_getQuizPath() + sName, std::ios::binary);
 	if (ifFile.good())while (getline(ifFile, line))
 	{
-		AddUpdatePlayers(entry(line, 0), entry(line, 1), entry(line, 2));
+		AddUpdatePlayers(entry(line, 0), entry(line, 1), std::atoi(entry(line, 2).c_str()), entry(line, 3));
 		ifFile.clear();
 	}
 	ifFile.close();
@@ -98,7 +98,7 @@ void Quiz::SavePlayers()
 	ofFile.open(Bro->L_getQuizPath() + "Players.csv", std::ios::binary);
 	if (ofFile.good())
 	{
-		for (auto P : Players)ofFile << P->Twitch << ";" << P->Ingame << ";"<< P->WonID << ";" << std::endl;
+		for (auto P : Players)ofFile << P->Twitch << ";" << P->Ingame << ";"<< P->Points << ";" << P->WonID << ";" << std::endl;
 		ofFile.close();
 	}
 	else MISEA("Error Saving Players");
@@ -107,7 +107,7 @@ void Quiz::SavePlayers()
 	MISE;
 }
 
-void Quiz::AddUpdatePlayers(std::string _Twitch, std::string _Ingame, std::string _WonID)
+void Quiz::AddUpdatePlayers(std::string _Twitch, std::string _Ingame, unsigned int _Points, std::string _WonID)
 {
 	MISS;
 	for (auto P : Players)if (P->Twitch == _Twitch)
@@ -119,7 +119,7 @@ void Quiz::AddUpdatePlayers(std::string _Twitch, std::string _Ingame, std::strin
 		return;
 	}
 	
-	Players.push_back(new QuizPlayer(_Twitch, _Ingame, _WonID));
+	Players.push_back(new QuizPlayer(_Twitch, _Ingame, _Points, _WonID));
 	SavePlayers();
 	MISEA("New");
 }
@@ -205,6 +205,17 @@ void Quiz::ResetWinner()
 	MISE;
 }
 
+void Quiz::ResetPoints()
+{
+	MISS;
+
+	for (auto P : Players)P->Points = 0;
+	SavePlayers();
+	UpdateHTML();
+
+	MISE;
+}
+
 QuizPlayer* Quiz::GetPlayer(std::string sName)
 {
 	MISS;
@@ -225,7 +236,7 @@ QuizPlayer* Quiz::GetPlayer(std::string sName)
 	}
 	MISD("#1");
 	//New player
-	AddUpdatePlayers(sName, "???", "");
+	AddUpdatePlayers(sName, "???", 0, "");
 	Twitch_Message(sName, "/w " + sName + " welcome to the quiz, dont forget to set your ingame name - use '!name [Your IG Name]'");
 	
 	MISEA("X3");
@@ -266,6 +277,7 @@ void Quiz::UpdateHTML()
 
 	if (ActivQuiz == 0)return;
 	
+	// QUIZ HTML
 	ssTable << "<thead>" << "<tr>" << "<td style = 'width: 100; '>QUIZ WON</td>" << "<td >Twitch</td>" << "<td >Ingame</td>";
 	if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 5) ssTable << "<td >Guess N</td>";
 	if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4) ssTable << "<td >Guess T</td>";
@@ -300,6 +312,41 @@ void Quiz::UpdateHTML()
 		ofFile << line;
 		ifFile.clear();
 	} 
+	else MISEA("Error with HTML");
+
+	ifFile.close();
+	ofFile.close();
+
+	//Player HTML
+	ssTable.str("");
+
+	ssTable << "<thead>" << "<tr>" << "<td style = 'width: 100; '>QUIZ WON</td>" << "<td >Twitch</td>" << "<td >Ingame</td>" << "<td >Points</td>" << "</tr>" << "</thead><tbody>";
+
+	auto localPlayers = Players;
+	std::sort(localPlayers.begin(), localPlayers.end(), [](const QuizPlayer* a, const QuizPlayer* b) {return a->Points > b->Points;});
+
+	for (auto P : localPlayers)
+	{
+		if (P->Points == 0)continue;
+
+		ssTable << "<tr>";
+		if (P->WonID != "")ssTable << "<td style='background-color: #333333;'>" << P->WonID << "</td>";
+		else ssTable << "<td> </td>";
+		ssTable << "<td>" << P->Twitch << "</td>";
+		ssTable << "<td>" << P->Ingame << "</td>";
+		ssTable << "<td>" << P->Points << "</td>";		
+	}
+	ssTable << "</tbody>";
+
+	ifFile.open(Bro->L_getQuizPath() + "TEMPPlayer.HTML", std::ios::binary);
+	ofFile.open(Bro->L_getQuizPath() + "Player.HTML", std::ios::binary);
+	if (ifFile.good() && ofFile.good())while (getline(ifFile, line))
+	{		
+		line = ReplaceString(line, "%TABLE%", ssTable.str());
+
+		ofFile << line;
+		ifFile.clear();
+	}
 	else MISEA("Error with HTML");
 
 	ifFile.close();

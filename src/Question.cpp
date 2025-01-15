@@ -109,8 +109,15 @@ void Question::Winner()
 	sTemp = "copy " + Bro->L_getQuizPath() + "QQ.txt " + Bro->L_getQuizPath() + "QQ" + ID + ".txt";
 	system(sTemp.c_str());
 	
-	Answer* Winner = getWinningAnswer( false);
-	Answer* BestGuess = getWinningAnswer(true);
+	std::vector<Answer*> AllAwsers;
+	Answer* Winner = getWinningAnswer( false, AllAwsers);
+	Answer* BestGuess = getWinningAnswer(true, AllAwsers);
+
+	for (unsigned int i = 0; i < AllAwsers.size() && i < 5; i++)
+	{
+		AllAwsers[i]->Pl->Points += 5 - i;
+	}
+
 	if (Winner != nullptr)
 	{
 		Winner->Pl->WonID = ID;
@@ -133,7 +140,7 @@ void Question::Winner()
 	MISE;
 }
 
-Answer* Question::getWinningAnswer(bool all)
+Answer* Question::getWinningAnswer(bool all, std::vector<Answer*>& outLocalAnswers)
 {
 	MISS;
 
@@ -141,14 +148,24 @@ Answer* Question::getWinningAnswer(bool all)
 	int minDistance = std::numeric_limits<int>::max();
 
 	std::vector <Answer*> LocalAnswers = Answers;
+	
+	//Sortier funktion üf distanz
+	unsigned int XiAnswer = iAnswer;
+	auto compareByDistance = [XiAnswer](const Answer* a, const Answer* b) {
+		int distanceA = std::abs(int(a->iAnswer - XiAnswer));
+		int distanceB = std::abs(int(b->iAnswer - XiAnswer));
+		if (distanceA != distanceB) {
+			return distanceA < distanceB; // Sortiere nach Distanz
+		}
+		return a->tTime < b->tTime; // Bei gleicher Distanz nach tTime sortieren
+		};
 
 	//Remove players who won befor
 	if (all == false) for (std::vector<Answer*>::iterator it = LocalAnswers.begin(); it != LocalAnswers.end();)
 	{
 		if ((*it)->Pl->WonID != "") it = LocalAnswers.erase(it);
 		else  ++it;
-	}
-		
+	}		
 
 	//sort by number
 	switch (AnswerType)
@@ -164,24 +181,10 @@ Answer* Question::getWinningAnswer(bool all)
 
 	case 1: //INT VALUE
 	case 5: //Date Value
-		std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_iAnswer_tTime);
-
-		for (const auto& A : LocalAnswers)
-		{
-			int distance = std::abs(int(A->iAnswer - iAnswer)); // Berechne den Abstand
-
-			// Falls der Abstand kleiner ist oder gleich ist, aber mit höherem order
-			if (distance < minDistance) {
-				minDistance = distance; // Aktualisiere den minimalen Abstand
-				result = A; // Setze das aktuelle Ergebnis
-			}
-			else if (distance == minDistance) {
-				// Wenn die Abstände gleich sind, vergleiche die Order-Werte
-				if (result != nullptr && A->tTime < result->tTime) {
-					result = A; // Setze das Ergebnis, wenn der order kleiner ist
-				}
-			}
-		}
+		//std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_iAnswer_tTime);
+		std::sort(LocalAnswers.begin(), LocalAnswers.end(), compareByDistance);
+		result = !LocalAnswers.empty() ? LocalAnswers.front() : nullptr;
+		
 		break;
 	case 2:
 	case 4:
@@ -196,6 +199,7 @@ Answer* Question::getWinningAnswer(bool all)
 	
 
 	MISE;
+	outLocalAnswers = LocalAnswers;
 	return result;
 }
 
@@ -205,6 +209,7 @@ void Question::Thread_Function()
 	
 	std::time_t tLastCheck = 0;
 	Answer* Winner = nullptr;
+	std::vector<Answer*> tmpAns;
 
 	while (bRunning && (AnswerType != 4 && tStart + Bro->L_getCountDown() > Bro->L_getEEE_Now() || AnswerType == 4 && Winner == nullptr))
 	{
@@ -215,7 +220,7 @@ void Question::Thread_Function()
 			{
 				tLastCheck = last_write_time(p);
 				LoadAnswers();
-				Winner = getWinningAnswer(false);
+				Winner = getWinningAnswer(false, tmpAns);
 			}
 		}
 		Sleep(10);

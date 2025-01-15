@@ -19,8 +19,9 @@ struct QuizPlayer
 {
 	std::string Twitch;
 	std::string Ingame;
-	QuizPlayer(std::string _Twitch, std::string _Ingame, std::string _WonID): Twitch(_Twitch), Ingame(_Ingame), WonID(_WonID){};
+	QuizPlayer(std::string _Twitch, std::string _Ingame, unsigned int _Points, std::string _WonID): Twitch(_Twitch), Ingame(_Ingame), WonID(_WonID), Points(_Points){};
 	std::string WonID;
+	unsigned int Points;
 };
 
 class Quiz : public Thread_MIS
@@ -34,6 +35,7 @@ public:
 	void Winner(unsigned int iQuestion);
 	void Winner() { Winner(ActivQuiz); };
 	void ResetWinner();
+	void ResetPoints();
 	void End(unsigned int iQuestion);
 	void End() { End(ActivQuiz); };
 
@@ -56,7 +58,7 @@ private:
 	void LoadPlayers();
 
 	void SavePlayers();
-	void AddUpdatePlayers(std::string _Twitch, std::string _Ingame, std::string _WonID);
+	void AddUpdatePlayers(std::string _Twitch, std::string _Ingame, unsigned int _Points, std::string _WonID);
 
 	void Load_Question();
 
