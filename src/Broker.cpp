@@ -198,7 +198,7 @@ broker::broker()
 void broker::INIT()
 {	
 	for (int i = 0; i < EEESize; i++)A[i] = new MIS_Rank(i, 0);
-	for (int i = 0; i < SLR_Events; i++)AA[i] = new MIS_Rank(i + 100 , L->EventStatus[i]);
+	for (int i = 0; i < SLR_Events; i++)AA[i] = new MIS_Rank(i + 100 , L->Event_Status[i]);
 
 	std::ifstream ifFile;
 	std::string line;
@@ -317,6 +317,18 @@ void broker::EEEUpdateRankModes()
 {
 	for (unsigned int i = 0; i < EEESize; i++)
 		A[i]->RankMode = L_getEEE_RankMode(i);
+}
+
+void broker::UpdateEventRankModes(unsigned int i)
+{
+	if (i >= 100) i = i - 100;
+	unsigned int Mode = L_getEventStatus(i);
+	unsigned long int now = L_getEEE_Now();
+
+	// Has Ended / Show + dont add
+	if (now > L->Event_End[i])Mode = 1;
+
+	AA[i]->RankMode = Mode;
 }
 #endif
 
@@ -493,19 +505,21 @@ unsigned long int broker::L_StringToUNIXTime(const std::string &date)
 	return static_cast<unsigned long int>(epochTime);
 }
 
-unsigned long int broker::L_getEEE_Start(unsigned int iEEE)
+unsigned long int broker::L_get_Start(unsigned int iEEE)
 {
-	return L->EEE_Start[iEEE];
+	if (iEEE < 100)return L->EEE_Start[iEEE];
+	else return L->Event_Start[iEEE - 100];	
 }
-unsigned long int broker::L_getEEE_End(unsigned int iEEE)
+unsigned long int broker::L_get_End(unsigned int iEEE)
 {
-	return L->EEE_End[iEEE];
+	if (iEEE < 100)return L->EEE_End[iEEE];
+	else return L->Event_End[iEEE - 100];
 }
 
 
 int broker::L_getEventStatus(unsigned int iEvent)
 {
-	return L->EventStatus[iEvent];
+	return L->Event_Status[iEvent];
 }
 #endif
 

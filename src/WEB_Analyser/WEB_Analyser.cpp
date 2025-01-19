@@ -57,7 +57,7 @@ public:
 
 #define SCard_Size_X 92
 #define SCard_Size_Y 127
-#define BOT4_IMG_SIZE 50
+#define BOT4_IMG_SIZE 10
 
 bool comparePlayerID(const unsigned long long a, const unsigned long long b)
 {
@@ -87,6 +87,49 @@ WEB_Analyser::WEB_Analyser(): R(new Replay()), WA_Debug(false), WA_Admin(false)
 	Head = new WEB_Analyser_Head(this);
 	Deck = new WEB_Analyser_Deck(this);
 	Acti = new WEB_Analyser_Acti(this);
+	
+	
+	//Soul
+	EventBuildings102.push_back(std::make_pair(4, 1456));
+	EventBuildings102.push_back(std::make_pair(4, 1457));
+	//Fountain
+	EventBuildings102.push_back(std::make_pair(5, 1455));
+	EventBuildings102.push_back(std::make_pair(5, 1454));
+	//Nihil
+	EventBuildings102.push_back(std::make_pair(6, 1459));
+	EventBuildings102.push_back(std::make_pair(6, 1461));
+	//Flesh
+	EventBuildings102.push_back(std::make_pair(7, 1462));
+	EventBuildings102.push_back(std::make_pair(7, 1463));
+	//Garden
+	EventBuildings102.push_back(std::make_pair(8, 1458));
+	EventBuildings102.push_back(std::make_pair(8, 1460));
+	//Wheels
+	EventBuildings102.push_back(std::make_pair(9,  1451)); //1
+	EventBuildings102.push_back(std::make_pair(10, 1452)); //2
+	EventBuildings102.push_back(std::make_pair(11, 1453)); //3
+	//MO
+	EventBuildings102.push_back(std::make_pair(12, 1450));
+	//Disrupt
+	EventBuildings102.push_back(std::make_pair(13, 1471));
+	EventBuildings102.push_back(std::make_pair(13, 1470));
+	EventBuildings102.push_back(std::make_pair(13, 1472));
+	//Keep
+	EventBuildings102.push_back(std::make_pair(14, 1473));
+	EventBuildings102.push_back(std::make_pair(14, 1475));
+	EventBuildings102.push_back(std::make_pair(14, 1474));
+	EventBuildings102.push_back(std::make_pair(14, 1488));
+	//Infernal
+	EventBuildings102.push_back(std::make_pair(15, 1467));
+	EventBuildings102.push_back(std::make_pair(15, 1468));
+	EventBuildings102.push_back(std::make_pair(15, 1469));
+	EventBuildings102.push_back(std::make_pair(15, 1487));
+	//Mask
+	EventBuildings102.push_back(std::make_pair(16, 1464));
+	EventBuildings102.push_back(std::make_pair(16, 1466));
+	EventBuildings102.push_back(std::make_pair(16, 1465));
+	EventBuildings102.push_back(std::make_pair(16, 1486));
+	
 #endif
 	MISE;
 }
@@ -384,7 +427,7 @@ std::string WEB_Analyser::getMapName()
 	return R->MapName;
 }
 
-void  WEB_Analyser::AddIMG(Wt::WTableCell *wtCell, bool bValue)
+void  WEB_Analyser::AddIMG(Wt::WTableCell* wtCell, bool bValue)
 {
 	wtCell->setHeight(BOT4_IMG_SIZE);
 	wtCell->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage("./resources/" + std::to_string(bValue) + ".png"))));
@@ -393,6 +436,22 @@ void  WEB_Analyser::AddIMG(Wt::WTableCell *wtCell, bool bValue)
 	wtCell->widget(0)->setWidth(BOT4_IMG_SIZE);
 	wtCell->widget(0)->resize(BOT4_IMG_SIZE, BOT4_IMG_SIZE);
 	wtCell->widget(0)->setMaximumSize(BOT4_IMG_SIZE, BOT4_IMG_SIZE);
+
+	wtCell->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
+}
+
+void  WEB_Analyser::AddCardIMG(Wt::WTableCell* wtCell, unsigned short CardID, unsigned int Size)
+{
+	std::string Path = Bro->J_GetImgOnly(CardID);
+
+	wtCell->setHeight(Size);
+	wtCell->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage(Path))));
+	wtCell->widget(0)->setHeight(Size);
+	wtCell->widget(0)->setWidth(Size);
+	wtCell->widget(0)->resize(Size, Size);
+	wtCell->widget(0)->setMaximumSize(Size, Size);
+
+	wtCell->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 }
 
 
@@ -729,6 +788,70 @@ std::string WEB_Analyser::Kalk_Event101()
 
 
 	
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event102(unsigned long iTimes[RankRowStamps])
+{
+	//0 = Time
+	//1 = Points ingame
+	//2 = Check 1
+	//3 = Check 2 
+	//4 - 16 Buildings
+
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "battle_of_tactics_8.map")return "Wrong Map";
+	if (R->DifficultyID != 2)return "Wrong Difficulty";
+	//if (R->FileVersion != 269)return "Wrong Client";
+	//if (R->GameVersion != 400050)return "Wrong GameVersion";
+	if (!isEEEwin())return "Was not a win";
+	//if (R->TestStriker())return "please do not abuse your power";
+
+	bool go =  false;
+
+	iTimes[0] = getPlaytime();
+
+	for (auto A : R->ActionMatrix)
+	{
+		if (A->Type == 4045 && entry(A->AdditionalInfo, 1).substr(0, 9) == "mc_Points")
+			iTimes[1] = atoi(entry(A->AdditionalInfo, 1).substr(9).c_str());
+
+		if (A->Type == 4045 && A->AdditionalInfo == "4;12103_01_01_DestroyEnemyCamp;1;")
+			iTimes[2] = A->Time;
+
+		if (A->Type == 4045 && A->AdditionalInfo == "4;12103_03_02_DefendYourMonuments;0;")
+			iTimes[3] = A->Time;
+
+		//GO Button
+		if (A->Type == 4014 && A->Time < 600 && A->AdditionalInfo == "2020010;1485")go = true;
+
+		if (A->Type == 4014 && A->Time < 600 && go == false && entry(A->AdditionalInfo, 0) == "2020010")
+			for (auto E : EventBuildings102)if (E.second == atoi(entry(A->AdditionalInfo, 1).c_str()))iTimes[E.first]++;		
+	}
+
+	unsigned int CheckSum = 0;
+	CheckSum += iTimes[4] * 15;
+	CheckSum += iTimes[5] * 15;
+	if (iTimes[6] == 1)CheckSum += 25;
+	if (iTimes[6] == 2)CheckSum += 75;
+	if (iTimes[7] == 1)CheckSum += 10;
+	if (iTimes[7] == 2)CheckSum += 30;
+	if (iTimes[8] == 1)CheckSum += 15;
+	if (iTimes[8] == 2)CheckSum += 25;
+	CheckSum += iTimes[9]  * 15;
+	CheckSum += iTimes[10] * 15;
+	CheckSum += iTimes[11] * 25;
+	CheckSum += iTimes[12] * 20;
+	CheckSum += iTimes[13] * 5;
+	CheckSum += iTimes[14] * 10;
+	CheckSum += iTimes[15] * 10;
+	CheckSum += iTimes[16] * 10;
+
+	//if (CheckSum != iTimes[1])return "Point missmatch, Calk:" + std::to_string(CheckSum) + " Ingame: " + std::to_string(iTimes[1]);
+
+
 	MISE;
 	return "";
 }

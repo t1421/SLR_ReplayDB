@@ -11,6 +11,7 @@ struct Player;
 struct ActionSum;
 struct ActionWeb;
 struct Lotto_Player;
+struct EventEntity;
 
 #include <Wt/WTable.h>
 #include <Wt/WStandardItem.h>
@@ -24,7 +25,7 @@ public:
 #if defined BrokerWeb
 	WEB_Analyser_Head *Head;
 	WEB_Analyser_Deck *Deck;
-	WEB_Analyser_Acti *Acti;
+	WEB_Analyser_Acti *Acti;	
 
 #endif
 
@@ -72,12 +73,15 @@ public:
 
 	std::string Kalk_Event100(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event101();
+	std::string Kalk_Event102(unsigned long iTimes[RankRowStamps]);
 	void AddPlayers101();
+	std::vector <std::pair<unsigned long, unsigned long>> EventBuildings102;
 
 	bool isEEEwin();
 	unsigned long long usedPower();
 
-	void AddIMG(Wt::WTableCell *wtCell, bool bValue);
+	void AddIMG(Wt::WTableCell* wtCell, bool bValue);
+	void AddCardIMG(Wt::WTableCell* wtCell, unsigned short CardID, unsigned int Size);
 	
 	std::string GetTeamID();	
 

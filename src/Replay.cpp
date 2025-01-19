@@ -435,8 +435,8 @@ bool Replay::ReadActions()
 				///X###X GGF. Abbility Type analysieren?
 			case 4014: //use unit ability
 				Action_TEMP->ActionPlayer = readUnsignedLong();
-				readUnsignedLong(); // Unit
-				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedLong()); // Abbility ID
+				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedLong()); //  Unit
+				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedLong()) + ";" + Action_TEMP->AdditionalInfo; // Abbility ID
 				this->readUnsignedChar(); // immer 1
 				readUnsignedLong(); // immer 1
 				readUnsignedLong(); // Abbility Type - 2=Buldig Global Efffect / 6=Fier on the Ground / 8=Comet Catcher

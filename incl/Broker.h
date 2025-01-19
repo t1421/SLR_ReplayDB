@@ -21,13 +21,14 @@
 #include <string>
 #include <mutex> 
 #include <vector>
+#include <iomanip>
 
 //#define BOT6LIST 0
 //#define BOTXLIST 1
-#define RankRowStamps 10
+#define RankRowStamps 20
 
 #define EEESize 8
-#define SLR_Events 2
+#define SLR_Events 3
 
 #define WebAnalyser "https://t1421.de/"
 #define WebTome "https://tome.t1421.de/"
@@ -106,8 +107,8 @@ public:
 
 	int L_getEEEStatus();
 	int L_getEEE_RankMode(unsigned int iEEE);
-	unsigned long int L_getEEE_Start(unsigned int iEEE);
-	unsigned long int L_getEEE_End(unsigned int iEEE);
+	unsigned long int L_get_Start(unsigned int iEEE);
+	unsigned long int L_get_End(unsigned int iEEE);
 	unsigned long int L_getEEE_Now();
 	unsigned long int L_StringToUNIXTime(const std::string& date);
 	
@@ -152,6 +153,7 @@ public:
 	std::vector<std::pair<std::string, std::string>> TeamNames;
 	bool broker::ReCalTotalEEE();
 	void EEEUpdateRankModes();
+	void UpdateEventRankModes(unsigned int i);
 #endif
 
 	void B_StatusNew(std::string Fun, std::string Wert);

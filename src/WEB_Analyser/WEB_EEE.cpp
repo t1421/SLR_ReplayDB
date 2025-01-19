@@ -31,8 +31,8 @@ WEB_EEE::WEB_EEE(WEB_Analyser *WA_)
 
 	for (unsigned int i = 1; i < EEESize; i++)
 	{
-		timestampS = Bro->L_getEEE_Start(i);
-		timestampE = Bro->L_getEEE_End(i);
+		timestampS = Bro->L_get_Start(i);
+		timestampE = Bro->L_get_End(i);
 
 
 		slider[i] = new Wt::WSlider();

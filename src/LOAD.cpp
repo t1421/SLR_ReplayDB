@@ -80,7 +80,9 @@ void LOAD::Load_Settings(std::string sName)
 			for (unsigned int i = 0; i < SLR_Events; i++)
 				if (INI_Value_Check(line, "Event" + std::to_string(i)))
 				{
-					EventStatus[i] = atoi(line.c_str());
+					Event_Status[i] = atoi(entry(line.c_str(), 0).c_str());
+					Event_Start[i] = atoi(entry(line.c_str(), 1).c_str());
+					Event_End[i] = atoi(entry(line.c_str(), 2).c_str());
 				}
 
 			ifFile.clear();

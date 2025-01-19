@@ -51,6 +51,7 @@ void Quiz::Init()
 	system(sTemp.c_str());
 
 	sTemp = "copy " + Bro->L_getQuizPath() + "TEMPQuiz.HTML " + Bro->L_getQuizPath() + "Quiz.HTML";
+	sTemp = "copy " + Bro->L_getQuizPath() + "TEMPPlayer.HTML " + Bro->L_getQuizPath() + "Player.HTML";
 	system(sTemp.c_str());
 
 	Load_Question();

@@ -4,16 +4,6 @@
 #include "Thread_MIS.h"
 
 class Question;
-/*
-class Quiz;
-class Demon_Player : public Thread_MIS
-{
-public:
-	Quiz* QQ;
-	Demon_Player(Quiz* _QQ);
-	void Thread_Function();
-};
-*/
 
 struct QuizPlayer
 {

@@ -35,6 +35,7 @@ void WEB_Rank::WRefresh()
 	MISS;
 	
 	Wt::WAnchor *waLink;
+	unsigned int iCol = 0;
 
 	wtTabelle->clear();
 	if (Bro->A_getRankMode(iRankList) == 0)
@@ -97,6 +98,75 @@ void WEB_Rank::WRefresh()
 		wtTabelle->elementAt(0, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> IJ-Deck </h4>"))));
 		wtTabelle->elementAt(0, 7)->widget(0)->setToolTip("Finish Into the Jungle with only nature or amii cards");
 		break;
+	case 102:
+		iCol = 2;
+		wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
+		wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Points </h4>"))));
+		wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Split1 </h4>"))));
+		wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Split2 </h4>"))));
+		wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Split3 </h4>"))));
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1690,50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
+		iCol++;
+		iCol++;
+
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 556, 50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
+		iCol++;
+		iCol++;
+
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 862, 50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
+		iCol++;
+		iCol++;
+
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1232, 50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
+		iCol++;
+		iCol++;
+
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol),815, 50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
+		iCol++;
+		iCol++;
+
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 554, 50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(3);
+		iCol++;
+		iCol++;
+		iCol++;
+
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1578, 50);
+		//wtTabelle->elementAt(0, iCol)->setColumnSpan(3);
+		iCol++;
+
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1440, 50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(3);
+		iCol++;
+		iCol++;
+		iCol++;
+
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1164, 50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(4);
+		iCol++;
+		iCol++;
+		iCol++;
+		iCol++;
+
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1288, 50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(4);
+		iCol++;
+		iCol++;
+		iCol++;
+		iCol++;
+
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1577, 50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(4);
+		iCol++;
+		iCol++;
+		iCol++;
+		iCol++;
+		break;
 	default:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));		
 	}
@@ -108,7 +178,7 @@ void WEB_Rank::WRefresh()
 	{	
 		wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(i + 1)))));
 		//if(iRankList<100 || iRankList==101)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(vListe[i].ID + "#" + std::to_string(vListe[i].ReplayID)))));  //Bro->GetTeamName(vListe[i].ID)
-		if (iRankList<100 || iRankList == 101)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(vListe[i].ID))));  
+		if (iRankList<100 || iRankList == 101)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(vListe[i].ID))));
 		else wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(Bro->GetTeamName(vListe[i].ID) + "#" + std::to_string(vListe[i].ReplayID)))));  
 		//if (iRankList != 0)wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string( vListe[i].Stamps[2])))));
 		switch (iRankList)
@@ -157,15 +227,55 @@ void WEB_Rank::WRefresh()
 			else wtTabelle->elementAt(i + 1, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:Tomato;'>ToDo</span>"))));
 			if (vListe[i].Stamps[5] == 1)wtTabelle->elementAt(i + 1, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:ForestGreen ;'>Done</span>"))));
 			else wtTabelle->elementAt(i + 1, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<span style='color:Tomato;'>ToDo</span>"))));
+			
+			break;
+		case 102:
+			iCol = 2;
+			wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
+			wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[1])))));
 
-			/*
-			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[1])))));
-			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[2])))));
-			wtTabelle->elementAt(i + 1, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[3])))));
-			wtTabelle->elementAt(i + 1, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[4])))));
-			wtTabelle->elementAt(i + 1, 7)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[5])))));
-			*/
+			wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[2])))));
+			wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[3] - vListe[i].Stamps[2])))));
+			wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0] - vListe[i].Stamps[3])))));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[4] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[4] >= 2);
 
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[5] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[5] >= 2);
+
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[6] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[6] >= 2);
+
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[7] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[7] >= 2);
+
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[8] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[8] >= 2);
+
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[9]  >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[10] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[11] >= 1);
+
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[12] >= 1);
+
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[13] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[13] >= 2);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[13] >= 3);
+
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 2);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 3);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 4);
+
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[15] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[15] >= 2);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[15] >= 3);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[15] >= 4);
+
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 2);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 3);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 4);
 			
 			break;
 		default:
@@ -180,6 +290,8 @@ void WEB_Rank::WRefresh()
 			wtTabelle->elementAt(i + 1, 9)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
 		}
 	}	
+	
+
 	if (iRankList == 101)
 	{
 		wtTabelle->removeColumn(0);
@@ -189,6 +301,51 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(5)->setWidth(100);
 		wtTabelle->columnAt(6)->setWidth(100);
 		wtTabelle->columnAt(7)->setWidth(100);
+	}
+
+	if (iRankList == 102)
+	{
+		iCol = 4;
+		wtTabelle->columnAt(iCol++)->setWidth(75);
+		wtTabelle->columnAt(iCol++)->setWidth(75);
+		wtTabelle->columnAt(iCol++)->setWidth(75);
+	
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+
+		wtTabelle->columnAt(iCol++)->setWidth(20);
+		wtTabelle->columnAt(iCol++)->setWidth(20);
+		wtTabelle->columnAt(iCol++)->setWidth(20);
+
+		wtTabelle->columnAt(iCol++)->setWidth(60);
+
+		wtTabelle->columnAt(iCol++)->setWidth(20);
+		wtTabelle->columnAt(iCol++)->setWidth(20);
+		wtTabelle->columnAt(iCol++)->setWidth(20);
+
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+		wtTabelle->columnAt(iCol++)->setWidth(15);
+		
 	}
 	MISE;
 }
