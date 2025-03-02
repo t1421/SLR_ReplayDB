@@ -924,7 +924,7 @@ std::string WEB_Analyser::Kalk_Event104(unsigned long iTimes[RankRowStamps])
 
 	bool isWin = false;
 	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;bren_escort;1;")isWin = true;
-	//if (!isWin)return "Was not a win";
+	if (!isWin)return "Was not a win";
 
 	iTimes[0] = Bro->L_getEEE_Now();
 	
