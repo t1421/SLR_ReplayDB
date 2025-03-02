@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\incl\Broker.h" 
 #include "..\incl\Utility.h"
@@ -208,6 +208,7 @@ void MIS_Rank::SortList()
 	switch (RankList)
 	{
 	case 0:
+	case 104:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0Rev);
 		break;
 	case 2:

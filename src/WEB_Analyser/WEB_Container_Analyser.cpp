@@ -25,11 +25,10 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	: WApplication(env)
 {
 	MISS;
-	if (!env.getParameterValues("PARAM").empty())
-	{
-		const std::string *PARA = (env.getParameter("PARAM"));
-		sPARA.assign(PARA->c_str());
-	}
+
+	std::string sEvent = sGetParam(env, "EVENT");
+	std::string sPARA = sGetParam(env, "PARAM");
+
 	if (sPARA == "DEBUG")
 	{
 		MISERROR("DEBUG ON");
@@ -59,7 +58,9 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	MISD("#3");	
 
 	//EEE = new WEB_EEE(this);
-	Event = new WEB_Event(this, 102); //EVENT NR
+	Event102 = new WEB_Event(this, 102); //EVENT NR
+	Event103 = new WEB_Event(this, 103); //EVENT NR
+	Event104 = new WEB_Event(this, 104); //EVENT NR
 	wfuDropZone = new Wt::WFileUpload();
 	wtStatus = new Wt::WText("Waiting for Replay");
 	
@@ -90,8 +91,13 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 
 	MISD("#6");	
 
-	if (Bro->L_getEventStatus(2) < 10 || sPARA == "EVENT") //EVENT NR
-		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT 8", *Event->cMain, Event);
+	if (Bro->L_getEventStatus(2) < 10 || sEvent == "BOT8")
+		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT 8", *Event102->cMain, Event102);
+	if (Bro->L_getEventStatus(3) < 10 || sEvent == "EVENT3")
+		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "EVENT", *Event103->cMain, Event103);
+	if (Bro->L_getEventStatus(4) < 10 || sEvent == "EVENT4")
+		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "EVENT", *Event104->cMain, Event104);
+	
 
 	//if (Bro->L_getEEEStatus() != 10 || sPARA == "SSS")
 	//	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "SSS", *EEE->cMain, EEE);
@@ -103,6 +109,8 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
 	if (Bro->L_getEEEStatus() != 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	if (Bro->L_getEventStatus(2) < 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	if (Bro->L_getEventStatus(3) < 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	if (Bro->L_getEventStatus(4) < 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();
 
 	MISD("#7");

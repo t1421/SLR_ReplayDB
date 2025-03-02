@@ -90,45 +90,50 @@ WEB_Analyser::WEB_Analyser(): R(new Replay()), WA_Debug(false), WA_Admin(false)
 	
 	
 	//Soul
-	EventBuildings102.push_back(std::make_pair(4, 1456));
 	EventBuildings102.push_back(std::make_pair(4, 1457));
+	EventBuildings102.push_back(std::make_pair(4, 1458));
 	//Fountain
+	EventBuildings102.push_back(std::make_pair(5, 1456));
 	EventBuildings102.push_back(std::make_pair(5, 1455));
-	EventBuildings102.push_back(std::make_pair(5, 1454));
 	//Nihil
-	EventBuildings102.push_back(std::make_pair(6, 1459));
-	EventBuildings102.push_back(std::make_pair(6, 1461));
+	EventBuildings102.push_back(std::make_pair(6, 1460));
+	EventBuildings102.push_back(std::make_pair(6, 1462));
 	//Flesh
-	EventBuildings102.push_back(std::make_pair(7, 1462));
 	EventBuildings102.push_back(std::make_pair(7, 1463));
+	EventBuildings102.push_back(std::make_pair(7, 1464));
 	//Garden
-	EventBuildings102.push_back(std::make_pair(8, 1458));
-	EventBuildings102.push_back(std::make_pair(8, 1460));
+	EventBuildings102.push_back(std::make_pair(8, 1459));
+	EventBuildings102.push_back(std::make_pair(8, 1461));
 	//Wheels
-	EventBuildings102.push_back(std::make_pair(9,  1451)); //1
-	EventBuildings102.push_back(std::make_pair(10, 1452)); //2
-	EventBuildings102.push_back(std::make_pair(11, 1453)); //3
+	EventBuildings102.push_back(std::make_pair(9, 1452)); //1
+	EventBuildings102.push_back(std::make_pair(10, 1453)); //2
+	EventBuildings102.push_back(std::make_pair(11, 1454)); //3
 	//MO
-	EventBuildings102.push_back(std::make_pair(12, 1450));
+	EventBuildings102.push_back(std::make_pair(12, 1451)); //Green
+	EventBuildings102.push_back(std::make_pair(13, 1496)); //Yellow
 	//Disrupt
-	EventBuildings102.push_back(std::make_pair(13, 1471));
-	EventBuildings102.push_back(std::make_pair(13, 1470));
-	EventBuildings102.push_back(std::make_pair(13, 1472));
-	//Keep
+	EventBuildings102.push_back(std::make_pair(14, 1472));
+	EventBuildings102.push_back(std::make_pair(14, 1471));
 	EventBuildings102.push_back(std::make_pair(14, 1473));
-	EventBuildings102.push_back(std::make_pair(14, 1475));
-	EventBuildings102.push_back(std::make_pair(14, 1474));
-	EventBuildings102.push_back(std::make_pair(14, 1488));
+	//Keep
+	EventBuildings102.push_back(std::make_pair(15, 1474));
+	EventBuildings102.push_back(std::make_pair(15, 1476));
+	EventBuildings102.push_back(std::make_pair(15, 1475));
+	EventBuildings102.push_back(std::make_pair(15, 1489));
 	//Infernal
-	EventBuildings102.push_back(std::make_pair(15, 1467));
-	EventBuildings102.push_back(std::make_pair(15, 1468));
-	EventBuildings102.push_back(std::make_pair(15, 1469));
-	EventBuildings102.push_back(std::make_pair(15, 1487));
+	EventBuildings102.push_back(std::make_pair(16, 1468));
+	EventBuildings102.push_back(std::make_pair(16, 1469));
+	EventBuildings102.push_back(std::make_pair(16, 1470));
+	EventBuildings102.push_back(std::make_pair(16, 1488));
 	//Mask
-	EventBuildings102.push_back(std::make_pair(16, 1464));
-	EventBuildings102.push_back(std::make_pair(16, 1466));
-	EventBuildings102.push_back(std::make_pair(16, 1465));
-	EventBuildings102.push_back(std::make_pair(16, 1486));
+	EventBuildings102.push_back(std::make_pair(17, 1465));
+	EventBuildings102.push_back(std::make_pair(17, 1467));
+	EventBuildings102.push_back(std::make_pair(17, 1466));
+	EventBuildings102.push_back(std::make_pair(17, 1487));
+
+	//Starting cards
+	StartingCards = { 253,254,287,288,289,302,303,345,346,354,356,361,362,366,379,444,529,651,673,700,705,707,708,728,774,782,819,820,829,836,933,962,1004,1184,1197,1209,1223,1241,1283,1287,1292,1295,1307,1326,1394,1495,1549,1581,1599,1608,1664 };
+	
 	
 #endif
 	MISE;
@@ -804,8 +809,8 @@ std::string WEB_Analyser::Kalk_Event102(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "battle_of_tactics_8.map")return "Wrong Map";
 	if (R->DifficultyID != 2)return "Wrong Difficulty";
-	//if (R->FileVersion != 269)return "Wrong Client";
-	//if (R->GameVersion != 400050)return "Wrong GameVersion";
+	if (R->FileVersion != 269)return "Wrong Client";
+	if (R->GameVersion != 400050)return "Wrong GameVersion";
 	if (!isEEEwin())return "Was not a win";
 	//if (R->TestStriker())return "please do not abuse your power";
 
@@ -818,40 +823,111 @@ std::string WEB_Analyser::Kalk_Event102(unsigned long iTimes[RankRowStamps])
 		if (A->Type == 4045 && entry(A->AdditionalInfo, 1).substr(0, 9) == "mc_Points")
 			iTimes[1] = atoi(entry(A->AdditionalInfo, 1).substr(9).c_str());
 
-		if (A->Type == 4045 && A->AdditionalInfo == "4;12103_01_01_DestroyEnemyCamp;1;")
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_CHECK1;1;")
 			iTimes[2] = A->Time;
 
-		if (A->Type == 4045 && A->AdditionalInfo == "4;12103_03_02_DefendYourMonuments;0;")
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_CHECK2;1;")
 			iTimes[3] = A->Time;
 
 		//GO Button
-		if (A->Type == 4014 && A->Time < 600 && A->AdditionalInfo == "2020010;1485")go = true;
+		if (A->Type == 4014 && A->Time < 600 && A->AdditionalInfo == "2020010;1486")go = true;
 
 		if (A->Type == 4014 && A->Time < 600 && go == false && entry(A->AdditionalInfo, 0) == "2020010")
 			for (auto E : EventBuildings102)if (E.second == atoi(entry(A->AdditionalInfo, 1).c_str()))iTimes[E.first]++;		
 	}
 
 	unsigned int CheckSum = 0;
-	CheckSum += iTimes[4] * 15;
-	CheckSum += iTimes[5] * 15;
-	if (iTimes[6] == 1)CheckSum += 25;
-	if (iTimes[6] == 2)CheckSum += 75;
-	if (iTimes[7] == 1)CheckSum += 10;
-	if (iTimes[7] == 2)CheckSum += 30;
-	if (iTimes[8] == 1)CheckSum += 15;
-	if (iTimes[8] == 2)CheckSum += 25;
-	CheckSum += iTimes[9]  * 15;
-	CheckSum += iTimes[10] * 15;
-	CheckSum += iTimes[11] * 25;
-	CheckSum += iTimes[12] * 20;
-	CheckSum += iTimes[13] * 5;
-	CheckSum += iTimes[14] * 10;
-	CheckSum += iTimes[15] * 10;
-	CheckSum += iTimes[16] * 10;
+	//Soul
+	if (iTimes[4] == 1)CheckSum += 25;
+	if (iTimes[4] == 1)CheckSum += 60;
+	//Fountain
+	if (iTimes[5] == 1)CheckSum += 25;
+	if (iTimes[5] == 1)CheckSum += 60;
+	//Nihil
+	if (iTimes[6] == 1)CheckSum += 50;
+	if (iTimes[6] == 2)CheckSum += 150;
+	//Flesh
+	if (iTimes[7] == 1)CheckSum += 30;
+	if (iTimes[7] == 2)CheckSum += 70;
+	//Garden
+	if (iTimes[8] == 1)CheckSum += 30;
+	if (iTimes[8] == 2)CheckSum += 50;
+	//WHeels
+	CheckSum += iTimes[9]  * 45;
+	CheckSum += iTimes[10] * 45;
+	CheckSum += iTimes[11] * 65;
+	//MO
+	CheckSum += iTimes[12] * 45;
+	CheckSum += iTimes[13] * 65;
+	//Discupter
+	CheckSum += iTimes[14] * 15;
+	//Keep
+	CheckSum += iTimes[15] * 25;
+	//Infernal
+	CheckSum += iTimes[16] * 25;
+	//Mask
+	CheckSum += iTimes[17] * 25;
 
-	//if (CheckSum != iTimes[1])return "Point missmatch, Calk:" + std::to_string(CheckSum) + " Ingame: " + std::to_string(iTimes[1]);
+	if (CheckSum != iTimes[1])return "Point missmatch, Calk:" + std::to_string(CheckSum) + " Ingame: " + std::to_string(iTimes[1]);
 
 
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event103(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "11105_PvE_01p_EncountersWithTwilight.map")return "Wrong Map";
+	if (R->DifficultyID != 3)return "Wrong Difficulty";
+	if (R->FileVersion != 269)return "Wrong Client";
+	if (R->GameVersion != 400050)return "Wrong GameVersion";	
+	if (R->TestStriker())return "please do not abuse your power";
+
+	bool isWin = false;
+	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;11105_02_03EndBoss;1;")isWin = true;
+	if(!isWin)return "Was not a win";
+
+	unsigned int iCardCount = 0;
+	unsigned int iDeckLevel = 0;
+	for each(Player* P in Players)
+		if(P->PlayerID  == R->PMVPlayerID && P->Type == 1)
+			for each(Card * C in P->Deck)
+			{
+				MISD(Bro->J_GetSMJCard(C->CardID)->cardName + "#" + std::to_string(C->count) + "#" + std::to_string(C->Upgrade))
+				iCardCount += C->count;
+				iDeckLevel += C->Upgrade;
+				isWin = false;
+				for (unsigned int i = 0; i < StartingCards.size() && isWin == false ;i++)isWin = StartingCards[i] == C->CardID;
+				if (isWin == false)return "Not allowed card: " + Bro->J_GetSMJCard(C->CardID)->cardName;				
+			}
+
+
+	iTimes[0] = getPlaytime();
+	iTimes[1] = iCardCount;
+	iTimes[2] = iDeckLevel;
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event104(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "thirsty_journey_home.map")return "Wrong Map";
+	//if (R->DifficultyID != 3)return "Wrong Difficulty";
+	if (R->FileVersion != 270)return "Wrong Client";
+	if (R->GameVersion != 400051)return "Wrong GameVersion";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	bool isWin = false;
+	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;bren_escort;1;")isWin = true;
+	//if (!isWin)return "Was not a win";
+
+	iTimes[0] = Bro->L_getEEE_Now();
+	
 	MISE;
 	return "";
 }

@@ -74,8 +74,11 @@ public:
 	std::string Kalk_Event100(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event101();
 	std::string Kalk_Event102(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event103(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event104(unsigned long iTimes[RankRowStamps]);
 	void AddPlayers101();
 	std::vector <std::pair<unsigned long, unsigned long>> EventBuildings102;
+	std::vector <unsigned long> StartingCards;
 
 	bool isEEEwin();
 	unsigned long long usedPower();

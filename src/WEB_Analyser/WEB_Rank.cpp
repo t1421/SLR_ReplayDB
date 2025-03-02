@@ -84,6 +84,7 @@ void WEB_Rank::WRefresh()
 	case 100:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
 		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Power </h4>"))));
+		break;
 	case 101:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4 style='color:RoyalBlue;'> UV-Adv </h4>"))));
 		wtTabelle->elementAt(0, 2)->widget(0)->setToolTip("Finish Unexpected Visitors on advanced difficulty or higher");
@@ -130,14 +131,15 @@ void WEB_Rank::WRefresh()
 		iCol++;
 		iCol++;
 
+		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1578, 50);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
+		iCol++;
+		iCol++;
+
 		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 554, 50);
 		wtTabelle->elementAt(0, iCol)->setColumnSpan(3);
 		iCol++;
 		iCol++;
-		iCol++;
-
-		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1578, 50);
-		//wtTabelle->elementAt(0, iCol)->setColumnSpan(3);
 		iCol++;
 
 		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1440, 50);
@@ -167,6 +169,14 @@ void WEB_Rank::WRefresh()
 		iCol++;
 		iCol++;
 		break;
+
+	case 103:
+		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
+		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Cards </h4>"))));
+		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Level </h4>"))));
+		break;
+	case 104:
+		break;
 	default:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));		
 	}
@@ -178,7 +188,7 @@ void WEB_Rank::WRefresh()
 	{	
 		wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(i + 1)))));
 		//if(iRankList<100 || iRankList==101)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(vListe[i].ID + "#" + std::to_string(vListe[i].ReplayID)))));  //Bro->GetTeamName(vListe[i].ID)
-		if (iRankList<100 || iRankList == 101)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(vListe[i].ID))));
+		if (iRankList<100 || iRankList == 101 || iRankList == 104)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(vListe[i].ID))));
 		else wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(Bro->GetTeamName(vListe[i].ID) + "#" + std::to_string(vListe[i].ReplayID)))));  
 		//if (iRankList != 0)wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string( vListe[i].Stamps[2])))));
 		switch (iRankList)
@@ -252,20 +262,16 @@ void WEB_Rank::WRefresh()
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[8] >= 1);
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[8] >= 2);
 
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[12] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[13] >= 1);
+
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[9]  >= 1);
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[10] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[11] >= 1);
-
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[12] >= 1);
-
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[13] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[13] >= 2);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[13] >= 3);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[11] >= 1);			
 
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 1);
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 2);
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 3);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 4);
 
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[15] >= 1);
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[15] >= 2);
@@ -276,7 +282,21 @@ void WEB_Rank::WRefresh()
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 2);
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 3);
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 4);
+
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[17] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[17] >= 2);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[17] >= 3);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[17] >= 4);
 			
+			break;
+
+		case 103:
+			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
+			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[1])))));
+			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[2])))));
+			break;
+
+		case 104:
 			break;
 		default:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
@@ -321,11 +341,12 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(iCol++)->setWidth(30);
 		wtTabelle->columnAt(iCol++)->setWidth(30);
 
-		wtTabelle->columnAt(iCol++)->setWidth(20);
-		wtTabelle->columnAt(iCol++)->setWidth(20);
-		wtTabelle->columnAt(iCol++)->setWidth(20);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
+		wtTabelle->columnAt(iCol++)->setWidth(30);
 
-		wtTabelle->columnAt(iCol++)->setWidth(60);
+		wtTabelle->columnAt(iCol++)->setWidth(20);
+		wtTabelle->columnAt(iCol++)->setWidth(20);
+		wtTabelle->columnAt(iCol++)->setWidth(20);
 
 		wtTabelle->columnAt(iCol++)->setWidth(20);
 		wtTabelle->columnAt(iCol++)->setWidth(20);
@@ -347,5 +368,6 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(iCol++)->setWidth(15);
 		
 	}
+	if (iRankList == 104)wtTabelle->removeColumn(0);
 	MISE;
 }

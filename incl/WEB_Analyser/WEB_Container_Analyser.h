@@ -34,14 +34,13 @@ private:
 
 	void WRefresh();
 
-	//WEB_EEE *EEE;
-	WEB_Event *Event;
+	WEB_Event *Event102;
+	WEB_Event* Event103;
+	WEB_Event* Event104;
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
 	Wt::WContainerWidget *GlobaelContainer;
 	Wt::WAnchor *waLink;
-
-	std::string sPARA;
 };
 
 #endif // WEB_CONTAINER_H

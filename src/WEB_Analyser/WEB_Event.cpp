@@ -37,7 +37,7 @@ WEB_Event::WEB_Event(WEB_Analyser *WR_, unsigned int _iEventNr) : WR(WR_), iEven
 	slider->resize(390, 5);
 	slider->disable();
 	slider->setRange(timestampS, timestampE);
-	sliderText = new Wt::WText("BOT 8 Timeframe: " + TimeToText(timestampS) + " - " + TimeToText(timestampE));
+	sliderText = new Wt::WText("Timeframe: " + TimeToText(timestampS) + " - " + TimeToText(timestampE));
 
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sliderText)));
@@ -62,6 +62,8 @@ WEB_Event::WEB_Event(WEB_Analyser *WR_, unsigned int _iEventNr) : WR(WR_), iEven
 	MISD("#3");
 	Rank->WRefresh();
 
+	slider->setValue(Bro->L_getEEE_Now());	
+
 	MISE;
 }
 
@@ -81,6 +83,8 @@ void WEB_Event::WRefresh()
 		case 100: sReturn = WR->Kalk_Event100(iTimes); break;
 		case 101: sReturn = WR->Kalk_Event101(); break;
 		case 102: sReturn = WR->Kalk_Event102(iTimes); break;
+		case 103: sReturn = WR->Kalk_Event103(iTimes); break;
+		case 104: sReturn = WR->Kalk_Event104(iTimes); break;
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
@@ -112,6 +116,22 @@ void WEB_Event::WRefresh()
 			wtTime->setText("Time: " + sTime(iTimes[0]));
 			wtPower->setText("Points: " + std::to_string(iTimes[1]));
 			break;
+
+		case 103:
+			sTeamID = WR->GetTeamID();
+			if (Bro->AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes) == 1)
+				WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + WR->GetPlayerName(WR->getPMVPlayerID()) + ".pmv");
+
+			wtStatus->setText("<h3>Hello there " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
+			wtTime->setText("Time: " + sTime(iTimes[0]));
+			break;
+		case 104:
+			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
+			if (Bro->AddPlayer(iEventNr, sTeamID, 0, iTimes) == 1)
+				WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+
+			wtStatus->setText("<h3>Hello there " + sTeamID + ", nice run : -) </h3> ");
+			break;
 		}
 
 	}
@@ -119,4 +139,5 @@ void WEB_Event::WRefresh()
 	Rank->WRefresh();
 	MISE;
 }
+
 
