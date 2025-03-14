@@ -18,6 +18,7 @@
 
 #include "..\..\incl\WEB_Tome\WEB_Tome_PublicBoosters.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_PublicPlayers.h"
+#include "..\..\incl\WEB_Tome\WEB_Tome_PublicCards.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_PublicPlayersBooster.h"
 
 #include <Wt/WBootstrapTheme.h> 
@@ -36,6 +37,13 @@
 broker *(WEB_Container_Tome::Bro) = NULL;
 
 bool compareBoosters(const Tome_Booster * a, const Tome_Booster * b) { return a->iLfdnr > b->iLfdnr; }
+bool compareCardColour(const SMJCard* a, const SMJCard* b) { 
+	if (a->color == b->color) return a->cardId < b->cardId;
+	else return a->color < b->color; }
+bool compareCardRarity(const SMJCard* a, const SMJCard* b) { 
+	if (a->rarity == b->rarity) return a->cardId < b->cardId;
+	else return a->rarity > b->rarity; }
+bool compareCardID(const SMJCard* a, const SMJCard* b) { return a->cardId < b->cardId; }
 
 WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	: WApplication(env), BroGameID(-1)
@@ -196,9 +204,14 @@ void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 			&& Bro->vTomeGames[BroGameID]->bShowBoosters)
 			Public->PB->WRefresh();
 		if (Public->WEB_Toolbar::sToolbar->currentIndex() == 2
+			&& Bro->vTomeGames[BroGameID]->bShowCards)
+			Public->PC->WRefresh();
+		if (WEB_Toolbar::sToolbar->currentIndex() == 1)
+			Public->WRefresh();
+		if (Public->WEB_Toolbar::sToolbar->currentIndex() == 2
 			&& Bro->vTomeGames[BroGameID]->bShowBoostersOfPlayer)
 			Public->PPB->WRefresh();
-	}
+		}
 	if (event.Value2_ == "player")
 	{
 		if (WEB_Toolbar::sToolbar->currentIndex() == 1
@@ -210,11 +223,18 @@ void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 			Public->PB->WRefresh();
 		if (WEB_Toolbar::sToolbar->currentIndex() == 1
 			&& Public->WEB_Toolbar::sToolbar->currentIndex() == 2
+			&& Bro->vTomeGames[BroGameID]->bShowCards)
+			Public->PC->WRefresh();
+		if (WEB_Toolbar::sToolbar->currentIndex() == 1
+			&& Public->WEB_Toolbar::sToolbar->currentIndex() == 3
 			&& Bro->vTomeGames[BroGameID]->bShowBoostersOfPlayer)
 			Public->PPB->WRefresh();
+		if (WEB_Toolbar::sToolbar->currentIndex() == 1)
+			Public->WRefresh();
 		if (WEB_Toolbar::sToolbar->currentIndex() == 2)
 			//&& getPlayerID() == event.Value3_
 			Player->WRefresh();
+
 	}
 	if (event.Value2_ == "global")
 		switch (WEB_Toolbar::sToolbar->currentIndex())
@@ -225,7 +245,8 @@ void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 			{
 			case 0: Public->PP->WRefresh();	 break;
 			case 1: Public->PB->WRefresh();	 break;
-			case 2: Public->PPB->WRefresh(); break;
+			case 2: Public->PC->WRefresh();	 break;
+			case 3: Public->PPB->WRefresh(); break;
 			}
 			break;
 		case 2:
@@ -242,7 +263,7 @@ void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 	MISE;
 }
 
-void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Booster*> vAllBoosters)
+void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Booster*> vAllBoosters, bool bFilter)
 {
 	MISS;
 
@@ -256,7 +277,12 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 			))));
 
 		for (unsigned int k = 0; k < vAllBoosters[j]->vCards.size() && vAllBoosters[j]->vCards[k]->cardId != 0; k++)
-		{
+		{		
+			if( vAllBoosters[j]->vCards[k]->rarity == 0 && Bro->vTomeGames[BroGameID]->bShowCardsC ||
+				vAllBoosters[j]->vCards[k]->rarity == 1 && Bro->vTomeGames[BroGameID]->bShowCardsUC ||
+				vAllBoosters[j]->vCards[k]->rarity == 2 && Bro->vTomeGames[BroGameID]->bShowCardsR ||
+				vAllBoosters[j]->vCards[k]->rarity == 3 && Bro->vTomeGames[BroGameID]->bShowCardsUR ||
+				bFilter == false)
 			wtTabelle->elementAt(j, k + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
 				DrawImg(Bro->J_GetImage(
 					vAllBoosters[j]->vCards[k]->cardId,
@@ -268,6 +294,61 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 				))));
 		}
 	}
+
+	for (unsigned int i = 0; i < wtTabelle->columnCount(); i++) wtTabelle->columnAt(i)->setWidth(75);
+	MISE;
+}
+
+void WEB_Container_Tome::DrawCard(Wt::WTable* wtTabelle, std::vector <SMJCard*> vAllCards)
+{
+	MISS;
+
+	unsigned int iRow = 0;
+	unsigned int iCol = 0;
+
+	
+	switch (Bro->vTomeGames[BroGameID]->iCardOrder)
+	{
+	case 2:
+		std::sort(vAllCards.begin(), vAllCards.end(), compareCardID);
+		break;
+	case 1:
+		std::sort(vAllCards.begin(), vAllCards.end(), compareCardRarity);
+		break;
+	case 0:
+		std::sort(vAllCards.begin(), vAllCards.end(), compareCardColour);
+		break;
+	default:
+		std::sort(vAllCards.begin(), vAllCards.end(), compareCardColour);
+		break;
+	}
+
+	for(auto C : vAllCards)
+	{
+
+		if (C->rarity == 0 && Bro->vTomeGames[BroGameID]->bShowCardsC ||
+			C->rarity == 1 && Bro->vTomeGames[BroGameID]->bShowCardsUC ||
+			C->rarity == 2 && Bro->vTomeGames[BroGameID]->bShowCardsR ||
+			C->rarity == 3 && Bro->vTomeGames[BroGameID]->bShowCardsUR)
+		{			
+			wtTabelle->elementAt(iCol, iRow)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
+				DrawImg(Bro->J_GetImage(
+					C->cardId,
+					3,
+					3,
+					1,
+					false),
+					Card_Size_X, Card_Size_Y
+				))));
+			if (++iRow == 8)
+			{
+				iRow = 0;
+				iCol++;
+			}
+			
+
+		}
+	}	
 
 	for (unsigned int i = 0; i < wtTabelle->columnCount(); i++) wtTabelle->columnAt(i)->setWidth(75);
 	MISE;

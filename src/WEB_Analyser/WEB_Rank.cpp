@@ -116,10 +116,10 @@ void WEB_Rank::WRefresh()
 		iCol++;
 		iCol++;
 
-		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 862, 50);
-		wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
-		iCol++;
-		iCol++;
+		//WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 862, 50);
+		//wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
+		//iCol++;
+		//iCol++;
 
 		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1232, 50);
 		wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
@@ -127,9 +127,9 @@ void WEB_Rank::WRefresh()
 		iCol++;
 
 		WR->AddCardIMG(wtTabelle->elementAt(0, iCol),815, 50);
-		wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
+		wtTabelle->elementAt(0, iCol)->setColumnSpan(1);
 		iCol++;
-		iCol++;
+		//iCol++;
 
 		WR->AddCardIMG(wtTabelle->elementAt(0, iCol), 1578, 50);
 		wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
@@ -253,14 +253,14 @@ void WEB_Rank::WRefresh()
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[5] >= 1);
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[5] >= 2);
 
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[6] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[6] >= 2);
+			//WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[6] >= 1);
+			//WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[6] >= 2);
 
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[7] >= 1);
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[7] >= 2);
 
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[8] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[8] >= 2);
+			//WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[8] >= 2);
 
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[12] >= 1);
 			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[13] >= 1);
@@ -336,13 +336,13 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(iCol++)->setWidth(30);
 		wtTabelle->columnAt(iCol++)->setWidth(30);
 		wtTabelle->columnAt(iCol++)->setWidth(30);
-		wtTabelle->columnAt(iCol++)->setWidth(30);
-		wtTabelle->columnAt(iCol++)->setWidth(30);
+		//wtTabelle->columnAt(iCol++)->setWidth(30);
+		//wtTabelle->columnAt(iCol++)->setWidth(30);
 		wtTabelle->columnAt(iCol++)->setWidth(30);
 		wtTabelle->columnAt(iCol++)->setWidth(30);
 
 		wtTabelle->columnAt(iCol++)->setWidth(30);
-		wtTabelle->columnAt(iCol++)->setWidth(30);
+		//wtTabelle->columnAt(iCol++)->setWidth(30);
 
 		wtTabelle->columnAt(iCol++)->setWidth(20);
 		wtTabelle->columnAt(iCol++)->setWidth(20);

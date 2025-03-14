@@ -20,6 +20,7 @@
 #include <Wt/WLength.h>
 #include <Wt/WLink.h>
 #include <Wt/WAnchor.h>
+#include <Wt/WRadioButton.h>
 
 
 broker *(WEB_Tome_Admin::Bro) = NULL;
@@ -75,6 +76,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 
 	wcShowPlayers = new Wt::WCheckBox("Show Players");
 	wcShowBoosters = new Wt::WCheckBox("Show Boosters");
+	wcShowCards = new Wt::WCheckBox("Show Cards");
 	wcShowBoostersOfPlayer = new Wt::WCheckBox("Show Boosters per Player");
 	wcAllowOpening = new Wt::WCheckBox("Allow Opening Booster");
 	wcNoDouble = new Wt::WCheckBox("No Duplicate Cards");
@@ -84,6 +86,13 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 
 	wbSave = new Wt::WPushButton("Save");
 	wbAddPlayer = new Wt::WPushButton("Add Player");
+
+	wcShowCardsUR = new Wt::WCheckBox("UR");
+	wcShowCardsR = new Wt::WCheckBox("R");
+	wcShowCardsUC = new Wt::WCheckBox("UC");
+	wcShowCardsC = new Wt::WCheckBox("C");
+
+	gbCardOrder = std::make_shared<Wt::WButtonGroup>();
 	
 	MISD("#11");
 	wfuDropZone = new Wt::WFileUpload();
@@ -108,6 +117,17 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoosters)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowCards)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowCardsUR)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowCardsR)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowCardsUC)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowCardsC)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	gbCardOrder->addButton(cMain->addWidget(Wt::cpp14::make_unique<Wt::WRadioButton>("Colour")), 0);
+	gbCardOrder->addButton(cMain->addWidget(Wt::cpp14::make_unique<Wt::WRadioButton>("Rarity")), 1);
+	gbCardOrder->addButton(cMain->addWidget(Wt::cpp14::make_unique<Wt::WRadioButton>("ID")), 2);
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoostersOfPlayer)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoDouble)));	
@@ -122,7 +142,6 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReplayResultCard)));
 	
-
 	MISD("#3");
 	wcShowPlayers->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->bShowPlayers = wcShowPlayers->isChecked();
@@ -135,7 +154,13 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 		WRefresh();
-	}));
+		}));
+	wcShowCards->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bShowCards = wcShowCards->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
 	wcShowBoostersOfPlayer->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer = wcShowBoostersOfPlayer->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
@@ -154,6 +179,39 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 	}));
+
+	wcShowCardsUR->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bShowCardsUR = wcShowCardsUR->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}));
+	wcShowCardsR->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bShowCardsR = wcShowCardsR->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}));
+	wcShowCardsUC->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bShowCardsUC = wcShowCardsUC->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}));
+	wcShowCardsC->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bShowCardsC = wcShowCardsC->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}));
+
+	
+	gbCardOrder->checkedChanged().connect(std::bind([=](Wt::WRadioButton* selection) {
+		Bro->vTomeGames[Con->BroGameID]->iCardOrder = gbCardOrder->selectedButtonIndex();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}, std::placeholders::_1));
 
 	wbSave->clicked().connect(std::bind([=]() {
 		
@@ -296,9 +354,17 @@ void WEB_Tome_Admin::WRefresh()
 
 	wcShowPlayers->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowPlayers);
 	wcShowBoosters->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoosters);
+	wcShowCards->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowCards);
 	wcShowBoostersOfPlayer->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer);
 	wcAllowOpening->setChecked(Bro->vTomeGames[Con->BroGameID]->bAllowOpening);
 	wcNoDouble->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoDouble);
+
+	wcShowCardsUR->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowCardsUR);
+	wcShowCardsR->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowCardsR);
+	wcShowCardsUC->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowCardsUC);
+	wcShowCardsC->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowCardsC);
+	
+	gbCardOrder->setCheckedButton(gbCardOrder->button(Bro->vTomeGames[Con->BroGameID]->iCardOrder));
 
 	FixTable();
 

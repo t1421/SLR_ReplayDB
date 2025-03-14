@@ -68,6 +68,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 	unsigned int iCountSemi;
 	
 	Init();
+	iVersion = 0;
 
 	if (ifFile.good())
 	{
@@ -79,6 +80,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			line.erase(line.size() - 1);
 
 			//MISD(line);
+			if (INI_Value_Check(line, "V"))iVersion = atoi(entry(line, 0).c_str());
 
 			//Game Settings
 			if (INI_Value_Check(line, "G"))
@@ -89,7 +91,17 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 				bShowBoosters = atoi(entry(line, 3).c_str());
 				bShowBoostersOfPlayer = atoi(entry(line, 4).c_str());
 				bAllowOpening = atoi(entry(line, 5).c_str());
-				bNoDouble = atoi(entry(line, 6).c_str());				
+				bNoDouble = atoi(entry(line, 6).c_str());	
+				if (iVersion > 0)
+				{
+					bShowCards = atoi(entry(line, 7).c_str());
+					bShowCardsUR = atoi(entry(line, 8).c_str());
+					bShowCardsR = atoi(entry(line, 9).c_str());
+					bShowCardsUC = atoi(entry(line, 10).c_str());
+					bShowCardsC = atoi(entry(line, 11).c_str());
+					iCardOrder = atoi(entry(line, 12).c_str());
+				}
+
 			}
 			//Player
 			if (INI_Value_Check(line, "P"))
@@ -137,11 +149,18 @@ void Tome_Game::Init()
 	bHasGame = false;
 	bShowPlayers = false;
 	bShowBoosters = false;
+	bShowCards = false;
 	bShowBoostersOfPlayer = false;
 	bAllowOpening = false;
 	bNoDouble = false;
 	sGameID = "";
 	sAdminID = "";
+	bShowCardsUR = true;
+	bShowCardsR = true;
+	bShowCardsUC = true;
+	bShowCardsC = true;
+	iCardOrder = 0;
+	iVersion = 1;
 	//sPlayerID = "";
 
 	vPlayer.clear();
@@ -167,14 +186,23 @@ bool Tome_Game::bSaveGame()
 	if (ofFile.good())
 	{
 		MISD("good");
+		ofFile << "V=" << iVersion<< ";\n";
+
 		ofFile << "G=" << sGameID
 			<< ";" << sAdminID
 			<< ";" << bShowPlayers
 			<< ";" << bShowBoosters
 			<< ";" << bShowBoostersOfPlayer
 			<< ";" << bAllowOpening
-			<< ";" << bNoDouble
-			<< ";\n";
+			<< ";" << bNoDouble;
+		if (iVersion > 0)
+			ofFile << ";" << bShowCards
+			<< ";" << bShowCardsUR
+			<< ";" << bShowCardsR
+			<< ";" << bShowCardsUC
+			<< ";" << bShowCardsC
+			<< ";" << iCardOrder;
+		ofFile << ";\n";
 		for (unsigned int i = 0; i < vPlayer.size(); i++)
 		{
 			ofFile << "P=" << vPlayer[i]->sPlayerID

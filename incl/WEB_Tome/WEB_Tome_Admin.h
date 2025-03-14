@@ -21,8 +21,17 @@ public:
 
 	Wt::WCheckBox *wcShowPlayers;
 	Wt::WCheckBox *wcShowBoosters;
+	Wt::WCheckBox* wcShowCards;
 	Wt::WCheckBox *wcShowBoostersOfPlayer;
 	Wt::WCheckBox *wcNoDouble;
+
+	std::shared_ptr<Wt::WButtonGroup> gbCardOrder;
+	Wt::WCheckBox* wcShowCardsUR;
+	Wt::WCheckBox* wcShowCardsR;
+	Wt::WCheckBox* wcShowCardsUC;
+	Wt::WCheckBox* wcShowCardsC;
+
+	Wt::WCheckBox* wcCards;
 
 	Wt::WText *wtGameID;
 	Wt::WText *wtAdminID;

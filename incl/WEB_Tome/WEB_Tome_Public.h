@@ -5,6 +5,7 @@
 
 class WEB_Tome_PublicBoosters;
 class WEB_Tome_PublicPlayers;
+class WEB_Tome_PublicCards;
 class WEB_Tome_PublicPlayersBooster;
 
 class WEB_Container_Tome;
@@ -17,7 +18,11 @@ public:
 
 	WEB_Tome_PublicBoosters *PB;
 	WEB_Tome_PublicPlayers *PP;
+	WEB_Tome_PublicCards* PC;
 	WEB_Tome_PublicPlayersBooster *PPB;
+
+	Wt::WSlider* slider;
+	Wt::WText* sliderText;
 
 	Wt::WText *wtGameID;
 	Wt::WAnchor *waLink;

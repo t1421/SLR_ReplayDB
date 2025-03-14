@@ -109,6 +109,9 @@
       <Filter>Quelldateien</Filter>
     </ClCompile>
     <ClCompile Include="..\SLR_Tome.cpp" />
+    <ClCompile Include="..\src\WEB_Tome\WEB_Tome_PublicCards.cpp">
+      <Filter>Quelldateien\Tome</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\WEB\WEB_Main.h">
@@ -185,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="..\incl\Replay.h">
       <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Tome\WEB_Tome_PublicCards.h">
+      <Filter>Headerdateien\Tome</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

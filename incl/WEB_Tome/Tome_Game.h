@@ -36,9 +36,19 @@ public:
 	bool bHasGame;
 	bool bShowPlayers;
 	bool bShowBoosters;
+	bool bShowCards;
 	bool bShowBoostersOfPlayer;
 	bool bAllowOpening;
 	bool bNoDouble;
+
+	bool bShowCardsUR;
+	bool bShowCardsR;
+	bool bShowCardsUC;
+	bool bShowCardsC;
+
+	int iVersion;
+	int iCardOrder;
+
 	std::string sGameID;
 	std::string sAdminID;
 

@@ -63,6 +63,7 @@ public:
 	bool WA_Debug;
 	bool WA_Admin;
 	
+#if defined BrokerWeb
 	//std::string Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE0(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_EEE_Def(unsigned long iTimes[RankRowStamps], std::string sMapName);
@@ -77,6 +78,8 @@ public:
 	std::string Kalk_Event103(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event104(unsigned long iTimes[RankRowStamps]);
 	void AddPlayers101();
+#endif
+
 	std::vector <std::pair<unsigned long, unsigned long>> EventBuildings102;
 	std::vector <unsigned long> StartingCards;
 

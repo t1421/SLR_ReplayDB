@@ -53,7 +53,7 @@ void WEB_Tome_PublicPlayersBooster::WRefresh()
 
 		wtTabelleTemp = new Wt::WTable();
 		wtTabelle->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelleTemp)));
-		Con->DrawBooster(wtTabelleTemp, Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters);
+		Con->DrawBooster(wtTabelleTemp, Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters, true);
 		wtTabelle->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<H1> </H1>"))));
 	}
 
