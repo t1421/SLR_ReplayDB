@@ -163,6 +163,14 @@ struct ROW {
 
 };
 
+struct EventData
+{
+	std::string Name;
+	int Start;
+	int End;
+	int Hide;
+};
+
 #endif //DataTypes
 
 

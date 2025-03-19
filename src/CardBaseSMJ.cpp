@@ -175,6 +175,12 @@ bool CardBaseSMJ::Init()
 	EnumTier.push_back(std::make_pair(
 		"4", "TierFour"));
 	
+	EnumDifficulty.push_back(std::make_pair(
+		"1", "Standard"));
+	EnumDifficulty.push_back(std::make_pair(
+		"2", "Advanced"));
+	EnumDifficulty.push_back(std::make_pair(
+		"3", "Expert "));	
 
 	MISE;
 	

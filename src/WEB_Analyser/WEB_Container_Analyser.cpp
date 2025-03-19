@@ -4,7 +4,6 @@
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
 #include "..\..\incl\WEB\WEB_Utility.h"
-#include "..\..\incl\WEB_Analyser\WEB_EEE.h"
 #include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\..\incl\WEB_Analyser\WEB_CONTAINER_Analyser.h"
 #include "..\..\incl\WEB_Analyser\WEB_Event.h"
@@ -56,11 +55,8 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	WApplication::instance()->useStyleSheet(Wt::WLink("./resources/main.css"));
 
 	MISD("#3");	
+	for(unsigned int i = 0; i < EventsMax; i++)Events[i] = new WEB_Event(this, i);
 
-	//EEE = new WEB_EEE(this);
-	Event102 = new WEB_Event(this, 102); //EVENT NR
-	Event103 = new WEB_Event(this, 103); //EVENT NR
-	Event104 = new WEB_Event(this, 104); //EVENT NR
 	wfuDropZone = new Wt::WFileUpload();
 	wtStatus = new Wt::WText("Waiting for Replay");
 	
@@ -91,26 +87,18 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 
 	MISD("#6");	
 
-	if (Bro->L_getEventStatus(2) < 10 || sEvent == "BOT8")
-		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "BOT 8", *Event102->cMain, Event102);
-	if (Bro->L_getEventStatus(3) < 10 || sEvent == "EVENT3")
-		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "EVENT", *Event103->cMain, Event103);
-	if (Bro->L_getEventStatus(4) < 10 || sEvent == "EVENT4")
-		WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "EVENT", *Event104->cMain, Event104);
-	
-
-	//if (Bro->L_getEEEStatus() != 10 || sPARA == "SSS")
-	//	WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "SSS", *EEE->cMain, EEE);
+	for (unsigned int i = 0; i < EventsMax; i++)
+		if (Bro->L_getEventRankMode(i) < 10 || sEvent == Bro->L_getEventName(i))
+			WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), Bro->L_getEventName(i), *Events[i]->cMain, Events[i]);
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Acti", *this->Acti->cMain, this->Acti);
 	
 	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
-	if (Bro->L_getEEEStatus() != 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
-	if (Bro->L_getEventStatus(2) < 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
-	if (Bro->L_getEventStatus(3) < 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
-	if (Bro->L_getEventStatus(4) < 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	for (unsigned int i = 0; i < EventsMax; i++)
+		if (Bro->L_getEventRankMode(i) < 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
+
 	WEB_Toolbar::updateToolbar();
 
 	MISD("#7");

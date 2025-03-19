@@ -90,12 +90,6 @@
     <ClCompile Include="..\src\WEB_Analyser\WEB_Rank.cpp">
       <Filter>Quelldateien\Analyser</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\WEB_Analyser\WEB_EEE.cpp">
-      <Filter>Quelldateien\Analyser</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\WEB_Analyser\WEB_EEE_Check.cpp">
-      <Filter>Quelldateien\Analyser</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\WEB_Analyser\WEB_Event.cpp">
       <Filter>Quelldateien\Analyser</Filter>
     </ClCompile>
@@ -159,12 +153,6 @@
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Rank.h">
-      <Filter>Headerdateien\Analyser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB_Analyser\WEB_EEE.h">
-      <Filter>Headerdateien\Analyser</Filter>
-    </ClInclude>
-    <ClInclude Include="..\incl\WEB_Analyser\WEB_EEE_Check.h">
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Event.h">

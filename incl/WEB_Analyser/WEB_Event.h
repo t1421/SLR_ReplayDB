@@ -21,8 +21,6 @@ public:
 
 	unsigned int iEventNr;
 
-	
-
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 

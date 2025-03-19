@@ -2,6 +2,7 @@
 #define LOAD_H
 
 #include "Thread_MIS.h"
+#include "DataTypes.h"
 
 #include <string>
 #include <vector>
@@ -55,14 +56,7 @@ public:
 
 	std::string sSetting;
 
-	//int BOTRankMode[BOTXLIST + 1];
-	int EEEStatus;
-	unsigned long int EEE_Start[EEESize];
-	unsigned long int EEE_End[EEESize];
-
-	int Event_Status[SLR_Events];
-	int Event_Start[SLR_Events];
-	int Event_End[SLR_Events];
+	EventData Events[EventsMax];
 	
 	void Load_Settings(std::string sName);
 

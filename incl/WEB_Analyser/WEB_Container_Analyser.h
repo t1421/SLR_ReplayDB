@@ -12,7 +12,6 @@
 #include <Wt/WFileUpload.h>
 #include <Wt/WApplication.h>
 
-class WEB_EEE;
 class WEB_Event;
 
 class WEB_Container : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser
@@ -31,12 +30,10 @@ public:
 
 
 private:
-
+	
 	void WRefresh();
 
-	WEB_Event *Event102;
-	WEB_Event* Event103;
-	WEB_Event* Event104;
+	WEB_Event *Events[EventsMax];
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
 	Wt::WContainerWidget *GlobaelContainer;

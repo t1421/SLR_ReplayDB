@@ -28,8 +28,6 @@
 #if defined BrokerWeb
 #include "..\incl\WEB_Analyser\WEB_CONTAINER_Analyser.h"
 
-#include "..\incl\WEB_Analyser\WEB_EEE.h"
-#include "..\incl\WEB_Analyser\WEB_EEE_Check.h"
 #include "..\incl\WEB_Analyser\WEB_Event.h"
 #include "..\incl\WEB_Analyser\WEB_Rank.h"
 #include "..\incl\MIS_Rank.h"
@@ -116,8 +114,6 @@ broker::broker()
 #if defined BrokerWeb
 	WEB_Container::learnBro(this);
 
-	WEB_EEE::learnBro(this);
-	WEB_EEE_Check::learnBro(this);
 	WEB_Event::learnBro(this);
 	WEB_Rank::learnBro(this);	
 	MIS_Rank::learnBro(this);
@@ -199,8 +195,7 @@ broker::broker()
 #if defined BrokerWeb
 void broker::INIT()
 {	
-	for (int i = 0; i < EEESize; i++)A[i] = new MIS_Rank(i, 0);
-	for (int i = 0; i < SLR_Events; i++)AA[i] = new MIS_Rank(i + 100 , L->Event_Status[i]);
+	for (int i = 0; i < EventsMax; i++)A[i] = new MIS_Rank(i);
 
 	std::ifstream ifFile;
 	std::string line;
@@ -228,22 +223,24 @@ void broker::INIT()
 	}
 }
 
-int broker::AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps])
+int broker::A_AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps])
 {
-	if(iRANK<100)return A[iRANK]->AddPlayer(_ID, _ReplayID, _Stamps);
-	else return AA[iRANK - 100]->AddPlayer(_ID, _ReplayID, _Stamps);
+	return A[iRANK]->AddPlayer(_ID, _ReplayID, _Stamps);
 }
 
 int broker::A_getRankMode(unsigned int iRANK)
 {
-	if (iRANK < 100)return A[iRANK]->RankMode;
-	else return AA[iRANK - 100]->RankMode;
+	return A[iRANK]->RankMode;
 }
 
 std::vector<ROW> broker::A_getRankeROW(unsigned int iRANK)
 {
-	if (iRANK < 100)return A[iRANK]->getRankeROW();
-	else return AA[iRANK - 100]->getRankeROW();
+	return A[iRANK]->getRankeROW();
+}
+
+void broker::A_UpdateRankMode(unsigned int iRANK)
+{
+	A[iRANK]->RankMode = L_getEventRankMode(iRANK);
 }
 
 std::string broker::getName()
@@ -310,28 +307,6 @@ std::string broker::GetTeamName(std::string sTeamID)
 	return sName;
 }
 
-bool broker::ReCalTotalEEE()
-{
-	return A[0]->ReCalTotalEEE();
-}
-
-void broker::EEEUpdateRankModes()
-{
-	for (unsigned int i = 0; i < EEESize; i++)
-		A[i]->RankMode = L_getEEE_RankMode(i);
-}
-
-void broker::UpdateEventRankModes(unsigned int i)
-{
-	if (i >= 100) i = i - 100;
-	unsigned int Mode = L_getEventStatus(i);
-	unsigned long int now = L_getEEE_Now();
-
-	// Has Ended / Show + dont add
-	if (now > L->Event_End[i])Mode = 1;
-
-	AA[i]->RankMode = Mode;
-}
 #endif
 
 broker::~broker()
@@ -423,10 +398,7 @@ std::string broker::L_getMAPPIC_PATH()
 {
 	return L->sMAPPIC_PATH;
 }
-int broker::L_getEEEStatus()
-{
-	return L->EEEStatus;
-}
+
 std::string broker::L_getLOTTO_SAVE_PATH()
 {
 	return L->sLOTTO_SAVE_PATH;
@@ -464,22 +436,8 @@ int broker::L_getCoolDown()
 {
 	return L->iCoolDown;
 }
-int broker::L_getEEE_RankMode(unsigned int iEEE)
-{
-	unsigned long int now = L_getEEE_Now();
-	
-	// Not Started / Dont show
-	if(now < L->EEE_Start[iEEE])return 10;
 
-	// Has Ended / Show + dont add
-	if (now > L->EEE_End[iEEE])return 1;
 
-	// is running // show + add
-	if (now > L->EEE_Start[iEEE])return 2;
-
-	//ERROR
-	return 99;
-}
 unsigned long int broker::L_getEEE_Now()
 {
 	const auto UNIX = std::chrono::system_clock::now();
@@ -507,25 +465,45 @@ unsigned long int broker::L_StringToUNIXTime(const std::string &date)
 	return static_cast<unsigned long int>(epochTime);
 }
 
-unsigned long int broker::L_get_Start(unsigned int iEEE)
+unsigned long int broker::L_getEventRankMode(unsigned int iEvent)
 {
-	if (iEEE < 100)return L->EEE_Start[iEEE];
-	else return L->Event_Start[iEEE - 100];	
-}
-unsigned long int broker::L_get_End(unsigned int iEEE)
-{
-	if (iEEE < 100)return L->EEE_End[iEEE];
-	else return L->Event_End[iEEE - 100];
+	if (iEvent >= EventsMax) return 98;
+
+	unsigned long int now = L_getEEE_Now();
+
+	// Not Started / Dont show
+	if (now < L->Events[iEvent].Start)return 10;
+
+	// Hide Aktive / Dont show
+	if (now > L->Events[iEvent].Hide)return 11;
+
+	// Has Ended / Show + dont add
+	if (now > L->Events[iEvent].End)return 1;
+
+	// is running // show + add
+	if (now > L->Events[iEvent].Start)return 2;
+
+	//ERROR
+	return 99;
 }
 
-
-int broker::L_getEventStatus(unsigned int iEvent)
+std::string broker::L_getEventName(unsigned int iEvent)
 {
-	return L->Event_Status[iEvent];
+	return L->Events[iEvent].Name;
+}
+unsigned long int broker::L_getEventStart(unsigned int iEvent)
+{
+	return L->Events[iEvent].Start;
+}
+unsigned long int broker::L_getEventEnd(unsigned int iEvent)
+{
+	return L->Events[iEvent].End;
+}
+unsigned long int broker::L_getEventHide(unsigned int iEvent)
+{
+	return L->Events[iEvent].Hide;
 }
 #endif
-
-
 
 #ifndef noSMJ
 unsigned char broker::J_GetActionOrbForCardID(unsigned short CardID)
@@ -576,12 +554,6 @@ std::vector<std::pair<std::string, std::string>> broker::J_GetEnum(std::string s
 {
 	if (sEnumName == "EnumBoosters")return J->EnumBoosters;
 }
-/*
-Tome_Booster* broker::J_OpenBooster(std::string iType)
-{
-	std::vector<Tome_Booster*> X;
-	return J->OpenBooster(iType, false, X);
-}*/
 
 Tome_Booster* broker::J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster)
 {
@@ -621,6 +593,15 @@ std::vector <std::string> broker::J_getTiers()
 {
 	std::vector <std::string> vReturn;
 	for (auto C : J->EnumTier)vReturn.push_back(C.second);
+	sort(vReturn.begin(), vReturn.end());
+	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
+	return vReturn;
+}
+
+std::vector <std::string> broker::J_getDifficulty()
+{
+	std::vector <std::string> vReturn;
+	for (auto C : J->EnumDifficulty)vReturn.push_back(C.second);
 	sort(vReturn.begin(), vReturn.end());
 	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
 	return vReturn;

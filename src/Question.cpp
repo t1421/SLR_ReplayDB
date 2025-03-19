@@ -82,6 +82,9 @@ void Question::Start()
 	case 4: //Tier
 		for (auto S : Bro->J_getTiers())CheckPool.push_back(CleanString(S));
 		break;
+	case 5: //Difficulty
+		for (auto S : Bro->J_getDifficulty())CheckPool.push_back(CleanString(S));
+		break;
 	}
 
 	ResetAnswers();
@@ -471,7 +474,11 @@ bool Question::SpellCheck(std::string& input)
 		else if (input == "THREE")input = "TIERTHREE";
 		else if (input == "FOUR")input = "TIERFOUR";
 		break;
-
+	case 5:
+		if (input == "STD")input = "STANDARD";
+		else if (input == "ADV")input = "ADVANCED";
+		else if (input == "EXP")input = "EXPERT";
+		break;
 	}
 
 

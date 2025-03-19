@@ -65,25 +65,25 @@ public:
 	
 #if defined BrokerWeb
 	//std::string Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps]);
-	std::string Kalk_EEE0(unsigned long iTimes[RankRowStamps]);
-	std::string Kalk_EEE_Def(unsigned long iTimes[RankRowStamps], std::string sMapName);
-	std::string Kalk_EEE2(unsigned long iTimes[RankRowStamps]);
-	std::string Kalk_EEE3(unsigned long iTimes[RankRowStamps]);
-	std::string Kalk_EEE5(unsigned long iTimes[RankRowStamps], Wt::Chart::WCartesianChart *chart);
-	std::string Kalk_EEE7(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event0(unsigned long iTimes[RankRowStamps], std::string sMapName);
+	std::string Kalk_Event2(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event3(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event5(unsigned long iTimes[RankRowStamps], Wt::Chart::WCartesianChart *chart);
+	std::string Kalk_Event7(unsigned long iTimes[RankRowStamps]);
 
-	std::string Kalk_Event100(unsigned long iTimes[RankRowStamps]);
-	std::string Kalk_Event101();
-	std::string Kalk_Event102(unsigned long iTimes[RankRowStamps]);
-	std::string Kalk_Event103(unsigned long iTimes[RankRowStamps]);
-	std::string Kalk_Event104(unsigned long iTimes[RankRowStamps]);
-	void AddPlayers101();
+	std::string Kalk_Event8(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event9();
+	std::string Kalk_Event10(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event11(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event12(unsigned long iTimes[RankRowStamps]);
+
+	void AddPlayers9();
 #endif
 
-	std::vector <std::pair<unsigned long, unsigned long>> EventBuildings102;
+	std::vector <std::pair<unsigned long, unsigned long>> EventBuildings10;
 	std::vector <unsigned long> StartingCards;
 
-	bool isEEEwin();
+	bool Check_MIS_WIN();
 	unsigned long long usedPower();
 
 	void AddIMG(Wt::WTableCell* wtCell, bool bValue);

@@ -234,9 +234,9 @@ void WEB_Analyser_Head::WRefresh()
 		unsigned long iTimes3[RankRowStamps] = { 0 };
 		unsigned long iTimes5[RankRowStamps] = { 0 };
 		unsigned long iTimes7[RankRowStamps] = { 0 };
-		WA->Kalk_EEE3(iTimes3);
-		WA->Kalk_EEE5(iTimes5, Chart);
-		WA->Kalk_EEE7(iTimes7);
+		WA->Kalk_Event3(iTimes3);
+		WA->Kalk_Event5(iTimes5, Chart);
+		WA->Kalk_Event7(iTimes7);
 
 		SSS3->setText(std::to_string(iTimes3[0]));
 		SSS5->setText(std::to_string(iTimes5[0]));

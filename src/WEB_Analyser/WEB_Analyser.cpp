@@ -91,46 +91,46 @@ WEB_Analyser::WEB_Analyser(): R(new Replay()), WA_Debug(false), WA_Admin(false)
 	
 	
 	//Soul
-	EventBuildings102.push_back(std::make_pair(4, 1454));
-	EventBuildings102.push_back(std::make_pair(4, 1455));
+	EventBuildings10.push_back(std::make_pair(4, 1454));
+	EventBuildings10.push_back(std::make_pair(4, 1455));
 	//Fountain
-	EventBuildings102.push_back(std::make_pair(5, 1453));
-	EventBuildings102.push_back(std::make_pair(5, 1452));
+	EventBuildings10.push_back(std::make_pair(5, 1453));
+	EventBuildings10.push_back(std::make_pair(5, 1452));
 	//Nihil
-	//EventBuildings102.push_back(std::make_pair(6, 1460));
-	//EventBuildings102.push_back(std::make_pair(6, 1462));
+	//EventBuildings10.push_back(std::make_pair(6, 1460));
+	//EventBuildings10.push_back(std::make_pair(6, 1462));
 	//Flesh
-	EventBuildings102.push_back(std::make_pair(7, 1457));
-	EventBuildings102.push_back(std::make_pair(7, 1458));
+	EventBuildings10.push_back(std::make_pair(7, 1457));
+	EventBuildings10.push_back(std::make_pair(7, 1458));
 	//Garden
-	EventBuildings102.push_back(std::make_pair(8, 1456));
-	//EventBuildings102.push_back(std::make_pair(8, 1461));
+	EventBuildings10.push_back(std::make_pair(8, 1456));
+	//EventBuildings10.push_back(std::make_pair(8, 1461));
 	//Wheels
-	EventBuildings102.push_back(std::make_pair(9, 1449)); //1
-	EventBuildings102.push_back(std::make_pair(10, 1450)); //2
-	EventBuildings102.push_back(std::make_pair(11, 1451)); //3
+	EventBuildings10.push_back(std::make_pair(9, 1449)); //1
+	EventBuildings10.push_back(std::make_pair(10, 1450)); //2
+	EventBuildings10.push_back(std::make_pair(11, 1451)); //3
 	//MO
-	EventBuildings102.push_back(std::make_pair(12, 1448)); //Green
-	EventBuildings102.push_back(std::make_pair(13, 1489)); //Yellow
+	EventBuildings10.push_back(std::make_pair(12, 1448)); //Green
+	EventBuildings10.push_back(std::make_pair(13, 1489)); //Yellow
 	//Disrupt
-	EventBuildings102.push_back(std::make_pair(14, 1466));
-	EventBuildings102.push_back(std::make_pair(14, 1465));
-	EventBuildings102.push_back(std::make_pair(14, 1467));
+	EventBuildings10.push_back(std::make_pair(14, 1466));
+	EventBuildings10.push_back(std::make_pair(14, 1465));
+	EventBuildings10.push_back(std::make_pair(14, 1467));
 	//Keep
-	EventBuildings102.push_back(std::make_pair(15, 1468));
-	EventBuildings102.push_back(std::make_pair(15, 1470));
-	EventBuildings102.push_back(std::make_pair(15, 1469));
-	EventBuildings102.push_back(std::make_pair(15, 1482));
+	EventBuildings10.push_back(std::make_pair(15, 1468));
+	EventBuildings10.push_back(std::make_pair(15, 1470));
+	EventBuildings10.push_back(std::make_pair(15, 1469));
+	EventBuildings10.push_back(std::make_pair(15, 1482));
 	//Infernal
-	EventBuildings102.push_back(std::make_pair(16, 1462));
-	EventBuildings102.push_back(std::make_pair(16, 1463));
-	EventBuildings102.push_back(std::make_pair(16, 1464));
-	EventBuildings102.push_back(std::make_pair(16, 1481));
+	EventBuildings10.push_back(std::make_pair(16, 1462));
+	EventBuildings10.push_back(std::make_pair(16, 1463));
+	EventBuildings10.push_back(std::make_pair(16, 1464));
+	EventBuildings10.push_back(std::make_pair(16, 1481));
 	//Mask
-	EventBuildings102.push_back(std::make_pair(17, 1459));
-	EventBuildings102.push_back(std::make_pair(17, 1461));
-	EventBuildings102.push_back(std::make_pair(17, 1460));
-	EventBuildings102.push_back(std::make_pair(17, 1480));
+	EventBuildings10.push_back(std::make_pair(17, 1459));
+	EventBuildings10.push_back(std::make_pair(17, 1461));
+	EventBuildings10.push_back(std::make_pair(17, 1460));
+	EventBuildings10.push_back(std::make_pair(17, 1480));
 
 	//Starting cards
 	StartingCards = { 253,254,287,288,289,302,303,345,346,354,356,361,362,366,379,444,529,651,673,700,705,707,708,728,774,782,819,820,829,836,933,962,1004,1184,1197,1209,1223,1241,1283,1287,1292,1295,1307,1326,1394,1495,1549,1581,1599,1608,1664 };
@@ -576,17 +576,8 @@ int WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGam
 
 
 #if defined BrokerWeb
-// No Orb Switching?
-std::string WEB_Analyser::Kalk_EEE0(unsigned long iTimes[RankRowStamps])
-{
-	MISS;
 
-
-	MISE;
-	return "XXX";
-}
-
-std::string WEB_Analyser::Kalk_EEE_Def(unsigned long iTimes[RankRowStamps],std::string sMapName)
+std::string WEB_Analyser::Kalk_Event0(unsigned long iTimes[RankRowStamps],std::string sMapName)
 {
 	
 	MISS;
@@ -595,7 +586,7 @@ std::string WEB_Analyser::Kalk_EEE_Def(unsigned long iTimes[RankRowStamps],std::
 	if (R->GameVersion != 400049)return "Wrong GameVersion";
 	if (R->MapName != sMapName)return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
-	if (!isEEEwin() )return "Was not a win";
+	if (!Check_MIS_WIN() )return "Was not a win";
 	if (R->TestStriker())return "please do not abuse your power";
 
 	iTimes[0] = getPlaytime();
@@ -604,7 +595,7 @@ std::string WEB_Analyser::Kalk_EEE_Def(unsigned long iTimes[RankRowStamps],std::
 	return "";
 }
 
-std::string WEB_Analyser::Kalk_EEE2(unsigned long iTimes[RankRowStamps])
+std::string WEB_Analyser::Kalk_Event2(unsigned long iTimes[RankRowStamps])
 {
 
 	MISS;
@@ -613,7 +604,7 @@ std::string WEB_Analyser::Kalk_EEE2(unsigned long iTimes[RankRowStamps])
 	if (R->GameVersion != 400049)return "Wrong GameVersion";
 	if (R->MapName != "sss2.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
-	if (!isEEEwin())return "Was not a win";
+	if (!Check_MIS_WIN())return "Was not a win";
 	if (R->TestStriker())return "please do not abuse your power";
 
 	iTimes[0] = getPlaytime();	
@@ -623,7 +614,7 @@ std::string WEB_Analyser::Kalk_EEE2(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
-std::string WEB_Analyser::Kalk_EEE3(unsigned long iTimes[RankRowStamps])
+std::string WEB_Analyser::Kalk_Event3(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
@@ -631,7 +622,7 @@ std::string WEB_Analyser::Kalk_EEE3(unsigned long iTimes[RankRowStamps])
 	if (R->GameVersion != 400049)return "Wrong GameVersion";
 	if (R->MapName != "sss3.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
-	if (!isEEEwin())return "Was not a win";
+	if (!Check_MIS_WIN())return "Was not a win";
 	if (R->TestStriker())return "please do not abuse your power";
 
 	for (auto A : R->ActionMatrix)
@@ -646,7 +637,7 @@ std::string WEB_Analyser::Kalk_EEE3(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
-std::string WEB_Analyser::Kalk_EEE5(unsigned long iTimes[RankRowStamps], Wt::Chart::WCartesianChart *chart)
+std::string WEB_Analyser::Kalk_Event5(unsigned long iTimes[RankRowStamps], Wt::Chart::WCartesianChart *chart)
 {
 	MISS;
 	chart->setHidden(true);
@@ -655,7 +646,7 @@ std::string WEB_Analyser::Kalk_EEE5(unsigned long iTimes[RankRowStamps], Wt::Cha
 	if (R->GameVersion != 400049)return "Wrong GameVersion";
 	if (R->MapName != "sss5.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
-	if (!isEEEwin())return "Was not a win";
+	if (!Check_MIS_WIN())return "Was not a win";
 	if (R->TestStriker())return "please do not abuse your power";
 
 	std::vector <std::pair<int, int>> vpChartData;
@@ -706,7 +697,7 @@ std::string WEB_Analyser::Kalk_EEE5(unsigned long iTimes[RankRowStamps], Wt::Cha
 	return "";
 }
 
-std::string WEB_Analyser::Kalk_EEE7(unsigned long iTimes[RankRowStamps])
+std::string WEB_Analyser::Kalk_Event7(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
@@ -714,7 +705,7 @@ std::string WEB_Analyser::Kalk_EEE7(unsigned long iTimes[RankRowStamps])
 	if (R->GameVersion != 400049)return "Wrong GameVersion";
 	if (R->MapName != "sss7.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
-	if (!isEEEwin())return "Was not a win";
+	if (!Check_MIS_WIN())return "Was not a win";
 	if (R->TestStriker())return "please do not abuse your power";
 
 	for (auto A : R->ActionMatrix)
@@ -735,7 +726,7 @@ std::string WEB_Analyser::Kalk_EEE7(unsigned long iTimes[RankRowStamps])
 }
 
 
-bool WEB_Analyser::isEEEwin()
+bool WEB_Analyser::Check_MIS_WIN()
 {
 	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_WIN;1;")return true;
 	return false;
@@ -760,7 +751,7 @@ unsigned long long WEB_Analyser::usedPower()
 	return ullReturn;
 }
 
-std::string WEB_Analyser::Kalk_Event100(unsigned long iTimes[RankRowStamps])
+std::string WEB_Analyser::Kalk_Event8(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
@@ -779,7 +770,7 @@ std::string WEB_Analyser::Kalk_Event100(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
-std::string WEB_Analyser::Kalk_Event101()
+std::string WEB_Analyser::Kalk_Event9()
 {
 	MISS;
 	if (!R->OK)return "No Replay";
@@ -799,7 +790,7 @@ std::string WEB_Analyser::Kalk_Event101()
 	return "";
 }
 
-std::string WEB_Analyser::Kalk_Event102(unsigned long iTimes[RankRowStamps])
+std::string WEB_Analyser::Kalk_Event10(unsigned long iTimes[RankRowStamps])
 {
 	//0 = Time
 	//1 = Points ingame
@@ -813,7 +804,7 @@ std::string WEB_Analyser::Kalk_Event102(unsigned long iTimes[RankRowStamps])
 	if (R->DifficultyID != 2)return "Wrong Difficulty";
 	if (R->FileVersion != 270)return "Wrong Client";
 	if (R->GameVersion != 400051)return "Wrong GameVersion";
-	if (!isEEEwin())return "Was not a win";
+	if (!Check_MIS_WIN())return "Was not a win";
 	//if (R->TestStriker())return "please do not abuse your power";
 
 	bool go =  false;
@@ -835,7 +826,7 @@ std::string WEB_Analyser::Kalk_Event102(unsigned long iTimes[RankRowStamps])
 		if (A->Type == 4014 && A->Time < 600 && A->AdditionalInfo == "2020010;1479")go = true;
 
 		if (A->Type == 4014 && A->Time < 600 && go == false && entry(A->AdditionalInfo, 0) == "2020010")
-			for (auto E : EventBuildings102)if (E.second == atoi(entry(A->AdditionalInfo, 1).c_str()))iTimes[E.first]++;		
+			for (auto E : EventBuildings10)if (E.second == atoi(entry(A->AdditionalInfo, 1).c_str()))iTimes[E.first]++;		
 	}
 
 	unsigned int CheckSum = 0;
@@ -877,7 +868,7 @@ std::string WEB_Analyser::Kalk_Event102(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
-std::string WEB_Analyser::Kalk_Event103(unsigned long iTimes[RankRowStamps])
+std::string WEB_Analyser::Kalk_Event11(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
@@ -914,7 +905,7 @@ std::string WEB_Analyser::Kalk_Event103(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
-std::string WEB_Analyser::Kalk_Event104(unsigned long iTimes[RankRowStamps])
+std::string WEB_Analyser::Kalk_Event12(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
@@ -934,7 +925,7 @@ std::string WEB_Analyser::Kalk_Event104(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
-void WEB_Analyser::AddPlayers101()
+void WEB_Analyser::AddPlayers9()
 {
 	MISS;
 	bool skip;
@@ -992,7 +983,7 @@ void WEB_Analyser::AddPlayers101()
 		if (R->MapName == "20002_pve_02p_into_the_jungle.map" && R->DifficultyID >= 3)iTimes[4] = 1;
 		if (R->MapName == "20002_pve_02p_into_the_jungle.map" && bIJCheck)iTimes[5] = 1;
 
-		Bro->AddPlayer(101, P->Name, P->PlayerID, iTimes);		
+		Bro->A_AddPlayer(101, P->Name, P->PlayerID, iTimes);		
 	}
 	MISE;
 }

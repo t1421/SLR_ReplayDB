@@ -104,8 +104,6 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		
 		
 		Fill_DBArray("WEB_Event", "*", "*", "true");
-		Fill_DBArray("WEB_EEE", "*", "*", "true");
-		Fill_DBArray("WEB_EEE_Check", "*", "*", "true");
 
 		Fill_DBArray("WEB_Rank", "*", "*", "true");
 

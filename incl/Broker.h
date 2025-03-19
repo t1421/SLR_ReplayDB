@@ -27,8 +27,7 @@
 //#define BOTXLIST 1
 #define RankRowStamps 20
 
-#define EEESize 8
-#define SLR_Events 5
+#define EventsMax 11 + 1
 
 #define WebAnalyser "https://t1421.de/"
 #define WebTome "https://tome.t1421.de/"
@@ -65,8 +64,7 @@ public:
 	Imager* I;
 	WEB_Main *W;
 	CardBaseSMJ *J;
-	MIS_Rank* A[EEESize + 1];
-	MIS_Rank* AA[SLR_Events];
+	MIS_Rank* A[EventsMax];
 	Challonge* C;
 	Quiz* Q;
 
@@ -104,16 +102,14 @@ public:
 	int L_getCountDown();
 	int L_getCoolDown();
 	
-
-	int L_getEEEStatus();
-	int L_getEEE_RankMode(unsigned int iEEE);
-	unsigned long int L_get_Start(unsigned int iEEE);
-	unsigned long int L_get_End(unsigned int iEEE);
+	std::string L_getEventName(unsigned int iEvent);
+	unsigned long int L_getEventRankMode(unsigned int iEvent);
+	unsigned long int L_getEventStart(unsigned int iEvent);
+	unsigned long int L_getEventEnd(unsigned int iEvent);	
+	unsigned long int L_getEventHide(unsigned int iEvent);
 	unsigned long int L_getEEE_Now();
 	unsigned long int L_StringToUNIXTime(const std::string& date);
 	
-
-	int L_getEventStatus(unsigned int iEvent);
 
 #endif	
 
@@ -132,6 +128,7 @@ public:
 	std::vector <std::string> J_getColorPool();
 	std::vector <std::string> J_getUpgradeMaps();
 	std::vector <std::string> J_getTiers();
+	std::vector <std::string> J_getDifficulty();
 	unsigned int J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade);
 #endif
 	
@@ -139,8 +136,9 @@ public:
 
 #if defined BrokerWeb
 	void INIT();
-	int AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
+	int A_AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
 	int A_getRankMode(unsigned int iRANK);
+	void A_UpdateRankMode(unsigned int iRANK);
 	std::vector<ROW> A_getRankeROW(unsigned int iRANK);
 	
 	std::vector<std::string> FreeNames;
@@ -151,9 +149,6 @@ public:
 	std::string GetTeamName(std::string sTeamID);
 	void saveTeams();
 	std::vector<std::pair<std::string, std::string>> TeamNames;
-	bool broker::ReCalTotalEEE();
-	void EEEUpdateRankModes();
-	void UpdateEventRankModes(unsigned int i);
 #endif
 
 	void B_StatusNew(std::string Fun, std::string Wert);

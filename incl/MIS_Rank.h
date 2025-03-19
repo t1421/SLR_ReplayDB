@@ -11,7 +11,7 @@
 class MIS_Rank
 {
 public:
-	MIS_Rank(int iRankList, int _RankMode);
+	MIS_Rank(int iRankList);
 	~MIS_Rank();
 
 	void SaveList();
@@ -21,13 +21,10 @@ public:
 			
 	int AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
 	std::vector<ROW> getRankeROW();
-	//std::vector<ROW> getRankeMultiList();
 	int RankMode;
 	int RankList;
 
 	std::vector<ROW*> RankRows;
-	bool ReCalTotalEEE();
-	
 	
 	//BROKER
 	static broker* Bro;

@@ -135,11 +135,11 @@ unsigned int RANKtoPOINTS(unsigned int iRank)
 }
 
 
-MIS_Rank::MIS_Rank(int iRankList, int _RankMode): sFile(std::to_string(iRankList) + ".csv"), RankMode(_RankMode), RankList(iRankList)
+MIS_Rank::MIS_Rank(int iRankList): sFile(std::to_string(iRankList) + ".csv"), RankList(iRankList)
 {
 	MISS;
 	MISD("RankList:" + std::to_string(iRankList));
-	MISD("RankMode:" + std::to_string(_RankMode));
+	RankMode = 90;
 	//Load List
 	std::string line;
 	ROW* R_Temp;
@@ -208,7 +208,7 @@ void MIS_Rank::SortList()
 	switch (RankList)
 	{
 	case 0:
-	case 104:
+	case 11:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0Rev);
 		break;
 	case 2:
@@ -226,10 +226,10 @@ void MIS_Rank::SortList()
 	case 6:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldEEE_DEF);
 		break;
-	case 100:
+	case 8:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField1_0);
 		break;		
-	case 101:
+	case 9:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldID);
 		break;
 	default:
@@ -241,7 +241,6 @@ void MIS_Rank::SortList()
 	MISE;
 }
 
-//int MIS_Rank::AddPlayer(std::string PMVPlayerID, unsigned long _Order, std::string &sRankName, unsigned long _Points, unsigned long _Time)
 int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps])
 {
 	MISS;
@@ -307,106 +306,6 @@ std::vector<ROW> MIS_Rank::getRankeROW()
 	return vReturn;
 }
 
-/*
-std::vector<ROW> MIS_Rank::getRankeMultiList()
-{
-	MISS;
-
-	std::vector<ROW> vReturn;
-
-	for (const auto& rowPtrr : RankRows)vReturn.push_back(*rowPtrr);
-	
-	std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField0);
-	for (unsigned int i = 0; i < vReturn.size(); i++)
-	{
-		vReturn[i].Stamps[4] = vReturn[i].Stamps[0];
-		vReturn[i].Stamps[3] = (i + 1);
-		vReturn[i].Stamps[0] = (i + 1) * 100000;
-	}	
-
-	std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField1);
-	for (unsigned int i = 0; i < vReturn.size(); i++)
-	{
-		vReturn[i].Stamps[4] += vReturn[i].Stamps[1];
-		vReturn[i].Stamps[3] += i + 1;
-		vReturn[i].Stamps[1] = (i + 1) * 100000;
-	}
-
-	std::sort(vReturn.begin(), vReturn.end(), comparePlayerXField2);
-	for (unsigned int i = 0; i < vReturn.size(); i++)
-	{
-		vReturn[i].Stamps[4] += vReturn[i].Stamps[2];
-		vReturn[i].Stamps[3] += i + 1;
-		vReturn[i].Stamps[2] = (i + 1) * 100000;
-	}
-
-	std::sort(vReturn.begin(), vReturn.end(), comparePlayerX);
-
-	MISE;
-	return vReturn;
-}
-*/
-bool MIS_Rank::ReCalTotalEEE()
-{
-	MISS;
-	if (RankList != 0)
-	{
-		MISEA("Not list 0");
-		return false;
-	}
-	//std::vector<ROW> vReturn;
-	std::vector<ROW> vRanks;
-	bool bAdd;
-
-	mtx.lock();
-	RankRows.clear();
-
-	for (unsigned int iEEE = 1; iEEE < EEESize; iEEE++)
-	{
-		vRanks.clear();
-		vRanks = Bro->A[iEEE]->getRankeROW();
-
-		//for (auto RvRanks : vRanks)
-		for(unsigned int iRanks = 0; iRanks < vRanks.size() && iRanks < 10 ; iRanks++)
-		{			
-			bAdd = true;
-			for (auto RvReturn : RankRows)
-			{
-				if (RvReturn->ID == vRanks[iRanks].ID)
-				{
-					bAdd = false;
-					RvReturn->Stamps[iEEE] = RANKtoPOINTS(iRanks + 1);
-				}
-			}
-			if (bAdd)
-			{
-				ROW* R_Temp = new ROW();
-				R_Temp->ID = vRanks[iRanks].ID;
-				R_Temp->ReplayID = 0;
-				for (unsigned int j = 0; j < RankRowStamps; j++) R_Temp->Stamps[j] = 0;
-				R_Temp->Stamps[iEEE] = RANKtoPOINTS(iRanks + 1);
-				RankRows.push_back(R_Temp);
-			}
-		}
-		
-	}
-
-	for (auto RvReturn : RankRows)
-	{
-		RvReturn->Stamps[0] = 0;
-		for (unsigned int iEEE = 1; iEEE < EEESize; iEEE++)
-			RvReturn->Stamps[0] += RvReturn->Stamps[iEEE];
-	}
-
-	mtx.unlock();
-
-	SortList();
-	CleanList();
-	SaveList();
-
-	MISE;
-	return true;
-}
 
 void MIS_Rank::FusionList()
 {

@@ -181,8 +181,6 @@
     <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Deck.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Head.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Container_Analyser.cpp" />
-    <ClCompile Include="..\src\WEB_Analyser\WEB_EEE.cpp" />
-    <ClCompile Include="..\src\WEB_Analyser\WEB_EEE_Check.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Event.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Rank.cpp" />
   </ItemGroup>
@@ -206,8 +204,6 @@
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Deck.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Head.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Container_Analyser.h" />
-    <ClInclude Include="..\incl\WEB_Analyser\WEB_EEE.h" />
-    <ClInclude Include="..\incl\WEB_Analyser\WEB_EEE_Check.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Event.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Rank.h" />
   </ItemGroup>
