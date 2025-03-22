@@ -22,7 +22,9 @@ WEB_Rank::WEB_Rank(WEB_Analyser *WR_, unsigned int _iRankList):WR(WR_)
 	iRankList = _iRankList;
 	cMain = new Wt::WContainerWidget();
 	wtTabelle = new Wt::WTable();
+	waRankLink = new Wt::WAnchor();
 
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waRankLink)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
 	
 	MISE;
@@ -44,6 +46,13 @@ void WEB_Rank::WRefresh()
 		MISEA("no Rank")
 		return;
 	}
+
+	if (WR->WA_Admin)
+	{		
+		waRankLink->setText("#");
+		waRankLink->setLink(Wt::WLink(Bro->L_getRANK_PATH() + Wt::Utils::urlEncode(std::to_string(iRankList) + ".csv")));
+	}
+
 
 	MISD("#1: " + std::to_string(iRankList));
 	

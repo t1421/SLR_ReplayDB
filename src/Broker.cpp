@@ -503,6 +503,15 @@ unsigned long int broker::L_getEventHide(unsigned int iEvent)
 {
 	return L->Events[iEvent].Hide;
 }
+
+unsigned long broker::L_getSRFileVersion()
+{
+	return L->iSRFileVersion;
+}
+unsigned long broker::L_getSRGameVersion()
+{
+	return L->iSRGameVersion;
+}
 #endif
 
 #ifndef noSMJ

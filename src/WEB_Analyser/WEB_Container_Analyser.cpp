@@ -34,7 +34,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 		WA_Debug = true;
 		ReNewTaps();
 	}
-	if (sPARA == "ADMIN")
+	if (sPARA == Bro->L_getAdminKey())
 	{
 		MISERROR("ADMIN ON");
 		MISERROR("DEBUG ON");
@@ -88,7 +88,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	MISD("#6");	
 
 	for (unsigned int i = 0; i < EventsMax; i++)
-		if (Bro->L_getEventRankMode(i) < 10 || sEvent == Bro->L_getEventName(i))
+		if (Bro->L_getEventRankMode(i) < 10 || sEvent == Bro->L_getEventName(i) || WA_Admin)
 			WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), Bro->L_getEventName(i), *Events[i]->cMain, Events[i]);
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);

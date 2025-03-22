@@ -101,6 +101,9 @@ public:
 	int L_getLivePvPActionLog();
 	int L_getCountDown();
 	int L_getCoolDown();
+
+	unsigned long L_getSRFileVersion();
+	unsigned long L_getSRGameVersion();
 	
 	std::string L_getEventName(unsigned int iEvent);
 	unsigned long int L_getEventRankMode(unsigned int iEvent);

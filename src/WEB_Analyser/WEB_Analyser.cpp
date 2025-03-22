@@ -582,8 +582,8 @@ std::string WEB_Analyser::Kalk_Event0(unsigned long iTimes[RankRowStamps],std::s
 	
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != 268)return "Wrong Client";
-	if (R->GameVersion != 400049)return "Wrong GameVersion";
+	if (R->FileVersion != Bro->L_getSRFileVersion())return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion())return "Wrong GameVersion";
 	if (R->MapName != sMapName)return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!Check_MIS_WIN() )return "Was not a win";
@@ -600,8 +600,8 @@ std::string WEB_Analyser::Kalk_Event2(unsigned long iTimes[RankRowStamps])
 
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != 268)return "Wrong Client";
-	if (R->GameVersion != 400049)return "Wrong GameVersion";
+	if (R->FileVersion != Bro->L_getSRFileVersion())return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion())return "Wrong GameVersion";
 	if (R->MapName != "sss2.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!Check_MIS_WIN())return "Was not a win";
@@ -618,8 +618,8 @@ std::string WEB_Analyser::Kalk_Event3(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != 268)return "Wrong Client";
-	if (R->GameVersion != 400049)return "Wrong GameVersion";
+	if (R->FileVersion != Bro->L_getSRFileVersion())return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion())return "Wrong GameVersion";
 	if (R->MapName != "sss3.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!Check_MIS_WIN())return "Was not a win";
@@ -642,8 +642,8 @@ std::string WEB_Analyser::Kalk_Event5(unsigned long iTimes[RankRowStamps], Wt::C
 	MISS;
 	chart->setHidden(true);
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != 268)return "Wrong Client";
-	if (R->GameVersion != 400049)return "Wrong GameVersion";
+	if (R->FileVersion != Bro->L_getSRFileVersion())return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion())return "Wrong GameVersion";
 	if (R->MapName != "sss5.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!Check_MIS_WIN())return "Was not a win";
@@ -701,8 +701,8 @@ std::string WEB_Analyser::Kalk_Event7(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != 268)return "Wrong Client";
-	if (R->GameVersion != 400049)return "Wrong GameVersion";
+	if (R->FileVersion != Bro->L_getSRFileVersion())return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion())return "Wrong GameVersion";
 	if (R->MapName != "sss7.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!Check_MIS_WIN())return "Was not a win";
@@ -757,8 +757,8 @@ std::string WEB_Analyser::Kalk_Event8(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "restoringlyr_4.map")return "Wrong Map";
 	if (R->DifficultyID != 2)return "Wrong Difficulty";
-	if (R->FileVersion != 268)return "Wrong Client";
-	if (R->GameVersion != 400049)return "Wrong GameVersion";
+	if (R->FileVersion != Bro->L_getSRFileVersion())return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion())return "Wrong GameVersion";
 	bool bWin = false;
 	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;Goal5;1;")bWin = true;
 	if (!bWin)return "Was not a win";
@@ -776,8 +776,8 @@ std::string WEB_Analyser::Kalk_Event9()
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "20002_pve_02p_into_the_jungle.map" && R->MapName != "20001_pve_02p_unexpected_visitors.map")return "Wrong Map";
 	if (R->DifficultyID != 2 && R->DifficultyID != 3)return "Wrong Difficulty";
-	if (R->FileVersion != 268)return "Wrong Client";
-	if (R->GameVersion != 400049)return "Wrong GameVersion";
+	if (R->FileVersion != Bro->L_getSRFileVersion())return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion())return "Wrong GameVersion";
 	bool bWin = false;
 	for (auto A : R->ActionMatrix)if (A->Type == 4007 && (  A->AdditionalInfo == "1025" && R->MapName == "20002_pve_02p_into_the_jungle.map"
 		                                                 || A->AdditionalInfo == "1009" && R->MapName == "20001_pve_02p_unexpected_visitors.map"))bWin = true;
@@ -799,14 +799,17 @@ std::string WEB_Analyser::Kalk_Event10(unsigned long iTimes[RankRowStamps])
 	//4 - 16 Buildings
 
 	MISS;
+	MISD("#1")
 	if (!R->OK)return "No Replay";
+	MISD("#1")
 	if (R->MapName != "battle_of_tactics_8.map")return "Wrong Map";
 	if (R->DifficultyID != 2)return "Wrong Difficulty";
 	if (R->FileVersion != 270)return "Wrong Client";
 	if (R->GameVersion != 400051)return "Wrong GameVersion";
 	if (!Check_MIS_WIN())return "Was not a win";
-	//if (R->TestStriker())return "please do not abuse your power";
+	if (R->TestStriker())return "please do not abuse your power";
 
+	MISD("#1")
 	bool go =  false;
 
 	iTimes[0] = getPlaytime();

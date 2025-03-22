@@ -54,6 +54,9 @@ public:
 	int iCountDown;
 	int iCoolDown;
 
+	unsigned long iSRFileVersion;
+	unsigned long iSRGameVersion;
+
 	std::string sSetting;
 
 	EventData Events[EventsMax];

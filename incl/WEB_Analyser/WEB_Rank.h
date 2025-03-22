@@ -10,6 +10,7 @@ public:
 	Wt::WContainerWidget *cMain;
 	Wt::WTable *wtTabelle;
 	WEB_Analyser *WR;
+	Wt::WAnchor* waRankLink;
 
 	unsigned int iRankList;
 
