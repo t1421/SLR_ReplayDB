@@ -34,7 +34,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 		WA_Debug = true;
 		ReNewTaps();
 	}
-	if (sPARA == Bro->L_getAdminKey())
+	if (sPARA == Bro->L_getAdminKey() && Bro->L_getAdminKey() != "")
 	{
 		MISERROR("ADMIN ON");
 		MISERROR("DEBUG ON");
