@@ -18,6 +18,7 @@ public:
 	Wt::WText		 *wtTime;
 	Wt::WSlider* slider;
 	Wt::WText* sliderText;
+	Wt::WText* sliderNow;
 
 	unsigned int iEventNr;
 

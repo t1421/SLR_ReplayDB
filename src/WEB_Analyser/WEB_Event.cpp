@@ -38,9 +38,11 @@ WEB_Event::WEB_Event(WEB_Analyser *WR_, unsigned int _iEventNr) : WR(WR_), iEven
 	slider->disable();
 	slider->setRange(timestampS, timestampE);
 	sliderText = new Wt::WText("Timeframe: " + TimeToText(timestampS) + " - " + TimeToText(timestampE));
-
+	sliderNow = new Wt::WText("Now: " + TimeToText(Bro->L_getEEE_Now()));
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sliderText)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(sliderNow)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(slider)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
