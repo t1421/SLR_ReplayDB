@@ -71,6 +71,10 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "SRFileVersion"))iSRFileVersion = atoi(line.c_str());
 			if (INI_Value_Check(line, "SRGameVersion"))iSRGameVersion = atoi(line.c_str());
 
+			if (INI_Value_Check(line, "WebAnalyser"))sWebAnalyser = line.c_str();
+			if (INI_Value_Check(line, "WebTome"))sWebTome = line.c_str();
+			if (INI_Value_Check(line, "WebLotto"))sWebLotto = line.c_str();
+
 
 			for (unsigned int i = 0; i < EventsMax; i++)
 				if (INI_Value_Check(line, "Event" + std::to_string(i)))

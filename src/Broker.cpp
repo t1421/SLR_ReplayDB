@@ -512,6 +512,19 @@ unsigned long broker::L_getSRGameVersion()
 {
 	return L->iSRGameVersion;
 }
+
+std::string broker::L_getWebAnalyser()
+{
+	return L->sWebAnalyser;
+}
+std::string broker::L_getWebTome()
+{
+	return L->sWebTome;
+}
+std::string broker::L_getWebLotto()
+{
+	return L->sWebLotto;
+}
 #endif
 
 #ifndef noSMJ

@@ -89,13 +89,13 @@ void WEB_Tome_Public::WRefresh()
 
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
 	std::stringstream sLink;
-	sLink << WebTome << "?gameID=" << Bro->vTomeGames[Con->BroGameID]->sGameID;
+	sLink << Bro->L_getWebTome() << "?gameID=" << Bro->vTomeGames[Con->BroGameID]->sGameID;
 	waLink->setLink(Wt::WLink(sLink.str()));
 
-	WEB_Toolbar::bDisable[0] = !Bro->vTomeGames[Con->BroGameID]->bShowPlayers;
-	WEB_Toolbar::bDisable[1] = !Bro->vTomeGames[Con->BroGameID]->bShowBoosters;
-	WEB_Toolbar::bDisable[2] = !Bro->vTomeGames[Con->BroGameID]->bShowCards;
-	WEB_Toolbar::bDisable[3] = !Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer;
+	WEB_Toolbar::bDisable[0] = !Bro->vTomeGames[Con->BroGameID]->bTapShowPlayer;
+	WEB_Toolbar::bDisable[1] = !Bro->vTomeGames[Con->BroGameID]->bTapShowBooster;
+	WEB_Toolbar::bDisable[2] = !Bro->vTomeGames[Con->BroGameID]->bTapShowCards;
+	WEB_Toolbar::bDisable[3] = !Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayer;
 	
 	if (!WEB_Toolbar::bDisable[0])WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	else if (!WEB_Toolbar::bDisable[1])WEB_Toolbar::sToolbar->setCurrentIndex(1);

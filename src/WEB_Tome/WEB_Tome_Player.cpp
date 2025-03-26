@@ -128,7 +128,7 @@ void WEB_Tome_Player::WRefresh()
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
 	wtPlayerID->setText("<h4> Player ID: " + playerID + "</h4>");
 	std::stringstream sLink;
-	sLink << WebTome << "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + playerID;
+	sLink << Bro->L_getWebTome() << "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + playerID;
 	waLink->setLink(Wt::WLink(sLink.str()));
 
 	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");

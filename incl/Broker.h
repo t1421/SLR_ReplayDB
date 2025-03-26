@@ -29,10 +29,6 @@
 
 #define EventsMax 11 + 1
 
-#define WebAnalyser "https://t1421.de/"
-#define WebTome "https://tome.t1421.de/"
-#define WebLotto "https://lotto.t1421.de/"
-
 class DEBUG;
 class SQL_MIS_New;
 class Replay;
@@ -101,9 +97,14 @@ public:
 	int L_getLivePvPActionLog();
 	int L_getCountDown();
 	int L_getCoolDown();
-
+	
 	unsigned long L_getSRFileVersion();
 	unsigned long L_getSRGameVersion();
+
+	std::string L_getWebAnalyser();
+	std::string L_getWebTome();
+	std::string L_getWebLotto();
+
 	
 	std::string L_getEventName(unsigned int iEvent);
 	unsigned long int L_getEventRankMode(unsigned int iEvent);

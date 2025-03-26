@@ -33,24 +33,46 @@ class Tome_Game
 {
 public:
 
-	bool bHasGame;
-	bool bShowPlayers;
-	bool bShowBoosters;
-	bool bShowCards;
-	bool bShowBoostersOfPlayer;
-	bool bAllowOpening;
-	bool bNoDouble;
-
-	bool bShowCardsUR;
-	bool bShowCardsR;
-	bool bShowCardsUC;
-	bool bShowCardsC;
-
 	int iVersion;
-	int iCardOrder;
+	bool bHasGame;
 
 	std::string sGameID;
 	std::string sAdminID;
+
+	bool bShowGlobalBoosterProgress;
+
+	bool bTapShowPlayer;
+	bool bTapShowPlayerBoosterOpen;
+	bool bTapShowPlayerBoosterMax;
+
+	bool bTapShowBooster;
+	bool bTapShowBoosterUR;
+	bool bTapShowBoosterR;
+	bool bTapShowBoosterUC;
+	bool bTapShowBoosterC;
+	unsigned int iTapShowBoosterOrder;
+
+	bool bTapShowCards;
+	bool bTapShowCardsUR;
+	bool bTapShowCardsR;
+	bool bTapShowCardsUC;
+	bool bTapShowCardsC;
+	unsigned int iTapShowCardsOrder;
+
+	bool bTapShowBoosterPerPlayer;
+	bool bTapShowBoosterPerPlayerUR;
+	bool bTapShowBoosterPerPlayerR;
+	bool bTapShowBoosterPerPlayerUC;
+	bool bTapShowBoosterPerPlayerC;
+	unsigned int iTapShowBoosterPerPlayerOrder;
+
+	bool bAllowOpening;
+	bool bAllowRefroging;	
+
+	bool bNoDouble;
+	bool bNoAffinities;
+	bool bNoPromos;
+
 
 	std::vector <Tome_Player*> vPlayer;
 

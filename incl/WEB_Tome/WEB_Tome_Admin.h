@@ -17,22 +17,41 @@ public:
 
 	Wt::WTable *wtTabelle;
 
-	Wt::WCheckBox *wcAllowOpening;
+	Wt::WCheckBox* wcShowGlobalBoosterProgress;
 
-	Wt::WCheckBox *wcShowPlayers;
-	Wt::WCheckBox *wcShowBoosters;
-	Wt::WCheckBox* wcShowCards;
-	Wt::WCheckBox *wcShowBoostersOfPlayer;
-	Wt::WCheckBox *wcNoDouble;
+	Wt::WCheckBox* wcTapShowPlayer;
+	Wt::WCheckBox* wcTapShowPlayerBoosterOpen;
+	Wt::WCheckBox* wcTapShowPlayerBoosterMax;
 
-	std::shared_ptr<Wt::WButtonGroup> gbCardOrder;
-	Wt::WCheckBox* wcShowCardsUR;
-	Wt::WCheckBox* wcShowCardsR;
-	Wt::WCheckBox* wcShowCardsUC;
-	Wt::WCheckBox* wcShowCardsC;
+	Wt::WCheckBox* wcTapShowBooster;
+	Wt::WCheckBox* wcTapShowBoosterUR;
+	Wt::WCheckBox* wcTapShowBoosterR;
+	Wt::WCheckBox* wcTapShowBoosterUC;
+	Wt::WCheckBox* wcTapShowBoosterC;
+	Wt::WComboBox* wcTapShowBoosterOrder;
 
-	Wt::WCheckBox* wcCards;
+	Wt::WCheckBox* wcTapShowCards;
+	Wt::WCheckBox* wcTapShowCardsUR;
+	Wt::WCheckBox* wcTapShowCardsR;
+	Wt::WCheckBox* wcTapShowCardsUC;
+	Wt::WCheckBox* wcTapShowCardsC;
+	Wt::WComboBox* wcTapShowCardsOrder;
 
+	Wt::WCheckBox* wcTapShowBoosterPerPlayer;
+	Wt::WCheckBox* wcTapShowBoosterPerPlayerUR;
+	Wt::WCheckBox* wcTapShowBoosterPerPlayerR;
+	Wt::WCheckBox* wcTapShowBoosterPerPlayerUC;
+	Wt::WCheckBox* wcTapShowBoosterPerPlayerC;
+	Wt::WComboBox* wcTapShowBoosterPerPlayerOrder;
+
+
+	Wt::WCheckBox* wcAllowOpening;
+	Wt::WCheckBox* wcAllowRefroging;
+	
+	Wt::WCheckBox* wcNoDouble;
+	Wt::WCheckBox* wcNoAffinities;
+	Wt::WCheckBox* wcNoPromos;
+	
 	Wt::WText *wtGameID;
 	Wt::WText *wtAdminID;
 	Wt::WAnchor *waLink;

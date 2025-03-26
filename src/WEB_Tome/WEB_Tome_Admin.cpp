@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\Replay.h" 
@@ -21,6 +21,8 @@
 #include <Wt/WLink.h>
 #include <Wt/WAnchor.h>
 #include <Wt/WRadioButton.h>
+#include <Wt/WComboBox.h>
+
 
 
 broker *(WEB_Tome_Admin::Bro) = NULL;
@@ -32,7 +34,9 @@ struct WEB_Tome_Player
 	Wt::WLineEdit *iMaxBoosters[NumBoostersTypes];
 	Wt::WPushButton *wbDel;
 	Wt::WPushButton *wbMes;
-	Wt::WTableRow *wrRow;
+	Wt::WAnchor*waLink;
+	Wt::WTableRow* wrRow;
+	
 
 	WEB_Tome_Player(Tome_Player *Player)
 	{
@@ -41,6 +45,8 @@ struct WEB_Tome_Player
 		wlPlayerName = new Wt::WLineEdit(Player->sPlayerName);
 		wbDel = new Wt::WPushButton("Del");
 		wbMes = new Wt::WPushButton("Mes");
+		waLink = new Wt::WAnchor();
+		waLink->setText("Link");
 		for (unsigned int i = 0; i < NumBoostersTypes; i++)
 			iMaxBoosters[i] = new Wt::WLineEdit(std::to_string(Player->iMaxBoosters[i]));
 	};
@@ -53,7 +59,8 @@ struct WEB_Tome_Player
 			wrRow->elementAt(2 + i)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(iMaxBoosters[i])));
 		}
 		wrRow->elementAt(NumBoostersTypes + 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbDel)));
-		wrRow->elementAt(NumBoostersTypes + 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbMes)));
+		wrRow->elementAt(NumBoostersTypes + 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbMes)));		
+		wrRow->elementAt(NumBoostersTypes + 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
 	};
 };
 
@@ -74,25 +81,46 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 
 	wtTabelle = new Wt::WTable();
 
-	wcShowPlayers = new Wt::WCheckBox("Show Players");
-	wcShowBoosters = new Wt::WCheckBox("Show Boosters");
-	wcShowCards = new Wt::WCheckBox("Show Cards");
-	wcShowBoostersOfPlayer = new Wt::WCheckBox("Show Boosters per Player");
+	wcShowGlobalBoosterProgress = new Wt::WCheckBox("Show Global Booster Progress");
+
+	wcTapShowPlayer = new Wt::WCheckBox("Show Players");
+	wcTapShowPlayerBoosterOpen = new Wt::WCheckBox("Opend");
+	wcTapShowPlayerBoosterMax = new Wt::WCheckBox("Max");
+
+	wcTapShowBooster = new Wt::WCheckBox("Show Boosters");
+	wcTapShowBoosterUR = new Wt::WCheckBox("UR");
+	wcTapShowBoosterR = new Wt::WCheckBox("R");
+	wcTapShowBoosterUC = new Wt::WCheckBox("UC");
+	wcTapShowBoosterC = new Wt::WCheckBox("C");	
+	wcTapShowBoosterOrder = new Wt::WComboBox;
+
+	wcTapShowCards = new Wt::WCheckBox("Show Cards");
+	wcTapShowCardsUR = new Wt::WCheckBox("UC");
+	wcTapShowCardsR = new Wt::WCheckBox("R");
+	wcTapShowCardsUC = new Wt::WCheckBox("UC");
+	wcTapShowCardsC = new Wt::WCheckBox("C");
+	wcTapShowCardsOrder = new Wt::WComboBox;
+
+
+	wcTapShowBoosterPerPlayer = new Wt::WCheckBox("Show Boosters Per Player");
+	wcTapShowBoosterPerPlayerUR = new Wt::WCheckBox("UC");
+	wcTapShowBoosterPerPlayerR = new Wt::WCheckBox("R");
+	wcTapShowBoosterPerPlayerUC = new Wt::WCheckBox("UC");
+	wcTapShowBoosterPerPlayerC = new Wt::WCheckBox("C");
+	wcTapShowBoosterPerPlayerOrder = new Wt::WComboBox;
+
 	wcAllowOpening = new Wt::WCheckBox("Allow Opening Booster");
+	wcAllowRefroging = new Wt::WCheckBox("Allow Refroging");
+
 	wcNoDouble = new Wt::WCheckBox("No Duplicate Cards");
+	wcNoAffinities = new Wt::WCheckBox("No Affinities");
+	wcNoPromos = new Wt::WCheckBox("No Promo Cards");
 
 	wtGameID = new Wt::WText("");
 	wtAdminID = new Wt::WText("");
 
 	wbSave = new Wt::WPushButton("Save");
 	wbAddPlayer = new Wt::WPushButton("Add Player");
-
-	wcShowCardsUR = new Wt::WCheckBox("UR");
-	wcShowCardsR = new Wt::WCheckBox("R");
-	wcShowCardsUC = new Wt::WCheckBox("UC");
-	wcShowCardsC = new Wt::WCheckBox("C");
-
-	gbCardOrder = std::make_shared<Wt::WButtonGroup>();
 	
 	MISD("#11");
 	wfuDropZone = new Wt::WFileUpload();
@@ -100,121 +128,257 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wtStatus = new Wt::WText("Waiting for Replay");
 	WA = new WEB_Analyser();
 
-	unsigned int iCol = 0;
+	
 	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
+
+	wcTapShowBoosterOrder->addItem("Time");
+	wcTapShowBoosterOrder->addItem("Typ");
+
+	wcTapShowCardsOrder->addItem("Colour");
+	wcTapShowCardsOrder->addItem("Rarety");
+	wcTapShowCardsOrder->addItem("ID");
+
+	wcTapShowBoosterPerPlayerOrder->addItem("Time");
+	wcTapShowBoosterPerPlayerOrder->addItem("Typ");
 
 	MISD("#2");
 
-	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Game ID: </h4>"))), 0, 0);
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)));
-	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Admin ID: </h4>"))), 1, 0);
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdminID)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
+	Wt::WGridLayout* TempGrid = new Wt::WGridLayout();
+	unsigned int iRow = 0;
+	cMain->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)), iRow++, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdminID)), iRow++, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)), iRow++, 0);
 
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowOpening)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowPlayers)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoosters)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowCards)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowCardsUR)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowCardsR)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowCardsUC)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowCardsC)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	gbCardOrder->addButton(cMain->addWidget(Wt::cpp14::make_unique<Wt::WRadioButton>("Colour")), 0);
-	gbCardOrder->addButton(cMain->addWidget(Wt::cpp14::make_unique<Wt::WRadioButton>("Rarity")), 1);
-	gbCardOrder->addButton(cMain->addWidget(Wt::cpp14::make_unique<Wt::WRadioButton>("ID")), 2);
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowBoostersOfPlayer)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoDouble)));	
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbSave)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReplayResultCard)));
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Public Tap Settings </h4>"))), iRow, 0);
+	iRow++;
+
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowGlobalBoosterProgress)), iRow, 0);
+	iRow++;
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowPlayer)), iRow, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowPlayerBoosterOpen)), iRow, 1);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowPlayerBoosterMax)), iRow, 2);
+	iRow++;
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBooster)), iRow, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterUR)), iRow, 1);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterR)), iRow, 2);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterUC)), iRow, 3);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterC)), iRow, 4);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterOrder)), iRow, 5);
+	iRow++;
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCards)), iRow, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsUR)), iRow, 1);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsR)), iRow, 2);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsUC)), iRow, 3);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsC)), iRow, 4);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsOrder)), iRow, 5);
+	iRow++;
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayer)), iRow, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerUR)), iRow, 1);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerR)), iRow, 2);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerUC)), iRow, 3);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerC)), iRow, 4);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerOrder)), iRow, 5);
+	iRow++;
+
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Others </h4>"))), iRow, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowOpening)), iRow++, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowRefroging)), iRow++, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoDouble)), iRow++, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoAffinities)), iRow++, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoPromos)), iRow++, 0);
+
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)), iRow++, 0);
+
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbSave)), iRow, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)), iRow, 1);
+	iRow++;
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)), iRow++, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)), iRow++, 0);
+	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReplayResultCard)), iRow++, 0);
+	
+	
+
 	
 	MISD("#3");
-	wcShowPlayers->clicked().connect(std::bind([=]() {
-		Bro->vTomeGames[Con->BroGameID]->bShowPlayers = wcShowPlayers->isChecked();
+	wcShowGlobalBoosterProgress->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bShowGlobalBoosterProgress = wcShowGlobalBoosterProgress->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}));
+
+	wcTapShowPlayer->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowPlayer = wcTapShowPlayer->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 	}));
-	wcShowBoosters->clicked().connect(std::bind([=]() {
-		Bro->vTomeGames[Con->BroGameID]->bShowBoosters = wcShowBoosters->isChecked();
+	wcTapShowPlayerBoosterOpen->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowPlayerBoosterOpen = wcTapShowPlayerBoosterOpen->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}));
+	wcTapShowPlayerBoosterMax->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowPlayerBoosterMax = wcTapShowPlayerBoosterMax->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}));
+
+	MISD("#31");
+	wcTapShowBooster->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBooster = wcTapShowBooster->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 		WRefresh();
 		}));
-	wcShowCards->clicked().connect(std::bind([=]() {
-		Bro->vTomeGames[Con->BroGameID]->bShowCards = wcShowCards->isChecked();
+	MISD("#311");
+	wcTapShowBoosterUR->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterUR = wcTapShowBoosterUR->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 		WRefresh();
 		}));
-	wcShowBoostersOfPlayer->clicked().connect(std::bind([=]() {
-		Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer = wcShowBoostersOfPlayer->isChecked();
+	MISD("#312");
+	wcTapShowBoosterR->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterR = wcTapShowBoosterR->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	MISD("#313");
+	wcTapShowBoosterUC->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterUC = wcTapShowBoosterUC->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	MISD("#314");
+	wcTapShowBoosterC->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterC = wcTapShowBoosterC->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	MISD("#315");
+	wcTapShowBoosterOrder->changed().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->iTapShowBoosterOrder = wcTapShowBoosterOrder->currentIndex();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	MISD("#32");
+	wcTapShowCards->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowCards = wcTapShowCards->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	wcTapShowCardsUR->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowCardsUR = wcTapShowCardsUR->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	wcTapShowCardsR->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowCardsR = wcTapShowCardsR->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	wcTapShowCardsUC->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowCardsUC = wcTapShowCardsUC->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	wcTapShowCardsC->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowCardsC = wcTapShowCardsC->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	wcTapShowCardsOrder->changed().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->iTapShowCardsOrder = wcTapShowCardsOrder->currentIndex();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	MISD("#33");
+	wcTapShowBoosterPerPlayer->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayer = wcTapShowBoosterPerPlayer->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 	}));
+	wcTapShowBoosterPerPlayerUR->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerUR = wcTapShowBoosterPerPlayerUR->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	wcTapShowBoosterPerPlayerR->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerR = wcTapShowBoosterPerPlayerR->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	wcTapShowBoosterPerPlayerUC->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerUC = wcTapShowBoosterPerPlayerUC->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	wcTapShowBoosterPerPlayerC->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerC = wcTapShowBoosterPerPlayerC->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	wcTapShowBoosterPerPlayerOrder->changed().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->iTapShowBoosterPerPlayerOrder = wcTapShowBoosterPerPlayerOrder->currentIndex();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+
+	MISD("#333");
+
 	wcAllowOpening->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->bAllowOpening = wcAllowOpening->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 	}));
+	wcAllowRefroging->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bAllowRefroging = wcAllowRefroging->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}));
+	MISD("#34");
 	wcNoDouble->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->bNoDouble = wcNoDouble->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 	}));
-
-	wcShowCardsUR->clicked().connect(std::bind([=]() {
-		Bro->vTomeGames[Con->BroGameID]->bShowCardsUR = wcShowCardsUR->isChecked();
+	wcNoAffinities->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bNoAffinities = wcNoAffinities->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 		}));
-	wcShowCardsR->clicked().connect(std::bind([=]() {
-		Bro->vTomeGames[Con->BroGameID]->bShowCardsR = wcShowCardsR->isChecked();
-		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
-		WRefresh();
-		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
-		}));
-	wcShowCardsUC->clicked().connect(std::bind([=]() {
-		Bro->vTomeGames[Con->BroGameID]->bShowCardsUC = wcShowCardsUC->isChecked();
-		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
-		WRefresh();
-		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
-		}));
-	wcShowCardsC->clicked().connect(std::bind([=]() {
-		Bro->vTomeGames[Con->BroGameID]->bShowCardsC = wcShowCardsC->isChecked();
+	wcNoPromos->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bNoPromos = wcNoPromos->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 		}));
 
-	
-	gbCardOrder->checkedChanged().connect(std::bind([=](Wt::WRadioButton* selection) {
-		Bro->vTomeGames[Con->BroGameID]->iCardOrder = gbCardOrder->selectedButtonIndex();
-		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
-		WRefresh();
-		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
-		}, std::placeholders::_1));
-
-	wbSave->clicked().connect(std::bind([=]() {
-		
+	wbSave->clicked().connect(std::bind([=]() {		
 		TabelToBro();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		//WRefresh();
@@ -233,22 +397,25 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 
 	MISD("#4");
 
+	unsigned int iCol = 0;
+	wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Multi Add"))));
+	wtTabelle->elementAt(1, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Multi Rem"))));
+	wtTabelle->elementAt(0, iCol)->setColumnSpan(2);
+	wtTabelle->elementAt(1, iCol)->setColumnSpan(2);
 
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayerID"))));	
-
-	wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Player Name"))));
-	wtTabelle->elementAt(1, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Multi Add"))));
-	wtTabelle->elementAt(2, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Multi Rem"))));
-
+	wtTabelle->elementAt(2, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("PlayerID"))));	
+	wtTabelle->elementAt(2, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Player Name"))));
+	
+	MISD("#5");
 	for (unsigned int i = 0; i < EnumBoosters.size(); i++)
 	{
-		wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
+		wtTabelle->elementAt(2, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
 			DrawImg(Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png", Booster_Size_X, Booster_Size_Y)
 		)));
-
-		wtTabelle->elementAt(1, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("+"))));
-		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(1, iCol)->widget(0))->setWidth(Booster_Size_X * 1.5);
-		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(1, iCol)->widget(0))->clicked().connect(std::bind([=]() {
+		
+		wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("+"))));
+		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(0, iCol)->widget(0))->setWidth(Booster_Size_X * 1.5);
+		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(0, iCol)->widget(0))->clicked().connect(std::bind([=]() {
 			for each(WEB_Tome_Player* iWTP in Tabel_Player)
 			{
 				iWTP->iMaxBoosters[i]->setText(
@@ -259,10 +426,10 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 			Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player");
 			FixTable();
 		}));
-
-		wtTabelle->elementAt(2, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("-"))));
-		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(2, iCol)->widget(0))->setWidth(Booster_Size_X * 1.5);
-		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(2, iCol)->widget(0))->clicked().connect(std::bind([=]() {
+		
+		wtTabelle->elementAt(1, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("-"))));
+		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(1, iCol)->widget(0))->setWidth(Booster_Size_X * 1.5);
+		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(1, iCol)->widget(0))->clicked().connect(std::bind([=]() {
 			for each(WEB_Tome_Player* iWTP in Tabel_Player)
 			{
 				if(atoi(WSTRINGtoSTRING(iWTP->iMaxBoosters[i]->text()).c_str()) - 1 >= 0)
@@ -274,12 +441,13 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 			Bro->postChatEventMIS(std::to_string(Con->BroGameID), "player");
 			FixTable();
 		}));
-
+		
 		iCol++;
 
 	}
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Delete"))));
-	wtTabelle->elementAt(0, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Mesage"))));
+	wtTabelle->elementAt(2, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Delete"))));
+	wtTabelle->elementAt(2, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Mesage"))));
+	wtTabelle->elementAt(2, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Link"))));
 
 	MISD("#4");
 
@@ -345,26 +513,56 @@ void WEB_Tome_Admin::WRefresh()
 	//unsigned int iCol = 0;
 	//std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
 	//std::vector<WEB_Tome_Player *> Tabel_Player;
-
+	MISD("#1");
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
 	wtAdminID->setText("<h4> Admin ID: " + Bro->vTomeGames[Con->BroGameID]->sAdminID + "</h4>");
 	std::stringstream sLink; 
-	sLink<<WebTome<<"?gameID="<<Bro->vTomeGames[Con->BroGameID]->sGameID<<"&adminID="<<Bro->vTomeGames[Con->BroGameID]->sAdminID;
+	sLink<< Bro->L_getWebTome()<<"?gameID="<<Bro->vTomeGames[Con->BroGameID]->sGameID<<"&adminID="<<Bro->vTomeGames[Con->BroGameID]->sAdminID;
 	waLink->setLink(Wt::WLink(sLink.str()));
 
-	wcShowPlayers->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowPlayers);
-	wcShowBoosters->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoosters);
-	wcShowCards->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowCards);
-	wcShowBoostersOfPlayer->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowBoostersOfPlayer);
-	wcAllowOpening->setChecked(Bro->vTomeGames[Con->BroGameID]->bAllowOpening);
-	wcNoDouble->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoDouble);
+	MISD("#2");
+	wcShowGlobalBoosterProgress->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowGlobalBoosterProgress);
 
-	wcShowCardsUR->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowCardsUR);
-	wcShowCardsR->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowCardsR);
-	wcShowCardsUC->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowCardsUC);
-	wcShowCardsC->setChecked(Bro->vTomeGames[Con->BroGameID]->bShowCardsC);
+	wcTapShowPlayer->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowPlayer);
+	wcTapShowPlayerBoosterOpen->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowPlayerBoosterOpen);
+	wcTapShowPlayerBoosterMax->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowPlayerBoosterMax);
+	MISD("#3");
+
+	wcTapShowBooster->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBooster);
+	wcTapShowBoosterUR->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterUR);
+	wcTapShowBoosterR->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterR);
+	wcTapShowBoosterUC->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterUC);
+	wcTapShowBoosterC->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterC);
+	wcTapShowBoosterOrder->setCurrentIndex(Bro->vTomeGames[Con->BroGameID]->iTapShowBoosterOrder);
 	
-	gbCardOrder->setCheckedButton(gbCardOrder->button(Bro->vTomeGames[Con->BroGameID]->iCardOrder));
+	MISD("#4");
+
+	wcTapShowCards->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowCards);
+	wcTapShowCardsUR->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowCardsUR);
+	wcTapShowCardsR->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowCardsR);
+	wcTapShowCardsUC->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowCardsUC);
+	wcTapShowCardsC->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowCardsC);
+	wcTapShowCardsOrder->setCurrentIndex(Bro->vTomeGames[Con->BroGameID]->iTapShowCardsOrder);
+	
+	MISD("#5");
+
+	wcTapShowBoosterPerPlayer->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayer);
+	wcTapShowBoosterPerPlayerUR->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerUR);
+	wcTapShowBoosterPerPlayerR->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerR);
+	wcTapShowBoosterPerPlayerUC->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerUC);
+	wcTapShowBoosterPerPlayerC->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerC);
+	wcTapShowBoosterPerPlayerOrder->setCurrentIndex(Bro->vTomeGames[Con->BroGameID]->iTapShowBoosterPerPlayerOrder);
+
+	MISD("#55");
+	
+	wcAllowOpening->setChecked(Bro->vTomeGames[Con->BroGameID]->bAllowOpening);
+	wcAllowRefroging->setChecked(Bro->vTomeGames[Con->BroGameID]->bAllowRefroging);
+
+	MISD("#6");
+
+	wcNoDouble->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoDouble);
+	wcNoAffinities->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoAffinities);
+	wcNoPromos->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoPromos);
 
 	FixTable();
 
@@ -411,9 +609,11 @@ void WEB_Tome_Admin::FixTable()
 					"welcome to the Tome Fight! The GameID is: " + Bro->vTomeGames[Con->BroGameID]->sGameID + " " +
 					"and you PlayerID is: " + iTP->sPlayerID + " " +
 					"But you can just use this link: " +
-					WebTome + "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID +
+					Bro->L_getWebTome() + "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID +
 					"');");
 			}));
+
+			Tabel_Player[Tabel_Player.size() - 1]->waLink->setLink(Wt::WLink(Bro->L_getWebTome() + "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID));
 		}		
 	}
 	MISD("###");

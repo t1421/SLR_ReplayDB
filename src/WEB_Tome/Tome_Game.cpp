@@ -81,28 +81,65 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 
 			//MISD(line);
 			if (INI_Value_Check(line, "V"))iVersion = atoi(entry(line, 0).c_str());
+			
 
 			//Game Settings
-			if (INI_Value_Check(line, "G"))
-			{												
-				sGameID = entry(line, 0);
-				sAdminID = entry(line, 1);
-				bShowPlayers = atoi(entry(line, 2).c_str());
-				bShowBoosters = atoi(entry(line, 3).c_str());
-				bShowBoostersOfPlayer = atoi(entry(line, 4).c_str());
-				bAllowOpening = atoi(entry(line, 5).c_str());
-				bNoDouble = atoi(entry(line, 6).c_str());	
-				if (iVersion > 0)
+			if (iVersion <= 1)
+			{
+				if (INI_Value_Check(line, "G"))
 				{
-					bShowCards = atoi(entry(line, 7).c_str());
-					bShowCardsUR = atoi(entry(line, 8).c_str());
-					bShowCardsR = atoi(entry(line, 9).c_str());
-					bShowCardsUC = atoi(entry(line, 10).c_str());
-					bShowCardsC = atoi(entry(line, 11).c_str());
-					iCardOrder = atoi(entry(line, 12).c_str());
+					sGameID = entry(line, 0);
+					sAdminID = entry(line, 1);
+					bTapShowPlayer = atoi(entry(line, 2).c_str());
+					bTapShowBooster = atoi(entry(line, 3).c_str());
+					bTapShowBoosterPerPlayer = atoi(entry(line, 4).c_str());
+					bAllowOpening = atoi(entry(line, 5).c_str());
+					bNoDouble = atoi(entry(line, 6).c_str());
 				}
+			}
+			else if (iVersion = 2)
+			{
+				if (INI_Value_Check(line, "GameID"))sGameID = line.c_str();
+				if (INI_Value_Check(line, "AdminID"))sAdminID = line.c_str();
+
+				if (INI_Value_Check(line, "ShowGlobalBoosterProgress"))bShowGlobalBoosterProgress = atoi(line.c_str());
+
+				if (INI_Value_Check(line, "TapShowPlayer"))bTapShowPlayer = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowPlayerBoosterOpen"))bTapShowPlayerBoosterOpen = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowPlayerBoosterMax"))bTapShowPlayerBoosterMax = atoi(line.c_str());
+
+				if (INI_Value_Check(line, "TapShowBooster"))bTapShowBooster = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowBoosterUR"))bTapShowBoosterUR = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowBoosterR"))bTapShowBoosterR = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowBoosterUC"))bTapShowBoosterUC = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowBoosterC"))bTapShowBoosterC = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowBoosterOrder"))iTapShowBoosterOrder = atoi(line.c_str());
+
+				if (INI_Value_Check(line, "TapShowCards"))bTapShowCards = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowCardsUR"))bTapShowCardsUR = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowCardsR"))bTapShowCardsR = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowCardsUC"))bTapShowCardsUC = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowCardsC"))bTapShowCardsC = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowCardsOrder"))iTapShowCardsOrder = atoi(line.c_str());
+
+				if (INI_Value_Check(line, "TapShowBoosterPerPlayer"))bTapShowBoosterPerPlayer = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowBoosterPerPlayerUR"))bTapShowBoosterPerPlayerUR = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowBoosterPerPlayerR"))bTapShowBoosterPerPlayerR = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowBoosterPerPlayerUC"))bTapShowBoosterPerPlayerUC = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowBoosterPerPlayerC"))bTapShowBoosterPerPlayerC = atoi(line.c_str());
+				if (INI_Value_Check(line, "TapShowBoosterPerPlayerOrder"))iTapShowBoosterPerPlayerOrder = atoi(line.c_str());
+				
+
+				if (INI_Value_Check(line, "AllowOpening"))bAllowOpening = atoi(line.c_str());
+				if (INI_Value_Check(line, "AllowRefroging"))bAllowRefroging = atoi(line.c_str());
+
+				if (INI_Value_Check(line, "NoDouble"))bNoDouble = atoi(line.c_str());
+				if (INI_Value_Check(line, "NoAffinities"))bNoAffinities = atoi(line.c_str());
+				if (INI_Value_Check(line, "NoPromos"))bNoPromos = atoi(line.c_str());
 
 			}
+
+
 			//Player
 			if (INI_Value_Check(line, "P"))
 			{
@@ -146,22 +183,47 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 void Tome_Game::Init()
 {
 	MISS;
+
+	iVersion = 2;
 	bHasGame = false;
-	bShowPlayers = false;
-	bShowBoosters = false;
-	bShowCards = false;
-	bShowBoostersOfPlayer = false;
-	bAllowOpening = false;
-	bNoDouble = false;
+
 	sGameID = "";
 	sAdminID = "";
-	bShowCardsUR = true;
-	bShowCardsR = true;
-	bShowCardsUC = true;
-	bShowCardsC = true;
-	iCardOrder = 0;
-	iVersion = 1;
-	//sPlayerID = "";
+
+	bool bShowGlobalBoosterProgress = true;
+
+	bTapShowPlayer = true;
+	bTapShowPlayerBoosterOpen = false;
+	bTapShowPlayerBoosterMax = false;
+
+	bTapShowBooster = false;
+	bTapShowBoosterUR = false;
+	bTapShowBoosterR = false;
+	bTapShowBoosterUC = false;
+	bTapShowBoosterC = false;
+	iTapShowBoosterOrder = 0;
+
+	bTapShowCards = false;
+	bTapShowCardsUR = false;
+	bTapShowCardsR = false;
+	bTapShowCardsUC = false;
+	bTapShowCardsC = false;
+	iTapShowCardsOrder = 0;
+
+	bTapShowBoosterPerPlayer = false;
+	bTapShowBoosterPerPlayerUR = false;
+	bTapShowBoosterPerPlayerR = false;
+	bTapShowBoosterPerPlayerUC = false;
+	bTapShowBoosterPerPlayerC = false;
+	iTapShowBoosterPerPlayerOrder = 0;
+
+	bAllowOpening = false;
+	bAllowRefroging = false;
+
+	bNoDouble = false;
+	bNoAffinities = false;
+	bNoPromos = false;
+
 
 	vPlayer.clear();
 	MISE;
@@ -188,21 +250,55 @@ bool Tome_Game::bSaveGame()
 		MISD("good");
 		ofFile << "V=" << iVersion<< ";\n";
 
+		if (iVersion <= 1)
 		ofFile << "G=" << sGameID
 			<< ";" << sAdminID
-			<< ";" << bShowPlayers
-			<< ";" << bShowBoosters
-			<< ";" << bShowBoostersOfPlayer
+			<< ";" << bTapShowPlayer
+			<< ";" << bTapShowBooster
+			<< ";" << bTapShowBoosterPerPlayer
 			<< ";" << bAllowOpening
-			<< ";" << bNoDouble;
-		if (iVersion > 0)
-			ofFile << ";" << bShowCards
-			<< ";" << bShowCardsUR
-			<< ";" << bShowCardsR
-			<< ";" << bShowCardsUC
-			<< ";" << bShowCardsC
-			<< ";" << iCardOrder;
-		ofFile << ";\n";
+			<< ";" << bNoDouble
+			<< ";\n";
+		else if (iVersion = 2)
+		{
+			ofFile << "GameID="<<sGameID << "\n";
+			ofFile << "AdminID="<<sAdminID << "\n";
+
+			ofFile << "ShowGlobalBoosterProgress="<<bShowGlobalBoosterProgress << "\n";
+
+			ofFile << "TapShowPlayer="<<bTapShowPlayer << "\n";
+			ofFile << "TapShowPlayerBoosterOpen="<<bTapShowPlayerBoosterOpen << "\n";
+			ofFile << "TapShowPlayerBoosterMax="<<bTapShowPlayerBoosterMax << "\n";
+
+			ofFile << "TapShowBooster="<<bTapShowBooster << "\n";
+			ofFile << "TapShowBoosterUR="<<bTapShowBoosterUR << "\n";
+			ofFile << "TapShowBoosterR="<<bTapShowBoosterR << "\n";
+			ofFile << "TapShowBoosterUC="<<bTapShowBoosterUC << "\n";
+			ofFile << "TapShowBoosterC="<<bTapShowBoosterC << "\n";
+			ofFile << "TapShowBoosterOrder="<<iTapShowBoosterOrder << "\n";
+
+			ofFile << "TapShowCards="<<bTapShowCards << "\n";
+			ofFile << "TapShowCardsUR="<<bTapShowCardsUR << "\n";
+			ofFile << "TapShowCardsR="<<bTapShowCardsR << "\n";
+			ofFile << "TapShowCardsUC="<<bTapShowCardsUC << "\n";
+			ofFile << "TapShowCardsC="<<bTapShowCardsC << "\n";
+			ofFile << "TapShowCardsOrder="<<iTapShowCardsOrder << "\n";
+
+			ofFile << "TapShowBoosterPerPlayer="<<bTapShowBoosterPerPlayer << "\n";
+			ofFile << "TapShowBoosterPerPlayerUR="<<bTapShowBoosterPerPlayerUR << "\n";
+			ofFile << "TapShowBoosterPerPlayerR="<<bTapShowBoosterPerPlayerR << "\n";
+			ofFile << "TapShowBoosterPerPlayerUC="<<bTapShowBoosterPerPlayerUC << "\n";
+			ofFile << "TapShowBoosterPerPlayerC="<<bTapShowBoosterPerPlayerC << "\n";
+			ofFile << "TapShowBoosterPerPlayerOrder=" << iTapShowBoosterPerPlayerOrder << "\n";
+
+			ofFile << "AllowOpening="<<bAllowOpening << "\n";
+			ofFile << "AllowRefroging="<<bAllowRefroging << "\n";
+
+			ofFile << "NoDouble="<<bNoDouble << "\n";
+			ofFile << "NoAffinities="<<bNoAffinities << "\n";
+			ofFile << "NoPromos="<<bNoPromos << "\n";
+		}
+
 		for (unsigned int i = 0; i < vPlayer.size(); i++)
 		{
 			ofFile << "P=" << vPlayer[i]->sPlayerID

@@ -18,6 +18,7 @@ int main()
 	LOAD* L = new LOAD();
 	L->teachL();
 	L->StartUp();
+	L->Load_Settings("Private.ini");
 
 	CardBaseSMJ* J = new CardBaseSMJ();
 	J->teachJ();

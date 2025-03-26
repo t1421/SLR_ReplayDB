@@ -82,7 +82,7 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	waLink2 = new Wt::WAnchor();
 	waLink->setText("Switch to Replay Analyser");
 	waLink2->setText("How to Use Tome Fight Maker");
-	waLink->setLink(Wt::WLink(WebAnalyser));
+	waLink->setLink(Wt::WLink(Bro->L_getWebAnalyser()));
 	waLink2->setLink(Wt::WLink("https://youtu.be/sMLBZydTQPE"));
 
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	
@@ -197,37 +197,37 @@ void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 	if (event.Value2_ == "booster" && WEB_Toolbar::sToolbar->currentIndex() == 1)
 	{
 		if (Public->WEB_Toolbar::sToolbar->currentIndex() == 0
-			&& Bro->vTomeGames[BroGameID]->bShowBoostersOfPlayer //nur wen opend boosters
-			&& Bro->vTomeGames[BroGameID]->bShowPlayers)
+			&& Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayer //nur wen opend boosters
+			&& Bro->vTomeGames[BroGameID]->bTapShowPlayer)
 			Public->PP->WRefresh();
 		if (Public->WEB_Toolbar::sToolbar->currentIndex() == 1
-			&& Bro->vTomeGames[BroGameID]->bShowBoosters)
+			&& Bro->vTomeGames[BroGameID]->bTapShowBooster)
 			Public->PB->WRefresh();
 		if (Public->WEB_Toolbar::sToolbar->currentIndex() == 2
-			&& Bro->vTomeGames[BroGameID]->bShowCards)
+			&& Bro->vTomeGames[BroGameID]->bTapShowCards)
 			Public->PC->WRefresh();
 		if (WEB_Toolbar::sToolbar->currentIndex() == 1)
 			Public->WRefresh();
 		if (Public->WEB_Toolbar::sToolbar->currentIndex() == 2
-			&& Bro->vTomeGames[BroGameID]->bShowBoostersOfPlayer)
+			&& Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayer)
 			Public->PPB->WRefresh();
 		}
 	if (event.Value2_ == "player")
 	{
 		if (WEB_Toolbar::sToolbar->currentIndex() == 1
 			&& Public->WEB_Toolbar::sToolbar->currentIndex() == 0
-			&& Bro->vTomeGames[BroGameID]->bShowPlayers)
+			&& Bro->vTomeGames[BroGameID]->bTapShowPlayer)
 			Public->PP->WRefresh();
 		if (Public->WEB_Toolbar::sToolbar->currentIndex() == 1
-			&& Bro->vTomeGames[BroGameID]->bShowBoosters)
+			&& Bro->vTomeGames[BroGameID]->bTapShowBooster)
 			Public->PB->WRefresh();
 		if (WEB_Toolbar::sToolbar->currentIndex() == 1
 			&& Public->WEB_Toolbar::sToolbar->currentIndex() == 2
-			&& Bro->vTomeGames[BroGameID]->bShowCards)
+			&& Bro->vTomeGames[BroGameID]->bTapShowCards)
 			Public->PC->WRefresh();
 		if (WEB_Toolbar::sToolbar->currentIndex() == 1
 			&& Public->WEB_Toolbar::sToolbar->currentIndex() == 3
-			&& Bro->vTomeGames[BroGameID]->bShowBoostersOfPlayer)
+			&& Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayer)
 			Public->PPB->WRefresh();
 		if (WEB_Toolbar::sToolbar->currentIndex() == 1)
 			Public->WRefresh();
@@ -278,10 +278,10 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 
 		for (unsigned int k = 0; k < vAllBoosters[j]->vCards.size() && vAllBoosters[j]->vCards[k]->cardId != 0; k++)
 		{		
-			if( vAllBoosters[j]->vCards[k]->rarity == 0 && Bro->vTomeGames[BroGameID]->bShowCardsC ||
-				vAllBoosters[j]->vCards[k]->rarity == 1 && Bro->vTomeGames[BroGameID]->bShowCardsUC ||
-				vAllBoosters[j]->vCards[k]->rarity == 2 && Bro->vTomeGames[BroGameID]->bShowCardsR ||
-				vAllBoosters[j]->vCards[k]->rarity == 3 && Bro->vTomeGames[BroGameID]->bShowCardsUR ||
+			if( vAllBoosters[j]->vCards[k]->rarity == 0 && Bro->vTomeGames[BroGameID]->bTapShowBoosterC ||
+				vAllBoosters[j]->vCards[k]->rarity == 1 && Bro->vTomeGames[BroGameID]->bTapShowBoosterUC ||
+				vAllBoosters[j]->vCards[k]->rarity == 2 && Bro->vTomeGames[BroGameID]->bTapShowBoosterR ||
+				vAllBoosters[j]->vCards[k]->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowBoosterUR ||
 				bFilter == false)
 			wtTabelle->elementAt(j, k + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
 				DrawImg(Bro->J_GetImage(
@@ -307,7 +307,7 @@ void WEB_Container_Tome::DrawCard(Wt::WTable* wtTabelle, std::vector <SMJCard*> 
 	unsigned int iCol = 0;
 
 	
-	switch (Bro->vTomeGames[BroGameID]->iCardOrder)
+	switch (Bro->vTomeGames[BroGameID]->iTapShowCardsOrder)
 	{
 	case 2:
 		std::sort(vAllCards.begin(), vAllCards.end(), compareCardID);
@@ -326,10 +326,10 @@ void WEB_Container_Tome::DrawCard(Wt::WTable* wtTabelle, std::vector <SMJCard*> 
 	for(auto C : vAllCards)
 	{
 
-		if (C->rarity == 0 && Bro->vTomeGames[BroGameID]->bShowCardsC ||
-			C->rarity == 1 && Bro->vTomeGames[BroGameID]->bShowCardsUC ||
-			C->rarity == 2 && Bro->vTomeGames[BroGameID]->bShowCardsR ||
-			C->rarity == 3 && Bro->vTomeGames[BroGameID]->bShowCardsUR)
+		if (C->rarity == 0 && Bro->vTomeGames[BroGameID]->bTapShowCardsC ||
+			C->rarity == 1 && Bro->vTomeGames[BroGameID]->bTapShowCardsUC ||
+			C->rarity == 2 && Bro->vTomeGames[BroGameID]->bTapShowCardsR ||
+			C->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowCardsUR)
 		{			
 			wtTabelle->elementAt(iCol, iRow)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
 				DrawImg(Bro->J_GetImage(
