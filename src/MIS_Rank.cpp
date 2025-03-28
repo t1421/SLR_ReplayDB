@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\incl\Broker.h" 
 #include "..\incl\Utility.h"
@@ -112,6 +112,18 @@ bool comparePlayerFieldEEE_2(const ROW * a, const ROW * b)
 
 	if (a->Stamps[2] < b->Stamps[2]) return true;
 	else if (a->Stamps[2] > b->Stamps[2]) return false;
+
+	return true;
+}
+
+
+bool compare_1HL_0LH(const ROW* a, const ROW* b)
+{	
+	if (a->Stamps[1] > b->Stamps[1]) return true;
+	else if (a->Stamps[1] < b->Stamps[1]) return false;
+
+	if (a->Stamps[0] < b->Stamps[0]) return true;
+	else if (a->Stamps[0] > b->Stamps[0]) return false;
 
 	return true;
 }
@@ -231,6 +243,9 @@ void MIS_Rank::SortList()
 		break;		
 	case 9:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldID);
+		break;
+	case 10:
+		std::sort(RankRows.begin(), RankRows.end(), compare_1HL_0LH);
 		break;
 	default:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldStage);

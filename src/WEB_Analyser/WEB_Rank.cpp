@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -54,14 +54,14 @@ void WEB_Rank::WRefresh()
 	}
 
 
-	MISD("#1: " + std::to_string(iRankList));
+	//MISD("#1: " + std::to_string(iRankList));
 	
 	std::vector<ROW> vListe;
 	
 
-	MISD("vListe Size1 : " + std::to_string(vListe.size()));
+	//MISD("vListe Size1 : " + std::to_string(vListe.size()));
 	vListe = Bro->A_getRankeROW(iRankList);
-	MISD("vListe Size1 : " + std::to_string(vListe.size()));
+	//MISD("vListe Size1 : " + std::to_string(vListe.size()));
 	
 	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Rank </h4>"))));
 	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Player </h4>"))));	
@@ -323,6 +323,7 @@ void WEB_Rank::WRefresh()
 
 		if (WR->WA_Admin)
 		{
+			MISD(vListe[i].ID);
 			waLink = new Wt::WAnchor();
 			waLink->setText("#");
 			waLink->setLink(Wt::WLink(Bro->L_getPMV_WEB_PATH() + Wt::Utils::urlEncode(std::to_string(iRankList) + "_" + vListe[i].ID + ".pmv")));

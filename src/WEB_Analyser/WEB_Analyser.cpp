@@ -809,7 +809,7 @@ std::string WEB_Analyser::Kalk_Event10(unsigned long iTimes[RankRowStamps])
 	if (R->FileVersion != 270 && !WA_Admin)return "Wrong Client";
 	if (R->GameVersion != 400051 && !WA_Admin)return "Wrong GameVersion";
 	if (!Check_MIS_WIN() && !WA_Admin)return "Was not a win";
-	if (R->TestStriker())return "please do not abuse your power";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	MISD("#1")
 	bool go =  false;
