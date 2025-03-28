@@ -792,6 +792,8 @@ std::string WEB_Analyser::Kalk_Event9()
 
 std::string WEB_Analyser::Kalk_Event10(unsigned long iTimes[RankRowStamps])
 {
+
+	unsigned int iChecker[27] = { 0 };
 	//0 = Time
 	//1 = Points ingame
 	//2 = Check 1
@@ -803,10 +805,10 @@ std::string WEB_Analyser::Kalk_Event10(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	MISD("#1")
 	if (R->MapName != "battle_of_tactics_8.map")return "Wrong Map";
-	if (R->DifficultyID != 2)return "Wrong Difficulty";
-	if (R->FileVersion != 270)return "Wrong Client";
-	if (R->GameVersion != 400051)return "Wrong GameVersion";
-	if (!Check_MIS_WIN())return "Was not a win";
+	if (R->DifficultyID != 2 && !WA_Admin)return "Wrong Difficulty";
+	if (R->FileVersion != 270 && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != 400051 && !WA_Admin)return "Wrong GameVersion";
+	if (!Check_MIS_WIN() && !WA_Admin)return "Was not a win";
 	if (R->TestStriker())return "please do not abuse your power";
 
 	MISD("#1")
@@ -828,9 +830,16 @@ std::string WEB_Analyser::Kalk_Event10(unsigned long iTimes[RankRowStamps])
 		//GO Button
 		if (A->Type == 4014 && A->Time < 600 && A->AdditionalInfo == "2020010;1479")go = true;
 
-		if (A->Type == 4014 && A->Time < 600 && go == false && entry(A->AdditionalInfo, 0) == "2020010")
-			for (auto E : EventBuildings10)if (E.second == atoi(entry(A->AdditionalInfo, 1).c_str()))iTimes[E.first]++;		
+		if (A->Type == 4014 && A->Time < 600 && go == false && entry(A->AdditionalInfo, 0) == "2020010")		
+			for (unsigned int i = 0; i < EventBuildings10.size(); i++)			
+				if (EventBuildings10[i].second == atoi(entry(A->AdditionalInfo, 1).c_str()))
+					iChecker[i]++;
+			
+		
 	}
+	
+	for (unsigned int i = 0; i < EventBuildings10.size(); i++)if(iChecker[i]>0)iTimes[EventBuildings10[i].first]++;
+
 
 	unsigned int CheckSum = 0;
 	//Soul
@@ -864,7 +873,7 @@ std::string WEB_Analyser::Kalk_Event10(unsigned long iTimes[RankRowStamps])
 	//Mask
 	CheckSum += iTimes[17] * 30;
 
-	if (CheckSum != iTimes[1])return "Point missmatch, Calk:" + std::to_string(CheckSum) + " Ingame: " + std::to_string(iTimes[1]);
+	if (CheckSum != iTimes[1] && !WA_Admin)return "Point missmatch, Calk:" + std::to_string(CheckSum) + " Ingame: " + std::to_string(iTimes[1]);
 
 
 	MISE;
