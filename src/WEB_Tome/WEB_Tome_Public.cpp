@@ -113,6 +113,16 @@ void WEB_Tome_Public::WRefresh()
 	slider->setRange(0, maxBooster);
 	slider->setValue(isBooster);
 	sliderText->setText(std::to_string(isBooster) + " / " + std::to_string(maxBooster));
+	if (Bro->vTomeGames[Con->BroGameID]->bShowGlobalBoosterProgress)
+	{
+		slider->setHidden(false);
+		sliderText->setHidden(false);
+	}
+	else 
+	{
+		slider->setHidden(true);
+		sliderText->setHidden(true);
+	}
 
 	WEB_Toolbar::updateToolbar();
 	updateFrame();

@@ -81,7 +81,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 
 	wtTabelle = new Wt::WTable();
 
-	wcShowGlobalBoosterProgress = new Wt::WCheckBox("Show Global Booster Progress");
+	wcShowGlobalBoosterProgress = new Wt::WCheckBox("Global Progress");
 
 	wcTapShowPlayer = new Wt::WCheckBox("Show Players");
 	wcTapShowPlayerBoosterOpen = new Wt::WCheckBox("Opend");
@@ -95,7 +95,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wcTapShowBoosterOrder = new Wt::WComboBox;
 
 	wcTapShowCards = new Wt::WCheckBox("Show Cards");
-	wcTapShowCardsUR = new Wt::WCheckBox("UC");
+	wcTapShowCardsUR = new Wt::WCheckBox("UR");
 	wcTapShowCardsR = new Wt::WCheckBox("R");
 	wcTapShowCardsUC = new Wt::WCheckBox("UC");
 	wcTapShowCardsC = new Wt::WCheckBox("C");
@@ -103,7 +103,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 
 
 	wcTapShowBoosterPerPlayer = new Wt::WCheckBox("Show Boosters Per Player");
-	wcTapShowBoosterPerPlayerUR = new Wt::WCheckBox("UC");
+	wcTapShowBoosterPerPlayerUR = new Wt::WCheckBox("UR");
 	wcTapShowBoosterPerPlayerR = new Wt::WCheckBox("R");
 	wcTapShowBoosterPerPlayerUC = new Wt::WCheckBox("UC");
 	wcTapShowBoosterPerPlayerC = new Wt::WCheckBox("C");
@@ -143,62 +143,76 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 
 	MISD("#2");
 
-	Wt::WGridLayout* TempGrid = new Wt::WGridLayout();
+	//Wt::WGridLayout* TempGrid = new Wt::WGridLayout();
+
+	Wt::WTable *wtTempTable = new Wt::WTable();
+
 	unsigned int iRow = 0;
-	cMain->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)), iRow++, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdminID)), iRow++, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)), iRow++, 0);
+	//cMain->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtGameID)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtAdminID)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
 
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Public Tap Settings </h4>"))), iRow, 0);
-	iRow++;
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTempTable)));
 
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowGlobalBoosterProgress)), iRow, 0);
-	iRow++;
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowPlayer)), iRow, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowPlayerBoosterOpen)), iRow, 1);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowPlayerBoosterMax)), iRow, 2);
-	iRow++;
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBooster)), iRow, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterUR)), iRow, 1);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterR)), iRow, 2);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterUC)), iRow, 3);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterC)), iRow, 4);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterOrder)), iRow, 5);
-	iRow++;
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCards)), iRow, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsUR)), iRow, 1);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsR)), iRow, 2);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsUC)), iRow, 3);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsC)), iRow, 4);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsOrder)), iRow, 5);
-	iRow++;
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayer)), iRow, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerUR)), iRow, 1);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerR)), iRow, 2);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerUC)), iRow, 3);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerC)), iRow, 4);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerOrder)), iRow, 5);
+	//TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Public Tap Settings </h4>"))), iRow, 0);
+	//iRow++;
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Public Tap Settings </h4>"))));
+	wtTempTable->elementAt(iRow, 0)->setColumnSpan(2);
 	iRow++;
 
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Others </h4>"))), iRow, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowOpening)), iRow++, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowRefroging)), iRow++, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoDouble)), iRow++, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoAffinities)), iRow++, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoPromos)), iRow++, 0);
-
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)), iRow++, 0);
-
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbSave)), iRow, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)), iRow, 1);
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcShowGlobalBoosterProgress)));
 	iRow++;
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)), iRow++, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)), iRow++, 0);
-	TempGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReplayResultCard)), iRow++, 0);
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowPlayer)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowPlayerBoosterOpen)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowPlayerBoosterMax)));
+	iRow++;
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBooster)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterUR)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterR)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterUC)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterC)));
+	wtTempTable->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterOrder)));
+	iRow++;
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCards)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsUR)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsR)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsUC)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsC)));
+	wtTempTable->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsOrder)));
+	iRow++;
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayer)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerUR)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerR)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerUC)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerC)));
+	wtTempTable->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerOrder)));
+	iRow++;
+
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Others Settings </h4>"))));
+	wtTempTable->elementAt(iRow, 0)->setColumnSpan(2);
 	
+	iRow++;
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowOpening)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowRefroging)));
+	iRow++;
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoDouble)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoAffinities)));
+	wtTempTable->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoPromos)));
 	
+	wtTempTable->columnAt(0)->setWidth(250);
+	wtTempTable->columnAt(1)->setWidth(250);
+	wtTempTable->columnAt(2)->setWidth(150);
 
+	wcAllowRefroging->disable();
+
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Player Table </h4>"))));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbSave)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbAddPlayer)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wfuDropZone)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtStatus)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReplayResultCard)));
 	
 	MISD("#3");
 	wcShowGlobalBoosterProgress->clicked().connect(std::bind([=]() {

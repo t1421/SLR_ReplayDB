@@ -663,7 +663,7 @@ int broker::getTomeGame(std::string sGameID)
 		return vTomeGames.size() - 1;
 	}
 
-	return -1;
+	return -2;
 }
 #endif
 

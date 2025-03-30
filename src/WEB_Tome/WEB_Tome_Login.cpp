@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Login.h"
@@ -240,11 +240,12 @@ void WEB_Tome_Login::JoinAdmin()
 {
 	MISS;
 	Con->BroGameID = Bro->getTomeGame(WSTRINGtoSTRING(wlGameID->text()));
-	if (Con->BroGameID == -1 || wlGameID->text() == "")
+	MISD(Con->BroGameID);
+	if (Con->BroGameID < 0 || wlGameID->text() == "")
 	{
 		wtStatus->setText("Wrong Game ID");
 		Con->WRefresh();
-		MISEA("Admin Game ID");
+		MISEA("Admin Game ID ");
 		return;
 	}
 

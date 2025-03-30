@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\WEB_Tome\Tome_Game.h"
@@ -77,69 +77,50 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 
 		while (getline(ifFile, line))
 		{
-			line.erase(line.size() - 1);
-
-			//MISD(line);
-			if (INI_Value_Check(line, "V"))iVersion = atoi(entry(line, 0).c_str());
 			
+			//line.erase(line.size() - 1);
+			line.erase(line.size());
+			//MISD(line);
+			if (INI_Value_Check(line, "V"))iVersion = atoi(line.c_str());
+			
+			if (INI_Value_Check(line, "GameID"))sGameID = line.c_str();
+			if (INI_Value_Check(line, "AdminID"))sAdminID = line.c_str();
 
-			//Game Settings
-			if (iVersion <= 1)
-			{
-				if (INI_Value_Check(line, "G"))
-				{
-					sGameID = entry(line, 0);
-					sAdminID = entry(line, 1);
-					bTapShowPlayer = atoi(entry(line, 2).c_str());
-					bTapShowBooster = atoi(entry(line, 3).c_str());
-					bTapShowBoosterPerPlayer = atoi(entry(line, 4).c_str());
-					bAllowOpening = atoi(entry(line, 5).c_str());
-					bNoDouble = atoi(entry(line, 6).c_str());
-				}
-			}
-			else if (iVersion = 2)
-			{
-				if (INI_Value_Check(line, "GameID"))sGameID = line.c_str();
-				if (INI_Value_Check(line, "AdminID"))sAdminID = line.c_str();
+			if (INI_Value_Check(line, "ShowGlobalBoosterProgress"))bShowGlobalBoosterProgress = atoi(line.c_str());
 
-				if (INI_Value_Check(line, "ShowGlobalBoosterProgress"))bShowGlobalBoosterProgress = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowPlayer"))bTapShowPlayer = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowPlayerBoosterOpen"))bTapShowPlayerBoosterOpen = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowPlayerBoosterMax"))bTapShowPlayerBoosterMax = atoi(line.c_str());
 
-				if (INI_Value_Check(line, "TapShowPlayer"))bTapShowPlayer = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowPlayerBoosterOpen"))bTapShowPlayerBoosterOpen = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowPlayerBoosterMax"))bTapShowPlayerBoosterMax = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBooster"))bTapShowBooster = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterUR"))bTapShowBoosterUR = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterR"))bTapShowBoosterR = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterUC"))bTapShowBoosterUC = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterC"))bTapShowBoosterC = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterOrder"))iTapShowBoosterOrder = atoi(line.c_str());
 
-				if (INI_Value_Check(line, "TapShowBooster"))bTapShowBooster = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowBoosterUR"))bTapShowBoosterUR = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowBoosterR"))bTapShowBoosterR = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowBoosterUC"))bTapShowBoosterUC = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowBoosterC"))bTapShowBoosterC = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowBoosterOrder"))iTapShowBoosterOrder = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowCards"))bTapShowCards = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowCardsUR"))bTapShowCardsUR = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowCardsR"))bTapShowCardsR = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowCardsUC"))bTapShowCardsUC = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowCardsC"))bTapShowCardsC = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowCardsOrder"))iTapShowCardsOrder = atoi(line.c_str());
 
-				if (INI_Value_Check(line, "TapShowCards"))bTapShowCards = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowCardsUR"))bTapShowCardsUR = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowCardsR"))bTapShowCardsR = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowCardsUC"))bTapShowCardsUC = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowCardsC"))bTapShowCardsC = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowCardsOrder"))iTapShowCardsOrder = atoi(line.c_str());
-
-				if (INI_Value_Check(line, "TapShowBoosterPerPlayer"))bTapShowBoosterPerPlayer = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowBoosterPerPlayerUR"))bTapShowBoosterPerPlayerUR = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowBoosterPerPlayerR"))bTapShowBoosterPerPlayerR = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowBoosterPerPlayerUC"))bTapShowBoosterPerPlayerUC = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowBoosterPerPlayerC"))bTapShowBoosterPerPlayerC = atoi(line.c_str());
-				if (INI_Value_Check(line, "TapShowBoosterPerPlayerOrder"))iTapShowBoosterPerPlayerOrder = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayer"))bTapShowBoosterPerPlayer = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayerUR"))bTapShowBoosterPerPlayerUR = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayerR"))bTapShowBoosterPerPlayerR = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayerUC"))bTapShowBoosterPerPlayerUC = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayerC"))bTapShowBoosterPerPlayerC = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayerOrder"))iTapShowBoosterPerPlayerOrder = atoi(line.c_str());
 				
 
-				if (INI_Value_Check(line, "AllowOpening"))bAllowOpening = atoi(line.c_str());
-				if (INI_Value_Check(line, "AllowRefroging"))bAllowRefroging = atoi(line.c_str());
-
-				if (INI_Value_Check(line, "NoDouble"))bNoDouble = atoi(line.c_str());
-				if (INI_Value_Check(line, "NoAffinities"))bNoAffinities = atoi(line.c_str());
-				if (INI_Value_Check(line, "NoPromos"))bNoPromos = atoi(line.c_str());
-
-			}
-
-
+			if (INI_Value_Check(line, "AllowOpening"))bAllowOpening = atoi(line.c_str());
+			if (INI_Value_Check(line, "AllowRefroging"))bAllowRefroging = atoi(line.c_str());
+			
+			if (INI_Value_Check(line, "NoDouble"))bNoDouble = atoi(line.c_str());
+			if (INI_Value_Check(line, "NoAffinities"))bNoAffinities = atoi(line.c_str());
+			if (INI_Value_Check(line, "NoPromos"))bNoPromos = atoi(line.c_str());
+			
 			//Player
 			if (INI_Value_Check(line, "P"))
 			{
@@ -161,8 +142,9 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 				vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->iLfdnr = atoi(entry(line,1).c_str());
 
 				for (unsigned int i = 0; i < iCountSemi - 1; i++)
-					vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->vCards.push_back(
-						Bro->J_GetSMJCard(atoi(entry(line, 2 + i).c_str())));
+					if(atoi(entry(line, 2 + i).c_str()) != 0)
+						vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->vCards.push_back(
+							Bro->J_GetSMJCard(atoi(entry(line, 2 + i).c_str())));
 			}
 				
 			ifFile.clear();
@@ -175,6 +157,13 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 		return false;
 	}
 
+	if (iVersion == 0)
+	{
+		Init();
+		MISEA("No Version in File");
+		return false;
+	}
+
 	MISE;
 	return true;
 }
@@ -184,7 +173,7 @@ void Tome_Game::Init()
 {
 	MISS;
 
-	iVersion = 2;
+	iVersion = 1;
 	bHasGame = false;
 
 	sGameID = "";
@@ -248,57 +237,45 @@ bool Tome_Game::bSaveGame()
 	if (ofFile.good())
 	{
 		MISD("good");
-		ofFile << "V=" << iVersion<< ";\n";
+		ofFile << "V=" << iVersion<< "\n";
 
-		if (iVersion <= 1)
-		ofFile << "G=" << sGameID
-			<< ";" << sAdminID
-			<< ";" << bTapShowPlayer
-			<< ";" << bTapShowBooster
-			<< ";" << bTapShowBoosterPerPlayer
-			<< ";" << bAllowOpening
-			<< ";" << bNoDouble
-			<< ";\n";
-		else if (iVersion = 2)
-		{
-			ofFile << "GameID="<<sGameID << "\n";
-			ofFile << "AdminID="<<sAdminID << "\n";
+		ofFile << "GameID="<<sGameID << "\n";
+		ofFile << "AdminID="<<sAdminID << "\n";
 
-			ofFile << "ShowGlobalBoosterProgress="<<bShowGlobalBoosterProgress << "\n";
+		ofFile << "ShowGlobalBoosterProgress="<<bShowGlobalBoosterProgress << "\n";
 
-			ofFile << "TapShowPlayer="<<bTapShowPlayer << "\n";
-			ofFile << "TapShowPlayerBoosterOpen="<<bTapShowPlayerBoosterOpen << "\n";
-			ofFile << "TapShowPlayerBoosterMax="<<bTapShowPlayerBoosterMax << "\n";
+		ofFile << "TapShowPlayer="<<bTapShowPlayer << "\n";
+		ofFile << "TapShowPlayerBoosterOpen="<<bTapShowPlayerBoosterOpen << "\n";
+		ofFile << "TapShowPlayerBoosterMax="<<bTapShowPlayerBoosterMax << "\n";
 
-			ofFile << "TapShowBooster="<<bTapShowBooster << "\n";
-			ofFile << "TapShowBoosterUR="<<bTapShowBoosterUR << "\n";
-			ofFile << "TapShowBoosterR="<<bTapShowBoosterR << "\n";
-			ofFile << "TapShowBoosterUC="<<bTapShowBoosterUC << "\n";
-			ofFile << "TapShowBoosterC="<<bTapShowBoosterC << "\n";
-			ofFile << "TapShowBoosterOrder="<<iTapShowBoosterOrder << "\n";
+		ofFile << "TapShowBooster="<<bTapShowBooster << "\n";
+		ofFile << "TapShowBoosterUR="<<bTapShowBoosterUR << "\n";
+		ofFile << "TapShowBoosterR="<<bTapShowBoosterR << "\n";
+		ofFile << "TapShowBoosterUC="<<bTapShowBoosterUC << "\n";
+		ofFile << "TapShowBoosterC="<<bTapShowBoosterC << "\n";
+		ofFile << "TapShowBoosterOrder="<<iTapShowBoosterOrder << "\n";
 
-			ofFile << "TapShowCards="<<bTapShowCards << "\n";
-			ofFile << "TapShowCardsUR="<<bTapShowCardsUR << "\n";
-			ofFile << "TapShowCardsR="<<bTapShowCardsR << "\n";
-			ofFile << "TapShowCardsUC="<<bTapShowCardsUC << "\n";
-			ofFile << "TapShowCardsC="<<bTapShowCardsC << "\n";
-			ofFile << "TapShowCardsOrder="<<iTapShowCardsOrder << "\n";
+		ofFile << "TapShowCards="<<bTapShowCards << "\n";
+		ofFile << "TapShowCardsUR="<<bTapShowCardsUR << "\n";
+		ofFile << "TapShowCardsR="<<bTapShowCardsR << "\n";
+		ofFile << "TapShowCardsUC="<<bTapShowCardsUC << "\n";
+		ofFile << "TapShowCardsC="<<bTapShowCardsC << "\n";
+		ofFile << "TapShowCardsOrder="<<iTapShowCardsOrder << "\n";
 
-			ofFile << "TapShowBoosterPerPlayer="<<bTapShowBoosterPerPlayer << "\n";
-			ofFile << "TapShowBoosterPerPlayerUR="<<bTapShowBoosterPerPlayerUR << "\n";
-			ofFile << "TapShowBoosterPerPlayerR="<<bTapShowBoosterPerPlayerR << "\n";
-			ofFile << "TapShowBoosterPerPlayerUC="<<bTapShowBoosterPerPlayerUC << "\n";
-			ofFile << "TapShowBoosterPerPlayerC="<<bTapShowBoosterPerPlayerC << "\n";
-			ofFile << "TapShowBoosterPerPlayerOrder=" << iTapShowBoosterPerPlayerOrder << "\n";
+		ofFile << "TapShowBoosterPerPlayer="<<bTapShowBoosterPerPlayer << "\n";
+		ofFile << "TapShowBoosterPerPlayerUR="<<bTapShowBoosterPerPlayerUR << "\n";
+		ofFile << "TapShowBoosterPerPlayerR="<<bTapShowBoosterPerPlayerR << "\n";
+		ofFile << "TapShowBoosterPerPlayerUC="<<bTapShowBoosterPerPlayerUC << "\n";
+		ofFile << "TapShowBoosterPerPlayerC="<<bTapShowBoosterPerPlayerC << "\n";
+		ofFile << "TapShowBoosterPerPlayerOrder=" << iTapShowBoosterPerPlayerOrder << "\n";
 
-			ofFile << "AllowOpening="<<bAllowOpening << "\n";
-			ofFile << "AllowRefroging="<<bAllowRefroging << "\n";
+		ofFile << "AllowOpening="<<bAllowOpening << "\n";
+		ofFile << "AllowRefroging="<<bAllowRefroging << "\n";
 
-			ofFile << "NoDouble="<<bNoDouble << "\n";
-			ofFile << "NoAffinities="<<bNoAffinities << "\n";
-			ofFile << "NoPromos="<<bNoPromos << "\n";
-		}
-
+		ofFile << "NoDouble="<<bNoDouble << "\n";
+		ofFile << "NoAffinities="<<bNoAffinities << "\n";
+		ofFile << "NoPromos="<<bNoPromos << "\n";
+		
 		for (unsigned int i = 0; i < vPlayer.size(); i++)
 		{
 			ofFile << "P=" << vPlayer[i]->sPlayerID
@@ -313,7 +290,8 @@ bool Tome_Game::bSaveGame()
 				ofFile << "PB=" << vPlayer[i]->vBoosters[j]->sType << ";"
 					<< vPlayer[i]->vBoosters[j]->iLfdnr << ";";
 				for (unsigned k = 0; k < vPlayer[i]->vBoosters[j]->vCards.size(); k++)
-					ofFile << vPlayer[i]->vBoosters[j]->vCards[k]->cardId << ";";
+					if(vPlayer[i]->vBoosters[j]->vCards[k]->cardId != 0)
+						ofFile << vPlayer[i]->vBoosters[j]->vCards[k]->cardId << ";";
 				ofFile << "\n";
 			}			
 		}
