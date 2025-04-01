@@ -7,6 +7,8 @@
 
 #include "..\..\incl\DataTypes.h"
 
+#include <algorithm>
+
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
 #include <Wt/WText.h>
@@ -55,7 +57,17 @@ void WEB_Tome_PublicBoosters::WRefresh()
 		for (unsigned int j = 0; j < Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters.size(); j++)		
 			vAllBoosters.push_back(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters[j]);
 	
-	Con->DrawBooster(wtTabelle, vAllBoosters, true);
+	switch (Bro->vTomeGames[Con->BroGameID]->iTapShowBoosterOrder)
+	{
+	case 0:
+		std::sort(vAllBoosters.begin(), vAllBoosters.end(), compareBoostersLfdnr);
+		break;
+	case 1:
+		std::sort(vAllBoosters.begin(), vAllBoosters.end(), compareBoostersType);
+		break;
+	}
+	
+	Con->DrawBooster(wtTabelle, vAllBoosters, 0);
 
 	wlFilter->setText(Con->BoosterToFilter(vAllBoosters, "AllTome"));
 	

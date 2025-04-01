@@ -4,7 +4,12 @@
 #define NumBoostersTypes 14
 #include "..\DataTypes.h"
 
-struct Tome_Booster;
+bool compareBoostersLfdnr(const Tome_Booster* a, const Tome_Booster* b);
+bool compareBoostersType(const Tome_Booster* a, const Tome_Booster* b);
+
+bool compareCardColour(const SMJCard* a, const SMJCard* b);
+bool compareCardRarity(const SMJCard* a, const SMJCard* b);
+bool compareCardID(const SMJCard* a, const SMJCard* b);
 
 struct Tome_Player
 {

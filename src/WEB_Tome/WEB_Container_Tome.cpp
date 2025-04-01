@@ -35,7 +35,7 @@
 #include <algorithm>
 
 broker *(WEB_Container_Tome::Bro) = NULL;
-
+/*
 bool compareBoosters(const Tome_Booster * a, const Tome_Booster * b) { return a->iLfdnr > b->iLfdnr; }
 bool compareCardColour(const SMJCard* a, const SMJCard* b) { 
 	if (a->color == b->color) return a->cardId < b->cardId;
@@ -44,7 +44,7 @@ bool compareCardRarity(const SMJCard* a, const SMJCard* b) {
 	if (a->rarity == b->rarity) return a->cardId < b->cardId;
 	else return a->rarity > b->rarity; }
 bool compareCardID(const SMJCard* a, const SMJCard* b) { return a->cardId < b->cardId; }
-
+*/
 WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	: WApplication(env), BroGameID(-1)
 {
@@ -263,36 +263,49 @@ void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 	MISE;
 }
 
-void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Booster*> vAllBoosters, bool bFilter)
+void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Booster*> vAllBoosters, unsigned int iSrc)
 {
+	// SRC 0 = WEB_Tome_PublicBoosters
+	// SRC 1 = WEB_Tome_Player
+	// SRC 2 = WEB_Tome_PublicPlayersBooster
 	MISS;
 
-	std::sort(vAllBoosters.begin(), vAllBoosters.end(), compareBoosters);
+	unsigned int iCol = 0;
+	unsigned int iRow = 0;
 
-	for (unsigned int j = 0; j <vAllBoosters.size(); j++)
+	for ( Tome_Booster * B : vAllBoosters)
 	{
-		wtTabelle->elementAt(j, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-			DrawImg("./resources/Boosters/" + vAllBoosters[j]->sType + ".png",
+		wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
+			DrawImg("./resources/Boosters/" + B->sType + ".png",
 				Card_Size_X, Card_Size_Y
 			))));
 
-		for (unsigned int k = 0; k < vAllBoosters[j]->vCards.size() && vAllBoosters[j]->vCards[k]->cardId != 0; k++)
-		{		
-			if( vAllBoosters[j]->vCards[k]->rarity == 0 && Bro->vTomeGames[BroGameID]->bTapShowBoosterC ||
-				vAllBoosters[j]->vCards[k]->rarity == 1 && Bro->vTomeGames[BroGameID]->bTapShowBoosterUC ||
-				vAllBoosters[j]->vCards[k]->rarity == 2 && Bro->vTomeGames[BroGameID]->bTapShowBoosterR ||
-				vAllBoosters[j]->vCards[k]->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowBoosterUR ||
-				bFilter == false)
-			wtTabelle->elementAt(j, k + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-				DrawImg(Bro->J_GetImage(
-					vAllBoosters[j]->vCards[k]->cardId,
-					3,
-					3,
-					1,
-					false),
-					Card_Size_X, Card_Size_Y
-				))));
+		iCol = 1;
+		for(SMJCard * C : B->vCards)
+		{					
+			if (iSrc == 0 && C->rarity == 0 && Bro->vTomeGames[BroGameID]->bTapShowBoosterC ||
+				iSrc == 0 && C->rarity == 1 && Bro->vTomeGames[BroGameID]->bTapShowBoosterUC ||
+				iSrc == 0 && C->rarity == 2 && Bro->vTomeGames[BroGameID]->bTapShowBoosterR ||
+				iSrc == 0 && C->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowBoosterUR ||
+				iSrc == 1 ||
+				iSrc == 2 && C->rarity == 0 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerC ||
+				iSrc == 2 && C->rarity == 1 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerUC ||
+				iSrc == 2 && C->rarity == 2 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerR ||
+				iSrc == 2 && C->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerUR )
+			{
+				wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
+					DrawImg(Bro->J_GetImage(
+						C->cardId,
+						3,
+						3,
+						1,
+						false),
+						Card_Size_X, Card_Size_Y
+					))));
+				iCol++;
+			}
 		}
+		iRow++;
 	}
 
 	for (unsigned int i = 0; i < wtTabelle->columnCount(); i++) wtTabelle->columnAt(i)->setWidth(75);

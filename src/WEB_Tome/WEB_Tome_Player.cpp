@@ -137,7 +137,7 @@ void WEB_Tome_Player::WRefresh()
 	wtHistory->clear();
 	wtBooster->clear();
 	MISD("#0");
-	Con->DrawBooster(wtHistory, Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters, false);
+	Con->DrawBooster(wtHistory, Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters, 1);
 	MISD("#1");
 	wtBooster->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Opened"))));
 	wtBooster->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Total"))));

@@ -57,7 +57,7 @@ WEB_Tome_Public::WEB_Tome_Public(WEB_Container_Tome *Con_) : Con(Con_)
 	WEB_Toolbar::ToolBarButton(0, "Players", *PP->cMain, PP);
 	WEB_Toolbar::ToolBarButton(1, "Boosters", *PB->cMain, PB);
 	WEB_Toolbar::ToolBarButton(2, "Cards", *PC->cMain, PC);
-	WEB_Toolbar::ToolBarButton(3, "Player Boosters", *PPB->cMain, PPB);
+	WEB_Toolbar::ToolBarButton(3, "Player Boosters", *PPB->cMain, PPB);	
 
 	Wt::WContainerWidget *XXX = new Wt::WContainerWidget();
 	sToolbar->insertWidget(4, std::unique_ptr<Wt::WContainerWidget>(std::move(XXX)));
@@ -96,11 +96,17 @@ void WEB_Tome_Public::WRefresh()
 	WEB_Toolbar::bDisable[1] = !Bro->vTomeGames[Con->BroGameID]->bTapShowBooster;
 	WEB_Toolbar::bDisable[2] = !Bro->vTomeGames[Con->BroGameID]->bTapShowCards;
 	WEB_Toolbar::bDisable[3] = !Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayer;
+
+	if(    WEB_Toolbar::sToolbar->currentIndex() == 0 && WEB_Toolbar::bDisable[0]
+		|| WEB_Toolbar::sToolbar->currentIndex() == 1 && WEB_Toolbar::bDisable[1]
+		|| WEB_Toolbar::sToolbar->currentIndex() == 2 && WEB_Toolbar::bDisable[2]
+		|| WEB_Toolbar::sToolbar->currentIndex() == 3 && WEB_Toolbar::bDisable[3])
 	
 	if (!WEB_Toolbar::bDisable[0])WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	else if (!WEB_Toolbar::bDisable[1])WEB_Toolbar::sToolbar->setCurrentIndex(1);
 	else if (!WEB_Toolbar::bDisable[2])WEB_Toolbar::sToolbar->setCurrentIndex(2);
 	else if (!WEB_Toolbar::bDisable[3])WEB_Toolbar::sToolbar->setCurrentIndex(3);
+	else WEB_Toolbar::sToolbar->setCurrentIndex(4);
 
 
 	for (unsigned int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); i++)

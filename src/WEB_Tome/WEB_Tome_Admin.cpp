@@ -205,6 +205,8 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wtTempTable->columnAt(2)->setWidth(150);
 
 	wcAllowRefroging->disable();
+	wcNoAffinities->disable();
+	wcNoPromos->disable();
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Player Table </h4>"))));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));

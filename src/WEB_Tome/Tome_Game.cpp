@@ -9,6 +9,20 @@
 #include <fstream>
 #include <random>
 
+bool compareBoostersLfdnr(const Tome_Booster* a, const Tome_Booster* b) { return a->iLfdnr > b->iLfdnr; }
+bool compareBoostersType(const Tome_Booster* a, const Tome_Booster* b) { return std::atoi(a->sType.c_str()) > std::atoi(b->sType.c_str()); }
+
+bool compareCardColour(const SMJCard* a, const SMJCard* b) {
+	if (a->color == b->color) return a->cardId < b->cardId;
+	else return a->color < b->color;
+}
+bool compareCardRarity(const SMJCard* a, const SMJCard* b) {
+	if (a->rarity == b->rarity) return a->cardId < b->cardId;
+	else return a->rarity > b->rarity;
+}
+bool compareCardID(const SMJCard* a, const SMJCard* b) { return a->cardId < b->cardId; }
+
+
 broker *(Tome_Game::Bro) = NULL;
 
 Tome_Game::Tome_Game()

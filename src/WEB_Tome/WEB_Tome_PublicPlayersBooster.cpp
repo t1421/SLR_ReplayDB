@@ -7,6 +7,8 @@
 
 #include "..\..\incl\DataTypes.h"
 
+#include <algorithm>
+
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
 #include <Wt/WText.h>
@@ -43,6 +45,7 @@ void WEB_Tome_PublicPlayersBooster::WRefresh()
 	
 	unsigned int iRow = 0;
 	Wt::WTable *wtTabelleTemp;
+	std::vector <Tome_Booster*> vAllBoosters;
 
 	wtTabelle->clear();
 
@@ -51,9 +54,23 @@ void WEB_Tome_PublicPlayersBooster::WRefresh()
 		wtTabelle->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<H1>" + Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerName + "</H1>"))));
 		//wtTabelle->elementAt(iRow++, 0)->setColumnSpan(9);
 
+		vAllBoosters.clear();
+		for (unsigned int j = 0; j < Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters.size(); j++)
+			vAllBoosters.push_back(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters[j]);
+
+		switch (Bro->vTomeGames[Con->BroGameID]->iTapShowBoosterPerPlayerOrder)
+		{
+		case 0:
+			std::sort(vAllBoosters.begin(), vAllBoosters.end(), compareBoostersLfdnr);
+			break;
+		case 1:
+			std::sort(vAllBoosters.begin(), vAllBoosters.end(), compareBoostersType);
+			break;
+		}
+
 		wtTabelleTemp = new Wt::WTable();
 		wtTabelle->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelleTemp)));
-		Con->DrawBooster(wtTabelleTemp, Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters, true);
+		Con->DrawBooster(wtTabelleTemp, vAllBoosters, 2);
 		wtTabelle->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<H1> </H1>"))));
 	}
 

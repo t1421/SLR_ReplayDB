@@ -45,7 +45,7 @@ public:
 	void PublicReset();
 	void processChatEvent(const MISEvent& event);
 
-	void DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Booster*> vAllBoosters, bool bFilter);
+	void DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Booster*> vAllBoosters, unsigned int iSrc);
 	void DrawCard(Wt::WTable* wtTabelle, std::vector <SMJCard*> vAllCards);
 	std::string BoosterToFilter(std::vector <Tome_Booster*> vAllBoosters, std::string sName);
 	std::string getPlayerID();
