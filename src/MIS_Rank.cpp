@@ -128,6 +128,20 @@ bool compare_1HL_0LH(const ROW* a, const ROW* b)
 	return true;
 }
 
+bool compare_2LH_1LH_0LH(const ROW* a, const ROW* b)
+{
+	if (a->Stamps[2] < b->Stamps[2]) return true;
+	else if (a->Stamps[2] > b->Stamps[2]) return false;
+
+	if (a->Stamps[1] < b->Stamps[1]) return true;
+	else if (a->Stamps[1] > b->Stamps[1]) return false;
+
+	if (a->Stamps[0] < b->Stamps[0]) return true;
+	else if (a->Stamps[0] > b->Stamps[0]) return false;
+
+	return true;
+}
+
 
 unsigned int RANKtoPOINTS(unsigned int iRank)
 {
@@ -220,7 +234,6 @@ void MIS_Rank::SortList()
 	switch (RankList)
 	{
 	case 0:
-	case 11:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0Rev);
 		break;
 	case 2:
@@ -246,6 +259,9 @@ void MIS_Rank::SortList()
 		break;
 	case 10:
 		std::sort(RankRows.begin(), RankRows.end(), compare_1HL_0LH);
+		break;
+	case 11:
+		std::sort(RankRows.begin(), RankRows.end(), compare_2LH_1LH_0LH);
 		break;
 	default:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldStage);
@@ -275,7 +291,7 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 
 	mtx.unlock();
 
-	if (RankMode != 1)
+	if (RankMode > 1 && RankMode < 10)
 	{	
 		SortList();
 		if (RankList == 101)FusionList();

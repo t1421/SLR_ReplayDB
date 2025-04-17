@@ -64,6 +64,13 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Manager", "AddCardToPlayer", "*", "false");
 		Fill_DBArray("Manager", "FillActionLog", "*", "false");
 		Fill_DBArray("Manager", "SetActionLog", "*", "false");
+		Fill_DBArray("Manager", "UpdateActionPerSec", "-->", "false");
+		Fill_DBArray("Manager", "UpdateActionPerSec", "<--", "false");
+		Fill_DBArray("Manager", "SetActionsPerSec", "-->", "false");
+		Fill_DBArray("Manager", "SetActionsPerSec", "<--", "false");
+		Fill_DBArray("Manager", "AddActionPerSec", "*", "false");
+		Fill_DBArray("Manager", "UpdateFiles", "*", "false");
+		
 
 		Fill_DBArray("SQL_MIS_New", "*", "*", "true");
 		Fill_DBArray("SQL_MIS_New", "send", "*", "false");

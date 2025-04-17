@@ -885,32 +885,32 @@ std::string WEB_Analyser::Kalk_Event11(unsigned long iTimes[RankRowStamps])
 	MISS;
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "11105_PvE_01p_EncountersWithTwilight.map")return "Wrong Map";
-	if (R->DifficultyID != 3)return "Wrong Difficulty";
-	if (R->FileVersion != 269)return "Wrong Client";
-	if (R->GameVersion != 400050)return "Wrong GameVersion";	
-	if (R->TestStriker())return "please do not abuse your power";
+	if (R->DifficultyID != 2 && !WA_Admin)return "Wrong Difficulty";
+	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	bool isWin = false;
 	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;11105_02_03EndBoss;1;")isWin = true;
 	if(!isWin)return "Was not a win";
 
-	unsigned int iCardCount = 0;
 	unsigned int iDeckLevel = 0;
 	for each(Player* P in Players)
 		if(P->PlayerID  == R->PMVPlayerID && P->Type == 1)
 			for each(Card * C in P->Deck)
 			{
-				MISD(Bro->J_GetSMJCard(C->CardID)->cardName + "#" + std::to_string(C->count) + "#" + std::to_string(C->Upgrade))
-				iCardCount += C->count;
-				iDeckLevel += C->Upgrade;
+				if (C->count <= 0 || C->CardID == 4051) continue;
+				//MISD(Bro->J_GetSMJCard(C->CardID)->cardName + "#" + std::to_string(C->count) + "#" + std::to_string(C->Upgrade) + "#" + std::to_string(Bro->J_SwitchCharges(C->CardID, C->Charges)));
+				
+				iDeckLevel = iDeckLevel + C->Upgrade + Bro->J_SwitchCharges(C->CardID, C->Charges);
 				isWin = false;
 				for (unsigned int i = 0; i < StartingCards.size() && isWin == false ;i++)isWin = StartingCards[i] == C->CardID;
-				if (isWin == false)return "Not allowed card: " + Bro->J_GetSMJCard(C->CardID)->cardName;				
+				if (isWin == false && !WA_Admin)return "Not allowed card: " + Bro->J_GetSMJCard(C->CardID)->cardName;
 			}
 
 
 	iTimes[0] = getPlaytime();
-	iTimes[1] = iCardCount;
+	iTimes[1] = usedPower();
 	iTimes[2] = iDeckLevel;
 
 	MISE;

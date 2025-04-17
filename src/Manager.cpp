@@ -16,6 +16,7 @@ using namespace boost::filesystem;
 #endif
 
 #include <fstream>
+#include <algorithm>
 
 broker *(Manager::Bro) = NULL;
 
@@ -95,6 +96,9 @@ void Manager::Thread_Function()
 
 	std::stringstream ssCMD;
 	unsigned int iSaveNr;
+	bool _UpdateCards;
+	bool _UpdateActionLog;
+	bool _UpdateActionPerSec;
 
 	while (bRunning)
 	{
@@ -103,6 +107,7 @@ void Manager::Thread_Function()
 		iLastAction = 0;		
 		minActionPlayer = 0;
 		maxActionPlayer = 0;
+
 		if (RR->LoadPMV(Bro->L_getLivePvPPMV()))
 		{			
 			ResteLiveFiles();
@@ -128,24 +133,21 @@ void Manager::Thread_Function()
 						
 			while (RR->readDelta() != -1)
 			{
-				switch (processActions())
-				{
-				case -1: //Re Calc
-					goto exit_loop;
-					break;
-				case 0: //Nichts
-					break;
-				case 1: //Karrte gespielt
-					UpdateFiles();
-					break;
-				
-				}
+				_UpdateCards = false;
+				_UpdateActionLog = false;
+				_UpdateActionPerSec = false;
 
-				if (Bro->L_getLivePvPActionLog() == 1 && vsActionLog.size() > 0)
+				if(processActions(_UpdateCards, _UpdateActionLog, _UpdateActionPerSec)== -1)goto exit_loop;
+				
+				if(_UpdateCards)UpdateFiles();
+				
+				if (_UpdateActionLog && Bro->L_getLivePvPActionLog() == 1 && vsActionLog.size() > 0)
 				{
 					for (auto A: vsActionLog)SetActionLog(A);
 					vsActionLog.clear();
 				}
+
+				if (/* _UpdateActionPerSec && */ Bro->L_getLivePvPActionPerSec() == 1)UpdateActionPerSec();
 
 				//MISD(RR->CountActions());
 				Sleep(Bro->L_getLivePvPRefreshRate());
@@ -166,6 +168,7 @@ void Manager::ResteLiveFiles()
 	{
 		SetPlayer(i, "");
 		SetCardBack(i, 0);
+		SetActionsPerSec(i, 0);
 		for (unsigned int j = 0; j < 20; j++)
 		{
 			SetCard(i * 100 + j, 0, 0, 0, 0);
@@ -194,10 +197,13 @@ void Manager::UpdateFiles()
 	MISE;
 }
 
-int Manager::processActions()
+int Manager::processActions(bool& _UpdateCards, bool& _UpdateActionLog, bool& _UpdateActionPerSec)
 {
 	MISS;
 	int iReturn = 0;
+	_UpdateCards = false;
+	_UpdateActionLog = false;
+	_UpdateActionPerSec = false;
 
 	for (unsigned int i = iLastAction; i < RR->ActionMatrix.size(); i++)
 	{
@@ -217,11 +223,14 @@ int Manager::processActions()
 			RR->ActionMatrix[i]->Type == 4044)
 		{
 			AddCardToPlayer(RR->ActionMatrix[i]);
-			iReturn = 1;
+			_UpdateCards = true;
 		}
 
-		if(Bro->L_getLivePvPActionLog() == 1)
-			FillActionLog(RR->ActionMatrix[i]);
+		if (Bro->L_getLivePvPActionLog() == 1)
+			if (FillActionLog(RR->ActionMatrix[i])) _UpdateActionLog = true;;
+
+		if (Bro->L_getLivePvPActionPerSec() == 1) // && RR->ActionMatrix[i]->ActionPlayer != 0)
+			if (AddActionPerSec(RR->ActionMatrix[i])) _UpdateActionPerSec = true;;
 
 		
 	}
@@ -231,16 +240,16 @@ int Manager::processActions()
 	return iReturn;
 }
 
-void Manager::AddCardToPlayer(Action *Import)
+void Manager::AddCardToPlayer(Action* Import)
 {
 	MISS;
 	bool bFound = false;
 	Card* Card_TEMP = new Card;
-	for each (Player *P in RR->PlayerMatrix)
+	for each (Player * P in RR->PlayerMatrix)
 	{
 		if (P->ActionPlayer == Import->ActionPlayer)
 		{
-			for each(Card *C in P->Deck)
+			for each (Card * C in P->Deck)
 			{
 				if (C->CardID == Import->Card)
 				{
@@ -260,8 +269,22 @@ void Manager::AddCardToPlayer(Action *Import)
 				P->Deck.push_back(Card_TEMP);
 			}
 		}
-	}	
+	}
 	MISE;
+}
+
+bool Manager::AddActionPerSec(Action* Import)
+{
+	MISS;
+
+	for each (Player * P in RR->PlayerMatrix)if (P->ActionPlayer == Import->ActionPlayer)
+	{
+		for (unsigned int i = P->ActionsPerSec.size(); i <= int(Import->Time / 10); i++)P->ActionsPerSec.push_back(0);
+		P->ActionsPerSec[int(Import->Time / 10)]++;
+	}
+
+	MISE;
+	return true;
 }
 
 void Manager::SetCard(unsigned int POS, unsigned short CardID, unsigned char Upgrade, unsigned char Charges, unsigned int Count)
@@ -293,6 +316,16 @@ void Manager::SetCardBack(unsigned int POS, unsigned int iCount)
 	MISE;
 }
 
+void Manager::SetActionsPerSec(unsigned int POS, unsigned int iCount)
+{
+	MISS;
+	//MISD(std::to_string(POS) + "#" + std::to_string(iCount))
+	std::ofstream  dst(Bro->L_getLivePvP_OBS_Export() + "A" + std::to_string(POS) + ".txt", std::ios::binary);
+	dst << iCount;
+	dst.close();
+	MISE;
+}
+
 void Manager::SetPlayer(unsigned int POS, std::string sName)
 {
 	MISS;	
@@ -302,7 +335,7 @@ void Manager::SetPlayer(unsigned int POS, std::string sName)
 	MISE;
 }
 
-void Manager::FillActionLog(Action *Import)
+bool Manager::FillActionLog(Action *Import)
 {
 	MISS;
 
@@ -327,7 +360,7 @@ void Manager::FillActionLog(Action *Import)
 	case 4027:
 	case 4032:
 	case 4045:
-		return;
+		return false;;
 	default:
 		sAdd += sTimeFull(Import->Time) + ": ";
 		sAdd += formatString(RR->SwitchType(Import->Type), 10) + " | ";
@@ -346,6 +379,7 @@ void Manager::FillActionLog(Action *Import)
 	vsActionLog.push_back(sAdd);
 
 	MISE;
+	return true;
 }
 
 void Manager::SetActionLog(std::string sIN)
@@ -356,6 +390,31 @@ void Manager::SetActionLog(std::string sIN)
 	else dst.open(Bro->L_getLivePvP_OBS_Export() + "ActionLog.txt", std::ios::binary | std::ios::app);	
 	dst << sIN<<"\n";
 	dst.close();
+	MISE;
+}
+
+void Manager::UpdateActionPerSec()
+{
+	MISS;
+
+	unsigned int iHelper;
+	unsigned int iMax = 0;
+	//Add Missings MAX
+	for each (Player * P in RR->PlayerMatrix)iMax = std::max(iMax, P->ActionsPerSec.size());
+
+	for each (Player * P in RR->PlayerMatrix)
+	{		
+		//Add Missings
+		for (unsigned int i = P->ActionsPerSec.size(); i < iMax; i++)P->ActionsPerSec.push_back(0);
+
+		iHelper = 0;
+
+		for (int i = P->ActionsPerSec.size() - 1; i >= 0  && i >= (int(P->ActionsPerSec.size()) - Bro->L_getLivePvPActionPerSecNumSec()) ; i--)
+			iHelper += P->ActionsPerSec[i];
+		
+		SetActionsPerSec(P->iSaveID, iHelper);
+	}
+
 	MISE;
 }
 

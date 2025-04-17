@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -38,9 +38,12 @@ void WEB_Rank::WRefresh()
 	
 	Wt::WAnchor *waLink;
 	unsigned int iCol = 0;
+	MISD(iRankList);
+	MISD(Bro->A_getRankMode(iRankList));
+
 
 	wtTabelle->clear();
-	if (Bro->A_getRankMode(iRankList) == 0)
+	if (Bro->A_getRankMode(iRankList) == 5)
 	{
 		wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> No Leaderboard </h3>"))));
 		MISEA("no Rank")
@@ -180,8 +183,8 @@ void WEB_Rank::WRefresh()
 
 	case 11:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
-		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Cards </h4>"))));
-		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Level </h4>"))));
+		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Power </h4>"))));
+		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Deck Level </h4>"))));
 		break;
 	case 12:
 		break;

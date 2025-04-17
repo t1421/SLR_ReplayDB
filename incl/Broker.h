@@ -95,6 +95,8 @@ public:
 	std::string L_getQuizPath();
 	int L_getLivePvPRefreshRate();
 	int L_getLivePvPActionLog();
+	int L_getLivePvPActionPerSec();
+	int L_getLivePvPActionPerSecNumSec();
 	int L_getCountDown();
 	int L_getCoolDown();
 	
@@ -133,6 +135,7 @@ public:
 	std::vector <std::string> J_getUpgradeMaps();
 	std::vector <std::string> J_getTiers();
 	std::vector <std::string> J_getDifficulty();
+	std::vector <std::string> J_getType();
 	unsigned int J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade);
 #endif
 	

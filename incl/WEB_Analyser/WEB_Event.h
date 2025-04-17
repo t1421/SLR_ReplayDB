@@ -14,8 +14,9 @@ public:
 	WEB_Analyser *WR;
 
 	Wt::WText		 *wtStatus;	
-	Wt::WText		 *wtPower;
-	Wt::WText		 *wtTime;
+	Wt::WText* wtLine1;
+	Wt::WText* wtLine2;
+	Wt::WText* wtLine3;
 	Wt::WSlider* slider;
 	Wt::WText* sliderText;
 	Wt::WText* sliderNow;

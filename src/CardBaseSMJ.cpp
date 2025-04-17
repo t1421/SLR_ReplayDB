@@ -302,7 +302,7 @@ unsigned char CardBaseSMJ::SwitchCharges(unsigned short CardID, unsigned char Is
 			break;
 		}
 	}
-
+	//MISERROR(std::to_string(MaxChages));
 	switch (MaxChages)
 	{
 	case 4: switch (IstCharges)
@@ -333,7 +333,7 @@ unsigned char CardBaseSMJ::SwitchCharges(unsigned short CardID, unsigned char Is
 	case 14: return 2;
 	case 16: return 3;
 	}
-	case 10: switch (IstCharges)
+	case 20: switch (IstCharges)
 	{
 	case 10: return 0;
 	case 14: return 1;
@@ -350,6 +350,7 @@ unsigned char CardBaseSMJ::SwitchCharges(unsigned short CardID, unsigned char Is
 	}
 
 	MISE;
+	return 99;
 }
 
 

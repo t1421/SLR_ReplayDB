@@ -59,6 +59,9 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "LivePvP_Pics"))sLivePvP_Pics = line.c_str();
 			if (INI_Value_Check(line, "LivePvPRefreshRate"))iLivePvPRefreshRate = atoi(line.c_str());
 			if (INI_Value_Check(line, "LivePvPActionLog"))iLivePvPActionLog = atoi(line.c_str());
+			if (INI_Value_Check(line, "LivePvPActionPerSec"))iLivePvPActionPerSec = atoi(line.c_str());
+			if (INI_Value_Check(line, "LivePvPActionPerSecNumSec"))iLivePvPActionPerSecNumSec = atoi(line.c_str());
+			
 
 			if (INI_Value_Check(line, "ChallongeUser"))sChallongeUser = line.c_str();
 			if (INI_Value_Check(line, "ChallongeAPIKEY"))sChallongeAPIKEY = line.c_str();
@@ -83,6 +86,7 @@ void LOAD::Load_Settings(std::string sName)
 					Events[i].Start = atoi(entry(line.c_str(), 1).c_str());
 					Events[i].End = atoi(entry(line.c_str(), 2).c_str());
 					Events[i].Hide = atoi(entry(line.c_str(), 3).c_str());
+					Events[i].RankType = atoi(entry(line.c_str(), 4).c_str());
 				}
 
 			ifFile.clear();

@@ -85,13 +85,17 @@ void Question::Start()
 	case 5: //Difficulty
 		for (auto S : Bro->J_getDifficulty())CheckPool.push_back(CleanString(S));
 		break;
+	case 6: //Unit Type
+		for (auto S : Bro->J_getType())CheckPool.push_back(CleanString(S));
+		break;
 	}
 
 	ResetAnswers();
-	Twitch_Message(ID,"ultral34Spitfire2 ultral34Spitfire2 ultral34Spitfire2 ", Titel, Question_Twitch, "ultral34Booster ultral34Booster ultral34Booster ");
+	//Twitch_Message(ID,"ultral34Spitfire2 ultral34Spitfire2 ultral34Spitfire2 ", Titel, Question_Twitch, "ultral34Booster ultral34Booster ultral34Booster ");
+	Twitch_Message(ID, "TwitchSings TwitchSings TwitchSings ", Titel, Question_Twitch, "TwitchSings TwitchSings TwitchSings ");
 	Start_Thread();
 
-	MISE;
+	MISE; 
 }
 
 void Question::ResetAnswers()
@@ -114,7 +118,9 @@ void Question::Winner()
 	
 	std::vector<Answer*> AllAwsers;
 	Answer* Winner = getWinningAnswer( false, AllAwsers);
+	//MISD(tStart);
 	Answer* BestGuess = getWinningAnswer(true, AllAwsers);
+	//MISD(BestGuess->tTime);
 
 	for (unsigned int i = 0; i < AllAwsers.size() && i < 5; i++)
 	{
@@ -129,7 +135,9 @@ void Question::Winner()
 		if (AnswerType == 3)Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch + " With " +  Winner->sAnswer + " " + std::to_string(Winner->iAnswer), "The correct answer was: " + sAnswer + " " + std::to_string(iAnswer));
 		if (AnswerType == 5)Twitch_Message(ID, "The winner is: @" + Winner->Pl->Twitch + " With " + TimeToDate(Winner->iAnswer), "The correct answer was: " + TimeToDate(iAnswer));
 		if (Winner->Pl->Ingame == "") Twitch_Message(Winner->Pl->Twitch, "/w " + Winner->Pl->Twitch + " still need '!name [Your IG Name]'");
-		if (BestGuess != nullptr && BestGuess->Pl->Twitch != Winner->Pl->Twitch)Twitch_Message(ID, "Best Guess was: " + BestGuess->Pl->Twitch + " With " + std::to_string(BestGuess->iAnswer));
+		if (BestGuess != nullptr && BestGuess->Pl->Twitch != Winner->Pl->Twitch && AnswerType == 1)Twitch_Message(ID, "Best Guess was: " + BestGuess->Pl->Twitch + " With " + std::to_string(BestGuess->iAnswer));
+		if (BestGuess != nullptr && BestGuess->Pl->Twitch != Winner->Pl->Twitch && (AnswerType == 2 || AnswerType == 4))Twitch_Message(ID, "Best Guess was: " + BestGuess->Pl->Twitch + " after " + std::to_string(BestGuess->tTime - tStart) + " sec");
+		if (BestGuess != nullptr && BestGuess->Pl->Twitch != Winner->Pl->Twitch && AnswerType == 3)Twitch_Message(ID, "Best Guess was: " + BestGuess->Pl->Twitch + " with " + BestGuess->sAnswer + " " + std::to_string(BestGuess->iAnswer));
 	}
 	else
 	{
@@ -137,7 +145,10 @@ void Question::Winner()
 		if (AnswerType == 2 || AnswerType == 4)Twitch_Message(ID, "No winner :-|", "The correct answer was: " + sAnswer);
 		if (AnswerType == 3)Twitch_Message(ID, "No winner :-|", "The correct answer was: " + sAnswer + " " + std::to_string(iAnswer));
 		if (AnswerType == 5)Twitch_Message(ID, "No winner :-|", "The correct answer was: " + TimeToDate(iAnswer));
-		if (BestGuess != nullptr)Twitch_Message(ID, "Best Guess was: " + BestGuess->Pl->Twitch + " With " + std::to_string(BestGuess->iAnswer));
+		if (BestGuess != nullptr && AnswerType == 1)Twitch_Message(ID, "Best Guess was: " + BestGuess->Pl->Twitch + " with " + std::to_string(BestGuess->iAnswer));
+		if (BestGuess != nullptr && (AnswerType == 2 || AnswerType == 4))Twitch_Message(ID, "Best Guess was: " + BestGuess->Pl->Twitch + " after " + std::to_string(BestGuess->tTime- tStart) + " sec");
+		if (BestGuess != nullptr && AnswerType == 3)Twitch_Message(ID, "Best Guess was: " + BestGuess->Pl->Twitch + " with " + BestGuess->sAnswer + " " + std::to_string(BestGuess->iAnswer));
+		
 	}
 
 	MISE;
@@ -235,11 +246,13 @@ void Question::Thread_Function()
 	if (AnswerType != 4)
 	{
 		SetCountDown(0);
-		Twitch_Message(ID, "ultral34Booster ultral34Booster ultral34Booster ", "TIME IS UP");
+		//Twitch_Message(ID, "ultral34Booster ultral34Booster ultral34Booster ", "TIME IS UP");
+		Twitch_Message(ID, "TwitchSings TwitchSings TwitchSings ", "TIME IS UP");
 		Sleep(1000);
 		LoadAnswers();
 	}
-	else Twitch_Message(ID, "ultral34Booster ultral34Booster ultral34Booster ", "We have a winner");
+	//else Twitch_Message(ID, "ultral34Booster ultral34Booster ultral34Booster ", "We have a winner");
+	else Twitch_Message(ID, "TwitchSings TwitchSings TwitchSings ", "We have a winner");
 
 	MISE;
 }
@@ -478,6 +491,11 @@ bool Question::SpellCheck(std::string& input)
 		if (input == "STD")input = "STANDARD";
 		else if (input == "ADV")input = "ADVANCED";
 		else if (input == "EXP")input = "EXPERT";
+		break;
+	case 6:
+		if (input == "B")input = "BUILDING";
+		else if (input == "S")input = "SPELL";
+		else if (input == "U")input = "UNIT";
 		break;
 	}
 

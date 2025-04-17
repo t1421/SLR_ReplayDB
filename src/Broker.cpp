@@ -424,6 +424,14 @@ int broker::L_getLivePvPActionLog()
 {
 	return L->iLivePvPActionLog;
 }
+int broker::L_getLivePvPActionPerSec()
+{
+	return L->iLivePvPActionPerSec;
+}
+int broker::L_getLivePvPActionPerSecNumSec()
+{
+	return L->iLivePvPActionPerSecNumSec;
+}
 std::string broker::L_getQuizPath()
 {
 	return L->sQuizPath;
@@ -480,6 +488,8 @@ unsigned long int broker::L_getEventRankMode(unsigned int iEvent)
 	// Has Ended / Show + dont add
 	if (now > L->Events[iEvent].End)return 1;
 
+	// is running // Dont show + add
+	if (now > L->Events[iEvent].Start && L->Events[iEvent].RankType == 5)return 5;
 	// is running // show + add
 	if (now > L->Events[iEvent].Start)return 2;
 
@@ -624,6 +634,15 @@ std::vector <std::string> broker::J_getDifficulty()
 {
 	std::vector <std::string> vReturn;
 	for (auto C : J->EnumDifficulty)vReturn.push_back(C.second);
+	sort(vReturn.begin(), vReturn.end());
+	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
+	return vReturn;
+}
+
+std::vector <std::string> broker::J_getType()
+{
+	std::vector <std::string> vReturn;
+	for (auto C : J->EnumType)vReturn.push_back(C.second);
 	sort(vReturn.begin(), vReturn.end());
 	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
 	return vReturn;

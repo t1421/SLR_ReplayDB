@@ -48,6 +48,7 @@ struct Player {
 #endif 
 #if defined BrokerPVP
 	unsigned int iSaveID;
+	std::vector <unsigned short> ActionsPerSec;
 #endif 
 };
 
@@ -169,6 +170,7 @@ struct EventData
 	int Start;
 	int End;
 	int Hide;
+	unsigned int RankType;
 };
 
 #endif //DataTypes
