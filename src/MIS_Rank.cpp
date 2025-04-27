@@ -142,6 +142,20 @@ bool compare_2LH_1LH_0LH(const ROW* a, const ROW* b)
 	return true;
 }
 
+bool compare_0LH_1HL_2HL(const ROW* a, const ROW* b)
+{
+	if (a->Stamps[0] < b->Stamps[0]) return true;
+	else if (a->Stamps[0] > b->Stamps[0]) return false;
+
+	if (a->Stamps[1] > b->Stamps[1]) return true;
+	else if (a->Stamps[1] < b->Stamps[1]) return false;
+
+	if (a->Stamps[2] > b->Stamps[2]) return true;
+	else if (a->Stamps[2] < b->Stamps[2]) return false;	
+
+	return true;
+}
+
 
 unsigned int RANKtoPOINTS(unsigned int iRank)
 {
@@ -263,6 +277,9 @@ void MIS_Rank::SortList()
 	case 11:
 		std::sort(RankRows.begin(), RankRows.end(), compare_2LH_1LH_0LH);
 		break;
+	case 13:		
+		std::sort(RankRows.begin(), RankRows.end(), compare_0LH_1HL_2HL);
+		break;
 	default:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldStage);
 		break;
@@ -327,12 +344,22 @@ void MIS_Rank::CleanList()
 }
 
 
-std::vector<ROW> MIS_Rank::getRankeROW()
+std::vector<ROW> MIS_Rank::getRankeROW(std::string _ID_Filter)
 {	
 	MISS;
 	std::vector<ROW> vReturn;	
 	SortList();
 	for (const auto& rowPtr : RankRows) vReturn.push_back(*rowPtr);	
+	if (_ID_Filter != "")for (unsigned int i = 0; i < vReturn.size(); i++)
+	{
+		if (!(i > 0 && vReturn[i - 1].ID == _ID_Filter
+			|| i < vReturn.size() - 1 && vReturn[i + 1].ID == _ID_Filter
+			|| vReturn[i].ID == _ID_Filter))
+		{
+			vReturn.erase(vReturn.begin() + i--);
+		}
+	}
+
 	MISE;
 	return vReturn;
 }

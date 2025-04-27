@@ -83,6 +83,8 @@ void WEB_Event::WRefresh()
 	wtLine3->setText(" ");
 	std::string sTeamID;
 
+	unsigned int iSaveReturn = 0;
+
 	unsigned long iTimes[RankRowStamps] = {0};
 
 	std::string sReturn;
@@ -102,6 +104,7 @@ void WEB_Event::WRefresh()
 		case 10: sReturn = WR->Kalk_Event10(iTimes); break;
 		case 11: sReturn = WR->Kalk_Event11(iTimes); break;
 		case 12: sReturn = WR->Kalk_Event12(iTimes); break;
+		case 13: sReturn = WR->Kalk_Event13(iTimes); break;
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
@@ -150,6 +153,16 @@ void WEB_Event::WRefresh()
 				WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 
 			wtStatus->setText("<h3>Hello there " + sTeamID + ", nice run : -) </h3> ");
+			break;
+		case 13:
+			sTeamID = WR->GetTeamID();
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes);
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
+			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
+			wtLine1->setText("Time: " + sTime(iTimes[0]));
+			wtLine2->setText("Spells: " + std::to_string(iTimes[1]));
+			wtLine3->setText("Units: " + std::to_string(iTimes[2]));
 			break;
 		}
 

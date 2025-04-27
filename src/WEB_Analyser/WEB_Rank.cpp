@@ -46,25 +46,27 @@ void WEB_Rank::WRefresh()
 	if (Bro->A_getRankMode(iRankList) == 5)
 	{
 		wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> No Leaderboard </h3>"))));
-		MISEA("no Rank")
+		MISEA("no Rank");
+		return;
+	}
+
+	if (!WR->isOK() && Bro->A_getRankMode(iRankList) == 6)
+	{		
+		wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> No Replay </h3>"))));
+		MISEA("no Replay");
 		return;
 	}
 
 	if (WR->WA_Admin)
-	{		
+	{
 		waRankLink->setText("#");
 		waRankLink->setLink(Wt::WLink(Bro->L_getRANK_PATH() + Wt::Utils::urlEncode(std::to_string(iRankList) + ".csv")));
 	}
 
-
-	//MISD("#1: " + std::to_string(iRankList));
-	
 	std::vector<ROW> vListe;
 	
-
-	//MISD("vListe Size1 : " + std::to_string(vListe.size()));
-	vListe = Bro->A_getRankeROW(iRankList);
-	//MISD("vListe Size1 : " + std::to_string(vListe.size()));
+	if(Bro->A_getRankMode(iRankList) == 6)vListe = Bro->A_getRankeROW(iRankList,WR->GetTeamID());
+	else vListe = Bro->A_getRankeROW(iRankList);
 	
 	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Rank </h4>"))));
 	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Player </h4>"))));	
@@ -72,8 +74,7 @@ void WEB_Rank::WRefresh()
 	wtTabelle->columnAt(0)->setWidth(75);
 	wtTabelle->columnAt(1)->setWidth(200);
 	
-	//wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Power </h4>"))));
-
+	/// Fill HEADERS
 	switch (iRankList)	
 	{ 
 	case 0:
@@ -188,13 +189,23 @@ void WEB_Rank::WRefresh()
 		break;
 	case 12:
 		break;
+	case 13:
+		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
+		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Spells </h4>"))));
+		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Units </h4>"))));
+		wtTabelle->elementAt(0, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Code </h4>"))));
+		wtTabelle->elementAt(0, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Crack </h4>"))));
+		break;
 	default:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));		
 	}
 	wtTabelle->columnAt(2)->setWidth(100);
 	wtTabelle->columnAt(3)->setWidth(100);
 
-	MISD("#2" + std::to_string(vListe.size()));
+
+
+	/// FILL ROWS 
+
 	for (unsigned int i = 0; i <vListe.size(); i++)
 	{	
 		wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(i + 1)))));
@@ -320,6 +331,14 @@ void WEB_Rank::WRefresh()
 
 		case 12:
 			break;
+		case 13:
+			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
+			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[1])))));
+			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[2])))));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, 5), vListe[i].Stamps[3] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, 6), vListe[i].Stamps[4] >= 1);
+			if(vListe[i].ID == WR->GetTeamID())wtTabelle->elementAt(i + 1, 2)->setStyleClass("grau-box");
+			break;
 		default:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
 		}			
@@ -334,9 +353,10 @@ void WEB_Rank::WRefresh()
 		}
 	}	
 	
-
-	if (iRankList == 9)
+	/// POST CLEANUP
+	switch (iRankList)
 	{
+	case 9:
 		wtTabelle->removeColumn(0);
 		wtTabelle->columnAt(2)->setWidth(100);
 		wtTabelle->columnAt(3)->setWidth(100);
@@ -344,15 +364,13 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(5)->setWidth(100);
 		wtTabelle->columnAt(6)->setWidth(100);
 		wtTabelle->columnAt(7)->setWidth(100);
-	}
-
-	if (iRankList == 10)
-	{
+		break;
+	case 10:
 		iCol = 4;
 		wtTabelle->columnAt(iCol++)->setWidth(75);
 		wtTabelle->columnAt(iCol++)->setWidth(75);
 		wtTabelle->columnAt(iCol++)->setWidth(75);
-	
+
 		wtTabelle->columnAt(iCol++)->setWidth(30);
 		wtTabelle->columnAt(iCol++)->setWidth(30);
 		wtTabelle->columnAt(iCol++)->setWidth(30);
@@ -389,8 +407,21 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(iCol++)->setWidth(15);
 		wtTabelle->columnAt(iCol++)->setWidth(15);
 		wtTabelle->columnAt(iCol++)->setWidth(15);
-		
+		break;
+	case 12:
+		wtTabelle->removeColumn(0);
+		break;
+	case 13:
+		wtTabelle->removeColumn(0); //rank
+		wtTabelle->removeColumn(0); //player
+		wtTabelle->columnAt(0)->setWidth(75);
+		wtTabelle->columnAt(1)->setWidth(75);
+		wtTabelle->columnAt(2)->setWidth(75);
+		wtTabelle->columnAt(3)->setWidth(50);
+		wtTabelle->columnAt(4)->setWidth(50);
+		break;
+	default:
+		break;
 	}
-	if (iRankList == 12)wtTabelle->removeColumn(0);
 	MISE;
 }

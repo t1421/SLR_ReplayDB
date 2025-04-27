@@ -235,7 +235,12 @@ int broker::A_getRankMode(unsigned int iRANK)
 
 std::vector<ROW> broker::A_getRankeROW(unsigned int iRANK)
 {
-	return A[iRANK]->getRankeROW();
+	return A[iRANK]->getRankeROW("");
+}
+
+std::vector<ROW> broker::A_getRankeROW(unsigned int iRANK, std::string _ID)
+{
+	return A[iRANK]->getRankeROW(_ID);
 }
 
 void broker::A_UpdateRankMode(unsigned int iRANK)
@@ -490,6 +495,9 @@ unsigned long int broker::L_getEventRankMode(unsigned int iEvent)
 
 	// is running // Dont show + add
 	if (now > L->Events[iEvent].Start && L->Events[iEvent].RankType == 5)return 5;
+	// is running // Only show +/- 1Players  + add
+	if (now > L->Events[iEvent].Start && L->Events[iEvent].RankType == 6)return 6;
+
 	// is running // show + add
 	if (now > L->Events[iEvent].Start)return 2;
 

@@ -937,6 +937,58 @@ std::string WEB_Analyser::Kalk_Event12(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
+std::string WEB_Analyser::Kalk_Event13(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "battle_of_tactics_9.map")return "Wrong Map";
+	if (R->DifficultyID != 2 && !WA_Admin)return "Wrong Difficulty";
+	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";	
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+
+	unsigned int iUnits = 0;
+	unsigned int iSpells = 0;
+	bool isWin = false;
+	for (auto A : R->ActionMatrix)
+	{
+		if (A->Type == 4045 && A->AdditionalInfo == "4;12301_03_01_KillBlight;1;")isWin = true;
+		if (A->Type == 4009) iUnits++;
+		if (A->Type == 4010 || A->Type == 4011) iSpells++;
+	}
+	if (!isWin)return "Was not a win";
+
+	char cColourCodeTemp = -2;
+	char cColourCracTemp = -2;
+
+	bool bColourCodeReturn = true;
+	bool bColourCracReturn = true;
+
+	for (auto P : R->PlayerMatrix)
+	{
+		cColourCodeTemp = -2;
+		for (auto C : P->Deck)
+		{
+			if (C->count > 0)
+			{
+				if (cColourCodeTemp == -2)cColourCodeTemp = Bro->J_GetSMJCard(C->CardID)->color;
+				if (cColourCracTemp == -2)cColourCracTemp = Bro->J_GetSMJCard(C->CardID)->color;
+				if (cColourCodeTemp != Bro->J_GetSMJCard(C->CardID)->color && bColourCodeReturn)bColourCodeReturn = false;
+				if (cColourCracTemp != Bro->J_GetSMJCard(C->CardID)->color && bColourCracReturn)bColourCracReturn = false;
+			}
+		}
+	}
+
+	iTimes[0] = getPlaytime();
+	iTimes[1] = iSpells;
+	iTimes[2] = iUnits;
+	if (bColourCodeReturn)iTimes[3] = 1; else iTimes[3] = 0;
+	if (bColourCracReturn)iTimes[4] = 1; else iTimes[4] = 0;	
+
+	MISE;
+	return "";
+}
+
 void WEB_Analyser::AddPlayers9()
 {
 	MISS;

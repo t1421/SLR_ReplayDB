@@ -20,7 +20,7 @@ public:
 	void FusionList();
 			
 	int AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
-	std::vector<ROW> getRankeROW();
+	std::vector<ROW> getRankeROW(std::string _ID_Filter);
 	int RankMode;
 	int RankList;
 

@@ -27,7 +27,7 @@
 //#define BOTXLIST 1
 #define RankRowStamps 20
 
-#define EventsMax 11 + 1
+#define EventsMax 13 + 1
 
 class DEBUG;
 class SQL_MIS_New;
@@ -147,6 +147,7 @@ public:
 	int A_getRankMode(unsigned int iRANK);
 	void A_UpdateRankMode(unsigned int iRANK);
 	std::vector<ROW> A_getRankeROW(unsigned int iRANK);
+	std::vector<ROW> A_getRankeROW(unsigned int iRANK, std::string _ID);
 	
 	std::vector<std::string> FreeNames;
 	std::string getName();
