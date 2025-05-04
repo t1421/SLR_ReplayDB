@@ -43,7 +43,7 @@ void WEB_Rank::WRefresh()
 
 
 	wtTabelle->clear();
-	if (Bro->A_getRankMode(iRankList) == 5)
+	if (Bro->A_getRankMode(iRankList) == 5 && !WR->WA_Admin)
 	{
 		wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> No Public Leaderboard </h3>"))));
 		MISEA("no Rank");

@@ -281,7 +281,6 @@ void Question::LoadAnswers()
 	while (getline(ifFile, line))
 	{
 		if (line.length() <= 1)continue;
-
 		Update = false;
 		for (auto A : Answers)if (A->Pl->Twitch == entry(line, 0))
 		{
@@ -290,7 +289,6 @@ void Question::LoadAnswers()
 			//MISD(localsAnswer);
 			//MISD(localdAnswer);
 			if (AnswerType == 5)localiAnswer = Bro->L_StringToUNIXTime(localdAnswer);
-
 
 			if (   (AnswerType == 1 || AnswerType == 3 || AnswerType == 5) && A->iAnswer != localiAnswer
 				|| (AnswerType == 2 || AnswerType == 3) && A->sAnswer != localsAnswer
@@ -315,10 +313,14 @@ void Question::LoadAnswers()
 			Update = true;
 		}
 
+		MISD("#___");
 		if (Update == false)
 		{
+			MISD("#_1");
 			splitString(entry(line, 1).c_str(), localiAnswer, localsAnswer, localdAnswer);
+			MISD("#_2");
 			if (AnswerType == 5)localiAnswer = Bro->L_StringToUNIXTime(localdAnswer);
+			MISD("#_3");
 			//MISD(localiAnswer);
 			//MISD(localsAnswer);
 			//MISD("#" + localdAnswer + "#");
@@ -424,21 +426,29 @@ void Question::splitString(const std::string& input, int& number, std::string& t
 
 	text.clear();
 	number = 0;
-
+	MISD("x1");
 	// Regulärer Ausdruck, um die erste durchgehende Zahlenfolge zu finden
 	std::regex numberRegex("(\\d+)");
 	std::regex dateRegex(R"(\b\d{2}\.\d{2}\.\d{4}\b)");
 	std::smatch match;
+	MISD("x2");
 
 	// Die erste Zahl im String suchen
-	if (std::regex_search(input, match, numberRegex)) number = std::stoi(match.str());  // Die gefundene Zahl konvertieren
+	if (std::regex_search(input, match, numberRegex))
+	{
+		try { number = std::stoi(match.str()); }
+		catch (const std::invalid_argument& e) { number = 0; }
+		catch (const std::out_of_range& e) { number = 0; }
+	}
+
+	MISD("x3");
 	
 	// Nur die Buchstaben in Großbuchstaben zum Text hinzufügen
 	for (char c : input) if (std::isalpha(c)) text += std::toupper(c);
-
+	MISD("x4");
 	// Regulärer Ausdruck für Datum im Format DD.MM.YYYY
 	if (std::regex_search(input, match, dateRegex)) date = match.str();
-	
+	MISD("x5");
 	MISE;
 }
 
