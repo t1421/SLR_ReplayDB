@@ -61,7 +61,7 @@ void WEB_Rank::WRefresh()
 
 		wtTabelle->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(slider)));
 		wtTabelle->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Replays: " + std::to_string(vListe.size())))));
-		wtTabelle->elementAt(3, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Deck Levent <= 60: " + std::to_string(iDeckCheck)))));
+		wtTabelle->elementAt(3, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" With Deck Lvl <= 60: " + std::to_string(iDeckCheck)))));
 		return;
 	}
 
