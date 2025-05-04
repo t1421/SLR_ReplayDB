@@ -12,6 +12,7 @@
 #include <Wt/WText.h>
 #include <Wt/WAnchor.h>
 #include <Wt/Utils.h>
+#include <Wt/WSlider.h>
 
 
 broker *(WEB_Rank::Bro) = NULL;
@@ -38,6 +39,7 @@ void WEB_Rank::WRefresh()
 	
 	Wt::WAnchor *waLink;
 	unsigned int iCol = 0;
+	std::vector<ROW> vListe;
 	MISD(iRankList);
 	MISD(Bro->A_getRankMode(iRankList));
 
@@ -46,7 +48,20 @@ void WEB_Rank::WRefresh()
 	if (Bro->A_getRankMode(iRankList) == 5 && !WR->WA_Admin)
 	{
 		wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> No Public Leaderboard </h3>"))));
-		MISEA("no Rank");
+
+		unsigned int iDeckCheck = 0;
+		vListe = Bro->A_getRankeROW(iRankList);
+		for (auto R : vListe)if (R.Stamps[2] <= 60) iDeckCheck++;
+
+		Wt::WSlider* slider = new Wt::WSlider();
+		slider->resize(390, 5);
+		slider->disable();
+		slider->setRange(0, vListe.size());
+		slider->setValue(iDeckCheck);
+
+		wtTabelle->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(slider)));
+		wtTabelle->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Replays: " + std::to_string(vListe.size())))));
+		wtTabelle->elementAt(3, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Deck Levent <= 60: " + std::to_string(iDeckCheck)))));
 		return;
 	}
 
@@ -63,7 +78,7 @@ void WEB_Rank::WRefresh()
 		waRankLink->setLink(Wt::WLink(Bro->L_getRANK_PATH() + Wt::Utils::urlEncode(std::to_string(iRankList) + ".csv")));
 	}
 
-	std::vector<ROW> vListe;
+	
 	
 	if(Bro->A_getRankMode(iRankList) == 6)vListe = Bro->A_getRankeROW(iRankList,WR->GetTeamID());
 	else vListe = Bro->A_getRankeROW(iRankList);
