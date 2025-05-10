@@ -227,6 +227,10 @@ int broker::A_AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _Repl
 {
 	return A[iRANK]->AddPlayer(_ID, _ReplayID, _Stamps);
 }
+int broker::A_AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps], unsigned long BestRunStamps[RankRowStamps])
+{
+	return A[iRANK]->AddPlayer(_ID, _ReplayID, _Stamps, BestRunStamps);
+}
 
 int broker::A_getRankMode(unsigned int iRANK)
 {

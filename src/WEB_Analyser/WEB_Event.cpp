@@ -28,6 +28,7 @@ WEB_Event::WEB_Event(WEB_Analyser *WR_, unsigned int _iEventNr) : WR(WR_), iEven
 	wtLine1 = new Wt::WText(" ");
 	wtLine2 = new Wt::WText(" ");
 	wtLine3 = new Wt::WText(" ");
+	wtLine4 = new Wt::WText(" ");
 		
 	MISD("#0");
 
@@ -62,6 +63,8 @@ WEB_Event::WEB_Event(WEB_Analyser *WR_, unsigned int _iEventNr) : WR(WR_), iEven
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtLine2)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtLine3)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtLine4)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Rank->cMain)));
 	
 	MISD("#3");
@@ -84,8 +87,10 @@ void WEB_Event::WRefresh()
 	std::string sTeamID;
 
 	unsigned int iSaveReturn = 0;
+	
 
 	unsigned long iTimes[RankRowStamps] = {0};
+	unsigned long iTimesBestRun[RankRowStamps] = { 0 };
 
 	std::string sReturn;
 
@@ -139,13 +144,15 @@ void WEB_Event::WRefresh()
 
 		case 11:
 			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
-			if (Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes) == 1)
-				WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + WR->GetPlayerName(WR->getPMVPlayerID()) + ".pmv");
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
+			if (iSaveReturn == 1) WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + WR->GetPlayerName(WR->getPMVPlayerID()) + ".pmv");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run " + sTeamID  + ": -) </h3> ");
+			else wtStatus->setText("<h3>Nice run " + sTeamID + ", but not better </h3> ");
 
-			wtStatus->setText("<h3>Hello there " + sTeamID + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
-			wtLine1->setText("Time: " + sTime(iTimes[0]));
-			wtLine2->setText("Power: " + std::to_string(iTimes[1]));
-			wtLine3->setText("Deck Level: " + std::to_string(iTimes[2]));
+			wtLine1->setText("This run Time: " + sTime(iTimes[0]));
+			if (iSaveReturn != 1)wtLine2->setText("Best run Time: " + sTime(iTimesBestRun[0]));
+			wtLine3->setText("This run Deck Level: " + std::to_string(iTimes[2]));
+			if (iSaveReturn != 1)wtLine4->setText("Best run Deck Level: " + std::to_string(iTimesBestRun[2]));
 			break;
 		case 12:
 			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());

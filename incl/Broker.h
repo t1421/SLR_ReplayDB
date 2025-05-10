@@ -144,6 +144,7 @@ public:
 #if defined BrokerWeb
 	void INIT();
 	int A_AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps]);
+	int A_AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps], unsigned long BestRunStamps[RankRowStamps]);
 	int A_getRankMode(unsigned int iRANK);
 	void A_UpdateRankMode(unsigned int iRANK);
 	std::vector<ROW> A_getRankeROW(unsigned int iRANK);

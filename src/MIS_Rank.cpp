@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\incl\Broker.h" 
 #include "..\incl\Utility.h"
@@ -142,6 +142,17 @@ bool compare_2LH_1LH_0LH(const ROW* a, const ROW* b)
 	return true;
 }
 
+bool compare_2LH_0LH(const ROW* a, const ROW* b)
+{
+	if (a->Stamps[2] < b->Stamps[2]) return true;
+	else if (a->Stamps[2] > b->Stamps[2]) return false;
+
+	if (a->Stamps[0] < b->Stamps[0]) return true;
+	else if (a->Stamps[0] > b->Stamps[0]) return false;
+
+	return true;
+}
+
 bool compare_0LH_1HL_2HL(const ROW* a, const ROW* b)
 {
 	if (a->Stamps[0] < b->Stamps[0]) return true;
@@ -275,7 +286,7 @@ void MIS_Rank::SortList()
 		std::sort(RankRows.begin(), RankRows.end(), compare_1HL_0LH);
 		break;
 	case 11:
-		std::sort(RankRows.begin(), RankRows.end(), compare_2LH_1LH_0LH);
+		std::sort(RankRows.begin(), RankRows.end(), compare_2LH_0LH);
 		break;
 	case 13:		
 		std::sort(RankRows.begin(), RankRows.end(), compare_0LH_1HL_2HL);
@@ -291,12 +302,17 @@ void MIS_Rank::SortList()
 
 int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps])
 {
+	unsigned long BestRunStamps[RankRowStamps];
+	return AddPlayer(_ID, _ReplayID, _Stamps, BestRunStamps);
+}
+
+int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps], unsigned long BestRunStamps[RankRowStamps])
+{
 	MISS;
 	int iReturn = 0;
 	bool bUpdate = false;
 	mtx.lock();
 
-	MISD("New Player");
 	MISD(RankMode);
 	ROW* R_Temp = new ROW();
 	R_Temp->ID = _ID;
@@ -316,7 +332,20 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 		SaveList();
 
 		iReturn = 0;
-		for (auto R : RankRows) if (R->ReplayID == _ReplayID)iReturn = 1;
+		for (auto R : RankRows)
+		{
+			if (R->ID == _ID)
+			{
+				for (unsigned int j = 0; j < RankRowStamps; j++)
+				{
+					BestRunStamps[j] = R->Stamps[j] ;
+					MISD(BestRunStamps[j]);
+				}
+			}
+			if (R->ReplayID == _ReplayID)iReturn = 1;
+		}
+		
+		
 	}
 	
 	MISD(std::to_string(iReturn));
