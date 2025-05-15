@@ -117,6 +117,7 @@ bool CardBaseSMJ::Init()
 		SMJMatrix.push_back(SMJCard_TEMP);
 	}
 	for (SMJCard* CC : SMJMatrix)if (CC->cardNameSimple == "Kobold Inc.")CC->cardNameSimple = "Kobold Inc"; 
+	for (SMJCard* CC : SMJMatrix)if (CC->cardId == 529)CC->maxCharges = 16;
 	
 	AllCards = RawData["enums"];
 	
