@@ -759,7 +759,7 @@ bool Replay::ReadActions()
 						break;
 					case 5: //MapModifirer?
 						Action_TEMP->AdditionalInfo = "5;";
-						Action_TEMP->AdditionalInfo = std::to_string(this->readUnsignedLong()) + ";"; // Player ID
+						Action_TEMP->AdditionalInfo = std::to_string(this->readUnsignedLong()) + ";"; // source_account_id
 						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // SPELL ID
 						break;
 					case 6: //BotsStats 
@@ -775,6 +775,12 @@ bool Replay::ReadActions()
 							this->readUnsignedChar(); //Errors
 						}						
 						break;
+					case 7: //BuildingDestroyed?
+						Action_TEMP->AdditionalInfo = "7;";
+						Action_TEMP->AdditionalInfo = std::to_string(this->readUnsignedLong()) + ";"; // Player ID
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // building_id
+						break;
+
 
 					default:
 						MISERROR(FileName);

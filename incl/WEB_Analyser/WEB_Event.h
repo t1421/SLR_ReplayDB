@@ -30,6 +30,8 @@ public:
 	WEB_Event(WEB_Analyser *WR_, unsigned int _iEventNr);
 	void WRefresh();
 
+	std::string getRankBracket(int rank, int totalPlayers);
+
 
 };
 

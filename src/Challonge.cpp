@@ -99,7 +99,7 @@ bool Challonge::getPlayers()
 
 	for (auto J : JsonReturn)
 	{
-		Players.push_back(Player(
+		Players.push_back(Challonge_Player(
 			J["participant"]["id"].asString(),
 			J["participant"]["display_name"].asString(),
 			J["participant"]["group_player_ids"][0].asString()

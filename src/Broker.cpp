@@ -252,6 +252,11 @@ void broker::A_UpdateRankMode(unsigned int iRANK)
 	A[iRANK]->RankMode = L_getEventRankMode(iRANK);
 }
 
+unsigned int broker::A_GetTotalPlayers(unsigned int iRANK)
+{
+	return A[iRANK]->getRankeROW("").size();
+}
+
 std::string broker::getName()
 {
 	if (FreeNames.size() == 0)

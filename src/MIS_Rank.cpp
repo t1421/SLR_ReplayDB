@@ -331,18 +331,17 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 		CleanList();
 		SaveList();
 
-		iReturn = 0;
-		for (auto R : RankRows)
+		iReturn = 0;		
+		//for (auto R : RankRows)
+		for ( unsigned int i = 0; i < RankRows.size(); i++)
 		{
-			if (R->ID == _ID)
+			if (RankRows[i]->ID == _ID)
 			{
-				for (unsigned int j = 0; j < RankRowStamps; j++)
-				{
-					BestRunStamps[j] = R->Stamps[j] ;
-					MISD(BestRunStamps[j]);
-				}
+				for (unsigned int j = 0; j < RankRowStamps; j++)BestRunStamps[j] = RankRows[i]->Stamps[j] ;
+				BestRunStamps[RankRowStamps - 1] = i;
+				
 			}
-			if (R->ReplayID == _ReplayID)iReturn = 1;
+			if (RankRows[i]->ReplayID == _ReplayID)iReturn = 1;
 		}
 		
 		

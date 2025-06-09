@@ -40,6 +40,9 @@ void WEB_Rank::WRefresh()
 	Wt::WAnchor *waLink;
 	unsigned int iCol = 0;
 	std::vector<ROW> vListe;
+	unsigned int iDeckCheck = 0;
+	Wt::WSlider* slider = new Wt::WSlider();
+
 	MISD(iRankList);
 	MISD(Bro->A_getRankMode(iRankList));
 
@@ -47,25 +50,32 @@ void WEB_Rank::WRefresh()
 	wtTabelle->clear();
 	if (Bro->A_getRankMode(iRankList) == 5 && !WR->WA_Admin)
 	{
-		wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> No Public Leaderboard </h3>"))));
+		
 
-		unsigned int iDeckCheck = 0;
-		vListe = Bro->A_getRankeROW(iRankList);
-		for (auto R : vListe)if (R.Stamps[2] <= 60) iDeckCheck++;
+		switch (iRankList)
+		{
+		case 11:
+			
+			wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> No Public Leaderboard </h3>"))));
+			vListe = Bro->A_getRankeROW(iRankList);
+			for (auto R : vListe)if (R.Stamps[2] <= 60) iDeckCheck++;
+			
+			slider->resize(390, 5);
+			slider->disable();
+			slider->setRange(0, vListe.size());
+			slider->setValue(iDeckCheck);
 
-		Wt::WSlider* slider = new Wt::WSlider();
-		slider->resize(390, 5);
-		slider->disable();
-		slider->setRange(0, vListe.size());
-		slider->setValue(iDeckCheck);
+			wtTabelle->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(slider)));
+			wtTabelle->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Replays: " + std::to_string(vListe.size())))));
+			wtTabelle->elementAt(3, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" With Deck Lvl <= 60: " + std::to_string(iDeckCheck)))));
+			return;
 
-		wtTabelle->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(slider)));
-		wtTabelle->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Replays: " + std::to_string(vListe.size())))));
-		wtTabelle->elementAt(3, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" With Deck Lvl <= 60: " + std::to_string(iDeckCheck)))));
-		return;
+		//case 13:
+		//	return;
+		}
 	}
 
-	if (!WR->isOK() && Bro->A_getRankMode(iRankList) == 6)
+	if (!WR->isOK() && Bro->A_getRankMode(iRankList) == 5)
 	{		
 		wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> No Replay </h3>"))));
 		MISEA("no Replay");
@@ -80,7 +90,7 @@ void WEB_Rank::WRefresh()
 
 	
 	
-	if(Bro->A_getRankMode(iRankList) == 6)vListe = Bro->A_getRankeROW(iRankList,WR->GetTeamID());
+	if(Bro->A_getRankMode(iRankList) == 5)vListe = Bro->A_getRankeROW(iRankList,WR->GetTeamID());
 	else vListe = Bro->A_getRankeROW(iRankList);
 	
 	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Rank </h4>"))));
@@ -208,8 +218,6 @@ void WEB_Rank::WRefresh()
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
 		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Spells </h4>"))));
 		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Units </h4>"))));
-		wtTabelle->elementAt(0, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Code </h4>"))));
-		wtTabelle->elementAt(0, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Crack </h4>"))));
 		break;
 	default:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));		
@@ -350,8 +358,6 @@ void WEB_Rank::WRefresh()
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
 			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[1])))));
 			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[2])))));
-			WR->AddIMG(wtTabelle->elementAt(i + 1, 5), vListe[i].Stamps[3] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, 6), vListe[i].Stamps[4] >= 1);
 			if(vListe[i].ID == WR->GetTeamID())wtTabelle->elementAt(i + 1, 2)->setStyleClass("grau-box");
 			break;
 		default:
@@ -432,8 +438,6 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(0)->setWidth(75);
 		wtTabelle->columnAt(1)->setWidth(75);
 		wtTabelle->columnAt(2)->setWidth(75);
-		wtTabelle->columnAt(3)->setWidth(50);
-		wtTabelle->columnAt(4)->setWidth(50);
 		break;
 	default:
 		break;

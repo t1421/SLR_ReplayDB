@@ -163,13 +163,15 @@ void WEB_Event::WRefresh()
 			break;
 		case 13:
 			sTeamID = WR->GetTeamID();
-			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes);
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
 			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
 			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
-			wtLine1->setText("Time: " + sTime(iTimes[0]));
+			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
 			wtLine2->setText("Spells: " + std::to_string(iTimes[1]));
 			wtLine3->setText("Units: " + std::to_string(iTimes[2]));
+
+			wtLine4->setText("Your best run (" + sTimeFull(iTimesBestRun[0]) + ") is in the top " + getRankBracket(iTimesBestRun[RankRowStamps - 1], Bro->A_GetTotalPlayers(iEventNr)));
 			break;
 		}
 
@@ -180,3 +182,14 @@ void WEB_Event::WRefresh()
 }
 
 
+std::string WEB_Event::getRankBracket(int rank, int totalPlayers) 
+{
+	if (rank <= totalPlayers * 0.25)
+		return "25%";
+	else if (rank <= totalPlayers * 0.50)
+		return "50%";
+	else if (rank <= totalPlayers * 0.75)
+		return "75%";
+	else
+		return "100%";
+}

@@ -958,32 +958,9 @@ std::string WEB_Analyser::Kalk_Event13(unsigned long iTimes[RankRowStamps])
 	}
 	if (!isWin)return "Was not a win";
 
-	char cColourCodeTemp = -2;
-	char cColourCracTemp = -2;
-
-	bool bColourCodeReturn = true;
-	bool bColourCracReturn = true;
-
-	for (auto P : R->PlayerMatrix)
-	{
-		cColourCodeTemp = -2;
-		for (auto C : P->Deck)
-		{
-			if (C->count > 0)
-			{
-				if (cColourCodeTemp == -2)cColourCodeTemp = Bro->J_GetSMJCard(C->CardID)->color;
-				if (cColourCracTemp == -2)cColourCracTemp = Bro->J_GetSMJCard(C->CardID)->color;
-				if (cColourCodeTemp != Bro->J_GetSMJCard(C->CardID)->color && bColourCodeReturn)bColourCodeReturn = false;
-				if (cColourCracTemp != Bro->J_GetSMJCard(C->CardID)->color && bColourCracReturn)bColourCracReturn = false;
-			}
-		}
-	}
-
 	iTimes[0] = getPlaytime();
 	iTimes[1] = iSpells;
 	iTimes[2] = iUnits;
-	if (bColourCodeReturn)iTimes[3] = 1; else iTimes[3] = 0;
-	if (bColourCracReturn)iTimes[4] = 1; else iTimes[4] = 0;	
 
 	MISE;
 	return "";

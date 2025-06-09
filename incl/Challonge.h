@@ -26,9 +26,9 @@ struct Match
 	std::string scores_csv;
 };
 
-struct Player
+struct Challonge_Player
 {
-	Player(std::string _sID, std::string _display_name, std::string _group_player_ids) :
+	Challonge_Player(std::string _sID, std::string _display_name, std::string _group_player_ids) :
 		id(_sID), display_name(_display_name), group_player_ids(_group_player_ids){};
 	std::string id;
 	std::string display_name;
@@ -62,7 +62,7 @@ private:
 	std::mutex mutex_WEBRequest;
 
 	std::string sEventID;
-	std::vector<Player> Players;
+	std::vector<Challonge_Player> Players;
 	void saveJson(Json::Value _JSON, std::string _NAME);
 
 	//std::vector<Match> vLastMatches;
