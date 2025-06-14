@@ -110,6 +110,8 @@ void WEB_Event::WRefresh()
 		case 11: sReturn = WR->Kalk_Event11(iTimes); break;
 		case 12: sReturn = WR->Kalk_Event12(iTimes); break;
 		case 13: sReturn = WR->Kalk_Event13(iTimes); break;
+		case 14: sReturn = WR->Kalk_Event14(iTimes); break;
+		case 15: sReturn = WR->Kalk_Event15(iTimes); break;
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
@@ -161,7 +163,7 @@ void WEB_Event::WRefresh()
 
 			wtStatus->setText("<h3>Hello there " + sTeamID + ", nice run : -) </h3> ");
 			break;
-		case 13:
+		case 13: //BOT9
 			sTeamID = WR->GetTeamID();
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
 			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
@@ -172,6 +174,22 @@ void WEB_Event::WRefresh()
 			wtLine3->setText("Units: " + std::to_string(iTimes[2]));
 
 			wtLine4->setText("Your best run (" + sTimeFull(iTimesBestRun[0]) + ") is in the top " + getRankBracket(iTimesBestRun[RankRowStamps - 1], Bro->A_GetTotalPlayers(iEventNr)));
+			break;		
+		case 14: //BOT10
+			sTeamID = WR->GetTeamID();
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) (Ranking shows +/- one rank compared to yours) </h3> ");
+			else wtStatus->setText("<h3>Nice run, but not faster then your currend one (Ranking shows +/- one rank compared to yours) </h3> ");
+			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
+			wtLine4->setText("Your best run (" + sTimeFull(iTimesBestRun[0]) + ") is in the top " + getRankBracket(iTimesBestRun[RankRowStamps - 1], Bro->A_GetTotalPlayers(iEventNr)));
+			break;
+		case 15: //Canyon
+			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
+			if (Bro->A_AddPlayer(iEventNr, sTeamID, 0, iTimes) == 1)
+				WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+
+			wtStatus->setText("<h3>Hello there " + sTeamID + ", nice run : -) </h3> ");
 			break;
 		}
 

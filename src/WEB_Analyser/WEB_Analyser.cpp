@@ -953,7 +953,7 @@ std::string WEB_Analyser::Kalk_Event13(unsigned long iTimes[RankRowStamps])
 	for (auto A : R->ActionMatrix)
 	{
 		if (A->Type == 4045 && A->AdditionalInfo == "4;12301_03_01_KillBlight;1;")isWin = true;
-		if (A->Type == 4009) iUnits++;
+		if (A->Type == 4009 || A->Type == 4044) iUnits++;
 		if (A->Type == 4010 || A->Type == 4011) iSpells++;
 	}
 	if (!isWin)return "Was not a win";
@@ -961,6 +961,52 @@ std::string WEB_Analyser::Kalk_Event13(unsigned long iTimes[RankRowStamps])
 	iTimes[0] = getPlaytime();
 	iTimes[1] = iSpells;
 	iTimes[2] = iUnits;
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event14(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "battle_of_tactics_10.map")return "Wrong Map";
+	if (R->PlayModeID != 2)return "Not PvP";
+	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+
+	bool isWin = false;
+	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;20002_03_01_kill_terra;1;")isWin = true;
+	if (!isWin)return "Was not a win";
+
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event15(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "the canyon.map")return "Wrong Map";
+	if (R->DifficultyID != 3 && !WA_Admin)return "Wrong Difficulty";
+	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+
+	bool isWin = false;
+	for (auto A : R->ActionMatrix)
+	{
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_4_clear;1;")isWin = true;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_1_clear;1;")iTimes[1] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_2_clear;1;")iTimes[2] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_3_clear;1;")iTimes[3] = A->Time;
+	}
+	if (!isWin)return "Was not a win";
+
+	iTimes[0] = getPlaytime();
 
 	MISE;
 	return "";

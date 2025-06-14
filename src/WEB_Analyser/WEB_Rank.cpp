@@ -75,7 +75,7 @@ void WEB_Rank::WRefresh()
 		}
 	}
 
-	if (!WR->isOK() && Bro->A_getRankMode(iRankList) == 5)
+	if (!WR->isOK() && Bro->A_getRankMode(iRankList) == 5 && !WR->WA_Admin)
 	{		
 		wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3> No Replay </h3>"))));
 		MISEA("no Replay");

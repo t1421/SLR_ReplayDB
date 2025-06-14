@@ -27,7 +27,7 @@
 //#define BOTXLIST 1
 #define RankRowStamps 20
 
-#define EventsMax 13 + 1
+#define EventsMax 15 + 1
 
 class DEBUG;
 class SQL_MIS_New;
