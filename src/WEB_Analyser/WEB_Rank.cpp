@@ -90,7 +90,7 @@ void WEB_Rank::WRefresh()
 
 	
 	
-	if(Bro->A_getRankMode(iRankList) == 5)vListe = Bro->A_getRankeROW(iRankList,WR->GetTeamID());
+	if(Bro->A_getRankMode(iRankList) == 5 && !WR->WA_Admin)vListe = Bro->A_getRankeROW(iRankList,WR->GetTeamID());
 	else vListe = Bro->A_getRankeROW(iRankList);
 	
 	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Rank </h4>"))));
