@@ -9,6 +9,7 @@ public:
 	
 	Wt::WContainerWidget *cMain;
 	Wt::WTable *wtTabelle;
+	Wt::WTable* wtTabelleHead;
 	WEB_Analyser *WR;
 	Wt::WAnchor* waRankLink;
 

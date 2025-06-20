@@ -283,6 +283,7 @@ void MIS_Rank::SortList()
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldID);
 		break;
 	case 10:
+	case 15:
 		std::sort(RankRows.begin(), RankRows.end(), compare_1HL_0LH);
 		break;
 	case 11:

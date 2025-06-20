@@ -991,22 +991,74 @@ std::string WEB_Analyser::Kalk_Event15(unsigned long iTimes[RankRowStamps])
 	MISS;
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "the canyon.map")return "Wrong Map";
-	if (R->DifficultyID != 3 && !WA_Admin)return "Wrong Difficulty";
+	//if (R->DifficultyID != 3 && !WA_Admin)return "Wrong Difficulty";
 	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
 	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
-	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+	//if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
-	bool isWin = false;
+	//iTimes[0]          //Play time
+	//iTimes[1]          //Dif
+	//iTimes[2]          //Crystals
+	// 
+	//iTimes[3]          // Start Wave1
+	//iTimes[4]          // Start Wave2
+	//iTimes[5]          // Start Wave3
+	//iTimes[6]          // Start Wave4
+	//iTimes[7]          // Crystal 1
+	//iTimes[8]          // Crystal 2
+	//iTimes[9]          // Crystal 3
+	//iTimes[10]         // Crystal 4
+	//iTimes[11]         // End Wave 1
+	//iTimes[12]         // End Wave 2
+	//iTimes[13]         // End Wave 3
+	//iTimes[14]         // End Wave 4
+	// 
+	//iTimes[15]         // Crystal Time Ges
+
+
 	for (auto A : R->ActionMatrix)
 	{
-		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_4_clear;1;")isWin = true;
-		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_1_clear;1;")iTimes[1] = A->Time;
-		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_2_clear;1;")iTimes[2] = A->Time;
-		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_3_clear;1;")iTimes[3] = A->Time;
+		//Crystal Check
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Crystal_1_clear;1;" && iTimes[11] == 0)iTimes[7] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Crystal_2_clear;1;" && iTimes[12] == 0)iTimes[8] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Crystal_3_clear;1;" && iTimes[13] == 0)iTimes[9] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Crystal_4_clear;1;" && iTimes[14] == 0)iTimes[10] = A->Time;
+
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_1_clear;1;")iTimes[11] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_2_clear;1;")iTimes[12] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_3_clear;1;")iTimes[13] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;Wave_4_clear;1;")iTimes[14] = A->Time;
+
 	}
-	if (!isWin)return "Was not a win";
+	if (iTimes[14] == 0 )return "Was not a win";
+
+	iTimes[3] = 100        +  300;
+	iTimes[4] = iTimes[11] +  600;
+	iTimes[5] = iTimes[12] +  900;
+	iTimes[6] = iTimes[13] + 1200;
 
 	iTimes[0] = getPlaytime();
+	iTimes[1] = R->DifficultyID;
+	if (iTimes[7] != 0)
+	{
+		iTimes[2]++;
+		iTimes[15] += iTimes[7] - iTimes[3];
+	}
+	if (iTimes[8]  != 0)
+	{
+		iTimes[2]++;
+		iTimes[15] += iTimes[8] - iTimes[4];
+	}
+	if (iTimes[9]  != 0)
+	{
+		iTimes[2]++;
+		iTimes[15] += iTimes[9] - iTimes[5];
+	}
+	if (iTimes[10] != 0)
+	{
+		iTimes[2]++;
+		iTimes[15] += iTimes[10] - iTimes[6];
+	}
 
 	MISE;
 	return "";
