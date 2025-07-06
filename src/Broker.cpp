@@ -438,6 +438,10 @@ int broker::L_getLivePvPActionLog()
 {
 	return L->iLivePvPActionLog;
 }
+int broker::L_getLivePvPLastPlayed()
+{
+	return L->iLivePvPLastPlayed;
+}
 int broker::L_getLivePvPActionPerSec()
 {
 	return L->iLivePvPActionPerSec;
@@ -660,6 +664,15 @@ std::vector <std::string> broker::J_getType()
 {
 	std::vector <std::string> vReturn;
 	for (auto C : J->EnumType)vReturn.push_back(C.second);
+	sort(vReturn.begin(), vReturn.end());
+	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
+	return vReturn;
+}
+
+std::vector <std::string> broker::J_getDirections()
+{
+	std::vector <std::string> vReturn;
+	for (auto C : J->EnumDirections)vReturn.push_back(C.second);
 	sort(vReturn.begin(), vReturn.end());
 	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
 	return vReturn;

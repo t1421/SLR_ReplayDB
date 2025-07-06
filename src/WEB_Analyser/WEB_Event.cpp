@@ -81,9 +81,11 @@ void WEB_Event::WRefresh()
 
 	Bro->A_UpdateRankMode(iEventNr);
 	
+	wtStatus->setText(" ");
 	wtLine1->setText(" ");
 	wtLine2->setText(" ");
 	wtLine3->setText(" ");
+	wtLine4->setText(" ");
 	std::string sTeamID;
 
 	unsigned int iSaveReturn = 0;
@@ -93,6 +95,13 @@ void WEB_Event::WRefresh()
 	unsigned long iTimesBestRun[RankRowStamps] = { 0 };
 
 	std::string sReturn;
+
+	if (Bro->A_getRankMode(iEventNr) > 10 && !WR->WA_Admin)
+	{
+		Rank->WRefresh();
+		MISEA("Event Over");		
+		return;
+	}
 
 	switch (iEventNr)
 	{
@@ -112,6 +121,7 @@ void WEB_Event::WRefresh()
 		case 13: sReturn = WR->Kalk_Event13(iTimes); break;
 		case 14: sReturn = WR->Kalk_Event14(iTimes); break;
 		case 15: sReturn = WR->Kalk_Event15(iTimes); break;
+		case 16: sReturn = WR->Kalk_Event16(iTimes); break;
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
@@ -176,13 +186,14 @@ void WEB_Event::WRefresh()
 			wtLine4->setText("Your best run (" + sTimeFull(iTimesBestRun[0]) + ") is in the top " + getRankBracket(iTimesBestRun[RankRowStamps - 1], Bro->A_GetTotalPlayers(iEventNr)));
 			break;		
 		case 14: //BOT10
-			sTeamID = WR->GetTeamID();
+		case 16: //BOT10
+			sTeamID = Bro->GetTeamName(WR->GetTeamID());
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
 			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
-			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) (Ranking shows +/- one rank compared to yours) </h3> ");
-			else wtStatus->setText("<h3>Nice run, but not faster then your currend one (Ranking shows +/- one rank compared to yours) </h3> ");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
+			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
 			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
-			wtLine4->setText("Your best run (" + sTimeFull(iTimesBestRun[0]) + ") is in the top " + getRankBracket(iTimesBestRun[RankRowStamps - 1], Bro->A_GetTotalPlayers(iEventNr)));
+			wtLine2->setText("Your best run " + sTimeFull(iTimesBestRun[0]));
 			break;
 		case 15: //Canyon
 			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
@@ -201,7 +212,25 @@ void WEB_Event::WRefresh()
 		}
 
 	}
-	
+
+	//BOT 10 Doubble ranking in two Taps
+	if (iEventNr == 14 || iEventNr == 16)
+	{
+		int iEventNrTemp;
+		if (iEventNr == 14)
+		{
+			iEventNrTemp = 16;
+			sReturn = WR->Kalk_Event16(iTimes);
+		}
+		else
+		{
+			iEventNrTemp = 14;
+			sReturn = WR->Kalk_Event14(iTimes);
+		}
+		
+		if (sReturn == "")if (Bro->A_AddPlayer(iEventNrTemp, Bro->GetTeamName(WR->GetTeamID()), WR->getReplayHash(), iTimes, iTimesBestRun) == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNrTemp) + "_" + Bro->GetTeamName(WR->GetTeamID()) + ".pmv");
+		
+	}
 	Rank->WRefresh();
 	MISE;
 }

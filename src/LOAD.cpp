@@ -61,6 +61,8 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "LivePvPActionLog"))iLivePvPActionLog = atoi(line.c_str());
 			if (INI_Value_Check(line, "LivePvPActionPerSec"))iLivePvPActionPerSec = atoi(line.c_str());
 			if (INI_Value_Check(line, "LivePvPActionPerSecNumSec"))iLivePvPActionPerSecNumSec = atoi(line.c_str());
+			if (INI_Value_Check(line, "LivePvPLastPlayed"))iLivePvPLastPlayed = atoi(line.c_str());
+			
 			
 
 			if (INI_Value_Check(line, "ChallongeUser"))sChallongeUser = line.c_str();

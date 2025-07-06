@@ -183,6 +183,15 @@ bool CardBaseSMJ::Init()
 	EnumDifficulty.push_back(std::make_pair(
 		"3", "Expert "));	
 
+	EnumDirections.push_back(std::make_pair(
+		"1", "Top"));
+	EnumDirections.push_back(std::make_pair(
+		"2", "Left"));
+	EnumDirections.push_back(std::make_pair(
+		"3", "Right"));
+	EnumDirections.push_back(std::make_pair(
+		"4", "Bottom"));
+	
 	MISE;
 	
 	return true;	

@@ -157,4 +157,7 @@
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="..\Release\Settings.ini" />
+  </ItemGroup>
 </Project>

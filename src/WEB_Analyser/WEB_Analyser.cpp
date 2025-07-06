@@ -134,6 +134,9 @@ WEB_Analyser::WEB_Analyser(): R(new Replay()), WA_Debug(false), WA_Admin(false)
 
 	//Starting cards
 	StartingCards = { 253,254,287,288,289,302,303,345,346,354,356,361,362,366,379,444,529,651,673,700,705,707,708,728,774,782,819,820,829,836,933,962,1004,1184,1197,1209,1223,1241,1283,1287,1292,1295,1307,1326,1394,1495,1549,1581,1599,1608,1664 };
+
+	//Free PvP Cards
+	FreePvPCards = { 706,303,404,970,740,979,406,558,434,405,1235,618,1187,304,716,562,408,1348,828,932,1666,1640,442,663,1683,750,972,1004,345,1624,1242,620,728,1278,1413,344,366,402,1443,1316,1669,1549,1200,1670,820,723,354,962,1189,1569,1563,674,1391,362,416,361,547,1123,1240,427,702,796,431,724,418,1262,1326,1573,1194,1485,1122,1680,1219,703,1451,1227,288,365,367,787,789,1117,1192,786,826,1468,1538,357,661,744,287,827,364,1540,1120,672,254,346,1237,375,1484,373,1676,255,378,377,957,1290,387,290,841 };
 	
 	
 #endif
@@ -986,6 +989,35 @@ std::string WEB_Analyser::Kalk_Event14(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
+std::string WEB_Analyser::Kalk_Event16(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "battle_of_tactics_10.map")return "Wrong Map";
+	if (R->PlayModeID != 2)return "Not PvP";
+	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+
+	bool isWin = false;
+	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;20002_03_01_kill_terra;1;")isWin = true;
+	if (!isWin)return "Was not a win";
+
+	for each (Player * P in Players)if (P->Type == 1)for each (Card * C in P->Deck)
+	{
+		if (C->count <= 0 || C->CardID == 4051) continue;
+
+		isWin = false;
+		for (unsigned int i = 0; i < FreePvPCards.size() && isWin == false; i++)isWin = FreePvPCards[i] == C->CardID;
+		if (isWin == false && !WA_Admin)return "Not a Free PvP card: " + Bro->J_GetSMJCard(C->CardID)->cardName;
+	}
+
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
 std::string WEB_Analyser::Kalk_Event15(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
@@ -994,7 +1026,7 @@ std::string WEB_Analyser::Kalk_Event15(unsigned long iTimes[RankRowStamps])
 	//if (R->DifficultyID != 3 && !WA_Admin)return "Wrong Difficulty";
 	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
 	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
-	//if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	//iTimes[0]          //Play time
 	//iTimes[1]          //Dif

@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -51,6 +51,11 @@ void WEB_Rank::WRefresh()
 
 	wtTabelle->clear();
 	wtTabelleHead->clear();
+	if (Bro->A_getRankMode(iRankList) > 10 && !WR->WA_Admin)
+	{		
+		MISEA("Event Over");
+		return;
+	}
 	if (Bro->A_getRankMode(iRankList) == 5 && !WR->WA_Admin)
 	{
 		
@@ -404,8 +409,6 @@ void WEB_Rank::WRefresh()
 			break;
 		default:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
-			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
-			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
 		}			
 
 		if (WR->WA_Admin)

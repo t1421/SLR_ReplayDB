@@ -3,6 +3,8 @@
 
 #include "../WEB/WEB_Utility.h"
 
+#include "../WEB/WEB_Toolbar.h"
+
 class WEB_Rank: public WebRefresh
 {
 public:

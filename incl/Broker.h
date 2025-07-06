@@ -27,7 +27,7 @@
 //#define BOTXLIST 1
 #define RankRowStamps 20
 
-#define EventsMax 15 + 1
+#define EventsMax 16 + 1
 
 class DEBUG;
 class SQL_MIS_New;
@@ -95,6 +95,7 @@ public:
 	std::string L_getQuizPath();
 	int L_getLivePvPRefreshRate();
 	int L_getLivePvPActionLog();
+	int L_getLivePvPLastPlayed();
 	int L_getLivePvPActionPerSec();
 	int L_getLivePvPActionPerSecNumSec();
 	int L_getCountDown();
@@ -136,6 +137,7 @@ public:
 	std::vector <std::string> J_getTiers();
 	std::vector <std::string> J_getDifficulty();
 	std::vector <std::string> J_getType();
+	std::vector <std::string> J_getDirections();	
 	unsigned int J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade);
 #endif
 	

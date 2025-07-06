@@ -88,6 +88,9 @@ void Question::Start()
 	case 6: //Unit Type
 		for (auto S : Bro->J_getType())CheckPool.push_back(CleanString(S));
 		break;
+	case 7: //Top/Left/Right/Bottom
+		for (auto S : Bro->J_getDirections())CheckPool.push_back(CleanString(S));
+		break;
 	}
 
 	ResetAnswers();
@@ -506,6 +509,12 @@ bool Question::SpellCheck(std::string& input)
 		if (input == "B")input = "BUILDING";
 		else if (input == "S")input = "SPELL";
 		else if (input == "U")input = "UNIT";
+		break;
+	case 7:
+		if (input == "T")input = "TOP";
+		else if (input == "L")input = "LEFT";
+		else if (input == "R")input = "RIGHT";
+		else if (input == "B")input = "BOTTOM";
 		break;
 	}
 

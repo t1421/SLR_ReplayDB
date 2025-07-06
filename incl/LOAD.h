@@ -48,6 +48,7 @@ public:
 	int iLivePvPActionLog;
 	int iLivePvPActionPerSec;
 	int iLivePvPActionPerSecNumSec;
+	int iLivePvPLastPlayed;
 
 	std::string sChallongeUser;
 	std::string sChallongeAPIKEY;

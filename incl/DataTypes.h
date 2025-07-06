@@ -49,6 +49,7 @@ struct Player {
 #if defined BrokerPVP
 	unsigned int iSaveID;
 	std::vector <unsigned short> ActionsPerSec;
+	std::vector <unsigned short> LastPlayStack;
 #endif 
 };
 
@@ -66,12 +67,14 @@ struct Action {
 	unsigned char Charges;
 
 	unsigned int Position;
+	float X;
+	float Y;
 
 	std::string AdditionalInfo;
 	//std::string sActionName;
 	
 
-	Action() :Time(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), AdditionalInfo() //, sActionName()
+	Action() :Time(0), Type(0), Card(0), Upgrade(0), CardFull(0), ActionPlayer(0), PlayerID(0), Charges(0), AdditionalInfo(), X(0),Y(0) //, sActionName()
 	{}
 
 	//unsigned long Unit;

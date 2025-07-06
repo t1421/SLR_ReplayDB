@@ -282,6 +282,8 @@ bool PMV_to_SQL::UploadActions(std::string iNewHeadID)
 		NN->ssSQL << "  Charges , ";
 		NN->ssSQL << "  AdditionalInfo , ";
 		NN->ssSQL << "  Upgrade , ";
+		NN->ssSQL << "  X, ";
+		NN->ssSQL << "  Y, ";
 		NN->ssSQL << "  playerID) ";
 		NN->ssSQL << "VALUES(";
 		NN->ssSQL << iNewHeadID << " , ";
@@ -291,6 +293,8 @@ bool PMV_to_SQL::UploadActions(std::string iNewHeadID)
 		NN->ssSQL << int(RR->ActionMatrix[i]->Charges) << " , ";
 		NN->ssSQL << "'"<<RR->ActionMatrix[i]->AdditionalInfo << "' , ";
 		NN->ssSQL << RR->ActionMatrix[i]->Upgrade << " , ";
+		NN->ssSQL << RR->ActionMatrix[i]->X << " , ";
+		NN->ssSQL << RR->ActionMatrix[i]->Y << " , ";
 		NN->ssSQL << RR->ActionMatrix[i]->PlayerID <<" ) ";
 		NN->send();
 	}

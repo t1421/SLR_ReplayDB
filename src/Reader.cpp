@@ -49,6 +49,20 @@ unsigned long Reader::readUnsignedLong()
 	return value;
 }
 
+float Reader::readFloat()
+{
+	MISS;
+	float value;
+	uint8_t bytes[4];
+
+	for (int i = 0; i < 4; ++i)
+		bytes[i] = PMVbuffer[PMVPosition++];
+
+	std::memcpy(&value, bytes, sizeof(float));
+	MISEA("" + std::to_string(value));
+	return value;
+}
+
 unsigned short Reader::readUnsignedShort()
 {
 	MISS;

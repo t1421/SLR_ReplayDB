@@ -350,8 +350,8 @@ bool Replay::ReadActions()
 				readUnsignedShort(); //Cardy
 				readUnsignedShort(); //Cardz
 				Action_TEMP->Charges = this->readUnsignedChar(); // Nur beim erstenmal rufen
-				readUnsignedLong(); //X
-				readUnsignedLong(); //Y
+				Action_TEMP->X = readFloat(); //X
+				Action_TEMP->Y = readFloat(); //Y
 				readUnsignedLong(); //Zero
 				break;
 				///###
@@ -369,8 +369,8 @@ bool Replay::ReadActions()
 				readUnsignedLong(); //Value
 				readUnsignedLong(); //Zero
 				readUnsignedLong(); //Traget
-				readUnsignedLong(); //X
-				readUnsignedLong(); //Y
+				Action_TEMP->X = readFloat(); //X
+				Action_TEMP->Y = readFloat(); //Y
 				break;
 				///###
 			case 4011: //cast line spell
@@ -386,8 +386,8 @@ bool Replay::ReadActions()
 				readUnsignedLong(); //Type 8 = line Spell?
 				readUnsignedLong(); //Zero
 				readUnsignedLong(); //Zero
-				readUnsignedLong(); //X
-				readUnsignedLong(); //Y
+				Action_TEMP->X = readFloat(); //X
+				Action_TEMP->Y = readFloat(); //Y
 				readUnsignedLong(); //Type 8 = line Spell?
 				readUnsignedLong(); //Zero
 				readUnsignedLong(); //Zero
@@ -402,8 +402,8 @@ bool Replay::ReadActions()
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				readUnsignedShort(); //Cardy
 				readUnsignedShort(); //Cardz
-				readUnsignedLong(); //X
-				readUnsignedLong(); //Y
+				Action_TEMP->X = readFloat(); //X
+				Action_TEMP->Y = readFloat(); //Y
 				readUnsignedLong(); //Z
 				readUnsignedLong(); //Zero
 				readUnsignedShort(); //Carda
@@ -424,8 +424,8 @@ bool Replay::ReadActions()
 				tempCount = readUnsignedShort(); // Position Count
 				for (unsigned int i = 0; i < tempCount; i++)
 				{
-					readUnsignedLong(); // X
-					readUnsignedLong(); // Y
+					Action_TEMP->X = readFloat(); // X
+					Action_TEMP->Y = readFloat(); // Y
 				}
 				this->readUnsignedChar(); //Move Type 2=Nomarl Move; 6=waypoint; 7=patrulie
 				this->readUnsignedChar(); // Alwayse 1 ?
@@ -442,8 +442,8 @@ bool Replay::ReadActions()
 				readUnsignedLong(); // Abbility Type - 2=Buldig Global Efffect / 6=Fier on the Ground / 8=Comet Catcher
 				readUnsignedLong(); // Zero
 				readUnsignedLong(); // Traget
-				readUnsignedLong(); // X
-				readUnsignedLong(); // Y				
+				Action_TEMP->X = readFloat(); // X
+				Action_TEMP->Y = readFloat(); // Y				
 				break;
 				
 				///X###X GGF. attac Type analysieren?
@@ -459,8 +459,8 @@ bool Replay::ReadActions()
 				readUnsignedLong(); // if (readUnsignedLong() == 6) Action_TEMP->SystemAction = true; // Type 1=normal / 2=Building / 6=AutoArack nach Spawn 
 				readUnsignedLong(); // Zero
 				readUnsignedLong(); // Traget
-				readUnsignedLong(); // X
-				readUnsignedLong(); // Y				
+				Action_TEMP->X = readFloat(); // X
+				Action_TEMP->Y = readFloat(); // Y				
 				this->readUnsignedChar(); // immer 0
 
 				break;
@@ -571,8 +571,8 @@ bool Replay::ReadActions()
 				readUnsignedLong(); // Ping Type? 8=
 				readUnsignedLong(); // Zero
 				readUnsignedLong(); // Zero (traget)
-				readUnsignedLong(); // X
-				readUnsignedLong(); // Y	
+				Action_TEMP->X = readFloat(); // X
+				Action_TEMP->Y = readFloat(); // Y	
 				Action_TEMP->AdditionalInfo = std::to_string(readUnsignedShort()); // Ping Type
 				//0=Ping,1=Attack,2=Def,3=Help,4=Meet
 				break;
@@ -655,8 +655,8 @@ bool Replay::ReadActions()
 			case 4037: //Place Nexus Exit (oder generell Bulding?) // TESTEN T4 Schatten
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				readUnsignedLong(); // Nexus
-				readUnsignedLong(); // X
-				readUnsignedLong(); // Y	
+				Action_TEMP->X = readFloat(); // X
+				Action_TEMP->Y = readFloat(); // Y	
 				break;
 
 				///###
@@ -693,8 +693,8 @@ bool Replay::ReadActions()
 			case 4042: // Placing Altar Of Chaos Totem
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				readUnsignedLong(); // Unit		
-				readUnsignedLong(); // X
-				readUnsignedLong(); // Y	
+				Action_TEMP->X = readFloat(); // X
+				Action_TEMP->Y = readFloat(); // Y	
 				break;
 
 				///###
@@ -722,8 +722,8 @@ bool Replay::ReadActions()
 				readUnsignedLong(); // Type ? = 1
 				readUnsignedLong(); // Zero
 				readUnsignedLong(); // Traget
-				readUnsignedLong(); // X
-				readUnsignedLong(); // Y	
+				Action_TEMP->X = readFloat(); // X
+				Action_TEMP->Y = readFloat(); // Y	
 				break;
 			case 4045: // SLR desync
 #if defined BrokerPVP

@@ -18,6 +18,7 @@ public:
 	unsigned char readUnsignedChar();	
 	unsigned short readUnsignedShort();
 	unsigned long long readUnsignedLongLong();
+	float readFloat();
 	std::string readString();
 	std::string readWString();
 

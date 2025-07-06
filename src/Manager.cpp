@@ -99,6 +99,7 @@ void Manager::Thread_Function()
 	bool _UpdateCards;
 	bool _UpdateActionLog;
 	bool _UpdateActionPerSec;
+	bool _UpdateLastPlay;
 
 	while (bRunning)
 	{
@@ -136,8 +137,9 @@ void Manager::Thread_Function()
 				_UpdateCards = false;
 				_UpdateActionLog = false;
 				_UpdateActionPerSec = false;
+				_UpdateLastPlay = false;
 
-				if(processActions(_UpdateCards, _UpdateActionLog, _UpdateActionPerSec)== -1)goto exit_loop;
+				if(processActions(_UpdateCards, _UpdateActionLog, _UpdateActionPerSec, _UpdateLastPlay)== -1)goto exit_loop;
 				
 				if(_UpdateCards)UpdateFiles();
 				
@@ -148,6 +150,9 @@ void Manager::Thread_Function()
 				}
 
 				if (/* _UpdateActionPerSec && */ Bro->L_getLivePvPActionPerSec() == 1)UpdateActionPerSec();
+
+				if (_UpdateLastPlay &&  Bro->L_getLivePvPLastPlayed() == 1)UpdateLastPlayed();
+				
 
 				//MISD(RR->CountActions());
 				Sleep(Bro->L_getLivePvPRefreshRate());
@@ -172,7 +177,9 @@ void Manager::ResteLiveFiles()
 		for (unsigned int j = 0; j < 20; j++)
 		{
 			SetCard(i * 100 + j, 0, 0, 0, 0);
+			SetLastPlayCard(i * 100 + j, 0, 0, 0);
 		}
+
 	}
 
 	SetActionLog("");
@@ -197,13 +204,14 @@ void Manager::UpdateFiles()
 	MISE;
 }
 
-int Manager::processActions(bool& _UpdateCards, bool& _UpdateActionLog, bool& _UpdateActionPerSec)
+int Manager::processActions(bool& _UpdateCards, bool& _UpdateActionLog, bool& _UpdateActionPerSec, bool& _UpdateLastPlay)
 {
 	MISS;
 	int iReturn = 0;
 	_UpdateCards = false;
 	_UpdateActionLog = false;
 	_UpdateActionPerSec = false;
+	_UpdateLastPlay = false;
 
 	for (unsigned int i = iLastAction; i < RR->ActionMatrix.size(); i++)
 	{
@@ -224,13 +232,17 @@ int Manager::processActions(bool& _UpdateCards, bool& _UpdateActionLog, bool& _U
 		{
 			AddCardToPlayer(RR->ActionMatrix[i]);
 			_UpdateCards = true;
+			if (Bro->L_getLivePvPLastPlayed() == 1)
+				if (UpdateLastPlayStack(RR->ActionMatrix[i])) _UpdateLastPlay = true;
 		}
 
 		if (Bro->L_getLivePvPActionLog() == 1)
-			if (FillActionLog(RR->ActionMatrix[i])) _UpdateActionLog = true;;
+			if (FillActionLog(RR->ActionMatrix[i])) _UpdateActionLog = true;
 
 		if (Bro->L_getLivePvPActionPerSec() == 1) // && RR->ActionMatrix[i]->ActionPlayer != 0)
-			if (AddActionPerSec(RR->ActionMatrix[i])) _UpdateActionPerSec = true;;
+			if (AddActionPerSec(RR->ActionMatrix[i])) _UpdateActionPerSec = true;
+
+		
 
 		
 	}
@@ -418,6 +430,51 @@ void Manager::UpdateActionPerSec()
 	MISE;
 }
 
+bool Manager::UpdateLastPlayStack(Action* Import)
+{
+	MISS;
+
+	for each (Player * P in RR->PlayerMatrix)if (P->ActionPlayer == Import->ActionPlayer)	
+		P->LastPlayStack.push_back(Import->Card);	
+
+	MISE;
+	return true;
+}
+
+void Manager::UpdateLastPlayed()
+{
+	MISS;
+	unsigned int j;
+	for each (Player * P in RR->PlayerMatrix)
+	{
+		j = 0;
+		for (unsigned int i = P->LastPlayStack.size() - 1; i >= 0 && j < 20; i--)
+		{
+			for (Card* cCard : P->Deck)if (cCard->CardID == P->LastPlayStack[i])
+			{
+				SetLastPlayCard(
+					P->iSaveID * 100 + j,
+					cCard->CardID,
+					cCard->Upgrade,
+					cCard->Charges);
+			}
+			j++;
+		}
+	}
+	MISE;
+}
+
+void Manager::SetLastPlayCard(unsigned int POS, unsigned short CardID, unsigned char Upgrade, unsigned char Charges)
+{
+	MISS;
+	//std::ifstream  src(Bro->J_GetImage(CardID, Upgrade, Charges, Big, false), std::ios::binary);
+	std::ifstream  src(Bro->J_GetImageSmall(CardID), std::ios::binary);
+	std::ofstream  dst(Bro->L_getLivePvP_OBS_Export() + "L" + std::to_string(POS) + ".webp", std::ios::binary);
+	dst << src.rdbuf();
+	src.close();
+	dst.close();
+	MISE;
+}
 #endif
 
 

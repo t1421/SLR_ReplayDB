@@ -289,9 +289,13 @@ void MIS_Rank::SortList()
 	case 11:
 		std::sort(RankRows.begin(), RankRows.end(), compare_2LH_0LH);
 		break;
-	case 13:		
+	case 13:
 		std::sort(RankRows.begin(), RankRows.end(), compare_0LH_1HL_2HL);
 		break;
+	case 14:
+	case 16:
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0);
+		break;		
 	default:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldStage);
 		break;

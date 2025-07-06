@@ -79,12 +79,14 @@ public:
 	std::string Kalk_Event13(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event14(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event15(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event16(unsigned long iTimes[RankRowStamps]);
 
 	void AddPlayers9();
 #endif
 
 	std::vector <std::pair<unsigned long, unsigned long>> EventBuildings10;
 	std::vector <unsigned long> StartingCards;
+	std::vector <unsigned long> FreePvPCards;
 
 	bool Check_MIS_WIN();
 	unsigned long long usedPower();
