@@ -69,6 +69,7 @@ public:
 	bool bTapShowBoosterPerPlayerR;
 	bool bTapShowBoosterPerPlayerUC;
 	bool bTapShowBoosterPerPlayerC;
+	bool bTapShowBoosterPerPlayerBooster;
 	unsigned int iTapShowBoosterPerPlayerOrder;
 
 	bool bAllowOpening;

@@ -125,9 +125,9 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			if (INI_Value_Check(line, "TapShowBoosterPerPlayerR"))bTapShowBoosterPerPlayerR = atoi(line.c_str());
 			if (INI_Value_Check(line, "TapShowBoosterPerPlayerUC"))bTapShowBoosterPerPlayerUC = atoi(line.c_str());
 			if (INI_Value_Check(line, "TapShowBoosterPerPlayerC"))bTapShowBoosterPerPlayerC = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayerBooster"))bTapShowBoosterPerPlayerBooster = atoi(line.c_str());
 			if (INI_Value_Check(line, "TapShowBoosterPerPlayerOrder"))iTapShowBoosterPerPlayerOrder = atoi(line.c_str());
-				
-
+			
 			if (INI_Value_Check(line, "AllowOpening"))bAllowOpening = atoi(line.c_str());
 			if (INI_Value_Check(line, "AllowRefroging"))bAllowRefroging = atoi(line.c_str());
 			
@@ -218,6 +218,7 @@ void Tome_Game::Init()
 	bTapShowBoosterPerPlayerR = false;
 	bTapShowBoosterPerPlayerUC = false;
 	bTapShowBoosterPerPlayerC = false;
+	bTapShowBoosterPerPlayerBooster = false;
 	iTapShowBoosterPerPlayerOrder = 0;
 
 	bAllowOpening = false;
@@ -281,6 +282,7 @@ bool Tome_Game::bSaveGame()
 		ofFile << "TapShowBoosterPerPlayerR="<<bTapShowBoosterPerPlayerR << "\n";
 		ofFile << "TapShowBoosterPerPlayerUC="<<bTapShowBoosterPerPlayerUC << "\n";
 		ofFile << "TapShowBoosterPerPlayerC="<<bTapShowBoosterPerPlayerC << "\n";
+		ofFile << "TapShowBoosterPerPlayerBooster=" << bTapShowBoosterPerPlayerBooster << "\n";
 		ofFile << "TapShowBoosterPerPlayerOrder=" << iTapShowBoosterPerPlayerOrder << "\n";
 
 		ofFile << "AllowOpening="<<bAllowOpening << "\n";

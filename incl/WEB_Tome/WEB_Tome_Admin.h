@@ -42,6 +42,7 @@ public:
 	Wt::WCheckBox* wcTapShowBoosterPerPlayerR;
 	Wt::WCheckBox* wcTapShowBoosterPerPlayerUC;
 	Wt::WCheckBox* wcTapShowBoosterPerPlayerC;
+	Wt::WCheckBox* wcTapShowBoosterPerPlayerBooster;	
 	Wt::WComboBox* wcTapShowBoosterPerPlayerOrder;
 
 

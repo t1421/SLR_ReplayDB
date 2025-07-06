@@ -107,6 +107,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wcTapShowBoosterPerPlayerR = new Wt::WCheckBox("R");
 	wcTapShowBoosterPerPlayerUC = new Wt::WCheckBox("UC");
 	wcTapShowBoosterPerPlayerC = new Wt::WCheckBox("C");
+	wcTapShowBoosterPerPlayerBooster = new Wt::WCheckBox("Booster");
 	wcTapShowBoosterPerPlayerOrder = new Wt::WComboBox;
 
 	wcAllowOpening = new Wt::WCheckBox("Allow Opening Booster");
@@ -172,21 +173,22 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterR)));
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterUC)));
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterC)));
-	wtTempTable->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterOrder)));
+	wtTempTable->elementAt(iRow, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterOrder)));
 	iRow++;
 	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCards)));
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsUR)));
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsR)));
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsUC)));
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsC)));
-	wtTempTable->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsOrder)));
+	wtTempTable->elementAt(iRow, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowCardsOrder)));
 	iRow++;
 	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayer)));
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerUR)));
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerR)));
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerUC)));
 	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerC)));
-	wtTempTable->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerOrder)));
+	wtTempTable->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerBooster)));	
+	wtTempTable->elementAt(iRow, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcTapShowBoosterPerPlayerOrder)));
 	iRow++;
 
 	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Others Settings </h4>"))));
@@ -353,6 +355,13 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 		WRefresh();
 		}));
+	wcTapShowBoosterPerPlayerBooster->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerBooster = wcTapShowBoosterPerPlayerBooster->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		WRefresh();
+		}));
+	
 	wcTapShowBoosterPerPlayerOrder->changed().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->iTapShowBoosterPerPlayerOrder = wcTapShowBoosterPerPlayerOrder->currentIndex();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
@@ -567,6 +576,7 @@ void WEB_Tome_Admin::WRefresh()
 	wcTapShowBoosterPerPlayerR->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerR);
 	wcTapShowBoosterPerPlayerUC->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerUC);
 	wcTapShowBoosterPerPlayerC->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerC);
+	wcTapShowBoosterPerPlayerBooster->setChecked(Bro->vTomeGames[Con->BroGameID]->bTapShowBoosterPerPlayerBooster);
 	wcTapShowBoosterPerPlayerOrder->setCurrentIndex(Bro->vTomeGames[Con->BroGameID]->iTapShowBoosterPerPlayerOrder);
 
 	MISD("#55");
