@@ -122,6 +122,7 @@ void WEB_Event::WRefresh()
 		case 14: sReturn = WR->Kalk_Event14(iTimes); break;
 		case 15: sReturn = WR->Kalk_Event15(iTimes); break;
 		case 16: sReturn = WR->Kalk_Event16(iTimes); break;
+		case 17: sReturn = WR->Kalk_Event17(iTimes); break;
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
@@ -158,7 +159,7 @@ void WEB_Event::WRefresh()
 			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
 			if (iSaveReturn == 1) WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + WR->GetPlayerName(WR->getPMVPlayerID()) + ".pmv");
-			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run " + sTeamID  + ": -) </h3> ");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run " + sTeamID + ": -) </h3> ");
 			else wtStatus->setText("<h3>Nice run " + sTeamID + ", but not better </h3> ");
 
 			wtLine1->setText("This run Time: " + sTime(iTimes[0]));
@@ -184,7 +185,7 @@ void WEB_Event::WRefresh()
 			wtLine3->setText("Units: " + std::to_string(iTimes[2]));
 
 			wtLine4->setText("Your best run (" + sTimeFull(iTimesBestRun[0]) + ") is in the top " + getRankBracket(iTimesBestRun[RankRowStamps - 1], Bro->A_GetTotalPlayers(iEventNr)));
-			break;		
+			break;
 		case 14: //BOT10
 		case 16: //BOT10
 			sTeamID = Bro->GetTeamName(WR->GetTeamID());
@@ -207,9 +208,20 @@ void WEB_Event::WRefresh()
 			wtLine3->setText("Crystals Time: " + sTimeFull(iTimes[15]));
 			wtLine4->setText("Your best run (" + sTimeFull(iTimesBestRun[0]) + ") is in the top " + getRankBracket(iTimesBestRun[RankRowStamps - 1], Bro->A_GetTotalPlayers(iEventNr)));
 
-			wtStatus->setText("<h3>Hello there " + sTeamID + ", nice run : -) </h3> ");
+			//wtStatus->setText("<h3>Hello there " + sTeamID + ", nice run : -) </h3> ");
 			break;
-		}
+
+		case 17: //heart_of_trouble
+			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			//if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -)</h3> ");
+			wtStatus->setText("<h3>Nice run :-) </h3> ");
+
+			wtLine1->setText("Tickets: " + std::to_string(iTimes[0]));
+			
+			break;
+		}	
 
 	}
 

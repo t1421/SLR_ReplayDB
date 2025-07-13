@@ -56,10 +56,9 @@ void WEB_Rank::WRefresh()
 		MISEA("Event Over");
 		return;
 	}
-	if (Bro->A_getRankMode(iRankList) == 5 && !WR->WA_Admin)
+	if ((Bro->A_getRankMode(iRankList) == 5 || Bro->A_getRankMode(iRankList) == 6) && !WR->WA_Admin)
 	{
 		
-
 		switch (iRankList)
 		{
 		case 11:
@@ -89,6 +88,14 @@ void WEB_Rank::WRefresh()
 			wtTabelleHead->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(slider)));
 			wtTabelleHead->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Replays: " + std::to_string(vListe.size())))));
 			wtTabelleHead->elementAt(3, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" More Random Draws Boosters with " + std::to_string(10 - vListe.size() % 10 + vListe.size()) + " Players"))));
+			break;
+
+		case 17:
+			vListe = Bro->A_getRankeROW(iRankList);
+			for (auto L : vListe) iDeckCheck += L.Stamps[0];			
+			wtTabelleHead->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Player: " + std::to_string(vListe.size())))));
+			wtTabelleHead->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Tickets Total: " + std::to_string(iDeckCheck)))));
+			return;
 			break;
 		}
 	}

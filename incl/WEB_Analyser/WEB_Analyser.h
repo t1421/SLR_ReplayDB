@@ -80,6 +80,7 @@ public:
 	std::string Kalk_Event14(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event15(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event16(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event17(unsigned long iTimes[RankRowStamps]);
 
 	void AddPlayers9();
 #endif

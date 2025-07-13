@@ -1096,6 +1096,26 @@ std::string WEB_Analyser::Kalk_Event15(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
+
+std::string WEB_Analyser::Kalk_Event17(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "heart_of_trouble_experimental_new.map")return "Wrong Map";
+	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+
+	bool isWin = false;
+	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;Goal_9;1;")isWin = true;
+	if (!isWin)return "Was not a win";
+
+	iTimes[0] = R->DifficultyID;
+
+	MISE;
+	return "";
+}
+
 void WEB_Analyser::AddPlayers9()
 {
 	MISS;

@@ -506,9 +506,9 @@ unsigned long int broker::L_getEventRankMode(unsigned int iEvent)
 	// Has Ended / Show + dont add
 	if (now > L->Events[iEvent].End)return 1;
 
-	// is running // Dont show + add
-	if (now > L->Events[iEvent].Start && L->Events[iEvent].RankType == 5)return 5;
 	// is running // Only show +/- 1Players  + add
+	if (now > L->Events[iEvent].Start && L->Events[iEvent].RankType == 5)return 5;
+	// SPecial ranking view
 	if (now > L->Events[iEvent].Start && L->Events[iEvent].RankType == 6)return 6;
 
 	// is running // show + add
