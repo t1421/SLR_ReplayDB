@@ -12,6 +12,7 @@
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
 #include <Wt/WText.h>
+#include <Wt/WLineEdit.h>
 
 #define Card_Size_X 93
 #define Card_Size_Y 128
@@ -28,9 +29,14 @@ WEB_Tome_PublicPlayersBooster::WEB_Tome_PublicPlayersBooster(WEB_Container_Tome 
 
 	cMain = new Wt::WContainerWidget();
 	wtTabelle = new Wt::WTable();
+	wlFilter = new Wt::WLineEdit();
+
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlFilter)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelle)));
 	
 	MISD("#1");
+
+	wlFilter->setWidth(Card_Size_X * 9);
 
 	MISD("#2");
 
@@ -72,6 +78,8 @@ void WEB_Tome_PublicPlayersBooster::WRefresh()
 		wtTabelle->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtTabelleTemp)));
 		Con->DrawBooster(wtTabelleTemp, vAllBoosters, 2);
 		wtTabelle->elementAt(iRow++, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<H1> </H1>"))));
+
+		wlFilter->setText(Con->BoosterToFilter(vAllBoosters, 2));
 	}
 
 	MISE;

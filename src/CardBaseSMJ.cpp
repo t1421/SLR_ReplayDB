@@ -192,6 +192,9 @@ bool CardBaseSMJ::Init()
 	EnumDirections.push_back(std::make_pair(
 		"4", "Bottom"));
 	
+	EnumBoosters.push_back(std::make_pair(
+		"-91", "Reforge"));
+
 	MISE;
 	
 	return true;	

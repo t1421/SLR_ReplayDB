@@ -268,6 +268,7 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 	// SRC 0 = WEB_Tome_PublicBoosters
 	// SRC 1 = WEB_Tome_Player
 	// SRC 2 = WEB_Tome_PublicPlayersBooster
+	// SRC 3 = WEB_Tome_PublicCards
 	MISS;
 
 	unsigned int iCol = 0;
@@ -301,7 +302,7 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 						C->cardId,
 						3,
 						3,
-						1,
+						1 - C->reforged,
 						false),
 						Card_Size_X, Card_Size_Y
 					))));
@@ -370,18 +371,61 @@ void WEB_Container_Tome::DrawCard(Wt::WTable* wtTabelle, std::vector <SMJCard*> 
 	MISE;
 }
 
-std::string WEB_Container_Tome::BoosterToFilter(std::vector <Tome_Booster*> vAllBoosters, std::string sName)
+std::string WEB_Container_Tome::BoosterToFilter(std::vector <Tome_Booster*> vAllBoosters, unsigned int iSrc)
 {
 	MISS;
 
 	std::vector <unsigned int> iCards;
 	bool found;
 	std::stringstream ssOUT;
+	std::string sName;
+
+	switch (iSrc)
+	{
+	case 0: sName = "BoosterTome"; break;
+	case 1: sName = "MyTome"; break;
+	case 2: sName = "PlayerTome"; break;
+	case 3: sName = "CardsTome"; break;
+	}
+
 
 	for (unsigned int j = 0; j <vAllBoosters.size(); j++)
 	{
 		for (unsigned int k = 0; k < vAllBoosters[j]->vCards.size() && vAllBoosters[j]->vCards[k]->cardId != 0; k++)
 		{
+			// SRC 0 = WEB_Tome_PublicBoosters
+			// SRC 1 = WEB_Tome_Player
+			// SRC 2 = WEB_Tome_PublicPlayersBooster
+			// SRC 3 = WEB_Tome_PublicCards
+
+			//No Reforges
+			if (vAllBoosters[j]->vCards[k]->reforged)continue;
+
+			//Skip if need
+			if (
+				!(
+				iSrc == 0 && vAllBoosters[j]->vCards[k]->rarity == 0 && Bro->vTomeGames[BroGameID]->bTapShowBoosterC ||
+				iSrc == 0 && vAllBoosters[j]->vCards[k]->rarity == 1 && Bro->vTomeGames[BroGameID]->bTapShowBoosterUC ||
+				iSrc == 0 && vAllBoosters[j]->vCards[k]->rarity == 2 && Bro->vTomeGames[BroGameID]->bTapShowBoosterR ||
+				iSrc == 0 && vAllBoosters[j]->vCards[k]->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowBoosterUR ||
+
+				iSrc == 1 ||
+				 
+				iSrc == 2 && vAllBoosters[j]->vCards[k]->rarity == 0 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerC ||
+				iSrc == 2 && vAllBoosters[j]->vCards[k]->rarity == 1 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerUC ||
+				iSrc == 2 && vAllBoosters[j]->vCards[k]->rarity == 2 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerR ||
+				iSrc == 2 && vAllBoosters[j]->vCards[k]->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerUR ||
+
+				iSrc == 3 && vAllBoosters[j]->vCards[k]->rarity == 0 && Bro->vTomeGames[BroGameID]->bTapShowCardsC ||
+				iSrc == 3 && vAllBoosters[j]->vCards[k]->rarity == 1 && Bro->vTomeGames[BroGameID]->bTapShowCardsUC ||
+				iSrc == 3 && vAllBoosters[j]->vCards[k]->rarity == 2 && Bro->vTomeGames[BroGameID]->bTapShowCardsR ||
+				iSrc == 3 && vAllBoosters[j]->vCards[k]->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowCardsUR  
+					)
+				)continue;
+
+
+			
+
 			found = false;
 			for (unsigned int i = 0; i < iCards.size() && found == false; i++)
 				found = iCards[i] == vAllBoosters[j]->vCards[k]->cardId;

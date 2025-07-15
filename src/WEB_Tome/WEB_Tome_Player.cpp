@@ -114,6 +114,7 @@ void WEB_Tome_Player::WRefresh()
 
 	unsigned int PlayerIndex;
 	unsigned int FreeBoosterIndex;
+	unsigned int RefrogeIndex;
 	std::string playerID = Con->getPlayerID();
 
 		
@@ -133,6 +134,7 @@ void WEB_Tome_Player::WRefresh()
 
 	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
 	for (unsigned int i = 0; i < EnumBoosters.size(); i++)if (EnumBoosters[i].first == "-3")FreeBoosterIndex = i;
+	for (unsigned int i = 0; i < EnumBoosters.size(); i++)if (EnumBoosters[i].first == "-91")RefrogeIndex = i;
 
 	wtHistory->clear();
 	wtBooster->clear();
@@ -151,7 +153,7 @@ void WEB_Tome_Player::WRefresh()
 		wtBooster->elementAt(1, i + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iOpenBoosterOfType(EnumBoosters[i].first))))));
 		wtBooster->elementAt(2, i + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iMaxBoosters[i])))));
 		wtBooster->elementAt(3, i + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("Open"))));
-		//wtBooster->elementAt(3, i + 1)->widget(0)->setWidth(Card_Size_X * 9 / EnumBoosters.size() + 1);
+		wtBooster->elementAt(3, i + 1)->widget(0)->setWidth(Booster_Size_X);
 
 		if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iOpenBoosterOfType(EnumBoosters[i].first)
 			+ Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iOpenBoosterOfType(EnumBoosters[FreeBoosterIndex].first)
@@ -180,7 +182,7 @@ void WEB_Tome_Player::WRefresh()
 		wtBooster->elementAt(2, i + 1)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 		wtBooster->elementAt(3, i + 1)->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 
-		if (i == FreeBoosterIndex)
+		if (i == FreeBoosterIndex || i == RefrogeIndex)
 		{			
 			wtBooster->elementAt(3, i + 1)->removeWidget(wtBooster->elementAt(3, i + 1)->widget(0)); 
 			wtBooster->moveColumn(i + 1, 1);	
@@ -193,7 +195,7 @@ void WEB_Tome_Player::WRefresh()
 	for(unsigned int i = 0 ; i < wtBooster->columnCount() ; i++)
 	wtBooster->columnAt(i)->setWidth(Card_Size_X * 9 / wtBooster->columnCount());
 
-	wlFilter->setText(Con->BoosterToFilter(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters, "MyTome"));
+	wlFilter->setText(Con->BoosterToFilter(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters, 1));
 	// Check Replay
 
 	MISE;

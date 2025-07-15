@@ -155,10 +155,25 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 					new Tome_Booster(entry(line, 0).c_str()));
 				vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->iLfdnr = atoi(entry(line,1).c_str());
 
-				for (unsigned int i = 0; i < iCountSemi - 1; i++)
-					if(atoi(entry(line, 2 + i).c_str()) != 0)
+				
+				for (unsigned int i = 2; i < iCountSemi; i++)
+					if(atoi(entry(line, i).c_str()) != 0)
 						vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->vCards.push_back(
-							Bro->J_GetSMJCard(atoi(entry(line, 2 + i).c_str())));
+							Bro->J_GetSMJCard(atoi(entry(line,i).c_str())));
+			}
+			//Player Booster Reforge
+			if (INI_Value_Check(line, "PBR"))
+			{
+				iCountSemi = 0;
+				for (char character : line)
+					if (character == ';')
+						iCountSemi++;
+
+				for (auto B : vPlayer[vPlayer.size() - 1]->vBoosters)
+					if (B->iLfdnr == atoi(entry(line, 0).c_str()))
+						for (unsigned int i = 1; i < iCountSemi; i++)					
+							B->vCards[i - 1]->reforged = atoi(entry(line, i).c_str());
+						
 			}
 				
 			ifFile.clear();
@@ -178,6 +193,23 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 		return false;
 	}
 
+	// Version Converting
+	if (iVersion == 1)
+	{
+		MISD("Convert");
+		for (auto P : vPlayer)
+		{
+			P->iMaxBoosters[14] = 0;
+			for (auto B : P->vBoosters)			
+				for (auto C : B->vCards)
+					C->reforged = false;
+		}
+			
+		iVersion = 2;
+		bSaveGame();
+	}
+	
+
 	MISE;
 	return true;
 }
@@ -187,7 +219,7 @@ void Tome_Game::Init()
 {
 	MISS;
 
-	iVersion = 1;
+	iVersion = 2;
 	bHasGame = false;
 
 	sGameID = "";
@@ -309,7 +341,17 @@ bool Tome_Game::bSaveGame()
 					if(vPlayer[i]->vBoosters[j]->vCards[k]->cardId != 0)
 						ofFile << vPlayer[i]->vBoosters[j]->vCards[k]->cardId << ";";
 				ofFile << "\n";
-			}			
+			}	
+
+			for (unsigned j = 0; j < vPlayer[i]->vBoosters.size(); j++)
+			{
+				//MISD(std::to_string(vPlayer[i]->vBoosters[j]->iLfdnr));
+				ofFile << "PBR=" << vPlayer[i]->vBoosters[j]->iLfdnr << ";";
+				for (unsigned k = 0; k < vPlayer[i]->vBoosters[j]->vCards.size(); k++)
+					if (vPlayer[i]->vBoosters[j]->vCards[k]->cardId != 0)
+						ofFile << vPlayer[i]->vBoosters[j]->vCards[k]->reforged << ";";
+				ofFile << "\n";
+			}
 		}
 
 		ofFile.close();

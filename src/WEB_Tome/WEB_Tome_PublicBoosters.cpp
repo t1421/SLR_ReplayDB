@@ -69,7 +69,7 @@ void WEB_Tome_PublicBoosters::WRefresh()
 	
 	Con->DrawBooster(wtTabelle, vAllBoosters, 0);
 
-	wlFilter->setText(Con->BoosterToFilter(vAllBoosters, "AllTome"));
+	wlFilter->setText(Con->BoosterToFilter(vAllBoosters, 0));
 	
 	MISE;
 }

@@ -1,7 +1,7 @@
 #ifndef Tome_Game_H
 #define Tome_Game_H
 
-#define NumBoostersTypes 14
+#define NumBoostersTypes 14 + 1
 #include "..\DataTypes.h"
 
 bool compareBoostersLfdnr(const Tome_Booster* a, const Tome_Booster* b);

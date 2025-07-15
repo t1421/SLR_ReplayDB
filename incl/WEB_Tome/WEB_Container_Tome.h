@@ -16,8 +16,8 @@ class WEB_Tome_Player;
 class WEB_Tome_Public;
 class WEB_Tome_Leave;
 
-#define Booster_Size_X 32
-#define Booster_Size_Y 38
+#define Booster_Size_X 51
+#define Booster_Size_Y 60
 
 #define Card_Size_X 93
 #define Card_Size_Y 128
@@ -47,7 +47,7 @@ public:
 
 	void DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Booster*> vAllBoosters, unsigned int iSrc);
 	void DrawCard(Wt::WTable* wtTabelle, std::vector <SMJCard*> vAllCards);
-	std::string BoosterToFilter(std::vector <Tome_Booster*> vAllBoosters, std::string sName);
+	std::string BoosterToFilter(std::vector <Tome_Booster*> vAllBoosters, unsigned int iSrc);
 	std::string getPlayerID();
 
 	//----------------------------------------------------------------
