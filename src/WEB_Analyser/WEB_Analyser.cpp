@@ -1101,16 +1101,23 @@ std::string WEB_Analyser::Kalk_Event17(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->MapName != "heart_of_trouble_experimental_new.map")return "Wrong Map";
-	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
-	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+	if (R->MapName != "20003_pve_01p_heart_of_trouble.map")return "Wrong Map";
+	//if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
+	//if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	bool isWin = false;
-	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;Goal_9;1;")isWin = true;
+	for (auto A : R->ActionMatrix)
+	{
+		if (A->Type == 4007 && A->AdditionalInfo == "1049")isWin = true;
+		if (A->Type == 4007 && A->AdditionalInfo == "1044")iTimes[2] = A->Time; //Red
+		if (A->Type == 4007 && A->AdditionalInfo == "1047")iTimes[3] = A->Time; //Black
+		if (A->Type == 4007 && A->AdditionalInfo == "1048")iTimes[4] = A->Time; //Yellow
+	}
 	if (!isWin)return "Was not a win";
 
-	iTimes[0] = R->DifficultyID;
+	iTimes[0] = getPlaytime();
+	iTimes[1] = R->DifficultyID;
 
 	MISE;
 	return "";

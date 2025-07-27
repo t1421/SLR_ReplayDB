@@ -140,7 +140,10 @@ struct SMJCard {
 	char rarity;
 	char promo;
 	std::vector <int> vBoosters;
-	bool reforged;
+	int reforged;
+
+	SMJCard():reforged(0){};
+	SMJCard(unsigned short _cardId) :cardId(_cardId), reforged(0) {};
 };
 
 

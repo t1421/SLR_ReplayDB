@@ -177,6 +177,9 @@ public:
 #if defined BrokerTome
 	std::vector <Tome_Game*> vTomeGames;
 	int getTomeGame(std::string sGameID);	
+
+	std::vector<std::vector<int>> vReforgeColour;
+	std::vector<std::vector<int>> vReforgeRarity;
 #endif
 
 #if defined BrokerLotto

@@ -116,7 +116,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;BrokerNormal;noImager;noManager;noSMJImages;noSQL;noLoad;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;BrokerNormal;noImager;noManager;noSMJImages;noSQL;noLoad;SLR_Event_Checker;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>K:\c++\LIBS\boost_1_68_0;K:\c++\LIBS\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\include;K:\c++\LIBS\jsoncpp-1.9.5\install\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
     </ClCompile>

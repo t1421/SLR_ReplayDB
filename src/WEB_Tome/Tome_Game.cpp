@@ -129,9 +129,12 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			if (INI_Value_Check(line, "TapShowBoosterPerPlayerOrder"))iTapShowBoosterPerPlayerOrder = atoi(line.c_str());
 			
 			if (INI_Value_Check(line, "AllowOpening"))bAllowOpening = atoi(line.c_str());
+			if (INI_Value_Check(line, "NoDouble"))bNoDoubleBooster = atoi(line.c_str()); //V1
+			if (INI_Value_Check(line, "NoDoubleBooster"))bNoDoubleBooster = atoi(line.c_str());
+
 			if (INI_Value_Check(line, "AllowRefroging"))bAllowRefroging = atoi(line.c_str());
+			if (INI_Value_Check(line, "NoDoubleReforging"))bNoDoubleReforging = atoi(line.c_str());
 			
-			if (INI_Value_Check(line, "NoDouble"))bNoDouble = atoi(line.c_str());
 			if (INI_Value_Check(line, "NoAffinities"))bNoAffinities = atoi(line.c_str());
 			if (INI_Value_Check(line, "NoPromos"))bNoPromos = atoi(line.c_str());
 			
@@ -179,6 +182,26 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			ifFile.clear();
 		}
 		ifFile.close();
+
+		// Update dependend data
+		unsigned int iReforgeCount;
+		for (auto P : vPlayer)
+		{
+			iReforgeCount = 0;
+			for (auto B : P->vBoosters)
+			{
+				for (auto C : B->vCards)
+				{
+					if (C->reforged == 2 && iReforgeCount < 4)
+					{
+						P->ReforgeBooster->vCards[iReforgeCount] = C;
+						iReforgeCount++;
+					}
+					else if (C->reforged == 2 && iReforgeCount == 4) C->reforged = 1;
+				}
+			}
+		}
+		
 	}
 	else
 	{
@@ -202,7 +225,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			P->iMaxBoosters[14] = 0;
 			for (auto B : P->vBoosters)			
 				for (auto C : B->vCards)
-					C->reforged = false;
+					C->reforged = 0;
 		}
 			
 		iVersion = 2;
@@ -254,9 +277,11 @@ void Tome_Game::Init()
 	iTapShowBoosterPerPlayerOrder = 0;
 
 	bAllowOpening = false;
-	bAllowRefroging = false;
+	bNoDoubleBooster = false;
 
-	bNoDouble = false;
+	bAllowRefroging = false;
+	bNoDoubleReforging = false;
+	
 	bNoAffinities = false;
 	bNoPromos = false;
 
@@ -318,9 +343,11 @@ bool Tome_Game::bSaveGame()
 		ofFile << "TapShowBoosterPerPlayerOrder=" << iTapShowBoosterPerPlayerOrder << "\n";
 
 		ofFile << "AllowOpening="<<bAllowOpening << "\n";
-		ofFile << "AllowRefroging="<<bAllowRefroging << "\n";
+		ofFile << "NoDoubleBooster=" << bNoDoubleBooster << "\n";
 
-		ofFile << "NoDouble="<<bNoDouble << "\n";
+		ofFile << "AllowRefroging="<<bAllowRefroging << "\n";
+		ofFile << "NoDoubleReforging=" << bNoDoubleReforging << "\n";
+		
 		ofFile << "NoAffinities="<<bNoAffinities << "\n";
 		ofFile << "NoPromos="<<bNoPromos << "\n";
 		

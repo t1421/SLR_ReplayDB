@@ -13,7 +13,9 @@ public:
 	WEB_Tome_Player(WEB_Container_Tome *Con_);
 	Wt::WTable *wtBooster;
 	Wt::WTable *wtHistory;
+	Wt::WTable* wtReforge;
 	Wt::WLineEdit *wlFilter;
+	Wt::WPushButton* wbReforge;
 
 	Wt::WText *wtGameID;
 	Wt::WText *wtPlayerID;

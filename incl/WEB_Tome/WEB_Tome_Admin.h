@@ -47,9 +47,11 @@ public:
 
 
 	Wt::WCheckBox* wcAllowOpening;
+	Wt::WCheckBox* wcNoDoubleBooster;
+
 	Wt::WCheckBox* wcAllowRefroging;
-	
-	Wt::WCheckBox* wcNoDouble;
+	Wt::WCheckBox* wcNoDoubleRefroging;
+		
 	Wt::WCheckBox* wcNoAffinities;
 	Wt::WCheckBox* wcNoPromos;
 	

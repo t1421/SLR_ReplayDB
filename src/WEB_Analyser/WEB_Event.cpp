@@ -218,7 +218,8 @@ void WEB_Event::WRefresh()
 			//if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -)</h3> ");
 			wtStatus->setText("<h3>Nice run :-) </h3> ");
 
-			wtLine1->setText("Tickets: " + std::to_string(iTimes[0]));
+			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
+			wtLine2->setText("Tickets: " + std::to_string(iTimes[1]));
 			
 			break;
 		}	

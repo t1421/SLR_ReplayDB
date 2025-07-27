@@ -302,7 +302,7 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 						C->cardId,
 						3,
 						3,
-						1 - C->reforged,
+						int(bool(C->reforged==0 || C->reforged == 2)),
 						false),
 						Card_Size_X, Card_Size_Y
 					))));
@@ -399,7 +399,7 @@ std::string WEB_Container_Tome::BoosterToFilter(std::vector <Tome_Booster*> vAll
 			// SRC 3 = WEB_Tome_PublicCards
 
 			//No Reforges
-			if (vAllBoosters[j]->vCards[k]->reforged)continue;
+			if (vAllBoosters[j]->vCards[k]->reforged == 1)continue;
 
 			//Skip if need
 			if (

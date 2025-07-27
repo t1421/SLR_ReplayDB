@@ -26,7 +26,7 @@ Reader::~Reader()
 //unsigned char			/// 8
 //unsigned short		///16
 //unsigned long			///32
-//unsigned long long	///62
+//unsigned long long	///64
 unsigned long long Reader::readUnsignedLongLong()
 {
 	MISS;

@@ -92,10 +92,10 @@ void WEB_Rank::WRefresh()
 
 		case 17:
 			vListe = Bro->A_getRankeROW(iRankList);
-			for (auto L : vListe) iDeckCheck += L.Stamps[0];			
+			for (auto L : vListe) iDeckCheck += L.Stamps[1];			
 			wtTabelleHead->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Player: " + std::to_string(vListe.size())))));
 			wtTabelleHead->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(" Tickets Total: " + std::to_string(iDeckCheck)))));
-			return;
+			//return;
 			break;
 		}
 	}
@@ -254,6 +254,13 @@ void WEB_Rank::WRefresh()
 		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Cry </h4>"))));
 		wtTabelle->elementAt(0, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Cry Time </h4>"))));
 		break;
+	case 17:
+		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
+		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Dif </h4>"))));
+		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Red </h4>"))));
+		wtTabelle->elementAt(0, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Black </h4>"))));
+		wtTabelle->elementAt(0, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Yellow </h4>"))));
+		break;
 	default:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));		
 	}
@@ -408,11 +415,29 @@ void WEB_Rank::WRefresh()
 			case 3:
 				wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Exp"))));
 				break;
-			}			
+			}
 			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[2])))));
 			wtTabelle->elementAt(i + 1, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[15])))));
 			//if (vListe[i].ID == WR->GetPlayerName(WR->getPMVPlayerID()))wtTabelle->elementAt(i + 1, 2)->setStyleClass("grau-box");
 			if (vListe[i].ID == WR->GetPlayerName(WR->getPMVPlayerID()))wtTabelle->rowAt(i + 1)->setStyleClass("grau-box");
+			break;
+		case 17:
+			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
+			switch (vListe[i].Stamps[1])
+			{
+			case 1:
+				wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Std"))));
+				break;
+			case 2:
+				wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Adv"))));
+				break;
+			case 3:
+				wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Exp"))));
+				break;
+			}		
+			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[2])))));
+			wtTabelle->elementAt(i + 1, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[3])))));
+			wtTabelle->elementAt(i + 1, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[4])))));
 			break;
 		default:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
@@ -500,6 +525,15 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(2)->setWidth(50);  //Dif
 		wtTabelle->columnAt(3)->setWidth(50);  //Crystal
 		wtTabelle->columnAt(4)->setWidth(75);  //Crystal Time
+		break;
+	case 17:
+		wtTabelle->removeColumn(0); //rank		
+		wtTabelle->columnAt(0)->setWidth(150); //Player
+		wtTabelle->columnAt(1)->setWidth(75);  //Time
+		wtTabelle->columnAt(2)->setWidth(50);  //Dif
+		wtTabelle->columnAt(3)->setWidth(75);  //Time
+		wtTabelle->columnAt(4)->setWidth(75);  //Time
+		wtTabelle->columnAt(5)->setWidth(75);  //Time
 		break;
 	default:
 		break;

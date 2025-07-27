@@ -111,9 +111,11 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wcTapShowBoosterPerPlayerOrder = new Wt::WComboBox;
 
 	wcAllowOpening = new Wt::WCheckBox("Allow Opening Booster");
+	wcNoDoubleBooster = new Wt::WCheckBox("No Duplicate Cards Booster");
+	
 	wcAllowRefroging = new Wt::WCheckBox("Allow Refroging");
-
-	wcNoDouble = new Wt::WCheckBox("No Duplicate Cards");
+	wcNoDoubleRefroging = new Wt::WCheckBox("No Duplicate Cards Refroging");
+		
 	wcNoAffinities = new Wt::WCheckBox("No Affinities");
 	wcNoPromos = new Wt::WCheckBox("No Promo Cards");
 
@@ -196,17 +198,20 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	
 	iRow++;
 	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowOpening)));
-	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowRefroging)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoDoubleBooster)));
 	iRow++;
-	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoDouble)));
-	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoAffinities)));
-	wtTempTable->elementAt(iRow, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoPromos)));
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcAllowRefroging)));
+	wtTempTable->elementAt(iRow, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoDoubleRefroging)));
+	iRow++;	
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoAffinities)));
+	iRow++;
+	wtTempTable->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wcNoPromos)));
 	
 	wtTempTable->columnAt(0)->setWidth(250);
 	wtTempTable->columnAt(1)->setWidth(250);
 	wtTempTable->columnAt(2)->setWidth(150);
 
-	wcAllowRefroging->disable();
+	//wcAllowRefroging->disable();
 	wcNoAffinities->disable();
 	wcNoPromos->disable();
 
@@ -377,19 +382,27 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 	}));
+	wcNoDoubleBooster->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bNoDoubleBooster = wcNoDoubleBooster->isChecked();
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		WRefresh();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}));
+	MISD("#34");
 	wcAllowRefroging->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->bAllowRefroging = wcAllowRefroging->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 		}));
-	MISD("#34");
-	wcNoDouble->clicked().connect(std::bind([=]() {
-		Bro->vTomeGames[Con->BroGameID]->bNoDouble = wcNoDouble->isChecked();
+	wcNoDoubleRefroging->clicked().connect(std::bind([=]() {
+		Bro->vTomeGames[Con->BroGameID]->bNoDoubleReforging = wcNoDoubleRefroging->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
 		WRefresh();
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
-	}));
+		}));
+	MISD("#35");
+	
 	wcNoAffinities->clicked().connect(std::bind([=]() {
 		Bro->vTomeGames[Con->BroGameID]->bNoAffinities = wcNoAffinities->isChecked();
 		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
@@ -439,7 +452,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		)));
 		
 		wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("+"))));
-		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(0, iCol)->widget(0))->setWidth(Booster_Size_X * 1.5);
+		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(0, iCol)->widget(0))->setWidth(Booster_Size_X * 1);
 		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(0, iCol)->widget(0))->clicked().connect(std::bind([=]() {
 			for each(WEB_Tome_Player* iWTP in Tabel_Player)
 			{
@@ -453,7 +466,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 		}));
 		
 		wtTabelle->elementAt(1, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("-"))));
-		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(1, iCol)->widget(0))->setWidth(Booster_Size_X * 1.5);
+		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(1, iCol)->widget(0))->setWidth(Booster_Size_X * 1);
 		dynamic_cast<Wt::WPushButton *>(wtTabelle->elementAt(1, iCol)->widget(0))->clicked().connect(std::bind([=]() {
 			for each(WEB_Tome_Player* iWTP in Tabel_Player)
 			{
@@ -582,11 +595,16 @@ void WEB_Tome_Admin::WRefresh()
 	MISD("#55");
 	
 	wcAllowOpening->setChecked(Bro->vTomeGames[Con->BroGameID]->bAllowOpening);
+	wcNoDoubleBooster->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoDoubleBooster);
+	
+	MISD("#6");
 	wcAllowRefroging->setChecked(Bro->vTomeGames[Con->BroGameID]->bAllowRefroging);
-
+	wcNoDoubleRefroging->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoDoubleReforging);
 	MISD("#6");
 
-	wcNoDouble->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoDouble);
+	
+
+	
 	wcNoAffinities->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoAffinities);
 	wcNoPromos->setChecked(Bro->vTomeGames[Con->BroGameID]->bNoPromos);
 

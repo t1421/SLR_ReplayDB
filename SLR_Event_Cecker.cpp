@@ -30,12 +30,15 @@ int main(int argc, char **argv)
 		if (RR->LoadPMV(sFile))
 		{
 			std::string sFile = std::string(argv[1]);			
-			//Bro->B->StatusE("OK", "OpenFile", "");
+			Bro->B->StatusE("OK", "FILE", "TIME;ID;health_hasher;position_hasher;power_hasher;health_rounded_hasher;position_rounded_hasher;power_rounded_hasher;figures_count;entities_count;steps");
 
 			for (auto A : RR->ActionMatrix)
 			{
-				//if (A->Type == 4045)continue;
-				Bro->B->StatusE("OK", "", ";" + std::to_string(A->Type) + ";" + std::to_string(A->X) + ";" + std::to_string(A->Y));
+				//Bro->B->StatusE("OK", std::to_string(A->Type), "");
+				
+				if (A->Type == 4045)
+					if(entry(A->AdditionalInfo,0) == "2")
+						Bro->B->StatusE("OK", std::string(argv[1]), std::to_string(A->Time) + ";" + A->AdditionalInfo);
 				//MISD(std::to_string(A->Type) + ";" + std::to_string(A->X) + ";" + std::to_string(A->Y));
 				
 			}		

@@ -137,6 +137,44 @@ broker::broker()
 	WEB_Tome_Leave::learnBro(this);
 	
 	Tome_Game::learnBro(this);
+
+
+	vReforgeColour = {
+		//Fire     0
+		{ 75,1,1,1,6,1,6,1,1,6,1 },
+		//Shadow   1
+		{ 1,75,1,1,6,1,1,6,6,1,1 },
+		//Nature   2
+		{ 1,1,75,1,1,6,6,1,6,1,1 },
+		//Frost    3
+		{ 1,1,1,75,1,6,1,6,1,6,1 },
+		//BD       4
+		{ 8,8,1,1,75,1,1,1,1,1,2 },
+		//SK       5
+		{ 1,1,8,8,1,75,1,1,1,1,2 },
+		//TW       6
+		{ 8,1,8,1,1,1,75,1,1,1,2 },
+		//LS       7
+		{ 1,8,1,8,1,1,1,75,1,1,2 },
+		//Amii     8
+		{ 1,8,8,1,1,1,1,1,75,1,2 },
+		//FF       9
+		{ 8,1,1,8,1,1,1,1,1,75,2 },
+		//Neutral -1
+		{ 5,5,5,5,5,5,5,5,5,5,50 }
+	};
+
+	vReforgeRarity = {
+		//"0": "Common",
+		{ 40,45,14, 1 },
+		//"1" : "Uncommon",
+		{  5,40,45,10 },
+		//"2" : "Rare",
+		{  1,14,40,45 },
+		//"3" : "Ultra Rare"
+		{  0, 0, 5,95 }
+	};
+	
 #endif
 
 #ifdef BrokerNormal	 || defined BrokerPVP || defined BrokerQuiz

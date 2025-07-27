@@ -735,6 +735,20 @@ bool Replay::ReadActions()
 				switch (this->readUnsignedChar()) //ID of inner Data
 				{
 					case 2: // Desync
+#if defined SLR_Event_Checker
+						Action_TEMP->AdditionalInfo = "2;";
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLongLong()) + ";"; // state health_hasher
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLongLong()) + ";"; // state position_hasher
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLongLong()) + ";"; // state power_hasher
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLongLong()) + ";"; // state health_rounded_hasher
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLongLong()) + ";"; // state position_rounded_hasher
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLongLong()) + ";"; // state power_rounded_hasher
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Count figures on map 32
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Count entities on map 32
+						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Steps
+						break;
+#else
+						
 						Action_TEMP->AdditionalInfo = "2;";
 						readUnsignedLongLong(); // state health_hasher
 						readUnsignedLongLong(); // state position_hasher
@@ -746,6 +760,8 @@ bool Replay::ReadActions()
 						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // Count entities on map
 						readUnsignedLong(); // Steps
 						break;
+#endif
+						
 
 					case 3: //Pause tracker
 						Action_TEMP->AdditionalInfo = "3;";

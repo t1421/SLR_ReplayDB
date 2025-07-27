@@ -99,4 +99,7 @@ color: #111111 !important;
 background-color: #666666 !important;
 color: #111111 !important;
 }
-	
+
+.yReforge {
+    border: 1px solid #99DD99 !important;
+}

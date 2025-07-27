@@ -19,7 +19,14 @@ struct Tome_Player
 	//unsigned int iOpendBoosters[12] = { 0 };
 	std::vector<Tome_Booster*> vBoosters;
 
-	Tome_Player(std::string _sPlayerID, std::string _sPlayerName): sPlayerID(_sPlayerID), sPlayerName(_sPlayerName){};
+	Tome_Booster* ReforgeBooster;
+
+	Tome_Player(std::string _sPlayerID, std::string _sPlayerName): sPlayerID(_sPlayerID), sPlayerName(_sPlayerName) 
+	{
+		ReforgeBooster = new Tome_Booster("-91");
+		for (unsigned int i = 0; i < 5; i++)
+			ReforgeBooster->vCards.push_back(new SMJCard(0));				
+	};
 	unsigned int iMaxBoostersSum()
 	{
 		unsigned int iReturn = 0;
@@ -73,9 +80,11 @@ public:
 	unsigned int iTapShowBoosterPerPlayerOrder;
 
 	bool bAllowOpening;
-	bool bAllowRefroging;	
+	bool bNoDoubleBooster;
 
-	bool bNoDouble;
+	bool bAllowRefroging;	
+	bool bNoDoubleReforging;
+
 	bool bNoAffinities;
 	bool bNoPromos;
 
