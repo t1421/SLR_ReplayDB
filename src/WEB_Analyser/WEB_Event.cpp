@@ -123,6 +123,8 @@ void WEB_Event::WRefresh()
 		case 15: sReturn = WR->Kalk_Event15(iTimes); break;
 		case 16: sReturn = WR->Kalk_Event16(iTimes); break;
 		case 17: sReturn = WR->Kalk_Event17(iTimes); break;
+		case 18: sReturn = WR->Kalk_Event18(iTimes); break;
+		case 19: sReturn = WR->Kalk_Event19(iTimes); break;
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
@@ -194,7 +196,7 @@ void WEB_Event::WRefresh()
 			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
 			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
 			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
-			wtLine2->setText("Your best run " + sTimeFull(iTimesBestRun[0]));
+			wtLine2->setText("Your best run " + sTimeFull(iTimesBestRun[0]));			
 			break;
 		case 15: //Canyon
 			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
@@ -220,7 +222,29 @@ void WEB_Event::WRefresh()
 
 			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
 			wtLine2->setText("Tickets: " + std::to_string(iTimes[1]));
-			
+
+			break;
+		case 18: //4Player
+			sTeamID = Bro->GetTeamName(WR->GetTeamID());
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
+			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
+
+			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
+			wtLine2->setText("Power Dif: " + std::to_string(iTimes[2]));
+
+			break;
+		case 19: //BOT11
+			sTeamID = Bro->GetTeamName(WR->GetTeamID());
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
+			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
+
+			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
+			//wtLine2->setText("Tickets: " + std::to_string(iTimes[1]));
+
 			break;
 		}	
 

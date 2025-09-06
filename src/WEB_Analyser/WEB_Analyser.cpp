@@ -737,6 +737,11 @@ bool WEB_Analyser::Check_MIS_WIN()
 
 unsigned long long WEB_Analyser::usedPower()
 {
+	return usedPower(0);
+}
+
+unsigned long long WEB_Analyser::usedPower(unsigned long long _PlayerID)
+{
 	MISS;
 
 	unsigned long long ullReturn = 0;
@@ -744,6 +749,7 @@ unsigned long long WEB_Analyser::usedPower()
 	for (unsigned int i = 0; i < Players.size(); i++)
 	{
 		if (Players[i]->Type != 1)continue;
+		if(_PlayerID > 0 && Players[i]->PlayerID != _PlayerID) continue;
 		//if (Players[i]->PlayerID != getPMVPlayerID())continue;
 
 		for each (Card* C in Players[i]->Deck)
@@ -1096,15 +1102,14 @@ std::string WEB_Analyser::Kalk_Event15(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
-
 std::string WEB_Analyser::Kalk_Event17(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "20003_pve_01p_heart_of_trouble.map")return "Wrong Map";
-	//if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
-	//if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
-	//if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	bool isWin = false;
 	for (auto A : R->ActionMatrix)
@@ -1115,6 +1120,57 @@ std::string WEB_Analyser::Kalk_Event17(unsigned long iTimes[RankRowStamps])
 		if (A->Type == 4007 && A->AdditionalInfo == "1048")iTimes[4] = A->Time; //Yellow
 	}
 	if (!isWin)return "Was not a win";
+
+	iTimes[0] = getPlaytime();
+	iTimes[1] = R->DifficultyID;
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event18(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "XXX.map")return "Wrong Map";
+	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+
+	bool isWin = false;
+	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;11104_01_05DestroyTraininglineSourcecamp;1;")isWin = true;
+	if (!isWin)return "Was not a win";
+
+	unsigned int iPlayerCount    = 0;
+	unsigned long iMinPower = 99999999;
+	unsigned long iMaxPower = 0;
+	for (unsigned int i = 0; i < R->PlayerMatrix.size(); i++)
+	{
+		if (R->PlayerMatrix[i]->Type != 1) continue;
+
+		iTimes[3 + iPlayerCount] = usedPower(R->PlayerMatrix[i]->PlayerID);
+		iMaxPower = std::max(iMaxPower, iTimes[3 + iPlayerCount]);
+		iMinPower = std::max(iMinPower, iTimes[3 + iPlayerCount]);
+		iPlayerCount++;
+	}
+	if (iPlayerCount == 4)iTimes[2] = iMaxPower - iMinPower;
+
+	iTimes[0] = getPlaytime();
+	iTimes[1] = R->DifficultyID;
+	
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event19(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "battle_of_tactics_11.map")return "Wrong Map";
+	if (R->FileVersion != Bro->L_getSRFileVersion() && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L_getSRGameVersion() && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+	if (!Check_MIS_WIN() && !WA_Admin)return "Was not a win";
 
 	iTimes[0] = getPlaytime();
 	iTimes[1] = R->DifficultyID;
@@ -1184,6 +1240,40 @@ void WEB_Analyser::AddPlayers9()
 		Bro->A_AddPlayer(101, P->Name, P->PlayerID, iTimes);		
 	}
 	MISE;
+}
+
+std::string WEB_Analyser::GetDifficultyName()
+{
+	return GetDifficultyName(R->DifficultyID, R->PlayModeID);
+}
+
+std::string WEB_Analyser::GetDifficultyName(unsigned int iDifficulty, unsigned int iPlayMode)
+{	
+	switch (iPlayMode)
+	{
+	case 1:
+		switch (iDifficulty)
+		{
+		case 1: return "Std";			
+		case 2: return "Adv";			
+		case 3:	return "Exp";
+		default: return std::to_string(iDifficulty - 4);
+		}
+	case 2:
+		return " - ";
+	}
+
+	return "unknow";
+}
+
+std::string WEB_Analyser::GetPlayModeName()
+{
+	switch (R->PlayModeID)
+	{
+	case 1: return "PvE";
+	case 2: return "PvP";
+	}
+	return "unknow";
 }
 #endif
 

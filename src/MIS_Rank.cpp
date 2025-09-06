@@ -285,6 +285,8 @@ void MIS_Rank::SortList()
 	case 10:
 	case 15:
 	case 17:
+	case 18:
+	case 19:
 		std::sort(RankRows.begin(), RankRows.end(), compare_1HL_0LH);
 		break;
 	case 11:

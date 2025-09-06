@@ -173,33 +173,9 @@ void WEB_Analyser_Head::WRefresh()
 	MapName->setText(WA->R->MapName);
 	Seed->setText(std::to_string(WA->R->Seed));
 	
-
-	switch (WA->R->PlayModeID)
-	{
-	case 1:
-		PlayModeID->setText("PvE");
-
-		switch (WA->R->DifficultyID)
-		{
-		case 1:
-			DifficultyID->setText("Std");
-			break;
-		case 2:
-			DifficultyID->setText("Adv");
-			break;
-		case 3:
-			DifficultyID->setText("Exp");
-			break;
-		default:
-			DifficultyID->setText(std::to_string(WA->R->DifficultyID - 4));
-		}
-		break;
-	case 2:
-		PlayModeID->setText("PvP");
-		DifficultyID->setText(" - ");
-		break;
-	}
-	
+	PlayModeID->setText(WA->GetPlayModeName());
+	DifficultyID->setText(WA->GetDifficultyName());
+		
 	for (int i = 0; i < WA->R->PlayerMatrix.size();i++)
 		if (WA->R->PlayerMatrix[i]->PlayerID == WA->R->PMVPlayerID)
 		{

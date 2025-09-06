@@ -81,6 +81,8 @@ public:
 	std::string Kalk_Event15(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event16(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event17(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event18(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event19(unsigned long iTimes[RankRowStamps]);
 
 	void AddPlayers9();
 #endif
@@ -91,11 +93,15 @@ public:
 
 	bool Check_MIS_WIN();
 	unsigned long long usedPower();
+	unsigned long long usedPower(unsigned long long _PlayerID);
 
 	void AddIMG(Wt::WTableCell* wtCell, bool bValue);
 	void AddCardIMG(Wt::WTableCell* wtCell, unsigned short CardID, unsigned int Size);
 	
 	std::string GetTeamID();	
+	std::string GetDifficultyName();
+	std::string GetDifficultyName(unsigned int iDifficulty, unsigned int iPlayMode);
+	std::string GetPlayModeName();
 
 	private:
 };
