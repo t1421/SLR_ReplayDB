@@ -125,7 +125,7 @@ void Manager::Thread_Function()
 			iSaveNr = 0 ;
 			for (unsigned int i = 0; i < RR->PlayerMatrix.size(); i++)
 			{
-				if (i > 0)if (RR->PlayerMatrix[i]->GroupID != RR->PlayerMatrix[i - 1]->GroupID)iSaveNr = 3;
+				if (i > 0)if (RR->PlayerMatrix[i]->GroupID != RR->PlayerMatrix[i - 1]->GroupID)iSaveNr = ((iSaveNr / 3)) + 1 * 3;
 				RR->PlayerMatrix[i]->iSaveID = iSaveNr;
 				iSaveNr++;
 			}

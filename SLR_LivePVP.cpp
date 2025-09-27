@@ -42,7 +42,7 @@ int main(int argc, char **argv)
 	M->Start_Thread();
 #endif	
 
-	Replay* R = new Replay();
+	//Replay* R = new Replay();
 	
 	while (Bro->bAktive)
 	{
@@ -64,47 +64,10 @@ int main(int argc, char **argv)
 
 		if (Checker(sbuf, "?"))
 		{
-			printf("####################|###########################################\n");
-			printf("R;open              | Open File\n");
-			printf("R;close             | close file\n");
-			printf("R;read              | Read Delta\n");			
-			printf("R;new               | New Replay\n");
-			printf("####################|###########################################\n\n");							
-			printf("R;echo;head         | Outputs Headerdata\n");
-			printf("R;echo;allied       | Outputs Allied Table\n");
-			printf("R;echo;team         | Outputs Team Table\n");
-			printf("R;echo;player       | Outputs Players\n");
-			printf("R;echo;deck         | Outputs Deck of Replay recorder\n");
-			printf("R;echo;action;*     | Outputs all Actions\n");
-			printf("R;echo;action;[ID]  | Outputs Actions with ID\n");
+			printf("####################|###########################################\n");						
 			printf("####################|###########################################\n\n");
 		}
 
-
-		if (Checker(sbuf, "R"))
-		{
-			
-			if (Checker(sbuf, "open"))R->LoadPMV("C:\\Users\\MIS\\Documents\\BattleForge\\Diag\\movie.pmv");
-			if (Checker(sbuf, "close"))R->close();
-			if (Checker(sbuf, "read"))R->readDelta();
-			if (Checker(sbuf, "new"))R = new Replay();	
-
-			if (Checker(sbuf, "echo"))
-			{
-				if (Checker(sbuf, "head"))R->EchoHead();
-				if (Checker(sbuf, "allied"))R->EchoAllied();
-				if (Checker(sbuf, "team"))R->EchoTeam();
-				if (Checker(sbuf, "player"))R->EchoPlayer();
-				if (Checker(sbuf, "deck"))R->EchoPlayerDecks();
-
-				if (Checker(sbuf, "action"))
-				{
-					R->EchoAction(sbuf);
-				}
-			}
-			
-		}
-		
 		if (Checker(sbuf, "x"))Bro->bAktive = false;
 	}
 	

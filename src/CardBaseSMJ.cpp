@@ -118,6 +118,7 @@ bool CardBaseSMJ::Init()
 	}
 	for (SMJCard* CC : SMJMatrix)if (CC->cardNameSimple == "Kobold Inc.")CC->cardNameSimple = "Kobold Inc"; 
 	for (SMJCard* CC : SMJMatrix)if (CC->cardId == 529)CC->maxCharges = 16;
+	for (SMJCard* CC : SMJMatrix)if (CC->color == -1)CC->color = 10;
 	
 	AllCards = RawData["enums"];
 	
@@ -194,6 +195,42 @@ bool CardBaseSMJ::Init()
 	
 	EnumBoosters.push_back(std::make_pair(
 		"-91", "Reforge"));
+
+	vReforgeColour = {
+		//Fire     0
+		{ 75,1,1,1,6,1,6,1,1,6,1 },
+		//Shadow   1
+		{ 1,75,1,1,6,1,1,6,6,1,1 },
+		//Nature   2
+		{ 1,1,75,1,1,6,6,1,6,1,1 },
+		//Frost    3
+		{ 1,1,1,75,1,6,1,6,1,6,1 },
+		//BD       4
+		{ 8,8,1,1,75,1,1,1,1,1,2 },
+		//SK       5
+		{ 1,1,8,8,1,75,1,1,1,1,2 },
+		//TW       6
+		{ 8,1,8,1,1,1,75,1,1,1,2 },
+		//LS       7
+		{ 1,8,1,8,1,1,1,75,1,1,2 },
+		//Amii     8
+		{ 1,8,8,1,1,1,1,1,75,1,2 },
+		//FF       9
+		{ 8,1,1,8,1,1,1,1,1,75,2 },
+		//Neutral -1 -> witchted to 10
+		{ 5,5,5,5,5,5,5,5,5,5,50 }
+	};
+
+	vReforgeRarity = {
+		//"0": "Common",
+		{ 40,45,14, 1 },
+		//"1" : "Uncommon",
+		{  5,40,45,10 },
+		//"2" : "Rare",
+		{  1,14,40,45 },
+		//"3" : "Ultra Rare"
+		{  0, 0, 5,95 }
+	};
 
 	MISE;
 	
@@ -732,7 +769,7 @@ bool CardBaseSMJ::Imager()
 
 #endif
 
-
+#ifdef BrokerTome
 Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster)
 {
 	MISS;
@@ -771,7 +808,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::v
 		{
 			for (Tome_Booster* B : vOpendBooster)
 			{
-				for (SMJCard* C : B->vCards)
+				for (auto& C : B->vCards)
 				{
 					if (C->cardId == SMJMatrix[i]->cardId)goto SkipCard;
 				}
@@ -907,7 +944,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::v
 			i--;
 			continue;
 		}
-		Booster->vCards.push_back(vPromo[iRandome]);
+		Booster->vCards.push_back(std::make_unique<SMJCard>(*vPromo[iRandome]));
 	}
 
 	distr = std::uniform_int_distribution<int>(0, vUR.size() - 1);
@@ -923,7 +960,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::v
 			i--;
 			continue;
 		}
-		Booster->vCards.push_back(vUR[iRandome]);
+		Booster->vCards.push_back(std::make_unique<SMJCard>(*vUR[iRandome]));
 	}
 
 	distr = std::uniform_int_distribution<int>(0, vR.size() - 1);
@@ -939,7 +976,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::v
 			i--;
 			continue;
 		}
-		Booster->vCards.push_back(vR[iRandome]);
+		Booster->vCards.push_back(std::make_unique<SMJCard>(*vR[iRandome]));
 	}
 
 	distr = std::uniform_int_distribution<int>(0, vUC.size() - 1);
@@ -955,7 +992,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::v
 			i--;
 			continue;
 		}
-		Booster->vCards.push_back(vUC[iRandome]);
+		Booster->vCards.push_back(std::make_unique<SMJCard>(*vUC[iRandome]));
 	}
 
 	distr = std::uniform_int_distribution<int>(0, vC.size() - 1);
@@ -971,7 +1008,7 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::v
 			i--;
 			continue;
 		}
-		Booster->vCards.push_back(vC[iRandome]);
+		Booster->vCards.push_back(std::make_unique<SMJCard>(*vC[iRandome]));
 	}
 
 	MISD("Booster:" + std::to_string(Booster->vCards.size()));
@@ -979,3 +1016,89 @@ Tome_Booster* CardBaseSMJ::OpenBooster(std::string iType, bool bNoDouble, std::v
 	return Booster;
 }
 
+
+
+std::unique_ptr<SMJCard> CardBaseSMJ::Reforge(Tome_Booster* B)
+{
+	MISS;
+	std::vector<int> calcColour = { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+	std::vector<int> calcRarity = { 0, 0, 0, 0};
+	unsigned int resultColour = 0;
+	unsigned int resultRarity = 0;
+	unsigned int iRandomeCounter;
+	
+	int iRandome = 0;
+	
+	std::vector<std::shared_ptr<SMJCard>> vCardPool;
+
+	MISD("_1");
+	//MISD(B->vCards.size());
+	for (unsigned int i = 0; i < 4; i++)
+	{
+		MISD(i);
+		for (unsigned int j = 0; j < calcColour.size(); j++)
+		{
+			MISD(B->vCards[i]->color);
+			calcColour[j] += vReforgeColour[B->vCards[i]->color][j];
+		}
+		for (unsigned int j = 0; j < calcRarity.size(); j++)
+		{
+			MISD(j);
+			calcRarity[j] += vReforgeRarity[B->vCards[i]->rarity][j];
+		}
+	}
+	MISD("_2");
+	for (unsigned int j = 0; j < calcColour.size(); j++)calcColour[j] = calcColour[j] * 100 / 4;	
+	for (unsigned int j = 0; j < calcRarity.size(); j++)calcRarity[j] = calcRarity[j] * 100 / 4;
+	MISD("_3");
+	//0 - 10.000
+	std::random_device rd;
+	std::mt19937 gen(rd());
+	std::uniform_int_distribution<int> distr;
+	MISD("_4");
+	MIS_RETRY:
+	distr = std::uniform_int_distribution<int>(0, 10000);
+	iRandome = distr(gen);
+	resultColour = 0;
+	resultRarity = 0;
+
+	MISD("#1 iRandome = " + std::to_string(iRandome));	
+	iRandomeCounter = 0;
+	do  {
+		iRandomeCounter += calcColour[resultColour];
+		resultColour++;
+	} while (iRandomeCounter < iRandome);
+	resultColour--;
+	MISD("#2 resultColour = " + std::to_string(resultColour));
+
+	MISD("#3 iRandome = " + std::to_string(iRandome));
+	iRandomeCounter = 0;
+	do{
+		iRandomeCounter += calcRarity[resultRarity];
+		resultRarity++;
+	} while (iRandomeCounter < iRandome);
+	resultRarity--;
+	MISD("#4 resultRarity = " + std::to_string(resultRarity));
+
+	for (unsigned int i = 0; i < SMJMatrix.size(); i++)
+	{
+		if(SMJMatrix[i]->color == resultColour
+			&& SMJMatrix[i]->rarity == resultRarity)vCardPool.push_back(std::make_unique<SMJCard>(*SMJMatrix[i])
+);
+	}
+	MISD("#4 PoolSize:" + std::to_string(vCardPool.size()));
+	if (vCardPool.size() == 0)
+	{
+		MISD("RETRY");
+		goto MIS_RETRY;
+	}
+
+	distr = std::uniform_int_distribution<int>(0, vCardPool.size() - 1);
+	iRandome = distr(gen);
+
+	MISD(vCardPool[iRandome]->cardName);
+
+	MISE;
+	return std::make_unique<SMJCard>(*vCardPool[iRandome]);
+}
+#endif

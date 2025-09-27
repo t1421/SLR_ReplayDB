@@ -32,6 +32,9 @@ private:
 	Json::Value WEBRequestToCHASH(std::string sURL);
 	CURL *curl;
 	std::mutex mutex_WEBRequest;
+
+	std::vector<std::vector<int>> vReforgeColour;
+	std::vector<std::vector<int>> vReforgeRarity;
 	
 public:
 	unsigned char GetActionOrbForCardID(unsigned short CardID);	
@@ -41,12 +44,15 @@ public:
 	std::string SwitchColor(char _Color);
 	std::string SwitchRarity(char _Rarity);
 	SMJCard* GetSMJCard(unsigned short _CardID);
-	//Tome_Booster* OpenBooster(std::string iType);
-	Tome_Booster* OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
 	unsigned int J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade);
 
 	void EchoCard(std::string sCardID);
 	std::vector<SMJCard*> SMJMatrix;
+
+#ifdef BrokerTome
+	Tome_Booster* OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
+	std::unique_ptr<SMJCard> Reforge(Tome_Booster* B);
+#endif
 
 #ifndef noSMJImages
 	void DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type);

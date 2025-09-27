@@ -254,6 +254,9 @@ void WEB_Container_Tome::processChatEvent(const MISEvent& event)
 			break;
 		}
 
+	if (event.Value2_ == "playerScreen" && WEB_Toolbar::sToolbar->currentIndex() == 2)
+		if (event.Value3_ == getPlayerID())
+			Player->WRefresh();
 
 	WApplication *app = WApplication::instance();
 	app->triggerUpdate();
@@ -285,7 +288,7 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 			))));
 
 		iCol = 1;
-		for(SMJCard * C : B->vCards)
+		for (auto& C : B->vCards)
 		{					
 			if (iSrc == 0 && C->rarity == 0 && Bro->vTomeGames[BroGameID]->bTapShowBoosterC ||
 				iSrc == 0 && C->rarity == 1 && Bro->vTomeGames[BroGameID]->bTapShowBoosterUC ||
@@ -316,7 +319,7 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 	MISE;
 }
 
-void WEB_Container_Tome::DrawCard(Wt::WTable* wtTabelle, std::vector <SMJCard*> vAllCards)
+void WEB_Container_Tome::DrawCard(Wt::WTable* wtTabelle, std::vector<std::unique_ptr<SMJCard>>& vAllCards)
 {
 	MISS;
 
@@ -340,20 +343,19 @@ void WEB_Container_Tome::DrawCard(Wt::WTable* wtTabelle, std::vector <SMJCard*> 
 		break;
 	}
 
-	for(auto C : vAllCards)
+	for(auto &C : vAllCards)
 	{
-
 		if (C->rarity == 0 && Bro->vTomeGames[BroGameID]->bTapShowCardsC ||
 			C->rarity == 1 && Bro->vTomeGames[BroGameID]->bTapShowCardsUC ||
 			C->rarity == 2 && Bro->vTomeGames[BroGameID]->bTapShowCardsR ||
 			C->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowCardsUR)
-		{			
+		{						
 			wtTabelle->elementAt(iCol, iRow)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
 				DrawImg(Bro->J_GetImage(
 					C->cardId,
 					3,
 					3,
-					1,
+					int(bool(C->reforged == 0 || C->reforged == 2)),
 					false),
 					Card_Size_X, Card_Size_Y
 				))));
@@ -468,3 +470,4 @@ std::string WEB_Container_Tome::getPlayerID()
 	MISE;
 	return WSTRINGtoSTRING(Login->wlUserID->text());
 }
+

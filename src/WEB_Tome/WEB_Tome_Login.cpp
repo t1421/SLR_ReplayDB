@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Login.h"
@@ -205,7 +205,7 @@ void WEB_Tome_Login::JoinPlayer()
 {
 	MISS;
 	Con->BroGameID = Bro->getTomeGame(WSTRINGtoSTRING(wlGameID->text()));
-	if (Con->BroGameID == -1 || wlGameID->text() == "")
+	if (Con->BroGameID == -2 || wlGameID->text() == "")
 	{
 		wtStatus->setText("Wrong Game ID");
 		Con->WRefresh();

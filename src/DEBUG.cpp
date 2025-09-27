@@ -30,10 +30,12 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 
 		Fill_DBArray("CardBaseSMJ", "*", "*", "true");		
 		Fill_DBArray("CardBaseSMJ", "OpenBooster", "*", "true");
-		Fill_DBArray("CardBaseSMJ", "GetImage", "*", "true");
+		Fill_DBArray("CardBaseSMJ", "GetImage", "*", "false");
 		Fill_DBArray("CardBaseSMJ", "ConvertImage", "*", "false");
 		Fill_DBArray("CardBaseSMJ", "DownloadImage", "*", "false");
 		Fill_DBArray("CardBaseSMJ", "GetActionOrbForCardID", "*", "false");
+		Fill_DBArray("CardBaseSMJ", "Reforge", "*", "true");
+		
 		
 
 		Fill_DBArray("Replay", "*", "*", "true");
@@ -88,6 +90,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("WEB_Container_Tome", "DrawBooster", "*", "false");
 		Fill_DBArray("WEB_Container_Tome", "DrawBooster", "*", "false");
 		Fill_DBArray("WEB_Container_Tome", "BoosterToFilter", "*", "false");
+		Fill_DBArray("WEB_Container_Tome", "getPlayerID", "*", "false");
+		
 
 
 		Fill_DBArray("WEB_Tome_Admin", "*", "*", "true");
@@ -108,6 +112,7 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Tome_Game", "AllBoostersMax", "*", "false");
 		Fill_DBArray("Tome_Game", "AllBoosters", "*", "false");
 		Fill_DBArray("Tome_Game", "bSaveGame", "*", "false");
+		Fill_DBArray("Tome_Game", "bCheckPlayer", "*", "false");
 		
 		
 		Fill_DBArray("WEB_Event", "*", "*", "true");

@@ -530,7 +530,7 @@ int WEB_Analyser::TomeAnalyser(Wt::WTable *wtReplayResultCard, unsigned int iGam
 
 					CardOK = false;
 					for each(Tome_Booster* TP_TB in TP->vBoosters)
-						for each(SMJCard* TP_TB_TC in TP_TB->vCards)
+						for each(auto& TP_TB_TC in TP_TB->vCards)
 						{
 							if (TP_TB_TC->cardId == RD->CardID)
 							{

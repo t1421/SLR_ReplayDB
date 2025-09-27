@@ -7,9 +7,9 @@
 bool compareBoostersLfdnr(const Tome_Booster* a, const Tome_Booster* b);
 bool compareBoostersType(const Tome_Booster* a, const Tome_Booster* b);
 
-bool compareCardColour(const SMJCard* a, const SMJCard* b);
-bool compareCardRarity(const SMJCard* a, const SMJCard* b);
-bool compareCardID(const SMJCard* a, const SMJCard* b);
+bool compareCardColour(const std::unique_ptr<SMJCard>& a, const std::unique_ptr<SMJCard>& b);
+bool compareCardRarity(const std::unique_ptr<SMJCard>& a, const std::unique_ptr<SMJCard>& b);
+bool compareCardID(const std::unique_ptr<SMJCard>& a, const std::unique_ptr<SMJCard>& b);
 
 struct Tome_Player
 {
@@ -25,7 +25,7 @@ struct Tome_Player
 	{
 		ReforgeBooster = new Tome_Booster("-91");
 		for (unsigned int i = 0; i < 5; i++)
-			ReforgeBooster->vCards.push_back(new SMJCard(0));				
+			ReforgeBooster->vCards.push_back(std::make_unique<SMJCard>(0));
 	};
 	unsigned int iMaxBoostersSum()
 	{
@@ -39,6 +39,12 @@ struct Tome_Player
 		for (unsigned int i = 0; i < vBoosters.size(); i++) if(vBoosters[i]->sType == _Type)iReturn++;
 		return iReturn;
 	};
+	~Tome_Player() {
+		for (auto card : vBoosters) {
+			delete card;
+		}
+		vBoosters.clear();
+	}
 };
 
 class Tome_Game
@@ -104,9 +110,17 @@ public:
 
 	bool bLoadGame(std::string _sGameID);
 	bool bSaveGame();
+	int iGetPlayerIndex(std::string sPlayerID);
 	
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
+
+	~Tome_Game() {
+		for (auto card : vPlayer) {
+			delete card;
+		}
+		vPlayer.clear();
+	}
 
 };
 

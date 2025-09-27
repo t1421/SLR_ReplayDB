@@ -30,6 +30,8 @@ public:
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
 	void WRefresh();
+	void UpdateReforgeBoosterTabelle();
+	void UpdateReforgeOverview();
 private:
 	WEB_Container_Tome *Con;
 };

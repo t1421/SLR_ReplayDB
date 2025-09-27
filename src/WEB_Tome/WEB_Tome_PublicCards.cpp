@@ -37,15 +37,19 @@ void WEB_Tome_PublicCards::WRefresh()
 
 	wtTabelle->clear();
 
-	std::vector<SMJCard*> vAllCards;
+	std::vector<std::unique_ptr<SMJCard>> vAllCards;
 	std::vector <Tome_Booster*> vAllBoosters;
 
 	for (auto P : Bro->vTomeGames[Con->BroGameID]->vPlayer)
 		for (auto B : P->vBoosters)
 		{
 			vAllBoosters.push_back(B);
-			for (auto C : B->vCards)
-				vAllCards.push_back(C);
+			//for (auto C : B->vCards)
+			for (unsigned int i = 0; i < B->vCards.size(); i++)
+			{
+				if (B->sType == "-91")i = 4;
+				vAllCards.push_back(std::make_unique<SMJCard>(*B->vCards[i]));
+			}
 		}
 
 	Con->DrawCard(wtTabelle, vAllCards);

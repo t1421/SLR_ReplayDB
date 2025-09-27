@@ -1,6 +1,7 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
+#include "..\..\incl\Utility.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Player.h"
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
 #include "..\..\incl\WEB_Tome\Tome_Game.h"
@@ -115,6 +116,29 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	});
 
 	MISD("#3");
+
+	wbReforge->clicked().connect(std::bind([=]() {
+		unsigned int PlayerIndex = Bro->vTomeGames[Con->BroGameID]->iGetPlayerIndex(Con->getPlayerID());
+		MISD("#0");
+		MISD(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards.size());
+		Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[4] =
+		Bro->J_Reforge(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster);
+		MISD("#1");
+		Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.push_back(new Tome_Booster("-91"));
+		MISD("#2");
+		for (unsigned int i = 0; i < 5; i++)
+		{
+			if (i < 4)Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->reforged = 1;
+			Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters[Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.size() - 1]->vCards.push_back(
+				std::make_unique<SMJCard>(*(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i])));
+
+			MISD(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters[Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.size() - 1]->vCards[i]->reforged);
+			if (i < 4)Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i] = std::make_unique<SMJCard>(0);
+		}
+		MISD("#3");
+		Bro->vTomeGames[Con->BroGameID]->bSaveGame();
+		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
+		}));
 	
 	
 	//WRefresh();
@@ -126,23 +150,16 @@ void WEB_Tome_Player::WRefresh()
 {
 	MISS;
 
-	unsigned int PlayerIndex;
+	std::string playerID = Con->getPlayerID();
+	unsigned int PlayerIndex = Bro->vTomeGames[Con->BroGameID]->iGetPlayerIndex(playerID);
+	if (PlayerIndex < 0)
+	{
+		MISEA("V2 !!!");
+		return;
+	}
+
 	unsigned int FreeBoosterIndex;
 	unsigned int RefrogeIndex;
-	bool ReforgeOK;
-	unsigned int iCol = 0;
-	unsigned int iRow = 0;
-
-	std::string playerID = Con->getPlayerID();
-
-		
-	for (PlayerIndex = 0; PlayerIndex < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); PlayerIndex++)
-		if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->sPlayerID == playerID)break;
-	if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->sPlayerID != playerID)
-	{
-		MISEA("V2 !!!")
-			return;
-	}
 
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
 	wtPlayerID->setText("<h4> Player ID: " + playerID + "</h4>");
@@ -219,75 +236,117 @@ void WEB_Tome_Player::WRefresh()
 	if (Bro->vTomeGames[Con->BroGameID]->bAllowRefroging)
 	{
 		wtReforge->setHidden(false);
-		MISD("#3 START");
-
-		ReforgeOK = true;
-		for (unsigned int i = 0; i < 4; i++)
-			if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->cardId == 0)ReforgeOK = false;
-		// Update Images
-		wbReforge->setDisabled(!ReforgeOK);
-
-		MISD("#3 Boosters");
-		//set Click Actions		
-		iRow = 0;
-		for (auto B : Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters)
-		{
-			iCol = 1;
-			for (auto C : B->vCards)
-			{
-				if (C->reforged == 0 || C->reforged == 2)
-				{
-					MISD("STA" + std::to_string(iRow) + "#" + std::to_string(iCol) + "#" + std::to_string(wtHistory->elementAt(iRow, iCol)->count()));
-					//wtHistory->elementAt(iRow, iCol)->clicked().connect(std::bind([=]() {
-					dynamic_cast<Wt::WImage*>(wtHistory->elementAt(iRow, iCol)->widget(0))->clicked().connect(std::bind([=]() {
-						//dynamic_cast<Wt::WPushButton *>(wtHistory->elementAt(iRow, iCol)->widget(0))->clicked().connect(std::bind([=]() {
-						MISD("dynamic_cast");
-						//Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->cardId
-						switch (C->reforged)
-						{
-						case 0:
-							for (unsigned int i = 0; i < 4; i++)
-								if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->cardId == 0)
-								{
-									MISD("case 0:")
-									Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i] = C;
-									C->reforged = 2;
-									break;
-								}
-							break;
-						case 2:
-							for (unsigned int i = 0; i < 4; i++)
-								if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->cardId == C->cardId && C->reforged == 2)
-								{
-									MISD("case 2:");
-									Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i] = new SMJCard(0);
-									C->reforged = 0;
-									break;
-								}
-							break;
-						}
-						
-						Bro->vTomeGames[Con->BroGameID]->bSaveGame();
-						WRefresh();
-						}));
-
-
-					if (C->reforged == 2)
-						wtHistory->elementAt(iRow, iCol)->setStyleClass("yReforge");
-
-					
-
-				}
-				iCol++;
-			}
-
-			iRow++;
-		}
-
+		UpdateReforgeBoosterTabelle();
+		UpdateReforgeOverview();
 	}
 	else wtReforge->setHidden(true);
 
 	//Bro->postChatEventMIS(std::to_string(Con->BroGameID), "booster");
+
+	MISE;
+}
+
+
+void WEB_Tome_Player::UpdateReforgeBoosterTabelle()
+{
+	MISS;
+
+	unsigned int iCol = 0;
+	unsigned int iRow = 0;
+
+	int GameID = Con->BroGameID;
+	std::string PlayerID = Con->getPlayerID();
+	unsigned int PlayerIndex = Bro->vTomeGames[GameID]->iGetPlayerIndex(PlayerID);
+
+	MISD("#3 Boosters");
+	//set Click Actions		
+	iRow = 0;
+	for (auto B : Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters)
+	{
+		iCol = 1;
+		for (auto& C : B->vCards)
+		{
+			if (C->reforged == 0 || C->reforged == 2)
+			{				
+				dynamic_cast<Wt::WImage*>(wtHistory->elementAt(iRow, iCol)->widget(0))->clicked().connect(std::bind([&C, PlayerIndex, PlayerID, GameID]() {
+					MISD("dynamic_cast");
+					
+					switch (C->reforged)
+					{
+					case 0:
+						for (unsigned int i = 0; i < 4; i++)
+							if (Bro->vTomeGames[GameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->cardId == 0)
+							{
+								MISD("case 0:")
+									Bro->vTomeGames[GameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i] = C;
+								C->reforged = 2;
+								break;
+							}
+						break;
+					case 2:
+						for (unsigned int i = 0; i < 4; i++)
+							if (Bro->vTomeGames[GameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->cardId == C->cardId && C->reforged == 2)
+							{
+								MISD("case 2:");
+								Bro->vTomeGames[GameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i] = std::make_unique<SMJCard>(0);
+								C->reforged = 0;
+								break;
+							}
+						break;
+					}
+
+					Bro->vTomeGames[GameID]->bSaveGame();
+					Bro->postChatEventMIS(std::to_string(GameID), "playerScreen", PlayerID);
+					}));
+
+
+				if (C->reforged == 2)
+					wtHistory->elementAt(iRow, iCol)->setStyleClass("yReforge");
+
+
+
+			}
+			iCol++;
+		}
+
+		iRow++;
+	}
+	MISE;
+}
+
+
+void WEB_Tome_Player::UpdateReforgeOverview()
+{
+	MISS;
+
+	bool ReforgeOK = true;
+
+	unsigned int PlayerIndex = Bro->vTomeGames[Con->BroGameID]->iGetPlayerIndex(Con->getPlayerID());	
+	
+	MISD("#3 START");
+	for (unsigned int i = 0; i < 4; i++)
+	{
+		if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->cardId == 0)ReforgeOK = false;
+		
+		dynamic_cast<Wt::WImage*>(wtReforge->elementAt(0, i + 1)->widget(0))->setImageLink(
+			ReplaceString(
+				Bro->J_GetImage(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->cardId, 3, 3, 1, false),
+				"\\",
+				"/"
+			)			
+		);		
+	}
+	MISD("#2");
+	dynamic_cast<Wt::WImage*>(wtReforge->elementAt(0, 6)->widget(0))->setImageLink(
+		ReplaceString(
+			Bro->J_GetImage(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[4]->cardId, 3, 3, 1, false),
+			"\\",
+			"/"
+		)
+	);
+	//if(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[4]->cardId)
+	// Update Images
+	wbReforge->setDisabled(!ReforgeOK);
 
 	MISE;
 }

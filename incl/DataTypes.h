@@ -150,9 +150,17 @@ struct SMJCard {
 struct Tome_Booster
 {
 	std::string sType;
-	std::vector <SMJCard*> vCards;
+	//std::vector <SMJCard*> vCards;
+	std::vector<std::shared_ptr<SMJCard>> vCards;
 	Tome_Booster(std::string _sType) :sType(_sType) {};
 	unsigned int iLfdnr;
+	/*
+	~Tome_Booster() {
+		for (auto card : vCards) {
+			delete card;
+		}
+		vCards.clear();
+	}*/
 };
 
 struct ROW {

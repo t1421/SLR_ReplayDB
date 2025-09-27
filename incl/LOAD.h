@@ -57,6 +57,8 @@ public:
 	std::string sQuizPath;
 	int iCountDown;
 	int iCoolDown;
+	
+	int iTOME_REFORGE;
 
 	unsigned long iSRFileVersion;
 	unsigned long iSRGameVersion;

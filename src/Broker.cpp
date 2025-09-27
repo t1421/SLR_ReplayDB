@@ -138,42 +138,6 @@ broker::broker()
 	
 	Tome_Game::learnBro(this);
 
-
-	vReforgeColour = {
-		//Fire     0
-		{ 75,1,1,1,6,1,6,1,1,6,1 },
-		//Shadow   1
-		{ 1,75,1,1,6,1,1,6,6,1,1 },
-		//Nature   2
-		{ 1,1,75,1,1,6,6,1,6,1,1 },
-		//Frost    3
-		{ 1,1,1,75,1,6,1,6,1,6,1 },
-		//BD       4
-		{ 8,8,1,1,75,1,1,1,1,1,2 },
-		//SK       5
-		{ 1,1,8,8,1,75,1,1,1,1,2 },
-		//TW       6
-		{ 8,1,8,1,1,1,75,1,1,1,2 },
-		//LS       7
-		{ 1,8,1,8,1,1,1,75,1,1,2 },
-		//Amii     8
-		{ 1,8,8,1,1,1,1,1,75,1,2 },
-		//FF       9
-		{ 8,1,1,8,1,1,1,1,1,75,2 },
-		//Neutral -1
-		{ 5,5,5,5,5,5,5,5,5,5,50 }
-	};
-
-	vReforgeRarity = {
-		//"0": "Common",
-		{ 40,45,14, 1 },
-		//"1" : "Uncommon",
-		{  5,40,45,10 },
-		//"2" : "Rare",
-		{  1,14,40,45 },
-		//"3" : "Ultra Rare"
-		{  0, 0, 5,95 }
-	};
 	
 #endif
 
@@ -500,6 +464,11 @@ int broker::L_getCoolDown()
 {
 	return L->iCoolDown;
 }
+int broker::L_getTOME_REFORGE()
+{
+	return L->iTOME_REFORGE;
+}
+
 
 
 unsigned long int broker::L_getEEE_Now()
@@ -618,6 +587,7 @@ std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, u
 	return J->GetImage(_CardID, _Upgrade, _Charges, Big, _Count==0);
 	
 }
+
 std::string broker::J_GetLottoImg(std::string cardNameSimple, unsigned int iColor)
 {
 	for each (SMJCard * C in J->SMJMatrix)
@@ -629,6 +599,7 @@ std::string broker::J_GetLottoImg(std::string cardNameSimple, unsigned int iColo
 	}
 	return "";
 }
+
 #endif
 
 unsigned char broker::J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges)
@@ -646,11 +617,16 @@ std::vector<std::pair<std::string, std::string>> broker::J_GetEnum(std::string s
 	if (sEnumName == "EnumBoosters")return J->EnumBoosters;
 }
 
+#if defined BrokerTome
 Tome_Booster* broker::J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster)
 {
 	return J->OpenBooster(iType, bNoDouble, vOpendBooster);
 }
-
+std::unique_ptr<SMJCard> broker::J_Reforge(Tome_Booster* B)
+{
+	return J->Reforge(B);
+}
+#endif
 
 
 std::vector <std::string> broker::J_getSimpelCardPool()

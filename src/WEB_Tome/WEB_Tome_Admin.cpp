@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\Replay.h" 
@@ -211,7 +211,14 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wtTempTable->columnAt(1)->setWidth(250);
 	wtTempTable->columnAt(2)->setWidth(150);
 
-	//wcAllowRefroging->disable();
+	
+	if (Bro->L_getTOME_REFORGE() != 1)
+	{
+		wcAllowRefroging->disable();				
+	}
+	wcNoDoubleRefroging->disable();
+	
+
 	wcNoAffinities->disable();
 	wcNoPromos->disable();
 

@@ -100,6 +100,7 @@ public:
 	int L_getLivePvPActionPerSecNumSec();
 	int L_getCountDown();
 	int L_getCoolDown();
+	int L_getTOME_REFORGE();
 	
 	unsigned long L_getSRFileVersion();
 	unsigned long L_getSRGameVersion();
@@ -127,9 +128,7 @@ public:
 	unsigned char J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges);
 	SMJCard* J_GetSMJCard(unsigned short _CardID);
 	std::string J_GetImgOnly(unsigned short CardID);
-	std::vector<std::pair<std::string, std::string>> J_GetEnum(std::string sEnumName);
-	//Tome_Booster* J_OpenBooster(std::string iType);
-	Tome_Booster* J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
+	std::vector<std::pair<std::string, std::string>> J_GetEnum(std::string sEnumName);		
 	std::string J_GetLottoImg(std::string cardNameSimple, unsigned int iColor);
 	std::vector <std::string> J_getSimpelCardPool();
 	std::vector <std::string> J_getColorPool();
@@ -139,6 +138,11 @@ public:
 	std::vector <std::string> J_getType();
 	std::vector <std::string> J_getDirections();	
 	unsigned int J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade);
+#if defined BrokerTome
+	Tome_Booster* J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
+	std::unique_ptr<SMJCard> J_Reforge(Tome_Booster* B);
+#endif
+
 #endif
 	
 
@@ -178,8 +182,7 @@ public:
 	std::vector <Tome_Game*> vTomeGames;
 	int getTomeGame(std::string sGameID);	
 
-	std::vector<std::vector<int>> vReforgeColour;
-	std::vector<std::vector<int>> vReforgeRarity;
+	
 #endif
 
 #if defined BrokerLotto

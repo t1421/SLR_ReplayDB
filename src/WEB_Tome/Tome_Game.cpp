@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\WEB_Tome\Tome_Game.h"
@@ -12,15 +12,15 @@
 bool compareBoostersLfdnr(const Tome_Booster* a, const Tome_Booster* b) { return a->iLfdnr > b->iLfdnr; }
 bool compareBoostersType(const Tome_Booster* a, const Tome_Booster* b) { return std::atoi(a->sType.c_str()) > std::atoi(b->sType.c_str()); }
 
-bool compareCardColour(const SMJCard* a, const SMJCard* b) {
+bool compareCardColour(const std::unique_ptr<SMJCard>& a, const std::unique_ptr<SMJCard>& b) {
 	if (a->color == b->color) return a->cardId < b->cardId;
 	else return a->color < b->color;
 }
-bool compareCardRarity(const SMJCard* a, const SMJCard* b) {
+bool compareCardRarity(const std::unique_ptr<SMJCard>& a, const std::unique_ptr<SMJCard>& b) {
 	if (a->rarity == b->rarity) return a->cardId < b->cardId;
 	else return a->rarity > b->rarity;
 }
-bool compareCardID(const SMJCard* a, const SMJCard* b) { return a->cardId < b->cardId; }
+bool compareCardID(const std::unique_ptr<SMJCard>& a, const std::unique_ptr<SMJCard>& b) { return a->cardId < b->cardId; }
 
 
 broker *(Tome_Game::Bro) = NULL;
@@ -162,7 +162,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 				for (unsigned int i = 2; i < iCountSemi; i++)
 					if(atoi(entry(line, i).c_str()) != 0)
 						vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->vCards.push_back(
-							Bro->J_GetSMJCard(atoi(entry(line,i).c_str())));
+							std::make_unique<SMJCard>(*Bro->J_GetSMJCard(atoi(entry(line,i).c_str()))));
 			}
 			//Player Booster Reforge
 			if (INI_Value_Check(line, "PBR"))
@@ -190,7 +190,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			iReforgeCount = 0;
 			for (auto B : P->vBoosters)
 			{
-				for (auto C : B->vCards)
+				for (auto& C : B->vCards)
 				{
 					if (C->reforged == 2 && iReforgeCount < 4)
 					{
@@ -449,4 +449,11 @@ unsigned int Tome_Game::AllBoostersMax()
 	}
 	MISE;
 	return iReturn;
+}
+
+int Tome_Game::iGetPlayerIndex(std::string sPlayerID)
+{
+	for (unsigned int PlayerIndex = 0; PlayerIndex < vPlayer.size(); PlayerIndex++)
+		if (vPlayer[PlayerIndex]->sPlayerID == sPlayerID)return PlayerIndex;
+	return -1;
 }
