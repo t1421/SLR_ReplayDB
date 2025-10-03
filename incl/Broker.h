@@ -141,6 +141,7 @@ public:
 #if defined BrokerTome
 	Tome_Booster* J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
 	std::unique_ptr<SMJCard> J_Reforge(Tome_Booster* B);
+	std::vector<std::shared_ptr<SMJCard>> J_DeckCodeToCardVector(std::string sDeckCode);
 #endif
 
 #endif

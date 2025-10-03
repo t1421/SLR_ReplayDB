@@ -35,7 +35,7 @@ bool Replay::SavePMV(std::string sFile)
 		MISEA("V1 " + sFile);
 		return false;
 	}
-	MISD(ssPMVFile.size());
+	//MISD(ssPMVFile.size());
 	PMVFile << ssPMVFile.str();
 	PMVFile.close();
 

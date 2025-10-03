@@ -626,6 +626,10 @@ std::unique_ptr<SMJCard> broker::J_Reforge(Tome_Booster* B)
 {
 	return J->Reforge(B);
 }
+std::vector<std::shared_ptr<SMJCard>> broker::J_DeckCodeToCardVector(std::string sDeckCode)
+{
+	return J->DeckCodeToCardVector(sDeckCode);
+}
 #endif
 
 

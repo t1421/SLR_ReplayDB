@@ -31,7 +31,10 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	wtBooster = new Wt::WTable();
 	wtReforge = new Wt::WTable();
 	wtHistory = new Wt::WTable();
-	wbReforge = new Wt::WPushButton("Reforge");
+	wtFilter = new Wt::WTable();
+	wbReforge = new Wt::WPushButton("Reforge");	
+	wlDeckCode = new Wt::WLineEdit();
+	wlDeckCodeReturn = new Wt::WLineEdit();
 	wlFilter = new Wt::WLineEdit();
 	waLink = new Wt::WAnchor();
 	waLink->setText("<h5> Your Player Link </h5>");
@@ -41,13 +44,27 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	WA = new WEB_Analyser();
 
 	MISD("#0");
+	wlFilter->setWidth(Card_Size_X * 7);
+	wlDeckCode->setWidth(Card_Size_X * 7);
+	wlDeckCodeReturn->setWidth(Card_Size_X * 7);
+	
+	wtFilter->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Filter Code"))));
+	wtFilter->elementAt(1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Check Deck Code"))));
+	wtFilter->elementAt(2, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("Check Result"))));
+	wtFilter->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlFilter)));
+	wtFilter->elementAt(1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlDeckCode)));
+	wtFilter->elementAt(2, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlDeckCodeReturn)));
 
-	wlFilter->setWidth(Card_Size_X * 9);
+	wtFilter->columnAt(0)->setWidth(Card_Size_X * 2);
+	wtFilter->columnAt(1)->setWidth(Card_Size_X * 7);
+	wlDeckCodeReturn->disable();
+	MISD("#0");
+
+	
 	wbReforge->setWidth(Card_Size_X);
 	wbReforge->setHeight(Card_Size_Y);
 	
-	wtReforge->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-		DrawImg("./resources/Boosters/-91.png",Card_Size_X, Card_Size_Y))));	
+	wtReforge->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg("./resources/Boosters/-91.png",Card_Size_X, Card_Size_Y))));	
 	wtReforge->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetImage(0, 3, 3, 1, false), Card_Size_X, Card_Size_Y))));
 	wtReforge->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetImage(0, 3, 3, 1, false), Card_Size_X, Card_Size_Y))));
 	wtReforge->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetImage(0, 3, 3, 1, false), Card_Size_X, Card_Size_Y))));
@@ -69,7 +86,7 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtBooster)));
-	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wlFilter)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtFilter)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtReforge)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtHistory)));
 	
@@ -140,6 +157,48 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 		Bro->postChatEventMIS(std::to_string(Con->BroGameID), "global");
 		}));
 	
+	wlDeckCode->changed().connect([=]
+		{
+			std::vector<std::shared_ptr<SMJCard>> Cards = Bro->J_DeckCodeToCardVector(WSTRINGtoSTRING(wlDeckCode->text()));
+			std::vector<std::shared_ptr<SMJCard>> CardsError;
+			wlDeckCodeReturn->setText(" ");
+			
+			if (Cards.size() == 0)
+			{
+				wlDeckCodeReturn->setText("No DeckCode");
+				MISD("#ERROR");
+				return;
+			}
+
+			unsigned int PlayerIndex = Bro->vTomeGames[Con->BroGameID]->iGetPlayerIndex(Con->getPlayerID());
+			bool check;
+
+			for (auto C : Cards)
+			{
+				check = false;
+				for (unsigned int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.size() && check==false; i++)
+				{
+					for (unsigned int ii = 0; ii < Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters[i]->vCards.size() && check == false; ii++)
+					{
+						if ((
+							   Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters[i]->vCards[ii]->reforged == 0
+							|| Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters[i]->vCards[ii]->reforged == 2)
+							&& Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters[i]->vCards[ii]->cardId == C->cardId)
+							check = true;
+					}
+				}
+
+				if (check == false)CardsError.push_back(C);
+			}
+
+			if (CardsError.size() > 0)
+			{
+				wlDeckCodeReturn->setText("Iligel cards:");
+				for (auto C : CardsError)wlDeckCodeReturn->setText(wlDeckCodeReturn->text() + " " + C->cardName );
+			}
+			else wlDeckCodeReturn->setText("Deck OK");		
+			
+		});
 	
 	//WRefresh();
 

@@ -28,37 +28,73 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 
 		Fill_DBArray("", "*", "*", "true"); // MAIN
 
-		Fill_DBArray("CardBaseSMJ", "*", "*", "true");		
-		Fill_DBArray("CardBaseSMJ", "OpenBooster", "*", "true");
+		Fill_DBArray("()", "*", "*", "true"); //lambda
+
+		Fill_DBArray("CardBaseSMJ", "*", "*", "true");				
+		Fill_DBArray("Replay", "*", "*", "true");
+		Fill_DBArray("Reader", "*", "*", "false");
+		Fill_DBArray("Reader", "*", "*", "true");
+		Fill_DBArray("PMV_to_SQL", "*", "*", "true");
+		Fill_DBArray("Imager", "*", "*", "true");
+		Fill_DBArray("LOAD", "*", "*", "true");
+		Fill_DBArray("Thread_MIS", "*", "*", "true");
+		Fill_DBArray("Manager", "*", "*", "true");
+		Fill_DBArray("SQL_MIS_New", "*", "*", "true");
+
+		Fill_DBArray("WEB_Main", "*", "*", "true");
+		Fill_DBArray("WEB_Server", "*", "*", "true");
+		Fill_DBArray("WEB_Toolbar", "*", "*", "true");
+		Fill_DBArray("WEB_Container_Analyser", "*", "*", "true");
+
+		Fill_DBArray("WEB_Container_Tome", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Admin", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Login", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Debug", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Player", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Public", "*", "*", "true");
+
+		Fill_DBArray("WEB_Tome_PublicBoosters", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_PublicPlayers", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_PublicCards", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_PublicPlayersBooster", "*", "*", "true");
+		Fill_DBArray("WEB_Tome_Leave", "*", "*", "true");
+		
+		Fill_DBArray("WEB_Event", "*", "*", "true");
+		Fill_DBArray("WEB_Rank", "*", "*", "true");
+		
+		Fill_DBArray("WEB_Analyser", "*", "*", "true");
+		Fill_DBArray("WEB_Analyser_Head", "*", "*", "true");
+		Fill_DBArray("WEB_Analyser_Deck", "*", "*", "true");
+		Fill_DBArray("WEB_Analyser_Acti", "*", "*", "true");
+
+		Fill_DBArray("broker", "*", "*", "true");
+		Fill_DBArray("MIS_Rank", "*", "*", "true");
+		Fill_DBArray("Tome_Game", "*", "*", "true");
+		Fill_DBArray("Challonge", "*", "*", "true");
+
+		Fill_DBArray("LottoWeek", "*", "*", "true");
+		Fill_DBArray("WEB_Container_Lotto", "*", "*", "true");
+		Fill_DBArray("WEB_Lotto_Admin", "*", "*", "true");
+		Fill_DBArray("WEB_Lotto_Admin_Main", "*", "*", "true");
+		Fill_DBArray("WEB_Lotto_Admin_Pull", "*", "*", "true");
+		Fill_DBArray("WEB_Lotto_Week", "*", "*", "true");
+
+		Fill_DBArray("Quiz", "*", "*", "true");
+		Fill_DBArray("Question", "*", "*", "true");
+
+
+		Fill_DBArray("CardBaseSMJ", "OpenBooster", "*", "false");
 		Fill_DBArray("CardBaseSMJ", "GetImage", "*", "false");
 		Fill_DBArray("CardBaseSMJ", "ConvertImage", "*", "false");
 		Fill_DBArray("CardBaseSMJ", "DownloadImage", "*", "false");
 		Fill_DBArray("CardBaseSMJ", "GetActionOrbForCardID", "*", "false");
-		Fill_DBArray("CardBaseSMJ", "Reforge", "*", "true");
-		
-		
-
-		Fill_DBArray("Replay", "*", "*", "true");
+		Fill_DBArray("CardBaseSMJ", "Reforge", "*", "false");
 		Fill_DBArray("Replay", "SwitchType", "*", "false"); 
 		Fill_DBArray("Replay", "FindWinningTeam", "*", "false");
 		Fill_DBArray("Replay", "CountActions", "*", "false");
 		Fill_DBArray("Replay", "readDelta", "*", "false");
-		
-		
-		Fill_DBArray("Reader", "*", "*", "false");
 		Fill_DBArray("Reader", "SaveFile", "*", "true");
-		
-		Fill_DBArray("PMV_to_SQL", "*", "*", "true");
-
-		Fill_DBArray("Imager", "*", "*", "true");
-
-		Fill_DBArray("LOAD", "*", "*", "true");
-		Fill_DBArray("LOAD", "INI_Value_Check", "*", "false");
-
-		Fill_DBArray("Thread_MIS", "*", "*", "true");
-
-		
-		Fill_DBArray("Manager", "*", "*", "true");	
+		Fill_DBArray("LOAD", "INI_Value_Check", "*", "false");		
 		Fill_DBArray("Manager", "processActions", "*", "false");
 		Fill_DBArray("Manager", "SetCard", "*", "false");
 		Fill_DBArray("Manager", "SetCardBack", "*", "false");
@@ -72,77 +108,20 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Manager", "SetActionsPerSec", "<--", "false");
 		Fill_DBArray("Manager", "AddActionPerSec", "*", "false");
 		Fill_DBArray("Manager", "UpdateFiles", "*", "false");
-		
-
-		Fill_DBArray("SQL_MIS_New", "*", "*", "true");
 		Fill_DBArray("SQL_MIS_New", "send", "*", "false");
 		Fill_DBArray("SQL_MIS_New", "clearString", "*", "false");
-		Fill_DBArray("SQL_MIS_New", "SendBLOB", "*", "false");
-				
-		Fill_DBArray("WEB_Main", "*", "*", "true");
-		Fill_DBArray("WEB_Server", "*", "*", "true");		
+		Fill_DBArray("SQL_MIS_New", "SendBLOB", "*", "false");	
 		Fill_DBArray("WEB_Server", "postChatEvent", "*", "false");
-		Fill_DBArray("WEB_Toolbar", "*", "*", "true");
-		Fill_DBArray("WEB_Container_Analyser", "*", "*", "true");
-		
-		Fill_DBArray("WEB_Container_Tome", "*", "*", "true");
 		Fill_DBArray("WEB_Container_Tome", "processChatEvent", "*", "false");
 		Fill_DBArray("WEB_Container_Tome", "DrawBooster", "*", "false");
 		Fill_DBArray("WEB_Container_Tome", "DrawBooster", "*", "false");
 		Fill_DBArray("WEB_Container_Tome", "BoosterToFilter", "*", "false");
 		Fill_DBArray("WEB_Container_Tome", "getPlayerID", "*", "false");
-		
-
-
-		Fill_DBArray("WEB_Tome_Admin", "*", "*", "true");
-		Fill_DBArray("WEB_Tome_Login", "*", "*", "true");
-		Fill_DBArray("WEB_Tome_Debug", "*", "*", "true");
-		Fill_DBArray("WEB_Tome_Player", "*", "*", "true");
-		Fill_DBArray("WEB_Tome_Public", "*", "*", "true");
-
-		Fill_DBArray("WEB_Tome_PublicBoosters", "*", "*", "true");
-		Fill_DBArray("WEB_Tome_PublicPlayers", "*", "*", "true");
-		Fill_DBArray("WEB_Tome_PublicCards", "*", "*", "true");
-		Fill_DBArray("WEB_Tome_PublicPlayersBooster", "*", "*", "true");
-
-		Fill_DBArray("WEB_Tome_Leave", "*", "*", "true");
-		
-
-		Fill_DBArray("Tome_Game", "*", "*", "true");
 		Fill_DBArray("Tome_Game", "AllBoostersMax", "*", "false");
 		Fill_DBArray("Tome_Game", "AllBoosters", "*", "false");
 		Fill_DBArray("Tome_Game", "bSaveGame", "*", "false");
 		Fill_DBArray("Tome_Game", "bCheckPlayer", "*", "false");
-		
-		
-		Fill_DBArray("WEB_Event", "*", "*", "true");
-
-		Fill_DBArray("WEB_Rank", "*", "*", "true");
-
-		Fill_DBArray("MIS_Rank", "*", "*", "true");
-
-		Fill_DBArray("WEB_Analyser", "*", "*", "true");	
-		Fill_DBArray("WEB_Analyser_Head", "*", "*", "true");
-		Fill_DBArray("WEB_Analyser_Deck", "*", "*", "true");
-		Fill_DBArray("WEB_Analyser_Acti", "*", "*", "true");
-
-		Fill_DBArray("broker", "*", "*", "true");
-
-		Fill_DBArray("()", "*", "*", "true"); //lambda
-
-		
-		Fill_DBArray("LottoWeek", "*", "*", "true");
-		Fill_DBArray("WEB_Container_Lotto", "*", "*", "true");
-		Fill_DBArray("WEB_Lotto_Admin", "*", "*", "true");
-		Fill_DBArray("WEB_Lotto_Admin_Main", "*", "*", "true");
-		Fill_DBArray("WEB_Lotto_Admin_Pull", "*", "*", "true");
-		Fill_DBArray("WEB_Lotto_Week", "*", "*", "true");
-
-		Fill_DBArray("Challonge", "*", "*", "true");
 		Fill_DBArray("Challonge", "WEBRequestToCHASH", "*", "false");
-
-		Fill_DBArray("Quiz", "*", "*", "true");
-		Fill_DBArray("Question", "*", "*", "true");
 		Fill_DBArray("Question", "SetCountDown", "*", "false");
 		Fill_DBArray("Question", "CleanString", "*", "false");
 		Fill_DBArray("Question", "splitString", "*", "false");

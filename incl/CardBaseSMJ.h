@@ -35,6 +35,7 @@ private:
 
 	std::vector<std::vector<int>> vReforgeColour;
 	std::vector<std::vector<int>> vReforgeRarity;
+	std::vector<std::string> vDeckCodeArray;
 	
 public:
 	unsigned char GetActionOrbForCardID(unsigned short CardID);	
@@ -52,6 +53,7 @@ public:
 #ifdef BrokerTome
 	Tome_Booster* OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster);
 	std::unique_ptr<SMJCard> Reforge(Tome_Booster* B);
+	std::vector<std::shared_ptr<SMJCard>> DeckCodeToCardVector(std::string sDeckCode);
 #endif
 
 #ifndef noSMJImages

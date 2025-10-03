@@ -14,7 +14,10 @@ public:
 	Wt::WTable *wtBooster;
 	Wt::WTable *wtHistory;
 	Wt::WTable* wtReforge;
+	Wt::WTable* wtFilter;
 	Wt::WLineEdit *wlFilter;
+	Wt::WLineEdit* wlDeckCode;
+	Wt::WLineEdit* wlDeckCodeReturn;
 	Wt::WPushButton* wbReforge;
 
 	Wt::WText *wtGameID;

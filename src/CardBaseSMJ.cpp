@@ -232,6 +232,9 @@ bool CardBaseSMJ::Init()
 		{  0, 0, 5,95 }
 	};
 
+	vDeckCodeArray = { "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z","0","1","2","3","4","5","6","7","8","9","-","_"};
+	for (SMJCard* CC : SMJMatrix)CC->DeckCodeId = vDeckCodeArray[CC->cardId % 64] + vDeckCodeArray[CC->cardId / 64];
+
 	MISE;
 	
 	return true;	
@@ -1101,4 +1104,36 @@ std::unique_ptr<SMJCard> CardBaseSMJ::Reforge(Tome_Booster* B)
 	MISE;
 	return std::make_unique<SMJCard>(*vCardPool[iRandome]);
 }
+
+std::vector<std::shared_ptr<SMJCard>> CardBaseSMJ::DeckCodeToCardVector(std::string sDeckCode)
+{
+	MISS;
+	std::vector<std::shared_ptr<SMJCard>> vReturn;
+
+	if (sDeckCode.length() > 41)
+	{
+		MISEA("No Deck Code 1");
+		return vReturn;
+	}
+
+	//Remove 'M'
+	if (sDeckCode.length() % 2 == 1)
+	{
+		if (sDeckCode[0] != 'M')
+		{
+			MISEA("No Deck Code 2");
+			return vReturn;
+		}
+		sDeckCode.erase(0, 1);
+	}
+
+	for (unsigned int i = 0; i + 1 < sDeckCode.length(); i += 2)
+	{
+		for (auto C : SMJMatrix)if (C->DeckCodeId[0] == sDeckCode[i + 0] && C->DeckCodeId[1] == sDeckCode[i + 1])vReturn.push_back(std::make_unique<SMJCard>(*C));
+	}
+
+	MISE;
+	return vReturn;
+}
+
 #endif
