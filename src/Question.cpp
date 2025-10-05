@@ -1,10 +1,14 @@
 #define DF_Debug
 
+#define NOMINMAX
+
 #include "..\incl\Broker.h" 
 #include "..\incl\Question.h" 
 #include "..\incl\Quiz.h"
 #include "..\incl\Utility.h" 
 #include "..\incl\Thread_MIS.h" 
+#include "..\incl\CardBaseSMJ.h" 
+#include "..\incl\LOAD.h" 
 
 #include <fstream>
 #include <iostream> 
@@ -68,30 +72,34 @@ void Question::Start()
 	tStart = Bro->L_getEEE_Now();
 	lastQPos = 0;
 	CheckPool.clear();
+
 	switch (SpellCheckType)
 	{
 	case 1: //Card Names
-		for (auto S : Bro->J_getSimpelCardPool())CheckPool.push_back(CleanString(S));
-		break;
+		for (auto* C : Bro->J->SMJMatrix)CheckPool.push_back(CleanString(C->cardNameSimple));
+		break;	
 	case 2: //Color / Faction
-		for (auto S : Bro->J_getColorPool())CheckPool.push_back(CleanString(S));
+		for (auto C : Bro->J->EnumColor)CheckPool.push_back(CleanString(C.second));
 		break;
 	case 3: //Maps
-		for (auto S : Bro->J_getUpgradeMaps())CheckPool.push_back(CleanString(S));
+		for (auto C : Bro->J->EnumUpgradeMaps)CheckPool.push_back(CleanString(C.second));
 		break;
 	case 4: //Tier
-		for (auto S : Bro->J_getTiers())CheckPool.push_back(CleanString(S));
+		for (auto C : Bro->J->EnumTier)CheckPool.push_back(CleanString(C.second));
 		break;
 	case 5: //Difficulty
-		for (auto S : Bro->J_getDifficulty())CheckPool.push_back(CleanString(S));
+		for (auto C : Bro->J->EnumDifficulty)CheckPool.push_back(CleanString(C.second));
 		break;
 	case 6: //Unit Type
-		for (auto S : Bro->J_getType())CheckPool.push_back(CleanString(S));
+		for (auto C : Bro->J->EnumType)CheckPool.push_back(CleanString(C.second));
 		break;
 	case 7: //Top/Left/Right/Bottom
-		for (auto S : Bro->J_getDirections())CheckPool.push_back(CleanString(S));
+		for (auto C : Bro->J->EnumDirections)CheckPool.push_back(CleanString(C.second));
 		break;
 	}
+	
+	sort(CheckPool.begin(), CheckPool.end());
+	CheckPool.erase(unique(CheckPool.begin(), CheckPool.end()), CheckPool.end());
 
 	ResetAnswers();
 	//Twitch_Message(ID,"ultral34Spitfire2 ultral34Spitfire2 ultral34Spitfire2 ", Titel, Question_Twitch, "ultral34Booster ultral34Booster ultral34Booster ");
@@ -104,7 +112,7 @@ void Question::Start()
 void Question::ResetAnswers()
 {
 	MISS;
-	std::string sTemp = Bro->L_getQuizPath() + "Q.txt";
+	std::string sTemp = Bro->L->sQuizPath + "Q.txt";
 	std::remove(sTemp.c_str());
 
 	Answers.clear();
@@ -114,9 +122,9 @@ void Question::ResetAnswers()
 void Question::Winner()
 {
 	MISS;
-	std::string sTemp = "copy " + Bro->L_getQuizPath() + "Q.txt " + Bro->L_getQuizPath() + "Q" + ID + ".txt";
+	std::string sTemp = "copy " + Bro->L->sQuizPath + "Q.txt " + Bro->L->sQuizPath + "Q" + ID + ".txt";
 	system(sTemp.c_str());
-	sTemp = "copy " + Bro->L_getQuizPath() + "QQ.txt " + Bro->L_getQuizPath() + "QQ" + ID + ".txt";
+	sTemp = "copy " + Bro->L->sQuizPath + "QQ.txt " + Bro->L->sQuizPath + "QQ" + ID + ".txt";
 	system(sTemp.c_str());
 	
 	std::vector<Answer*> AllAwsers;
@@ -228,9 +236,9 @@ void Question::Thread_Function()
 	Answer* Winner = nullptr;
 	std::vector<Answer*> tmpAns;
 
-	while (bRunning && (AnswerType != 4 && tStart + Bro->L_getCountDown() > Bro->L_getEEE_Now() || AnswerType == 4 && Winner == nullptr))
+	while (bRunning && (AnswerType != 4 && tStart + Bro->L->iCountDown > Bro->L_getEEE_Now() || AnswerType == 4 && Winner == nullptr))
 	{
-		path p(Bro->L_getQuizPath() + "Q.txt");
+		path p(Bro->L->sQuizPath + "Q.txt");
 		if (exists(p))
 		{
 			if (tLastCheck < last_write_time(p))
@@ -242,7 +250,7 @@ void Question::Thread_Function()
 		}
 		Sleep(10);
 
-		if(AnswerType != 4)SetCountDown(tStart + Bro->L_getCountDown() - Bro->L_getEEE_Now());  //Count Down
+		if(AnswerType != 4)SetCountDown(tStart + Bro->L->iCountDown - Bro->L_getEEE_Now());  //Count Down
 		else SetCountDown(Bro->L_getEEE_Now() - tStart); //Count Up
 	}
 
@@ -271,7 +279,7 @@ void Question::LoadAnswers()
 	std::string localdAnswer;
 	int localiAnswer;
 
-	ifFile.open(Bro->L_getQuizPath() + "Q.txt", std::ios::binary);
+	ifFile.open(Bro->L->sQuizPath + "Q.txt", std::ios::binary);
 	if (!ifFile.good())
 	{
 		MISEA("Q.txt");
@@ -295,7 +303,7 @@ void Question::LoadAnswers()
 
 			if (   (AnswerType == 1 || AnswerType == 3 || AnswerType == 5) && A->iAnswer != localiAnswer
 				|| (AnswerType == 2 || AnswerType == 3) && A->sAnswer != localsAnswer
-				|| AnswerType == 4 && (A->iAnswer != localiAnswer || A->sAnswer != localsAnswer) && A->tTime + Bro->L_getCoolDown() < Bro->L_getEEE_Now())
+				|| AnswerType == 4 && (A->iAnswer != localiAnswer || A->sAnswer != localsAnswer) && A->tTime + Bro->L->iCoolDown < Bro->L_getEEE_Now())
 			{
 				if (SpellCheck(localsAnswer) == false)
 				{
@@ -361,7 +369,7 @@ void Question::SaveAnswers()
 {
 	MISS;
 	std::ofstream ofFile;
-	ofFile.open(Bro->L_getQuizPath() + "QQ" + ID + ".txt", std::ios::binary);
+	ofFile.open(Bro->L->sQuizPath + "QQ" + ID + ".txt", std::ios::binary);
 	if (ofFile.good())
 	{
 		for (auto A : Answers)ofFile << A->Pl->Twitch << ";" << A->iAnswer << ";" << A->sAnswer << ";" << A->tTime << ";" << std::endl;
@@ -375,7 +383,7 @@ void Question::SetCountDown(unsigned int iii)
 {
 	MISS;	
 	std::ofstream ofFile;
-	ofFile.open(Bro->L_getQuizPath() + "CountDown.txt", std::ios::binary);
+	ofFile.open(Bro->L->sQuizPath + "CountDown.txt", std::ios::binary);
 	if (ofFile.good())
 	{
 		ofFile << iii << std::endl;

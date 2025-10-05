@@ -158,7 +158,6 @@
     <ClInclude Include="..\incl\Broker.h" />
     <ClInclude Include="..\incl\CardBaseSMJ.h" />
     <ClInclude Include="..\incl\DEBUG.h" />
-    <ClInclude Include="..\incl\Imager.h" />
     <ClInclude Include="..\incl\LOAD.h" />
     <ClInclude Include="..\incl\Manager.h" />
     <ClInclude Include="..\incl\PMV_to_SQL.h" />
@@ -175,7 +174,6 @@
     </ClCompile>
     <ClCompile Include="..\src\CardBaseSMJ.cpp" />
     <ClCompile Include="..\src\DEBUG.cpp" />
-    <ClCompile Include="..\src\Imager.cpp" />
     <ClCompile Include="..\src\LOAD.cpp" />
     <ClCompile Include="..\src\Manager.cpp" />
     <ClCompile Include="..\src\PMV_to_SQL.cpp" />

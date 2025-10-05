@@ -4,6 +4,7 @@
 
 #include "..\incl\Replay.h" 
 #include "..\incl\Utility.h" 
+#include "..\incl\CardBaseSMJ.h" 
 
 broker *(Replay::Bro) = NULL;
 
@@ -895,7 +896,7 @@ bool Replay::AddFirstOrb()
 		//Action_TEMP->Size = 13;
 		Action_TEMP->Type = 4031;
 		Action_TEMP->ActionPlayer = ActionMatrix[iPosOfUnit]->ActionPlayer;
-		Action_TEMP->AdditionalInfo = std::to_string(Bro->J_GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card));
+		Action_TEMP->AdditionalInfo = std::to_string(Bro->J->GetActionOrbForCardID(ActionMatrix[iPosOfUnit]->Card));
 		ActionMatrix.insert(ActionMatrix.begin() + iPosOfUnit, Action_TEMP);				
 	}
 

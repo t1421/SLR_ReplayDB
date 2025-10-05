@@ -2,6 +2,8 @@
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\Utility.h"
+#include "..\..\incl\CardBaseSMJ.h"
+#include "..\..\incl\LOAD.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Player.h"
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
 #include "..\..\incl\WEB_Tome\Tome_Game.h"
@@ -65,12 +67,12 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	wbReforge->setHeight(Card_Size_Y);
 	
 	wtReforge->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg("./resources/Boosters/-91.png",Card_Size_X, Card_Size_Y))));	
-	wtReforge->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetImage(0, 3, 3, 1, false), Card_Size_X, Card_Size_Y))));
-	wtReforge->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetImage(0, 3, 3, 1, false), Card_Size_X, Card_Size_Y))));
-	wtReforge->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetImage(0, 3, 3, 1, false), Card_Size_X, Card_Size_Y))));
-	wtReforge->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetImage(0, 3, 3, 1, false), Card_Size_X, Card_Size_Y))));
+	wtReforge->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J->GetImage(0, 3, 3, Big,  false), Card_Size_X, Card_Size_Y))));
+	wtReforge->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J->GetImage(0, 3, 3, Big, false), Card_Size_X, Card_Size_Y))));
+	wtReforge->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J->GetImage(0, 3, 3, Big, false), Card_Size_X, Card_Size_Y))));
+	wtReforge->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J->GetImage(0, 3, 3, Big, false), Card_Size_X, Card_Size_Y))));
 	wtReforge->elementAt(0, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbReforge)));
-	wtReforge->elementAt(0, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetImage(0, 3, 3, 1, false), Card_Size_X, Card_Size_Y))));
+	wtReforge->elementAt(0, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J->GetImage(0, 3, 3, Big, false), Card_Size_X, Card_Size_Y))));
 	
 	MISD("#1");
 
@@ -139,7 +141,7 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 		MISD("#0");
 		MISD(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards.size());
 		Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[4] =
-		Bro->J_Reforge(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster);
+		Bro->J->Reforge(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster);
 		MISD("#1");
 		Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.push_back(new Tome_Booster("-91"));
 		MISD("#2");
@@ -159,7 +161,7 @@ WEB_Tome_Player::WEB_Tome_Player(WEB_Container_Tome *Con_) : Con(Con_)
 	
 	wlDeckCode->changed().connect([=]
 		{
-			std::vector<std::shared_ptr<SMJCard>> Cards = Bro->J_DeckCodeToCardVector(WSTRINGtoSTRING(wlDeckCode->text()));
+			std::vector<std::shared_ptr<SMJCard>> Cards = Bro->J->DeckCodeToCardVector(WSTRINGtoSTRING(wlDeckCode->text()));
 			std::vector<std::shared_ptr<SMJCard>> CardsError;
 			wlDeckCodeReturn->setText(" ");
 			
@@ -223,10 +225,10 @@ void WEB_Tome_Player::WRefresh()
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
 	wtPlayerID->setText("<h4> Player ID: " + playerID + "</h4>");
 	std::stringstream sLink;
-	sLink << Bro->L_getWebTome() << "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + playerID;
+	sLink << Bro->L->sWebTome << "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + playerID;
 	waLink->setLink(Wt::WLink(sLink.str()));
 
-	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
+	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J->EnumBoosters;
 	for (unsigned int i = 0; i < EnumBoosters.size(); i++)if (EnumBoosters[i].first == "-3")FreeBoosterIndex = i;
 	for (unsigned int i = 0; i < EnumBoosters.size(); i++)if (EnumBoosters[i].first == "-91")RefrogeIndex = i;
 
@@ -242,7 +244,7 @@ void WEB_Tome_Player::WRefresh()
 	for (unsigned int i = 0; i < EnumBoosters.size(); i++)
 	{
 		wtBooster->elementAt(0, i + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-			DrawImg(Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png", Booster_Size_X, Booster_Size_Y)
+			DrawImg(Bro->L->sBOOSTER_PATH + EnumBoosters[i].first + ".png", Booster_Size_X, Booster_Size_Y)
 		)));
 		wtBooster->elementAt(1, i + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iOpenBoosterOfType(EnumBoosters[i].first))))));
 		wtBooster->elementAt(2, i + 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iMaxBoosters[i])))));
@@ -259,7 +261,7 @@ void WEB_Tome_Player::WRefresh()
 
 		dynamic_cast<Wt::WPushButton *>(wtBooster->elementAt(3, i + 1)->widget(0))->clicked().connect(std::bind([=]() {
 			//Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.push_back(Bro->J_OpenBooster(EnumBoosters[i].first));
-			Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.push_back(Bro->J_OpenBooster(EnumBoosters[i].first,
+			Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters.push_back(Bro->J->OpenBooster(EnumBoosters[i].first,
 				Bro->vTomeGames[Con->BroGameID]->bNoDoubleBooster, Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->vBoosters));
 
 			if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iMaxBoosters[i] < Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iOpenBoosterOfType(EnumBoosters[i].first))
@@ -389,7 +391,7 @@ void WEB_Tome_Player::UpdateReforgeOverview()
 		
 		dynamic_cast<Wt::WImage*>(wtReforge->elementAt(0, i + 1)->widget(0))->setImageLink(
 			ReplaceString(
-				Bro->J_GetImage(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->cardId, 3, 3, 1, false),
+				Bro->J->GetImage(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[i]->cardId, 3, 3, Big, false),
 				"\\",
 				"/"
 			)			
@@ -398,7 +400,7 @@ void WEB_Tome_Player::UpdateReforgeOverview()
 	MISD("#2");
 	dynamic_cast<Wt::WImage*>(wtReforge->elementAt(0, 6)->widget(0))->setImageLink(
 		ReplaceString(
-			Bro->J_GetImage(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[4]->cardId, 3, 3, 1, false),
+			Bro->J->GetImage(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[4]->cardId, 3, 3, Big, false),
 			"\\",
 			"/"
 		)

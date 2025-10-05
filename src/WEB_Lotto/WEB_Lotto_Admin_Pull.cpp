@@ -6,6 +6,7 @@
 #include "..\..\incl\WEB_Lotto\WEB_Container_Lotto.h"
 #include "..\..\incl\WEB_Lotto\LottoWeek.h"
 #include "..\..\incl\Utility.h"
+#include "..\..\incl\CardBaseSMJ.h"
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
@@ -94,7 +95,7 @@ void WEB_Lotto_Admin_Pull::WRefresh()
 	{
 		MISD(std::to_string(iCol) + sCard);
 		MISD(Bro->J_GetLottoImg(sCard, 1));
-		wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J_GetLottoImg(sCard, 1), Card_Size_X, Card_Size_Y))));
+		wtTabelle->elementAt(iRow, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(DrawImg(Bro->J->GetLottoImg(sCard, 1), Card_Size_X, Card_Size_Y))));
 				
 		if (iCol == 8)
 		{

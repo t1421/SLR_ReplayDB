@@ -56,6 +56,9 @@ public:
 	std::vector<std::shared_ptr<SMJCard>> DeckCodeToCardVector(std::string sDeckCode);
 #endif
 
+#if defined BrokerLotto
+	std::string GetLottoImg(std::string cardNameSimple, unsigned int iColor);
+#endif
 #ifndef noSMJImages
 	void DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type);
 
@@ -69,12 +72,9 @@ public:
 	
 #endif
 	
-	
-
 #ifndef noSQL
 	bool SMJtoSQL(bool bUpdate);
 	bool IMGtoQSL(int iCardID);
-	bool Imager();
 #endif
 
 	//BROKER

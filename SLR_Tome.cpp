@@ -38,35 +38,10 @@ int main()
 	
 		if (Checker(sbuf, "?"))
 		{
-			printf("####################|###########################################\n");
-			printf("J;img               | Download needed Img Files\n");
-			printf("J;booster;[ID]      | Opens a Booster\n");			
+			printf("####################|###########################################\n");	
 			printf("####################|###########################################\n\n");
 		}
 
-		if (Checker(sbuf, "J"))
-		{
-			if (Checker(sbuf, "img"))		
-				for each (SMJCard* iCard in J->SMJMatrix)
-				{
-					printf("%i\n", iCard->cardId);
-					Bro->J_GetImage(
-						iCard->cardId,
-						3,
-						3,
-						1,
-						false);
-				}
-			/*
-			if (Checker(sbuf, "booster"))
-			{
-				Tome_Booster* TB = J->OpenBooster(sbuf.c_str());
-				for (int i = 0; i < TB->vCards.size(); i++)
-					printf("%i\n", TB->vCards[i]->cardId);
-					//MISD(TB->vCards[i]->cardId + "#" + TB->vCards[i]->cardName);
-			}
-			*/
-		}
 	}
 	W->Stop_Thread();
 	return 0;    

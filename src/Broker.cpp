@@ -80,10 +80,6 @@
 #include "..\incl\Manager.h"
 #endif
 
-#ifndef noImager
-#include "..\incl\Imager.h"
-#endif
-
 #ifndef noLoad
 #include "..\incl\LOAD.h"
 #endif
@@ -181,11 +177,6 @@ broker::broker()
 	M = NULL;
 #endif
 	
-#ifndef noImager	
-	Imager::learnBro(this);	
-	I = NULL;
-#endif	
-	
 #ifndef noLoad
 	LOAD::learnBro(this);
 	L = NULL;
@@ -202,7 +193,7 @@ void broker::INIT()
 	std::ifstream ifFile;
 	std::string line;
 	
-	ifFile.open(L_getRANK_PATH() + "Names.csv", std::ios::binary);	
+	ifFile.open(L->sRANK_PATH + "Names.csv", std::ios::binary);
 	if (!ifFile.good())
 	{
 		return;
@@ -215,7 +206,7 @@ void broker::INIT()
 	ifFile.close();
 
 
-	ifFile.open(L_getRANK_PATH() + "Teams.csv", std::ios::binary);
+	ifFile.open(L->sRANK_PATH + "Teams.csv", std::ios::binary);
 	if (ifFile.good())
 	{
 		while (getline(ifFile, line))		
@@ -278,7 +269,7 @@ void broker::saveName()
 {
 	printf("save Name\n");
 	std::ofstream ofFile;	
-	ofFile.open(L_getRANK_PATH() + "Names.csv", std::ios::binary);
+	ofFile.open(L->sRANK_PATH + "Names.csv", std::ios::binary);
 	if (ofFile.good())
 	{
 		printf("FILE OK\n");
@@ -296,7 +287,7 @@ void broker::saveTeams()
 {
 	printf("save Teams\n");
 	std::ofstream ofFile;
-	ofFile.open(L_getRANK_PATH() + "Teams.csv", std::ios::binary);
+	ofFile.open(L->sRANK_PATH + "Teams.csv", std::ios::binary);
 	if (ofFile.good())
 	{
 		printf("FILE OK\n");
@@ -334,143 +325,6 @@ broker::~broker()
 
 
 #ifndef noLoad
-std::string broker::L_getSQL_Server()
-{
-	return L->sSQL_Server;
-}
-std::string broker::L_getSQL_User()
-{
-	return L->sSQL_User;
-}
-std::string broker::L_getSQL_PW()
-{
-	return L->sSQL_PW;
-}
-std::string broker::L_getSQL_DB()
-{
-	return L->sSQL_DB;
-}
-std::string broker::L_getAdminKey()
-{
-	return L->sAdminKey;
-}
-std::string broker::L_getPMV_PATH()
-{
-	return L->sPMV_PATH;
-}
-std::string broker::L_getPMV_AUTO_PATH()
-{
-	return L->sPMV_AUTO_PATH;
-}
-std::string broker::L_getPMV_ARCH_PATH()
-{
-	return L->sPMV_ARCH_PATH;
-}
-std::string broker::L_getPMV_WEB_PATH()
-{
-	return L->sPMV_WEB_PATH;
-}
-std::string broker::L_getTMP_PATH()
-{
-	return L->sTMP_PATH;
-}
-std::string broker::L_getSMJPIC_PATH()
-{
-	return L->sSMJPIC_PATH;
-}
-std::string broker::L_getSMJPICSMALL_PATH()
-{
-	return L->sSMJPICSMALL_PATH;
-}
-std::string broker::L_getSMJIMG_PATH()
-{
-	return L->sSMJIMG_PATH;
-}
-std::string broker::L_getLOTTOPIC_PATH()
-{
-	return L->sLOTTOPIC_PATH;
-}
-
-std::string broker::L_getBOOSTER_PATH()
-{
-	return L->sBOOSTER_PATH;
-}
-std::string broker::L_getFFMPEG()
-{
-	return L->sFFMPEG;
-}
-
-std::string broker::L_getRANK_PATH()
-{
-	return L->sRANK_PATH;	
-}
-
-std::string broker::L_getTOME_SAVE_PATH()
-{
-	return L->sTOME_SAVE_PATH;
-}
-
-std::string broker::L_getMAPPIC_PATH()
-{
-	return L->sMAPPIC_PATH;
-}
-
-std::string broker::L_getLOTTO_SAVE_PATH()
-{
-	return L->sLOTTO_SAVE_PATH;
-}
-
-std::string broker::L_getLivePvPPMV()
-{
-	return L->sLivePvPPMV;
-}
-std::string broker::L_getLivePvP_OBS_Export()
-{
-	return L->sLivePvP_OBS_Export;
-}
-std::string broker::L_getLivePvP_Pics()
-{
-	return L->sLivePvP_Pics;
-}
-int broker::L_getLivePvPRefreshRate()
-{
-	return L->iLivePvPRefreshRate;
-}
-int broker::L_getLivePvPActionLog()
-{
-	return L->iLivePvPActionLog;
-}
-int broker::L_getLivePvPLastPlayed()
-{
-	return L->iLivePvPLastPlayed;
-}
-int broker::L_getLivePvPActionPerSec()
-{
-	return L->iLivePvPActionPerSec;
-}
-int broker::L_getLivePvPActionPerSecNumSec()
-{
-	return L->iLivePvPActionPerSecNumSec;
-}
-std::string broker::L_getQuizPath()
-{
-	return L->sQuizPath;
-}
-int broker::L_getCountDown()
-{
-	return L->iCountDown;
-}
-int broker::L_getCoolDown()
-{
-	return L->iCoolDown;
-}
-int broker::L_getTOME_REFORGE()
-{
-	return L->iTOME_REFORGE;
-}
-
-
-
 unsigned long int broker::L_getEEE_Now()
 {
 	const auto UNIX = std::chrono::system_clock::now();
@@ -540,165 +394,6 @@ unsigned long int broker::L_getEventEnd(unsigned int iEvent)
 unsigned long int broker::L_getEventHide(unsigned int iEvent)
 {
 	return L->Events[iEvent].Hide;
-}
-
-unsigned long broker::L_getSRFileVersion()
-{
-	return L->iSRFileVersion;
-}
-unsigned long broker::L_getSRGameVersion()
-{
-	return L->iSRGameVersion;
-}
-
-std::string broker::L_getWebAnalyser()
-{
-	return L->sWebAnalyser;
-}
-std::string broker::L_getWebTome()
-{
-	return L->sWebTome;
-}
-std::string broker::L_getWebLotto()
-{
-	return L->sWebLotto;
-}
-#endif
-
-#ifndef noSMJ
-unsigned char broker::J_GetActionOrbForCardID(unsigned short CardID)
-{
-	return J->GetActionOrbForCardID(CardID);
-}
-
-#ifndef noSMJImages
-std::string broker::J_GetImgOnly(unsigned short CardID)
-{
-	return J->GetImage(CardID, 0, 0, ImgOnly, false);
-}
-
-std::string broker::J_GetImageSmall(unsigned short _CardID)
-{
-	return J->GetImage(_CardID, 0, 0, Small,false);
-
-}
-std::string broker::J_GetImage(unsigned short _CardID, unsigned char _Upgrade, unsigned char _Charges, unsigned long _Count, bool bSmall)
-{
-	return J->GetImage(_CardID, _Upgrade, _Charges, Big, _Count==0);
-	
-}
-
-std::string broker::J_GetLottoImg(std::string cardNameSimple, unsigned int iColor)
-{
-	for each (SMJCard * C in J->SMJMatrix)
-	{
-		if (C->cardNameSimple == cardNameSimple &&
-			(C->promo == 0 || C->cardNameSimple == "Easter Egg" || C->cardNameSimple == "Santa Claus")
-			)
-			return J->GetImage(C->cardId, 0, 0, Lotto, iColor == 0);
-	}
-	return "";
-}
-
-#endif
-
-unsigned char broker::J_SwitchCharges(unsigned short _CardID, unsigned char _IstCharges)
-{
-	return J->SwitchCharges(_CardID,_IstCharges);
-}
-
-SMJCard* broker::J_GetSMJCard(unsigned short _CardID)
-{
-	return J->GetSMJCard(_CardID);
-}
-
-std::vector<std::pair<std::string, std::string>> broker::J_GetEnum(std::string sEnumName)
-{
-	if (sEnumName == "EnumBoosters")return J->EnumBoosters;
-}
-
-#if defined BrokerTome
-Tome_Booster* broker::J_OpenBooster(std::string iType, bool bNoDouble, std::vector<Tome_Booster*> vOpendBooster)
-{
-	return J->OpenBooster(iType, bNoDouble, vOpendBooster);
-}
-std::unique_ptr<SMJCard> broker::J_Reforge(Tome_Booster* B)
-{
-	return J->Reforge(B);
-}
-std::vector<std::shared_ptr<SMJCard>> broker::J_DeckCodeToCardVector(std::string sDeckCode)
-{
-	return J->DeckCodeToCardVector(sDeckCode);
-}
-#endif
-
-
-std::vector <std::string> broker::J_getSimpelCardPool()
-{
-	std::vector <std::string> vReturn;
-	for (SMJCard* C : J->SMJMatrix)vReturn.push_back(C->cardNameSimple);
-	sort(vReturn.begin(), vReturn.end());
-	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
-	return vReturn;
-}
-
-std::vector <std::string> broker::J_getColorPool()
-{
-	std::vector <std::string> vReturn;
-	for (auto C : J->EnumColor)vReturn.push_back(C.second);
-	sort(vReturn.begin(), vReturn.end());
-	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
-	return vReturn;
-}
-
-std::vector <std::string> broker::J_getUpgradeMaps()
-{
-	std::vector <std::string> vReturn;
-	for (auto C : J->EnumUpgradeMaps)vReturn.push_back(C.second);
-	sort(vReturn.begin(), vReturn.end());
-	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
-	return vReturn;
-}
-
-std::vector <std::string> broker::J_getTiers()
-{
-	std::vector <std::string> vReturn;
-	for (auto C : J->EnumTier)vReturn.push_back(C.second);
-	sort(vReturn.begin(), vReturn.end());
-	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
-	return vReturn;
-}
-
-std::vector <std::string> broker::J_getDifficulty()
-{
-	std::vector <std::string> vReturn;
-	for (auto C : J->EnumDifficulty)vReturn.push_back(C.second);
-	sort(vReturn.begin(), vReturn.end());
-	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
-	return vReturn;
-}
-
-std::vector <std::string> broker::J_getType()
-{
-	std::vector <std::string> vReturn;
-	for (auto C : J->EnumType)vReturn.push_back(C.second);
-	sort(vReturn.begin(), vReturn.end());
-	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
-	return vReturn;
-}
-
-std::vector <std::string> broker::J_getDirections()
-{
-	std::vector <std::string> vReturn;
-	for (auto C : J->EnumDirections)vReturn.push_back(C.second);
-	sort(vReturn.begin(), vReturn.end());
-	vReturn.erase(unique(vReturn.begin(), vReturn.end()), vReturn.end());
-	return vReturn;
-}
-
-unsigned int broker::J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade)
-{
-	return J_GetSMJCard(iCard)->powerCost[iUpgrade];
 }
 #endif
 

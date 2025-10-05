@@ -40,20 +40,20 @@ void Quiz::Init()
 	
 	LoadPlayers();
 
-	sTemp = Bro->L_getQuizPath() + "Name.txt";
+	sTemp = Bro->L->sQuizPath + "Name.txt";
 	std::remove(sTemp.c_str());
-	sTemp = Bro->L_getQuizPath() + "Q.txt";
+	sTemp = Bro->L->sQuizPath + "Q.txt";
 	std::remove(sTemp.c_str());
-	//sTemp = Bro->L_getQuizPath() + "MES*";
+	//sTemp = Bro->L->sQuizPath + "MES*";
 	//std::remove(sTemp.c_str());
 
 	sTemp = "del .\\Twitch\\MES* /S /Q";
 	system(sTemp.c_str());
 
-	sTemp = "copy " + Bro->L_getQuizPath() + "TEMPQuiz.HTML " + Bro->L_getQuizPath() + "Quiz.HTML";
+	sTemp = "copy " + Bro->L->sQuizPath + "TEMPQuiz.HTML " + Bro->L->sQuizPath + "Quiz.HTML";
 	system(sTemp.c_str());
 
-	sTemp = "copy " + Bro->L_getQuizPath() + "TEMPPlayer.HTML " + Bro->L_getQuizPath() + "Player.HTML";
+	sTemp = "copy " + Bro->L->sQuizPath + "TEMPPlayer.HTML " + Bro->L->sQuizPath + "Player.HTML";
 	system(sTemp.c_str());
 
 	Load_Question();
@@ -81,7 +81,7 @@ void Quiz::LoadPlayers(std::string sName)
 	std::string line;
 	std::ifstream ifFile;
 
-	ifFile.open(Bro->L_getQuizPath() + sName, std::ios::binary);
+	ifFile.open(Bro->L->sQuizPath + sName, std::ios::binary);
 	if (ifFile.good())while (getline(ifFile, line))
 	{
 		AddUpdatePlayers(entry(line, 0), entry(line, 1), std::atoi(entry(line, 2).c_str()), entry(line, 3));
@@ -98,7 +98,7 @@ void Quiz::SavePlayers()
 {
 	MISS;
 	std::ofstream ofFile;
-	ofFile.open(Bro->L_getQuizPath() + "Players.csv", std::ios::binary);
+	ofFile.open(Bro->L->sQuizPath + "Players.csv", std::ios::binary);
 	if (ofFile.good())
 	{
 		for (auto P : Players)ofFile << P->Twitch << ";" << P->Ingame << ";"<< P->Points << ";" << P->WonID << ";" << std::endl;
@@ -131,7 +131,7 @@ void Quiz::Load_Question()
 {
 	MISS;
 	std::string line;
-	std::string sName = Bro->L_getQuizPath() + "Questions.csv";
+	std::string sName = Bro->L->sQuizPath + "Questions.csv";
 
 	std::ifstream ifFile;
 	ifFile.open(sName.c_str(), std::ios::binary);
@@ -255,7 +255,7 @@ void Quiz::Thread_Function()
 
 	while (bRunning)
 	{
-		path p(Bro->L_getQuizPath() + "Name.txt");
+		path p(Bro->L->sQuizPath + "Name.txt");
 		if (exists(p)) 
 		{
 			if (tLastCheck < last_write_time(p))
@@ -304,8 +304,8 @@ void Quiz::UpdateHTML()
 	}
 	ssTable << "</tbody>";
 
-	ifFile.open(Bro->L_getQuizPath() + "TEMPQuiz.HTML", std::ios::binary);
-	ofFile.open(Bro->L_getQuizPath() + "Quiz.HTML", std::ios::binary);
+	ifFile.open(Bro->L->sQuizPath + "TEMPQuiz.HTML", std::ios::binary);
+	ofFile.open(Bro->L->sQuizPath + "Quiz.HTML", std::ios::binary);
 	if (ifFile.good() && ofFile.good())while (getline(ifFile, line))
 	{
 		line = ReplaceString(line, "%TITEL%", vQuestion[ActivQuiz]->Titel);
@@ -341,8 +341,8 @@ void Quiz::UpdateHTML()
 	}
 	ssTable << "</tbody>";
 
-	ifFile.open(Bro->L_getQuizPath() + "TEMPPlayer.HTML", std::ios::binary);
-	ofFile.open(Bro->L_getQuizPath() + "Player.HTML", std::ios::binary);
+	ifFile.open(Bro->L->sQuizPath + "TEMPPlayer.HTML", std::ios::binary);
+	ofFile.open(Bro->L->sQuizPath + "Player.HTML", std::ios::binary);
 	if (ifFile.good() && ofFile.good())while (getline(ifFile, line))
 	{		
 		line = ReplaceString(line, "%TABLE%", ssTable.str());

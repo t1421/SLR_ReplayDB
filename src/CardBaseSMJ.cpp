@@ -11,6 +11,8 @@
 
 #include "..\incl\CardBaseSMJ.h" 
 #include "..\incl\Utility.h" 
+#include "..\incl\LOAD.h"
+
 #ifndef noSQL
 #include "..\incl\SQL_MIS_New.h"
 #endif
@@ -472,24 +474,24 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 	case ImgOnly:
 		sURL = SMJ_I_IMG;
 		sURL += std::to_string(CardID);
-		OutFile.open(Bro->L_getSMJIMG_PATH() + sFile + ".webp", std::ostream::binary);
+		OutFile.open(Bro->L->sSMJIMG_PATH + sFile + ".webp", std::ostream::binary);
 		break;
 	case Small:
 		sURL = SMJ_S_IMG;
 		sURL += SMJID;
-		OutFile.open(Bro->L_getSMJPICSMALL_PATH() + sFile + ".webp", std::ostream::binary);
+		OutFile.open(Bro->L->sSMJPICSMALL_PATH + sFile + ".webp", std::ostream::binary);
 		break;
 	case Big:
 		sURL = SMJ_B_IMG;
 		sURL += SMJID;
-		OutFile.open(Bro->L_getSMJPIC_PATH() + sFile + ".webp", std::ostream::binary);
+		OutFile.open(Bro->L->sSMJPIC_PATH + sFile + ".webp", std::ostream::binary);
 		break;
 	case Lotto:
 		sFile = SMJName;
 		sURL = SMJ_B_IMG;
 		sURL += SMJID;
 		sURL += "?simple";
-		OutFile.open(Bro->L_getLOTTOPIC_PATH() + sFile + ".webp", std::ostream::binary);
+		OutFile.open(Bro->L->sLOTTOPIC_PATH + sFile + ".webp", std::ostream::binary);
 		break;
 	}
 #endif
@@ -548,6 +550,7 @@ void CardBaseSMJ::DownloadImage(unsigned short CardID, unsigned char Upgrade, un
 	return;
 }
 
+
 std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type, bool bSW)
 {
 	MISS;
@@ -557,20 +560,20 @@ std::string CardBaseSMJ::GetImage(unsigned short CardID, unsigned char Upgrade, 
 	switch (_Type)
 	{
 	case Small:
-		sFile = Bro->L_getSMJPICSMALL_PATH();
+		sFile = Bro->L->sSMJPICSMALL_PATH;
 		Upgrade = 0;
 		Charges = 0;
 		break;
 	case Big:
-		sFile = Bro->L_getSMJPIC_PATH();
+		sFile = Bro->L->sSMJPIC_PATH;
 		break;
 	case ImgOnly:
-		sFile = Bro->L_getSMJIMG_PATH();
+		sFile = Bro->L->sSMJIMG_PATH;
 		Upgrade = 0;
 		Charges = 0;
 		break;
 	case Lotto:
-		sFile = Bro->L_getLOTTOPIC_PATH();
+		sFile = Bro->L->sLOTTOPIC_PATH;
 		break;
 	}
 #endif
@@ -667,6 +670,20 @@ void CardBaseSMJ::AllIMGSimpel()
 }
 #endif
 
+#if defined BrokerLotto
+std::string CardBaseSMJ::GetLottoImg(std::string cardNameSimple, unsigned int iColor)
+{
+	for each (auto * C in SMJMatrix)
+	{
+		if (C->cardNameSimple == cardNameSimple &&
+			(C->promo == 0 || C->cardNameSimple == "Easter Egg" || C->cardNameSimple == "Santa Claus")
+			)
+			return GetImage(C->cardId, 0, 0, Lotto, iColor == 0);
+	}
+	return "";
+}
+#endif
+
 #ifndef noSQL
 bool CardBaseSMJ::SMJtoSQL(bool bUpdate)
 {
@@ -749,27 +766,6 @@ bool CardBaseSMJ::IMGtoQSL(int iCardID)
 	MISE;
 	return true;
 }
-
-bool CardBaseSMJ::Imager()
-{
-	MISS;
-
-	Bro->N->ssSQL << "SELECT ID FROM cards ";
-
-	if (Bro->N->send() <= 0)
-	{
-		MISEA("V1: SQL ERROR");
-		return false;
-	}
-
-	while (Bro->N->res->next())	
-		IMGtoQSL(Bro->N->res->getInt(1));
-	
-
-	MISE;
-	return true;
-}
-
 #endif
 
 #ifdef BrokerTome

@@ -4,12 +4,8 @@
 #include "incl\LOAD.h" 
 #include "incl\Replay.h" 
 
-
 #include "incl\Utility.h" 
 
-#ifndef noImager
-#include "incl\Imager.h" 
-#endif
 #ifndef noManager
 #include "incl\Manager.h" 
 #endif
@@ -54,12 +50,6 @@ int main(int argc, char **argv)
 	M->teachM();
 	M->Start_Thread();
 #endif	
-
-
-	
-#ifndef noImager
-	Imager* I = new Imager();
-#endif
 	
 
 	MISD("--> MAINSCHEIFE");
@@ -82,21 +72,10 @@ int main(int argc, char **argv)
 		if (Checker(sbuf, "?"))
 		{
 
-			/*
-			printf("####################|###########################################\n");
-			printf("C;full              | Updates all cards in MYSQL\n");
-			printf("C;update            | Adds neu cards to MYSQL\n");
-			printf("C;imager;0          | Loads all images from WIKI in MYSQL\n");
-			printf("C;IMGtoQSL;[ID]       | Loads images for CARDID from WIKI in MYSQL\n");
-			printf("C;upload;[ID]       | Uploads images for CARDID from TempDir in MYSQL\n");
-			printf("C;download;[ID]     | Loads images for MYSQL\n");
-			printf("####################|###########################################\n\n");
-			*/
 			printf("####################|###########################################\n");
 			printf("J;full              | Updates all cards in MYSQL\n");
 			printf("J;update            | Adds neu cards to MYSQL\n");
 			printf("J;IMGtoSQL;[ID]     | Loads images for CARDID from SMJ in MYSQL\n");
-			printf("J;imager            | Loads all images from SMJ in MYSQL\n");
 			printf("####################|###########################################\n\n");
 
 			printf("####################|###########################################\n");
@@ -119,15 +98,6 @@ int main(int argc, char **argv)
 			printf("P;dublette          | Checks if Games is alreade in MYSQL\n");
 			printf("####################|###########################################\n\n");
 			#endif
-			#ifndef noImager
-			printf("####################|###########################################\n");
-			printf("I;new               | new Imager Object\n");
-			printf("I;open              | Use the current P Pointer\n");
-			printf("I;makeIMG           | Creates the Image\n");
-			printf("I;makeMOV           | Creates Mov from image\n");
-			printf("I;echo              | outputs paths\n");
-			printf("####################|###########################################\n\n");
-			#endif
 		}
 		
 	
@@ -136,7 +106,6 @@ int main(int argc, char **argv)
 			if (Checker(sbuf, "update"))J->SMJtoSQL(false);
 			if (Checker(sbuf, "full"))J->SMJtoSQL(true);
 			if (Checker(sbuf, "IMGtoSQL"))J->IMGtoQSL(atoi(sbuf.c_str()));
-			if (Checker(sbuf, "imager"))J->Imager();
 			/*if (Checker(sbuf, "upload"))C->UploadFromTemp(atoi(sbuf.c_str()));
 			if (Checker(sbuf, "download"))C->DownloadPNG(atoi(sbuf.c_str()));
 			*/
@@ -149,7 +118,7 @@ int main(int argc, char **argv)
 			
 			if (Checker(sbuf, "open"))
 			{
-				if (R->LoadPMV(Bro->L_getPMV_PATH() + sbuf + ".pmv"))MISD("All fine");
+				if (R->LoadPMV(Bro->L->sPMV_PATH + sbuf + ".pmv"))MISD("All fine");
 			}
 
 			if (Checker(sbuf, "echo"))
@@ -197,16 +166,6 @@ int main(int argc, char **argv)
 			}
 		}
 #endif		
-#ifndef noImager
-		if (Checker(sbuf, "I"))
-		{
-			if (Checker(sbuf, "new"))I = new Imager();
-			if (Checker(sbuf, "open"))I->UseThisPMV(R);
-			if (Checker(sbuf, "makeIMG"))I->MakeIMG();
-			if (Checker(sbuf, "makeMOV"))I->MakeMOV();
-			if (Checker(sbuf, "echo"))I->Echo();
-		}
-#endif
 		if (Checker(sbuf, "exit"))Bro->bAktive = false;
 	}
 #ifndef noManager

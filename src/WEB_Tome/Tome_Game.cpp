@@ -1,8 +1,10 @@
 //#define DF_Debug
 
 #include "..\..\incl\Broker.h"
-#include "..\..\incl\WEB_Tome\Tome_Game.h"
 #include "..\..\incl\Utility.h"
+#include "..\..\incl\CardBaseSMJ.h"
+#include "..\..\incl\LOAD.h"
+#include "..\..\incl\WEB_Tome\Tome_Game.h"
 
 #include "..\..\incl\DataTypes.h"
 
@@ -58,7 +60,7 @@ bool Tome_Game::bNewGame()
 	{
 		if (ifFile.good()) ifFile.close();
 		sGameID = std::to_string(distr(gen));
-		sName = Bro->L_getTOME_SAVE_PATH() + sGameID;
+		sName = Bro->L->sTOME_SAVE_PATH + sGameID;
 		ifFile.open(sName.c_str(), std::ios::binary);
 	} while (ifFile.good());
 
@@ -75,7 +77,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 {
 	MISS;
 	std::string line;
-	std::string sName = Bro->L_getTOME_SAVE_PATH() + _sGameID;
+	std::string sName = Bro->L->sTOME_SAVE_PATH + _sGameID;
 
 	std::ifstream ifFile;
 	ifFile.open(sName.c_str(), std::ios::binary);
@@ -162,7 +164,7 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 				for (unsigned int i = 2; i < iCountSemi; i++)
 					if(atoi(entry(line, i).c_str()) != 0)
 						vPlayer[vPlayer.size() - 1]->vBoosters[vPlayer[vPlayer.size() - 1]->vBoosters.size() - 1]->vCards.push_back(
-							std::make_unique<SMJCard>(*Bro->J_GetSMJCard(atoi(entry(line,i).c_str()))));
+							std::make_unique<SMJCard>(*Bro->J->GetSMJCard(atoi(entry(line,i).c_str()))));
 			}
 			//Player Booster Reforge
 			if (INI_Value_Check(line, "PBR"))
@@ -301,7 +303,7 @@ bool Tome_Game::bSaveGame()
 		return false;
 	}
 	std::string line;
-	std::string sName = Bro->L_getTOME_SAVE_PATH() + sGameID;
+	std::string sName = Bro->L->sTOME_SAVE_PATH + sGameID;
 
 	std::ofstream ofFile;
 	ofFile.open(sName.c_str(), std::ios::binary);

@@ -1,6 +1,8 @@
 //#define DF_Debug
 
 #include "..\..\incl\Broker.h" 
+#include "..\..\incl\CardBaseSMJ.h" 
+#include "..\..\incl\LOAD.h" 
 
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
@@ -82,7 +84,7 @@ WEB_Container_Tome::WEB_Container_Tome(const Wt::WEnvironment& env)
 	waLink2 = new Wt::WAnchor();
 	waLink->setText("Switch to Replay Analyser");
 	waLink2->setText("How to Use Tome Fight Maker");
-	waLink->setLink(Wt::WLink(Bro->L_getWebAnalyser()));
+	waLink->setLink(Wt::WLink(Bro->L->sWebAnalyser));
 	waLink2->setLink(Wt::WLink("https://youtu.be/sMLBZydTQPE"));
 
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	
@@ -301,12 +303,12 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 				iSrc == 2 && C->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerUR )
 			{
 				wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-					DrawImg(Bro->J_GetImage(
+					DrawImg(Bro->J->GetImage(
 						C->cardId,
 						3,
 						3,
-						int(bool(C->reforged==0 || C->reforged == 2)),
-						false),
+						Big,
+						int(bool(C->reforged==0 || C->reforged == 2))),
 						Card_Size_X, Card_Size_Y
 					))));
 				iCol++;
@@ -351,12 +353,12 @@ void WEB_Container_Tome::DrawCard(Wt::WTable* wtTabelle, std::vector<std::unique
 			C->rarity == 3 && Bro->vTomeGames[BroGameID]->bTapShowCardsUR)
 		{						
 			wtTabelle->elementAt(iCol, iRow)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-				DrawImg(Bro->J_GetImage(
+				DrawImg(Bro->J->GetImage(
 					C->cardId,
 					3,
 					3,
-					int(bool(C->reforged == 0 || C->reforged == 2)),
-					false),
+					Big,
+					int(bool(C->reforged == 0 || C->reforged == 2))),
 					Card_Size_X, Card_Size_Y
 				))));
 			if (++iRow == 8)

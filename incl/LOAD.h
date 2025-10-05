@@ -39,7 +39,6 @@ public:
 	std::string sLOTTOPIC_PATH;
 	std::string sBOOSTER_PATH;
 	std::string sMAPPIC_PATH;
-	std::string sFFMPEG;
 
 	std::string sLivePvPPMV;
 	std::string sLivePvP_OBS_Export;

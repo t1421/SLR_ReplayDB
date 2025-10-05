@@ -3,6 +3,7 @@
 #include "..\incl\Broker.h" 
 #include "..\incl\Utility.h"
 #include "..\incl\DataTypes.h"
+#include "..\incl\LOAD.h"
 
 #include "..\incl\MIS_Rank.h" 
 
@@ -197,7 +198,7 @@ MIS_Rank::MIS_Rank(int iRankList): sFile(std::to_string(iRankList) + ".csv"), Ra
 	std::ifstream ifFile;
 	
 	
-	ifFile.open(Bro->L_getRANK_PATH() + sFile.c_str(), std::ios::binary);
+	ifFile.open(Bro->L->sRANK_PATH + sFile.c_str(), std::ios::binary);
 	if (!ifFile.good())
 	{
 		MISEA("Error for Rank list: " + std::to_string(iRankList));
@@ -231,7 +232,7 @@ void MIS_Rank::SaveList()
 {
 	MISS;
 	std::ofstream ofFile;
-	ofFile.open(Bro->L_getRANK_PATH() + sFile.c_str(), std::ios::binary);
+	ofFile.open(Bro->L->sRANK_PATH + sFile.c_str(), std::ios::binary);
 	if (ofFile.good())
 	{
 		mtx.lock();

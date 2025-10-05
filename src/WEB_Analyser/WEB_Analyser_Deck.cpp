@@ -5,6 +5,7 @@
 #include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\..\incl\WEB_Analyser\WEB_Analyser_Deck.h"
 #include "..\..\incl\DataTypes.h" 
+#include "..\..\incl\CardBaseSMJ.h" 
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
@@ -73,15 +74,15 @@ unsigned int WEB_Analyser_Deck::drawPlayer(unsigned int iPlayer, unsigned int &i
 	for (unsigned int i = 0; i < WA->Players[iPlayer]->Deck.size(); i++)
 	{
 		if (WA->Players[iPlayer]->Deck[i]->CardID == 0)continue;
-		tempCharge = Bro->J_SwitchCharges(WA->Players[iPlayer]->Deck[i]->CardID, WA->Players[iPlayer]->Deck[i]->Charges);
+		tempCharge = Bro->J->SwitchCharges(WA->Players[iPlayer]->Deck[i]->CardID, WA->Players[iPlayer]->Deck[i]->Charges);
 		if (tempCharge > WA->Players[iPlayer]->Deck[i]->Upgrade)tempCharge = WA->Players[iPlayer]->Deck[i]->Upgrade;
 
-		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage(Bro->J_GetImage(
+		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage(Bro->J->GetImage(
 			WA->Players[iPlayer]->Deck[i]->CardID,
 			WA->Players[iPlayer]->Deck[i]->Upgrade,
 			tempCharge,
-			WA->Players[iPlayer]->Deck[i]->count,
-			false
+			Big,
+			WA->Players[iPlayer]->Deck[i]->count //,false
 		)))));
 		
 		wtTabelle->elementAt(iRow, iCol)->widget(0)->setHeight(Card_Size_Y);

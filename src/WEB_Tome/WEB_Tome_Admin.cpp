@@ -2,6 +2,8 @@
 
 #include "..\..\incl\Broker.h"
 #include "..\..\incl\Replay.h" 
+#include "..\..\incl\CardBaseSMJ.h"
+#include "..\..\incl\LOAD.h"
 
 #include "..\..\incl\WEB_Tome\WEB_Tome_Admin.h"
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
@@ -132,7 +134,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	WA = new WEB_Analyser();
 
 	
-	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J_GetEnum("EnumBoosters");
+	std::vector<std::pair<std::string, std::string>> EnumBoosters = Bro->J->EnumBoosters;
 
 	wcTapShowBoosterOrder->addItem("Time");
 	wcTapShowBoosterOrder->addItem("Typ");
@@ -212,7 +214,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	wtTempTable->columnAt(2)->setWidth(150);
 
 	
-	if (Bro->L_getTOME_REFORGE() != 1)
+	if (Bro->L->iTOME_REFORGE != 1)
 	{
 		wcAllowRefroging->disable();				
 	}
@@ -455,7 +457,7 @@ WEB_Tome_Admin::WEB_Tome_Admin(WEB_Container_Tome *Con_) : Con(Con_)
 	for (unsigned int i = 0; i < EnumBoosters.size(); i++)
 	{
 		wtTabelle->elementAt(2, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
-			DrawImg(Bro->L_getBOOSTER_PATH() + EnumBoosters[i].first + ".png", Booster_Size_X, Booster_Size_Y)
+			DrawImg(Bro->L->sBOOSTER_PATH + EnumBoosters[i].first + ".png", Booster_Size_X, Booster_Size_Y)
 		)));
 		
 		wtTabelle->elementAt(0, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WPushButton("+"))));
@@ -562,7 +564,7 @@ void WEB_Tome_Admin::WRefresh()
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
 	wtAdminID->setText("<h4> Admin ID: " + Bro->vTomeGames[Con->BroGameID]->sAdminID + "</h4>");
 	std::stringstream sLink; 
-	sLink<< Bro->L_getWebTome()<<"?gameID="<<Bro->vTomeGames[Con->BroGameID]->sGameID<<"&adminID="<<Bro->vTomeGames[Con->BroGameID]->sAdminID;
+	sLink<< Bro->L->sWebTome<<"?gameID="<<Bro->vTomeGames[Con->BroGameID]->sGameID<<"&adminID="<<Bro->vTomeGames[Con->BroGameID]->sAdminID;
 	waLink->setLink(Wt::WLink(sLink.str()));
 
 	MISD("#2");
@@ -660,11 +662,11 @@ void WEB_Tome_Admin::FixTable()
 					"welcome to the Tome Fight! The GameID is: " + Bro->vTomeGames[Con->BroGameID]->sGameID + " " +
 					"and you PlayerID is: " + iTP->sPlayerID + " " +
 					"But you can just use this link: " +
-					Bro->L_getWebTome() + "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID +
+					Bro->L->sWebTome + "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID +
 					"');");
 			}));
 
-			Tabel_Player[Tabel_Player.size() - 1]->waLink->setLink(Wt::WLink(Bro->L_getWebTome() + "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID));
+			Tabel_Player[Tabel_Player.size() - 1]->waLink->setLink(Wt::WLink(Bro->L->sWebTome + "?gameID=" + Bro->vTomeGames[Con->BroGameID]->sGameID + "&playerID=" + iTP->sPlayerID));
 		}		
 	}
 	MISD("###");

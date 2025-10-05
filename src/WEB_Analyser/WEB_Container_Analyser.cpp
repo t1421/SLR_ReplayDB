@@ -1,6 +1,7 @@
 //#define DF_Debug
 
 #include "..\..\incl\Broker.h" 
+#include "..\..\incl\LOAD.h"
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
 #include "..\..\incl\WEB\WEB_Utility.h"
@@ -34,7 +35,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 		WA_Debug = true;
 		ReNewTaps();
 	}
-	if (sPARA == Bro->L_getAdminKey() && Bro->L_getAdminKey() != "")
+	if (sPARA == Bro->L->sAdminKey && Bro->L->sAdminKey != "")
 	{
 		MISERROR("ADMIN ON");
 		MISERROR("DEBUG ON");
@@ -64,7 +65,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	Wt::WGridLayout *TempGrid = new Wt::WGridLayout();
 	waLink = new Wt::WAnchor();
 	waLink->setText("Switch to Tome Fight Maker");
-	waLink->setLink(Wt::WLink(Bro->L_getWebTome()));
+	waLink->setLink(Wt::WLink(Bro->L->sWebTome));
 	GlobaelContainer = root()->addWidget(Wt::cpp14::make_unique<Wt::WContainerWidget>());	
 	GlobaelContainer->setLayout(std::unique_ptr<Wt::WGridLayout>(std::move(TempGrid)));
 	

@@ -1,6 +1,7 @@
 //#define DF_Debug
 
 #include "..\incl\Broker.h" 
+#include "..\incl\LOAD.h" 
 
 #include "..\incl\SQL_MIS_New.h"
 
@@ -11,9 +12,9 @@ SQL_MIS_New::SQL_MIS_New(std::string _Name) :sName(_Name)
 	MISD("--> " + _Name);
 	
 	ConnectOptionsMap connection_properties;
-	connection_properties["hostName"] = sql::SQLString(Bro->L_getSQL_Server());
-	connection_properties["userName"] = sql::SQLString(Bro->L_getSQL_User());
-	connection_properties["password"] = sql::SQLString(Bro->L_getSQL_PW());
+	connection_properties["hostName"] = sql::SQLString(Bro->L->sSQL_Server);
+	connection_properties["userName"] = sql::SQLString(Bro->L->sSQL_User);
+	connection_properties["password"] = sql::SQLString(Bro->L->sSQL_PW);
 	connection_properties["CLIENT_MULTI_STATEMENTS"] = (true);
 
 	try
@@ -21,7 +22,7 @@ SQL_MIS_New::SQL_MIS_New(std::string _Name) :sName(_Name)
 		driver = get_driver_instance();
 		con = driver->connect(connection_properties);
 
-		con->setSchema(Bro->L_getSQL_DB());
+		con->setSchema(Bro->L->sSQL_DB);
 	}
 	catch (sql::SQLException &e)
 	{

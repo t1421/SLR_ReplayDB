@@ -4,6 +4,8 @@
 #include "..\incl\Manager.h"
 #include "..\incl\Replay.h" 
 #include "..\incl\Utility.h"
+#include "..\incl\LOAD.h"
+#include "..\incl\CardBaseSMJ.h"
 
 #ifndef noSQL
 #include "..\incl\PMV_to_SQL.h" 
@@ -39,7 +41,7 @@ void Manager::Thread_Function()
 	while (bRunning)
 	{
 		
-		path p = Bro->L_getPMV_AUTO_PATH();
+		path p = Bro->L->sPMV_AUTO_PATH;
 		recursive_directory_iterator it = recursive_directory_iterator(p);
 	
 		while (it != recursive_directory_iterator{})
@@ -67,7 +69,7 @@ void Manager::Thread_Function()
 					
 				
 				ssCMD.str("");
-				ssCMD << "move \"" << it->path().string() << "\" \"" << Bro->L_getPMV_ARCH_PATH();
+				ssCMD << "move \"" << it->path().string() << "\" \"" << Bro->L->sPMV_ARCH_PATH;
 				//MISD(ssCMD.str());
 				if (PP->sEvent != "" && PP->sEvent != "REPLAY_AUTO") ssCMD << "\\" << PP->sEvent;
 				//MISD(ssCMD.str());
@@ -109,7 +111,7 @@ void Manager::Thread_Function()
 		minActionPlayer = 0;
 		maxActionPlayer = 0;
 
-		if (RR->LoadPMV(Bro->L_getLivePvPPMV()))
+		if (RR->LoadPMV(Bro->L->sLivePvPPMV))
 		{			
 			ResteLiveFiles();
 			while(!RR->ConnectActionToPlayer())
@@ -143,25 +145,25 @@ void Manager::Thread_Function()
 				
 				if(_UpdateCards)UpdateFiles();
 				
-				if (_UpdateActionLog && Bro->L_getLivePvPActionLog() == 1 && vsActionLog.size() > 0)
+				if (_UpdateActionLog && Bro->L->iLivePvPActionLog == 1 && vsActionLog.size() > 0)
 				{
 					for (auto A: vsActionLog)SetActionLog(A);
 					vsActionLog.clear();
 				}
 
-				if (/* _UpdateActionPerSec && */ Bro->L_getLivePvPActionPerSec() == 1)UpdateActionPerSec();
+				if (/* _UpdateActionPerSec && */ Bro->L->iLivePvPActionPerSec == 1)UpdateActionPerSec();
 
-				if (_UpdateLastPlay &&  Bro->L_getLivePvPLastPlayed() == 1)UpdateLastPlayed();
+				if (_UpdateLastPlay &&  Bro->L->iLivePvPLastPlayed == 1)UpdateLastPlayed();
 				
 
 				//MISD(RR->CountActions());
-				Sleep(Bro->L_getLivePvPRefreshRate());
+				Sleep(Bro->L->iLivePvPRefreshRate);
 			}
 
 		exit_loop:;
 			RR->close();
 		}
-		Sleep(Bro->L_getLivePvPRefreshRate());
+		Sleep(Bro->L->iLivePvPRefreshRate);
 	}
 	MISE;
 }
@@ -232,14 +234,14 @@ int Manager::processActions(bool& _UpdateCards, bool& _UpdateActionLog, bool& _U
 		{
 			AddCardToPlayer(RR->ActionMatrix[i]);
 			_UpdateCards = true;
-			if (Bro->L_getLivePvPLastPlayed() == 1)
+			if (Bro->L->iLivePvPLastPlayed == 1)
 				if (UpdateLastPlayStack(RR->ActionMatrix[i])) _UpdateLastPlay = true;
 		}
 
-		if (Bro->L_getLivePvPActionLog() == 1)
+		if (Bro->L->iLivePvPActionLog == 1)
 			if (FillActionLog(RR->ActionMatrix[i])) _UpdateActionLog = true;
 
-		if (Bro->L_getLivePvPActionPerSec() == 1) // && RR->ActionMatrix[i]->ActionPlayer != 0)
+		if (Bro->L->iLivePvPActionPerSec == 1) // && RR->ActionMatrix[i]->ActionPlayer != 0)
 			if (AddActionPerSec(RR->ActionMatrix[i])) _UpdateActionPerSec = true;
 
 		
@@ -303,13 +305,13 @@ void Manager::SetCard(unsigned int POS, unsigned short CardID, unsigned char Upg
 {
 	MISS;
 	//std::ifstream  src(Bro->J_GetImage(CardID, Upgrade, Charges, Big, false), std::ios::binary);
-	std::ifstream  src(Bro->J_GetImageSmall(CardID), std::ios::binary);
-	std::ofstream  dst(Bro->L_getLivePvP_OBS_Export() + std::to_string(POS) + ".webp", std::ios::binary);
+	std::ifstream  src(Bro->J->GetImage(CardID,0,0,Small,false), std::ios::binary);
+	std::ofstream  dst(Bro->L->sLivePvP_OBS_Export + std::to_string(POS) + ".webp", std::ios::binary);
 	dst << src.rdbuf();
 	src.close();
 	dst.close();
 
-	dst.open(Bro->L_getLivePvP_OBS_Export() + std::to_string(POS) + ".txt", std::ios::binary);
+	dst.open(Bro->L->sLivePvP_OBS_Export + std::to_string(POS) + ".txt", std::ios::binary);
 	if(Count>0)dst << Count;
 	else dst << " ";
 	dst.close();	
@@ -319,8 +321,8 @@ void Manager::SetCard(unsigned int POS, unsigned short CardID, unsigned char Upg
 void Manager::SetCardBack(unsigned int POS, unsigned int iCount)
 {
 	MISS;
-	std::ifstream src(Bro->L_getLivePvP_Pics() + std::to_string(iCount) + ".webp", std::ios::binary);
-	std::ofstream dst(Bro->L_getLivePvP_OBS_Export() + "B" + std::to_string(POS) + ".webp", std::ios::binary);
+	std::ifstream src(Bro->L->sLivePvP_Pics + std::to_string(iCount) + ".webp", std::ios::binary);
+	std::ofstream dst(Bro->L->sLivePvP_OBS_Export + "B" + std::to_string(POS) + ".webp", std::ios::binary);
 	dst << src.rdbuf();
 	src.close();
 	dst.close();
@@ -332,7 +334,7 @@ void Manager::SetActionsPerSec(unsigned int POS, unsigned int iCount)
 {
 	MISS;
 	//MISD(std::to_string(POS) + "#" + std::to_string(iCount))
-	std::ofstream  dst(Bro->L_getLivePvP_OBS_Export() + "A" + std::to_string(POS) + ".txt", std::ios::binary);
+	std::ofstream  dst(Bro->L->sLivePvP_OBS_Export + "A" + std::to_string(POS) + ".txt", std::ios::binary);
 	dst << iCount;
 	dst.close();
 	MISE;
@@ -341,7 +343,7 @@ void Manager::SetActionsPerSec(unsigned int POS, unsigned int iCount)
 void Manager::SetPlayer(unsigned int POS, std::string sName)
 {
 	MISS;	
-	std::ofstream  dst(Bro->L_getLivePvP_OBS_Export() + "P" + std::to_string(POS) + ".txt", std::ios::binary);	
+	std::ofstream  dst(Bro->L->sLivePvP_OBS_Export + "P" + std::to_string(POS) + ".txt", std::ios::binary);	
 	dst << sName;
 	dst.close();
 	MISE;
@@ -385,7 +387,7 @@ bool Manager::FillActionLog(Action *Import)
 	case 4011:
 	case 4012:
 	case 4044:
-		sAdd += formatString(Bro->J_GetSMJCard(Import->Card)->cardName,15);
+		sAdd += formatString(Bro->J->GetSMJCard(Import->Card)->cardName,15);
 	}
 
 	vsActionLog.push_back(sAdd);
@@ -398,8 +400,8 @@ void Manager::SetActionLog(std::string sIN)
 {
 	MISS;	
 	std::ofstream  dst;
-	if(sIN=="")dst.open(Bro->L_getLivePvP_OBS_Export() + "ActionLog.txt", std::ios::binary);
-	else dst.open(Bro->L_getLivePvP_OBS_Export() + "ActionLog.txt", std::ios::binary | std::ios::app);	
+	if(sIN=="")dst.open(Bro->L->sLivePvP_OBS_Export + "ActionLog.txt", std::ios::binary);
+	else dst.open(Bro->L->sLivePvP_OBS_Export + "ActionLog.txt", std::ios::binary | std::ios::app);	
 	dst << sIN<<"\n";
 	dst.close();
 	MISE;
@@ -412,7 +414,7 @@ void Manager::UpdateActionPerSec()
 	unsigned int iHelper;
 	unsigned int iMax = 0;
 	//Add Missings MAX
-	for each (Player * P in RR->PlayerMatrix)iMax = std::max(iMax, P->ActionsPerSec.size());
+	for each (Player * P in RR->PlayerMatrix)iMax = max(iMax, P->ActionsPerSec.size());
 
 	for each (Player * P in RR->PlayerMatrix)
 	{		
@@ -421,7 +423,7 @@ void Manager::UpdateActionPerSec()
 
 		iHelper = 0;
 
-		for (int i = P->ActionsPerSec.size() - 1; i >= 0  && i >= (int(P->ActionsPerSec.size()) - Bro->L_getLivePvPActionPerSecNumSec()) ; i--)
+		for (int i = P->ActionsPerSec.size() - 1; i >= 0  && i >= (int(P->ActionsPerSec.size()) - Bro->L->iLivePvPActionPerSecNumSec) ; i--)
 			iHelper += P->ActionsPerSec[i];
 		
 		SetActionsPerSec(P->iSaveID, iHelper);
@@ -468,8 +470,8 @@ void Manager::SetLastPlayCard(unsigned int POS, unsigned short CardID, unsigned 
 {
 	MISS;
 	//std::ifstream  src(Bro->J_GetImage(CardID, Upgrade, Charges, Big, false), std::ios::binary);
-	std::ifstream  src(Bro->J_GetImageSmall(CardID), std::ios::binary);
-	std::ofstream  dst(Bro->L_getLivePvP_OBS_Export() + "L" + std::to_string(POS) + ".webp", std::ios::binary);
+	std::ifstream  src(Bro->J->GetImage(CardID,0,0,Small,false), std::ios::binary);
+	std::ofstream  dst(Bro->L->sLivePvP_OBS_Export + "L" + std::to_string(POS) + ".webp", std::ios::binary);
 	dst << src.rdbuf();
 	src.close();
 	dst.close();

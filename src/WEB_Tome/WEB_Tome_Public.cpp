@@ -1,6 +1,7 @@
 //#define DF_Debug
 
 #include "..\..\incl\Broker.h"
+#include "..\..\incl\LOAD.h"
 #include "..\..\incl\WEB_Tome\WEB_Tome_Public.h"
 #include "..\..\incl\WEB_Tome\WEB_Container_Tome.h"
 #include "..\..\incl\WEB_Tome\Tome_Game.h"
@@ -89,7 +90,7 @@ void WEB_Tome_Public::WRefresh()
 
 	wtGameID->setText("<h4> Game ID: " + Bro->vTomeGames[Con->BroGameID]->sGameID + "</h4>");
 	std::stringstream sLink;
-	sLink << Bro->L_getWebTome() << "?gameID=" << Bro->vTomeGames[Con->BroGameID]->sGameID;
+	sLink << Bro->L->sWebTome << "?gameID=" << Bro->vTomeGames[Con->BroGameID]->sGameID;
 	waLink->setLink(Wt::WLink(sLink.str()));
 
 	WEB_Toolbar::bDisable[0] = !Bro->vTomeGames[Con->BroGameID]->bTapShowPlayer;

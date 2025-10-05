@@ -6,6 +6,7 @@
 #include "..\..\incl\WEB_Analyser\WEB_Rank.h"
 #include "..\..\incl\DataTypes.h"
 #include "..\..\incl\Utility.h"
+#include "..\..\incl\LOAD.h"
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
@@ -110,7 +111,7 @@ void WEB_Rank::WRefresh()
 	if (WR->WA_Admin)
 	{
 		waRankLink->setText("#");
-		waRankLink->setLink(Wt::WLink(Bro->L_getRANK_PATH() + Wt::Utils::urlEncode(std::to_string(iRankList) + ".csv")));
+		waRankLink->setLink(Wt::WLink(Bro->L->sRANK_PATH + Wt::Utils::urlEncode(std::to_string(iRankList) + ".csv")));
 	}
 
 	
@@ -452,7 +453,7 @@ void WEB_Rank::WRefresh()
 			MISD(vListe[i].ID);
 			waLink = new Wt::WAnchor();
 			waLink->setText("#");
-			waLink->setLink(Wt::WLink(Bro->L_getPMV_WEB_PATH() + Wt::Utils::urlEncode(std::to_string(iRankList) + "_" + vListe[i].ID + ".pmv")));
+			waLink->setLink(Wt::WLink(Bro->L->sPMV_WEB_PATH + Wt::Utils::urlEncode(std::to_string(iRankList) + "_" + vListe[i].ID + ".pmv")));
 			wtTabelle->elementAt(i + 1, 9)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
 		}
 	}	

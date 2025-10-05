@@ -3,6 +3,7 @@
 #include "..\..\incl\Broker.h"
 
 #include "..\..\incl\Utility.h" 
+#include "..\..\incl\LOAD.h" 
 #include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\..\incl\WEB_Analyser\WEB_Rank.h"
 #include "..\..\incl\WEB_Analyser\WEB_Event.h"
@@ -135,7 +136,7 @@ void WEB_Event::WRefresh()
 		case 8:
 			sTeamID = WR->GetTeamID();
 			if (Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes) == 1)
-				WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+				WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 
 			wtStatus->setText("<h3>Hello there " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
 			wtLine1->setText("Time: " + sTime(iTimes[0]));
@@ -143,14 +144,14 @@ void WEB_Event::WRefresh()
 			break;
 		case 9:
 			WR->AddPlayers9();
-			WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + WR->GetPlayerName(WR->getPMVPlayerID()) + "_" + WR->getMapName() + "_" + std::to_string(WR->getReplayHash()) + ".pmv");
+			WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + WR->GetPlayerName(WR->getPMVPlayerID()) + "_" + WR->getMapName() + "_" + std::to_string(WR->getReplayHash()) + ".pmv");
 			wtStatus->setText("<h3>Nice run :-)</h3> ");
 			break;
 
 		case 10:
 			sTeamID = WR->GetTeamID();
 			if (Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes) == 1)
-				WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + WR->GetTeamID() + ".pmv");
+				WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + WR->GetTeamID() + ".pmv");
 
 			wtStatus->setText("<h3>Hello there " + Bro->GetTeamName(sTeamID) + " (" + std::to_string(WR->getReplayHash()) + "), nice run :-)</h3> ");
 			wtLine1->setText("Time: " + sTime(iTimes[0]));
@@ -160,7 +161,7 @@ void WEB_Event::WRefresh()
 		case 11:
 			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
-			if (iSaveReturn == 1) WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + WR->GetPlayerName(WR->getPMVPlayerID()) + ".pmv");
+			if (iSaveReturn == 1) WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + WR->GetPlayerName(WR->getPMVPlayerID()) + ".pmv");
 			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run " + sTeamID + ": -) </h3> ");
 			else wtStatus->setText("<h3>Nice run " + sTeamID + ", but not better </h3> ");
 
@@ -172,14 +173,14 @@ void WEB_Event::WRefresh()
 		case 12:
 			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
 			if (Bro->A_AddPlayer(iEventNr, sTeamID, 0, iTimes) == 1)
-				WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+				WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 
 			wtStatus->setText("<h3>Hello there " + sTeamID + ", nice run : -) </h3> ");
 			break;
 		case 13: //BOT9
 			sTeamID = WR->GetTeamID();
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
-			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) (Ranking shows +/- one rank compared to yours) </h3> ");
 			else wtStatus->setText("<h3>Nice run, but not faster then your currend one (Ranking shows +/- one rank compared to yours) </h3> ");
 			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
@@ -192,7 +193,7 @@ void WEB_Event::WRefresh()
 		case 16: //BOT10
 			sTeamID = Bro->GetTeamName(WR->GetTeamID());
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
-			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
 			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
 			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
@@ -201,7 +202,7 @@ void WEB_Event::WRefresh()
 		case 15: //Canyon
 			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
-			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) (Ranking shows +/- one rank compared to yours) </h3> ");
 			else wtStatus->setText("<h3>Nice run, but not faster then your currend one (Ranking shows +/- one rank compared to yours) </h3> ");
 
@@ -216,7 +217,7 @@ void WEB_Event::WRefresh()
 		case 17: //heart_of_trouble
 			sTeamID = WR->GetPlayerName(WR->getPMVPlayerID());
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
-			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 			//if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -)</h3> ");
 			wtStatus->setText("<h3>Nice run :-) </h3> ");
 
@@ -227,7 +228,7 @@ void WEB_Event::WRefresh()
 		case 18: //4Player
 			sTeamID = Bro->GetTeamName(WR->GetTeamID());
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
-			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
 			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
 
@@ -238,7 +239,7 @@ void WEB_Event::WRefresh()
 		case 19: //BOT11
 			sTeamID = Bro->GetTeamName(WR->GetTeamID());
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
-			if (iSaveReturn == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
 			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
 
@@ -265,7 +266,7 @@ void WEB_Event::WRefresh()
 			sReturn = WR->Kalk_Event14(iTimes);
 		}
 		
-		if (sReturn == "")if (Bro->A_AddPlayer(iEventNrTemp, Bro->GetTeamName(WR->GetTeamID()), WR->getReplayHash(), iTimes, iTimesBestRun) == 1)WR->SaveReplay(Bro->L_getPMV_WEB_PATH() + std::to_string(iEventNrTemp) + "_" + Bro->GetTeamName(WR->GetTeamID()) + ".pmv");
+		if (sReturn == "")if (Bro->A_AddPlayer(iEventNrTemp, Bro->GetTeamName(WR->GetTeamID()), WR->getReplayHash(), iTimes, iTimesBestRun) == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNrTemp) + "_" + Bro->GetTeamName(WR->GetTeamID()) + ".pmv");
 		
 	}
 	Rank->WRefresh();

@@ -4,6 +4,7 @@
 
 #include "..\..\incl\Broker.h" 
 #include "..\..\incl\Utility.h"
+#include "..\..\incl\LOAD.h"
 #include "..\..\incl\WEB\WEB_Main.h"
 #include "..\..\incl\WEB\WEB_Server.h"
 #include "..\..\incl\WEB\WEB_Utility.h"
@@ -79,7 +80,7 @@ WEB_Container_Lotto::WEB_Container_Lotto(const Wt::WEnvironment& env)
 		MISD(i);
 		ToolBarButton(WEB_Toolbar::bToolbar.size(), std::to_string(Weeks[i]->BroWeek->iWeek), *Weeks[i]->cMain, Weeks[i]);
 	}
-	if (sAdmin == Bro->L_getAdminKey())WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Admin", *Admin->cMain, Admin);
+	if (sAdmin == Bro->L->sAdminKey)WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), "Admin", *Admin->cMain, Admin);
 		
 	if(WEB_Toolbar::bToolbar.size()>0)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	WEB_Toolbar::updateToolbar();

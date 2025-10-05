@@ -1,6 +1,8 @@
 #define DF_Debug
 
 #include "..\..\incl\Broker.h"
+#include "..\..\incl\CardBaseSMJ.h"
+#include "..\..\incl\LOAD.h"
 #include "..\..\incl\WEB_Lotto\LottoWeek.h"
 #include "..\..\incl\Utility.h"
 
@@ -16,7 +18,7 @@ bool LottoWeek::bLoadGame(unsigned int _iWeek)
 {
 	MISS;
 	std::string line;
-	std::string sName = Bro->L_getLOTTO_SAVE_PATH() + std::to_string(_iWeek);
+	std::string sName = Bro->L->sLOTTO_SAVE_PATH + std::to_string(_iWeek);
 
 	std::ifstream ifFile;
 	ifFile.open(sName.c_str(), std::ios::binary);
@@ -107,7 +109,7 @@ bool LottoWeek::bSaveGame()
 	MISS;
 
 	std::string line;
-	std::string sName = Bro->L_getLOTTO_SAVE_PATH() + std::to_string(iWeek);
+	std::string sName = Bro->L->sLOTTO_SAVE_PATH + std::to_string(iWeek);
 	
 	std::ofstream ofFile;
 	ofFile.open(sName.c_str(), std::ios::binary);
@@ -276,7 +278,10 @@ bool LottoWeek::PullCard()
 	int iRandome;
 	if (vCardPool.size() == 0)
 	{
-		vCardPool = Bro->J_getSimpelCardPool();
+		for (auto* C : Bro->J->SMJMatrix)vCardPool.push_back(C->cardNameSimple);
+		sort(vCardPool.begin(), vCardPool.end());
+		vCardPool.erase(unique(vCardPool.begin(), vCardPool.end()), vCardPool.end());
+
 		for each(std::string C in vCardsPulled)RemoveFromPool(C);
 	}
 	if (vCardPool.size() == 0)
