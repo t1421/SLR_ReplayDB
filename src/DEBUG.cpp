@@ -33,7 +33,6 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("CardBaseSMJ", "*", "*", "true");				
 		Fill_DBArray("Replay", "*", "*", "true");
 		Fill_DBArray("Reader", "*", "*", "false");
-		Fill_DBArray("Reader", "*", "*", "true");
 		Fill_DBArray("PMV_to_SQL", "*", "*", "true");
 		Fill_DBArray("LOAD", "*", "*", "true");
 		Fill_DBArray("Thread_MIS", "*", "*", "true");

@@ -308,7 +308,7 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 						3,
 						3,
 						Big,
-						int(bool(C->reforged==0 || C->reforged == 2))),
+						! int(bool(C->reforged==0 || C->reforged == 2))),
 						Card_Size_X, Card_Size_Y
 					))));
 				iCol++;
@@ -358,7 +358,7 @@ void WEB_Container_Tome::DrawCard(Wt::WTable* wtTabelle, std::vector<std::unique
 					3,
 					3,
 					Big,
-					int(bool(C->reforged == 0 || C->reforged == 2))),
+					! int(bool(C->reforged == 0 || C->reforged == 2))),
 					Card_Size_X, Card_Size_Y
 				))));
 			if (++iRow == 8)

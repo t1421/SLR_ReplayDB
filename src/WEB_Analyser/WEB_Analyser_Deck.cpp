@@ -82,7 +82,7 @@ unsigned int WEB_Analyser_Deck::drawPlayer(unsigned int iPlayer, unsigned int &i
 			WA->Players[iPlayer]->Deck[i]->Upgrade,
 			tempCharge,
 			Big,
-			WA->Players[iPlayer]->Deck[i]->count //,false
+			WA->Players[iPlayer]->Deck[i]->count == 0 //,false
 		)))));
 		
 		wtTabelle->elementAt(iRow, iCol)->widget(0)->setHeight(Card_Size_Y);
