@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -124,7 +124,7 @@ void WEB_Rank::WRefresh()
 	else vListe = Bro->A_getRankeROW(iRankList);
 	
 	wtTabelle->elementAt(0, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Rank </h4>"))));
-	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Player </h4>"))));	
+	wtTabelle->elementAt(0, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Player / Team </h4>"))));	
 		
 	wtTabelle->columnAt(0)->setWidth(75);
 	wtTabelle->columnAt(1)->setWidth(200);
@@ -539,6 +539,17 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(3)->setWidth(75);  //Time
 		wtTabelle->columnAt(4)->setWidth(75);  //Time
 		wtTabelle->columnAt(5)->setWidth(75);  //Time
+		break;
+	case 18:	
+		wtTabelle->columnAt(0)->setWidth(50);  //Rank
+		wtTabelle->columnAt(1)->setWidth(150); //Player
+		wtTabelle->columnAt(2)->setWidth(75);  //Time
+		wtTabelle->columnAt(3)->setWidth(50);  //Dif
+		wtTabelle->columnAt(4)->setWidth(75);  //Pow Dif
+		wtTabelle->columnAt(5)->setWidth(75);  //P1
+		wtTabelle->columnAt(6)->setWidth(75);  //p2
+		wtTabelle->columnAt(7)->setWidth(75);  //p3
+		wtTabelle->columnAt(8)->setWidth(75);  //p4
 		break;
 	default:
 		break;

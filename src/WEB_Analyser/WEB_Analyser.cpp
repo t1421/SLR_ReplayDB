@@ -1134,13 +1134,13 @@ std::string WEB_Analyser::Kalk_Event18(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->MapName != "XXX.map")return "Wrong Map";
+	if (R->MapName != "TEAM.map")return "Wrong Map";
 	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
 	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	bool isWin = false;
-	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;11104_01_05DestroyTraininglineSourcecamp;1;")isWin = true;
+	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;11104_01_05DestroyTraininglineSourcecampX;1;")isWin = true;
 	if (!isWin)return "Was not a win";
 
 	unsigned int iPlayerCount    = 0;
@@ -1152,7 +1152,7 @@ std::string WEB_Analyser::Kalk_Event18(unsigned long iTimes[RankRowStamps])
 
 		iTimes[3 + iPlayerCount] = usedPower(R->PlayerMatrix[i]->PlayerID);
 		iMaxPower = max(iMaxPower, iTimes[3 + iPlayerCount]);
-		iMinPower = max(iMinPower, iTimes[3 + iPlayerCount]);
+		iMinPower = min(iMinPower, iTimes[3 + iPlayerCount]);
 		iPlayerCount++;
 	}
 	if (iPlayerCount == 4)iTimes[2] = iMaxPower - iMinPower;

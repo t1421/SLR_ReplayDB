@@ -229,8 +229,8 @@ void WEB_Event::WRefresh()
 			sTeamID = Bro->GetTeamName(WR->GetTeamID());
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
 			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
-			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
-			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run " + sTeamID + ": -) </h3> ");
+			else wtStatus->setText("<h3>Nice run " + sTeamID + ", but not faster then your currend one </h3> ");
 
 			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
 			wtLine2->setText("Power Dif: " + std::to_string(iTimes[2]));
