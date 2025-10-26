@@ -29,6 +29,7 @@
 #include "..\incl\WEB_Analyser\WEB_CONTAINER_Analyser.h"
 
 #include "..\incl\WEB_Analyser\WEB_Event.h"
+#include "..\incl\WEB_Analyser\WEB_Quest.h"
 #include "..\incl\WEB_Analyser\WEB_Rank.h"
 #include "..\incl\MIS_Rank.h"
 
@@ -111,6 +112,7 @@ broker::broker()
 	WEB_Container::learnBro(this);
 
 	WEB_Event::learnBro(this);
+	WEB_Quest::learnBro(this);
 	WEB_Rank::learnBro(this);	
 	MIS_Rank::learnBro(this);
 	
@@ -214,6 +216,22 @@ void broker::INIT()
 		
 		ifFile.close();
 	}
+
+
+	///Load Quest Players
+	ifFile.open(L->sRANK_PATH + "QPlayer.csv", std::ios::binary);
+	if (ifFile.good())
+	{
+		while (getline(ifFile, line))
+		{
+			if (INI_Value_Check(line, "P"))
+				QPlayer.push_back(new QuestPlayer(entry(line, 0), entry(line, 1)));
+			if (INI_Value_Check(line, "PQ"))
+				QPlayer[QPlayer.size() - 1]->Stamps.push_back(std::make_pair(entry(line, 0), atoi(entry(line, 0).c_str())));
+		}
+		ifFile.close();
+	}
+	
 }
 
 int broker::A_AddPlayer(unsigned int iRANK, std::string _ID, unsigned long _ReplayID, unsigned long _Stamps[RankRowStamps])
@@ -312,6 +330,25 @@ std::string broker::GetTeamName(std::string sTeamID)
 	saveTeams();
 
 	return sName;
+}
+
+void broker::saveQPlayer()
+{
+	printf("saveQPlayer\n");
+	std::ofstream ofFile;
+	ofFile.open(L->sRANK_PATH + "QPlayer.csv", std::ios::binary);
+	if (ofFile.good())
+	{
+		printf("FILE OK\n");
+		for (auto P : QPlayer)
+		{
+			ofFile << "P="<< P->PlayerID<< ";"<< P->PlayerName<< ";" << std::endl;
+			for (auto Q : P->Stamps)
+				ofFile << "PQ=" << Q.first<< ";" << Q.second << ";" << std::endl;
+		}		
+		ofFile.close();
+	}
+	else printf("XXX\n");
 }
 
 #endif

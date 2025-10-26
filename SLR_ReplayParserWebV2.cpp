@@ -23,6 +23,7 @@ int main(int argc, char **argv)
 	L->teachL();
 	L->StartUp();
 	L->Load_Settings("Private.ini");
+	L->Load_Settings("Quest.ini");
 
 	MISD(Bro->L_getRANK_PATH());
 	

@@ -58,6 +58,7 @@ public:
 	int iCoolDown;
 	
 	int iTOME_REFORGE;
+	int iQuest;
 
 	unsigned long iSRFileVersion;
 	unsigned long iSRGameVersion;
@@ -65,6 +66,7 @@ public:
 	std::string sSetting;
 
 	EventData Events[EventsMax];
+	std::vector<EventData*> Quests;
 	
 	void Load_Settings(std::string sName);
 

@@ -182,6 +182,7 @@
     <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Head.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Container_Analyser.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Event.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Quest.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Rank.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +206,7 @@
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Head.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Container_Analyser.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Event.h" />
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Quest.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Rank.h" />
   </ItemGroup>
   <ItemGroup>

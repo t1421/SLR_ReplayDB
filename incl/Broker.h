@@ -45,6 +45,7 @@ class Quiz;
 struct Tome_Booster;
 struct SMJCard;
 struct ROW;
+struct QuestPlayer;
 
 class broker
 {
@@ -60,7 +61,7 @@ public:
 	CardBaseSMJ *J;
 	MIS_Rank* A[EventsMax];
 	Challonge* C;
-	Quiz* Q;
+	Quiz* Q;	
 
 	broker* Bro;
 
@@ -94,6 +95,9 @@ public:
 	std::string GetTeamName(std::string sTeamID);
 	void saveTeams();
 	std::vector<std::pair<std::string, std::string>> TeamNames;
+
+	std::vector< QuestPlayer*> QPlayer;
+	void broker::saveQPlayer();
 #endif
 
 	void B_StatusNew(std::string Fun, std::string Wert);

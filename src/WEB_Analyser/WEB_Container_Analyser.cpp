@@ -8,6 +8,7 @@
 #include "..\..\incl\WEB_Analyser\WEB_Analyser.h"
 #include "..\..\incl\WEB_Analyser\WEB_CONTAINER_Analyser.h"
 #include "..\..\incl\WEB_Analyser\WEB_Event.h"
+#include "..\..\incl\WEB_Analyser\WEB_Quest.h"
 
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WText.h>
@@ -58,6 +59,8 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	MISD("#3");	
 	for(unsigned int i = 0; i < EventsMax; i++)Events[i] = new WEB_Event(this, i);
 
+	if (Bro->L->iQuest == 1)Quest = new WEB_Quest(this);
+
 	wfuDropZone = new Wt::WFileUpload();
 	wtStatus = new Wt::WText("Waiting for Replay");
 	
@@ -91,6 +94,8 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	for (unsigned int i = 0; i < EventsMax; i++)
 		if (Bro->L_getEventRankMode(i) < 10 || sEvent == Bro->L_getEventName(i) || WA_Admin)
 			WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), Bro->L_getEventName(i), *Events[i]->cMain, Events[i]);
+
+	if (Bro->L->iQuest == 1)ToolBarButton(WEB_Toolbar::bToolbar.size(), "Quest", *Quest->cMain, Quest);
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);

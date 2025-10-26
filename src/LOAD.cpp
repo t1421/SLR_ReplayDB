@@ -81,6 +81,7 @@ void LOAD::Load_Settings(std::string sName)
 
 			if (INI_Value_Check(line, "TOME_REFORGE"))iTOME_REFORGE = atoi(line.c_str());
 
+			if (INI_Value_Check(line, "Quest"))iQuest = atoi(line.c_str());
 
 			for (unsigned int i = 0; i < EventsMax; i++)
 				if (INI_Value_Check(line, "Event" + std::to_string(i)))
@@ -91,6 +92,14 @@ void LOAD::Load_Settings(std::string sName)
 					Events[i].Hide = atoi(entry(line.c_str(), 3).c_str());
 					Events[i].RankType = atoi(entry(line.c_str(), 4).c_str());
 				}
+
+			if (Checker(line, "Q"))
+			{
+				Quests.push_back(new EventData(
+					atoi(entry(line.c_str(), 0).c_str()),
+					entry(line.c_str(), 1),
+					entry(line.c_str(), 2)));				
+			}
 
 			ifFile.clear();
 		}

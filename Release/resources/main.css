@@ -90,6 +90,11 @@ background-color: #99DD99 !important;
 color: #111111 !important;
 }
 
+.black{
+background-color: #000000 !important;
+color: #111111 !important;
+}
+
 .red{
 background-color: #DD9999 !important;
 color: #111111 !important;
@@ -102,4 +107,10 @@ color: #111111 !important;
 
 .yReforge {
     border: 1px solid #99DD99 !important;
+}
+
+
+.Wt-itemview{
+background-color: #000000 !important;
+color: #555555 !important;
 }

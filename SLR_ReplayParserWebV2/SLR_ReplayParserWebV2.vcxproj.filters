@@ -91,6 +91,9 @@
       <Filter>Quelldateien\Analyser</Filter>
     </ClCompile>
     <ClCompile Include="..\SLR_ReplayParserWebV2.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Quest.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h">
@@ -154,6 +157,9 @@
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Event.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Quest.h">
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
   </ItemGroup>

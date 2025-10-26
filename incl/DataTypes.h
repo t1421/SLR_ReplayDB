@@ -3,6 +3,7 @@
 
 #if defined BrokerTome || defined BrokerWeb
 #include <Wt/WCheckBox.h>
+#include <algorithm>
 #endif
 
 #if defined BrokerLotto
@@ -187,6 +188,34 @@ struct EventData
 	int End;
 	int Hide;
 	unsigned int RankType;
+	std::string Link;
+	unsigned int ID;
+
+	EventData() {};
+
+	EventData(unsigned int _ID, std::string _Name, std::string _Link) :
+		ID(_ID), Name(_Name), Link(_Link) {};
+};
+
+struct QuestPlayer {
+	QuestPlayer() {};
+	QuestPlayer(std::string _PlayerID, std::string _PlayerName) :PlayerID(_PlayerID), PlayerName(_PlayerName) {};
+	std::string PlayerID;
+	std::string PlayerName;
+	std::vector<std::pair<std::string, unsigned long long>> Stamps;
+	bool UpdateEvent(std::string Event, unsigned long long Time)
+	{
+		for(auto E : Stamps)
+			if (E.first == Event)
+			{
+				if (E.second > Time) return false;
+				E.second = Time;
+				return true;
+			}
+
+		Stamps.push_back(std::make_pair(Event, Time));
+		return true;
+	};
 };
 
 #endif //DataTypes

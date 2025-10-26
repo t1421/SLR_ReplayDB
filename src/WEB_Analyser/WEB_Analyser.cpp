@@ -587,8 +587,8 @@ std::string WEB_Analyser::Kalk_Event0(unsigned long iTimes[RankRowStamps],std::s
 	
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
 	if (R->MapName != sMapName)return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!Check_MIS_WIN() )return "Was not a win";
@@ -1276,6 +1276,27 @@ std::string WEB_Analyser::GetPlayModeName()
 	case 2: return "PvP";
 	}
 	return "unknow";
+}
+
+std::vector<unsigned long long> WEB_Analyser::ActivePlayers()
+{
+	MISS;
+
+	std::vector<unsigned long long> vReturn;
+	bool skip;
+
+	for (auto P : Players)
+	{
+		if (P->Type != 1)continue;
+
+		skip = false;
+		for (auto A : R->ActionMatrix)if (A->Type == 4002 && A->PlayerID == P->PlayerID)skip = true;
+		if (skip)continue;
+
+		vReturn.push_back(P->PlayerID);
+	}
+	MISE;
+	return vReturn;
 }
 #endif
 

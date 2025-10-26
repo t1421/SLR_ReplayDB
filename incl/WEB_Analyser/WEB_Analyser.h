@@ -85,6 +85,7 @@ public:
 	std::string Kalk_Event19(unsigned long iTimes[RankRowStamps]);
 
 	void AddPlayers9();
+	std::vector<unsigned long long> ActivePlayers();
 #endif
 
 	std::vector <std::pair<unsigned long, unsigned long>> EventBuildings10;
