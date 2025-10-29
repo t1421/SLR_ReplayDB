@@ -107,6 +107,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Manager", "SetActionsPerSec", "<--", "false");
 		Fill_DBArray("Manager", "AddActionPerSec", "*", "false");
 		Fill_DBArray("Manager", "UpdateFiles", "*", "false");
+		Fill_DBArray("Manager", "SetLastPlayCard", "*", "false");
+		Fill_DBArray("Manager", "UpdateLastPlayStack", "*", "false");
 		Fill_DBArray("SQL_MIS_New", "send", "*", "false");
 		Fill_DBArray("SQL_MIS_New", "clearString", "*", "false");
 		Fill_DBArray("SQL_MIS_New", "SendBLOB", "*", "false");	

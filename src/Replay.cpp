@@ -283,13 +283,8 @@ bool Replay::ReadActions()
 			switch (Action_TEMP->Type)
 			{
 			case 4001: //SLR-TEAM: 4001 - Irrelevant (Ist bei mir einfach auskommentiert)
-				MISERROR(FileName);
-				MISERROR(sTime(Action_TEMP->Time) + "#" +
-					std::to_string(Action_TEMP->Type) + "#" +
-					std::to_string(Action_TEMP->Position) + " # " +
-					std::to_string(MainSize) +
-					" ???");
-				PMVPosition = SollPos;
+				       //MIS: Somthing with Player left in PVP
+				Action_TEMP->PlayerID = readUnsignedLongLong();
 				break;
 				///###
 			case 4002: //leave game		
@@ -813,7 +808,7 @@ bool Replay::ReadActions()
 #endif
 			default:
 				MISERROR(FileName);
-				MISERROR(sTime(Action_TEMP->Time) + "#" +
+				MISERROR("default" + sTime(Action_TEMP->Time) + "#" +
 					std::to_string(Action_TEMP->Type) + "#" +
 					std::to_string(PMVPosition) + " # " +
 					std::to_string(MainSize) +
