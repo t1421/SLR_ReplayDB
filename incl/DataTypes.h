@@ -143,6 +143,7 @@ struct SMJCard {
 	char promo;
 	std::vector <int> vBoosters;
 	int reforged;
+	unsigned char movementType;
 
 	SMJCard():reforged(0){};
 	SMJCard(unsigned short _cardId) :cardId(_cardId), reforged(0) {};

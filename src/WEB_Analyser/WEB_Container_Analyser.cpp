@@ -102,6 +102,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Acti", *this->Acti->cMain, this->Acti);
 	
 	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
+	if (Bro->L->iQuest == 1)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 	for (unsigned int i = 0; i < EventsMax; i++)
 		if (Bro->L_getEventRankMode(i) < 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 

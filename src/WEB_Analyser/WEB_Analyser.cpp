@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -605,8 +605,8 @@ std::string WEB_Analyser::Kalk_Event2(unsigned long iTimes[RankRowStamps])
 
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
 	if (R->MapName != "sss2.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!Check_MIS_WIN())return "Was not a win";
@@ -623,8 +623,8 @@ std::string WEB_Analyser::Kalk_Event3(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
 	if (R->MapName != "sss3.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!Check_MIS_WIN())return "Was not a win";
@@ -647,8 +647,8 @@ std::string WEB_Analyser::Kalk_Event5(unsigned long iTimes[RankRowStamps], Wt::C
 	MISS;
 	chart->setHidden(true);
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
 	if (R->MapName != "sss5.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!Check_MIS_WIN())return "Was not a win";
@@ -706,8 +706,8 @@ std::string WEB_Analyser::Kalk_Event7(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
 	if (R->MapName != "sss7.map")return "Wrong Map";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (!Check_MIS_WIN())return "Was not a win";
@@ -733,7 +733,12 @@ std::string WEB_Analyser::Kalk_Event7(unsigned long iTimes[RankRowStamps])
 
 bool WEB_Analyser::Check_MIS_WIN()
 {
-	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_WIN;1;")return true;
+	return Check_WIN("4;MIS_WIN;1;");
+}
+
+bool WEB_Analyser::Check_WIN(std::string Action)
+{
+	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == Action)return true;
 	return false;
 }
 
@@ -1300,6 +1305,383 @@ std::vector<unsigned long long> WEB_Analyser::ActivePlayers()
 }
 #endif
 
+std::string WEB_Analyser::Kalk_CCC2(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "ccc - the besieged forge.map")return "Wrong Map";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;DefeatTheirLeader;1;"))return "No Win";
+	if (R->DifficultyID != 2)return "Wrong Difficulty";	
+	if (R->TestStriker())return "please do not abuse your power";
+
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_CCC4(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "12101_PvE_01p_Mo.map")return "Wrong Map";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;12101_03_04_DestroyRavens;1;"))return "No Win";
+	if (R->DifficultyID != 3)return "Wrong Difficulty";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	unsigned int iCards = 0;
+	unsigned int iPoints= 0;
+	for(auto P : R->PlayerMatrix)
+		for (auto C : P->Deck)
+		{			
+			iPoints += Bro->J->GetSMJCard(C->CardID)->rarity + 1;
+			//MISD(std::to_string(C->CardID) + " # " + std::to_string(iPoints));
+			iCards++;
+			if (iCards > 15)return "More then 15 cards";
+		}
+
+	iTimes[0] = getPlaytime();
+	iTimes[1] = iPoints;
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_CCC5(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "pve_oracle_ccc.map")return "Wrong Map";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;12103_03_03_KillUmbabwe;1;"))return "No Win";
+	if (R->DifficultyID != 3)return "Wrong Difficulty";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_CCC6(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "pve_introduction_ccc_6.map")return "Wrong Map";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;CCC06_06_01DefeatBoss;1;"))return "No Win"; /////////////////////////////////////////////
+	if (R->DifficultyID != 1)return "Wrong Difficulty";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	for (auto P : R->PlayerMatrix)
+		for (auto C : P->Deck)		
+			if (C->CardID != 303 &&
+				C->CardID != 305 &&
+				C->CardID != 345 &&
+				C->CardID != 442 &&
+				C->CardID != 816 &&
+				C->CardID != 421 &&
+				C->CardID != 407)return "Not alowed Card: " + std::to_string(C->CardID);
+		
+
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_CCC10(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "11200_pve_02p_crusade.map")return "Wrong Map";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;11200_01_02DefendMagnus;1;"))return "No Win"; /////////////////////////////////////////////
+	if (R->DifficultyID != 3)return "Wrong Difficulty";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	unsigned int Ash = 0;
+	unsigned int Mag = 0;
+	for (auto P : R->PlayerMatrix)
+		for (auto C : P->Deck)
+		{
+			if (C->CardID != 819 &&
+				C->CardID != 379 &&
+				C->CardID != 408)return "Not alowed Card: " + std::to_string(C->CardID);
+			if (C->CardID == 819 && C->count > 0)Mag++;
+			if (C->CardID == 408 && C->count > 0)Ash++;
+		}
+
+	if (Ash != 0 && Mag != 0)return "Only one of the two cards";
+
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_BOT01(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "11105_PvE_01p_EncountersWithTwilight.map")return "Wrong Map";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;11105_02_03EndBoss;1;"))return "No Win";
+	if (R->DifficultyID != 3)return "Wrong Difficulty";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	unsigned int iPoints = 0;
+	for (auto A : R->ActionMatrix)
+		if (A->Type != 4045)iPoints++;
+		
+	iTimes[1] = iPoints;
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_BOT02(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+
+	SMJCard* SM;
+
+	if (!R->OK)return "No Replay";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "11104_PvE_01p_BehindEnemyLines.map")return "Wrong Map";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;11104_01_05DestroyTraininglineSourcecamp;1;"))return "No Win";
+	if (R->DifficultyID != 2)return "Wrong Difficulty";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	unsigned int iTier[5] = { 0 };
+	unsigned int iTyp[3] = { 0 };
+	unsigned int iColor[10] = { 0 };
+
+	unsigned int iPlayed = 0;
+
+	//for (auto P : R->PlayerMatrix)
+		//for (auto C : P->Deck)
+	
+		for (auto C : Players[0]->Deck)
+		{
+			//MISD(std::to_string(C->CardID) + " # " + std::to_string(C->count));
+
+			if (C->count > 0) iPlayed++;
+			else continue;
+
+			SM = Bro->J->GetSMJCard(C->CardID);
+			iTier[SM->orbsTotal]++;
+			iTyp[SM->type]++;
+			if (SM->color >= 0)iColor[SM->color]++;
+
+			//MISD(std::to_string(C->CardID) + " # " + std::to_string(SM->orbsTotal));
+		}
+	
+
+	if (iPlayed != 16)return "Play all 16 Cards " + std::to_string(iPlayed);
+
+	if (iTier[1] != 4 ||
+		iTier[2] != 4 ||
+		iTier[3] != 4 ||
+		iTier[4] != 4) return "4 Cards per Tier";
+
+	if (!(iTyp[0] >= 5 && iTyp[0] <= 6 &&
+		iTyp[1] >= 5 && iTyp[1] <= 6 &&
+		iTyp[2] >= 5 && iTyp[2] <= 6))return "5 + 1 wild per Type";
+
+	if (iColor[0] == 4 &&
+		iColor[1] == 4 &&
+		iColor[2] == 4 &&
+		iColor[3] == 4) iTimes[1] = 1;
+
+	if (iColor[0] == 2 &&
+		iColor[1] == 2 &&
+		iColor[2] == 2 &&
+		iColor[3] == 2 &&
+		iColor[4] == 2 &&
+		iColor[5] == 2 &&
+		iColor[6] == 2 &&
+		iColor[7] == 2) iTimes[1] = 2;
+
+	if (iTimes[1] == 0)return "Colour error";
+
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_BOT03(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "11101_PvE_01p_TugOfWar.map")return "Wrong Map";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;11105_02_03EndBoss;1;"))return "No Win";
+	if (R->DifficultyID != 1)return "Wrong Difficulty";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	//Fix first Well
+	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
+	{
+		if (R->ActionMatrix[i]->Type != 4031)continue;
+		R->ActionMatrix[i]->AdditionalInfo = R->ActionMatrix[i]->AdditionalInfo + ";4555";
+		break;
+	}
+
+	//Add Starting wells
+	Action* Action_TEMP;
+	for (unsigned int i = 0; i < 3; i++)
+	{
+		Action_TEMP = new Action;
+		Action_TEMP->Time = 0;
+		Action_TEMP->Type = 4030;
+		//Action_TEMP->ActionPlayer = R->PlayerMatrix[Player]->ActionPlayer;
+		Action_TEMP->AdditionalInfo = std::to_string(4550 + i);
+		R->ActionMatrix.insert(R->ActionMatrix.begin(), Action_TEMP);
+	}
+
+	unsigned int maxOrb = 0;
+	unsigned int maxWell = 0;
+	
+	std::vector<unsigned int> iOrbs;
+	std::vector<unsigned int> iWells;
+
+	unsigned int iTime = 0;
+	for (auto A : R->ActionMatrix)
+	{
+		if (A->Type != 4030 && A->Type != 4031)continue;
+
+		if (A->Type == 4031)iOrbs.push_back(atoi(entry(A->AdditionalInfo, 1).c_str()));		
+		if (A->Type == 4030)iWells.push_back(atoi(A->AdditionalInfo.c_str()));
+
+		std::sort(iOrbs.begin(), iOrbs.end());
+		std::sort(iWells.begin(), iWells.end());
+		iOrbs.erase(std::unique(iOrbs.begin(), iOrbs.end()), iOrbs.end());
+		iWells.erase(std::unique(iWells.begin(), iWells.end()), iWells.end());
+
+		if (iOrbs.size() > maxOrb)iTime = A->Time;
+		if (iWells.size() > maxWell)iTime = A->Time;
+
+		maxOrb = iOrbs.size();
+		maxWell = iWells.size();
+
+	}
+	
+	MISD(maxWell);
+	if (maxOrb != 4) return "not all Orbs";
+	if (maxWell != 20) return "not all Wells";
+
+	iTimes[0] = iTime;
+
+	MISE;
+	return "";
+}
+
+
+std::string WEB_Analyser::Kalk_BOT04(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+
+	SMJCard* SM;
+	unsigned int iCount;
+
+	std::vector<std::string> SimpelName;
+
+	if (!R->OK)return "No Replay";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "11441_pve_12p_passagetodarkness.map")return "Wrong Map";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;11103_01_04Lightning;1;"))return "No Win";
+	if (R->DifficultyID != 2)return "Wrong Difficulty";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	MISD(Players[0]->Name);
+	for (auto C : Players[0]->Deck)
+	{
+		//Only Played Cards
+		if (C->count <= 0) continue;
+
+		iCount = 0;
+		//Def. Count has TW Switch, so new calc
+		for (unsigned int j = 0; j < R->ActionMatrix.size(); j++)
+		{
+			if (R->ActionMatrix[j]->PlayerID != Players[0]->PlayerID)continue;
+			if (R->ActionMatrix[j]->Card != C->CardID)continue;
+			if (R->ActionMatrix[j]->Type != 4012 //Building
+				&& R->ActionMatrix[j]->Type != 4011 //Spell 2
+				&& R->ActionMatrix[j]->Type != 4010 //Spell 1
+				&& R->ActionMatrix[j]->Type != 4009 //Unit
+				)continue;
+
+			iCount++;
+		}
+
+		if (iCount > 1)return "Card Played more then once";
+
+		SM = Bro->J->GetSMJCard(C->CardID);
+		if (SM->color != 6)return "A non TW Card has been played";
+		if (SM->movementType == 1)return "No Flyers";
+		
+		for (auto CC : SimpelName)if (CC == SM->cardNameSimple) return "only one affinity allowed";
+		SimpelName.push_back(SM->cardNameSimple);
+	}
+		
+
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_BOT06(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+
+	SMJCard* SM;
+	unsigned int iCount;
+
+	std::vector<std::string> SimpelName;
+
+	if (!R->OK)return "No Replay";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "battle_of_tactics_6.map" &&
+		R->MapName != "bot6.map")return "Wrong Map";
+	if (!Check_WIN("4;CrystalWhite;1;"))return "No Win";
+	if (!Check_WIN("4;CrystalRed;1;"))return "No Win";
+	if (!Check_WIN("4;CrystalMagenta;1;"))return "No Win";
+	if (!Check_WIN("4;CrystalYellow;1;"))return "No Win";
+	if (!Check_WIN("4;CrystalGreen;1;"))return "No Win";
+	if (!Check_WIN("4;CrystalBlack;1;"))return "No Win";
+	if (!Check_WIN("4;CrystalCyan;1;"))return "No Win";
+	if (!Check_WIN("4;CrystalBlue;1;"))return "No Win";
+	if (R->DifficultyID != 1)return "Wrong Difficulty";
+	if (R->TestStriker())return "please do not abuse your power";
+
+	MISD(Players[0]->Name);
+	for (auto C : Players[0]->Deck)
+	{
+		if (C->count <= 0) continue;
+		if (Bro->J->GetSMJCard(C->CardID)->color == -1)return "no colourles cards";
+	}
+
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
 
 #if defined BrokerLotto
 Lotto_Player *WEB_Analyser::getLottoPlayer()

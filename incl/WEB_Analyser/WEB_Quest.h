@@ -17,6 +17,8 @@ public:
 
 	WEB_Quest(WEB_Analyser *WR_);
 	void WRefresh();
+	std::string sToolTipp(unsigned int in, unsigned long long Number);
+	bool Add_Player_to_Quest(std::string sEvent, unsigned long long iValue);
 
 
 	Wt::WLineEdit* filterEdit;

@@ -165,5 +165,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Release\Settings.ini" />
+    <None Include="..\Release\Quest.ini" />
   </ItemGroup>
 </Project>

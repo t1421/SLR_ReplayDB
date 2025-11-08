@@ -100,6 +100,7 @@ bool CardBaseSMJ::Init()
 		SMJCard_TEMP->cardNameSimple = Card["cardNameSimple"].asString();
 		SMJCard_TEMP->rarity = Card["rarity"].asInt();
 		SMJCard_TEMP->promo = Card["promo"].asInt();
+		SMJCard_TEMP->movementType = Card["movementType"].asInt();
 		
 		
 		

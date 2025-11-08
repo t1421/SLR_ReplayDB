@@ -210,6 +210,7 @@
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Rank.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Release\Quest.ini" />
     <None Include="..\Release\Settings.ini" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -227,7 +227,7 @@ void broker::INIT()
 			if (INI_Value_Check(line, "P"))
 				QPlayer.push_back(new QuestPlayer(entry(line, 0), entry(line, 1)));
 			if (INI_Value_Check(line, "PQ"))
-				QPlayer[QPlayer.size() - 1]->Stamps.push_back(std::make_pair(entry(line, 0), atoi(entry(line, 0).c_str())));
+				QPlayer[QPlayer.size() - 1]->Stamps.push_back(std::make_pair(entry(line, 0), atoi(entry(line, 1).c_str())));
 		}
 		ifFile.close();
 	}

@@ -84,6 +84,18 @@ public:
 	std::string Kalk_Event18(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event19(unsigned long iTimes[RankRowStamps]);
 
+	std::string Kalk_CCC2(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_CCC4(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_CCC5(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_CCC6(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_CCC10(unsigned long iTimes[RankRowStamps]);
+
+	std::string Kalk_BOT01(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_BOT02(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_BOT03(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_BOT04(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_BOT06(unsigned long iTimes[RankRowStamps]);
+
 	void AddPlayers9();
 	std::vector<unsigned long long> ActivePlayers();
 #endif
@@ -93,6 +105,7 @@ public:
 	std::vector <unsigned long> FreePvPCards;
 
 	bool Check_MIS_WIN();
+	bool Check_WIN(std::string Action);
 	unsigned long long usedPower();
 	unsigned long long usedPower(unsigned long long _PlayerID);
 

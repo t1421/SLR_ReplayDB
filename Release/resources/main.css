@@ -89,6 +89,10 @@ position: absolute;
 background-color: #99DD99 !important;
 color: #111111 !important;
 }
+.greenFull{
+background-color: #99DD99 !important;
+color: #99DD99 !important;
+}
 
 .black{
 background-color: #000000 !important;
