@@ -434,7 +434,7 @@ unsigned int Tome_Game::AllBoosters()
 	for (unsigned int i = 0; i < vPlayer.size(); i++)
 	{
 		//MISD(std::to_string(vPlayer[i]->vBoosters.size()))
-		iReturn += vPlayer[i]->vBoosters.size();
+		iReturn += vPlayer[i]->iOpendBoostersSum();
 	}
 	MISE;
 	return iReturn;

@@ -39,7 +39,7 @@ void WEB_Tome_PublicPlayers::WRefresh()
 	for (unsigned int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); i++)
 	{
 		wtTabelle->elementAt(i + 1, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->sPlayerName))));
-		if (Bro->vTomeGames[Con->BroGameID]->bTapShowPlayerBoosterOpen)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters.size())))));
+		if (Bro->vTomeGames[Con->BroGameID]->bTapShowPlayerBoosterOpen)wtTabelle->elementAt(i + 1, 1)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->iOpendBoostersSum())))));
 		if (Bro->vTomeGames[Con->BroGameID]->bTapShowPlayerBoosterMax)wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->iMaxBoostersSum())))));
 	}
 

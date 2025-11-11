@@ -1,4 +1,4 @@
-#define DF_Debug
+//#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -1303,7 +1303,7 @@ std::vector<unsigned long long> WEB_Analyser::ActivePlayers()
 	MISE;
 	return vReturn;
 }
-#endif
+
 
 std::string WEB_Analyser::Kalk_CCC2(unsigned long iTimes[RankRowStamps])
 {
@@ -1682,6 +1682,8 @@ std::string WEB_Analyser::Kalk_BOT06(unsigned long iTimes[RankRowStamps])
 	MISE;
 	return "";
 }
+
+#endif
 
 #if defined BrokerLotto
 Lotto_Player *WEB_Analyser::getLottoPlayer()

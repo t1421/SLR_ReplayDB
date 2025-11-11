@@ -27,6 +27,12 @@ struct Tome_Player
 		for (unsigned int i = 0; i < 5; i++)
 			ReforgeBooster->vCards.push_back(std::make_unique<SMJCard>(0));
 	};
+	unsigned int iOpendBoostersSum()
+	{
+		unsigned int iReturn = 0;
+		for (unsigned int i = 0; i < vBoosters.size(); i++) if (vBoosters[i]->sType != "-91")iReturn++;
+		return iReturn;
+	};
 	unsigned int iMaxBoostersSum()
 	{
 		unsigned int iReturn = 0;

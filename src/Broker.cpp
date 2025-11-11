@@ -139,7 +139,7 @@ broker::broker()
 	
 #endif
 
-#ifdef BrokerNormal	 || defined BrokerPVP || defined BrokerQuiz
+#ifdef BrokerNormal || defined BrokerPVP || defined BrokerQuiz
 	Thread_MIS::learnBro(this);
 #endif
 

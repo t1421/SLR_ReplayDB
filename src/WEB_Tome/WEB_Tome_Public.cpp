@@ -112,7 +112,7 @@ void WEB_Tome_Public::WRefresh()
 
 	for (unsigned int i = 0; i < Bro->vTomeGames[Con->BroGameID]->vPlayer.size(); i++)
 	{
-		isBooster += Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->vBoosters.size();
+		isBooster += Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->iOpendBoostersSum();
 		maxBooster += Bro->vTomeGames[Con->BroGameID]->vPlayer[i]->iMaxBoostersSum();
 	}
 	

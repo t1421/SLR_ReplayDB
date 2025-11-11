@@ -287,7 +287,7 @@ bool Replay::ReadActions()
 				Action_TEMP->PlayerID = readUnsignedLongLong();
 				break;
 				///###
-			case 4002: //leave game		
+			case 4002: //Player Surrender	
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				break;
 				///###

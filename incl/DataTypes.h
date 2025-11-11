@@ -185,9 +185,9 @@ struct ROW {
 struct EventData
 {
 	std::string Name;
-	int Start;
-	int End;
-	int Hide;
+	unsigned long int Start;
+	unsigned long int End;
+	unsigned long int Hide;
 	unsigned int RankType;
 	std::string Link;
 	unsigned int ID;
