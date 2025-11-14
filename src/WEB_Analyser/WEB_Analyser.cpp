@@ -1139,7 +1139,7 @@ std::string WEB_Analyser::Kalk_Event18(unsigned long iTimes[RankRowStamps])
 {
 	MISS;
 	if (!R->OK)return "No Replay";
-	if (R->MapName != "TEAM.map")return "Wrong Map";
+	if (R->MapName != "team.map")return "Wrong Map";
 	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
 	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
