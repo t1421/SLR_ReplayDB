@@ -773,8 +773,8 @@ std::string WEB_Analyser::Kalk_Event8(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "restoringlyr_4.map")return "Wrong Map";
 	if (R->DifficultyID != 2)return "Wrong Difficulty";
-	if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
 	bool bWin = false;
 	for (auto A : R->ActionMatrix)if (A->Type == 4045 && A->AdditionalInfo == "4;Goal5;1;")bWin = true;
 	if (!bWin)return "Was not a win";
@@ -792,8 +792,8 @@ std::string WEB_Analyser::Kalk_Event9()
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "20002_pve_02p_into_the_jungle.map" && R->MapName != "20001_pve_02p_unexpected_visitors.map")return "Wrong Map";
 	if (R->DifficultyID != 2 && R->DifficultyID != 3)return "Wrong Difficulty";
-	if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
 	bool bWin = false;
 	for (auto A : R->ActionMatrix)if (A->Type == 4007 && (  A->AdditionalInfo == "1025" && R->MapName == "20002_pve_02p_into_the_jungle.map"
 		                                                 || A->AdditionalInfo == "1009" && R->MapName == "20001_pve_02p_unexpected_visitors.map"))bWin = true;
@@ -822,8 +822,8 @@ std::string WEB_Analyser::Kalk_Event10(unsigned long iTimes[RankRowStamps])
 	MISD("#1")
 	if (R->MapName != "battle_of_tactics_8.map")return "Wrong Map";
 	if (R->DifficultyID != 2 && !WA_Admin)return "Wrong Difficulty";
-	if (R->FileVersion != 270 && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != 400051 && !WA_Admin)return "Wrong GameVersion";
+	//if (R->FileVersion != 270 && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != 400051 && !WA_Admin)return "Wrong GameVersion";
 	if (!Check_MIS_WIN() && !WA_Admin)return "Was not a win";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
@@ -902,8 +902,8 @@ std::string WEB_Analyser::Kalk_Event11(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "11105_PvE_01p_EncountersWithTwilight.map")return "Wrong Map";
 	if (R->DifficultyID != 2 && !WA_Admin)return "Wrong Difficulty";
-	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	bool isWin = false;
@@ -939,8 +939,8 @@ std::string WEB_Analyser::Kalk_Event12(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "thirsty_journey_home.map")return "Wrong Map";
 	//if (R->DifficultyID != 3)return "Wrong Difficulty";
-	if (R->FileVersion != 270)return "Wrong Client";
-	if (R->GameVersion != 400051)return "Wrong GameVersion";
+	//if (R->FileVersion != 270)return "Wrong Client";
+	//if (R->GameVersion != 400051)return "Wrong GameVersion";
 	if (R->TestStriker())return "please do not abuse your power";
 
 	bool isWin = false;
@@ -948,6 +948,8 @@ std::string WEB_Analyser::Kalk_Event12(unsigned long iTimes[RankRowStamps])
 	if (!isWin)return "Was not a win";
 
 	iTimes[0] = Bro->L_getEEE_Now();
+	iTimes[1] = getPlaytime();
+	iTimes[2] = R->DifficultyID;
 	
 	MISE;
 	return "";
@@ -959,8 +961,8 @@ std::string WEB_Analyser::Kalk_Event13(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "battle_of_tactics_9.map")return "Wrong Map";
 	if (R->DifficultyID != 2 && !WA_Admin)return "Wrong Difficulty";
-	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";	
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";	
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	unsigned int iUnits = 0;
@@ -988,8 +990,8 @@ std::string WEB_Analyser::Kalk_Event14(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "battle_of_tactics_10.map")return "Wrong Map";
 	if (R->PlayModeID != 2)return "Not PvP";
-	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	bool isWin = false;
@@ -1008,8 +1010,8 @@ std::string WEB_Analyser::Kalk_Event16(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "battle_of_tactics_10.map")return "Wrong Map";
 	if (R->PlayModeID != 2)return "Not PvP";
-	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	bool isWin = false;
@@ -1037,8 +1039,8 @@ std::string WEB_Analyser::Kalk_Event15(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "the canyon.map")return "Wrong Map";
 	//if (R->DifficultyID != 3 && !WA_Admin)return "Wrong Difficulty";
-	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	//iTimes[0]          //Play time
@@ -1114,8 +1116,8 @@ std::string WEB_Analyser::Kalk_Event17(unsigned long iTimes[RankRowStamps])
 	MISS;
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "20003_pve_01p_heart_of_trouble.map")return "Wrong Map";
-	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	bool isWin = false;
@@ -1140,8 +1142,8 @@ std::string WEB_Analyser::Kalk_Event18(unsigned long iTimes[RankRowStamps])
 	MISS;
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "team.map")return "Wrong Map";
-	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 
 	bool isWin = false;
@@ -1174,13 +1176,100 @@ std::string WEB_Analyser::Kalk_Event19(unsigned long iTimes[RankRowStamps])
 	MISS;
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "battle_of_tactics_11.map")return "Wrong Map";
-	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 	if (!Check_MIS_WIN() && !WA_Admin)return "Was not a win";
 
 	iTimes[0] = getPlaytime();
 	iTimes[1] = R->DifficultyID;
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event1(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "11203_PvE_02p_NightmareShard.map")return "Wrong Map";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;11203_01_03DestroyCamps;1;"))return "No Win";
+	if (R->DifficultyID != 2 && !WA_Admin)return "Wrong Difficulty";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+
+	if (ActivePlayers().size() != 1)return "not Solo";
+	for each (Player * P in Players)if (P->Type == 1)for each (Card * C in P->Deck)
+	{
+		if ((C->count > 0 && C->CardID == 968) //Enlightenment
+			|| (C->count > 0 && C->CardID == 1589)) //Amii Monument
+			return "Banned Card";
+	}
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event4(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "11104_PvE_01p_BehindEnemyLines.map")return "Wrong Map";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;11104_01_05DestroyTraininglineSourcecamp;1;"))return "No Win";
+	if (R->DifficultyID != 2 && !WA_Admin)return "Wrong Difficulty";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+
+	for each (Player * P in Players)if (P->Type == 1)for each (Card * C in P->Deck)
+	{
+		if ((C->count > 0 && C->CardID == 968) //Enlightenment
+			|| (C->count > 0 && C->CardID == 1589)) //Amii Monument
+			return "Banned Card";
+	}
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event6(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	SMJCard* JJ;
+	int LastColour = - 1;
+
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "12102_PvE_01p_Ocean.map")return "Wrong Map";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	if (R->GameVersion >= 400044)if (!Check_WIN("4;12102_01_10Blight;0;"))return "No Win";
+	if (R->DifficultyID != 2 && !WA_Admin)return "Wrong Difficulty";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+
+	for each (Player * P in Players)if (P->Type == 1)for each (Card * C in P->Deck)
+	{
+		if (C->count = 0)continue;
+		JJ = Bro->J->GetSMJCard(C->CardID);
+
+		if (JJ->color != 0
+			&& JJ->color != 1
+			&& JJ->color != 2
+			&& JJ->color != 3
+			&& JJ->color != -1) return "No Hybrit";
+
+		if (LastColour >= 0 && 
+			JJ->color >= 0 &&
+			LastColour != JJ->color) return "not Mono";
+		LastColour = JJ->color;
+
+		if ((C->count > 0 && C->CardID == 968) //Enlightenment
+			|| (C->count > 0 && C->CardID == 1589)) //Amii Monument
+			return "Banned Card";
+	}
+	iTimes[0] = getPlaytime();
 
 	MISE;
 	return "";

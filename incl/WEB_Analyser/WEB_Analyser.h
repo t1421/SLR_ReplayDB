@@ -66,9 +66,12 @@ public:
 #if defined BrokerWeb
 	//std::string Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event0(unsigned long iTimes[RankRowStamps], std::string sMapName);
+	std::string Kalk_Event1(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event2(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event3(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event4(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event5(unsigned long iTimes[RankRowStamps], Wt::Chart::WCartesianChart *chart);
+	std::string Kalk_Event6(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event7(unsigned long iTimes[RankRowStamps]);
 
 	std::string Kalk_Event8(unsigned long iTimes[RankRowStamps]);

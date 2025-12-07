@@ -93,17 +93,22 @@ WEB_Quest::WEB_Quest(WEB_Analyser *WR_) : WR(WR_)
     MISD("#5");
     proxy->setSourceModel(std::shared_ptr<Wt::WAbstractItemModel>(model));
     proxy->setDynamicSortFilter(true);
-    proxy->setFilterKeyColumn(1);
+    proxy->setFilterKeyColumn(1);    
     proxy->setFilterRole(Wt::ItemDataRole::Display);
 
     MISD("#6");
     table->setModel(std::shared_ptr<Wt::WAbstractItemModel>(proxy));
     table->setSortingEnabled(true);
+    table->sortByColumn(2, Wt::SortOrder::Descending);
     table->setColumnResizeEnabled(true);
     table->setAlternatingRowColors(true);
     table->setSelectionMode(Wt::SelectionMode::Single);
     table->setRowHeight(28);
-    //table->setColumnHidden(0, true);
+    table->setHeight(500);
+    if (!WR->WA_Debug)table->setColumnHidden(0, true);
+    for (unsigned int i = 3; i < proxy->columnCount(); i++)
+        table->setColumnWidth(i,75);
+    
     
 
     MISD("#7");
@@ -111,6 +116,13 @@ WEB_Quest::WEB_Quest(WEB_Analyser *WR_) : WR(WR_)
     layout->addWidget(std::unique_ptr<Wt::WWidget>(std::move(status)));
     layout->addWidget(std::unique_ptr<Wt::WWidget>(std::move(filterEdit)));
     layout->addWidget(std::unique_ptr<Wt::WWidget>(std::move(table)));
+
+    MISD("#8");
+
+    filterEdit->changed().connect([=] {
+        std::regex re = std::regex(".*" + filterEdit->text().toUTF8() + ".*", std::regex_constants::icase | std::regex_constants::ECMAScript);
+        proxy->setFilterRegExp(std::make_unique<std::regex>(std::move(re)));
+        });
 
     MISE;
 }
@@ -140,6 +152,16 @@ void WEB_Quest::WRefresh()
             iValue += iTimes[1] * 100000; //Points
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("101", iValue);
+        }
+
+        sReturn = WR->Kalk_Event11(iTimes);
+        if (sReturn == "")
+        {
+            iValue = 0;
+            iValue += 0 * 100000 * 100000; //NONE
+            iValue += iTimes[2] * 100000; //Deck
+            iValue += iTimes[0] * 1; //Time
+            refresh = refresh || Add_Player_to_Quest("511", iValue);
         }
     }
     if (WR->getMapName() == "11104_PvE_01p_BehindEnemyLines.map")
@@ -193,6 +215,64 @@ void WEB_Quest::WRefresh()
             iValue += 0 * 100000; //NONE
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("106", iValue);
+        }
+    }
+
+    if (WR->getMapName() == "battle_of_tactics_8.map")
+    {
+        std::fill(iTimes, iTimes + RankRowStamps, 0);
+        sReturn = WR->Kalk_Event10(iTimes);
+        if (sReturn == "")
+        {
+            iValue = 0;
+            iValue += 0 * 100000 * 100000; //NONE
+            iValue += iTimes[1] * 100000; //Points
+            iValue += iTimes[0] * 1; //Time
+            refresh = refresh || Add_Player_to_Quest("108", iValue);
+        }
+    }
+
+    if (WR->getMapName() == "battle_of_tactics_9.map")
+    {
+        std::fill(iTimes, iTimes + RankRowStamps, 0);
+        sReturn = WR->Kalk_Event13(iTimes);
+        if (sReturn == "")
+        {
+            iValue = 0;
+            iValue += 0 * 100000 * 100000; //NONE
+            iValue += 0 * 100000; //NONE
+            iValue += iTimes[0] * 1; //Time
+            refresh = refresh || Add_Player_to_Quest("109", iValue);
+        }
+    }
+
+    if (WR->getMapName() == "battle_of_tactics_10.map")
+    {
+        std::fill(iTimes, iTimes + RankRowStamps, 0);
+        sReturn = WR->Kalk_Event16(iTimes);
+        if (sReturn != "")sReturn = WR->Kalk_Event14(iTimes);
+        else iTimes[1] = 1;
+        if (sReturn == "")
+        {
+            iValue = 0;
+            iValue += 0 * 100000 * 100000; //NONE
+            iValue += iTimes[1] * 100000; //PVP
+            iValue += iTimes[0] * 1; //Time
+            refresh = refresh || Add_Player_to_Quest("110", iValue);
+        }
+    }
+
+    if (WR->getMapName() == "battle_of_tactics_11.map")
+    {
+        std::fill(iTimes, iTimes + RankRowStamps, 0);
+        sReturn = WR->Kalk_Event19(iTimes);
+        if (sReturn == "")
+        {
+            iValue = 0;
+            iValue += 0 * 100000 * 100000; //NONE
+            iValue += iTimes[1] * 100000; //DifficultyID
+            iValue += iTimes[0] * 1; //Time
+            refresh = refresh || Add_Player_to_Quest("111", iValue);
         }
     }
 
@@ -370,6 +450,124 @@ void WEB_Quest::WRefresh()
          }
      }
 
+     ///////////////////////////////////////////////////////////////////////////////
+     //Events with no challange
+
+     if (WR->getMapName() == "11203_PvE_02p_NightmareShard.map")
+     {
+         std::fill(iTimes, iTimes + RankRowStamps, 0);
+         sReturn = WR->Kalk_Event1(iTimes);
+         if (sReturn == "")
+         {
+             iValue = 0;
+             iValue += 0 * 100000 * 100000; //NONE
+             iValue += 0 * 100000; //NONE
+             iValue += iTimes[0] * 1; //Time
+             refresh = refresh || Add_Player_to_Quest("401", iValue);
+         }
+     }
+
+     if (WR->getMapName() == "11104_PvE_01p_BehindEnemyLines.map")
+     {
+         std::fill(iTimes, iTimes + RankRowStamps, 0);
+         sReturn = WR->Kalk_Event4(iTimes);
+         if (sReturn == "")
+         {
+             iValue = 0;
+             iValue += 0 * 100000 * 100000; //NONE
+             iValue += 0 * 100000; //NONE
+             iValue += iTimes[0] * 1; //Time
+             refresh = refresh || Add_Player_to_Quest("402", iValue);
+         }
+     }
+
+     if (WR->getMapName() == "12102_PvE_01p_Ocean.map")
+     {
+         std::fill(iTimes, iTimes + RankRowStamps, 0);
+         sReturn = WR->Kalk_Event6(iTimes);
+         if (sReturn == "")
+         {
+             iValue = 0;
+             iValue += 0 * 100000 * 100000; //NONE
+             iValue += 0 * 100000; //NONE
+             iValue += iTimes[0] * 1; //Time
+             refresh = refresh || Add_Player_to_Quest("403", iValue);
+         }
+     }
+
+     if (WR->getMapName() == "thirsty_journey_home.map")
+     {
+         std::fill(iTimes, iTimes + RankRowStamps, 0);
+         sReturn = WR->Kalk_Event12(iTimes);
+         if (sReturn == "")
+         {
+             iValue = 0;
+             iValue += 0 * 100000 * 100000; //NONE
+             iValue += iTimes[2] * 100000; //DifficultyID
+             iValue += iTimes[1] * 1; //Time
+             refresh = refresh || Add_Player_to_Quest("412", iValue);
+         }
+     }
+
+     if (WR->getMapName() == "20003_pve_01p_heart_of_trouble.map")
+     {
+         std::fill(iTimes, iTimes + RankRowStamps, 0);
+         sReturn = WR->Kalk_Event17(iTimes);
+         if (sReturn == "")
+         {
+             iValue = 0;
+             iValue += 0 * 100000 * 100000; //NONE
+             iValue += iTimes[1] * 100000; //DifficultyID
+             iValue += iTimes[0] * 1; //Time
+             refresh = refresh || Add_Player_to_Quest("413", iValue);
+         }
+     }
+
+
+     ///////////////////////////////////////////////////////////////////////////////
+
+     if (WR->getMapName() == "restoringlyr_4.map")
+     {
+         std::fill(iTimes, iTimes + RankRowStamps, 0);
+         sReturn = WR->Kalk_Event8(iTimes);
+         if (sReturn == "")
+         {
+             iValue = 0;
+             iValue += 0 * 100000 * 100000; //NONE
+             iValue += iTimes[1] * 100000; //Power
+             iValue += iTimes[0] * 1; //Time
+             refresh = refresh || Add_Player_to_Quest("505", iValue);
+         }
+     }
+
+     if (WR->getMapName() == "the canyon.map")
+     {
+         std::fill(iTimes, iTimes + RankRowStamps, 0);
+         sReturn = WR->Kalk_Event15(iTimes);
+         if (sReturn == "")
+         {
+             iValue = 0;
+             iValue += 0 * 100000 * 100000; //NONE
+             iValue += iTimes[1] * 100000; //DifficultyID
+             iValue += iTimes[0] * 1; //Time
+             refresh = refresh || Add_Player_to_Quest("512", iValue);
+         }
+     }
+
+     if (WR->getMapName() == "team.map")
+     {
+         std::fill(iTimes, iTimes + RankRowStamps, 0);
+         sReturn = WR->Kalk_Event18(iTimes);
+         if (sReturn == "")
+         {
+             iValue = 0;
+             iValue += 0 * 100000 * 100000; //NONE
+             iValue += iTimes[1] * 100000; //DifficultyID
+             iValue += iTimes[0] * 1; //Time
+             refresh = refresh || Add_Player_to_Quest("513", iValue);
+         }
+     }
+
      if (refresh)status->setText("Events Refreshed");
      else status->setText("Cant fint matching event: " + sReturn);
     
@@ -469,7 +667,9 @@ std::string WEB_Quest::sToolTipp(unsigned int in, unsigned long long Number)
     std::string tt;
     switch (in)
     {
-    
+    case 511:
+        return "Deck: " + std::to_string(Number / 100000)
+            + " Time: " + sTime(Number % 100000);
     case 202:
         return "Points: " + std::to_string(Number / 100000 / 100000)
             + " Time: " + sTime(Number / 100000 % 100000)
@@ -489,10 +689,24 @@ std::string WEB_Quest::sToolTipp(unsigned int in, unsigned long long Number)
     case 206:
         return "Time: " + sTime(Number / 100000)
             + " Power: " + std::to_string(Number % 100000);
+    case 505:
+        return "Power: " + std::to_string(Number / 100000)
+            + " Time: " + sTime(Number % 100000);
     case 304:
     case 101:
     case 102:
+    case 108:
         return "Points: " + std::to_string(Number / 100000)
+            + " Time: " + sTime(Number % 100000);
+    case 110:
+        return "PVP Deck: " + std::to_string(Number / 100000)
+            + " Time: " + sTime(Number % 100000);
+    case 111:
+    case 412:
+    case 413:
+    case 512:
+    case 513:
+        return "Difficulty: " + WR->GetDifficultyName((Number / 100000),1)
             + " Time: " + sTime(Number % 100000);
     //case 302:
     //case 305:
