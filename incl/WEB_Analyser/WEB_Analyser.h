@@ -99,6 +99,8 @@ public:
 	std::string Kalk_BOT04(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_BOT06(unsigned long iTimes[RankRowStamps]);
 
+	std::string Kalk_Bounty01(unsigned long iTimes[RankRowStamps]);
+
 	void AddPlayers9();
 	std::vector<unsigned long long> ActivePlayers();
 #endif

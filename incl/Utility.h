@@ -19,6 +19,7 @@ std::string sTime(unsigned long ulTime);
 std::string sTimeFull(unsigned long ulTime);
 
 std::string entry(std::string Liste, int pos);
+std::string entry(std::string Liste, int pos, std::string delimiter);
 
 unsigned long long STRtoNUM(std::string sIN);
 

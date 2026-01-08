@@ -38,7 +38,7 @@ private:
 	std::vector<std::string> vDeckCodeArray;
 	
 public:
-	unsigned char GetActionOrbForCardID(unsigned short CardID);	
+	unsigned char GetActionOrbForCardID(unsigned short CardID);
 
 	unsigned char SwitchCharges(unsigned short CardID, unsigned char IstCharges);
 	std::string SwitchAffinity(char _Affinity);
@@ -46,6 +46,8 @@ public:
 	std::string SwitchRarity(char _Rarity);
 	SMJCard* GetSMJCard(unsigned short _CardID);
 	unsigned int J_GetSMJPower(unsigned short iCard, unsigned short iUpgrade);
+
+	unsigned short PromoToNormal(unsigned short _CardID);
 
 	void EchoCard(std::string sCardID);
 	std::vector<SMJCard*> SMJMatrix;
@@ -63,6 +65,7 @@ public:
 	void DownloadImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type);
 
 	std::string GetImage(unsigned short CardID, unsigned char Upgrade, unsigned char Charges, SMJPicType _Type, bool bSW);
+	std::string fusionIMG(std::string sIMG1, std::string sIMG2);
 	void ConvertImage(std::string sFile);
 	void AllIMGBig();
 	void AllIMGBigSW();

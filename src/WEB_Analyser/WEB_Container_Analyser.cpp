@@ -9,6 +9,7 @@
 #include "..\..\incl\WEB_Analyser\WEB_CONTAINER_Analyser.h"
 #include "..\..\incl\WEB_Analyser\WEB_Event.h"
 #include "..\..\incl\WEB_Analyser\WEB_Quest.h"
+#include "..\..\incl\WEB_Analyser\WEB_Bounty.h"
 
 #include <Wt/WBootstrapTheme.h> 
 #include <Wt/WText.h>
@@ -60,6 +61,7 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	for(unsigned int i = 0; i < EventsMax; i++)Events[i] = new WEB_Event(this, i);
 
 	if (Bro->L->iQuest == 1)Quest = new WEB_Quest(this);
+	if (Bro->L->iBounty == 1)Bounty = new WEB_Bounty(this);
 
 	wfuDropZone = new Wt::WFileUpload();
 	wtStatus = new Wt::WText("Waiting for Replay");
@@ -92,19 +94,22 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	MISD("#6");	
 
 	for (unsigned int i = 0; i < EventsMax; i++)
-		if (Bro->L_getEventRankMode(i) < 10 || sEvent == Bro->L_getEventName(i) || WA_Admin)
+		if (Bro->L_getEventRankMode(i) < 10 && i != 20 || sEvent == Bro->L_getEventName(i) || WA_Admin)
 			WEB_Toolbar::ToolBarButton(WEB_Toolbar::bToolbar.size(), Bro->L_getEventName(i), *Events[i]->cMain, Events[i]);
 
+	if (Bro->L->iBounty == 1)ToolBarButton(WEB_Toolbar::bToolbar.size(), "Bounty", *Bounty->cMain, Bounty);
 	if (Bro->L->iQuest == 1)ToolBarButton(WEB_Toolbar::bToolbar.size(), "Quest", *Quest->cMain, Quest);
+	
 
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Head", *this->Head->cMain, this->Head);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Deck", *this->Deck->cMain, this->Deck);
 	ToolBarButton(WEB_Toolbar::bToolbar.size(), "Acti", *this->Acti->cMain, this->Acti);
 	
 	WEB_Toolbar::sToolbar->setCurrentIndex(WEB_Toolbar::bToolbar.size() -2);	
-	if (Bro->L->iQuest == 1)WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	if (Bro->L->iBounty == 1)WEB_Toolbar::sToolbar->setCurrentIndex(0);
+	if (Bro->L->iQuest == 1)WEB_Toolbar::sToolbar->setCurrentIndex(0);	
 	for (unsigned int i = 0; i < EventsMax; i++)
-		if (Bro->L_getEventRankMode(i) < 10)WEB_Toolbar::sToolbar->setCurrentIndex(0);
+		if (Bro->L_getEventRankMode(i) < 10 && i != 20)WEB_Toolbar::sToolbar->setCurrentIndex(0);
 
 	WEB_Toolbar::updateToolbar();
 

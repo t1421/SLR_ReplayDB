@@ -98,9 +98,11 @@ bool CardBaseSMJ::Init()
 		SMJCard_TEMP->maxCharges = Card["maxCharges"].asInt();
 		SMJCard_TEMP->affinity = Card["affinity"].asInt();
 		SMJCard_TEMP->cardNameSimple = Card["cardNameSimple"].asString();
+		SMJCard_TEMP->cardSlug = Card["cardSlug"].asString();
 		SMJCard_TEMP->rarity = Card["rarity"].asInt();
 		SMJCard_TEMP->promo = Card["promo"].asInt();
 		SMJCard_TEMP->movementType = Card["movementType"].asInt();
+		
 		
 		
 		
@@ -409,6 +411,27 @@ unsigned char CardBaseSMJ::SwitchCharges(unsigned short CardID, unsigned char Is
 	return 99;
 }
 
+unsigned short CardBaseSMJ::PromoToNormal(unsigned short _CardID)
+{
+	MISS;
+	SMJCard* C = GetSMJCard(_CardID);
+
+	if (C->promo == 0)
+	{
+		MISEA("Not a promo");
+		return _CardID;
+	}
+
+	for(auto CC : SMJMatrix)	
+		if (CC->cardSlug == ReplaceString(C->cardSlug, "-promo", ""))
+		{
+			MISEA("Replace: " + C->cardSlug + " -> " + CC->cardSlug);
+			return CC->cardId;
+		}
+
+	MISEA("Not Found?");
+	return 0;
+}
 
 std::string CardBaseSMJ::SwitchAffinity(char _Affinity)
 {
@@ -668,6 +691,35 @@ void CardBaseSMJ::AllIMGSimpel()
 	}
 
 	MISE;
+}
+
+std::string CardBaseSMJ::fusionIMG(std::string sIMG1, std::string sIMG2)
+{
+	MISS;
+	cv::Mat iIMG1 = cv::imread(GetImage(atoi(sIMG1.c_str()), 0, 0, Small, false), cv::IMREAD_UNCHANGED);
+	cv::Mat iIMG2 = cv::imread(GetImage(atoi(sIMG2.c_str()), 0, 0, Small, false), cv::IMREAD_UNCHANGED);
+	std::string sFile = Bro->L->sFUSION_PATH + sIMG1 + "_" + sIMG2 + ".webp";
+	if (File_exists(sFile))return sFile;
+
+	if (iIMG1.empty())
+	{
+		MISEA("NO IMG")
+		return "";
+	}
+
+	cv::Mat combined(127, 184, iIMG1.type());
+	if (!iIMG1.empty())iIMG1.copyTo(combined(cv::Rect(0, 0, 92, 127)));
+	if (!iIMG2.empty())iIMG2.copyTo(combined(cv::Rect(92, 0, 92, 127)));
+
+	int newWidth = static_cast<int>(combined.cols * static_cast<float>(75) / combined.rows);
+
+	cv::Mat resized;
+	cv::resize(combined, resized, cv::Size(newWidth, 75), 0, 0, cv::INTER_AREA);
+
+	// Speichern
+	cv::imwrite(sFile, resized);
+	MISE;
+	return sFile;
 }
 #endif
 

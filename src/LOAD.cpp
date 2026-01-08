@@ -52,6 +52,7 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "LOTTOPIC_PATH"))sLOTTOPIC_PATH = line.c_str();
 			if (INI_Value_Check(line, "BOOSTER_PATH"))sBOOSTER_PATH = line.c_str();
 			if (INI_Value_Check(line, "MAPPIC_PATH"))sMAPPIC_PATH = line.c_str();
+			if (INI_Value_Check(line, "FUSION_PATH"))sFUSION_PATH = line.c_str();
 			
 			if (INI_Value_Check(line, "LivePvPPMV"))sLivePvPPMV = line.c_str();
 			if (INI_Value_Check(line, "LivePvP_OBS_Export"))sLivePvP_OBS_Export = line.c_str();
@@ -82,6 +83,8 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "TOME_REFORGE"))iTOME_REFORGE = atoi(line.c_str());
 
 			if (INI_Value_Check(line, "Quest"))iQuest = atoi(line.c_str());
+			if (INI_Value_Check(line, "Bounty"))iBounty = atoi(line.c_str());
+			
 
 			for (unsigned int i = 0; i < EventsMax; i++)
 				if (INI_Value_Check(line, "Event" + std::to_string(i)))
@@ -90,7 +93,7 @@ void LOAD::Load_Settings(std::string sName)
 					Events[i].Start = atoi(entry(line.c_str(), 1).c_str());
 					Events[i].End = atoi(entry(line.c_str(), 2).c_str());
 					Events[i].Hide = atoi(entry(line.c_str(), 3).c_str());
-					Events[i].RankType = atoi(entry(line.c_str(), 4).c_str());
+					Events[i].RankType = atoi(entry(line.c_str(), 4).c_str());					
 				}
 
 			if (Checker(line, "Q"))

@@ -73,14 +73,20 @@ std::string sTimeFull(unsigned long ulTime)
 	return cOut;
 }
 
-std::string entry(std::string Liste, int pos)
+
+std::string entry(std::string Liste, int pos, std::string delimiter)
 {
-	if (pos == 0)return Liste.substr(0, Liste.find(";"));
+	if (pos == 0)return Liste.substr(0, Liste.find(delimiter));
 	else
 	{
-		Liste.erase(0, Liste.find(";") + 1);
-		return entry(Liste, pos - 1);
+		Liste.erase(0, Liste.find(delimiter) + 1);
+		return entry(Liste, pos - 1, delimiter);
 	}
+}
+
+std::string entry(std::string Liste, int pos)
+{
+	return entry(Liste, pos, ";");
 }
 
 unsigned long long STRtoNUM(std::string sIN)

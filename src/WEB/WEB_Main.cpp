@@ -52,10 +52,12 @@ void WEB_Main::Init_W()
 		std::string sLog_path = Log_path;
 		sLog_path = sLog_path.append(sThreadName + ".log");
 
-		char *ARGV[3];
+		char *ARGV[5];
 		ARGV[0] = ".";
 		ARGV[1] = "--accesslog";
 		ARGV[2] = (char*)sLog_path.c_str();
+		ARGV[3] = "--docroot ";
+		ARGV[4] = (char*)sLog_path.c_str();
 
 		MISD("#1");
 		W = new Wt::WServer(3, ARGV, "./wt_http_" + sThreadName + ".cfg");

@@ -39,6 +39,7 @@ public:
 	std::string sLOTTOPIC_PATH;
 	std::string sBOOSTER_PATH;
 	std::string sMAPPIC_PATH;
+	std::string sFUSION_PATH;
 
 	std::string sLivePvPPMV;
 	std::string sLivePvP_OBS_Export;
@@ -59,6 +60,7 @@ public:
 	
 	int iTOME_REFORGE;
 	int iQuest;
+	int iBounty;
 
 	unsigned long iSRFileVersion;
 	unsigned long iSRGameVersion;

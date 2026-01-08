@@ -30,6 +30,7 @@
 
 #include "..\incl\WEB_Analyser\WEB_Event.h"
 #include "..\incl\WEB_Analyser\WEB_Quest.h"
+#include "..\incl\WEB_Analyser\WEB_Bounty.h"
 #include "..\incl\WEB_Analyser\WEB_Rank.h"
 #include "..\incl\MIS_Rank.h"
 
@@ -113,6 +114,7 @@ broker::broker()
 
 	WEB_Event::learnBro(this);
 	WEB_Quest::learnBro(this);
+	WEB_Bounty::learnBro(this);
 	WEB_Rank::learnBro(this);	
 	MIS_Rank::learnBro(this);
 	

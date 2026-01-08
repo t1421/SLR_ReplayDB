@@ -180,6 +180,7 @@
     <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Acti.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Deck.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Analyser_Head.cpp" />
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Bounty.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Container_Analyser.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Event.cpp" />
     <ClCompile Include="..\src\WEB_Analyser\WEB_Quest.cpp" />
@@ -204,6 +205,7 @@
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Acti.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Deck.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Analyser_Head.h" />
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Bounty.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Container_Analyser.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Event.h" />
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Quest.h" />

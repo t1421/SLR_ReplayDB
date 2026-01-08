@@ -10,8 +10,6 @@
 #include <fstream>
 #include <algorithm>
 
-#define MaxReplaysPerTeam 1
-
 broker *(MIS_Rank::Bro) = NULL;
 /*
 bool comparePlayer(const ROW * a, const ROW * b)
@@ -34,9 +32,11 @@ bool comparePlayerX(const ROW& a, const ROW& b)
 }
 */
 
-bool comparePlayerFieldID(const ROW * a, const ROW * b) { return atoi(a->ID.c_str()) < atoi(b->ID.c_str()); }
-bool comparePlayerField0(const ROW * a, const ROW * b) { return a->Stamps[0] < b->Stamps[0]; }
-bool comparePlayerField1(const ROW * a, const ROW * b) { return a->Stamps[1] < b->Stamps[1]; }
+bool comparePlayerFieldID(const ROW* a, const ROW * b) { return atoi(a->ID.c_str()) < atoi(b->ID.c_str()); }
+bool comparePlayerField0(const ROW* a, const ROW* b) { return a->Stamps[0] < b->Stamps[0]; }
+bool comparePlayerField1(const ROW* a, const ROW* b) { return a->Stamps[1] < b->Stamps[1]; }
+bool comparePlayerField2(const ROW* a, const ROW* b) { return a->Stamps[2] < b->Stamps[2]; }
+bool comparePlayerField3(const ROW* a, const ROW* b) { return a->Stamps[3] < b->Stamps[3]; }
 bool comparePlayerField0Rev(const ROW * a, const ROW * b) { return a->Stamps[0] > b->Stamps[0]; }
 /*
 bool comparePlayerXField0(const ROW& a, const ROW& b) { return a.Stamps[0] < b.Stamps[0]; }
@@ -192,6 +192,7 @@ MIS_Rank::MIS_Rank(int iRankList): sFile(std::to_string(iRankList) + ".csv"), Ra
 	MISS;
 	MISD("RankList:" + std::to_string(iRankList));
 	RankMode = 90;
+	MaxReplaysPerTeam = 1;	
 	//Load List
 	std::string line;
 	ROW* R_Temp;
@@ -297,8 +298,11 @@ void MIS_Rank::SortList()
 		std::sort(RankRows.begin(), RankRows.end(), compare_0LH_1HL_2HL);
 		break;
 	case 14:
-	case 16:	
+	case 16:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0);
+		break;
+	case 20:
+		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField2);
 		break;		
 	default:
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerFieldStage);

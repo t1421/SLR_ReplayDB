@@ -14,6 +14,7 @@
 
 class WEB_Event;
 class WEB_Quest;
+class WEB_Bounty;
 
 class WEB_Container : public Wt::WApplication, public WEB_Toolbar, public WEB_Analyser
 
@@ -36,6 +37,7 @@ private:
 
 	WEB_Quest *Quest;
 	WEB_Event *Events[EventsMax];
+	WEB_Bounty* Bounty;
 	Wt::WFileUpload  *wfuDropZone;
 	Wt::WText		 *wtStatus;
 	Wt::WContainerWidget *GlobaelContainer;

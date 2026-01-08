@@ -24,6 +24,7 @@ public:
 	std::vector<ROW> getRankeROW(std::string _ID_Filter);
 	int RankMode;
 	int RankList;
+	unsigned int MaxReplaysPerTeam;
 
 	std::vector<ROW*> RankRows;
 	

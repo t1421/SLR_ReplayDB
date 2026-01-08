@@ -121,6 +121,7 @@ struct SMJCard {
 	std::string SMJid;
 	std::string cardName;
 	std::string cardNameSimple;
+	std::string cardSlug;
 	std::string DeckCodeId;
 	char color;
 	unsigned char orbsTotal;

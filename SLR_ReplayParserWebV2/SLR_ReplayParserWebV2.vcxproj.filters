@@ -94,6 +94,9 @@
     <ClCompile Include="..\src\WEB_Analyser\WEB_Quest.cpp">
       <Filter>Quelldateien\Analyser</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\WEB_Analyser\WEB_Bounty.cpp">
+      <Filter>Quelldateien\Analyser</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\incl\Broker.h">
@@ -160,6 +163,9 @@
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
     <ClInclude Include="..\incl\WEB_Analyser\WEB_Quest.h">
+      <Filter>Headerdateien\Analyser</Filter>
+    </ClInclude>
+    <ClInclude Include="..\incl\WEB_Analyser\WEB_Bounty.h">
       <Filter>Headerdateien\Analyser</Filter>
     </ClInclude>
   </ItemGroup>

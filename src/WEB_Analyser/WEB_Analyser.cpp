@@ -442,7 +442,6 @@ void  WEB_Analyser::AddIMG(Wt::WTableCell* wtCell, bool bValue)
 {
 	wtCell->setHeight(BOT4_IMG_SIZE);
 	wtCell->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage("./resources/" + std::to_string(bValue) + ".png"))));
-	//widget(0))->setImageLink("./resources/1.png");
 	wtCell->widget(0)->setHeight(BOT4_IMG_SIZE);
 	wtCell->widget(0)->setWidth(BOT4_IMG_SIZE);
 	wtCell->widget(0)->resize(BOT4_IMG_SIZE, BOT4_IMG_SIZE);
@@ -1617,9 +1616,13 @@ std::string WEB_Analyser::Kalk_BOT03(unsigned long iTimes[RankRowStamps])
 	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
 	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
 	if (R->MapName != "11101_PvE_01p_TugOfWar.map")return "Wrong Map";
-	if (R->GameVersion >= 400044)if (!Check_WIN("4;11105_02_03EndBoss;1;"))return "No Win";
+	//if (R->GameVersion >= 400044)if (!Check_WIN("4;11105_02_03EndBoss;1;"))return "No Win";
 	if (R->DifficultyID != 1)return "Wrong Difficulty";
 	if (R->TestStriker())return "please do not abuse your power";
+
+	bool win = false;
+	for (auto A : R->ActionMatrix)if (A->Type == 4007 && A->AdditionalInfo == "459")win = true;
+	if(!win)return "No Win";
 
 	//Fix first Well
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
@@ -1767,6 +1770,43 @@ std::string WEB_Analyser::Kalk_BOT06(unsigned long iTimes[RankRowStamps])
 	}
 
 	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+
+std::string WEB_Analyser::Kalk_Bounty01(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+
+	std::vector<unsigned short> cards;
+
+	if (!R->OK)return "No Replay";
+	if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
+	if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
+	if (R->MapName != "soultreestarttrainer.map")return "Wrong Map";
+	if (R->DifficultyID != 3)return "Wrong Difficulty";
+	if (!Check_MIS_WIN())return "Was not a win";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+
+	for (auto A : R->ActionMatrix)
+	{
+		if (A->Type == 4009 ||
+			A->Type == 4010 ||
+			A->Type == 4011 ||
+			A->Type == 4012)cards.push_back(A->Card);
+	}
+
+	std::sort(cards.begin(), cards.end());
+	cards.erase(std::unique(cards.begin(), cards.end()), cards.end());
+
+	if(cards.size() >2)return "More then 2 cards";
+	
+	if (cards.size() > 0)iTimes[0] = Bro->J->PromoToNormal(cards[0]);
+	if (cards.size() > 1)iTimes[1] = Bro->J->PromoToNormal(cards[1]);
+	iTimes[2] = getPlaytime();
+	iTimes[3] = getPMVPlayerID();
 
 	MISE;
 	return "";
