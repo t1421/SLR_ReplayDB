@@ -148,7 +148,7 @@ void WEB_Quest::WRefresh()
         if (sReturn == "")
         {
             iValue = 0;            
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += iTimes[1] * 100000; //Points
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("101", iValue);
@@ -158,7 +158,7 @@ void WEB_Quest::WRefresh()
         if (sReturn == "")
         {
             iValue = 0;
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += iTimes[2] * 100000; //Deck
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("511", iValue);
@@ -171,7 +171,7 @@ void WEB_Quest::WRefresh()
         if (sReturn == "")
         {
             iValue = 0;            
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += iTimes[1] * 100000; //Balanced
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("102", iValue);
@@ -184,7 +184,7 @@ void WEB_Quest::WRefresh()
         if (sReturn == "")
         {
             iValue = 0;            
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += iTimes[1] * 100000; //Balanced
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("103", iValue);
@@ -197,7 +197,7 @@ void WEB_Quest::WRefresh()
         if (sReturn == "")
         {
             iValue = 0;
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += 0 * 100000; //NONE
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("104", iValue);
@@ -211,7 +211,7 @@ void WEB_Quest::WRefresh()
         if (sReturn == "")
         {
             iValue = 0;
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += 0 * 100000; //NONE
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("106", iValue);
@@ -225,7 +225,7 @@ void WEB_Quest::WRefresh()
         if (sReturn == "")
         {
             iValue = 0;
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += iTimes[1] * 100000; //Points
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("108", iValue);
@@ -239,7 +239,7 @@ void WEB_Quest::WRefresh()
         if (sReturn == "")
         {
             iValue = 0;
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += 0 * 100000; //NONE
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("109", iValue);
@@ -255,7 +255,7 @@ void WEB_Quest::WRefresh()
         if (sReturn == "")
         {
             iValue = 0;
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += iTimes[1] * 100000; //PVP
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("110", iValue);
@@ -269,7 +269,7 @@ void WEB_Quest::WRefresh()
         if (sReturn == "")
         {
             iValue = 0;
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += iTimes[1] * 100000; //DifficultyID
             iValue += iTimes[0] * 1; //Time
             refresh = refresh || Add_Player_to_Quest("111", iValue);
@@ -285,7 +285,7 @@ void WEB_Quest::WRefresh()
         {
             iValue = 0;
             
-            iValue += 0 * 100000 * 100000; //NONE
+            
             iValue += iTimes[0] * 100000; //time
             iValue += iTimes[2] * 1; //power
             refresh = refresh || Add_Player_to_Quest("201", iValue);
@@ -300,9 +300,8 @@ void WEB_Quest::WRefresh()
         {
             iValue = 0;
             
-            iValue += iTimes[1] * 100000 * 100000; //Playtime * 10 + Power used * 0,1
-            iValue += iTimes[0] * 100000; //time
-            iValue += iTimes[2] * 1; //power
+            iValue += iTimes[1] * 100000; //time
+            iValue += iTimes[0] * 1; //power
             refresh = refresh || Add_Player_to_Quest("202", iValue);
         }
     }
@@ -313,9 +312,8 @@ void WEB_Quest::WRefresh()
          
          if (WR->Kalk_Event3(iTimes) == "")
          {
-             iValue = 0;
+             iValue = 0;             
              
-             iValue += 0 * 100000 * 100000; //NONE
              iValue += iTimes[0] * 100000; //Buildings
              iValue += iTimes[2] * 1; //power
              refresh = refresh || Add_Player_to_Quest("203", iValue);
@@ -328,9 +326,8 @@ void WEB_Quest::WRefresh()
          if (WR->Kalk_Event0(iTimes, "sss4.map") == "")
          {
 
-             iValue = 0;
+             iValue = 0;             
              
-             iValue += 0 * 100000 * 100000; //NONE
              iValue += iTimes[0] * 100000; //time
              iValue += iTimes[2] * 1; //power
              refresh = refresh || Add_Player_to_Quest("204", iValue);
@@ -342,9 +339,8 @@ void WEB_Quest::WRefresh()
 
          if (WR->Kalk_Event5(iTimes, new Wt::Chart::WCartesianChart()) == "")
          {
-             iValue = 0;
+             iValue = 0;             
              
-             iValue += 0 * 100000 * 100000; //NONE
              iValue += iTimes[0] * 100000; //Units on screen
              iValue += iTimes[2] * 1; //power
              refresh = refresh || Add_Player_to_Quest("205", iValue);
@@ -356,9 +352,8 @@ void WEB_Quest::WRefresh()
 
          if (WR->Kalk_Event0(iTimes, "sss6.map") == "")
          {
-             iValue = 0;
+             iValue = 0;             
              
-             iValue += 0 * 100000 * 100000; //NONE
              iValue += iTimes[0] * 100000; //time
              iValue += iTimes[2] * 1; //power
              refresh = refresh || Add_Player_to_Quest("206", iValue);
@@ -372,8 +367,8 @@ void WEB_Quest::WRefresh()
          {
              iValue = 0;
              
-             iValue += iTimes[0] * 100000 * 100000; //My Points
-             iValue += iTimes[1] * 100000; //OP Points
+             iValue += iTimes[0] * 100 * 10000; //My Points
+             iValue += iTimes[1] * 10000; //OP Points
              iValue += iTimes[2] * 1; //power
              refresh = refresh || Add_Player_to_Quest("207", iValue);
          }
@@ -387,7 +382,7 @@ void WEB_Quest::WRefresh()
          {
              iValue = 0;
              
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += 0 * 100000; //NONE
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("302", iValue);
@@ -401,7 +396,7 @@ void WEB_Quest::WRefresh()
          {
              iValue = 0;
              
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += iTimes[1] * 100000; //Points
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("304", iValue);
@@ -415,7 +410,7 @@ void WEB_Quest::WRefresh()
          {
              iValue = 0;
              
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += 0 * 100000; //NOINE
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("305", iValue);
@@ -429,7 +424,7 @@ void WEB_Quest::WRefresh()
          {
              iValue = 0;
              
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += 0 * 100000; //NOINE
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("306", iValue);
@@ -443,7 +438,7 @@ void WEB_Quest::WRefresh()
          {
              iValue = 0;
              
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += 0 * 100000; //NOINE
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("310", iValue);
@@ -460,7 +455,7 @@ void WEB_Quest::WRefresh()
          if (sReturn == "")
          {
              iValue = 0;
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += 0 * 100000; //NONE
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("401", iValue);
@@ -474,7 +469,7 @@ void WEB_Quest::WRefresh()
          if (sReturn == "")
          {
              iValue = 0;
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += 0 * 100000; //NONE
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("402", iValue);
@@ -488,7 +483,7 @@ void WEB_Quest::WRefresh()
          if (sReturn == "")
          {
              iValue = 0;
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += 0 * 100000; //NONE
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("403", iValue);
@@ -502,7 +497,7 @@ void WEB_Quest::WRefresh()
          if (sReturn == "")
          {
              iValue = 0;
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += iTimes[2] * 100000; //DifficultyID
              iValue += iTimes[1] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("412", iValue);
@@ -516,7 +511,7 @@ void WEB_Quest::WRefresh()
          if (sReturn == "")
          {
              iValue = 0;
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += iTimes[1] * 100000; //DifficultyID
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("413", iValue);
@@ -533,7 +528,7 @@ void WEB_Quest::WRefresh()
          if (sReturn == "")
          {
              iValue = 0;
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += iTimes[1] * 100000; //Power
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("505", iValue);
@@ -547,7 +542,7 @@ void WEB_Quest::WRefresh()
          if (sReturn == "")
          {
              iValue = 0;
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += iTimes[1] * 100000; //DifficultyID
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("512", iValue);
@@ -561,7 +556,7 @@ void WEB_Quest::WRefresh()
          if (sReturn == "")
          {
              iValue = 0;
-             iValue += 0 * 100000 * 100000; //NONE
+             
              iValue += iTimes[1] * 100000; //DifficultyID
              iValue += iTimes[0] * 1; //Time
              refresh = refresh || Add_Player_to_Quest("513", iValue);
@@ -670,10 +665,6 @@ std::string WEB_Quest::sToolTipp(unsigned int in, unsigned long long Number)
     case 511:
         return "Deck: " + std::to_string(Number / 100000)
             + " Time: " + sTime(Number % 100000);
-    case 202:
-        return "Points: " + std::to_string(Number / 100000 / 100000)
-            + " Time: " + sTime(Number / 100000 % 100000)
-            + " Power: " + std::to_string(Number % 100000);
     case 203:
         return "Buildings : " + std::to_string(Number / 100000)
             + " Power: " + std::to_string(Number % 100000);
@@ -681,9 +672,9 @@ std::string WEB_Quest::sToolTipp(unsigned int in, unsigned long long Number)
         return "Units: " + std::to_string(Number / 100000)
             + " Power: " + std::to_string(Number % 100000);
     case 207:
-        return "My Points: " + std::to_string(Number / 100000 / 100000)
-            + " Op Points: " + std::to_string(Number / 100000 % 100000)
-            + " Power: " + std::to_string(Number % 100000);
+        return "My Points: " + std::to_string(Number / 10000 / 100)
+            + " Op Points: " + std::to_string(Number / 10000 % 100)
+            + " Power: " + std::to_string(Number % 10000);
     case 201:    
     case 204:    
     case 206:
@@ -696,6 +687,7 @@ std::string WEB_Quest::sToolTipp(unsigned int in, unsigned long long Number)
     case 101:
     case 102:
     case 108:
+    case 202:
         return "Points: " + std::to_string(Number / 100000)
             + " Time: " + sTime(Number % 100000);
     case 110:
