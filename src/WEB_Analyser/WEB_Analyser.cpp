@@ -1785,7 +1785,7 @@ std::string WEB_Analyser::Kalk_Bounty01(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
 	if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
-	if (R->MapName != "soultreestarttrainer.map")return "Wrong Map";
+	if (R->MapName != "soultreebounty.map")return "Wrong Map";
 	if (R->DifficultyID != 3)return "Wrong Difficulty";
 	if (!Check_MIS_WIN())return "Was not a win";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";

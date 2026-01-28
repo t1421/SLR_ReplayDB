@@ -479,5 +479,3 @@ void Manager::SetLastPlayCard(unsigned int POS, unsigned short CardID, unsigned 
 	MISE;
 }
 #endif
-
-

@@ -41,6 +41,7 @@ class Tome_Game;
 class LottoWeek;
 class Challonge;
 class Quiz;
+class Stream;
 
 struct Tome_Booster;
 struct SMJCard;
@@ -61,13 +62,18 @@ public:
 	CardBaseSMJ *J;
 	MIS_Rank* A[EventsMax];
 	Challonge* C;
-	Quiz* Q;	
+	Quiz* Q;
+	Stream* S;
 
 	broker* Bro;
 
 	bool bAktive;
 
-#ifndef noLoad
+	void B_StatusNew(std::string Fun, std::string Wert);
+	void B_StatusNew(std::string Fun, int Wert);
+	void B_StatusE(std::string Modul, std::string Funktion, std::string Wert);
+
+#if defined BrokerQuiz || defined BrokerWeb 
 	unsigned long int L_getEEE_Now();
 	unsigned long int L_StringToUNIXTime(const std::string& date);
 	unsigned long int L_getEventRankMode(unsigned int iEvent);
@@ -100,10 +106,6 @@ public:
 	void broker::saveQPlayer();
 #endif
 
-	void B_StatusNew(std::string Fun, std::string Wert);
-	void B_StatusNew(std::string Fun, int Wert);
-	void B_StatusE(std::string Modul, std::string Funktion, std::string Wert);
-
 #if defined BrokerTome || defined BrokerLotto
 	void postChatEventMIS(std::string Value1);
 	void postChatEventMIS(std::string Value1, std::string Value2);
@@ -114,8 +116,6 @@ public:
 #if defined BrokerTome
 	std::vector <Tome_Game*> vTomeGames;
 	int getTomeGame(std::string sGameID);	
-
-	
 #endif
 
 #if defined BrokerLotto
@@ -126,7 +126,7 @@ public:
 #endif
 
 #ifdef MIS_Count 
-	void L_ReplayPlus();;
+	void L_ReplayPlus();
 #endif
 protected:
 	

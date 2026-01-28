@@ -38,6 +38,9 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Thread_MIS", "*", "*", "true");
 		Fill_DBArray("Manager", "*", "*", "true");
 		Fill_DBArray("SQL_MIS_New", "*", "*", "true");
+		Fill_DBArray("Stream", "*", "*", "true");
+		
+		
 
 		Fill_DBArray("WEB_Main", "*", "*", "true");
 		Fill_DBArray("WEB_Server", "*", "*", "true");
@@ -128,7 +131,8 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Question", "CleanString", "*", "false");
 		Fill_DBArray("Question", "splitString", "*", "false");
 		Fill_DBArray("Question", "sToolTipp", "*", "false");
-
+		Fill_DBArray("Stream", "CleanCardNames", "*", "false");
+		Fill_DBArray("Stream", "CleanChatMessage", "*", "false");
 		
 		/////////////////////////////////////////////////////
 

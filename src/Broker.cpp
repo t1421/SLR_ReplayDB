@@ -9,6 +9,11 @@
 #include "..\incl\Question.h" 
 #endif
 
+#if defined BrokerStreamCard
+#include "..\incl\Thread_MIS.h" 
+#include "..\incl\Stream.h" 
+#endif
+
 #if defined BrokerTome || defined BrokerNormal || defined BrokerWeb || defined BrokerLotto || defined BrokerPVP
 #include "..\incl\Replay.h" 
 #include "..\incl\Reader.h" 
@@ -93,6 +98,13 @@ broker::broker()
 
 	DEBUG::learnBro(this);
 	B = NULL;	
+
+#if defined BrokerStreamCard
+	Thread_MIS::learnBro(this);
+	Stream::learnBro(this);
+
+	S = NULL;
+#endif
 
 #if defined BrokerNormal || defined BrokerWeb || defined BrokerTome || defined BrokerLotto  || defined BrokerPVP
 	Replay::learnBro(this);
@@ -363,7 +375,7 @@ broker::~broker()
 }
 
 
-#ifndef noLoad
+#if defined BrokerQuiz || defined BrokerWeb 
 unsigned long int broker::L_getEEE_Now()
 {
 	const auto UNIX = std::chrono::system_clock::now();

@@ -13,6 +13,7 @@ SLR_Lotto/Release/
 SLR_LivePVP/Release/
 SLR_Challonge/Release/
 SLR_Quiz/Release/
+SLR_StreamCard/Release/
 Release/SLR_ReplayDB.iobj
 Release/SLR_ReplayDB.ipdb
 Release/SLR_ReplayDB.pdb
@@ -37,6 +38,9 @@ Release/SLR_Challonge.pdb
 Release/SLR_Quiz.iobj
 Release/SLR_Quiz.ipdb
 Release/SLR_Quiz.pdb
+Release/SLR_StreamCard.iobj
+Release/SLR_StreamCard.ipdb
+Release/SLR_StreamCard.pdb
 
 *.mov
 *.cer
