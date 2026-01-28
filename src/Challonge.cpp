@@ -5,6 +5,7 @@
 #include "..\incl\Challonge.h" 
 #include "..\incl\Utility.h" 
 #include <iostream> 
+#include <algorithm>
 
 #define API_URL "api.challonge.com/v1/tournaments/"
 

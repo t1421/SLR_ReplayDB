@@ -22,7 +22,7 @@
     <ProjectGuid>{4E2E8BAD-7C7F-48F4-9311-A5B075C6DB45}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>SLR_Tome</RootNamespace>
-    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
     <ProjectName>SLR_LivePVP</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -35,7 +35,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v140</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -119,6 +119,7 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;BrokerPVP;noImager;noSQL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>K:\c++\LIBS\boost_1_68_0;K:\c++\LIBS\libcurl-vc-x86-release-dll-ssl-dll-ipv6-sspi\include;K:\c++\LIBS\jsoncpp-1.9.5\install\include;K:\c++\LIBS\opencv3.4\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <SDLCheck>true</SDLCheck>
+      <LanguageStandard>stdcpp14</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
