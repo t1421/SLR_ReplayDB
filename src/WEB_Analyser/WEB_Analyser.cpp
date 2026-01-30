@@ -1802,6 +1802,7 @@ std::string WEB_Analyser::Kalk_Bounty01(unsigned long iTimes[RankRowStamps])
 	cards.erase(std::unique(cards.begin(), cards.end()), cards.end());
 
 	if(cards.size() >2)return "More then 2 cards";
+	for(auto C : cards)if(Bro->J->GetSMJCard(C)->orbsTotal > 2)return "Only Tier 1 or Tier 2 Cards";
 	
 	if (cards.size() > 0)iTimes[0] = Bro->J->PromoToNormal(cards[0]);
 	if (cards.size() > 1)iTimes[1] = Bro->J->PromoToNormal(cards[1]);
