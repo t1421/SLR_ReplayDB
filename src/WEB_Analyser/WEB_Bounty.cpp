@@ -72,7 +72,7 @@ WEB_Bounty::WEB_Bounty(WEB_Analyser *WR_) : WR(WR_)
     table->setSelectionMode(Wt::SelectionMode::Single);
     table->setRowHeight(25);
     table->setHeaderHeight(75);
-    table->setHeight(500);
+    //table->setHeight(500);
     
     MISD("#66");
 
