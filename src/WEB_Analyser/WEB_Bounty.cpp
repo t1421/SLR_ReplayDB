@@ -126,7 +126,6 @@ void WEB_Bounty::WRefresh()
 bool WEB_Bounty::TabelRefresh()
 {
     MISS;
-    
     std::vector<std::string> vPlayers;
     std::vector<std::string> vCards;
     bool found;
@@ -205,7 +204,31 @@ bool WEB_Bounty::TabelRefresh()
         {
             model->setData(iRow, iColumn, sTime(R.Stamps[2]));
             model->setData(iRow, iColumn, "green", Wt::ItemDataRole::StyleClass);
+            model->setData(iRow, iColumn, R.Stamps[2], Wt::ItemDataRole::ToolTip);
         }
+    }
+    unsigned int iCount;
+
+    for (iRow = 0; iRow < model->rowCount(); iRow++)
+    {
+        iCount = 0;
+        for (iColumn = 1; iColumn < model->columnCount(); iColumn++)
+            if (Wt::asString(model->data(iRow, iColumn)) != "")
+                iCount++;
+        model->setData(iRow, 0, iCount, Wt::ItemDataRole::ToolTip);        
+    }
+    double dTime, ddTime;
+    for (iColumn = 1; iColumn < model->columnCount(); iColumn++)
+    {
+        dTime = 9999999;
+        for (iRow = 0; iRow < model->rowCount(); iRow++)
+            if (Wt::asString(model->data(iRow, iColumn, Wt::ItemDataRole::ToolTip)) != "" &&
+                Wt::asNumber(model->data(iRow, iColumn, Wt::ItemDataRole::ToolTip)) < dTime)
+                dTime = Wt::asNumber(model->data(iRow, iColumn, Wt::ItemDataRole::ToolTip));
+        
+        for (iRow = 0; iRow < model->rowCount(); iRow++)
+            if (Wt::asNumber(model->data(iRow, iColumn, Wt::ItemDataRole::ToolTip)) == dTime)
+                model->setData(iRow, iColumn, "organe", Wt::ItemDataRole::StyleClass);
     }
 
     for (unsigned int i = 3; i < model->columnCount(); i++)
