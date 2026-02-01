@@ -74,7 +74,7 @@ WEB_Bounty::WEB_Bounty(WEB_Analyser *WR_) : WR(WR_)
     table->setRowHeight(25);
     table->setHeaderHeight(140);  
     //table->setStyleClass("fusionIMG");
-    //table->setHeight(500);
+    table->setHeight(800);
     
     MISD("#66");
 
