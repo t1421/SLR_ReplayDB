@@ -707,14 +707,14 @@ std::string CardBaseSMJ::fusionIMG(std::string sIMG1, std::string sIMG2)
 		return "";
 	}
 
-	cv::Mat combined(127, 184, iIMG1.type());
+	cv::Mat combined(254, 92, iIMG1.type());
 	if (!iIMG1.empty())iIMG1.copyTo(combined(cv::Rect(0, 0, 92, 127)));
-	if (!iIMG2.empty())iIMG2.copyTo(combined(cv::Rect(92, 0, 92, 127)));
+	if (!iIMG2.empty())iIMG2.copyTo(combined(cv::Rect(0, 127, 92, 127)));
 
-	int newWidth = static_cast<int>(combined.cols * static_cast<float>(75) / combined.rows);
+	int newWidth = static_cast<int>(combined.cols * static_cast<float>(100) / combined.rows);
 
 	cv::Mat resized;
-	cv::resize(combined, resized, cv::Size(newWidth, 75), 0, 0, cv::INTER_AREA);
+	cv::resize(combined, resized, cv::Size(newWidth, 100), 0, 0, cv::INTER_AREA);
 
 	// Speichern
 	cv::imwrite(sFile, resized);

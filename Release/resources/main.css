@@ -122,3 +122,7 @@ color: #111111 !important;
 background-color: #000000 !important;
 color: #555555 !important;
 }
+
+.fusionIMG {
+    float: right !important;    
+}

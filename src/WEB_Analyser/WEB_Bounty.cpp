@@ -54,6 +54,7 @@ WEB_Bounty::WEB_Bounty(WEB_Analyser *WR_) : WR(WR_)
     model->insertColumns(model->columnCount(), 1);
     model->setHeaderData(model->columnCount() - 1, Wt::Orientation::Horizontal, "Player");
     
+    
     //model->insertColumns(model->columnCount(), 1);
     //model->setHeaderData(model->columnCount() - 1, Wt::Orientation::Horizontal, "Runs");
 
@@ -71,7 +72,8 @@ WEB_Bounty::WEB_Bounty(WEB_Analyser *WR_) : WR(WR_)
     table->setAlternatingRowColors(true);
     table->setSelectionMode(Wt::SelectionMode::Single);
     table->setRowHeight(25);
-    table->setHeaderHeight(75);
+    table->setHeaderHeight(140);  
+    //table->setStyleClass("fusionIMG");
     //table->setHeight(500);
     
     MISD("#66");
@@ -178,9 +180,10 @@ bool WEB_Bounty::TabelRefresh()
             if (found == false)
             {
                 model->insertColumns(model->columnCount(), 1);
-                //model->setHeaderData(model->columnCount() - 1, Wt::Orientation::Horizontal, C, Wt::ItemDataRole::Display);
                 model->setHeaderData(model->columnCount() - 1, Wt::Orientation::Horizontal, Bro->J->fusionIMG(entry(C, 0), entry(C, 1)), Wt::ItemDataRole::Decoration);
                 model->setHeaderData(model->columnCount() - 1, Wt::Orientation::Horizontal, C, Wt::ItemDataRole::ToolTip);
+                model->setHeaderData(model->columnCount() - 1, Wt::Orientation::Horizontal, "fusionIMG", Wt::ItemDataRole::StyleClass);
+                //table->setHeaderAlignment(model->columnCount() - 1, Wt::AlignmentFlag::Middle);
             }
         }
 
@@ -231,8 +234,8 @@ bool WEB_Bounty::TabelRefresh()
                 model->setData(iRow, iColumn, "organe", Wt::ItemDataRole::StyleClass);
     }
 
-    for (unsigned int i = 3; i < model->columnCount(); i++)
-        table->setColumnWidth(i, 135);      
+    for (unsigned int i = 1; i < model->columnCount(); i++)
+        table->setColumnWidth(i, 50);      
     MISE;
     return true;
 }
