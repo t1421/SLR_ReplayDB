@@ -99,6 +99,7 @@ WEB_Quest::WEB_Quest(WEB_Analyser *WR_) : WR(WR_)
     MISD("#6");
     table->setModel(std::shared_ptr<Wt::WAbstractItemModel>(proxy));
     table->setSortingEnabled(true);
+    table->setRowHeaderCount(3);
     table->sortByColumn(2, Wt::SortOrder::Descending);
     table->setColumnResizeEnabled(true);
     table->setAlternatingRowColors(true);

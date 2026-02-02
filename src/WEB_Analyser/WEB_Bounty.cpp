@@ -66,6 +66,7 @@ WEB_Bounty::WEB_Bounty(WEB_Analyser *WR_) : WR(WR_)
 
     MISD("#6");
     table->setModel(std::shared_ptr<Wt::WAbstractItemModel>(proxy));
+    table->setRowHeaderCount(1);
     table->setSortingEnabled(true);
     table->sortByColumn(0, Wt::SortOrder::Descending);
     table->setColumnResizeEnabled(true);
