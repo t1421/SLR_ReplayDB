@@ -114,8 +114,8 @@ void WEB_Bounty::WRefresh()
         MISEA("Not OK");
         return;
     }
-
-    sID = WR->GetPlayerName(WR->getPMVPlayerID()) + "_" + Bro->J->GetSMJCard(iTimes[0])->cardSlug + "_" + Bro->J->GetSMJCard(iTimes[1])->cardSlug;
+    
+    sID = ReplaceString(WR->GetPlayerName(WR->getPMVPlayerID()), "_", "-") + "_" + Bro->J->GetSMJCard(iTimes[0])->cardSlug + "_" + Bro->J->GetSMJCard(iTimes[1])->cardSlug;
     if (Bro->A_AddPlayer(EventNumber, sID, WR->getReplayHash(), iTimes) == 1)
     {
         WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(EventNumber) + "_" + sID + ".pmv");
