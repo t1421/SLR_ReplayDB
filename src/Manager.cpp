@@ -143,7 +143,7 @@ void Manager::Thread_Function()
 				_UpdateLastPlay = false;
 
 				if(processActions(_UpdateCards, _UpdateActionLog, _UpdateActionPerSec, _UpdateLastPlay)== -1)goto exit_loop;
-				
+
 				if(_UpdateCards)UpdateFiles();
 				
 				if (_UpdateActionLog && Bro->L->iLivePvPActionLog == 1 && vsActionLog.size() > 0)

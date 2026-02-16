@@ -279,7 +279,7 @@ bool Replay::ReadActions()
 			Action_TEMP->Time = MainTime;
 			Action_TEMP->Position = PMVPosition;
 			Action_TEMP->Type = readUnsignedLong();
-			//MISERROR(std::to_string(Action_TEMP->Type));
+			//MISERROR(sTimeFull(Action_TEMP->Time) + " " + std::to_string(Action_TEMP->Type) + " " + std::to_string(PMVPosition) + " " + std::to_string(SollPos));
 			switch (Action_TEMP->Type)
 			{
 			case 4001: //SLR-TEAM: 4001 - Irrelevant (Ist bei mir einfach auskommentiert)
@@ -340,7 +340,7 @@ bool Replay::ReadActions()
 			case 4009: //summon unit
 				Action_TEMP->CardFull = readUnsignedLong();
 				Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
-				Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
+				Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;							
 				Action_TEMP->ActionPlayer = readUnsignedLong();
 				this->readUnsignedChar(); //Unknow8
 				readUnsignedShort(); //Cardy
@@ -722,11 +722,6 @@ bool Replay::ReadActions()
 				Action_TEMP->Y = readFloat(); // Y	
 				break;
 			case 4045: // SLR desync
-#if defined BrokerPVP
-				PMVPosition = SollPos;
-				goto SKIP;
-#else
-
 				readUnsignedShort(); //Size of Data
 				switch (this->readUnsignedChar()) //ID of inner Data
 				{
@@ -805,7 +800,7 @@ bool Replay::ReadActions()
 
 				}
 				break;
-#endif
+
 			default:
 				MISERROR(FileName);
 				MISERROR("default" + sTime(Action_TEMP->Time) + "#" +
