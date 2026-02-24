@@ -564,6 +564,20 @@ void WEB_Quest::WRefresh()
          }
      }
 
+     if (WR->getMapName() == "soultreebounty.map")
+     {
+         std::fill(iTimes, iTimes + RankRowStamps, 0);
+         sReturn = WR->Kalk_Bounty01(iTimes);
+         if (sReturn == "")
+         {
+             iValue = 0;
+
+             iValue += 0 * 100000; //NONE
+             iValue += iTimes[2] * 1; //Time
+             refresh = refresh || Add_Player_to_Quest("514", iValue);
+         }
+     }
+
      if (refresh)status->setText("Events Refreshed");
      else status->setText("Cant fint matching event: " + sReturn);
     
@@ -707,6 +721,7 @@ std::string WEB_Quest::sToolTipp(unsigned int in, unsigned long long Number)
     //case 310:
     //case 103:
     //case 104:
+    //case 514:
     default:
         return "Time: " + sTime(Number);
     }
