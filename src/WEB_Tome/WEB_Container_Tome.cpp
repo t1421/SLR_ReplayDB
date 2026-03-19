@@ -281,9 +281,14 @@ void WEB_Container_Tome::DrawBooster(Wt::WTable *wtTabelle, std::vector <Tome_Bo
 
 	for ( Tome_Booster * B : vAllBoosters)
 	{
-		if( iSrc == 0 ||
+		if (iSrc == 0 && B->sType == "-91" && Bro->vTomeGames[BroGameID]->bTapShowBoosterRefroges == false ||
+		    iSrc == 0 && B->sType != "-91" && Bro->vTomeGames[BroGameID]->bTapShowBoosterBoosters == false ||
+		    iSrc == 2 && B->sType == "-91" && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerReforges == false ||
+		    iSrc == 2 && B->sType != "-91" && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerBoosters == false)continue;
+	
+		if( iSrc == 0 && Bro->vTomeGames[BroGameID]->bTapShowBoosterBoosterType ||
 			iSrc == 1 ||
-			iSrc == 2 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerBooster)
+			iSrc == 2 && Bro->vTomeGames[BroGameID]->bTapShowBoosterPerPlayerBoosterType)
 		wtTabelle->elementAt(iRow, 0)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(
 			DrawImg("./resources/Boosters/" + B->sType + ".png",
 				Card_Size_X, Card_Size_Y

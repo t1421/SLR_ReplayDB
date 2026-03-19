@@ -1187,6 +1187,61 @@ std::string WEB_Analyser::Kalk_Event19(unsigned long iTimes[RankRowStamps])
 	return "";
 }
 
+std::string WEB_Analyser::Kalk_Event21(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "randommap/GeneratedMap.map")return "Wrong Map";
+	if (R->MapID != 103)return "Wrong Map";
+	if (R->DifficultyID != 10 && !WA_Admin)return "Wrong Difficulty";
+	if (R->Seed != 3992172457 && !WA_Admin)return "Not Map Of The Season";
+	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+	if (!Check_WIN("4;RvERandomMapsGoal1;1;") && !WA_Admin)return "Was not a win";
+
+	unsigned int Factions[4];
+
+	for each (Player * P in Players)if (P->Type == 1)
+	{
+		//reset Array
+		for (unsigned int i = 0; i < 4; i++)Factions[i] = 0;
+
+		for each (Card * C in P->Deck)
+		{
+			if (C->count <= 0 || C->CardID == 4051) continue;
+			
+			switch (int(Bro->J->GetSMJCard(C->CardID)->color))
+			{
+			case 0:
+			case 1:
+			case 2:
+			case 3:
+				Factions[int(Bro->J->GetSMJCard(C->CardID)->color)]++;
+				break;
+			default:
+				return "Card not allowed " + Bro->J->GetSMJCard(C->CardID)->cardName;
+			}
+		}
+
+		if (Factions[0] > 0 && Factions[1] == 0 && Factions[2] == 0 && Factions[3] == 0)iTimes[1] = usedPower(P->PlayerID);
+		else if (Factions[0] == 0 && Factions[1] > 0 && Factions[2] == 0 && Factions[3] == 0)iTimes[2] = usedPower(P->PlayerID);
+		else if (Factions[0] == 0 && Factions[1] == 0 && Factions[2] > 0 && Factions[3] == 0)iTimes[3] = usedPower(P->PlayerID);
+		else if (Factions[0] == 0 && Factions[1] == 0 && Factions[2] == 0 && Factions[3] > 0)iTimes[4] = usedPower(P->PlayerID);
+		else return "More Colours has been used " + P->Name;
+	}
+	
+	if (iTimes[1] == 0 || iTimes[2] == 0 || iTimes[3] == 0 || iTimes[4] == 0)return "Not All Colours Used";
+
+	for each (auto AS in ActionSums) if (AS->ActionID == 4006 && AS->iCount != 4)return "Not All Gold Chests Were Opend";
+
+	iTimes[0] = getPlaytime();	
+
+	MISE;
+	return "";
+}
+
+
 std::string WEB_Analyser::Kalk_Event1(unsigned long iTimes[RankRowStamps])
 {
 	MISS;

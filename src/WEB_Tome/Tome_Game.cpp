@@ -11,6 +11,8 @@
 #include <fstream>
 #include <random>
 
+#define CurrentTOMEVersion 2
+
 bool compareBoostersLfdnr(const Tome_Booster* a, const Tome_Booster* b) { return a->iLfdnr > b->iLfdnr; }
 bool compareBoostersType(const Tome_Booster* a, const Tome_Booster* b) { return std::atoi(a->sType.c_str()) > std::atoi(b->sType.c_str()); }
 
@@ -113,7 +115,10 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			if (INI_Value_Check(line, "TapShowBoosterR"))bTapShowBoosterR = atoi(line.c_str());
 			if (INI_Value_Check(line, "TapShowBoosterUC"))bTapShowBoosterUC = atoi(line.c_str());
 			if (INI_Value_Check(line, "TapShowBoosterC"))bTapShowBoosterC = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterBoosterType"))bTapShowBoosterBoosterType = atoi(line.c_str());
 			if (INI_Value_Check(line, "TapShowBoosterOrder"))iTapShowBoosterOrder = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterBoosters"))bTapShowBoosterBoosters = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterRefroges"))bTapShowBoosterRefroges = atoi(line.c_str());
 
 			if (INI_Value_Check(line, "TapShowCards"))bTapShowCards = atoi(line.c_str());
 			if (INI_Value_Check(line, "TapShowCardsUR"))bTapShowCardsUR = atoi(line.c_str());
@@ -127,8 +132,11 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 			if (INI_Value_Check(line, "TapShowBoosterPerPlayerR"))bTapShowBoosterPerPlayerR = atoi(line.c_str());
 			if (INI_Value_Check(line, "TapShowBoosterPerPlayerUC"))bTapShowBoosterPerPlayerUC = atoi(line.c_str());
 			if (INI_Value_Check(line, "TapShowBoosterPerPlayerC"))bTapShowBoosterPerPlayerC = atoi(line.c_str());
-			if (INI_Value_Check(line, "TapShowBoosterPerPlayerBooster"))bTapShowBoosterPerPlayerBooster = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayerBooster") && iVersion <= 2)bTapShowBoosterPerPlayerBoosterType = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayerBoosterType"))bTapShowBoosterPerPlayerBoosterType = atoi(line.c_str());
 			if (INI_Value_Check(line, "TapShowBoosterPerPlayerOrder"))iTapShowBoosterPerPlayerOrder = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayerBoosters"))bTapShowBoosterPerPlayerBoosters = atoi(line.c_str());
+			if (INI_Value_Check(line, "TapShowBoosterPerPlayerReforges"))bTapShowBoosterPerPlayerReforges = atoi(line.c_str());
 			
 			if (INI_Value_Check(line, "AllowOpening"))bAllowOpening = atoi(line.c_str());
 			if (INI_Value_Check(line, "NoDouble"))bNoDoubleBooster = atoi(line.c_str()); //V1
@@ -219,22 +227,25 @@ bool Tome_Game::bLoadGame(std::string _sGameID)
 	}
 
 	// Version Converting
-	if (iVersion == 1)
-	{
-		MISD("Convert");
-		for (auto P : vPlayer)
+	if( iVersion < CurrentTOMEVersion)
+		switch (iVersion)
 		{
-			P->iMaxBoosters[14] = 0;
-			for (auto B : P->vBoosters)			
-				for (auto C : B->vCards)
-					C->reforged = 0;
-		}
-			
-		iVersion = 2;
-		bSaveGame();
-	}
-	
+		case 1:
+			MISD("Convert to V2");
+			for (auto P : vPlayer)
+			{
+				P->iMaxBoosters[14] = 0;
+				for (auto B : P->vBoosters)
+					for (auto C : B->vCards)
+						C->reforged = 0;
+			}
+			iVersion = 2;
+		case 2:
 
+		default:
+			bSaveGame();
+		}
+	
 	MISE;
 	return true;
 }
@@ -261,7 +272,10 @@ void Tome_Game::Init()
 	bTapShowBoosterR = false;
 	bTapShowBoosterUC = false;
 	bTapShowBoosterC = false;
+	bTapShowBoosterBoosterType = false;
 	iTapShowBoosterOrder = 0;
+	bTapShowBoosterBoosters = false;
+	bTapShowBoosterRefroges = false;
 
 	bTapShowCards = false;
 	bTapShowCardsUR = false;
@@ -275,8 +289,10 @@ void Tome_Game::Init()
 	bTapShowBoosterPerPlayerR = false;
 	bTapShowBoosterPerPlayerUC = false;
 	bTapShowBoosterPerPlayerC = false;
-	bTapShowBoosterPerPlayerBooster = false;
+	bTapShowBoosterPerPlayerBoosterType = false;
 	iTapShowBoosterPerPlayerOrder = 0;
+	bTapShowBoosterPerPlayerBoosters = false;
+	bTapShowBoosterPerPlayerReforges = false;
 
 	bAllowOpening = false;
 	bNoDoubleBooster = false;
@@ -327,7 +343,10 @@ bool Tome_Game::bSaveGame()
 		ofFile << "TapShowBoosterR="<<bTapShowBoosterR << "\n";
 		ofFile << "TapShowBoosterUC="<<bTapShowBoosterUC << "\n";
 		ofFile << "TapShowBoosterC="<<bTapShowBoosterC << "\n";
+		ofFile << "TapShowBoosterBoosterType=" << bTapShowBoosterBoosterType << "\n";		
 		ofFile << "TapShowBoosterOrder="<<iTapShowBoosterOrder << "\n";
+		ofFile << "TapShowBoosterBoosters=" << bTapShowBoosterBoosters << "\n";
+		ofFile << "TapShowBoosterRefroges=" << bTapShowBoosterRefroges << "\n";
 
 		ofFile << "TapShowCards="<<bTapShowCards << "\n";
 		ofFile << "TapShowCardsUR="<<bTapShowCardsUR << "\n";
@@ -341,8 +360,10 @@ bool Tome_Game::bSaveGame()
 		ofFile << "TapShowBoosterPerPlayerR="<<bTapShowBoosterPerPlayerR << "\n";
 		ofFile << "TapShowBoosterPerPlayerUC="<<bTapShowBoosterPerPlayerUC << "\n";
 		ofFile << "TapShowBoosterPerPlayerC="<<bTapShowBoosterPerPlayerC << "\n";
-		ofFile << "TapShowBoosterPerPlayerBooster=" << bTapShowBoosterPerPlayerBooster << "\n";
+		ofFile << "TapShowBoosterPerPlayerBoosterType="<<bTapShowBoosterPerPlayerBoosterType << "\n";
 		ofFile << "TapShowBoosterPerPlayerOrder=" << iTapShowBoosterPerPlayerOrder << "\n";
+		ofFile << "TapShowBoosterPerPlayerBoosters=" << bTapShowBoosterPerPlayerBoosters << "\n";
+		ofFile << "TapShowBoosterPerPlayerReforges=" << bTapShowBoosterPerPlayerReforges << "\n";
 
 		ofFile << "AllowOpening="<<bAllowOpening << "\n";
 		ofFile << "NoDoubleBooster=" << bNoDoubleBooster << "\n";

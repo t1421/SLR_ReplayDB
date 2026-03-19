@@ -782,11 +782,17 @@ bool Replay::ReadActions()
 							this->readUnsignedChar(); //Errors
 						}						
 						break;
+						/*
+						* https://gitlab.com/skylords-reborn/rust-libraries/-/blob/main/utils/src/commands/command_impl.rs#L1547
 					case 7: //BuildingDestroyed?
 						Action_TEMP->AdditionalInfo = "7;";
 						Action_TEMP->AdditionalInfo = std::to_string(this->readUnsignedLong()) + ";"; // Player ID
+						char Count?
+							8 char ID
+							32 Amount
 						Action_TEMP->AdditionalInfo = Action_TEMP->AdditionalInfo + std::to_string(this->readUnsignedLong()) + ";"; // building_id
 						break;
+						*/
 
 
 					default:

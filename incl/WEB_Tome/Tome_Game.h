@@ -74,7 +74,10 @@ public:
 	bool bTapShowBoosterR;
 	bool bTapShowBoosterUC;
 	bool bTapShowBoosterC;
+	bool bTapShowBoosterBoosterType;
 	unsigned int iTapShowBoosterOrder;
+	bool bTapShowBoosterBoosters;
+	bool bTapShowBoosterRefroges;
 
 	bool bTapShowCards;
 	bool bTapShowCardsUR;
@@ -88,8 +91,10 @@ public:
 	bool bTapShowBoosterPerPlayerR;
 	bool bTapShowBoosterPerPlayerUC;
 	bool bTapShowBoosterPerPlayerC;
-	bool bTapShowBoosterPerPlayerBooster;
+	bool bTapShowBoosterPerPlayerBoosterType;
 	unsigned int iTapShowBoosterPerPlayerOrder;
+	bool bTapShowBoosterPerPlayerBoosters;
+	bool bTapShowBoosterPerPlayerReforges;
 
 	bool bAllowOpening;
 	bool bNoDoubleBooster;

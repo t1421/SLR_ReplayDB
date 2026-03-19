@@ -28,7 +28,10 @@ public:
 	Wt::WCheckBox* wcTapShowBoosterR;
 	Wt::WCheckBox* wcTapShowBoosterUC;
 	Wt::WCheckBox* wcTapShowBoosterC;
+	Wt::WCheckBox* wcTapShowBoosterBoosterType;
 	Wt::WComboBox* wcTapShowBoosterOrder;
+	Wt::WCheckBox* wcTapShowBoosterBoosters;
+	Wt::WCheckBox* wcTapShowBoosterRefroges;
 
 	Wt::WCheckBox* wcTapShowCards;
 	Wt::WCheckBox* wcTapShowCardsUR;
@@ -42,8 +45,10 @@ public:
 	Wt::WCheckBox* wcTapShowBoosterPerPlayerR;
 	Wt::WCheckBox* wcTapShowBoosterPerPlayerUC;
 	Wt::WCheckBox* wcTapShowBoosterPerPlayerC;
-	Wt::WCheckBox* wcTapShowBoosterPerPlayerBooster;	
+	Wt::WCheckBox* wcTapShowBoosterPerPlayerBoosterType;
 	Wt::WComboBox* wcTapShowBoosterPerPlayerOrder;
+	Wt::WCheckBox* wcTapShowBoosterPerPlayerBoosters;
+	Wt::WCheckBox* wcTapShowBoosterPerPlayerReforges;
 
 
 	Wt::WCheckBox* wcAllowOpening;

@@ -16,6 +16,8 @@
 #include <Wt/WSlider.h>
 
 
+bool comparePlayerFieldIDString(const ROW a, const ROW b) { return a.ID < b.ID; }
+
 broker *(WEB_Rank::Bro) = NULL;
 
 WEB_Rank::WEB_Rank(WEB_Analyser *WR_, unsigned int _iRankList):WR(WR_)
@@ -275,6 +277,13 @@ void WEB_Rank::WRefresh()
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
 		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Dif </h4>"))));
 		break;
+	case 21:
+		std::sort(vListe.begin(), vListe.end(), comparePlayerFieldIDString);
+		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Fire   </h4>"))));
+		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Shadow </h4>"))));
+		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Nature </h4>"))));
+		wtTabelle->elementAt(0, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Frost  </h4>"))));
+		break;
 	default:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));		
 	}
@@ -444,6 +453,12 @@ void WEB_Rank::WRefresh()
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
 			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(WR->GetDifficultyName(vListe[i].Stamps[1], 1)))));
 			break;
+		case 21:
+			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[1])))));
+			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[2])))));
+			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[3])))));
+			wtTabelle->elementAt(i + 1, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[4])))));
+			break;
 		default:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
 		}			
@@ -513,7 +528,7 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(iCol++)->setWidth(15);
 		wtTabelle->columnAt(iCol++)->setWidth(15);
 		break;
-	case 12:
+	case 12:	
 		wtTabelle->removeColumn(0);
 		break;
 	case 13:
@@ -550,6 +565,13 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(6)->setWidth(75);  //p2
 		wtTabelle->columnAt(7)->setWidth(75);  //p3
 		wtTabelle->columnAt(8)->setWidth(75);  //p4
+		break;
+	case 21:
+		wtTabelle->removeColumn(0);
+		wtTabelle->columnAt(1)->setWidth(75);  //C1
+		wtTabelle->columnAt(2)->setWidth(75);  //C2
+		wtTabelle->columnAt(3)->setWidth(75);  //C3
+		wtTabelle->columnAt(4)->setWidth(75);  //C4
 		break;
 	default:
 		break;

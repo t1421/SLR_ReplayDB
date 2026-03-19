@@ -126,6 +126,7 @@ void WEB_Event::WRefresh()
 		case 17: sReturn = WR->Kalk_Event17(iTimes); break;
 		case 18: sReturn = WR->Kalk_Event18(iTimes); break;
 		case 19: sReturn = WR->Kalk_Event19(iTimes); break;
+		case 21: sReturn = WR->Kalk_Event21(iTimes); break;
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
@@ -237,11 +238,12 @@ void WEB_Event::WRefresh()
 
 			break;
 		case 19: //BOT11
+		case 21: //RPVE TW HUNT
 			sTeamID = Bro->GetTeamName(WR->GetTeamID());
 			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
 			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
-			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run : -) </h3> ");
-			else wtStatus->setText("<h3>Nice run, but not faster then your currend one </h3> ");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run, " + sTeamID + " : -) </h3> ");
+			else wtStatus->setText("<h3>Nice run, " + sTeamID + ", but not faster then your currend one </h3> ");
 
 			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
 			//wtLine2->setText("Tickets: " + std::to_string(iTimes[1]));

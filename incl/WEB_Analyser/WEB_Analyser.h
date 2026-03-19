@@ -86,6 +86,7 @@ public:
 	std::string Kalk_Event17(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event18(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event19(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event21(unsigned long iTimes[RankRowStamps]);
 
 	std::string Kalk_CCC2(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_CCC4(unsigned long iTimes[RankRowStamps]);
