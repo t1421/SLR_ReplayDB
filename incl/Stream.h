@@ -16,6 +16,8 @@ public:
 	void teachS() { Bro->S = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
+	std::vector <std::pair<std::string, std::string>> CardPool;
+
 private:
 	
 	void Thread_Function();
@@ -24,7 +26,7 @@ private:
 	std::string CleanChatMessage(std::string sIN);	
 	void MessageToVectors(std::string sIN, std::vector<std::string>& V1, std::vector<std::string>& V2, std::vector<std::string>& V3);
 
-	std::vector <std::pair<std::string,std::string>> CardPool;
+	
 	std::vector <std::string> TwitchEmots;
 
 	std::streampos lastPosInFile;

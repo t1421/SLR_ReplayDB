@@ -409,7 +409,14 @@ void WEB_Tome_Player::UpdateReforgeOverview()
 			"/"
 		)
 	);
-	//if(Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->ReforgeBooster->vCards[4]->cardId)
+	
+	MISD("#3");
+	
+	for (unsigned int i = 0; i < Bro->J->EnumBoosters.size(); i++)	
+		if (Bro->J->EnumBoosters[i].first == "-91")		
+			if (Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iMaxBoosters[i]
+				<= Bro->vTomeGames[Con->BroGameID]->vPlayer[PlayerIndex]->iOpenBoosterOfType(Bro->J->EnumBoosters[i].first))ReforgeOK = false;		
+
 	// Update Images
 	wbReforge->setDisabled(!ReforgeOK);
 
