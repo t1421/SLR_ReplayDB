@@ -252,7 +252,7 @@ void WEB_Event::WRefresh()
 		}	
 
 	}
-
+	MISERROR(TimeToText(Bro->L_getEEE_Now()) + ";" + sTeamID + ";" + std::to_string(iSaveReturn) + ";");
 	//BOT 10 Doubble ranking in two Taps
 	if (iEventNr == 14 || iEventNr == 16)
 	{
