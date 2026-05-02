@@ -15,7 +15,7 @@ struct EventEntity;
 
 #include <Wt/WTable.h>
 #include <Wt/WStandardItem.h>
-
+#include <boost/functional/hash.hpp>
 
 
 class WEB_Analyser 
@@ -52,6 +52,7 @@ public:
 	std::string GetPlayerName(unsigned long inPlayer);
 	unsigned long long getPlaytime();
 	unsigned long getReplayHash();
+	std::size_t WEB_Analyser::getReplayHashV2();
 	std::string getMapName();
 	Replay* R;
 

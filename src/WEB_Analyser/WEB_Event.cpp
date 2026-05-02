@@ -240,7 +240,7 @@ void WEB_Event::WRefresh()
 		case 19: //BOT11
 		case 21: //RPVE TW HUNT
 			sTeamID = Bro->GetTeamName(WR->GetTeamID());
-			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHash(), iTimes, iTimesBestRun);
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHashV2(), iTimes, iTimesBestRun);
 			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
 			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run, " + sTeamID + " : -) </h3> ");
 			else wtStatus->setText("<h3>Nice run, " + sTeamID + ", but not faster then your currend one </h3> ");

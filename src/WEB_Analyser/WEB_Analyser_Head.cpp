@@ -45,13 +45,13 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 	Playtime2 = new Wt::WText(" ");
 	PlayModeID2 = new Wt::WText(" ");
 	PMVPlayerID2 = new Wt::WText(" ");
-
+	
 	SSS3 = new Wt::WText(" ");
 	SSS5 = new Wt::WText(" ");
 	SSS7 = new Wt::WText(" ");
 	Chart = new Wt::Chart::WCartesianChart();
 		
-
+	HashV2 = new Wt::WText(" ");
 
 	MISD("#2");
 	Wt::WGridLayout *CLGrid = new Wt::WGridLayout();
@@ -141,8 +141,13 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("SSS7 Score: "))), x, y++);
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(SSS7)), x++, y--);
 
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("HashV2: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(HashV2)), x++, y--);
+
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("SSS5 Chart: "))), x, y++);
 		//CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Chart)), x++, y--);
+
+		
 		
 	}
 
@@ -217,6 +222,8 @@ void WEB_Analyser_Head::WRefresh()
 		SSS3->setText(std::to_string(iTimes3[0]));
 		SSS5->setText(std::to_string(iTimes5[0]));
 		SSS7->setText(std::to_string(iTimes7[0]) + "/" + std::to_string(iTimes7[1]));
+
+		HashV2->setText(std::to_string(WA->getReplayHashV2())); 
 		//Chart
 	}
 	newData = !newData;

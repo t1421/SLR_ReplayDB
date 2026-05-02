@@ -256,7 +256,7 @@ void MIS_Rank::SaveList()
 void MIS_Rank::SortList()
 {
 	MISS;
-	
+	MISD(RankList);
 	mtx.lock();
 	switch (RankList)
 	{

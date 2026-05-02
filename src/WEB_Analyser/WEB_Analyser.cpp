@@ -489,6 +489,22 @@ unsigned long WEB_Analyser::getReplayHash()
 	return R->Unknow3 * 1000 + R->Unknow4;
 }
 
+std::size_t WEB_Analyser::getReplayHashV2()
+{
+	std::size_t seed = 0;
+	unsigned  long a;
+	boost::hash_combine(seed, R->DifficultyID);
+	boost::hash_combine(seed, R->FileVersion);
+	boost::hash_combine(seed, R->GameVersion);
+	boost::hash_combine(seed, R->Seed);
+	boost::hash_combine(seed, R->MapID);
+	boost::hash_combine(seed, R->PlayModeID);
+	boost::hash_combine(seed, R->MinLeaveGame);
+	boost::hash_combine(seed, R->Unknow3);
+	boost::hash_combine(seed, R->Unknow4);
+	return seed;
+}
+
 bool WEB_Analyser::SaveReplay(std::string sFile)
 {
 	return R->SavePMV(sFile);
@@ -1175,10 +1191,17 @@ std::string WEB_Analyser::Kalk_Event19(unsigned long iTimes[RankRowStamps])
 	MISS;
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "battle_of_tactics_11.map")return "Wrong Map";
-	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
-	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 	if (!Check_MIS_WIN() && !WA_Admin)return "Was not a win";
+
+	for (auto A : R->ActionMatrix)
+	{
+		if (A->Type == 4009)iTimes[2]++; //Unit		
+		if (A->Type == 4012)iTimes[3]++; //Building
+		if (A->Type == 4010 || A->Type == 4011)iTimes[4]++; //Spell
+	}
 
 	iTimes[0] = getPlaytime();
 	iTimes[1] = R->DifficultyID;
