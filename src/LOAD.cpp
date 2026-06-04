@@ -39,10 +39,14 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "PMV_AUTO_PATH"))sPMV_AUTO_PATH = line.c_str();
 			if (INI_Value_Check(line, "PMV_ARCH_PATH"))sPMV_ARCH_PATH = line.c_str();
 			if (INI_Value_Check(line, "PMV_WEB_PATH"))sPMV_WEB_PATH = line.c_str();
+			if (INI_Value_Check(line, "PMV_KING_PATH"))sPMV_KING_PATH = line.c_str();
+			
 
 			if (INI_Value_Check(line, "RANK_PATH"))sRANK_PATH = line.c_str();
 			if (INI_Value_Check(line, "TOME_SAVE_PATH"))sTOME_SAVE_PATH = line.c_str();
 			if (INI_Value_Check(line, "LOTTO_SAVE_PATH"))sLOTTO_SAVE_PATH = line.c_str();
+			if (INI_Value_Check(line, "KING_SAVE_PATH"))sKING_SAVE_PATH = line.c_str();
+			
 			
 
 			if (INI_Value_Check(line, "TMP_PATH"))sTMP_PATH = line.c_str();
@@ -79,6 +83,7 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "WebAnalyser"))sWebAnalyser = line.c_str();
 			if (INI_Value_Check(line, "WebTome"))sWebTome = line.c_str();
 			if (INI_Value_Check(line, "WebLotto"))sWebLotto = line.c_str();
+			if (INI_Value_Check(line, "WebKing"))sWebKing = line.c_str();
 
 			if (INI_Value_Check(line, "TOME_REFORGE"))iTOME_REFORGE = atoi(line.c_str());
 

@@ -42,11 +42,14 @@ class LottoWeek;
 class Challonge;
 class Quiz;
 class Stream;
+class ROW;
+class Player;
 
 struct Tome_Booster;
 struct SMJCard;
 struct ROW;
 struct QuestPlayer;
+struct KingGame;
 
 class broker
 {
@@ -106,7 +109,7 @@ public:
 	void broker::saveQPlayer();
 #endif
 
-#if defined BrokerTome || defined BrokerLotto
+#if defined BrokerTome || defined BrokerLotto || defined BrokerKing
 	void postChatEventMIS(std::string Value1);
 	void postChatEventMIS(std::string Value1, std::string Value2);
 	void postChatEventMIS(std::string Value1, std::string Value2, std::string Value3);
@@ -127,6 +130,17 @@ public:
 
 #ifdef MIS_Count 
 	void L_ReplayPlus();
+#endif
+
+#ifdef BrokerKing
+	std::vector <KingGame> vKingGames;
+	std::vector <Player> vKingPlayers;
+	std::mutex mtx;
+
+	void INIT();
+	void SaveKing();
+	void KalkKingPlayers();
+	bool DublicateKingReplay(std::string ReplayID);
 #endif
 protected:
 	

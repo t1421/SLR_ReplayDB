@@ -85,6 +85,10 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("Quiz", "*", "*", "true");
 		Fill_DBArray("Question", "*", "*", "true");
 
+		Fill_DBArray("WEB_Container_King", "*", "*", "true");
+		Fill_DBArray("WEB_King_Player", "*", "*", "true");
+		Fill_DBArray("WEB_King_Game", "*", "*", "true");
+
 
 		Fill_DBArray("CardBaseSMJ", "OpenBooster", "*", "false");
 		Fill_DBArray("CardBaseSMJ", "GetImage", "*", "false");

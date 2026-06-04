@@ -34,6 +34,7 @@ struct Card {
 };
 
 struct Player {
+	Player() {};
 	std::string Name;
 	unsigned long long PlayerID;
 	unsigned long ActionPlayer;
@@ -51,6 +52,16 @@ struct Player {
 	unsigned int iSaveID;
 	std::vector <unsigned short> ActionsPerSec;
 	std::vector <unsigned short> LastPlayStack;
+#endif 
+#if defined BrokerKing
+	Player(std::string _Name):
+		Name(_Name), iWins(0), iLosses(0)
+	{ };
+	unsigned int iWins;
+	unsigned int iLosses;
+
+	bool operator< (const Player& other) const { return Name < other.Name; }
+	bool operator==(const Player& other) const { return Name == other.Name;}
 #endif 
 };
 
@@ -179,7 +190,7 @@ struct ROW {
 	ROW(std::string _ID, unsigned long _ReplayID) :
 		ID(_ID), ReplayID(_ReplayID) {
 		for (unsigned int i = 0; i < RankRowStamps; i++)Stamps[i] = 0;
-	}
+	};
 
 };
 
@@ -220,6 +231,21 @@ struct QuestPlayer {
 	};
 };
 
+
+
+
+#if defined BrokerKing
+struct KingGame {
+	std::string ReplayID;
+	std::string PlayerName1;
+	std::string PlayerName2;
+	std::string PlayerWinner;
+	KingGame() { ReplayID = "";  PlayerName1 = ""; PlayerName2 = ""; PlayerWinner = ""; };
+
+	KingGame(std::string _ReplayID, std::string _PlayerName1, std::string _PlayerName2, std::string _PlayerWinner) :
+		ReplayID(_ReplayID), PlayerName1(_PlayerName1), PlayerName2(_PlayerName2), PlayerWinner(_PlayerWinner) {};
+};
+#endif 
+
+
 #endif //DataTypes
-
-

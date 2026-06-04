@@ -1,4 +1,4 @@
-//#define DF_Debug
+#define DF_Debug
 
 #include "..\..\incl\Broker.h"
 
@@ -79,8 +79,10 @@ WEB_Analyser::WEB_Analyser(): R(new Replay()), WA_Debug(false), WA_Admin(false)
 		ActionSum_Tmp->ActionID = i;
 		ActionSum_Tmp->sActionName = R->SwitchType(i);
 		ActionSum_Tmp->iCount = 0;
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 		ActionSum_Tmp->wcBox = new Wt::WCheckBox();
 		ActionSum_Tmp->wcBox->setChecked(true);
+#endif
 		ActionSums.push_back(ActionSum_Tmp);
 	}
 	
@@ -192,10 +194,12 @@ bool WEB_Analyser::getData()
 		Player_Temp->ActionPlayer = R->PlayerMatrix[i]->ActionPlayer;
 		Player_Temp->GroupID = R->PlayerMatrix[i]->GroupID;
 		Player_Temp->IDinGroup = R->PlayerMatrix[i]->IDinGroup;
-		Player_Temp->Type = R->PlayerMatrix[i]->Type;
+		Player_Temp->Type = R->PlayerMatrix[i]->Type;		
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 		Player_Temp->wcBox = new Wt::WCheckBox(Player_Temp->Name);
 		Player_Temp->iActionCount = 0;
 		Player_Temp->wcBox->setChecked(true);
+#endif
 		Player_Temp->Deck.clear();
 		for (unsigned int j = 0; j < R->ActionMatrix.size(); j++)
 		{
@@ -264,8 +268,10 @@ bool WEB_Analyser::getData()
 	for (unsigned int i = 0; i < ActionSums.size(); i++)
 	{
 		ActionSums[i]->iCount = 0;
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
 		ActionSums[i]->wcBox = new Wt::WCheckBox();
 		ActionSums[i]->wcBox->setChecked(true);
+#endif
 	}
 
 	for (unsigned int i = 0; i < R->ActionMatrix.size(); i++)
@@ -438,6 +444,7 @@ std::string WEB_Analyser::getMapName()
 	return R->MapName;
 }
 
+#ifndef noSMJImages
 void  WEB_Analyser::AddIMG(Wt::WTableCell* wtCell, bool bValue)
 {
 	wtCell->setHeight(BOT4_IMG_SIZE);
@@ -449,6 +456,7 @@ void  WEB_Analyser::AddIMG(Wt::WTableCell* wtCell, bool bValue)
 
 	wtCell->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 }
+
 
 void  WEB_Analyser::AddCardIMG(Wt::WTableCell* wtCell, unsigned short CardID, unsigned int Size)
 {
@@ -463,7 +471,7 @@ void  WEB_Analyser::AddCardIMG(Wt::WTableCell* wtCell, unsigned short CardID, un
 
 	wtCell->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 }
-
+#endif
 
 
 
@@ -1430,7 +1438,15 @@ std::string WEB_Analyser::GetDifficultyName(unsigned int iDifficulty, unsigned i
 		case 1: return "Std";			
 		case 2: return "Adv";			
 		case 3:	return "Exp";
-		default: return std::to_string(iDifficulty - 4);
+		case 5:	return "Std";
+		case 6:	return "Std+";
+		case 7:	return "Std++";
+		case 8:	return "Adv";
+		case 9:	return "Adv+";
+		case 10:return "Adv++";
+		case 11:return "Exp";
+		case 12:return "Exp+";	
+		default: return "??? -> " + std::to_string(iDifficulty);
 		}
 	case 2:
 		return " - ";
@@ -1917,21 +1933,60 @@ Lotto_Player *WEB_Analyser::getLottoPlayer()
 		
 		for each (Card* C in Players[i]->Deck)
 		{
-			lpReturn->vSimpleDeck.push_back(Bro->J->GetSMJCard(C->CardID)->cardNameSimple);
-			lpReturn->vPoints.push_back(0);
+			lpReturn.vSimpleDeck.push_back(Bro->J->GetSMJCard(C->CardID)->cardNameSimple);
+			lpReturn.vPoints.push_back(0);
 		}
 	}
 
-	std::sort(lpReturn->vSimpleDeck.begin(), lpReturn->vSimpleDeck.end());
-	lpReturn->vSimpleDeck.erase(std::unique(lpReturn->vSimpleDeck.begin(), lpReturn->vSimpleDeck.end()), lpReturn->vSimpleDeck.end());
+	std::sort(lpReturn.vSimpleDeck.begin(), lpReturn.vSimpleDeck.end());
+	lpReturn.vSimpleDeck.erase(std::unique(lpReturn.vSimpleDeck.begin(), lpReturn.vSimpleDeck.end()), lpReturn.vSimpleDeck.end());
 	/*
-	MISD(lpReturn->sPlayerID);
-	MISD(lpReturn->sPlayerName);
-	MISD(lpReturn->sGameID);
-	MISD(lpReturn->iMapID);
-	MISD(lpReturn->vSimpleDeck.size());
+	MISD(lpReturn.sPlayerID);
+	MISD(lpReturn.sPlayerName);
+	MISD(lpReturn.sGameID);
+	MISD(lpReturn.iMapID);
+	MISD(lpReturn.vSimpleDeck.size());
 	*/
 	MISE;
 	return lpReturn;
+}
+#endif
+#if defined BrokerKing
+KingGame WEB_Analyser::KingData()
+{
+	MISS;
+	bool Skip = false;
+
+	KingGame Return;
+
+	for (auto P : Players)
+	{
+		// Is not Human?
+		if (P->Type != 1)continue;
+		
+		//PLayed Cards
+		Skip = true;
+		for (auto C : P->Deck)
+			if (C->count > 0) Skip = false;
+		if (Skip) continue;
+
+		for(auto T : R->TeamMatrix)
+			if (T->GroupID == P->GroupID)
+			{
+				if (T->Name == "TM_TEAM1")Return.PlayerName1 = GetPlayerName(P->PlayerID);
+				if (T->Name == "TM_TEAM2")Return.PlayerName2 = GetPlayerName(P->PlayerID);
+			}
+	}
+
+	if (Return.PlayerName1 == "" || Return.PlayerName2 == "")
+		MISERROR("No Players Found");
+
+	if (R->WinningTeam == "TM_TEAM1")Return.PlayerWinner = Return.PlayerName1;
+	if (R->WinningTeam == "TM_TEAM2")Return.PlayerWinner = Return.PlayerName2;
+
+	Return.ReplayID = std::to_string(getReplayHashV2());
+
+	MISE;
+	return Return;
 }
 #endif

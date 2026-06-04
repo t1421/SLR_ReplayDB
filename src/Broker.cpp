@@ -14,20 +14,23 @@
 #include "..\incl\Stream.h" 
 #endif
 
-#if defined BrokerTome || defined BrokerNormal || defined BrokerWeb || defined BrokerLotto || defined BrokerPVP
+#if defined BrokerTome || defined BrokerNormal || defined BrokerWeb || defined BrokerLotto || defined BrokerPVP || defined BrokerKing
 #include "..\incl\Replay.h" 
 #include "..\incl\Reader.h" 
 #include "..\incl\Thread_MIS.h" 
 #endif
 
-#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto || defined BrokerKing
 #include "..\incl\Utility.h"
 
 #include "..\incl\WEB\WEB_Main.h"
 #include "..\incl\WEB\WEB_Server.h"
-#include "..\incl\WEB\WEB_Toolbar.h"
 
 #include "..\incl\WEB_Analyser\WEB_Analyser.h"
+#endif
+
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
+#include "..\incl\WEB\WEB_Toolbar.h"
 #endif
 
 #if defined BrokerWeb
@@ -68,6 +71,12 @@
 #include "..\incl\WEB_Lotto\WEB_Lotto_Week.h"
 #endif
 
+#if defined  BrokerKing
+#include "..\incl\WEB_King\WEB_Container_King.h"
+#include "..\incl\WEB_King\WEB_King_Game.h"
+#include "..\incl\WEB_King\WEB_King_Player.h"
+#endif
+
 #if defined  BrokerChallonge
 #include "..\incl\Challonge.h"
 #endif
@@ -106,19 +115,22 @@ broker::broker()
 	S = NULL;
 #endif
 
-#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome || defined BrokerLotto  || defined BrokerPVP
+#if defined BrokerNormal || defined BrokerWeb || defined BrokerTome || defined BrokerLotto  || defined BrokerPVP || defined BrokerKing
 	Replay::learnBro(this);
 	Reader::learnBro(this);
 	Thread_MIS::learnBro(this);
 #endif
 
-#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto || defined BrokerKing
 	WEB_Main::learnBro(this);
 	WEB_Server::learnBro(this);
-	WEB_Toolbar::learnBro(this);	
 	WEB_Analyser::learnBro(this);
 
 	W = NULL;
+#endif
+
+#if defined BrokerTome || defined BrokerWeb || defined BrokerLotto
+	WEB_Toolbar::learnBro(this);
 #endif
 
 #if defined BrokerWeb
@@ -164,6 +176,12 @@ broker::broker()
 	WEB_Lotto_Admin_Main::learnBro(this);
 	WEB_Lotto_Admin_Pull::learnBro(this);
 	WEB_Lotto_Week::learnBro(this);	
+#endif
+
+#if defined BrokerKing
+	WEB_Container_King::learnBro(this);
+	WEB_King_Game::learnBro(this);
+	WEB_King_Player::learnBro(this);
 #endif
 
 #if defined BrokerChallonge
@@ -480,7 +498,7 @@ int broker::getTomeGame(std::string sGameID)
 }
 #endif
 
-#if defined BrokerTome || defined BrokerLotto
+#if defined BrokerTome || defined BrokerLotto || defined BrokerKing
 void broker::postChatEventMIS(std::string Value1)
 {
 	MISS;
@@ -539,5 +557,98 @@ LottoWeek* broker::getPullWeek()
 void broker::L_ReplayPlus()
 {
 	L->ReplayPlus();
+}
+#endif
+
+
+#if defined BrokerKing
+void broker::INIT()
+{
+	std::ifstream ifFile;
+	std::string line;
+	
+	printf("LoadKing Game\n");
+	ifFile.open(L->sKING_SAVE_PATH + "KingGame.csv", std::ios::binary);
+	if (ifFile.good())
+	{
+		while (getline(ifFile, line))
+		{
+			vKingGames.emplace_back(
+				entry(line, 0).c_str(), //Replay ID
+				entry(line, 1), //Player Name 1
+				entry(line, 2), //Player Name 2
+				entry(line, 3) //Player Winner
+			);
+		}
+
+		ifFile.close();
+	}
+	else printf("Player - FILE ERROR\n");
+
+	KalkKingPlayers();
+}
+
+void broker::SaveKing()
+{
+	printf("SaveKing Player\n");
+	std::ofstream ofFile;
+
+	ofFile.open(L->sKING_SAVE_PATH + "KingGame.csv", std::ios::binary);
+	if (ofFile.good())
+	{
+		printf("Game - FILE OK\n");
+		for (auto G : vKingGames)
+		{
+			ofFile << 
+				G.ReplayID << ";" << 
+				G.PlayerName1 << ";" <<
+				G.PlayerName2 << ";" <<
+				G.PlayerWinner << ";" <<
+				std::endl;
+		}
+		ofFile.close();
+	}
+	else printf("Game - FILE ERROR\n");
+	
+}
+
+void broker::KalkKingPlayers()
+{
+	mtx.lock();
+	vKingPlayers.clear();
+
+	//Add All Players
+	for (auto G : vKingGames)
+	{
+		vKingPlayers.emplace_back(G.PlayerName1);
+		vKingPlayers.emplace_back(G.PlayerName2);
+	}
+
+	//Remove Dublicats
+	std::sort(vKingPlayers.begin(), vKingPlayers.end());
+	vKingPlayers.erase(std::unique(vKingPlayers.begin(), vKingPlayers.end()), vKingPlayers.end());
+
+	for (auto G : vKingGames)
+	{
+		for (unsigned int j = 0; j< vKingPlayers.size();j++)
+		{
+			
+			if (vKingPlayers[j].Name == G.PlayerName1)
+				if (G.PlayerName1 == G.PlayerWinner)vKingPlayers[j].iWins++;
+				else vKingPlayers[j].iLosses++;
+			if (vKingPlayers[j].Name == G.PlayerName2)
+				if (G.PlayerName2 == G.PlayerWinner)vKingPlayers[j].iWins++;
+				else vKingPlayers[j].iLosses++;
+		}
+	}
+
+	mtx.unlock();
+}
+
+bool broker::DublicateKingReplay(std::string ReplayID)
+{
+	for (auto G : vKingGames)
+		if (G.ReplayID == ReplayID)return true;
+	return false;
 }
 #endif

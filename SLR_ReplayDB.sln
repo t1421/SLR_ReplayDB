@@ -26,6 +26,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_Quiz", "SLR_Quiz\SLR_Qu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_StreamCard", "SLR_StreamCard\SLR_StreamCard.vcxproj", "{B9B059DE-B0DE-4C00-9F7E-5E8427F4CC5F}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SLR_King", "SLR_King\SLR_King.vcxproj", "{AF2F9B54-1713-47B5-AE49-1E841982938D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -106,8 +108,19 @@ Global
 		{B9B059DE-B0DE-4C00-9F7E-5E8427F4CC5F}.Release|x64.Build.0 = Release|x64
 		{B9B059DE-B0DE-4C00-9F7E-5E8427F4CC5F}.Release|x86.ActiveCfg = Release|Win32
 		{B9B059DE-B0DE-4C00-9F7E-5E8427F4CC5F}.Release|x86.Build.0 = Release|Win32
+		{AF2F9B54-1713-47B5-AE49-1E841982938D}.Debug|x64.ActiveCfg = Debug|x64
+		{AF2F9B54-1713-47B5-AE49-1E841982938D}.Debug|x64.Build.0 = Debug|x64
+		{AF2F9B54-1713-47B5-AE49-1E841982938D}.Debug|x86.ActiveCfg = Debug|Win32
+		{AF2F9B54-1713-47B5-AE49-1E841982938D}.Debug|x86.Build.0 = Debug|Win32
+		{AF2F9B54-1713-47B5-AE49-1E841982938D}.Release|x64.ActiveCfg = Release|x64
+		{AF2F9B54-1713-47B5-AE49-1E841982938D}.Release|x64.Build.0 = Release|x64
+		{AF2F9B54-1713-47B5-AE49-1E841982938D}.Release|x86.ActiveCfg = Release|Win32
+		{AF2F9B54-1713-47B5-AE49-1E841982938D}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D24DE75-7779-4537-B3BD-65B00F89D5CC}
 	EndGlobalSection
 EndGlobal

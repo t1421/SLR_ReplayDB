@@ -22,15 +22,18 @@ public:
 	std::string sWebAnalyser;
 	std::string sWebTome;
 	std::string sWebLotto;
+	std::string sWebKing;
 
 	std::string sPMV_PATH;
 	std::string sPMV_AUTO_PATH;
 	std::string sPMV_ARCH_PATH;
 	std::string sPMV_WEB_PATH;
+	std::string sPMV_KING_PATH;
 	
 	std::string sRANK_PATH;
 	std::string sTOME_SAVE_PATH;
 	std::string sLOTTO_SAVE_PATH;
+	std::string sKING_SAVE_PATH;	
 
 	std::string sTMP_PATH;
 	std::string sSMJPIC_PATH;

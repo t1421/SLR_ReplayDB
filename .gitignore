@@ -14,6 +14,7 @@ SLR_LivePVP/Release/
 SLR_Challonge/Release/
 SLR_Quiz/Release/
 SLR_StreamCard/Release/
+SLR_King/Release/
 Release/SLR_ReplayDB.iobj
 Release/SLR_ReplayDB.ipdb
 Release/SLR_ReplayDB.pdb
@@ -41,6 +42,10 @@ Release/SLR_Quiz.pdb
 Release/SLR_StreamCard.iobj
 Release/SLR_StreamCard.ipdb
 Release/SLR_StreamCard.pdb
+Release/SLR_King.iobj
+Release/SLR_King.ipdb
+Release/SLR_King.pdb
+
 
 *.mov
 *.cer
@@ -67,3 +72,4 @@ Release/Quiz/
 Release/Twitch/
 Backup/
 Release/resources/FusionIMG/
+Release/KING/

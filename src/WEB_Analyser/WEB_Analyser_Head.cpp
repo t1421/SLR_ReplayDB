@@ -173,7 +173,7 @@ void WEB_Analyser_Head::WRefresh()
 		return;
 	}
 	
-	Playtime->setText(sTime(WA->R->Playtime));
+	Playtime->setText(sTimeFull(WA->R->Playtime));
 	
 	MapName->setText(WA->R->MapName);
 	Seed->setText(std::to_string(WA->R->Seed));

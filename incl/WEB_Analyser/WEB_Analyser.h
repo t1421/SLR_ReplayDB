@@ -116,14 +116,18 @@ public:
 	unsigned long long usedPower();
 	unsigned long long usedPower(unsigned long long _PlayerID);
 
+#ifndef noSMJImages
 	void AddIMG(Wt::WTableCell* wtCell, bool bValue);
 	void AddCardIMG(Wt::WTableCell* wtCell, unsigned short CardID, unsigned int Size);
-	
+#endif
+
 	std::string GetTeamID();	
 	std::string GetDifficultyName();
 	std::string GetDifficultyName(unsigned int iDifficulty, unsigned int iPlayMode);
 	std::string GetPlayModeName();
-
+#if defined BrokerKing
+	KingGame KingData();
+#endif
 	private:
 };
 
