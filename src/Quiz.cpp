@@ -281,9 +281,11 @@ void Quiz::UpdateHTML()
 	if (ActivQuiz == 0)return;
 	
 	// QUIZ HTML
-	ssTable << "<thead>" << "<tr>" << "<td style = 'width: 100; '>QUIZ WON</td>" << "<td >Twitch</td>" << "<td >Ingame</td>";
+	ssTable << "<thead>" << "<tr>";
+	if(vQuestion[ActivQuiz]->AnswerType != 6)ssTable << "<td style = 'width: 100; '>QUIZ WON</td>";
+	ssTable << "<td >Twitch</td>" << "<td >Ingame</td>";
 	if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 5) ssTable << "<td >Guess N</td>";
-	if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4) ssTable << "<td >Guess T</td>";
+	if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4 || vQuestion[ActivQuiz]->AnswerType == 6) ssTable << "<td >Guess T</td>";
 	ssTable << "<td >Time</td>"	<< "</tr>"<< "</thead><tbody>";
 	
 	std::sort(vQuestion[ActivQuiz]->Answers.begin(), vQuestion[ActivQuiz]->Answers.end(), compare_sAnswer_iAnswer_tTime);
@@ -291,15 +293,16 @@ void Quiz::UpdateHTML()
 	for (auto A : vQuestion[ActivQuiz]->Answers)
 	{
 		ssTable << "<tr>";
-		if (A->Pl->WonID == vQuestion[ActivQuiz]->ID)ssTable << "<td style='background-color: #8B6914;'>" << A->Pl->WonID << "</td>";
-		else if (A->Pl->WonID != "")ssTable << "<td style='background-color: #333333;'>" << A->Pl->WonID << "</td>";
-		else ssTable << "<td>" << A->Pl->WonID << "</td>";
+		if (vQuestion[ActivQuiz]->AnswerType != 6)
+			if (A->Pl->WonID == vQuestion[ActivQuiz]->ID)ssTable << "<td style='background-color: #8B6914;'>" << A->Pl->WonID << "</td>";
+			else if (A->Pl->WonID != "")ssTable << "<td style='background-color: #333333;'>" << A->Pl->WonID << "</td>";
+			else ssTable << "<td>" << A->Pl->WonID << "</td>";
 		ssTable << "<td>" << A->Pl->Twitch << "</td>";
 		ssTable << "<td>" << A->Pl->Ingame << "</td>";
 
 		if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3)ssTable << "<td>" << A->iAnswer << "</td>";
 		if (vQuestion[ActivQuiz]->AnswerType == 5)ssTable << "<td>" << TimeToDate(A->iAnswer) << "</td>";
-		if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4) ssTable << "<td>" << A->sAnswer << "</td>";
+		if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4 || vQuestion[ActivQuiz]->AnswerType == 6) ssTable << "<td>" << A->sAnswer << "</td>";
 		ssTable << "<td>" << TimeToText(A->tTime) << "<td></td>\n";
 	}
 	ssTable << "</tbody>";
@@ -323,7 +326,9 @@ void Quiz::UpdateHTML()
 	//Player HTML
 	ssTable.str("");
 
-	ssTable << "<thead>" << "<tr>" << "<td style = 'width: 100; '>QUIZ WON</td>" << "<td >Twitch</td>" << "<td >Ingame</td>" << "<td >Points</td>" << "</tr>" << "</thead><tbody>";
+	ssTable << "<thead>" << "<tr>";
+	if (vQuestion[ActivQuiz]->AnswerType != 6)ssTable << "<td style = 'width: 100; '>QUIZ WON</td>";
+	ssTable << "<td >Twitch</td>" << "<td >Ingame</td>" << "<td >Points</td>" << "</tr>" << "</thead><tbody>";
 
 	auto localPlayers = Players;
 	std::sort(localPlayers.begin(), localPlayers.end(), [](const QuizPlayer* a, const QuizPlayer* b) {return a->Points > b->Points;});
@@ -333,8 +338,9 @@ void Quiz::UpdateHTML()
 		if (P->Points == 0)continue;
 
 		ssTable << "<tr>";
-		if (P->WonID != "")ssTable << "<td style='background-color: #333333;'>" << P->WonID << "</td>";
-		else ssTable << "<td> </td>";
+		if (vQuestion[ActivQuiz]->AnswerType != 6)
+			if (P->WonID != "")ssTable << "<td style='background-color: #333333;'>" << P->WonID << "</td>";
+			else ssTable << "<td> </td>";
 		ssTable << "<td>" << P->Twitch << "</td>";
 		ssTable << "<td>" << P->Ingame << "</td>";
 		ssTable << "<td>" << P->Points << "</td>";		

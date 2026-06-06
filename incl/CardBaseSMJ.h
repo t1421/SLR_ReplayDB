@@ -28,6 +28,7 @@ public:
 	std::vector<std::pair<std::string, std::string>> EnumTier;
 	std::vector<std::pair<std::string, std::string>> EnumDifficulty;
 	std::vector<std::pair<std::string, std::string>> EnumDirections;
+	std::vector<std::pair<std::string, std::string>> EnumABCD;
 private:
 	Json::Value WEBRequestToCHASH(std::string sURL);
 	CURL *curl;

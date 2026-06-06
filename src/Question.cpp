@@ -96,6 +96,9 @@ void Question::Start()
 	case 7: //Top/Left/Right/Bottom
 		for (auto C : Bro->J->EnumDirections)CheckPool.push_back(CleanString(C.second));
 		break;
+	case 8: //A/B/C/D
+		for (auto C : Bro->J->EnumABCD)CheckPool.push_back(CleanString(C.second));
+		break;
 	}
 	
 	sort(CheckPool.begin(), CheckPool.end());
@@ -127,16 +130,32 @@ void Question::Winner()
 	sTemp = "copy " + Bro->L->sQuizPath + "QQ.txt " + Bro->L->sQuizPath + "QQ" + ID + ".txt";
 	system(sTemp.c_str());
 	
+	unsigned int iWinners = 0;
 	std::vector<Answer*> AllAwsers;
 	Answer* Winner = getWinningAnswer( false, AllAwsers);
 	//MISD(tStart);
 	Answer* BestGuess = getWinningAnswer(true, AllAwsers);
 	//MISD(BestGuess->tTime);
 
-	for (unsigned int i = 0; i < AllAwsers.size() && i < 5; i++)
+
+	if (AnswerType == 6)
 	{
-		AllAwsers[i]->Pl->Points += 5 - i;
+		//All get a Point
+		for (unsigned int i = 0; i < AllAwsers.size(); i++)
+		if(AllAwsers[i]->sAnswer == sAnswer)
+		{
+			AllAwsers[i]->Pl->Points++;
+			iWinners++;
+		}
+
+		Twitch_Message(ID, std::to_string(iWinners) + " correct answers - witch was: " + sAnswer);
+		MISEA("#2");
+		return;
 	}
+
+	
+	for (unsigned int i = 0; i < AllAwsers.size() && i < 5; i++)
+		AllAwsers[i]->Pl->Points += 5 - i;
 
 	if (Winner != nullptr)
 	{
@@ -162,7 +181,7 @@ void Question::Winner()
 		
 	}
 
-	MISE;
+	MISEA("#1");
 }
 
 Answer* Question::getWinningAnswer(bool all, std::vector<Answer*>& outLocalAnswers)
@@ -213,6 +232,7 @@ Answer* Question::getWinningAnswer(bool all, std::vector<Answer*>& outLocalAnswe
 		break;
 	case 2:
 	case 4:
+	case 6:
 		//Sort Time
 		std::sort(LocalAnswers.begin(), LocalAnswers.end(), compare_sAnswer_tTime);
 		//First with correct answer
@@ -302,7 +322,7 @@ void Question::LoadAnswers()
 			if (AnswerType == 5)localiAnswer = Bro->L_StringToUNIXTime(localdAnswer);
 
 			if (   (AnswerType == 1 || AnswerType == 3 || AnswerType == 5) && A->iAnswer != localiAnswer
-				|| (AnswerType == 2 || AnswerType == 3) && A->sAnswer != localsAnswer
+				|| (AnswerType == 2 || AnswerType == 3 || AnswerType == 6) && A->sAnswer != localsAnswer
 				|| AnswerType == 4 && (A->iAnswer != localiAnswer || A->sAnswer != localsAnswer) && A->tTime + Bro->L->iCoolDown < Bro->L_getEEE_Now())
 			{
 				if (SpellCheck(localsAnswer) == false)
@@ -313,7 +333,7 @@ void Question::LoadAnswers()
 				{
 					Twitch_Message(entry(line, 0), "/w " + entry(line, 0) + " the format is DD.MM.YYYY");
 				}
-				else
+				else if (AnswerType != 6)
 				{
 					A->iAnswer = localiAnswer;
 					A->sAnswer = localsAnswer;
@@ -405,32 +425,6 @@ std::string Question::CleanString(std::string text)
 	return sReturn;
 }
 
-/*
-void Question::splitString(const std::string& input, int& number, std::string& text) 
-{
-	MISS;
-	std::stringstream ss(input);
-	std::string temp;
-	text.clear();
-	number = 0;
-
-	while (ss >> temp) 
-	{
-		
-		bool isNumber = true;
-		for (char c : temp) if (!std::isdigit(c)) 
-		{
-				isNumber = false;
-				break;
-		}
-
-		if (isNumber) number = std::stoi(temp);		
-		else for (char c : temp) if (std::isalpha(c)) text += std::toupper(c);
-	}
-
-	MISE;
-}
-*/
 void Question::splitString(const std::string& input, int& number, std::string& text, std::string& date)
 {
 	MISS;
@@ -471,6 +465,13 @@ bool Question::SpellCheck(std::string& input)
 	if(SpellCheckType==0)return true;
 	std::string Orginput = input;
 
+	MISD("#4");
+	if (input == "")
+	{
+		input = "some text";
+		MISEA("no Text");
+		return false;
+	}
 	
 	switch (SpellCheckType)
 	{
