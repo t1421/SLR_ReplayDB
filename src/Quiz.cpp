@@ -56,6 +56,9 @@ void Quiz::Init()
 	sTemp = "copy " + Bro->L->sQuizPath + "TEMPPlayer.HTML " + Bro->L->sQuizPath + "Player.HTML";
 	system(sTemp.c_str());
 
+	sTemp = "copy " + Bro->L->sQuizPath + "TEMPChart.HTML " + Bro->L->sQuizPath + "Chart.HTML";
+	system(sTemp.c_str());
+
 	Load_Question();
 
 	MISE;
@@ -284,7 +287,7 @@ void Quiz::UpdateHTML()
 	ssTable << "<thead>" << "<tr>";
 	if(vQuestion[ActivQuiz]->AnswerType != 6)ssTable << "<td style = 'width: 100; '>QUIZ WON</td>";
 	ssTable << "<td >Twitch</td>" << "<td >Ingame</td>";
-	if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 5) ssTable << "<td >Guess N</td>";
+	if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 5 || vQuestion[ActivQuiz]->AnswerType == 6) ssTable << "<td >Guess N</td>";
 	if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4 || vQuestion[ActivQuiz]->AnswerType == 6) ssTable << "<td >Guess T</td>";
 	ssTable << "<td >Time</td>"	<< "</tr>"<< "</thead><tbody>";
 	
@@ -300,7 +303,7 @@ void Quiz::UpdateHTML()
 		ssTable << "<td>" << A->Pl->Twitch << "</td>";
 		ssTable << "<td>" << A->Pl->Ingame << "</td>";
 
-		if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3)ssTable << "<td>" << A->iAnswer << "</td>";
+		if (vQuestion[ActivQuiz]->AnswerType == 1 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 6)ssTable << "<td>" << A->iAnswer << "</td>";
 		if (vQuestion[ActivQuiz]->AnswerType == 5)ssTable << "<td>" << TimeToDate(A->iAnswer) << "</td>";
 		if (vQuestion[ActivQuiz]->AnswerType == 2 || vQuestion[ActivQuiz]->AnswerType == 3 || vQuestion[ActivQuiz]->AnswerType == 4 || vQuestion[ActivQuiz]->AnswerType == 6) ssTable << "<td>" << A->sAnswer << "</td>";
 		ssTable << "<td>" << TimeToText(A->tTime) << "<td></td>\n";
@@ -318,7 +321,7 @@ void Quiz::UpdateHTML()
 		ofFile << line;
 		ifFile.clear();
 	} 
-	else MISEA("Error with HTML");
+	else MISEA("Error with HTML 1");
 
 	ifFile.close();
 	ofFile.close();
@@ -356,10 +359,32 @@ void Quiz::UpdateHTML()
 		ofFile << line;
 		ifFile.clear();
 	}
-	else MISEA("Error with HTML");
+	else MISEA("Error with HTML 2");
 
 	ifFile.close();
 	ofFile.close();
+
+
+
+	if (vQuestion[ActivQuiz]->AnswerType == 6)
+	{
+		
+		ifFile.open(Bro->L->sQuizPath + "TEMPChart.HTML", std::ios::binary);
+		ofFile.open(Bro->L->sQuizPath + "Chart.HTML", std::ios::binary);
+
+		std::string sData = vQuestion[ActivQuiz]->getType6ChartData();
+
+		if (ifFile.good() && ofFile.good())while (getline(ifFile, line))
+		{
+			line = ReplaceString(line, "%DATA%", sData);
+
+			ofFile << line;
+			ifFile.clear();
+		}
+		else MISEA("Error with HTML 3");
+
+	}
+
 
 	MISE;
 }

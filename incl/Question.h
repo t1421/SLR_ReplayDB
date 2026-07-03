@@ -38,6 +38,8 @@ public:
 	void LoadAnswers();
 	void SaveAnswers();
 
+	std::string getType6ChartData();
+
 	//BROKER
 	static broker* Bro;
 	static void learnBro(broker* _Bro) { Bro = _Bro; }
@@ -45,13 +47,14 @@ public:
 private:
 	unsigned long int tStart;
 	std::streampos lastQPos;
+	std::vector <std::string> CheckPool;
+
 	void Thread_Function();
 	void SetCountDown(unsigned int iii);
 	void splitString(const std::string& input, int& number, std::string& text, std::string& date);
 	std::string CleanString(std::string text);
 	bool SpellCheck(std::string& input);
-	std::vector <std::string> CheckPool;
-
+	
 	Answer* getWinningAnswer(bool all, std::vector<Answer*>& outLocalAnswers);
 	
 };

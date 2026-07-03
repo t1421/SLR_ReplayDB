@@ -33,6 +33,15 @@ bool compare_sAnswer_tTime(const Answer* a, const Answer* b)
 	else return a->sAnswer < b->sAnswer;
 }
 
+size_t CountAnswers(const std::vector<Answer*>& answers, const std::string& gesucht)
+{
+	return std::count_if(answers.begin(), answers.end(),
+		[&gesucht](const Answer* a)
+		{
+			return a->sAnswer == gesucht;
+		});
+}
+
 broker* (Question::Bro) = NULL;
 
 Question::Question(std::string _ID, std::string _Titel, std::string _Question_Twitch, int _iAnswer, std::string _sAnswer, unsigned int _AnswerType, unsigned int _SpellCheckType) :
@@ -105,6 +114,7 @@ void Question::Start()
 	CheckPool.erase(unique(CheckPool.begin(), CheckPool.end()), CheckPool.end());
 
 	ResetAnswers();
+
 	//Twitch_Message(ID,"ultral34Spitfire2 ultral34Spitfire2 ultral34Spitfire2 ", Titel, Question_Twitch, "ultral34Booster ultral34Booster ultral34Booster ");
 	Twitch_Message(ID, "TwitchSings TwitchSings TwitchSings ", Titel, Question_Twitch, "TwitchSings TwitchSings TwitchSings ");
 	Start_Thread();
@@ -144,7 +154,7 @@ void Question::Winner()
 		for (unsigned int i = 0; i < AllAwsers.size(); i++)
 		if(AllAwsers[i]->sAnswer == sAnswer)
 		{
-			AllAwsers[i]->Pl->Points++;
+			AllAwsers[i]->Pl->Points+= AllAwsers[i]->iAnswer;
 			iWinners++;
 		}
 
@@ -352,6 +362,8 @@ void Question::LoadAnswers()
 			MISD("#_2");
 			if (AnswerType == 5)localiAnswer = Bro->L_StringToUNIXTime(localdAnswer);
 			MISD("#_3");
+			if (AnswerType == 6)localiAnswer = int(tStart + Bro->L->iCountDown - Bro->L_getEEE_Now());
+			MISD("#_4");
 			//MISD(localiAnswer);
 			//MISD(localsAnswer);
 			//MISD("#" + localdAnswer + "#");
@@ -552,4 +564,14 @@ bool Question::SpellCheck(std::string& input)
 
 	MISEA("MATCH");
 	return true;
+}
+
+
+std::string Question::getType6ChartData()
+{
+	MISS;
+	std::string sReturn = "";
+	for (auto A : CheckPool)sReturn += std::to_string(CountAnswers(Answers, A)) + ",";				
+	MISE;
+	return sReturn;
 }

@@ -396,11 +396,10 @@ bool Replay::ReadActions()
 				Action_TEMP->Card = Action_TEMP->CardFull % 1000000;
 				Action_TEMP->Upgrade = Action_TEMP->CardFull / 1000000;
 				Action_TEMP->ActionPlayer = readUnsignedLong();
-				readUnsignedShort(); //Cardy
-				readUnsignedShort(); //Cardz
+				readUnsignedLong(); // Bulding ID
 				Action_TEMP->X = readFloat(); //X
-				Action_TEMP->Y = readFloat(); //Y
-				readUnsignedLong(); //Z
+				readFloat(); //Y
+				Action_TEMP->Y = readFloat(); //Z
 				readUnsignedLong(); //Zero
 				readUnsignedShort(); //Carda
 				readUnsignedShort(); //Cardb	

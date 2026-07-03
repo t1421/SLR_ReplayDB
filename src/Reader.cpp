@@ -23,10 +23,10 @@ Reader::~Reader()
 	
 	MISE;
 }
-//unsigned char			/// 8
-//unsigned short		///16
-//unsigned long			///32
-//unsigned long long	///64
+//unsigned char			/// 8 HDX1
+//unsigned short		///16 HDX2
+//unsigned long			///32 HDX4
+//unsigned long long	///64 HDX8
 unsigned long long Reader::readUnsignedLongLong()
 {
 	MISS;
