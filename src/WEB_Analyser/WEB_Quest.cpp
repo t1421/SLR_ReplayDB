@@ -579,6 +579,20 @@ void WEB_Quest::WRefresh()
          }
      }
 
+     if (WR->getMapName() == "X_pve_02p_crusade_plus.map")
+     {
+         std::fill(iTimes, iTimes + RankRowStamps, 0);
+         sReturn = WR->Kalk_Event22(iTimes);
+         if (sReturn == "")
+         {
+             iValue = 0;
+
+             iValue += iTimes[1] * 100000; //Points
+             iValue += iTimes[0] * 1; //Time
+             refresh = refresh || Add_Player_to_Quest("515", iValue);
+         }
+     }
+
      if (refresh)status->setText("Events Refreshed");
      else status->setText("Cant fint matching event: " + sReturn);
     
@@ -704,6 +718,7 @@ std::string WEB_Quest::sToolTipp(unsigned int in, unsigned long long Number)
     case 102:
     case 108:
     case 202:
+    case 515:
         return "Points: " + std::to_string(Number / 100000)
             + " Time: " + sTime(Number % 100000);
     case 110:

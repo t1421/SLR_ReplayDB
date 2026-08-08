@@ -1423,6 +1423,62 @@ void WEB_Analyser::AddPlayers9()
 	MISE;
 }
 
+std::string WEB_Analyser::Kalk_Event22(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "pve_02p_crusade_plus.map")return "Wrong Map";
+	if (R->MapID != 107)return "Wrong Map";
+	if (R->DifficultyID != 3 && !WA_Admin)return "Wrong Difficulty";
+	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+	//if (!Check_WIN("4;RvERandomMapsGoal1;1;") && !WA_Admin)return "Was not a win";
+
+	iTimes[2] = 1;
+	iTimes[3] = 0;
+	iTimes[4] = 1;
+
+	MISD("iTimes[1]" + std::to_string(iTimes[1]));
+	if (Check_WIN("4;MIS_REACH_ROGAN;0;"))iTimes[1] += 5;
+	MISD("iTimes[1]" + std::to_string(iTimes[1]));
+	if (Check_WIN("4;MIS_CLEAR_A;0;"))iTimes[1] += 10;
+	MISD("iTimes[1]" + std::to_string(iTimes[1]));
+	if (Check_WIN("4;MIS_CLEAR_B;0;"))iTimes[1] += 15;
+	MISD("iTimes[1]" + std::to_string(iTimes[1]));
+	if (Check_WIN("4;MIS_CLEAR_C;0;"))iTimes[1] += 15;
+	MISD("iTimes[1]" + std::to_string(iTimes[1]));
+	if (Check_WIN("4;MIS_CLEAR_D;0;"))iTimes[1] += 10;
+	MISD("iTimes[1]" + std::to_string(iTimes[1]));
+	if (Check_WIN("4;MIS_CLEAR_E;0;"))iTimes[1] += 15;
+	MISD("iTimes[1]" + std::to_string(iTimes[1]));
+	if (Check_WIN("4;MIS_CLEAR_F;0;"))iTimes[1] += 15;
+	MISD("iTimes[1]" + std::to_string(iTimes[1]));
+	iTimes[1] += R->Playtime / 10 / 60;
+	MISD("iTimes[1]" + std::to_string(iTimes[1]));
+
+	if (Check_MIS_WIN())
+	{
+		iTimes[1] = 1000;
+		if (Check_WIN("4;MIS_ROGAN_DMG;0;"))iTimes[2] = 0;
+		if (Check_WIN("4;MIS_POWER;0;"))iTimes[3] = 1; // WELLS
+		if (Check_WIN("4;MIS_BASE_UNITS;0;"))iTimes[4] = 0; // Save Base
+	}
+	else
+	{
+		iTimes[2] = 0;
+		iTimes[3] = 0;
+		iTimes[4] = 0;
+	}
+
+	
+	
+	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
 std::string WEB_Analyser::GetDifficultyName()
 {
 	return GetDifficultyName(R->DifficultyID, R->PlayModeID);

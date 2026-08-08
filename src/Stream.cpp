@@ -42,74 +42,74 @@ void Stream::Init()
 	ChatCard.close();
 
 	//SR Cards
-	for (auto* C : Bro->J->SMJMatrix)CardPool.push_back(std::make_pair(CleanCardNames(C->cardNameSimple), C->cardNameSimple));
+	for (auto* C : Bro->J->SMJMatrix)CardPool.emplace_back(CleanCardNames(C->cardNameSimple), C->cardNameSimple);
 
 	//Magic The Gathering
-	CardPool.push_back(std::make_pair(CleanCardNames("Black Lotus"),"_MTG_Black Lotus"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Lightning Bolt"), "_MTG_Lightning Bolt"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Tarmogoyf"), "_MTG_Tarmogoyf"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Counterspell"), "_MTG_Counterspell"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Thoughtseize"), "_MTG_Thoughtseize"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Wrath of God"), "_MTG_Wrath of God"));
+	CardPool.emplace_back(CleanCardNames("Black Lotus"),"_MTG_Black Lotus",1);
+	CardPool.emplace_back(CleanCardNames("Lightning Bolt"), "_MTG_Lightning Bolt",1);
+	CardPool.emplace_back(CleanCardNames("Tarmogoyf"), "_MTG_Tarmogoyf",1);
+	CardPool.emplace_back(CleanCardNames("Counterspell"), "_MTG_Counterspell",1);
+	CardPool.emplace_back(CleanCardNames("Thoughtseize"), "_MTG_Thoughtseize",1);
+	CardPool.emplace_back(CleanCardNames("Wrath of God"), "_MTG_Wrath of God",1);
 	
 	// Pokemon
-	CardPool.push_back(std::make_pair(CleanCardNames("Snorlax"), "_PKM_Snorlax"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Relaxo"), "_PKM_Snorlax"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Enton"), "_PKM_Enton"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Psyduck"), "_PKM_Enton"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Pummeluff"), "_PKM_Pummeluff"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Jigglypuff"), "_PKM_Pummeluff"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Mewtwo"), "_PKM_Mewtu"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Mewtu"), "_PKM_Mewtu"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Pikachu"), "_PKM_Pikachu"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Mauzi"), "_PKM_Mauzi"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Meowth"), "_PKM_Mauzi"));
+	CardPool.emplace_back(CleanCardNames("Snorlax"), "_PKM_Snorlax",1);
+	CardPool.emplace_back(CleanCardNames("Relaxo"), "_PKM_Snorlax",1);
+	CardPool.emplace_back(CleanCardNames("Enton"), "_PKM_Enton",1);
+	CardPool.emplace_back(CleanCardNames("Psyduck"), "_PKM_Enton",1);
+	CardPool.emplace_back(CleanCardNames("Pummeluff"), "_PKM_Pummeluff",1);
+	CardPool.emplace_back(CleanCardNames("Jigglypuff"), "_PKM_Pummeluff",1);
+	CardPool.emplace_back(CleanCardNames("Mewtwo"), "_PKM_Mewtu",1);
+	CardPool.emplace_back(CleanCardNames("Mewtu"), "_PKM_Mewtu",1);
+	CardPool.emplace_back(CleanCardNames("Pikachu"), "_PKM_Pikachu",1);
+	CardPool.emplace_back(CleanCardNames("Mauzi"), "_PKM_Mauzi",1);
+	CardPool.emplace_back(CleanCardNames("Meowth"), "_PKM_Mauzi",1);
 
 	//YuGiOh
-	CardPool.push_back(std::make_pair(CleanCardNames("Monster Reborn"), "_YGO_Monster Reborn"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Wiedergeburt"), "_YGO_Monster Reborn"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Pot of Greed"), "_YGO_Pot of Greed"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Topf der Gier"), "_YGO_Pot of Greed"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Dark Magician"), "_YGO_Dark Magician"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Dunkler Magier"), "_YGO_Dark Magician"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Dark Magician Girl"), "_YGO_Dark Magician Girl"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Exodia"), "_YGO_Exodia"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Kuriboh"), "_YGO_Kuriboh"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Raigeki"), "_YGO_Raigeki"));
+	CardPool.emplace_back(CleanCardNames("Monster Reborn"), "_YGO_Monster Reborn",1);
+	CardPool.emplace_back(CleanCardNames("Wiedergeburt"), "_YGO_Monster Reborn",1);
+	CardPool.emplace_back(CleanCardNames("Pot of Greed"), "_YGO_Pot of Greed",1);
+	CardPool.emplace_back(CleanCardNames("Topf der Gier"), "_YGO_Pot of Greed",1);
+	CardPool.emplace_back(CleanCardNames("Dark Magician"), "_YGO_Dark Magician",1);
+	CardPool.emplace_back(CleanCardNames("Dunkler Magier"), "_YGO_Dark Magician",1);
+	CardPool.emplace_back(CleanCardNames("Dark Magician Girl"), "_YGO_Dark Magician Girl",1);
+	CardPool.emplace_back(CleanCardNames("Exodia"), "_YGO_Exodia",1);
+	CardPool.emplace_back(CleanCardNames("Kuriboh"), "_YGO_Kuriboh",1);
+	CardPool.emplace_back(CleanCardNames("Raigeki"), "_YGO_Raigeki",1);
 
 	//MIS CARDS
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Brannoc"), "_MIS01"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Brannoc Promo"), "_MIS01"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Fallen Skyelf"), "_MIS02"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Fallen Skyelf Promo"), "_MIS02"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Firedancer"), "_MIS03"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Firedancer Promo"), "_MIS03"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Grinder"), "_MIS04"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Grinder Promo"), "_MIS04"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Worldbreaker Gun"), "_MIS05"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Worldbreaker Gun Promo"), "_MIS05"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Harvester"), "_MIS06"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Harvester Promo"), "_MIS06"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Juggernaut"), "_MIS07"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Juggernaut Promo"), "_MIS07"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Lyrish Knight"), "_MIS08"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Lyrish Knight Promo"), "_MIS08"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Frost Mage"), "_MIS09"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Frost Mage Promo"), "_MIS09"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Mana Wing"), "_MIS10"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Mana Wing Promo"), "_MIS10"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Moon"), "_MIS11"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Moon Promo"), "_MIS11"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Ravenheart"), "_MIS12"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Ravenheart Promo"), "_MIS12"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Razorleaf"), "_MIS13"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Razorleaf Promo"), "_MIS13"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Rogan Kayle"), "_MIS14"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Rogan Kayle Promo"), "_MIS14"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Swamp Drake"), "_MIS15"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Swamp Drake Promo"), "_MIS15"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Promo Viridya"), "_MIS16"));
-	CardPool.push_back(std::make_pair(CleanCardNames("Viridya Promo"), "_MIS16"));
+	CardPool.emplace_back(CleanCardNames("Promo Brannoc"), "_MIS01");
+	CardPool.emplace_back(CleanCardNames("Brannoc Promo"), "_MIS01");
+	CardPool.emplace_back(CleanCardNames("Promo Fallen Skyelf"), "_MIS02");
+	CardPool.emplace_back(CleanCardNames("Fallen Skyelf Promo"), "_MIS02");
+	CardPool.emplace_back(CleanCardNames("Promo Firedancer"), "_MIS03");
+	CardPool.emplace_back(CleanCardNames("Firedancer Promo"), "_MIS03");
+	CardPool.emplace_back(CleanCardNames("Promo Grinder"), "_MIS04");
+	CardPool.emplace_back(CleanCardNames("Grinder Promo"), "_MIS04");
+	CardPool.emplace_back(CleanCardNames("Promo Worldbreaker Gun"), "_MIS05");
+	CardPool.emplace_back(CleanCardNames("Worldbreaker Gun Promo"), "_MIS05");
+	CardPool.emplace_back(CleanCardNames("Promo Harvester"), "_MIS06");
+	CardPool.emplace_back(CleanCardNames("Harvester Promo"), "_MIS06");
+	CardPool.emplace_back(CleanCardNames("Promo Juggernaut"), "_MIS07");
+	CardPool.emplace_back(CleanCardNames("Juggernaut Promo"), "_MIS07");
+	CardPool.emplace_back(CleanCardNames("Promo Lyrish Knight"), "_MIS08");
+	CardPool.emplace_back(CleanCardNames("Lyrish Knight Promo"), "_MIS08");
+	CardPool.emplace_back(CleanCardNames("Promo Frost Mage"), "_MIS09");
+	CardPool.emplace_back(CleanCardNames("Frost Mage Promo"), "_MIS09");
+	CardPool.emplace_back(CleanCardNames("Promo Mana Wing"), "_MIS10");
+	CardPool.emplace_back(CleanCardNames("Mana Wing Promo"), "_MIS10");
+	CardPool.emplace_back(CleanCardNames("Promo Moon"), "_MIS11");
+	CardPool.emplace_back(CleanCardNames("Moon Promo"), "_MIS11");
+	CardPool.emplace_back(CleanCardNames("Promo Ravenheart"), "_MIS12");
+	CardPool.emplace_back(CleanCardNames("Ravenheart Promo"), "_MIS12");
+	CardPool.emplace_back(CleanCardNames("Promo Razorleaf"), "_MIS13");
+	CardPool.emplace_back(CleanCardNames("Razorleaf Promo"), "_MIS13");
+	CardPool.emplace_back(CleanCardNames("Promo Rogan Kayle"), "_MIS14");
+	CardPool.emplace_back(CleanCardNames("Rogan Kayle Promo"), "_MIS14");
+	CardPool.emplace_back(CleanCardNames("Promo Swamp Drake"), "_MIS15");
+	CardPool.emplace_back(CleanCardNames("Swamp Drake Promo"), "_MIS15");
+	CardPool.emplace_back(CleanCardNames("Promo Viridya"), "_MIS16");
+	CardPool.emplace_back(CleanCardNames("Viridya Promo"), "_MIS16");
 
 	// Init Vars
 	lastPosInFile = 0;
@@ -229,7 +229,8 @@ void Stream::ProcessFile()
 	std::vector<std::string> ALL;
 
 	double highestScore;
-	std::string closestMatch;
+
+	StreamCardStruct *WinnerPointer = NULL;
 
 	ifFile.open(Bro->L->sQuizPath + "ChatLog.log", std::ios::binary);
 	if (!ifFile.good())
@@ -252,27 +253,30 @@ void Stream::ProcessFile()
 		ALL.insert(ALL.end(), V1.begin(), V1.end());
 
 		//Search
-		closestMatch = "";
 		highestScore = 0.0;
 
 		for (auto W : ALL)
 		{
-			for (auto word : CardPool) {
-				double score = rapidfuzz::fuzz::ratio(W, word.first);
+			for (unsigned int i = 0; i < CardPool.size(); i++)
+			{
+				double score = rapidfuzz::fuzz::ratio(W, CardPool[i].Name);
 				if (score > highestScore)
 				{
 					highestScore = score;
-					closestMatch = word.second;
+					WinnerPointer = &CardPool[i];
 				}
 			}
 		}
 
-		if (highestScore >= 90)
+		if (highestScore >= 90 && WinnerPointer != NULL && WinnerPointer->Max > 0)
 		{
-			MISD(std::to_string(highestScore) + " " + closestMatch);
+			
+			MISD(std::to_string(highestScore) + " " + WinnerPointer->Name + " " + std::to_string(WinnerPointer->Max));
 			std::ofstream ChatCard(Bro->L->sQuizPath + "ChatCard.txt", std::ios::trunc);
-			ChatCard << closestMatch;
+			ChatCard << WinnerPointer->File;
 			ChatCard.close();
+
+			WinnerPointer->Max--;
 		}
 
 		ifFile.clear();

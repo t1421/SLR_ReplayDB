@@ -18,6 +18,7 @@ public:
 	Wt::WText* wtLine2;
 	Wt::WText* wtLine3;
 	Wt::WText* wtLine4;
+	Wt::WText* wtLine5;
 	Wt::WSlider* slider;
 	Wt::WText* sliderText;
 	Wt::WText* sliderNow;

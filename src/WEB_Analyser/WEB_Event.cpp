@@ -30,6 +30,7 @@ WEB_Event::WEB_Event(WEB_Analyser *WR_, unsigned int _iEventNr) : WR(WR_), iEven
 	wtLine2 = new Wt::WText(" ");
 	wtLine3 = new Wt::WText(" ");
 	wtLine4 = new Wt::WText(" ");
+	wtLine5 = new Wt::WText(" ");
 		
 	MISD("#0");
 
@@ -66,6 +67,8 @@ WEB_Event::WEB_Event(WEB_Analyser *WR_, unsigned int _iEventNr) : WR(WR_), iEven
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtLine3)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtLine4)));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WBreak())));
+	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wtLine5)));
 	cMain->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Rank->cMain)));
 	
 	MISD("#3");
@@ -87,6 +90,7 @@ void WEB_Event::WRefresh()
 	wtLine2->setText(" ");
 	wtLine3->setText(" ");
 	wtLine4->setText(" ");
+	wtLine5->setText(" ");
 	std::string sTeamID;
 
 	unsigned int iSaveReturn = 0;
@@ -127,6 +131,7 @@ void WEB_Event::WRefresh()
 		case 18: sReturn = WR->Kalk_Event18(iTimes); break;
 		case 19: sReturn = WR->Kalk_Event19(iTimes); break;
 		case 21: sReturn = WR->Kalk_Event21(iTimes); break;
+		case 22: sReturn = WR->Kalk_Event22(iTimes); break;
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
@@ -248,8 +253,25 @@ void WEB_Event::WRefresh()
 			wtLine1->setText("Time: " + sTimeFull(iTimes[0]));
 			//wtLine2->setText("Tickets: " + std::to_string(iTimes[1]));
 
+			break;			
+		case 22: //Crusade EXP +
+			sTeamID = Bro->GetTeamName(WR->GetTeamID());
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHashV2(), iTimes, iTimesBestRun);
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run, " + sTeamID + " : -) </h3> ");
+			else wtStatus->setText("<h3>Nice run, " + sTeamID + ", but not better then your currend one </h3> ");
+
+			wtLine1->setText("Points: " + std::to_string(iTimes[1]));
+			wtLine2->setText("Time: " + sTimeFull(iTimes[0]));
+			if (iTimes[2] == 1)wtLine3->setText("Secret 1: Keep the King save");
+			else wtLine3->setText("Secret 1: ???");
+			if (iTimes[3] == 1)wtLine4->setText("Secret 2: We need all the Power");
+			else wtLine4->setText("Secret 2: ???");
+			if (iTimes[4] == 1)wtLine5->setText("Secret 3: Helms Deep shall not fall");
+			else wtLine5->setText("Secret 3: ???");
+
 			break;
-		}	
+		}
 
 	}
 	MISERROR(TimeToText(Bro->L_getEEE_Now()) + ";" + sTeamID + ";" + std::to_string(iSaveReturn) + ";");

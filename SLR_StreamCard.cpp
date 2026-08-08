@@ -50,7 +50,7 @@ int main(int argc, char** argv)
 		if (Checker(sbuf, "x"))Bro->bAktive = false;
 		if (Checker(sbuf, "echo"))
 		{
-			for (auto P : S->CardPool) std::cout<< P.first<<std::endl;
+			for (auto P : S->CardPool) std::cout << P.Name << " # " << P.File << " # " << P.Max << std::endl;
 		}
 	}
 

@@ -3,6 +3,15 @@
 
 #include "Thread_MIS.h"
 
+struct StreamCardStruct
+{
+	std::string Name;
+	std::string File;
+	unsigned short Max;
+	StreamCardStruct(std::string _Name, std::string _File, unsigned short _Max) :Name(_Name), File(_File), Max(_Max) {};
+	StreamCardStruct(std::string _Name, std::string _File) :Name(_Name), File(_File), Max(65535) {};
+};
+
 class Stream : public Thread_MIS
 {
 public:
@@ -16,7 +25,7 @@ public:
 	void teachS() { Bro->S = this; }
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 
-	std::vector <std::pair<std::string, std::string>> CardPool;
+	std::vector <StreamCardStruct> CardPool;
 
 private:
 	

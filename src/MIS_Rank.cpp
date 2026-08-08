@@ -260,7 +260,7 @@ void MIS_Rank::SortList()
 	mtx.lock();
 	switch (RankList)
 	{
-	case 0:
+	case 0:	
 		std::sort(RankRows.begin(), RankRows.end(), comparePlayerField0Rev);
 		break;
 	case 2:
@@ -290,6 +290,7 @@ void MIS_Rank::SortList()
 	case 17:
 	case 18:
 	case 19:
+	case 22:
 		std::sort(RankRows.begin(), RankRows.end(), compare_1HL_0LH);
 		break;
 	case 11:
