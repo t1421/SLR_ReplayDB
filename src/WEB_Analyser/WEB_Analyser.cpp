@@ -1457,6 +1457,8 @@ std::string WEB_Analyser::Kalk_Event22(unsigned long iTimes[RankRowStamps])
 	iTimes[1] += R->Playtime / 10 / 60;
 	MISD("iTimes[1]" + std::to_string(iTimes[1]));
 
+	if(iTimes[1]==0)return "you have zero points";
+
 	if (Check_MIS_WIN())
 	{
 		iTimes[1] = 1000;
