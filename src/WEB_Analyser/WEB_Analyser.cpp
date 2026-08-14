@@ -1440,19 +1440,19 @@ std::string WEB_Analyser::Kalk_Event22(unsigned long iTimes[RankRowStamps])
 	iTimes[4] = 1;
 
 	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_REACH_ROGAN;0;"))iTimes[1] += 5;
+	if (Check_WIN("4;MIS_REACH_ROGAN;0;"))iTimes[1] += 15;
 	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_A;0;"))iTimes[1] += 10;
+	if (Check_WIN("4;MIS_CLEAR_A;0;"))iTimes[1] += 25;
 	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_B;0;"))iTimes[1] += 15;
+	if (Check_WIN("4;MIS_CLEAR_B;0;"))iTimes[1] += 50;
 	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_C;0;"))iTimes[1] += 15;
+	if (Check_WIN("4;MIS_CLEAR_C;0;"))iTimes[1] += 50;
 	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_D;0;"))iTimes[1] += 10;
+	if (Check_WIN("4;MIS_CLEAR_D;0;"))iTimes[1] += 25;
 	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_E;0;"))iTimes[1] += 15;
+	if (Check_WIN("4;MIS_CLEAR_E;0;"))iTimes[1] += 50;
 	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_F;0;"))iTimes[1] += 15;
+	if (Check_WIN("4;MIS_CLEAR_F;0;"))iTimes[1] += 50;
 	MISD("iTimes[1]" + std::to_string(iTimes[1]));
 	iTimes[1] += R->Playtime / 10 / 60;
 	MISD("iTimes[1]" + std::to_string(iTimes[1]));
