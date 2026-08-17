@@ -1429,6 +1429,7 @@ std::string WEB_Analyser::Kalk_Event22(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "pve_02p_crusade_plus.map")return "Wrong Map";
 	if (R->MapID != 107)return "Wrong Map";
+	if (R->Seed != 1015195023 && !WA_Admin)return "Wrong Map";
 	//if (R->DifficultyID != 3 && !WA_Admin)return "Wrong Difficulty";
 	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
 	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
@@ -1439,23 +1440,27 @@ std::string WEB_Analyser::Kalk_Event22(unsigned long iTimes[RankRowStamps])
 	iTimes[3] = 0;
 	iTimes[4] = 1;
 
-	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_REACH_ROGAN;0;"))iTimes[1] += 15;
-	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_A;0;"))iTimes[1] += 25;
-	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_B;0;"))iTimes[1] += 50;
-	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_C;0;"))iTimes[1] += 50;
-	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_D;0;"))iTimes[1] += 25;
-	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_E;0;"))iTimes[1] += 50;
-	MISD("iTimes[1]" + std::to_string(iTimes[1]));
-	if (Check_WIN("4;MIS_CLEAR_F;0;"))iTimes[1] += 50;
-	MISD("iTimes[1]" + std::to_string(iTimes[1]));
+
+	for (auto A : R->ActionMatrix)
+	{
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_CLEAR_A;0;")iTimes[5] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_CLEAR_B;0;")iTimes[6] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_CLEAR_C;0;")iTimes[7] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_CLEAR_D;0;")iTimes[8] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_CLEAR_E;0;")iTimes[9] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_CLEAR_F;0;")iTimes[10] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_REACH_ROGAN;0;")iTimes[11] = A->Time;
+	}
+
+	if (iTimes[5] != 0)iTimes[1] += 25;
+	if (iTimes[6] != 0)iTimes[1] += 50;
+	if (iTimes[7] != 0)iTimes[1] += 50;
+	if (iTimes[8] != 0)iTimes[1] += 25;
+	if (iTimes[9] != 0)iTimes[1] += 50;
+	if (iTimes[10] != 0)iTimes[1] += 50;
+	if( iTimes[11] != 0)iTimes[1] += 15;
+
 	iTimes[1] += R->Playtime / 10 / 60;
-	MISD("iTimes[1]" + std::to_string(iTimes[1]));
 
 	if(iTimes[1]==0)return "you have zero points";
 
