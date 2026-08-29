@@ -83,7 +83,16 @@ DEBUG::DEBUG(std::string sLogName, bool _bGUI, bool _bFile, bool _bFilter)
 		Fill_DBArray("WEB_Lotto_Week", "*", "*", "true");
 
 		Fill_DBArray("Quiz", "*", "*", "true");
+		Fill_DBArray("Quiz", "GetPlayer", "*", "false");
+		Fill_DBArray("Quiz", "UpdateHTML", "*", "false");
+
 		Fill_DBArray("Question", "*", "*", "true");
+		Fill_DBArray("Question", "getWinningAnswer", "*", "false");
+		Fill_DBArray("Question", "LoadAnswers", "*", "false");
+		Fill_DBArray("Question", "SaveAnswers", "*", "false");
+		Fill_DBArray("Question", "SpellCheck", "*", "false");
+		Fill_DBArray("Question", "getType6ChartData", "*", "false");
+		
 
 		Fill_DBArray("WEB_Container_King", "*", "*", "true");
 		Fill_DBArray("WEB_King_Player", "*", "*", "true");

@@ -362,7 +362,11 @@ void Question::LoadAnswers()
 			MISD("#_2");
 			if (AnswerType == 5)localiAnswer = Bro->L_StringToUNIXTime(localdAnswer);
 			MISD("#_3");
-			if (AnswerType == 6)localiAnswer = int(tStart + Bro->L->iCountDown - Bro->L_getEEE_Now());
+			if (AnswerType == 6)
+			{
+				localiAnswer = int(tStart + Bro->L->iCountDown - Bro->L_getEEE_Now());
+				if (localiAnswer > Bro->L->iCountDown)localiAnswer = 1; //fall back im falle von Int overflow
+			}
 			MISD("#_4");
 			//MISD(localiAnswer);
 			//MISD(localsAnswer);
