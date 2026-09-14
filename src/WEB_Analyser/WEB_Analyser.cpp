@@ -1429,10 +1429,10 @@ std::string WEB_Analyser::Kalk_Event22(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "pve_02p_crusade_plus.map")return "Wrong Map";
 	if (R->MapID != 107)return "Wrong Map";
-	if (R->Seed != 1015195023 && !WA_Admin)return "Wrong Map";
+	//if (R->Seed != 1015195023 && !WA_Admin)return "Wrong Map";
 	//if (R->DifficultyID != 3 && !WA_Admin)return "Wrong Difficulty";
-	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
-	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
 	//if (!Check_WIN("4;RvERandomMapsGoal1;1;") && !WA_Admin)return "Was not a win";
 

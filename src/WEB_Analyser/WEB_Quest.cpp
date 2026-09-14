@@ -579,7 +579,7 @@ void WEB_Quest::WRefresh()
          }
      }
 
-     if (WR->getMapName() == "X_pve_02p_crusade_plus.map")
+     if (WR->getMapName() == "pve_02p_crusade_plus.map")
      {
          std::fill(iTimes, iTimes + RankRowStamps, 0);
          sReturn = WR->Kalk_Event22(iTimes);
