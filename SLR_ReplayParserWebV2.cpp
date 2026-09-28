@@ -83,9 +83,8 @@ int main(int argc, char **argv)
 			if (Checker(sbuf, "ALL_BigSW"))J->AllIMGBigSW();
 			if (Checker(sbuf, "ALL_Small"))J->AllIMGSmall();
 			if (Checker(sbuf, "ALL_ImgOnly"))J->AllIMGImgOnly();
-			
-
 		}
+
 
 	}
 

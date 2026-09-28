@@ -59,7 +59,7 @@ public:
 
 #define SCard_Size_X 92
 #define SCard_Size_Y 127
-#define BOT4_IMG_SIZE 10
+#define BOT4_IMG_SIZE 25
 
 bool comparePlayerID(const unsigned long long a, const unsigned long long b)
 {
@@ -444,11 +444,28 @@ std::string WEB_Analyser::getMapName()
 	return R->MapName;
 }
 
+std::string WEB_Analyser::switchColor(unsigned int iIN)
+{
+	switch (iIN)
+	{
+	case 1: return "Shadow"; break;
+	case 2: return "Nature"; break;
+	case 3: return "Frost"; break;
+	case 4: return "Fire"; break;
+	}
+	return "???";
+}
+
+std::string WEB_Analyser::switchColor(std::string sIN)
+{
+	return switchColor(atoi(sIN.substr(0, sIN.find(";")).c_str()));
+}
+
 #ifndef noSMJImages
-void  WEB_Analyser::AddIMG(Wt::WTableCell* wtCell, bool bValue)
+void  WEB_Analyser::AddIMG(Wt::WTableCell* wtCell, std::string sValue)
 {
 	wtCell->setHeight(BOT4_IMG_SIZE);
-	wtCell->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage("./resources/" + std::to_string(bValue) + ".png"))));
+	wtCell->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WImage("./resources/" + sValue + ".png"))));
 	wtCell->widget(0)->setHeight(BOT4_IMG_SIZE);
 	wtCell->widget(0)->setWidth(BOT4_IMG_SIZE);
 	wtCell->widget(0)->resize(BOT4_IMG_SIZE, BOT4_IMG_SIZE);
@@ -471,6 +488,7 @@ void  WEB_Analyser::AddCardIMG(Wt::WTableCell* wtCell, unsigned short CardID, un
 
 	wtCell->setContentAlignment(Wt::AlignmentFlag::Center | Wt::AlignmentFlag::Middle);
 }
+
 #endif
 
 
@@ -1434,7 +1452,7 @@ std::string WEB_Analyser::Kalk_Event22(unsigned long iTimes[RankRowStamps])
 	//if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
 	//if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
-	//if (!Check_WIN("4;RvERandomMapsGoal1;1;") && !WA_Admin)return "Was not a win";
+	if (!Check_MIS_WIN() && !WA_Admin)return "Was not a win";
 
 	iTimes[2] = 1;
 	iTimes[3] = 0;
@@ -1458,11 +1476,11 @@ std::string WEB_Analyser::Kalk_Event22(unsigned long iTimes[RankRowStamps])
 	if (iTimes[8] != 0)iTimes[1] += 25;
 	if (iTimes[9] != 0)iTimes[1] += 50;
 	if (iTimes[10] != 0)iTimes[1] += 50;
-	if( iTimes[11] != 0)iTimes[1] += 15;
+	if (iTimes[11] != 0)iTimes[1] += 15;
 
 	iTimes[1] += R->Playtime / 10 / 60;
 
-	if(iTimes[1]==0)return "you have zero points";
+	if (iTimes[1] == 0)return "you have zero points";
 
 	if (Check_MIS_WIN())
 	{
@@ -1478,9 +1496,99 @@ std::string WEB_Analyser::Kalk_Event22(unsigned long iTimes[RankRowStamps])
 		iTimes[4] = 0;
 	}
 
-	
-	
+
+
 	iTimes[0] = getPlaytime();
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event23(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "battle_of_tactics_12.map")return "Wrong Map";
+	if (R->MapID != 107)return "Wrong Map";
+	//if (R->Seed != 1015195023 && !WA_Admin)return "Wrong Map";	
+	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+	if (!Check_WIN("4;11204_01_13HoldTheNightmareShard;0;") && !WA_Admin)return "Was not a win";
+
+
+	iTimes[1] = R->DifficultyID;
+	iTimes[2] = R->Playtime;
+	iTimes[5] = getSharedRank();
+	
+
+	for (auto A : R->ActionMatrix)
+	{
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_KillTwilightRitualists;1;")iTimes[9] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_FireCrystal;1;")iTimes[10] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_FrostCrystal;1;")iTimes[11] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_NatureCrystal;1;")iTimes[12] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_ShadowCrystal;1;")iTimes[13] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_11204_01_05ActivateFireMonument;1;")iTimes[15] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_11204_01_06ActivateFrostMonument;1;")iTimes[16] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_11204_01_07ActivateNatureMonument;1;")iTimes[17] = A->Time;
+		if (A->Type == 4045 && A->AdditionalInfo == "4;MIS_11204_01_08ActivateShadowMonument;1;")iTimes[18] = A->Time;
+	}
+
+	for each (Player * P in Players)if (P->Type == 1)for each (Card * C in P->Deck)
+	{
+		if (P->IDinGroup == 0)iTimes[3] += C->count;
+		if (P->IDinGroup == 1)iTimes[4] += C->count;
+	}
+
+
+	iTimes[0] = 0
+		+ iTimes[10]
+		+ iTimes[11]
+		+ iTimes[12]
+		+ iTimes[13]
+		+ iTimes[15]
+		+ iTimes[16]
+		+ iTimes[17]
+		+ iTimes[18];
+
+	MISE;
+	return "";
+}
+
+std::string WEB_Analyser::Kalk_Event24(unsigned long iTimes[RankRowStamps])
+{
+	MISS;
+	if (!R->OK)return "No Replay";
+	if (R->MapName != "atraos.map")return "Wrong Map";
+	if (R->MapID != 106)return "Wrong Map";
+	if (R->Seed != 3653814024 && !WA_Admin)return "Wrong Map";
+	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
+	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
+	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
+	if (!Check_WIN("4;RvERandomMapsGoal1;1;") && !WA_Admin)return "Was not a win";
+
+	unsigned int iCards[5] = { 0 };
+
+	for (auto P : R->PlayerMatrix)
+		for (auto C : P->Deck)
+		{
+			if (C->count == 0) continue;
+			if (C->count > 1) return "A card was used more then once";
+			iCards[Bro->J->GetSMJCard(C->CardID)->orbsTotal]++;
+		}
+
+	for (unsigned int i = 0; i < 5; i++)
+		if (iCards[i] > 5)return "More then 5 cards used in one tier";
+
+	for (auto A : R->ActionMatrix)	
+		if (A->Type == 4031)
+		{
+			iTimes[1] = atoi(A->AdditionalInfo.c_str());
+			break;
+		}
+
+	iTimes[0] = R->Playtime;
 
 	MISE;
 	return "";
@@ -1549,6 +1657,22 @@ std::vector<unsigned long long> WEB_Analyser::ActivePlayers()
 	return vReturn;
 }
 
+int WEB_Analyser::getSharedRank()
+{
+	MISS;
+	int iRank = 0;
+	unsigned int iPlayers = 0;
+
+	for (auto P : Players)
+	{
+		if (P->Type != 1)continue;
+		iPlayers++;
+		iRank += Bro->getPlayerEXP(P->Name);
+	}
+
+	MISE;
+	return iRank / iPlayers;
+}
 
 std::string WEB_Analyser::Kalk_CCC2(unsigned long iTimes[RankRowStamps])
 {

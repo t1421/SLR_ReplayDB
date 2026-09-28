@@ -70,6 +70,12 @@ unsigned int WEB_Analyser_Deck::drawPlayer(unsigned int iPlayer, unsigned int &i
 	wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h3>" + WA->Players[iPlayer]->Name + "</h3>"))));
 	wtTabelle->elementAt(iRow, iCol)->setColumnSpan(5);
 	iRow++;
+	if (WA->WA_Debug)
+	{
+		wtTabelle->elementAt(iRow, iCol)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(Bro->getPlayerEXP(WA->Players[iPlayer]->Name))))));
+		wtTabelle->elementAt(iRow, iCol)->setColumnSpan(5);
+		iRow++;
+	}
 
 	for (unsigned int i = 0; i < WA->Players[iPlayer]->Deck.size(); i++)
 	{

@@ -251,6 +251,7 @@ bool Replay::ReadActions()
 	
 	Action * Action_TEMP;
 	unsigned long SollPos = 0;
+	unsigned long SRSkipSize;
 	unsigned long tempCount;
 	unsigned long MainTime;
 	unsigned long MainSize;
@@ -721,7 +722,7 @@ bool Replay::ReadActions()
 				Action_TEMP->Y = readFloat(); // Y	
 				break;
 			case 4045: // SLR desync
-				readUnsignedShort(); //Size of Data
+				SRSkipSize = readUnsignedShort(); //Size of Data
 				switch (this->readUnsignedChar()) //ID of inner Data
 				{
 					case 2: // Desync
@@ -780,6 +781,11 @@ bool Replay::ReadActions()
 							readUnsignedLong(); //InvActions
 							this->readUnsignedChar(); //Errors
 						}						
+						break;
+						
+					case 8: //Debug funktion for the test server - can be skipped
+						Action_TEMP->AdditionalInfo = "8;";
+						PMVPosition = PMVPosition + SRSkipSize;
 						break;
 						/*
 						* https://gitlab.com/skylords-reborn/rust-libraries/-/blob/main/utils/src/commands/command_impl.rs#L1547

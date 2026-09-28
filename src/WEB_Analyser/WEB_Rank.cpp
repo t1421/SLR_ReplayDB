@@ -7,6 +7,7 @@
 #include "..\..\incl\DataTypes.h"
 #include "..\..\incl\Utility.h"
 #include "..\..\incl\LOAD.h"
+#include "..\..\incl\CardBaseSMJ.h"
 
 #include <Wt/WContainerWidget.h>
 #include <Wt/WTable.h>
@@ -298,8 +299,16 @@ void WEB_Rank::WRefresh()
 		wtTabelle->elementAt(0, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> E </h4>"))));
 		//wtTabelle->elementAt(0, 10)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> F </h4>"))));
 		break;
+	case 23:
+		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Cycles P1 </h4>"))));
+		wtTabelle->elementAt(0, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Cycles P2 </h4>"))));		
+		break;	
+	case 24:
+		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
+		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Start </h4>"))));
+		break;
 	default:
-		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));		
+		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
 	}
 	wtTabelle->columnAt(2)->setWidth(100);
 	wtTabelle->columnAt(3)->setWidth(100);
@@ -382,46 +391,42 @@ void WEB_Rank::WRefresh()
 			wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[2])))));
 			wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[3] - vListe[i].Stamps[2])))));
 			wtTabelle->elementAt(i + 1, iCol++)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0] - vListe[i].Stamps[3])))));
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[4] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[4] >= 2);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[4] >= 1)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[4] >= 2)));
 
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[5] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[5] >= 2);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[5] >= 1)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[5] >= 2)));
 
-			//WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[6] >= 1);
-			//WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[6] >= 2);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[7] >= 1)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[7] >= 2)));
 
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[7] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[7] >= 2);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[8] >= 1)));
 
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[8] >= 1);
-			//WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[8] >= 2);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[12] >= 1)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[13] >= 1)));
+			
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[9]  >= 1)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[10] >= 1)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[11] >= 1)));
 
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[12] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[13] >= 1);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[14] >= 1)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[14] >= 2)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[14] >= 3)));
 
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[9]  >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[10] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[11] >= 1);			
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[15] >= 1)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[15] >= 2)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[15] >= 3)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[15] >= 4)));
 
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 2);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[14] >= 3);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[16] >= 1)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[16] >= 2)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[16] >= 3)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[16] >= 4)));
 
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[15] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[15] >= 2);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[15] >= 3);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[15] >= 4);
-
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 2);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 3);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[16] >= 4);
-
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[17] >= 1);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[17] >= 2);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[17] >= 3);
-			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), vListe[i].Stamps[17] >= 4);
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[17] >= 1)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[17] >= 2)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[17] >= 3)));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, iCol++), std::to_string(int(vListe[i].Stamps[17] >= 4)));
 			
 			break;
 
@@ -490,8 +495,16 @@ void WEB_Rank::WRefresh()
 			//wtTabelle->elementAt(i + 1, 8)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[8]))))); D
 			wtTabelle->elementAt(i + 1, 6)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[9]))))); //E
 			//wtTabelle->elementAt(i + 1, 10)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[10]))))); F
-			
 
+			break;
+		case 23:
+			WR->AddIMG(wtTabelle->elementAt(i + 1, 3),"Rank/" + std::to_string(switchRank(vListe[i].Stamps[5])));
+			wtTabelle->elementAt(i + 1, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[3] / 4)))));
+			wtTabelle->elementAt(i + 1, 5)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(std::to_string(vListe[i].Stamps[4] / 4)))));
+			break;
+		case 24:
+			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
+			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(WR->switchColor(vListe[i].Stamps[1])))));
 			break;
 		default:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
@@ -613,8 +626,43 @@ void WEB_Rank::WRefresh()
 		wtTabelle->columnAt(8)->setWidth(75);  //C4
 		wtTabelle->columnAt(9)->setWidth(75);  //C4
 		break;
+	case 23:
+		wtTabelle->removeColumn(0);		
+		wtTabelle->columnAt(2)->setWidth(50);  //C1
+		wtTabelle->columnAt(3)->setWidth(100);  //C2
+		wtTabelle->columnAt(4)->setWidth(100);  //C2
+		wtTabelle->moveColumn(2, 0);
+		break;
 	default:
 		break;
 	}
 	MISE;
+}
+
+unsigned int WEB_Rank::switchRank(unsigned int iRank)
+{
+	//MISS;
+	if (iRank <    1000)return 1;
+	if (iRank <    3000)return 2;
+	if (iRank <    8000)return 3;
+	if (iRank <   20000)return 4;
+	if (iRank <   50000)return 5;
+	if (iRank <   90000)return 6;
+	if (iRank <  150000)return 7;
+	if (iRank <  250000)return 8;
+	if (iRank <  400000)return 9;
+	if (iRank <  600000)return 10;
+	if (iRank < 1000000)return 11;
+	if (iRank < 1600000)return 12;
+	if (iRank < 2500000)return 13;
+	if (iRank < 3500000)return 14;
+	if (iRank < 4600000)return 15;
+	if (iRank < 5800000)return 16;
+	if (iRank < 7100000)return 17;
+	if (iRank < 8500000)return 18;
+	if (iRank < 1000000)return 19;
+	if (iRank>= 1000000)return 20;
+
+	//MISE;
+	return 0;
 }

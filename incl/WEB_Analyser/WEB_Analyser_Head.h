@@ -55,8 +55,9 @@ public:
 		Wt::WText		 *SSS5;
 		Wt::Chart::WCartesianChart *Chart;
 		Wt::WText		 *SSS7;
-
+		
 		Wt::WText* HashV2;
+		Wt::WText* SharedRank;
 		
 			
 	

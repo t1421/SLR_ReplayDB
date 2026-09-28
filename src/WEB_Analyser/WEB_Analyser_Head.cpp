@@ -52,6 +52,7 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 	Chart = new Wt::Chart::WCartesianChart();
 		
 	HashV2 = new Wt::WText(" ");
+	SharedRank = new Wt::WText(" ");
 
 	MISD("#2");
 	Wt::WGridLayout *CLGrid = new Wt::WGridLayout();
@@ -144,6 +145,9 @@ WEB_Analyser_Head::WEB_Analyser_Head(WEB_Analyser *WA_): WA(WA_), newData(false)
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("HashV2: "))), x, y++);
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(HashV2)), x++, y--);
 
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("SharedRank: "))), x, y++);
+		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(SharedRank)), x++, y--);
+
 		CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("SSS5 Chart: "))), x, y++);
 		//CLGrid->addWidget(std::unique_ptr<Wt::WWidget>(std::move(Chart)), x++, y--);
 
@@ -224,6 +228,8 @@ void WEB_Analyser_Head::WRefresh()
 		SSS7->setText(std::to_string(iTimes7[0]) + "/" + std::to_string(iTimes7[1]));
 
 		HashV2->setText(std::to_string(WA->getReplayHashV2())); 
+		SharedRank->setText(std::to_string(WA->getSharedRank()));
+
 		//Chart
 	}
 	newData = !newData;

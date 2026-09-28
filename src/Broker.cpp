@@ -263,6 +263,8 @@ void broker::INIT()
 		}
 		ifFile.close();
 	}
+
+	fillPlayerEXP();
 	
 }
 
@@ -381,6 +383,34 @@ void broker::saveQPlayer()
 		ofFile.close();
 	}
 	else printf("XXX\n");
+}
+
+void broker::fillPlayerEXP()
+{
+	printf("fillPlayerEXP\n");
+	std::ifstream ifFile;
+	std::string line;
+
+	ifFile.open(L->sRANK_PATH + "EXP.csv", std::ios::binary);
+	if (ifFile.good())
+	{
+		while (getline(ifFile, line))
+		{
+			line.erase(line.size() - 1);
+			PlayerEXP[entry(line, 0, ",")] = atoi(entry(line, 1, ",").c_str());
+			ifFile.clear();
+		}		
+		ifFile.close();
+	}
+	else printf("XXX\n");
+}
+
+int broker::getPlayerEXP(std::string sName)
+{
+	if (sName.rfind("[GM]", 0) == 0)	
+		sName.erase(0, 4);
+	
+	return Bro->PlayerEXP[sName];
 }
 
 #endif

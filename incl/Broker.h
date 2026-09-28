@@ -22,12 +22,13 @@
 #include <mutex> 
 #include <vector>
 #include <iomanip>
+#include <map>
 
 //#define BOT6LIST 0
 //#define BOTXLIST 1
 #define RankRowStamps 20
 
-#define EventsMax 22 + 1
+#define EventsMax 24 + 1
 
 class DEBUG;
 class SQL_MIS_New;
@@ -107,6 +108,10 @@ public:
 
 	std::vector< QuestPlayer*> QPlayer;
 	void broker::saveQPlayer();
+
+	std::map<std::string, int> PlayerEXP;
+	void fillPlayerEXP();
+	int getPlayerEXP(std::string sName);
 #endif
 
 #if defined BrokerTome || defined BrokerLotto || defined BrokerKing

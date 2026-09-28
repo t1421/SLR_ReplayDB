@@ -17,6 +17,8 @@ public:
 
 	unsigned int iRankList;
 
+	unsigned int switchRank(unsigned int iRank);
+
 	static broker* Bro;
 	static void learnBro(broker *_Bro) { Bro = _Bro; }
 

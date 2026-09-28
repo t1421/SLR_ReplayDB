@@ -132,6 +132,8 @@ void WEB_Event::WRefresh()
 		case 19: sReturn = WR->Kalk_Event19(iTimes); break;
 		case 21: sReturn = WR->Kalk_Event21(iTimes); break;
 		case 22: sReturn = WR->Kalk_Event22(iTimes); break;
+		case 23: sReturn = WR->Kalk_Event23(iTimes); break;
+		case 24: sReturn = WR->Kalk_Event24(iTimes); break;
 	}
 	
 	if (sReturn != "")wtStatus->setText("<h3 style='color:Tomato;'>Error: " + sReturn + "</h3>");
@@ -269,6 +271,32 @@ void WEB_Event::WRefresh()
 			else wtLine4->setText("Secret 2: ???");
 			if (iTimes[4] == 1)wtLine5->setText("Secret 3: Helms Deep shall not fall");
 			else wtLine5->setText("Secret 3: ???");
+
+			break;
+
+		case 23: //BOT12
+			sTeamID = Bro->GetTeamName(WR->GetTeamID());
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHashV2(), iTimes, iTimesBestRun);
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run, " + sTeamID + " : -) </h3> ");
+			else wtStatus->setText("<h3>Nice run, " + sTeamID + ", but not better then your currend one </h3> ");
+
+			wtLine1->setText("Points: " + std::to_string(iTimes[0] / 10));
+			wtLine2->setText("Fire  : " + sTimeFull(iTimes[10]) + " -> " + sTimeFull(iTimes[15]));
+			wtLine3->setText("Frost : " + sTimeFull(iTimes[11]) + " -> " + sTimeFull(iTimes[16]));
+			wtLine4->setText("Nature: " + sTimeFull(iTimes[12]) + " -> " + sTimeFull(iTimes[17]));
+			wtLine5->setText("Shadow: " + sTimeFull(iTimes[13]) + " -> " + sTimeFull(iTimes[18]));
+
+			break;		
+
+		case 24: //SK
+			sTeamID = Bro->GetTeamName(WR->GetTeamID());
+			iSaveReturn = Bro->A_AddPlayer(iEventNr, sTeamID, WR->getReplayHashV2(), iTimes, iTimesBestRun);
+			if (iSaveReturn == 1)WR->SaveReplay(Bro->L->sPMV_WEB_PATH + std::to_string(iEventNr) + "_" + sTeamID + ".pmv");
+			if (iSaveReturn == 1)wtStatus->setText("<h3>Nice run, " + sTeamID + " : -) </h3> ");
+			else wtStatus->setText("<h3>Nice run, " + sTeamID + ", but not better then your currend one </h3> ");
+
+			wtLine1->setText("Time  : " + sTimeFull(iTimes[0]));		
 
 			break;
 		}

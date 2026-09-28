@@ -89,6 +89,8 @@ public:
 	std::string Kalk_Event19(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event21(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_Event22(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event23(unsigned long iTimes[RankRowStamps]);
+	std::string Kalk_Event24(unsigned long iTimes[RankRowStamps]);
 
 	std::string Kalk_CCC2(unsigned long iTimes[RankRowStamps]);
 	std::string Kalk_CCC4(unsigned long iTimes[RankRowStamps]);
@@ -106,6 +108,7 @@ public:
 
 	void AddPlayers9();
 	std::vector<unsigned long long> ActivePlayers();
+	int getSharedRank();
 #endif
 
 	std::vector <std::pair<unsigned long, unsigned long>> EventBuildings10;
@@ -118,14 +121,16 @@ public:
 	unsigned long long usedPower(unsigned long long _PlayerID);
 
 #ifndef noSMJImages
-	void AddIMG(Wt::WTableCell* wtCell, bool bValue);
+	void AddIMG(Wt::WTableCell* wtCell, std::string sValue);
 	void AddCardIMG(Wt::WTableCell* wtCell, unsigned short CardID, unsigned int Size);
 #endif
 
 	std::string GetTeamID();	
 	std::string GetDifficultyName();
 	std::string GetDifficultyName(unsigned int iDifficulty, unsigned int iPlayMode);
-	std::string GetPlayModeName();
+	std::string GetPlayModeName();	
+	std::string switchColor(std::string sIN);
+	std::string switchColor(unsigned int iIN);
 #if defined BrokerKing
 	KingGame KingData();
 #endif
