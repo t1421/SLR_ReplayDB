@@ -1561,12 +1561,14 @@ std::string WEB_Analyser::Kalk_Event24(unsigned long iTimes[RankRowStamps])
 	MISS;
 	if (!R->OK)return "No Replay";
 	if (R->MapName != "atraos.map")return "Wrong Map";
+	if (R->DifficultyID != 3 && !WA_Admin)return "Wrong Difficulty";
 	if (R->MapID != 106)return "Wrong Map";
 	if (R->Seed != 3653814024 && !WA_Admin)return "Wrong Map";
 	if (R->FileVersion != Bro->L->iSRFileVersion && !WA_Admin)return "Wrong Client";
 	if (R->GameVersion != Bro->L->iSRGameVersion && !WA_Admin)return "Wrong GameVersion";
 	if (R->TestStriker() && !WA_Admin)return "please do not abuse your power";
-	if (!Check_WIN("4;RvERandomMapsGoal1;1;") && !WA_Admin)return "Was not a win";
+	
+	//if (!Check_WIN("4;RvERandomMapsGoal1;1;") && !WA_Admin)return "Was not a win";
 
 	unsigned int iCards[5] = { 0 };
 
