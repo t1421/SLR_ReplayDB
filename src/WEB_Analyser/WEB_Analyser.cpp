@@ -1572,16 +1572,17 @@ std::string WEB_Analyser::Kalk_Event24(unsigned long iTimes[RankRowStamps])
 
 	unsigned int iCards[5] = { 0 };
 
-	for (auto P : R->PlayerMatrix)
-		for (auto C : P->Deck)
-		{
-			if (C->count == 0) continue;
-			if (C->count > 1) return "A card was used more then once";
-			iCards[Bro->J->GetSMJCard(C->CardID)->orbsTotal]++;
-		}
+	for (auto P : Players)if(P->Type == 1)for (auto C : P->Deck)
+	{
+		if (C->count == 0) continue;			
+		if (C->count > 1) return "A card was used more then once";
+		iCards[Bro->J->GetSMJCard(C->CardID)->orbsTotal]++;
+	}
+	
 
-	for (unsigned int i = 0; i < 5; i++)
+	for (unsigned int i = 0; i < 5; i++)	
 		if (iCards[i] > 5)return "More then 5 cards used in one tier";
+	
 
 	for (auto A : R->ActionMatrix)	
 		if (A->Type == 4031)
