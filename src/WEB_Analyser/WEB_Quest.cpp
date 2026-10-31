@@ -277,6 +277,20 @@ void WEB_Quest::WRefresh()
         }
     }
 
+    if (WR->getMapName() == "battle_of_tactics_12.map")
+    {
+        std::fill(iTimes, iTimes + RankRowStamps, 0);
+        sReturn = WR->Kalk_Event23(iTimes);
+        if (sReturn == "")
+        {
+            iValue = 0;
+
+            iValue += iTimes[1] * 100000; //DifficultyID
+            iValue += iTimes[0] * 1; //Points
+            refresh = refresh || Add_Player_to_Quest("112", iValue);
+        }
+    }
+
 
     ///////////////////////////////////////////////////////////////////////////////
     if (WR->getMapName() == "sss1.map")
@@ -731,6 +745,9 @@ std::string WEB_Quest::sToolTipp(unsigned int in, unsigned long long Number)
     case 513:
         return "Difficulty: " + WR->GetDifficultyName((Number / 100000),1)
             + " Time: " + sTime(Number % 100000);
+    case 112:
+        return "Difficulty: " + WR->GetDifficultyName((Number / 100000), 1)
+            + " Power: " + sTime(Number % 100000);
     //case 302:
     //case 305:
     //case 306:
