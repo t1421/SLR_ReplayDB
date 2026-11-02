@@ -191,7 +191,7 @@ void WEB_Quest::WRefresh()
             refresh = refresh || Add_Player_to_Quest("103", iValue);
         }
     }
-    if (WR->getMapName() == "11441_pve_12p_passagetodarkness.map")
+    if (WR->getMapName() == "battle_of_tactics_4.map")
     {
         std::fill(iTimes, iTimes + RankRowStamps, 0);
         sReturn = WR->Kalk_BOT04(iTimes);

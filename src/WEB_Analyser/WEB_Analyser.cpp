@@ -1978,7 +1978,7 @@ std::string WEB_Analyser::Kalk_BOT04(unsigned long iTimes[RankRowStamps])
 	if (!R->OK)return "No Replay";
 	//if (R->FileVersion != Bro->L->iSRFileVersion)return "Wrong Client";
 	//if (R->GameVersion != Bro->L->iSRGameVersion)return "Wrong GameVersion";
-	if (R->MapName != "11441_pve_12p_passagetodarkness.map")return "Wrong Map";
+	if (R->MapName != "battle_of_tactics_4.map")return "Wrong Map";
 	if (R->GameVersion >= 400044)if (!Check_WIN("4;11103_01_04Lightning;1;"))return "No Win";
 	if (R->DifficultyID != 2)return "Wrong Difficulty";
 	if (R->TestStriker())return "please do not abuse your power";
