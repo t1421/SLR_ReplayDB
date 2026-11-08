@@ -63,6 +63,7 @@ public:
 
 	bool WA_Debug;
 	bool WA_Admin;
+	std::string WA_PARAM;
 	
 #if defined BrokerWeb
 	//std::string Kalk_BOT6(Wt::WTable *wtTabelle, unsigned long iTimes[RankRowStamps]);

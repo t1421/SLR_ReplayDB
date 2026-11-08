@@ -29,15 +29,17 @@ WEB_Container::WEB_Container(const Wt::WEnvironment& env)
 	MISS;
 
 	std::string sEvent = sGetParam(env, "EVENT");
-	std::string sPARA = sGetParam(env, "PARAM");
+	std::string sPARAM = sGetParam(env, "PARAM");
 
-	if (sPARA == "DEBUG")
+	WA_PARAM = sPARAM;
+
+	if (sPARAM == "DEBUG")
 	{
 		MISERROR("DEBUG ON");
 		WA_Debug = true;
 		ReNewTaps();
 	}
-	if (sPARA == Bro->L->sAdminKey && Bro->L->sAdminKey != "")
+	if (sPARAM == Bro->L->sAdminKey && Bro->L->sAdminKey != "")
 	{
 		MISERROR("ADMIN ON");
 		MISERROR("DEBUG ON");

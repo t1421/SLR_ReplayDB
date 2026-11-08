@@ -18,6 +18,7 @@ public:
 	std::string sSQL_PW;
 	std::string sSQL_DB;
 	std::string sAdminKey;
+	std::string sEventKey;
 
 	std::string sWebAnalyser;
 	std::string sWebTome;

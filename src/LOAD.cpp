@@ -34,6 +34,7 @@ void LOAD::Load_Settings(std::string sName)
 			if (INI_Value_Check(line, "SQL_PW"))sSQL_PW = line.c_str();
 			if (INI_Value_Check(line, "SQL_DB"))sSQL_DB = line.c_str();
 			if (INI_Value_Check(line, "AdminKey"))sAdminKey = line.c_str();
+			if (INI_Value_Check(line, "EventKey"))sEventKey = line.c_str();
 
 			if (INI_Value_Check(line, "PMV_PATH"))sPMV_PATH = line.c_str();
 			if (INI_Value_Check(line, "PMV_AUTO_PATH"))sPMV_AUTO_PATH = line.c_str();
