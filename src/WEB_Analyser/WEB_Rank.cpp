@@ -510,7 +510,7 @@ void WEB_Rank::WRefresh()
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
 		}			
 
-		if (WR->WA_Admin || WR->WA_PARAM == Bro->L->sEventKey && atoi(Bro->L->sEventKey.c_str()) < Bro->L_getEEE_Now())
+		if (WR->WA_Admin || WR->WA_PARAM == Bro->L->sEventKey && atoi(Bro->L->sEventKey.c_str()) > Bro->L_getEEE_Now())
 		{
 			MISD(vListe[i].ID);
 			waLink = new Wt::WAnchor();
