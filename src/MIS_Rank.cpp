@@ -367,6 +367,43 @@ int MIS_Rank::AddPlayer(std::string _ID, unsigned long _ReplayID, unsigned long 
 	return iReturn;
 }
 
+bool MIS_Rank::RemovePlayer(std::string _ID)
+{
+	MISS;
+	for (unsigned int i = 0; i < RankRows.size(); i++)
+	{	if (RankRows[i]->ID == _ID)
+		{
+			RankRows.erase(RankRows.begin() + i);
+			SortList();
+			CleanList();
+			SaveList();
+			MISEA("OK");
+			return true;			
+		}
+	}
+	MISE;	
+	return false;
+}
+
+bool MIS_Rank::UpdatePlayerField(std::string _ID, unsigned int _Field, unsigned long _Value)
+{
+	MISS;
+	for (unsigned int i = 0; i < RankRows.size(); i++)
+	{
+		if (RankRows[i]->ID == _ID)
+		{
+			RankRows[i]->Stamps[_Field] = _Value;
+			SortList();
+			CleanList();
+			SaveList();
+			MISEA("OK");
+			return true;
+		}
+	}
+	MISE;
+	return false;
+}
+
 void MIS_Rank::CleanList()
 {
 	MISS;

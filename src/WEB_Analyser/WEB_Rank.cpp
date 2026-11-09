@@ -44,6 +44,7 @@ void WEB_Rank::WRefresh()
 	MISS;
 	
 	Wt::WAnchor *waLink;
+	Wt::WPushButton* wbButton;
 	unsigned int iCol = 0;
 	std::vector<ROW> vListe;
 	unsigned int iDeckCheck = 0;
@@ -306,6 +307,7 @@ void WEB_Rank::WRefresh()
 	case 24:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
 		wtTabelle->elementAt(0, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Start </h4>"))));
+		wtTabelle->elementAt(0, 4)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Checked </h4>"))));
 		break;
 	default:
 		wtTabelle->elementAt(0, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText("<h4> Time </h4>"))));
@@ -505,6 +507,7 @@ void WEB_Rank::WRefresh()
 		case 24:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
 			wtTabelle->elementAt(i + 1, 3)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(WR->switchColor(vListe[i].Stamps[1])))));
+			WR->AddIMG(wtTabelle->elementAt(i + 1, 4), std::to_string(int(vListe[i].Stamps[19] >= 1)));
 			break;
 		default:
 			wtTabelle->elementAt(i + 1, 2)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(new Wt::WText(sTimeFull(vListe[i].Stamps[0])))));
@@ -512,11 +515,34 @@ void WEB_Rank::WRefresh()
 
 		if (WR->WA_Admin || WR->WA_PARAM == Bro->L->sEventKey && atoi(Bro->L->sEventKey.c_str()) > Bro->L_getEEE_Now())
 		{
-			MISD(vListe[i].ID);
+			MISD("1#" + vListe[i].ID);
+
+			//DOWNLOAD
 			waLink = new Wt::WAnchor();
 			waLink->setText("#");
 			waLink->setLink(Wt::WLink(Bro->L->sPMV_WEB_PATH + Wt::Utils::urlEncode(std::to_string(iRankList) + "_" + vListe[i].ID + ".pmv")));
 			wtTabelle->elementAt(i + 1, 9)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(waLink)));
+
+			MISD("2#" + vListe[i].ID);
+			//DEL			
+			wbButton = new Wt::WPushButton("Del");
+			wtTabelle->elementAt(i + 1, 10)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbButton)));
+			wbButton->clicked().connect(std::bind([=]() {
+				Bro->A_RemovePlayer(iRankList, vListe[i].ID);
+				WRefresh();
+				}));
+
+			MISD("2#" + vListe[i].ID);
+			//Update
+			wbButton = new Wt::WPushButton("OK");
+			wtTabelle->elementAt(i + 1, 11)->addWidget(std::unique_ptr<Wt::WWidget>(std::move(wbButton)));
+			wbButton->clicked().connect(std::bind([=]() {
+				if(vListe[i].Stamps[19] == 0)Bro->A_UpdatePlayerField(iRankList, vListe[i].ID, 19, 1);
+				else Bro->A_UpdatePlayerField(iRankList, vListe[i].ID, 19, 0);
+				WRefresh();
+				}));
+
+
 		}
 	}	
 	
